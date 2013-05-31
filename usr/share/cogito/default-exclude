@@ -1,6 +1,0 @@
-*.[ao]
-.*
-!.gitignore
-tags
-*~
-#*

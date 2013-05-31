@@ -1,3 +1,0 @@
-#!/bin/sh
-
-test -x "/usr/X11R6/bin/font-update" && "/usr/X11R6/bin/font-update"

@@ -1,1 +1,0 @@
-'guilt-push' [ -f ] [-a | --all | <patchname>]

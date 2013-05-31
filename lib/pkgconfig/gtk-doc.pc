@@ -1,6 +1,0 @@
-prefix=/usr
-exec_prefix=${prefix}
-
-Name: gtk-doc
-Description: API documentation generator
-Version: 1.5
