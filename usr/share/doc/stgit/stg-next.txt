@@ -1,0 +1,26 @@
+stg-next(1)
+===========
+
+NAME
+----
+stg-next - Print the name of the next patch
+
+SYNOPSIS
+--------
+[verse]
+'stg' next 
+
+DESCRIPTION
+-----------
+
+Print the name of the next patch.
+
+OPTIONS
+-------
+-b BRANCH::
+--branch BRANCH::
+        Use BRANCH instead of the default branch.
+
+StGit
+-----
+Part of the StGit suite - see linkman:stg[1]

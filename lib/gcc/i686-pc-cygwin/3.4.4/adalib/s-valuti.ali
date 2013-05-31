@@ -17,8 +17,8 @@ U system.val_util%s	s-valuti.ads		9a3e2c29 NE PU PK
 W system%s		system.ads		system.ali
 
 D system.ads		20031021134222 6af26689
-D s-casuti.ads		20031021134214 0ea6293c
-D s-valuti.ads		20030424175416 f0cc4aa0
+D s-casuti.ads		20031021134213 0ea6293c
+D s-valuti.ads		20030424175415 f0cc4aa0
 D s-valuti.adb		20031021134218 9645ca86
 X 1 system.ads
 44K9*System 163e11 3|36r9 108r5 4|34r6 34r28 36r14 287r5

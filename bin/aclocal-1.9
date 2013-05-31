@@ -227,6 +227,8 @@ sub scan_configure_dep ($)
   foreach (split ("\n", $contents))
     {
       ++$line;
+      # Ignore `##' lines.
+      next if /^##/;
       # Remove comments from current line.
       s/\bdnl\b.*$//;
       s/\#.*$//;
@@ -310,6 +312,10 @@ sub scan_file ($$)
       next if /^##/;
 
       $contents .= $_;
+
+      # Remove comments from current line.
+      s/\bdnl\b.*$//;
+      s/\#.*$//;
 
       while (/$ac_defun_rx/go)
 	{

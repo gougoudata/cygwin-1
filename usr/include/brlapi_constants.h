@@ -1,17 +1,16 @@
 /*
  * libbrlapi - A library providing access to braille terminals for applications.
  *
- * Copyright (C) 2002-2008 by
+ * Copyright (C) 2002-2010 by
  *   Samuel Thibault <Samuel.Thibault@ens-lyon.org>
- *   Sébastien Hinderer <Sebastien.Hinderer@ens-lyon.org>
+ *   SÃ©bastien Hinderer <Sebastien.Hinderer@ens-lyon.org>
  *
  * libbrlapi comes with ABSOLUTELY NO WARRANTY.
  *
  * This is free software, placed under the terms of the
  * GNU Lesser General Public License, as published by the Free Software
- * Foundation; either version 2.1 of the License,
- * or (at your option) any later version.
- * Please see the file COPYING-API for details.
+ * Foundation; either version 2.1 of the License, or (at your option) any
+ * later version. Please see the file LICENSE-LGPL for details.
  *
  * Web Page: http://mielke.cc/brltty/
  *
@@ -65,9 +64,9 @@ extern "C" {
 #define BRLAPI_KEY_CMD_PRPROMPT (BRLAPI_KEY_CMD(0) + 15)
 /** go down to next command prompt */
 #define BRLAPI_KEY_CMD_NXPROMPT (BRLAPI_KEY_CMD(0) + 16)
-/** search backward for content of cut buffer */
+/** search backward for cut text */
 #define BRLAPI_KEY_CMD_PRSEARCH (BRLAPI_KEY_CMD(0) + 17)
-/** search forward for content of cut buffer */
+/** search forward for cut text */
 #define BRLAPI_KEY_CMD_NXSEARCH (BRLAPI_KEY_CMD(0) + 18)
 /** go left one character */
 #define BRLAPI_KEY_CMD_CHRLT (BRLAPI_KEY_CMD(0) + 19)
@@ -91,11 +90,11 @@ extern "C" {
 #define BRLAPI_KEY_CMD_LNEND (BRLAPI_KEY_CMD(0) + 28)
 /** go to cursor */
 #define BRLAPI_KEY_CMD_HOME (BRLAPI_KEY_CMD(0) + 29)
-/** go back (undo unexpected cursor tracking motion) */
+/** go back after cursor tracking */
 #define BRLAPI_KEY_CMD_BACK (BRLAPI_KEY_CMD(0) + 30)
-/** go back (after cursor tracking) or to cursor (cursor not in window) */
+/** go to cursor or go back after cursor tracking */
 #define BRLAPI_KEY_CMD_RETURN (BRLAPI_KEY_CMD(0) + 31)
-/** toggle screen mode frozen/live */
+/** freeze/unfreeze screen image */
 #define BRLAPI_KEY_CMD_FREEZE (BRLAPI_KEY_CMD(0) + 32)
 /** toggle display mode attributes/text */
 #define BRLAPI_KEY_CMD_DISPMD (BRLAPI_KEY_CMD(0) + 33)
@@ -137,25 +136,25 @@ extern "C" {
 #define BRLAPI_KEY_CMD_LEARN (BRLAPI_KEY_CMD(0) + 51)
 /** enter/leave preferences menu */
 #define BRLAPI_KEY_CMD_PREFMENU (BRLAPI_KEY_CMD(0) + 52)
-/** save current preferences */
+/** save preferences to disk */
 #define BRLAPI_KEY_CMD_PREFSAVE (BRLAPI_KEY_CMD(0) + 53)
-/** restore saved preferences */
+/** restore preferences from disk */
 #define BRLAPI_KEY_CMD_PREFLOAD (BRLAPI_KEY_CMD(0) + 54)
-/** go to first item in menu */
+/** go to first item */
 #define BRLAPI_KEY_CMD_MENU_FIRST_ITEM (BRLAPI_KEY_CMD(0) + 55)
-/** go to last item in menu */
+/** go to last item */
 #define BRLAPI_KEY_CMD_MENU_LAST_ITEM (BRLAPI_KEY_CMD(0) + 56)
-/** go to previous item in menu */
+/** go to previous item */
 #define BRLAPI_KEY_CMD_MENU_PREV_ITEM (BRLAPI_KEY_CMD(0) + 57)
-/** go to next item in menu */
+/** go to next item */
 #define BRLAPI_KEY_CMD_MENU_NEXT_ITEM (BRLAPI_KEY_CMD(0) + 58)
-/** change current item in menu to previous choice */
+/** select previous choice */
 #define BRLAPI_KEY_CMD_MENU_PREV_SETTING (BRLAPI_KEY_CMD(0) + 59)
-/** change current item in menu to next choice */
+/** select next choice */
 #define BRLAPI_KEY_CMD_MENU_NEXT_SETTING (BRLAPI_KEY_CMD(0) + 60)
-/** stop speaking immediately */
+/** stop speaking */
 #define BRLAPI_KEY_CMD_MUTE (BRLAPI_KEY_CMD(0) + 61)
-/** go to current (most recent) speech position */
+/** go to current speech position */
 #define BRLAPI_KEY_CMD_SPKHOME (BRLAPI_KEY_CMD(0) + 62)
 /** speak current line */
 #define BRLAPI_KEY_CMD_SAY_LINE (BRLAPI_KEY_CMD(0) + 63)
@@ -175,18 +174,16 @@ extern "C" {
 #define BRLAPI_KEY_CMD_SWITCHVT_PREV (BRLAPI_KEY_CMD(0) + 70)
 /** switch to next virtual terminal */
 #define BRLAPI_KEY_CMD_SWITCHVT_NEXT (BRLAPI_KEY_CMD(0) + 71)
-/** bring cursor to line (no horizontal motion) */
+/** bring cursor to line */
 #define BRLAPI_KEY_CMD_CSRJMP_VERT (BRLAPI_KEY_CMD(0) + 72)
-/** insert cut buffer at cursor */
+/** insert cut text at cursor */
 #define BRLAPI_KEY_CMD_PASTE (BRLAPI_KEY_CMD(0) + 73)
-/** reinitialize braille driver */
+/** restart braille driver */
 #define BRLAPI_KEY_CMD_RESTARTBRL (BRLAPI_KEY_CMD(0) + 74)
-/** reinitialize speech driver */
+/** restart speech driver */
 #define BRLAPI_KEY_CMD_RESTARTSPEECH (BRLAPI_KEY_CMD(0) + 75)
 /** braille display temporarily unavailable */
 #define BRLAPI_KEY_CMD_OFFLINE (BRLAPI_KEY_CMD(0) + 76)
-/** graceful program termination */
-#define BRLAPI_KEY_CMD_SHUTDOWN (BRLAPI_KEY_CMD(0) + 77)
 /** enable feature */
 #define BRLAPI_KEY_FLG_TOGGLE_ON BRLAPI_KEY_FLG(0X0100)
 /** disable feature */
@@ -194,7 +191,7 @@ extern "C" {
 /** mask for all toggle flags */
 #define BRLAPI_KEY_FLG_TOGGLE_MASK (BRLAPI_KEY_FLG_TOGGLE_ON | BRLAPI_KEY_FLG_TOGGLE_OFF)
 /** bring cursor into window after function */
-#define BRLAPI_KEY_FLG_ROUTE BRLAPI_KEY_FLG(0X0400)
+#define BRLAPI_KEY_FLG_MOTION_ROUTE BRLAPI_KEY_FLG(0X0400)
 /** execute command on key press */
 #define BRLAPI_KEY_FLG_REPEAT_INITIAL BRLAPI_KEY_FLG(0X8000)
 /** wait before repeating */
@@ -213,19 +210,19 @@ extern "C" {
 #define BRLAPI_KEY_CMD_CUTLINE BRLAPI_KEY_CMD(0X05)
 /** switch to virtual terminal */
 #define BRLAPI_KEY_CMD_SWITCHVT BRLAPI_KEY_CMD(0X06)
-/** go up to nearest line without greater indent */
+/** go up to nearest line with less indent than character */
 #define BRLAPI_KEY_CMD_PRINDENT BRLAPI_KEY_CMD(0X07)
-/** go down to nearest line without greater indent */
+/** go down to nearest line with less indent than character */
 #define BRLAPI_KEY_CMD_NXINDENT BRLAPI_KEY_CMD(0X08)
 /** describe character */
 #define BRLAPI_KEY_CMD_DESCCHAR BRLAPI_KEY_CMD(0X09)
-/** position left end of window at character */
+/** place left end of window at character */
 #define BRLAPI_KEY_CMD_SETLEFT BRLAPI_KEY_CMD(0X0A)
 /** remember current window position */
 #define BRLAPI_KEY_CMD_SETMARK BRLAPI_KEY_CMD(0X0B)
 /** go to remembered window position */
 #define BRLAPI_KEY_CMD_GOTOMARK BRLAPI_KEY_CMD(0X0C)
-/** go to line */
+/** go to selected line */
 #define BRLAPI_KEY_CMD_GOTOLINE BRLAPI_KEY_CMD(0X0D)
 /** scale arg=0X00-0XFF to screen height */
 #define BRLAPI_KEY_FLG_LINE_SCALED BRLAPI_KEY_FLG(0X0100)
@@ -235,7 +232,11 @@ extern "C" {
 #define BRLAPI_KEY_CMD_PRDIFCHAR BRLAPI_KEY_CMD(0X0E)
 /** go down to nearest line with different character */
 #define BRLAPI_KEY_CMD_NXDIFCHAR BRLAPI_KEY_CMD(0X0F)
-/** input character as braille dots */
+/** copy characters to cut buffer */
+#define BRLAPI_KEY_CMD_COPYCHARS BRLAPI_KEY_CMD(0X10)
+/** append characters to cut buffer */
+#define BRLAPI_KEY_CMD_APNDCHARS BRLAPI_KEY_CMD(0X11)
+/** input braille character */
 #define BRLAPI_KEY_CMD_PASSDOTS BRLAPI_KEY_CMD(0X22)
 /** shift key pressed */
 #define BRLAPI_KEY_FLG_SHIFT BRLAPI_KEY_FLG(0X01)
@@ -245,18 +246,6 @@ extern "C" {
 #define BRLAPI_KEY_FLG_CONTROL BRLAPI_KEY_FLG(0X04)
 /** meta key pressed */
 #define BRLAPI_KEY_FLG_META BRLAPI_KEY_FLG(0X08)
-/** input AT (aka set 2) keyboard scan code */
-#define BRLAPI_KEY_CMD_PASSAT BRLAPI_KEY_CMD(0X23)
-/** input XT (aka set 1) keyboard scan code */
-#define BRLAPI_KEY_CMD_PASSXT BRLAPI_KEY_CMD(0X24)
-/** input PS/2 (aka set 3) keyboard scan code */
-#define BRLAPI_KEY_CMD_PASSPS2 BRLAPI_KEY_CMD(0X25)
-/** it is a release scan code */
-#define BRLAPI_KEY_FLG_KBD_RELEASE BRLAPI_KEY_FLG(0X0100)
-/** it is an emulation 0 scan code */
-#define BRLAPI_KEY_FLG_KBD_EMUL0 BRLAPI_KEY_FLG(0X0200)
-/** it is an emulation 1 scan code */
-#define BRLAPI_KEY_FLG_KBD_EMUL1 BRLAPI_KEY_FLG(0X0400)
 /** upper-left dot of standard braille cell */
 #define BRLAPI_DOT1 0001
 /** middle-left dot of standard braille cell */
@@ -273,6 +262,22 @@ extern "C" {
 #define BRLAPI_DOT7 0100
 /** lower-right dot of computer braille cell */
 #define BRLAPI_DOT8 0200
+/** space key pressed */
+#define BRLAPI_DOTC 0400
+/** input AT (set 2) keyboard scan code */
+#define BRLAPI_KEY_CMD_PASSAT BRLAPI_KEY_CMD(0X23)
+/** input XT (set 1) keyboard scan code */
+#define BRLAPI_KEY_CMD_PASSXT BRLAPI_KEY_CMD(0X24)
+/** input PS/2 (set 3) keyboard scan code */
+#define BRLAPI_KEY_CMD_PASSPS2 BRLAPI_KEY_CMD(0X25)
+/** it is a release scan code */
+#define BRLAPI_KEY_FLG_KBD_RELEASE BRLAPI_KEY_FLG(0X0100)
+/** it is an emulation 0 scan code */
+#define BRLAPI_KEY_FLG_KBD_EMUL0 BRLAPI_KEY_FLG(0X0200)
+/** it is an emulation 1 scan code */
+#define BRLAPI_KEY_FLG_KBD_EMUL1 BRLAPI_KEY_FLG(0X0400)
+/** switch to command context */
+#define BRLAPI_KEY_CMD_CONTEXT BRLAPI_KEY_CMD(0X26)
 
 /** Helper macro to easily produce braille patterns */
 #define BRLAPI_DOTS(dot1, dot2, dot3, dot4, dot5, dot6, dot7, dot8) (\
@@ -285,6 +290,9 @@ extern "C" {
   ((dot7)? BRLAPI_DOT7: 0) | \
   ((dot8)? BRLAPI_DOT8: 0) \
 )
+
+/** space key */
+#define BRLAPI_DOT_CHORD 256
 /** @} */
 
 

@@ -21,16 +21,19 @@
  * Modified by the GTK+ Team and others 1997-2001.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 #ifndef __GTK_ASPECT_FRAME_H__
 #define __GTK_ASPECT_FRAME_H__
 
 
-#include <gdk/gdk.h>
-#include <gtk/gtkbin.h>
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
 #include <gtk/gtkframe.h>
+
 
 G_BEGIN_DECLS
 
@@ -49,12 +52,12 @@ struct _GtkAspectFrame
 {
   GtkFrame frame;
 
-  gfloat xalign;
-  gfloat yalign;
-  gfloat ratio;
-  gboolean obey_child;
+  gfloat   GSEAL (xalign);
+  gfloat   GSEAL (yalign);
+  gfloat   GSEAL (ratio);
+  gboolean GSEAL (obey_child);
 
-  GtkAllocation center_allocation;
+  GtkAllocation GSEAL (center_allocation);
 };
 
 struct _GtkAspectFrameClass

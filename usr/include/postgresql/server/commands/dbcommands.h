@@ -4,10 +4,10 @@
  *		Database management commands (create/drop database).
  *
  *
- * Portions Copyright (c) 1996-2006, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2012, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
- * $PostgreSQL: pgsql/src/include/commands/dbcommands.h,v 1.45 2006/03/24 04:32:13 tgl Exp $
+ * src/include/commands/dbcommands.h
  *
  *-------------------------------------------------------------------------
  */
@@ -27,14 +27,14 @@ typedef struct xl_dbase_create_rec_old
 	Oid			db_id;
 	char		src_path[1];	/* VARIABLE LENGTH STRING */
 	/* dst_path follows src_path */
-} xl_dbase_create_rec_old;
+}	xl_dbase_create_rec_old;
 
 typedef struct xl_dbase_drop_rec_old
 {
 	/* Records dropping of a single subdirectory incl. contents */
 	Oid			db_id;
 	char		dir_path[1];	/* VARIABLE LENGTH STRING */
-} xl_dbase_drop_rec_old;
+}	xl_dbase_drop_rec_old;
 
 typedef struct xl_dbase_create_rec
 {
@@ -55,14 +55,16 @@ typedef struct xl_dbase_drop_rec
 extern void createdb(const CreatedbStmt *stmt);
 extern void dropdb(const char *dbname, bool missing_ok);
 extern void RenameDatabase(const char *oldname, const char *newname);
-extern void AlterDatabase(AlterDatabaseStmt *stmt);
+extern void AlterDatabase(AlterDatabaseStmt *stmt, bool isTopLevel);
 extern void AlterDatabaseSet(AlterDatabaseSetStmt *stmt);
 extern void AlterDatabaseOwner(const char *dbname, Oid newOwnerId);
 
-extern Oid	get_database_oid(const char *dbname);
+extern Oid	get_database_oid(const char *dbname, bool missingok);
 extern char *get_database_name(Oid dbid);
 
 extern void dbase_redo(XLogRecPtr lsn, XLogRecord *rptr);
 extern void dbase_desc(StringInfo buf, uint8 xl_info, char *rec);
+
+extern void check_encoding_locale_matches(int encoding, const char *collate, const char *ctype);
 
 #endif   /* DBCOMMANDS_H */

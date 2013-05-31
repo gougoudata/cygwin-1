@@ -21,8 +21,12 @@
  * Modified by the GTK+ Team and others 1997-1999.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
+
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
 
 #ifndef __GTK_VERSION_H__
 #define __GTK_VERSION_H__
@@ -30,10 +34,10 @@
 /* compile time version
  */
 #define GTK_MAJOR_VERSION				(2)
-#define GTK_MINOR_VERSION				(6)
-#define GTK_MICRO_VERSION				(10)
-#define GTK_BINARY_AGE					(610)
-#define GTK_INTERFACE_AGE				(10)
+#define GTK_MINOR_VERSION				(24)
+#define GTK_MICRO_VERSION				(18)
+#define GTK_BINARY_AGE					(2418)
+#define GTK_INTERFACE_AGE				(18)
 
 /* check whether a Gtk+ version equal to or greater than
  * major.minor.micro is present.
@@ -44,6 +48,4 @@
      (GTK_MAJOR_VERSION == (major) && GTK_MINOR_VERSION == (minor) && \
       GTK_MICRO_VERSION >= (micro)))
 
-
 #endif /* __GTK_VERSION_H__ */
-

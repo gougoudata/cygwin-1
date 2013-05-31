@@ -1,0 +1,24 @@
+libmangle
+Demangles MSVC C++ names to human readable names.
+
+Runtime requirements:
+  libgcc1
+
+Build requirements:
+
+Canonical homepage:
+mingw-w64.sourceforge.net
+
+-------------------------------------------
+
+Files included in the binary distro
+  /usr/include/libmangle.h
+  /usr/lib/libmangle.a
+  /usr/share/doc/Cygwin/libmangle.README
+  /usr/share/doc/libmangle/COPYING
+
+-------------------------------------------
+
+Port Notes:
+----- version svn2930-1 -----
+    Initial release 2010-07-23

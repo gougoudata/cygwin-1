@@ -16,8 +16,8 @@ U system.case_util%s	s-casuti.ads		64544fb5 NE PU PK
 W system%s		system.ads		system.ali
 
 D system.ads		20031021134222 6af26689
-D s-casuti.ads		20031021134214 0ea6293c
-D s-casuti.adb		20031021134214 89701730
+D s-casuti.ads		20031021134213 0ea6293c
+D s-casuti.adb		20031021134213 89701730
 X 1 system.ads
 44K9*System 163e11 2|42r9 66r5 3|34r14 105r5
 X 2 s-casuti.ads

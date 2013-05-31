@@ -1,0 +1,8 @@
+/usr/bin/mktexlsr
+/usr/bin/updmap-sys --nohash --nomkmap --enable Map=epiolmec.map
+/usr/bin/updmap-sys --nohash --nomkmap --enable MixedMap=esint.map
+/usr/bin/updmap-sys --nohash --nomkmap --enable MixedMap=manfnt.map
+/usr/bin/updmap-sys --nohash --syncwithtrees
+/usr/bin/updmap-sys --nohash
+/usr/bin/mktexlsr
+/usr/bin/fc-cache -f /usr/share/texmf-dist/fonts/type1

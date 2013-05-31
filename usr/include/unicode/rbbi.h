@@ -1,6 +1,6 @@
 /*
 ***************************************************************************
-*   Copyright (C) 1999-2007 International Business Machines Corporation   *
+*   Copyright (C) 1999-2011 International Business Machines Corporation   *
 *   and others. All rights reserved.                                      *
 ***************************************************************************
 
@@ -171,6 +171,18 @@ protected:
     //=======================================================================
 
     /**
+     * Constant to be used in the constructor
+     * RuleBasedBreakIterator(RBBIDataHeader*, EDontAdopt, UErrorCode &);
+     * which does not adopt the memory indicated by the RBBIDataHeader*
+     * parameter.
+     *
+     * @internal
+     */
+    enum EDontAdopt {
+        kDontAdopt
+    };
+
+    /**
      * Constructor from a flattened set of RBBI data in malloced memory.
      *             RulesBasedBreakIterators built from a custom set of rules
      *             are created via this constructor; the rules are compiled
@@ -181,6 +193,16 @@ protected:
      * @internal
      */
     RuleBasedBreakIterator(RBBIDataHeader* data, UErrorCode &status);
+
+    /**
+     * Constructor from a flattened set of RBBI data in memory which need not
+     *             be malloced (e.g. it may be a memory-mapped file, etc.).
+     *
+     *             This version does not adopt the memory, and does not
+     *             free it when done.
+     * @internal
+     */
+    RuleBasedBreakIterator(const RBBIDataHeader* data, enum EDontAdopt dontAdopt, UErrorCode &status);
 
 
     friend class RBBIRuleBuilder;
@@ -216,6 +238,36 @@ public:
     RuleBasedBreakIterator( const UnicodeString    &rules,
                              UParseError           &parseError,
                              UErrorCode            &status);
+
+
+
+
+    /**
+     * Contruct a RuleBasedBreakIterator from a set of precompiled binary rules.
+     * Binary rules are obtained from RulesBasedBreakIterator::getBinaryRules().
+     * Construction of a break iterator in this way is substantially faster than
+     * constuction from source rules.
+     *
+     * Ownership of the storage containing the compiled rules remains with the
+     * caller of this function.  The compiled rules must not be  modified or 
+     * deleted during the life of the break iterator.
+     *
+     * The compiled rules are not compatible across different major versions of ICU.
+     * The compiled rules are comaptible only between machines with the same
+     * byte ordering (little or big endian) and the same base character set family
+     * (ASCII or EBCDIC).
+     *
+     * @see #getBinaryRules
+     * @param compiledRules A pointer to the compiled break rules to be used.
+     * @param ruleLength The length of the compiled break rules, in bytes.  This
+     *   corresponds to the length value produced by getBinaryRules().
+     * @param status Information on any errors encountered, including invalid
+     *   binary rules.
+     * @draft ICU 4.8
+     */
+    RuleBasedBreakIterator(const uint8_t *compiledRules,
+                           uint32_t       ruleLength,
+                           UErrorCode    &status);
 
 
     /**
@@ -577,7 +629,7 @@ public:
      * @return   A pointer to the binary (compiled) rule data.  The storage
      *           belongs to the RulesBasedBreakIterator object, not the
      *           caller, and must not be modified or deleted.
-     * @internal
+     * @draft ICU 4.8
      */
     virtual const uint8_t *getBinaryRules(uint32_t &length);
 

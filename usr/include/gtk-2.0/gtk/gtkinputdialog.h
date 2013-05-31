@@ -21,7 +21,7 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 /*
@@ -34,11 +34,12 @@
  * distribution.
  */
 
+#ifndef GTK_DISABLE_DEPRECATED
+
 #ifndef __GTK_INPUTDIALOG_H__
 #define __GTK_INPUTDIALOG_H__
 
 
-#include <gdk/gdk.h>
 #include <gtk/gtkdialog.h>
 
 
@@ -59,18 +60,18 @@ struct _GtkInputDialog
 {
   GtkDialog dialog;
 
-  GtkWidget *axis_list;
-  GtkWidget *axis_listbox;
-  GtkWidget *mode_optionmenu;
+  GtkWidget *GSEAL (axis_list);
+  GtkWidget *GSEAL (axis_listbox);
+  GtkWidget *GSEAL (mode_optionmenu);
 
-  GtkWidget *close_button;
-  GtkWidget *save_button;
-  
-  GtkWidget *axis_items[GDK_AXIS_LAST];
-  GdkDevice *current_device;
+  GtkWidget *GSEAL (close_button);
+  GtkWidget *GSEAL (save_button);
 
-  GtkWidget *keys_list;
-  GtkWidget *keys_listbox;
+  GtkWidget *GSEAL (axis_items[GDK_AXIS_LAST]);
+  GdkDevice *GSEAL (current_device);
+
+  GtkWidget *GSEAL (keys_list);
+  GtkWidget *GSEAL (keys_listbox);
 };
 
 struct _GtkInputDialogClass
@@ -89,11 +90,11 @@ struct _GtkInputDialogClass
   void (*_gtk_reserved4) (void);
 };
 
-
 GType      gtk_input_dialog_get_type     (void) G_GNUC_CONST;
 GtkWidget* gtk_input_dialog_new          (void);
-
 
 G_END_DECLS
 
 #endif /* __GTK_INPUTDIALOG_H__ */
+
+#endif /* GTK_DISABLE_DEPRECATED */

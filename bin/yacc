@@ -1,2 +1,2 @@
 #! /bin/sh
-exec /usr/bin/bison -y "$@"
+exec '/usr/bin/bison' -y "$@"

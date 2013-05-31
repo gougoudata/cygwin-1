@@ -1,0 +1,57 @@
+"";;01C54E6A05436F654D24A78DB45D76192EFB01EABBA8D6C8C3C0EDBE0806
+""P combinations
+
+""R base
+
+""D 0
+(( " , " ))
+
+""B
+page ( ""N , ""C )
+title "Combinations"
+bib "
+@techreport{appendix,
+  author    = {A. U. Thor},
+  year      = {2006},
+  title     = {Combinations - appendix},
+  institution={Logiweb},
+  note      =
+{\href{\lgwBlockRelay \lgwBlockThis /page/appendix.pdf}{%
+\lgwBreakRelay \lgwBreakThis /page/appendix.pdf}}}
+"
+main text "
+\title{Combinations}
+\author{A. U. Thor}
+\maketitle
+\tableofcontents
+\section{Combinations}
+The number of combinations of size "[[ k ]]" from a set
+of size "[[ n ]]" is given by the binomial coefficient
+"[[ (( n , k )) = n factorial div k factorial
+div ( n - k ) factorial ]]". A recursive definition
+of "[[ (( n , k )) ]]" may be stated thus:
+"[[[ value define (( n , k )) as if k = 0 then 1
+else (( n - 1 , k - 1 )) * n div k end define ]]]"
+As an example, we have "[[ ttst (( 4 , 2 )) = 6 end test ]]".
+For details on how the binomial coefficient is rendered, see
+\cite{appendix}.
+\bibliography{./page}
+"
+appendix "
+\title{Combinations - appendix}
+\author{A. U. Thor}
+\maketitle
+\tableofcontents
+\section{\TeX\ definitions}
+\begin{statements}
+\item "[[ tex show define (( n , k )) as "
+\left( \begin{array}{l} "[ n ]"
+\\ "[ k ]"
+\end{array}\right)" end define ]]"
+\end{statements}
+"
+end page
+
+
+
+

@@ -21,11 +21,15 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 #ifndef __GTK_ICON_FACTORY_H__
 #define __GTK_ICON_FACTORY_H__
+
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
 
 #include <gdk/gdk.h>
 #include <gtk/gtkrc.h>
@@ -47,7 +51,7 @@ struct _GtkIconFactory
 {
   GObject parent_instance;
 
-  GHashTable *icons;
+  GHashTable *GSEAL (icons);
 };
 
 struct _GtkIconFactoryClass
@@ -108,7 +112,7 @@ GtkIconSize           gtk_icon_size_register       (const gchar *name,
 void                  gtk_icon_size_register_alias (const gchar *alias,
                                                     GtkIconSize  target);
 GtkIconSize           gtk_icon_size_from_name      (const gchar *name);
-G_CONST_RETURN gchar* gtk_icon_size_get_name       (GtkIconSize  size);
+const gchar *         gtk_icon_size_get_name       (GtkIconSize  size);
 
 /* Icon sets */
 
@@ -151,8 +155,8 @@ void           gtk_icon_source_set_icon_name            (GtkIconSource       *so
 void           gtk_icon_source_set_pixbuf               (GtkIconSource       *source,
                                                          GdkPixbuf           *pixbuf);
 
-G_CONST_RETURN gchar* gtk_icon_source_get_filename  (const GtkIconSource *source);
-G_CONST_RETURN gchar* gtk_icon_source_get_icon_name (const GtkIconSource *source);
+const gchar* gtk_icon_source_get_filename  (const GtkIconSource *source);
+const gchar* gtk_icon_source_get_icon_name (const GtkIconSource *source);
 GdkPixbuf*            gtk_icon_source_get_pixbuf    (const GtkIconSource *source);
 
 void             gtk_icon_source_set_direction_wildcarded (GtkIconSource       *source,
@@ -177,7 +181,7 @@ GtkIconSize      gtk_icon_source_get_size                 (const GtkIconSource *
 
 /* ignore this */
 void _gtk_icon_set_invalidate_caches (void);
-GSList* _gtk_icon_factory_list_ids (void);
+GList* _gtk_icon_factory_list_ids (void);
 void _gtk_icon_factory_ensure_default_icons (void);
 
 G_END_DECLS

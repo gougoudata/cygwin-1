@@ -1,0 +1,12 @@
+if [ ! -f /usr/lib/logging.properties ]
+then
+    /usr/bin/mkdir -p /usr/lib
+    /usr/bin/cp /etc/defaults/usr/lib/logging.properties /usr/lib/logging.properties
+fi
+
+if [ ! -f /usr/lib/security/classpath.security ]
+then
+    /usr/bin/mkdir -p /usr/lib/security
+    /usr/bin/cp /etc/defaults/usr/lib/security/classpath.security /usr/lib/security/classpath.security
+fi
+

@@ -1,0 +1,29 @@
+--- origsrc/libedit-20120311-3.0/CYGWIN-PATCHES/libedit-devel.hint	1970-01-01 01:00:00.000000000 +0100
++++ src/libedit-20120311-3.0/CYGWIN-PATCHES/libedit-devel.hint	2012-05-03 19:35:24.485744156 +0200
+@@ -0,0 +1,7 @@
++sdesc: "The NetBSD Editline library (devel)"
++ldesc: "Libedit is an autotool- and libtoolized port of the NetBSD Editline
++library.  It provides generic line editing, history, and tokenization
++functions, similar to those found in GNU Readline."
++category: Devel Libs
++requires: libedit0 libncursesw-devel
++external-source: libedit
+--- origsrc/libedit-20120311-3.0/CYGWIN-PATCHES/libedit.hint	1970-01-01 01:00:00.000000000 +0100
++++ src/libedit-20120311-3.0/CYGWIN-PATCHES/libedit.hint	2012-05-03 19:35:24.414748143 +0200
+@@ -0,0 +1,6 @@
++sdesc: "The NetBSD Editline library"
++ldesc: "Libedit is an autotool- and libtoolized port of the NetBSD Editline
++library.  It provides generic line editing, history, and tokenization
++functions, similar to those found in GNU Readline."
++category: Devel Libs
++requires: libedit0
+--- origsrc/libedit-20120311-3.0/CYGWIN-PATCHES/libedit0.hint	1970-01-01 01:00:00.000000000 +0100
++++ src/libedit-20120311-3.0/CYGWIN-PATCHES/libedit0.hint	2012-05-03 19:35:24.531741573 +0200
+@@ -0,0 +1,7 @@
++sdesc: "The NetBSD Editline library (runtime)"
++ldesc: "Libedit is an autotool- and libtoolized port of the NetBSD Editline
++library.  It provides generic line editing, history, and tokenization
++functions, similar to those found in GNU Readline."
++category: Libs
++requires: libncursesw10
++external-source: libedit

@@ -1,216 +1,195 @@
-# base-files version 3.7-1
+# To the extent possible under law, the author(s) have dedicated all 
+# copyright and related and neighboring rights to this software to the 
+# public domain worldwide. This software is distributed without any warranty. 
+# You should have received a copy of the CC0 Public Domain Dedication along 
+# with this software. 
+# If not, see <http://creativecommons.org/publicdomain/zero/1.0/>. 
 
-# WARNING
-#
-# IF THIS FILE IS MODIFIED IT WILL NOT BE UPDATED BY THE CYGWIN
-# SETUP PROGRAM.  IT BECOMES YOUR RESPONSIBILITY.
+# base-files version 4.1-1
+
+# /etc/profile: executed by the command interpreter for login shells.
 
 # The latest version as installed by the Cygwin Setup program can
 # always be found at /etc/defaults/etc/profile
 
-# Some resources...
+# Modifying /etc/profile directly will prevent
+# setup from updating it.
 
+# System-wide profile file
+
+# Some resources...
 # Customizing Your Shell: http://www.dsl.org/cookbook/cookbook_5.html#SEC69
 # Consistent BackSpace and Delete Configuration:
 #   http://www.ibb.net/~anne/keyboard.html
 # The Linux Documentation Project: http://www.tldp.org/
 # The Linux Cookbook: http://www.tldp.org/LDP/linuxcookbook/html/
+# Greg's Wiki http://mywiki.wooledge.org/
 
-# Setup some default paths.  Note that this order will allow user installed
-#  software to override 'system' software
-
-# If you wish to change the path for all users, it is recommended you edit
-#  /etc/bash.bashrc
-
-# If you wish all future users to have some default setup, it is recommended you
-#  edit /etc/skel/.bashrc
-
-# If you wish to change the path on a user by user basis, it is recommended you
-#  edit ~/.bashrc
-
-PATH=/usr/local/bin:/usr/bin:/bin:/usr/X11R6/bin:$PATH
-export PATH
-
-MANPATH=/usr/local/man:/usr/share/man:/usr/man:$MANPATH
-export MANPATH
-
-INFOPATH=/usr/local/info:/usr/share/info:/usr/info:$INFOPATH
-export INFOPATH
+# Setup some default paths. Note that this order will allow user installed
+# software to override 'system' software.
+# Modifying these default path settings can be done in different ways.
+# To learn more about startup files, refer to your shell's man page.
+PATH="/usr/local/bin:/usr/bin:${PATH}"
+MANPATH="/usr/local/man:/usr/share/man:/usr/man:${MANPATH}"
+INFOPATH="/usr/local/info:/usr/share/info:/usr/info:${INFOPATH}"
 
 # Set the user id
-USER="`id -un`"
-export USER
+USER="$(id -un)"
 
-# Here is how HOME is set, in order of priority, when starting from Windows
-#  1) From existing HOME in the Windows environment, translated to a Posix path
-#  2) from /etc/passwd, if there is an entry with a non empty directory field
-#  3) from HOMEDRIVE/HOMEPATH
-#  4) / (root)
+# TMP and TEMP as defined in the Windows environment must be kept
+# for windows apps, even if started from cygwin. However, leaving
+# them set to the default Windows temporary directory or unset
+# can have unexpected consequences for cygwin apps, so we define 
+# our own to match GNU/Linux behaviour.
+ORIGINAL_TMP=$TMP
+ORIGINAL_TEMP=$TEMP
+unset TMP TEMP
+tmp=$(cygpath -w "$ORIGINAL_TMP" 2> /dev/null)
+temp=$(cygpath -w "$ORIGINAL_TEMP" 2> /dev/null)
+TMP="/tmp"
+TEMP="/tmp"
 
-# If the home directory doesn't exist, create it.
-if [ ! -d "${HOME}" ]; then
-	mkdir -p "${HOME}"
-	echo "Copying skeleton files."
-	echo "These files are for the user to personalise"
-	echo "their cygwin experience."
-	echo
-	echo "These will never be overwritten."
-	echo
-	cd /etc/skel
-	/bin/find . -type f | while read f; do
-		fDest=`echo ${f} | sed -e 's/^\.//g'`
-		if [ ! -e "${HOME}${fDest}" -a ! -L "${HOME}${fDest}" ]; then
-			/usr/bin/install -D -p -v "${f}" "${HOME}/${fDest}"
-		fi
-	done
+# Define default printer
+p='/proc/registry/HKEY_CURRENT_USER/Software/Microsoft/Windows NT/CurrentVersion/Windows/Device'
+if [ -e "${p}" ] ; then
+  read -r PRINTER < "${p}" 
+  PRINTER=${PRINTER%%,*}
 fi
-
-chmod 1777 /tmp 2>/dev/null
-
-# Default to unix make mode
-MAKE_MODE=unix
-export MAKE_MODE
-
-# It is recommended that cvs uses ssh for it's remote shell environment
-CVS_RSH=/bin/ssh
-export CVS_RSH
-
-# Patches to Cygwin always appreciated ;)
-# CVSROOT=:pserver:anoncvs@sources.redhat.com:/cvs/src
-# export CVSROOT
-
-# Shell dependent settings
-case "`echo "_$0" | /usr/bin/tr '[:upper:]' '[:lower:]' | /usr/bin/sed -e 's/^_//'`" in
-bash     | -bash     | */bash | \
-bash.exe | -bash.exe | */bash.exe )
-	# Set a HOSTNAME variable
-	HOSTNAME=`hostname`
-	export HOSTNAME
-
-	# Set a default prompt of: user@host and current_directory
-	PS1='\[\e]0;\w\a\]\n\[\e[32m\]\u@\h \[\e[33m\]\w\[\e[0m\]\n\$ '
-	;;
-ksh*     | -ksh*     | */ksh* | \
-ksh*.exe | -ksh*.exe | */ksh*.exe )
-	# Set a HOSTNAME variable
-	typeset -l HOSTNAME
-
-	# Set a default prompt of: user@host and current_directory
-	PS1='^[]0;${PWD}^G
-^[[32m${USER}@${HOSTNAME} ^[[33m${PWD}^[[0m
-$ '
-	;;
-zsh*     | -zsh*     | */zsh* | \
-zsh*.exe | -zsh*.exe | */zsh*.exe )
-	# Set a default prompt of: user@host, a command counter, and current_directory
-	PS1='(%n@%m)[%h] %~ %% '
-	
-	# Set SHELL if not set
-	if [ ! -z "${ZSH_NAME}" -a -z "${SHELL}" ]; then
-		SHELL="/bin/zsh"
-		export SHELL	
-	fi
-	;;
-sh     | -sh     | */sh | \
-sh.exe | -sh.exe | */sh.exe )
-	# Set a simple prompt
-	PS1='$ '
-	;;
-* )
-	# Sorry, this shell has no defaults in /etc/profile,
-	#  feel free to add your own.
-
-	# If you have some recommendations for what these defaults
-	#  should be, please contact cygwin@cygwin.com with the
-	#  shell details and what you would like added.
-
-	# Thanks
-	
-	PS1='$ '
-	;;
-esac
-
-export PS1
-
-# Run all of the profile.d scripts
-# Note that these are supplied by separate packages
-# Ascending alphanumerical order enforced
-if [ -d "/etc/profile.d" ]; then
-	while read f; do
-		if [ -f "${f}" ]; then
-			. "${f}"
-		fi
-	done <<- EOF
-	`/bin/find -L /etc/profile.d -type f -iname '*.sh' -or -iname '*.zsh' | LC_ALL=C sort`
-	EOF
-fi
-
-# Uncomment to use the terminal colours set in DIR_COLOR
-# eval "`dircolors -b /etc/DIR_COLORS`"
+unset p
 
 # Default to removing the write permission for group and other
 #  (files normally created with mode 777 become 755; files created with
 #  mode 666 become 644)
 umask 022
 
-# Define default printer
-PRINTER=""
-case `uname -s` in
-CYGWIN_NT-*)
-	PRINTER="`regtool -q get '\user\Software\Microsoft\Windows NT\CurrentVersion\Windows\Device' | sed 's/,.*$//'`"
-	;;
-CYGWIN_9?-*)
-	PRINTER="`regtool -q get '\config\System\CurrentControlSet\Control\Print\Printers\Default'`"
-	;;
-esac
-export PRINTER
+# Here is how HOME is set, in order of priority, when starting from Windows
+#  1) From existing HOME in the Windows environment, translated to a Posix path
+#  2) from /etc/passwd, if there is an entry with a non empty directory field
+#  3) from HOMEDRIVE/HOMEPATH
+#  4) / (root)
+# If the home directory doesn't exist, create it.
+if [ ! -d "${HOME}" ]; then
+  if mkdir -p "${HOME}"; then
+    echo "Copying skeleton files."
+    echo "These files are for the users to personalise their cygwin experience."
+    echo
+    echo "They will never be overwritten nor automatically updated."
+    echo
+    cd /etc/skel || echo "WARNING: Failed attempt to cd into /etc/skel!"
+    /usr/bin/find . -type f | while read f; do
+      fDest=${f#.}
+      if [ ! -e "${HOME}${fDest}" -a ! -L "${HOME}${fDest}" ]; then
+        /usr/bin/install -D -p -v "${f}" "${HOME}/${fDest}"
+      fi
+    done
+    unset fDest
+  else
+    echo "${HOME} could not be created."
+    { [ -d "${TEMP}" ] && HOME="${TEMP}"; } ||
+    { [ -d "${TMP}" ] && HOME="${TMP}"; } ||
+    { [ -d /tmp ] && HOME=/tmp; } ||
+    HOME=/
+    echo "Setting HOME to ${HOME}."
+  fi
+fi
 
 # Make sure we start in home unless invoked by CHERE
 if [ ! -z "${CHERE_INVOKING}" ]; then
   unset CHERE_INVOKING
 else
-  cd "${HOME}"
+  cd "${HOME}" || echo "WARNING: Failed attempt to cd into ${HOME}!"
 fi
+
+# Shell dependent settings
+profile_d ()
+{
+  for file in $(export LC_COLLATE=C; echo /etc/profile.d/*.$1); do
+    [ -e "${file}" ] && . "${file}"
+  done
+  unset file
+}
+
+if [ ! "x${BASH_VERSION}" = "x"  ]; then
+  HOSTNAME="$(/usr/bin/hostname)"
+  profile_d sh
+  [ -f "/etc/bash.bashrc" ] && . "/etc/bash.bashrc"
+elif [ ! "x${KSH_VERSION}" = "x" ]; then
+  typeset -l HOSTNAME="$(/usr/bin/hostname)"
+  profile_d sh
+  PS1=$(print '\033]0;${PWD}\n\033[32m${USER}@${HOSTNAME} \033[33m${PWD/${HOME}/~}\033[0m\n$ ')
+elif [ ! "x${ZSH_VERSION}" = "x" ]; then
+  HOSTNAME="$(/usr/bin/hostname)"
+  profile_d zsh
+  PS1='(%n@%m)[%h] %~ %% '
+elif [ ! "x${POSH_VERSION}" = "x" ]; then
+  HOSTNAME="$(/usr/bin/hostname)"
+  PS1="$ "
+else 
+  HOSTNAME="$(/usr/bin/hostname)"
+  profile_d sh
+  PS1="$ "
+fi
+
+export PATH MANPATH INFOPATH USER TMP TEMP PRINTER HOSTNAME PS1 SHELL tmp temp
 
 # Check to see if mkpasswd/mkgroup needs to be run try and cut down the emails
 #   about this on the lists!
+#
+# The following are the conditions under which the group name special cases 
+#   will appear (where uid and gid are the effective user and group ids
+#   for the current user, and pgsid is the primary group associated with the
+#   SID for the current user):
+#       mkpasswd:
+#         gid is not in /etc/group
+#         uid is not in /etc/passwd
+#       passwd/group_GID_clash(<gid>/<pgsid>):
+#         gid is not in /etc/group
+#         uid is in /etc/passwd
+#         pgsid is in /etc/group (and does not match gid)
+#       mkgroup:
+#         gid is not in /etc/group
+#         uid is in /etc/passwd
+#         pgsid is not in /etc/group
+#
 # If this message keeps appearing and you are sure it's a mistake (ie, don't
 #   email about it!), comment out the test below.
-case `id -ng` in
+case "$(id -ng)" in
 mkpasswd )
-  echo "Your group is currently \"mkpasswd\".  This indicates that"
-  echo "the /etc/passwd (and possibly /etc/group) files should be rebuilt."
-  echo "See the man pages for mkpasswd and mkgroup then, for example, run"
-  echo "mkpasswd -l [-d] > /etc/passwd"
-  echo "mkgroup  -l [-d] > /etc/group"
-  echo "Note that the -d switch is necessary for domain users."
-  ;;
-
-mkgroup )
-  echo "Your group is currently \"mkgroup\".  This indicates that"
-  echo "the /etc/group (and possibly /etc/passwd) files should be rebuilt."
-  echo "See the man pages for mkpasswd and mkgroup then, for example, run"
-  echo "mkpasswd -l [-d] > /etc/passwd"
-  echo "mkgroup  -l [-d] > /etc/group"
-  echo "Note that the -d switch is necessary for domain users."
-  ;;
-
-mkgroup_l_d )
-  echo "Your group name is currently \"mkgroup_l_d\". This indicates that not"
-  echo "all domain users and groups are listed in the /etc/passwd and"
-  echo "/etc/group files."
-  echo "See the man pages for mkpasswd and mkgroup then, for example, run"
-  echo "mkpasswd -l -d > /etc/passwd"
-  echo "mkgroup  -l -d > /etc/group"
+  echo "Your group is currently \"mkpasswd\".  This indicates that your"
+  echo "gid is not in /etc/group and your uid is not in /etc/passwd."
   echo
-  echo "This message is only displayed once (unless you recreate /etc/group)"
-  echo "and can be safely ignored."
-
-  # only display the above once
-  cp -f /etc/group "${HOME}/group.mkgroup_l_d" \
-  && ( [ -w /etc/group ] || chmod --silent a+w /etc/group ; )\
-  && sed -e 's/^mkgroup_l_d/mkgroup-l-d/' "${HOME}/group.mkgroup_l_d" > /etc/group \
-  && chmod --silent --reference=/etc/passwd /etc/group
-  rm -f "${HOME}/group.mkgroup_l_d"
+  echo "The /etc/passwd (and possibly /etc/group) files should be rebuilt."
+  echo "See the man pages for mkpasswd and mkgroup then, for example, run"
+  echo
+  echo "mkpasswd -l [-d] > /etc/passwd"
+  echo "mkgroup  -l [-d] > /etc/group"
+  echo
+  echo "Note that the -d switch is necessary for domain users."
+  ;;
+passwd/group_GID_clash* )
+  echo "Your group is currently \"passwd/group_GID_clash(gid/pgsid)\".  This"
+  echo "indicates that your gid is not in /etc/group, but the pgsid (primary "
+  echo "group associated with your SID) is in /etc/group."
+  echo
+  echo "The /etc/passwd (and possibly /etc/group) files should be rebuilt."
+  echo "See the man pages for mkpasswd and mkgroup then, for example, run"
+  echo
+  echo "mkpasswd -l [-d] > /etc/passwd"
+  echo "mkgroup  -l [-d] > /etc/group"
+  echo
+  echo "Note that the -d switch is necessary for domain users."
+  ;;
+mkgroup )
+  echo "Your group is currently \"mkgroup\".  This indicates that neither"
+  echo "your gid nor your pgsid (primary group associated with your SID)"
+  echo "is in /etc/group."
+  echo
+  echo "The /etc/group (and possibly /etc/passwd) files should be rebuilt."
+  echo "See the man pages for mkpasswd and mkgroup then, for example, run"
+  echo
+  echo "mkpasswd -l [-d] > /etc/passwd"
+  echo "mkgroup  -l [-d] > /etc/group"
+  echo
+  echo "Note that the -d switch is necessary for domain users."
   ;;
 esac

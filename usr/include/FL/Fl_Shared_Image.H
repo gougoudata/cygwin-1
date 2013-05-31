@@ -1,29 +1,23 @@
 //
-// "$Id: Fl_Shared_Image.H 4288 2005-04-16 00:13:17Z mike $"
+// "$Id: Fl_Shared_Image.H 8864 2011-07-19 04:49:30Z greg.ercolano $"
 //
 // Shared image header file for the Fast Light Tool Kit (FLTK).
 //
-// Copyright 1998-2005 by Bill Spitzak and others.
+// Copyright 1998-2010 by Bill Spitzak and others.
 //
-// This library is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Library General Public
-// License as published by the Free Software Foundation; either
-// version 2 of the License, or (at your option) any later version.
+// This library is free software. Distribution and use rights are outlined in
+// the file "COPYING" which should have been included with this file.  If this
+// file is missing or damaged, see the license at:
 //
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-// Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public
-// License along with this library; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
-// USA.
+//     http://www.fltk.org/COPYING.php
 //
 // Please report all bugs and problems on the following page:
 //
 //     http://www.fltk.org/str.php
 //
+
+/** \file
+   Fl_Shared_Image class. */
 
 #ifndef Fl_Shared_Image_H
 #  define Fl_Shared_Image_H
@@ -36,8 +30,19 @@ typedef Fl_Image *(*Fl_Shared_Handler)(const char *name, uchar *header,
                                        int headerlen);
 
 // Shared images class. 
+/**
+  This class supports caching, loading,
+  and drawing of image files. Most applications will also want to
+  link against the fltk_images library and call the
+  fl_register_images()
+  function to support standard image formats such as BMP, GIF, JPEG, and PNG.
+*/
 class FL_EXPORT Fl_Shared_Image : public Fl_Image {
-  protected:
+  
+  friend class Fl_JPEG_Image;
+  friend class Fl_PNG_Image;
+
+protected:
 
   static Fl_Shared_Image **images_;	// Shared images
   static int	num_images_;		// Number of shared images
@@ -62,8 +67,9 @@ class FL_EXPORT Fl_Shared_Image : public Fl_Image {
   void update();
 
   public:
-
+  /** Returns the filename of the shared image */
   const char	*name() { return name_; }
+  /** Returns the number of references of this shared image. When reference is below 1, the image is deleted. */
   int		refcount() { return refcount_; }
   void		release();
   void		reload();
@@ -95,5 +101,5 @@ FL_EXPORT extern void fl_register_images();
 #endif // !Fl_Shared_Image_H
 
 //
-// End of "$Id: Fl_Shared_Image.H 4288 2005-04-16 00:13:17Z mike $"
+// End of "$Id: Fl_Shared_Image.H 8864 2011-07-19 04:49:30Z greg.ercolano $"
 //

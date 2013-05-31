@@ -11,7 +11,7 @@
 (*                                                                     *)
 (***********************************************************************)
 
-(* $Id: list.ml,v 1.31 2004/01/01 16:42:40 doligez Exp $ *)
+(* $Id: list.ml 7597 2006-09-11 12:18:00Z doligez $ *)
 
 (* List operations *)
 
@@ -29,13 +29,13 @@ let tl = function
     [] -> failwith "tl"
   | a::l -> l
 
-let rec nth l n =
-  match l with
-    [] -> failwith "nth"
-  | a::l ->
-      if n = 0 then a else
-      if n > 0 then nth l (n-1) else
-      invalid_arg "List.nth"
+let nth l n =
+  if n < 0 then invalid_arg "List.nth" else
+  let rec nth_aux l n =
+    match l with
+    | [] -> failwith "nth"
+    | a::l -> if n = 0 then a else nth_aux l (n-1)
+  in nth_aux l n
 
 let append = (@)
 
@@ -158,7 +158,8 @@ let rec mem_assq x = function
 
 let rec remove_assoc x = function
   | [] -> []
-  | (a, b as pair) :: l -> if compare a x = 0 then l else pair :: remove_assoc x l
+  | (a, b as pair) :: l ->
+      if compare a x = 0 then l else pair :: remove_assoc x l
 
 let rec remove_assq x = function
   | [] -> []

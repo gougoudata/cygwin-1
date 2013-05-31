@@ -21,18 +21,19 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 #ifndef __GTK_VPANED_H__
 #define __GTK_VPANED_H__
 
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
 #include <gtk/gtkpaned.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
-
+G_BEGIN_DECLS
 
 #define GTK_TYPE_VPANED            (gtk_vpaned_get_type ())
 #define GTK_VPANED(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTK_TYPE_VPANED, GtkVPaned))
@@ -55,12 +56,10 @@ struct _GtkVPanedClass
   GtkPanedClass parent_class;
 };
 
-GType      gtk_vpaned_get_type (void) G_GNUC_CONST;
-GtkWidget *gtk_vpaned_new      (void);
 
+GType       gtk_vpaned_get_type (void) G_GNUC_CONST;
+GtkWidget * gtk_vpaned_new      (void);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __GTK_VPANED_H__ */

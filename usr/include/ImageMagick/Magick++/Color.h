@@ -1,6 +1,6 @@
 // This may look like C code, but it is really -*- C++ -*-
 //
-// Copyright Bob Friesenhahn, 1999, 2000, 2001, 2002, 2003
+// Copyright Bob Friesenhahn, 1999, 2000, 2001, 2002, 2003, 2008
 //
 // Color Implementation
 //
@@ -13,18 +13,18 @@
 namespace Magick
 {
 
-  class MagickDLLDecl Color;
+  class MagickPPExport Color;
 
   // Compare two Color objects regardless of LHS/RHS
-  int MagickDLLDecl operator == ( const Magick::Color& left_, const Magick::Color& right_ );
-  int MagickDLLDecl operator != ( const Magick::Color& left_, const Magick::Color& right_ );
-  int MagickDLLDecl operator >  ( const Magick::Color& left_, const Magick::Color& right_ );
-  int MagickDLLDecl operator <  ( const Magick::Color& left_, const Magick::Color& right_ );
-  int MagickDLLDecl operator >= ( const Magick::Color& left_, const Magick::Color& right_ );
-  int MagickDLLDecl operator <= ( const Magick::Color& left_, const Magick::Color& right_ );
+  int MagickPPExport operator == ( const Magick::Color& left_, const Magick::Color& right_ );
+  int MagickPPExport operator != ( const Magick::Color& left_, const Magick::Color& right_ );
+  int MagickPPExport operator >  ( const Magick::Color& left_, const Magick::Color& right_ );
+  int MagickPPExport operator <  ( const Magick::Color& left_, const Magick::Color& right_ );
+  int MagickPPExport operator >= ( const Magick::Color& left_, const Magick::Color& right_ );
+  int MagickPPExport operator <= ( const Magick::Color& left_, const Magick::Color& right_ );
 
   // Base color class stores RGB components scaled to fit Quantum
-  class MagickDLLDecl Color
+  class MagickPPExport Color
   {
   public:
     Color ( Quantum red_,
@@ -101,16 +101,16 @@ namespace Magick
       }
 
     // Scale a value expressed as a Quantum (0-QuantumRange) to double range (0-1)
+#if (MAGICKCORE_QUANTUM_DEPTH < 64)
     static double scaleQuantumToDouble( const Quantum quantum_ )
       {
         return (static_cast<double>(quantum_)/QuantumRange);
       }
-#if MAGICKCORE_QUANTUM_DEPTH != 64
+#endif
     static double scaleQuantumToDouble( const double quantum_ )
       {
         return (quantum_/QuantumRange);
       }
-#endif
 
 
   protected:
@@ -161,6 +161,9 @@ namespace Magick
     // Set true if we allocated pixel
     bool                        _pixelOwn;
 
+    // Set true if pixel is "valid"
+    bool                       _isValid;
+
     // Color type supported by _pixel
     PixelType			_pixelType;
 
@@ -169,7 +172,7 @@ namespace Magick
   //
   // HSL Colorspace colors
   //
-  class MagickDLLDecl ColorHSL : public Color
+  class MagickPPExport ColorHSL : public Color
   {
   public:
     ColorHSL ( double hue_, double saturation_, double luminosity_ );
@@ -199,7 +202,7 @@ namespace Magick
   //
   // Grayscale is simply RGB with equal parts of red, green, and blue
   // All double arguments have a valid range of 0.0 - 1.0.
-  class MagickDLLDecl ColorGray : public Color
+  class MagickPPExport ColorGray : public Color
   {
   public:
     ColorGray ( double shade_ );
@@ -223,7 +226,7 @@ namespace Magick
   //
   // Color arguments are constrained to 'false' (black pixel) and 'true'
   // (white pixel)
-  class MagickDLLDecl ColorMono : public Color
+  class MagickPPExport ColorMono : public Color
   {
   public:
     ColorMono ( bool mono_ );
@@ -246,7 +249,7 @@ namespace Magick
   // RGB color
   //
   // All color arguments have a valid range of 0.0 - 1.0.
-  class MagickDLLDecl ColorRGB : public Color
+  class MagickPPExport ColorRGB : public Color
   {
   public:
     ColorRGB ( double red_, double green_, double blue_ );
@@ -278,7 +281,7 @@ namespace Magick
   //        Y:  0.0 through 1.0
   //        U: -0.5 through 0.5
   //        V: -0.5 through 0.5
-  class MagickDLLDecl ColorYUV : public Color
+  class MagickPPExport ColorYUV : public Color
   {
   public:
     ColorYUV ( double y_, double u_, double v_ );
@@ -313,8 +316,7 @@ namespace Magick
 //
 
 // Common initializer for PixelPacket representation
-// Initialized to state that ImageMagick considers to be
-// an invalid color.
+// Initialized transparent black
 inline void Magick::Color::initPixel()
 {
   _pixel->red     = 0;
@@ -326,6 +328,7 @@ inline void Magick::Color::initPixel()
 inline void Magick::Color::redQuantum ( Magick::Quantum red_ )
 {
   _pixel->red = red_;
+  _isValid = true;
 }
 
 inline Magick::Quantum Magick::Color::redQuantum ( void ) const
@@ -336,6 +339,7 @@ inline Magick::Quantum Magick::Color::redQuantum ( void ) const
 inline void Magick::Color::greenQuantum ( Magick::Quantum green_ )
 {
   _pixel->green = green_;
+  _isValid = true;
 }
 
 inline Magick::Quantum  Magick::Color::greenQuantum ( void ) const
@@ -346,6 +350,7 @@ inline Magick::Quantum  Magick::Color::greenQuantum ( void ) const
 inline void  Magick::Color::blueQuantum ( Magick::Quantum blue_ )
 {
   _pixel->blue = blue_;
+  _isValid = true;
 }
 
 inline Magick::Quantum Magick::Color::blueQuantum ( void ) const
@@ -356,6 +361,7 @@ inline Magick::Quantum Magick::Color::blueQuantum ( void ) const
 inline void  Magick::Color::alphaQuantum ( Magick::Quantum alpha_ )
 {
   _pixel->opacity = alpha_;
+  _isValid = true ;
 }
 
 inline Magick::Quantum Magick::Color::alphaQuantum ( void ) const
@@ -364,7 +370,7 @@ inline Magick::Quantum Magick::Color::alphaQuantum ( void ) const
 }
 
 // Return ImageMagick PixelPacket struct based on color.
-inline Magick::Color::operator MagickLib::PixelPacket () const
+inline Magick::Color::operator MagickCore::PixelPacket () const
 {
   return *_pixel;
 }

@@ -11,7 +11,7 @@
 (*                                                                     *)
 (***********************************************************************)
 
-(* $Id: arg.mli,v 1.35 2004/06/11 23:45:46 doligez Exp $ *)
+(* $Id: arg.mli 11031 2011-05-09 11:39:33Z doligez $ *)
 
 (** Parsing of command line arguments.
 
@@ -56,7 +56,7 @@ type spec =
   | Symbol of string list * (string -> unit)
                                (** Take one of the symbols as argument and
                                    call the function with the symbol *)
-  | Rest of (string -> unit)   (** Stop interpreting keywords and call the 
+  | Rest of (string -> unit)   (** Stop interpreting keywords and call the
                                    function with each remaining argument *)
 (** The concrete type describing the behavior associated
    with a keyword. *)
@@ -79,7 +79,7 @@ val parse :
     as their arguments appear on the command line.
 
     If an error occurs, [Arg.parse] exits the program, after printing
-    an error message as follows:
+    to standard error an error message as follows:
 -   The reason for the error: unknown option, invalid or missing argument, etc.
 -   [usage_msg]
 -   The list of options, each followed by the corresponding [doc] string.
@@ -88,9 +88,9 @@ val parse :
     [-], include for example [("-", String anon_fun, doc)] in [speclist].
 
     By default, [parse] recognizes two unit options, [-help] and [--help],
-    which will display [usage_msg] and the list of options, and exit
-    the program.  You can override this behaviour by specifying your
-    own [-help] and [--help] options in [speclist].
+    which will print to standard output [usage_msg] and the list of
+    options, and exit the program.  You can override this behaviour
+    by specifying your own [-help] and [--help] options in [speclist].
 *)
 
 val parse_argv : ?current: int ref -> string array ->
@@ -115,17 +115,21 @@ exception Bad of string
     [Arg.Bad] is also raised by [Arg.parse_argv] in case of an error. *)
 
 val usage : (key * spec * doc) list -> usage_msg -> unit
-(** [Arg.usage speclist usage_msg] prints an error message including
-    the list of valid options.  This is the same message that
-    {!Arg.parse} prints in case of error.
+(** [Arg.usage speclist usage_msg] prints to standard error
+    an error message that includes the list of valid options.  This is
+    the same message that {!Arg.parse} prints in case of error.
     [speclist] and [usage_msg] are the same as for [Arg.parse]. *)
+
+val usage_string : (key * spec * doc) list -> usage_msg -> string
+(** Returns the message that would have been printed by {!Arg.usage},
+    if provided with the same parameters. *)
 
 val align: (key * spec * doc) list -> (key * spec * doc) list;;
 (** Align the documentation strings by inserting spaces at the first
     space, according to the length of the keyword.  Use a
     space as the first character in a doc string if you want to
     align the whole string.  The doc strings corresponding to
-    [Symbol] arguments are not aligned. *)
+    [Symbol] arguments are aligned on the next line. *)
 
 val current : int ref
 (** Position (in {!Sys.argv}) of the argument being processed.  You can

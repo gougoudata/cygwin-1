@@ -1,0 +1,34 @@
+stg-redo(1)
+===========
+
+NAME
+----
+stg-redo - Undo the last undo operation
+
+SYNOPSIS
+--------
+[verse]
+'stg' redo 
+
+DESCRIPTION
+-----------
+
+If the last command was an undo, reset the patch stack to the state it
+had before the undo. Consecutive invocations of "stg redo" will undo
+the effects of consecutive invocations of "stg undo".
+
+It is an error to run "stg redo" if the last command was not an
+undo.
+
+OPTIONS
+-------
+-n N::
+--number N::
+        Undo the last N undos.
+
+--hard::
+        Discard changes in your index/worktree.
+
+StGit
+-----
+Part of the StGit suite - see linkman:stg[1]

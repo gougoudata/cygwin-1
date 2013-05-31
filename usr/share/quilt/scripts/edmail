@@ -1,4 +1,4 @@
-#! /bin/perl -w
+#!/bin/perl -w
 
 # RFCs important for this script:
 #
@@ -36,12 +36,28 @@ sub _($) {
     return gettext(shift);
 }
 
+my $special = '()<>\[\]:;@\\,"';  # special characters
+my $special_dot = "$special.";  # special characters + dot
+
+sub check_recipient($);
+
 my (%append_name, %append_value, $remove_empty_headers, %remove_header,
     %extract_recipients_from, %replace_name, %replace_value, $charset);
 GetOptions('add-recipient=s%' =>
     sub {
 	$append_name{lc $_[1]} = $_[1];
 	$append_value{lc $_[1]} .= ",\n " . $_[2];
+    },
+    'add-good-recipient=s%' =>
+    sub {
+	eval { check_recipient($_[2]) };
+	if ($@) {
+		chomp $@;
+		print STDERR "$@; skipping\n";
+	} else {
+		$append_name{lc $_[1]} = $_[1];
+		$append_value{lc $_[1]} .= ",\n " . $_[2];
+	}
     },
     'remove-header=s' => sub { $remove_header{lc $_[1]}++ },
     'remove-empty-headers' => \$remove_empty_headers,
@@ -60,9 +76,6 @@ sub encode_header($) {
     $word =~ s{[^\t\41-\76\100-\176]}{sprintf "=%02X", ord($&)}ge;
     return "=?$charset?q?$word?=";
 }
-
-my $special = '()<>\[\]:;@\\,"';  # special characters
-my $special_dot = "$special.";  # special characters + dot
 
 # Check for a valid display name
 sub check_display_name($) {
@@ -121,23 +134,38 @@ sub check_recipient($) {
     }
 }
 
+sub split_recipients($) {
+    my ($recipients) = @_;
+    my @list = ();
+
+    while ($recipients !~ /^\s*$/) {
+	my $recipient;
+	if ($recipients =~ s/^\s*,?\s*((?:"(?:[^"]+)"|[^",])*)//) {
+	    $recipient = $1;
+	} else {
+	    $recipient = $recipients;
+	    $recipients = "";
+	}
+	$recipient =~ s/\s*$//;
+	push @list, $recipient;
+    }
+    return @list;
+}
+
 my %recipients;
 sub process_header($) {
     local ($_) = @_;
     my ($name, $value);
 
     return unless defined $_;
-    unless (($name, $value) = /^([\41-\176]+):\s*(.*)\s*/s) {
+    unless (($name, $value) = /^([\41-\176]+):\s*(.*)/s) {
 	print;
 	return
     }
     if (%extract_recipients_from) {
 	if (exists $extract_recipients_from{lc $name}) {
-	    #print "(($value))";
 	    $value =~ s/^\s*//;  $value =~ s/\s*$//;
-	    foreach my $recipient (split /\s*,\s*/s, $value) {
-		    next if $recipient =~ /^\s*$/;
-		    #print "<<$recipient>>";
+	    foreach my $recipient (split_recipients($value)) {
 		    my $deliver;
 		    ($recipient, $deliver) = check_recipient($recipient);
 		    print "$deliver\n";
@@ -161,9 +189,7 @@ sub process_header($) {
 	my @recipients;
 	# This is a recipients field. Split out all the recipients and
 	# check the addresses. Suppress duplicate recipients.
-	$value =~ s/^\s*//;  $value =~ s/\s*$//;
-	foreach my $recipient (split /\s*,\s*/, $value) {
-	    next if $recipient =~ /^\s*$/;
+	foreach my $recipient (split_recipients($value)) {
 	    my $deliver;
 	    ($recipient, $deliver) = check_recipient($recipient);
 	    unless (exists $recipients{$deliver}) {

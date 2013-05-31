@@ -8,13 +8,13 @@
  * --- ie, rule names are only unique among the rules of a given table.
  *
  *
- * Portions Copyright (c) 1996-2006, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2012, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
- * $PostgreSQL: pgsql/src/include/catalog/pg_rewrite.h,v 1.26 2006/03/05 15:58:55 momjian Exp $
+ * src/include/catalog/pg_rewrite.h
  *
  * NOTES
- *	  the genbki.sh script reads this file and generates .bki
+ *	  the genbki.pl script reads this file and generates .bki
  *	  information from the DATA() statements.
  *
  *-------------------------------------------------------------------------
@@ -22,12 +22,7 @@
 #ifndef PG_REWRITE_H
 #define PG_REWRITE_H
 
-/* ----------------
- *		postgres.h contains the system type definitions and the
- *		CATALOG(), BKI_BOOTSTRAP and DATA() sugar words so this file
- *		can be read by both genbki.sh and the C compiler.
- * ----------------
- */
+#include "catalog/genbki.h"
 
 /* ----------------
  *		pg_rewrite definition.	cpp turns this into
@@ -42,11 +37,13 @@ CATALOG(pg_rewrite,2618)
 	Oid			ev_class;
 	int2		ev_attr;
 	char		ev_type;
+	char		ev_enabled;
 	bool		is_instead;
 
-	/* NB: remaining fields must be accessed via heap_getattr */
-	text		ev_qual;
-	text		ev_action;
+#ifdef CATALOG_VARLEN			/* variable-length fields start here */
+	pg_node_tree ev_qual;
+	pg_node_tree ev_action;
+#endif
 } FormData_pg_rewrite;
 
 /* ----------------
@@ -60,13 +57,14 @@ typedef FormData_pg_rewrite *Form_pg_rewrite;
  *		compiler constants for pg_rewrite
  * ----------------
  */
-#define Natts_pg_rewrite				7
+#define Natts_pg_rewrite				8
 #define Anum_pg_rewrite_rulename		1
 #define Anum_pg_rewrite_ev_class		2
 #define Anum_pg_rewrite_ev_attr			3
 #define Anum_pg_rewrite_ev_type			4
-#define Anum_pg_rewrite_is_instead		5
-#define Anum_pg_rewrite_ev_qual			6
-#define Anum_pg_rewrite_ev_action		7
+#define Anum_pg_rewrite_ev_enabled		5
+#define Anum_pg_rewrite_is_instead		6
+#define Anum_pg_rewrite_ev_qual			7
+#define Anum_pg_rewrite_ev_action		8
 
 #endif   /* PG_REWRITE_H */

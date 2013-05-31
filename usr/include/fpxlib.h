@@ -8,22 +8,22 @@
 #ifndef FPXLibAPI_h
 #define FPXLibAPI_h
 /****************************************************************************/
+#ifdef __cplusplus
+extern "C" {
+#endif
+#include "fpxlib-config.h"
+#include <inttypes.h>
 
-  typedef struct _XSTREAM
-  {
-    long streampointer;
-  } XSTREAM;
-  typedef XSTREAM IStream;
+  typedef struct IStream IStream;
+  typedef struct IStorage IStorage;
 
   typedef struct _XGUID
   {
-    unsigned long  Data1;
-    unsigned short Data2;
-    unsigned short Data3;
-    unsigned char  Data4[8];
-  } XGUID;
-  //typedef XGUID CLSID;
-  #define CLSID XGUID
+    uint32_t	Data1;
+    uint16_t	Data2;
+    uint16_t	Data3;
+    uint8_t	Data4[8];
+  } XGUID, GUID, CLSID, IID;
 
   #ifndef FARSTRUCT
     #define FARSTRUCT
@@ -31,88 +31,81 @@
   #ifndef __RPC_FAR
     #define __RPC_FAR
   #endif
-  #ifndef BYTE
-    #define BYTE unsigned char  
-  #endif
-  #ifndef ULONG
-    #define ULONG unsigned long
-  #endif
 
   typedef struct  tagCLIPDATA {
-    ULONG cbSize;
-    long ulClipFmt;
-    BYTE __RPC_FAR *pClipData;
+    uint32_t	cbSize;
+    int32_t	ulClipFmt;
+    uint8_t	__RPC_FAR *pClipData;
   } CLIPDATA;
 
 #if !defined(WCHAR) && !defined(__BORLANDC__)
-  typedef unsigned short WCHAR; 
-  typedef WCHAR * LPWSTR; 
+  typedef uint16_t	WCHAR;
+  typedef WCHAR	*LPWSTR;
 #endif
+  typedef uint16_t	WORD;
+  typedef uint32_t	DWORD;
 
 /***************************************************************************
    TOOLKIT HANDLE
  ***************************************************************************/
-
-typedef struct _FPXImageHandle {
-  long handle;
-} FPXImageHandle;
-
+#ifdef __cplusplus
+typedef class PFlashPixImageView FPXImageHandle;
+#else
+typedef struct PFlashPixImageView FPXImageHandle;
+#endif
 
 /****************************************************************************
   BASIC TYPEDEFS
  ****************************************************************************/
 
-typedef unsigned char   FPXbool;
+typedef uint8_t	FPXbool;
 
 typedef struct {
-              unsigned long     length;        /* number of chars */
-              unsigned char     * ptr;
+	size_t	 length;        /* number of chars */
+	uint8_t	*ptr;
 } FPXStr;
 
 typedef struct {
-              unsigned long     length;        /* number of shorts */
-              unsigned short    * ptr;
+	size_t	length;        /* number of shorts */
+	uint16_t	*ptr;
 } FPXShortArray;
 
-typedef struct {
-              unsigned long     length;        /* number of longs */
-              unsigned long     * ptr;
+typedef struct FPXLongArray {
+	size_t	length;        /* number of longs */
+	uint32_t	*ptr;
 } FPXLongArray;
 
 typedef struct {
-              unsigned long     length;        /* number of reals */
-              float             * ptr;
+	size_t	 length;        /* number of reals */
+	float	*ptr;
 } FPXRealArray;
 
 typedef struct FPXWideStr {
-              unsigned long     length;        /* length of string off ptr in bytes */
-              unsigned short    * ptr;
+	size_t	 length;        /* length of string off ptr in bytes */
+	uint16_t	*ptr;	/* Inside fpxlib wchar_t is 2-bytes XXX */
 } FPXWideStr;
 
 typedef struct {
-              unsigned long     length;        /* number of strings */
-              FPXStr            * ptr;
+	size_t	 length;        /* number of strings */
+	FPXStr	*ptr;
 } FPXStrArray;
 
 typedef struct {
-              unsigned long     length;        /* number of wide strings */
-              FPXWideStr        * ptr;
+	size_t	length;        /* number of wide strings */
+	FPXWideStr	*ptr;
 } FPXWideStrArray;
 
 typedef struct {
-              unsigned long     length;        /* number of strings */
-              CLSID             * ptr;
+	size_t	 length;        /* number of strings */
+	CLSID	*ptr;
 } FPXClsIDArray;
 
 #if !defined(WIN32)
-#ifndef _FILETIME_
-#define _FILETIME_
 typedef struct FARSTRUCT tagFILETIME
 {
-    unsigned long dwLowDateTime;
-    unsigned long dwHighDateTime;
+	DWORD dwLowDateTime;
+	DWORD dwHighDateTime;
 } FILETIME;
-#endif
 #endif
 
 #ifndef TRUE
@@ -123,10 +116,10 @@ typedef struct FARSTRUCT tagFILETIME
 #define FALSE 0
 #endif
 
-typedef FILETIME FPXfiletime;                      /* cf. OLE FILETIME in compobj.h */
+typedef FILETIME FPXfiletime;	        /* cf. OLE FILETIME in compobj.h */
 
-#ifndef DATE 
-typedef  double DATE; 
+#ifndef DATE
+typedef  double DATE;
 #endif
 
 /****************************************************************************
@@ -169,6 +162,8 @@ typedef enum {
   FPX_FILE_NOT_OPEN_ERROR = 32,
   FPX_USER_ABORT = 33,
   FPX_OLE_FILE_ERROR = 34,
+  FPX_INVALID_PIXEL_FORMAT = 35,
+  FPX_MAX_KNOWN_ERROR,	/* Insert subsequent codes above this one */
 
   // Numbers above 1000 are reserved for warnings. When returning a warning, the
   // function did something (default behavior) and it's safe for the application
@@ -176,11 +171,9 @@ typedef enum {
   FPX_W_COORDINATES_OUT_OF_RANGE = 1000
 } FPXStatus;
 
-#define ERRSTR_TBLSIZE  28
-
-FPXStatus FPX_GetErrorString (FPXStatus errorCode, 
-                              char *errorString,
-                              unsigned short maxStrLen);
+FPXStatus FPX_GetErrorString (FPXStatus errorCode,
+	                char *errorString,
+	                unsigned short maxStrLen);
 
 /*
  * Some C functions to ease the usage of these structures.
@@ -188,7 +181,7 @@ FPXStatus FPX_GetErrorString (FPXStatus errorCode,
  void FPXUpdateTime (FPXfiletime* theFPXTime);
  void InitFPXStr            (FPXStr*          theFPXArray);
  void InitFPXShortArray     (FPXShortArray*   theFPXArray);
- void InitFPXLongArray      (FPXLongArray*    theFPXArray); 
+ void InitFPXLongArray      (FPXLongArray*    theFPXArray);
  void InitFPXRealArray      (FPXRealArray*    theFPXArray);
  void InitFPXWideStr        (FPXWideStr*      theFPXArray);
  void InitFPXWideStrArray   (FPXWideStrArray* theFPXArray);
@@ -196,37 +189,37 @@ FPXStatus FPX_GetErrorString (FPXStatus errorCode,
 
  FPXStatus FPX_Strcpy     (FPXStr*     theFPXStr, const char* string);
  FPXStatus FPX_WideStrcpy (FPXWideStr* theFPXStr, const char* string);
- long      FPX_WideStrcmp (FPXWideStr* fpxWStr1,  FPXWideStr* fpxWStr2);
- 
- long      FPX_LPWSTRlen (LPWSTR wideStr);
+ int       FPX_WideStrcmp (const FPXWideStr* fpxWStr1,  const FPXWideStr* fpxWStr2);
+
+ size_t    FPX_LPWSTRlen  (const WCHAR * wideStr);
 
  FPXStatus FPX_DeleteFPXStr          (FPXStr*          theFPXArray);
  FPXStatus FPX_DeleteFPXShortArray   (FPXShortArray*   theFPXArray);
  FPXStatus FPX_DeleteFPXLongArray    (FPXLongArray*    theFPXArray);
- FPXStatus FPX_DeleteFPXRealArray    (FPXRealArray*    theFPXArray); 
+ FPXStatus FPX_DeleteFPXRealArray    (FPXRealArray*    theFPXArray);
  FPXStatus FPX_DeleteFPXWideStr      (FPXWideStr*      theFPXArray);
  FPXStatus FPX_DeleteFPXWideStrArray (FPXWideStrArray* theFPXArray);
  FPXStatus FPX_DeleteFPXStrArray     (FPXStrArray*     theFPXArray);
 
- FPXStatus FPX_AllocFPXStr           (FPXStr*          theFPXArray, long nbElem);
- FPXStatus FPX_AllocFPXShortArray    (FPXShortArray*   theFPXArray, long nbElem);
- FPXStatus FPX_AllocFPXLongArray     (FPXLongArray*    theFPXArray, long nbElem);
- FPXStatus FPX_AllocFPXRealArray     (FPXRealArray*    theFPXArray, long nbElem);
- FPXStatus FPX_AllocFPXWideStr       (FPXWideStr*      theFPXArray, long nbElem);
- FPXStatus FPX_AllocFPXWideStrArray  (FPXWideStrArray* theFPXArray, long nbElem);
- FPXStatus FPX_AllocFPXStrArray      (FPXStrArray*     theFPXArray, long nbElem);
+ FPXStatus FPX_AllocFPXStr           (FPXStr*          theFPXArray, unsigned int nbElem);
+ FPXStatus FPX_AllocFPXShortArray    (FPXShortArray*   theFPXArray, unsigned int nbElem);
+ FPXStatus FPX_AllocFPXLongArray     (FPXLongArray*    theFPXArray, unsigned int nbElem);
+ FPXStatus FPX_AllocFPXRealArray     (FPXRealArray*    theFPXArray, unsigned int nbElem);
+ FPXStatus FPX_AllocFPXWideStr       (FPXWideStr*      theFPXArray, unsigned int nbElem);
+ FPXStatus FPX_AllocFPXWideStrArray  (FPXWideStrArray* theFPXArray, unsigned int nbElem);
+ FPXStatus FPX_AllocFPXStrArray      (FPXStrArray*     theFPXArray, unsigned int nbElem);
 
 /****************************************************************************
    TOOLKIT COMPRESSION CONTROL
  ***************************************************************************/
 
-/* Desired compression style                                                         */
+/* Desired compression style	                                           */
 typedef enum {
-              NONE                = 0,    /* no compression used.                    */
-              SINGLE_COLOR        = 1,    /* use single color compression            */
-              JPEG_UNSPECIFIED    = 2,    /* let the toolkit pick the tables.        */
-              JPEG_BY_QUALITY     = 3,    /* we will specify the quality.            */
-              JPEG_BY_TABLE_GROUP = 4     /* we will specify the table group to use  */
+	NONE                = 0,    /* no compression used.                    */
+	SINGLE_COLOR        = 1,    /* use single color compression            */
+	JPEG_UNSPECIFIED    = 2,    /* let the toolkit pick the tables.        */
+	JPEG_BY_QUALITY     = 3,    /* we will specify the quality.            */
+	JPEG_BY_TABLE_GROUP = 4     /* we will specify the table group to use  */
 } FPXCompressionOption;
 
 
@@ -242,7 +235,7 @@ typedef struct {
     unsigned char *vals;
     unsigned char hclass; /* 0: DC, 1: AC */
     unsigned char ident;  /* 0,1,2,or 3 for extended JPEG systems */
-                          /* 0, or 1 for baseline JPEG */
+	            /* 0, or 1 for baseline JPEG */
 } FPXJPEGHUFFTable;
 
 typedef struct {
@@ -252,7 +245,7 @@ typedef struct {
 
 
 /*  A JPEG abbreviated stream for table info.
-    XXX we will fill in the details later. It's basically a bunch of 
+    XXX we will fill in the details later. It's basically a bunch of
     overhead, bytes counts, Q tables, and H tables.
  */
 
@@ -260,7 +253,7 @@ typedef struct {
 
 typedef struct {
         unsigned short  theStreamSize;
-              unsigned char   theStream[FPX_MAX_TABLE_STREAM_SIZE];
+	unsigned char   theStream[FPX_MAX_TABLE_STREAM_SIZE];
 } FPXJPEGTableGroup;
 
 
@@ -268,14 +261,14 @@ typedef struct {
 /*  Not all tables need be supplied. A NULL indicates such an omission. */
 
 FPXStatus FPX_CreateJPEGTableGroup (
-              FPXJPEGTableGroup*    theGroup,
-              short         numOfQuanTable,
-              unsigned char *   quanTableChanID,
-              FPXJPEGQuantTable*    quanTable,
-              short         numOfHuffTable,
-              unsigned char *   huffDCTableChanID,
-              unsigned char *   huffACTableChanID,
-              FPXJPEGHUFFTable*     huffTable ); 
+	FPXJPEGTableGroup*    theGroup,
+	short         numOfQuanTable,
+	unsigned char *   quanTableChanID,
+	FPXJPEGQuantTable*    quanTable,
+	short         numOfHuffTable,
+	unsigned char *   huffDCTableChanID,
+	unsigned char *   huffACTableChanID,
+	FPXJPEGHUFFTable*     huffTable );
 
 /***************************************************************************
    TOOLKIT RESOLUTION CONTROL
@@ -289,14 +282,14 @@ FPXStatus FPX_CreateJPEGTableGroup (
 
 /*  Control the compression on a per resolution basis. */
 typedef struct {
-              FPXCompressionOption compressOption;
-              unsigned char        compressQuality;
-              unsigned char        compressTableGroup;
+	FPXCompressionOption compressOption;
+	unsigned char        compressQuality;
+	unsigned char        compressTableGroup;
 } FPXPerResolutionControl;
 
 typedef struct {
-              short                   numberOfResolutions;
-              FPXPerResolutionControl compressionControl[FPXMAXRESOLUTIONS];
+	short                   numberOfResolutions;
+	FPXPerResolutionControl compressionControl[FPXMAXRESOLUTIONS];
 } FPXResolution;
 
 
@@ -310,33 +303,33 @@ typedef struct {
  *  Whenever an alpha channel is seen, the other channels are assumed to
  *  be premultiplied by it.  When an opacity of 0 (transparent) is seen
  *  in the alpha channel, the toolkit will NOT automatically insert chroma
- *  channels that are equal to the known background color, when either 
- *      reading or writing FPX images.  This work is left to the application and 
+ *  channels that are equal to the known background color, when either
+ *      reading or writing FPX images.  This work is left to the application and
  *  is not considered a function of the toolkit.
  */
 typedef enum { PHOTO_YCC_Y,
-               PHOTO_YCC_C1,
-               PHOTO_YCC_C2,
-               NIFRGB_R,
-               NIFRGB_G,
-               NIFRGB_B,
-               ALPHA,
-               MONOCHROME
+	 PHOTO_YCC_C1,
+	 PHOTO_YCC_C2,
+	 NIFRGB_R,
+	 NIFRGB_G,
+	 NIFRGB_B,
+	 ALPHA,
+	 MONOCHROME
 } FPXComponentColor;
 
-/*  Some FPX defined/allowed data types for components.                                 */
+/*  Some FPX defined/allowed data types for components.	                   */
 typedef enum { DATA_TYPE_UNSIGNED_BYTE,
-               DATA_TYPE_SIGNED_BYTE,
-               DATA_TYPE_UNSIGNED_SHORT,
-               DATA_TYPE_SIGNED_SHORT,
-               DATA_TYPE_FLOAT,
-               DATA_TYPE_DOUBLE
+	 DATA_TYPE_SIGNED_BYTE,
+	 DATA_TYPE_UNSIGNED_SHORT,
+	 DATA_TYPE_SIGNED_SHORT,
+	 DATA_TYPE_FLOAT,
+	 DATA_TYPE_DOUBLE
 } FPXDataType;
 
-/*  Define the color/datatype of a component.                                            */
+/*  Define the color/datatype of a component.	                              */
 typedef struct {
-              FPXComponentColor myColor;      /* Y, C1, C2, R, B, G, or ALPHA            */
-              FPXDataType       myDataType;   /* unsigned byte, signed short, etc        */
+	FPXComponentColor myColor;      /* Y, C1, C2, R, B, G, or ALPHA            */
+	FPXDataType       myDataType;   /* unsigned byte, signed short, etc        */
 } FPXComponentColorType;
 
 #define FPX_MAX_COMPONENTS 4
@@ -345,9 +338,9 @@ typedef struct {
  *  NOTE: only certain combinations are allowed by the FPX spec.
  */
 typedef struct FPXColorspace {
-              FPXbool               isUncalibrated;
-              short             numberOfComponents;
-              FPXComponentColorType theComponents[FPX_MAX_COMPONENTS];
+	FPXbool               isUncalibrated;
+	short             numberOfComponents;
+	FPXComponentColorType theComponents[FPX_MAX_COMPONENTS];
 } FPXColorspace;
 
 /***************************************************************************
@@ -355,26 +348,26 @@ typedef struct FPXColorspace {
  ***************************************************************************/
 
 /*  FPX_Delete() is needed in the special case that the calling program
- *  has to delete objects created by the toolkit.  In this case 
+ *  has to delete objects created by the toolkit.  In this case
  *  a crash will occur unless the TOOLKIT calls delete.
  */
 FPXStatus FPX_Delete(void *FPXObj);
 
 
 /* Create an instance of the tool kit. The Tool kit can be used only if this
- * function is called prior any other call. 
+ * function is called prior any other call.
  */
 FPXStatus FPX_InitSystem ();
 
 /* Delete the instance of the tool kit. The Tool kit cannot be used
- * after a call to this function has been made. 
+ * after a call to this function has been made.
  */
 FPXStatus FPX_ClearSystem ();
 
 /* Get tool kit name (here "Reference") and version number.
  */
 FPXStatus FPX_GetToolkitVersion (
-         char* versionName, 
+         char* versionName,
          long* versionNumber);
 
 /* Global options
@@ -382,20 +375,20 @@ FPXStatus FPX_GetToolkitVersion (
  */
 
 typedef enum {
-              FPX_INCHES = 0,
-              FPX_METERS,
-              FPX_CENTIMETERS,
-              FPX_MILLIMETERS
+	FPX_INCHES = 0,
+	FPX_METERS,
+	FPX_CENTIMETERS,
+	FPX_MILLIMETERS
 } FPXResolutionUnit;
 
 typedef enum {
-              FPX_NEAREST_NEIGHBOR = 0,
-              FPX_LINEAR_INTERPOLATION
+	FPX_NEAREST_NEIGHBOR = 0,
+	FPX_LINEAR_INTERPOLATION
 } FPXResampleMethod;
 
 typedef enum {
-              FPX_OVERWRITE_BACKGROUND = 0,
-              FPX_PROTECT_BACKGROUND
+	FPX_OVERWRITE_BACKGROUND = 0,
+	FPX_PROTECT_BACKGROUND
 } FPXComposeMethod;
 
 /*  Background colors are used for for background compression.
@@ -404,22 +397,22 @@ typedef enum {
  */
 
 typedef struct {
-              signed long color1_value;
-              signed long color2_value;
-              signed long color3_value;
-              signed long color4_value;
+	signed int color1_value;
+	signed int color2_value;
+	signed int color3_value;
+	signed int color4_value;
 } FPXBackground;
 
-/* Set the unit used in resolution independent transactions 
+/* Set the unit used in resolution independent transactions
  * in the viewing tools.
  */
 
 FPXStatus FPX_SetUnit (
         FPXResolutionUnit  newUnit);
- 
+
 FPXStatus FPX_GetUnit (
          FPXResolutionUnit* newUnit);
-         
+
 /* Set the method used to compute an intermediate resolution.
  * (formerly FPX_SetAntialias())
  */
@@ -427,13 +420,13 @@ FPXStatus FPX_GetUnit (
  FPXStatus FPX_SetResampleMethod (
          FPXResampleMethod method);
 
-         
+
 /* Set the method used when composing images in the viewing tools.
  * (formerly FPX_NoJaggies())
  */
  FPXStatus FPX_SetComposeMethod (
          FPXComposeMethod method);
-         
+
 
 /* Set the default color used when composing images in the viewing tools.
  * (formerly FPX_SetBackgroundColor())
@@ -442,7 +435,7 @@ FPXStatus FPX_GetUnit (
  FPXStatus FPX_SetViewBackgroundColor (
          FPXColorspace colorspace,
          FPXBackground color);
-  
+
 
 /***************************************************************************
    TOOLKIT MEMORY CONTROL
@@ -455,18 +448,18 @@ FPXStatus FPX_GetUnit (
  *
  *  0 means use unlimited available.
  */
- 
- FPXStatus FPX_SetToolkitMemoryLimit ( 
-              unsigned long *    memoryLimit);
-         
+
+ FPXStatus FPX_SetToolkitMemoryLimit (
+	size_t *    memoryLimit);
+
  FPXStatus FPX_GetToolkitMemoryLimit (
-     unsigned long *  memoryLimit);
-     
+     size_t *  memoryLimit);
+
  FPXStatus FPX_GetToolkitMemoryAvailable (
-     unsigned long *  availableMemory);
-     
+     size_t *  availableMemory);
+
  FPXStatus FPX_GetToolkitMemoryUsed (
-     unsigned long *  usedMemory);
+     size_t *  usedMemory);
 
 // Memory management functions
 // ---------------------------
@@ -474,14 +467,14 @@ FPXStatus FPX_GetUnit (
 /* Purge the Toolkit memory (basically, the cached tiles).
  * Return the amount of memory really purged
  */
- 
- long FPX_PurgeToolkitMemory (
-     unsigned long      memoryToBePurged);
 
-/* Lock a FPX image tiles to avoid having them purged 
+ size_t FPX_PurgeToolkitMemory (
+     size_t      memoryToBePurged);
+
+/* Lock a FPX image tiles to avoid having them purged
  * during a FPX_PurgeToolkitMemory()
  */
- 
+
  FPXStatus FPX_LockFPXImage (
      FPXImageHandle*  theFPX);
 
@@ -495,29 +488,20 @@ FPXStatus FPX_GetUnit (
  *  Input image must already be in output color space.
  *  I.e. if you want a YCC FPX, feed us YCC!
  */
-#ifdef macintosh
 FPXStatus FPX_CreateImageByFilename (
-              const FSSpec&        fileSpecs,
-              unsigned long        width,
-              unsigned long        height,
-              unsigned long        tileWidth,
-              unsigned long        tileHeight,
-              FPXColorspace        colorspace,
-              FPXBackground        backgroundColor,
-              FPXCompressionOption compressOption,
-              FPXImageHandle**     theFPX);
+#ifdef macintosh
+	const FSSpec&        fileSpecs,
 #else
- FPXStatus FPX_CreateImageByFilename (
-              char*                fileName,
-              unsigned long        width,
-              unsigned long        height,
-              unsigned long        tileWidth,
-              unsigned long        tileHeight,
-              FPXColorspace        colorspace,
-              FPXBackground        backgroundColor,
-              FPXCompressionOption compressOption,
-              FPXImageHandle**     theFPX);
+	const char*          fileName,
 #endif
+	unsigned int         width,
+	unsigned int         height,
+	unsigned int         tileWidth,
+	unsigned int         tileHeight,
+	FPXColorspace        colorspace,
+	FPXBackground        backgroundColor,
+	FPXCompressionOption compressOption,
+	FPXImageHandle**     theFPX);
 
 /***************************************************************************
     HIERARCHY GENERATION AND FLAT IMAGES HANDLING routines
@@ -529,18 +513,18 @@ FPXStatus FPX_CreateImageByFilename (
  * If a file is created, written and closed with this option set, the resulting
  * file will be a flat image (no hierarchy).
  */
- 
+
  FPXStatus FPX_DoNotComputeHierarchy (
-              FPXImageHandle*  theFPX);
-              
+	FPXImageHandle*  theFPX);
+
 /* When this function is called, the hierarchy is recomputed from bottom up, using
  * what is available from the high res up to the lowest res. This function unset
  * the "no compute" flag, thus allowing automatic decimation to occur on a file
  * when editing.
  */
- 
+
  FPXStatus FPX_GenerateHierarchy (
-              FPXImageHandle*  theFPX);
+	FPXImageHandle*  theFPX);
 
 /***************************************************************************
     TOOLKIT SET/GET routines
@@ -554,9 +538,8 @@ FPXStatus FPX_CreateImageByFilename (
  *  Error possible for NULL handle.
  */
  FPXStatus FPX_GetResolutionInfo (
-              FPXImageHandle*  theFPX,
-              FPXResolution*   theResolutionInfo);
-
+	FPXImageHandle*  theFPX,
+	FPXResolution*   theResolutionInfo);
 
 /*  For a given image, set the pyramid info.
  *  Should only modify the compression option and quality/tablegroup for the
@@ -567,8 +550,8 @@ FPXStatus FPX_CreateImageByFilename (
  *  values.)
  */
  FPXStatus FPX_SetResolutionInfo (
-              FPXImageHandle*  theFPX,
-              FPXResolution*   theResolutionInfo);
+	FPXImageHandle*  theFPX,
+	FPXResolution*   theResolutionInfo);
 
 /***************************************************************************
     TOOLKIT PROGRESS CALLBACK
@@ -580,15 +563,12 @@ FPXStatus FPX_CreateImageByFilename (
  *  call and how much of it is done at this  point.  The progress function
  *  can abort the toolkit function by returning a non-zero value.
  */
-#ifndef tag_FPXProgressFunction
-#define tag_FPXProgressFunction
-typedef short (* FPXProgressFunction) (long totalToDo, long amountDoneSoFar);
-#endif
+typedef short (* FPXProgressFunction) (int totalToDo, int amountDoneSoFar);
 
 /* Set the progressive function for the Toolkit. The function will be called
  * automatically whenever it's necesary.
  */
- 
+
  FPXStatus FPX_SetProgressFunction (
      FPXProgressFunction  theProgressive);
 
@@ -603,7 +583,7 @@ typedef short (* FPXProgressFunction) (long totalToDo, long amountDoneSoFar);
  */
 
  FPXStatus FPX_CloseImage (
-              FPXImageHandle*     theFPX);
+	FPXImageHandle*     theFPX);
 
 /***************************************************************************
     TOOLKIT COLOR COMPONENTS
@@ -616,15 +596,15 @@ typedef short (* FPXProgressFunction) (long totalToDo, long amountDoneSoFar);
  *  and pointer to the data.
  */
 typedef struct {
-              FPXComponentColorType myColorType;           /* the color and datatype      */
-                                                           /* of this component.          */
-              unsigned long         horzSubSampFactor;     /* horizontal subsampling      */
-              unsigned long         vertSubSampFactor;     /* vertical subsampling        */
-              long                  columnStride;          /* items to next column on     */
-                                                           /* this row.                   */
-              long                  lineStride;            /* items to next line in       */
-                                                           /* this column.                */
-              unsigned char*        theData;               /* maybe void * XXX?           */
+	FPXComponentColorType myColorType;           /* the color and datatype      */
+	                                             /* of this component.          */
+	unsigned int          horzSubSampFactor;     /* horizontal subsampling      */
+	unsigned int          vertSubSampFactor;     /* vertical subsampling        */
+	int                   columnStride;          /* items to next column on     */
+	                                             /* this row.                   */
+	int                   lineStride;            /* items to next line in       */
+	                                             /* this column.                */
+	unsigned char*        theData;               /* maybe void * XXX?           */
 } FPXImageComponentDesc;
 
 
@@ -634,17 +614,17 @@ typedef struct {
  *  describe the colorspace.
  */
 typedef struct FPXImageDesc {
-              unsigned long         numberOfComponents;
-              FPXImageComponentDesc components[FPX_MAX_COMPONENTS];
+	unsigned int	numberOfComponents;
+	FPXImageComponentDesc	components[FPX_MAX_COMPONENTS];
 } FPXImageDesc;
 
 /* In Baseline, channels are premultiplied by the alpha channel.
  *  However, using non premultiplied images is no big deal: just a
- *  bit to set in the color subfield. 
- *  These functions allow the handling of FPX with or without 
+ *  bit to set in the color subfield.
+ *  These functions allow the handling of FPX with or without
  *  premultiplication.
- *  CAUTION: 
- *     - if some tiles are already written, FPX_SetAlphaType 
+ *  CAUTION:
+ *     - if some tiles are already written, FPX_SetAlphaType
  *     returns an error.
  *     - these functions are not implemented in Baseline
  */
@@ -654,21 +634,21 @@ typedef enum {
 } FPXPreComputedAlpha;
 
  FPXStatus FPX_SetAlphaType (
-              FPXImageHandle*      theFPX,
-              FPXPreComputedAlpha  theAlphaType);
+	FPXImageHandle*      theFPX,
+	FPXPreComputedAlpha  theAlphaType);
 
  FPXStatus FPX_GetAlphaType (
-              FPXImageHandle*      theFPX,
-              FPXPreComputedAlpha* theAlphaType);
+	FPXImageHandle*      theFPX,
+	FPXPreComputedAlpha* theAlphaType);
 
 /*  provide a table group and assign an ID number to it.
  *  Provides user control over compression quality.
  *  ERROR return for NULL table, illegal/already used ID.
  */
  FPXStatus FPX_SetJPEGTableGroup (
-              FPXImageHandle*     theFPX,
-              FPXJPEGTableGroup*  theGroup,
-              unsigned char       theTableGroupID);
+	FPXImageHandle*     theFPX,
+	FPXJPEGTableGroup*  theGroup,
+	unsigned char       theTableGroupID);
 
 
 /*  Get a given table group from a FPX image.
@@ -676,9 +656,9 @@ typedef enum {
  *  ERROR return for ID not valid.
  */
  FPXStatus FPX_GetJPEGTableGroup (
-              FPXImageHandle*     theFPX,
-              FPXJPEGTableGroup*  theGroup,
-              unsigned char       theTableGroupID);
+	FPXImageHandle*     theFPX,
+	FPXJPEGTableGroup*  theGroup,
+	unsigned char       theTableGroupID);
 
 
 /*  specify the quant_ID's to be used for compression
@@ -687,8 +667,8 @@ typedef enum {
  *  Error return if no such table.
  */
  FPXStatus FPX_SelectJPEGTableGroup (
-              FPXImageHandle*  theFPX,
-              unsigned char    theTableGroupID);
+	FPXImageHandle*  theFPX,
+	unsigned char    theTableGroupID);
 
 
 /*  Alternative JPEG table control:
@@ -696,8 +676,8 @@ typedef enum {
  *  not allowed with other sets of huff or quant tables.
  */
  FPXStatus FPX_SetJPEGCompression (
-              FPXImageHandle*  theFPX,
-              unsigned short   theQualityFactor);    /* 0->100                              */
+	FPXImageHandle*  theFPX,
+	unsigned short   theQualityFactor);    /* 0->100                              */
 
 /*  Resolution decimation quality control:
  *
@@ -708,9 +688,9 @@ typedef enum {
  *  Errors on bad handle, bad kernel size.
  */
  FPXStatus FPX_SetDecimationQuality (
-              FPXImageHandle*  theFPX,
-              unsigned short   decimationQuality);        /* perhaps one dimension        */
-                                                          /* of decimation kernel.        */
+	FPXImageHandle*  theFPX,
+	unsigned short   decimationQuality);        /* perhaps one dimension        */
+	                                            /* of decimation kernel.        */
 
 /*  The following two calls are for writing rectangular regions
  *
@@ -727,22 +707,22 @@ typedef enum {
  *  full sized image. Subsampled components must be handled accordingly.
  */
  FPXStatus FPX_WriteImageRectangle (
-              FPXImageHandle*     theFPX,
-              unsigned long       X0,
-              unsigned long       Y0,
-              unsigned long       X1,
-              unsigned long       Y1,
-              FPXImageDesc*       theData);
+	FPXImageHandle*     theFPX,
+	unsigned int        X0,
+	unsigned int        Y0,
+	unsigned int        X1,
+	unsigned int        Y1,
+	FPXImageDesc*       theData);
 
 /*  Write a rectangle of background color.  */
  FPXStatus FPX_WriteBackgroundRectangle (
-              FPXImageHandle*     theFPX,
-              unsigned long       X0,
-              unsigned long       Y0,
-              unsigned long       X1,
-              unsigned long       Y1,
-              FPXColorspace       theColorspace,
-              FPXBackground       theColor);
+	FPXImageHandle*     theFPX,
+	unsigned int        X0,
+	unsigned int        Y0,
+	unsigned int        X1,
+	unsigned int        Y1,
+	FPXColorspace       theColorspace,
+	FPXBackground       theColor);
 
 /*  Write a line of data into the image.
  *  May NOT be mixed with writing of rectangles.
@@ -754,8 +734,8 @@ typedef enum {
  *  data.
  */
  FPXStatus FPX_WriteImageLine (
-              FPXImageHandle*     theFPX,
-              FPXImageDesc*       theLine);
+	FPXImageHandle*     theFPX,
+	FPXImageDesc*       theLine);
 
 /*  Write to specific resolution.
  *
@@ -767,9 +747,9 @@ typedef enum {
  *  resultion pyramid, one call at a time.
  */
  FPXStatus FPX_WriteImageResolution (
-              FPXImageHandle*     theFPX,
-              unsigned long       theResolution,
-              FPXImageDesc*       theData);
+	FPXImageHandle*     theFPX,
+	unsigned int        theResolution,
+	FPXImageDesc*       theData);
 
 
 /*  Flush modified tiles to the file.
@@ -778,9 +758,9 @@ typedef enum {
  *  changes may be cached in memory. This call ensures that the modified tiles
  *  are written to the file. Failure to call this may result in stale pixel data
  *  when lower resolutions are read.
- */ 
+ */
 FPXStatus FPX_FlushModifiedTiles (
-              FPXImageHandle*     theFPX);
+	FPXImageHandle*     theFPX);
 
 /***************************************************************************
     FPX FILE READING
@@ -790,41 +770,56 @@ FPXStatus FPX_FlushModifiedTiles (
  *  compression of a tile.
  */
 typedef struct {
-              FPXCompressionOption  compressOption;
-              unsigned char         compressQuality;
-              long                  compressSubtype;
+	FPXCompressionOption  compressOption;
+	unsigned char         compressQuality;
+	long                  compressSubtype;
 } FPXTileCompressionInfo;
 
 /*  A compressed tile. Includes compression info as well as the
  *  JPEG data.
  */
 typedef struct {
-              FPXTileCompressionInfo compInfo;
-              unsigned long      dataLength;
-              void*          data;
+	FPXTileCompressionInfo compInfo;
+	unsigned int       dataLength;
+	void*          data;
 } FPXTileDesc;
 
-#ifdef macintosh
 FPXStatus FPX_OpenImageByFilename (
-              const FSSpec&    fileSpecs,
-              char*            storagePathInFile,
-              unsigned long*   width,
-              unsigned long*   height,
-              unsigned long*   tileWidth,
-              unsigned long*   tileHeight,
-              FPXColorspace*   colorspace,
-              FPXImageHandle** theFPX);
+#ifdef macintosh
+	const FSSpec&    fileSpecs,
 #else
- FPXStatus FPX_OpenImageByFilename (
-              char*            fileName,
-              char*            storagePathInFile,
-              unsigned long*   width,
-              unsigned long*   height,
-              unsigned long*   tileWidth,
-              unsigned long*   tileHeight,
+	const char*      fileName,
+#endif
+	const char*      storagePathInFile,
+	unsigned int*   width,
+	unsigned int*   height,
+	unsigned int*   tileWidth,
+	unsigned int*   tileHeight,
+	FPXColorspace*   colorspace,
+	FPXImageHandle** theFPX);
+
+// CHG_VIS_OUT - Added a file open call that supports specifying a visible output.
+FPXStatus FPX_OpenIndexedImageByFilename (
+	const char*      fileName,
+	const char*      storagePathInFile,
+	unsigned int     visibleOutputIndex,
+	unsigned int*    width,
+	unsigned int*    height,
+	unsigned int*    tileWidth,
+	unsigned int*    tileHeight,
+	FPXColorspace*   colorspace,
+	FPXImageHandle** theFPX);
+
+/* and an open from an IStorage. */
+FPXStatus FPX_OpenImageByStorage (
+              IStorage* storagePointer,
+              const char*      storagePathInFile,
+              unsigned int*    width,
+              unsigned int*    height,
+              unsigned int*    tileWidth,
+              unsigned int*    tileHeight,
               FPXColorspace*   colorspace,
               FPXImageHandle** theFPX);
-#endif
 
 /*  Read a rectangle of pixels from the transformed image.
  *
@@ -832,17 +827,17 @@ FPXStatus FPX_OpenImageByFilename (
  *  into the components provided. Color conversion and pixel shuffling
  *  may occur in the process as well as cropping and rotation.
  *  XXX ColorKnobs! ColorTwist! Sharpeness!
- *  
+ *
  */
  FPXStatus FPX_ReadImageTransformRectangle (
-              FPXImageHandle*     theFPX,
-              float               X0,
-              float               Y0,
-              float               X1,
-              float               Y1,
-              long                rectWidth,
-              long                rectHeight,
-              FPXImageDesc*       theRectangle);
+	FPXImageHandle*     theFPX,
+	float               X0,
+	float               Y0,
+	float               X1,
+	float               Y1,
+	int                 rectWidth,
+	int                 rectHeight,
+	FPXImageDesc*       theRectangle);
 
 /*  Read a rectangle of pixels from a given resolution.
  *
@@ -852,13 +847,13 @@ FPXStatus FPX_OpenImageByFilename (
  *  no viewing transform is applied to the data!
  */
  FPXStatus FPX_ReadImageRectangle (
-              FPXImageHandle*     theFPX,
-              unsigned long       X0,
-              unsigned long       Y0,
-              unsigned long       X1,
-              unsigned long       Y1,
-              unsigned long       theResolution,
-              FPXImageDesc*       theImage);
+	FPXImageHandle*     theFPX,
+	unsigned int        X0,
+	unsigned int        Y0,
+	unsigned int        X1,
+	unsigned int        Y1,
+	unsigned int        theResolution,
+	FPXImageDesc*       theImage);
 
 /*  Read a decompressed tile of pixels from a Resolution.
  *  Read the specified tile and decompress it.
@@ -866,88 +861,88 @@ FPXStatus FPX_OpenImageByFilename (
  *  be applied to a single tile of a particular resolution.
  */
  FPXStatus FPX_ReadImageTile (
-              FPXImageHandle*     theFPX,
-              unsigned long       whichTile,
-              unsigned long       theResolution,
-              FPXImageDesc*       theTile);
+	FPXImageHandle*     theFPX,
+	unsigned int        whichTile,
+	unsigned int        theResolution,
+	FPXImageDesc*       theTile);
 
 /*  Read a compressed tile of pixels from a Resolution.
  *
  *  if tile was not compressed, it will still return successfully.
  */
  FPXStatus FPX_ReadImageCompressedTile (
-              FPXImageHandle*     theFPX,
-              unsigned long       whichTile,
-              unsigned long       theResolution,
-              FPXTileDesc*        theTile);
+	FPXImageHandle*     theFPX,
+	unsigned int        whichTile,
+	unsigned int        theResolution,
+	FPXTileDesc*        theTile);
 
  FPXStatus FPX_WriteImageCompressedTile (
-              FPXImageHandle*     theFPX,
-              unsigned long       whichTile,
-              unsigned long       theResolution,
-              FPXTileDesc*        theTile);
+	FPXImageHandle*     theFPX,
+	unsigned int        whichTile,
+	unsigned int        theResolution,
+	FPXTileDesc*        theTile);
 
 /***************************************************************************
    IMAGES WITH VIEWS
  ***************************************************************************/
- 
+
 typedef struct {
-              float left;        /* left edge                              */
-              float top;         /* top edge                               */
-              float width;       /* width                                  */
-              float height;      /* height                                 */
+	float left;        /* left edge                              */
+	float top;         /* top edge                               */
+	float width;       /* width                                  */
+	float height;      /* height                                 */
 } FPXROI;
 
 typedef float FPXFilteringValue;
 
 typedef struct {
-              /* first row:                                                */
-              float a11;
-              float a12;
-              float a13;
-              float a14;
-              /* second row:                                               */
-              float a21;
-              float a22;
-              float a23;
-              float a24;
-              /* third row:                                                */
-              float a31;
-              float a32;
-              float a33;
-              float a34;
-              /* fourth row:                                               */
-              float a41;
-              float a42;
-              float a43;
-              float a44;
-        
+	/* first row:                                                */
+	float a11;
+	float a12;
+	float a13;
+	float a14;
+	/* second row:                                               */
+	float a21;
+	float a22;
+	float a23;
+	float a24;
+	/* third row:                                                */
+	float a31;
+	float a32;
+	float a33;
+	float a34;
+	/* fourth row:                                               */
+	float a41;
+	float a42;
+	float a43;
+	float a44;
+
 } FPXAffineMatrix;
 
 typedef float FPXResultAspectRatio;
 
 typedef struct FPXColorTwistMatrix {
-              /* first row                                                 */
-              float byy;
-              float byc1;
-              float byc2;
-              float dummy1_zero;      /* nominally zero.                   */
-              /* second row                                                */
-              float bc1y;
-              float bc1c1;
-              float bc1c2;
-              float dummy2_zero;      /* nominally zero.                   */
-              /* third row                                                 */
-              float bc2y;
-              float bc2c1;
-              float bc2c2;
-              float dummy3_zero;      /* nominally zero.                   */
-              /* fourth row                                                */
-              float dummy4_zero;      /* nominally zero.                   */
-              float dummy5_zero;      /* nominally zero.                   */
-              float dummy6_zero;      /* nominally zero.                   */
-              float dummy7_one;       /* nominally one.                    */
-        
+	/* first row                                                 */
+	float byy;
+	float byc1;
+	float byc2;
+	float dummy1_zero;      /* nominally zero.                   */
+	/* second row                                                */
+	float bc1y;
+	float bc1c1;
+	float bc1c2;
+	float dummy2_zero;      /* nominally zero.                   */
+	/* third row                                                 */
+	float bc2y;
+	float bc2c1;
+	float bc2c2;
+	float dummy3_zero;      /* nominally zero.                   */
+	/* fourth row                                                */
+	float dummy4_zero;      /* nominally zero.                   */
+	float dummy5_zero;      /* nominally zero.                   */
+	float dummy6_zero;      /* nominally zero.                   */
+	float dummy7_one;       /* nominally one.                    */
+
 } FPXColorTwistMatrix;
 
 typedef float FPXContrastAdjustment;
@@ -958,48 +953,31 @@ typedef float FPXContrastAdjustment;
  *  The PIW (for instance) may wish to create such beasts.
  */
 
+ FPXStatus FPX_CreateImageWithViewByFilename (
 #ifdef macintosh
- FPXStatus FPX_CreateImageWithViewByFilename (
-              const FSSpec&          fileSpecs,
-              unsigned long          width,
-              unsigned long          height,
-              unsigned long          tileWidth,
-              unsigned long          tileHeight,
-              FPXColorspace          colorspace,
-              FPXBackground          backgroundColor,
-              FPXCompressionOption   compressOption,
-              FPXAffineMatrix*       affineMatrix,
-              FPXContrastAdjustment* contrastValue,
-              FPXColorTwistMatrix*   colorTwist,
-              FPXFilteringValue*     filteringValue,
-              FPXROI*                regionOfInterest,
-              FPXResultAspectRatio*  resultAspectRatio,
-              FPXImageHandle**       theFPX);
-
+	const FSSpec&          fileSpecs,
 #else
- FPXStatus FPX_CreateImageWithViewByFilename (
-              char*                  fileName,
-              unsigned long          width,
-              unsigned long          height,
-              unsigned long          tileWidth,
-              unsigned long          tileHeight,
-              FPXColorspace          colorspace,
-              FPXBackground          backgroundColor,
-              FPXCompressionOption   compressOption,
-              FPXAffineMatrix*       affineMatrix,
-              FPXContrastAdjustment* contrastValue,
-              FPXColorTwistMatrix*   colorTwist,
-              FPXFilteringValue*     filteringValue,
-              FPXROI*                regionOfInterest,
-              FPXResultAspectRatio*  resultAspectRatio,
-              FPXImageHandle**       theFPX);
-
+	const char*            fileName,
 #endif
+	unsigned int           width,
+	unsigned int           height,
+	unsigned int           tileWidth,
+	unsigned int           tileHeight,
+	FPXColorspace          colorspace,
+	FPXBackground          backgroundColor,
+	FPXCompressionOption   compressOption,
+	FPXAffineMatrix*       affineMatrix,
+	FPXContrastAdjustment* contrastValue,
+	FPXColorTwistMatrix*   colorTwist,
+	FPXFilteringValue*     filteringValue,
+	FPXROI*                regionOfInterest,
+	FPXResultAspectRatio*  resultAspectRatio,
+	FPXImageHandle**       theFPX);
 
 /********************************************************************************
    ICC PROFILE
  *******************************************************************************/
- 
+
 /*  The ICC profile is a data structure defined in the ICC spec.
  *
  *  Please visit ftp:sgigate.sgi.com/pub/icc for a copy of the spec which
@@ -1011,29 +989,29 @@ typedef float FPXContrastAdjustment;
  */
 
  FPXStatus FPX_SetICCProfile(
-              FPXImageHandle *theFPX,
-              FPXStr *        theProfile,
-              unsigned short  profileIndex);
+	FPXImageHandle *theFPX,
+	FPXStr *        theProfile,
+	unsigned short  profileIndex);
 
  FPXStatus FPX_GetICCProfile(
-              FPXImageHandle *theFPX,
-              FPXStr *        theProfile,
-              unsigned short  profileIndex);
+	FPXImageHandle *theFPX,
+	FPXStr *        theProfile,
+	unsigned short  profileIndex);
 
 /********************************************************************************
    PATH
  *******************************************************************************/
- 
+
 /*  The Paths are vector informations stored along with a FPX Image.
- *  CAUTION: 
+ *  CAUTION:
  *     - these functions are not implemented in Baseline
  */
 
 typedef enum {  LINKED_POINT = 0,   // Smooth Bezier point
-                FREE_POINT   = 1,   // Angular Bezier point
-                LINE_LEFT    = 2,   // Line left, Bezier right
-                LINE_RIGHT   = 3,   // Bezier left, line right
-                LINE_POINT   = 4    // Angular polygon point
+	  FREE_POINT   = 1,   // Angular Bezier point
+	  LINE_LEFT    = 2,   // Line left, Bezier right
+	  LINE_RIGHT   = 3,   // Bezier left, line right
+	  LINE_POINT   = 4    // Angular polygon point
 } FPXPointType;
 
 typedef struct {
@@ -1049,99 +1027,99 @@ typedef struct {
 } FPXBezierPoint;
 
 typedef enum {  CLOSED_PATH = 0,   // Closed path
-                OPEN_PATH   = 1    // Open path
+	  OPEN_PATH   = 1    // Open path
 } FPXPathType;
 
 typedef struct {
     FPXPathType     type;
-    unsigned long   numberOfPoints;
+    unsigned int    numberOfPoints;
     FPXBezierPoint* points;
 } FPXPath;
 
  FPXStatus FPX_SetPath(
-              FPXImageHandle *theFPX,
-              unsigned short  thePathIndex,
-              FPXPath*        thePath);
+	FPXImageHandle *theFPX,
+	unsigned short  thePathIndex,
+	FPXPath*        thePath);
 
  FPXStatus FPX_GetPath(
-              FPXImageHandle *theFPX,
-              unsigned short  thePathIndex,
-              FPXPath**       thePath);
+	FPXImageHandle *theFPX,
+	unsigned short  thePathIndex,
+	FPXPath**       thePath);
 
 /********************************************************************************
    IMAGE WITH VIEW
  *******************************************************************************/
 
-/* the following are only valid for an Image With a View:                         */
+/* the following are only valid for an Image With a View:	           */
 
 /* get/set the Image View transforms:
-        ROI                                                                       */
+        ROI	                                                         */
 
 FPXStatus FPX_SetImageROI (
-              FPXImageHandle*  theFPX,
-              FPXROI*          theROI);
+	FPXImageHandle*  theFPX,
+	FPXROI*          theROI);
 
 FPXStatus FPX_GetImageROI (
-              FPXImageHandle*  theFPX,
-              FPXROI*          theROI);
-        
-/* Filtering.                                                                      */
+	FPXImageHandle*  theFPX,
+	FPXROI*          theROI);
+
+/* Filtering.	                                                        */
 
  FPXStatus FPX_SetImageFilteringValue (
-              FPXImageHandle*    theFPX,
-              FPXFilteringValue* theFiltering);
-        
- FPXStatus FPX_GetImageFilteringValue (
-              FPXImageHandle*     theFPX,
-              FPXFilteringValue*  theFiltering);
-        
+	FPXImageHandle*    theFPX,
+	FPXFilteringValue* theFiltering);
 
-/* Spatial Orientation (matrix)                                                     */
+ FPXStatus FPX_GetImageFilteringValue (
+	FPXImageHandle*     theFPX,
+	FPXFilteringValue*  theFiltering);
+
+
+/* Spatial Orientation (matrix)	                                       */
 
  FPXStatus FPX_SetImageAffineMatrix (
-              FPXImageHandle*   theFPX,
-              FPXAffineMatrix*  theAffineMatrix);
-        
+	FPXImageHandle*   theFPX,
+	FPXAffineMatrix*  theAffineMatrix);
+
  FPXStatus FPX_GetImageAffineMatrix (
-              FPXImageHandle*   theFPX,
-              FPXAffineMatrix*  theAffineMatrix);
-        
-/* Result Aspect Ratio                                                               */
+	FPXImageHandle*   theFPX,
+	FPXAffineMatrix*  theAffineMatrix);
+
+/* Result Aspect Ratio	                                                 */
 
  FPXStatus FPX_SetImageResultAspectRatio (
-              FPXImageHandle*       theFPX,
-              FPXResultAspectRatio* theAspectRatio);
+	FPXImageHandle*       theFPX,
+	FPXResultAspectRatio* theAspectRatio);
 
  FPXStatus FPX_GetImageResultAspectRatio (
-              FPXImageHandle*        theFPX,
-              FPXResultAspectRatio*  theAspectRatio);
-        
+	FPXImageHandle*        theFPX,
+	FPXResultAspectRatio*  theAspectRatio);
+
 /*
-        ColorTwist Matrix                                                            */
+        ColorTwist Matrix	                                              */
 
  FPXStatus FPX_SetImageColorTwistMatrix (
-              FPXImageHandle*       theFPX,
-              FPXColorTwistMatrix*  theColorTwistMatrix);
-        
+	FPXImageHandle*       theFPX,
+	FPXColorTwistMatrix*  theColorTwistMatrix);
+
  FPXStatus FPX_GetImageColorTwistMatrix (
-              FPXImageHandle*       theFPX,
-              FPXColorTwistMatrix*  theColorTwistMatrix);
-        
+	FPXImageHandle*       theFPX,
+	FPXColorTwistMatrix*  theColorTwistMatrix);
+
 /*
  *      Contrast Adjustment
  */
  FPXStatus FPX_SetImageContrastAdjustment (
-              FPXImageHandle*        theFPX,
-              FPXContrastAdjustment* theContrastAdjustment);
-        
+	FPXImageHandle*        theFPX,
+	FPXContrastAdjustment* theContrastAdjustment);
+
  FPXStatus FPX_GetImageContrastAdjustment (
-              FPXImageHandle*         theFPX,
-              FPXContrastAdjustment*  theContrastAdjustment);
-        
+	FPXImageHandle*         theFPX,
+	FPXContrastAdjustment*  theContrastAdjustment);
+
 
 typedef CLIPDATA  FPXThumbnail;
-   
-   typedef struct {
+
+typedef struct {
         FPXbool         title_valid;
         FPXStr          title;
 
@@ -1159,51 +1137,72 @@ typedef CLIPDATA  FPXThumbnail;
 
         FPXbool         OLEtemplate_valid;
         FPXStr          OLEtemplate;
-                                         
+
         FPXbool         last_author_valid;
         FPXStr          last_author;
-                                                                          
+
         FPXbool         rev_number_valid;
         FPXStr          rev_number;
 
         FPXbool         edit_time_valid;
         FPXfiletime     edit_time;
- 
+
         FPXbool         last_printed_valid;
         FPXfiletime     last_printed;
- 
+
         FPXbool         create_dtm_valid;
         FPXfiletime     create_dtm;             /* We set, you only get! */
- 
+
         FPXbool         last_save_dtm_valid;
         FPXfiletime     last_save_dtm;
- 
+
         FPXbool         page_count_valid;
-        unsigned long   page_count;
- 
+        unsigned int    page_count;
+
         FPXbool         word_count_valid;
-        unsigned long   word_count;
- 
+        unsigned int    word_count;
+
         FPXbool         char_count_valid;
-        unsigned long   char_count;
- 
+        unsigned int    char_count;
+
         FPXbool         thumbnail_valid;
         FPXThumbnail    thumbnail;
- 
+
         FPXbool         appname_valid;
         FPXStr          appname;
- 
+
         FPXbool         security_valid;
         unsigned long   security;
-}FPXSummaryInformation;
+} FPXSummaryInformation;
 
 FPXStatus FPX_SetSummaryInformation(
-              FPXImageHandle *        theFPX,
-              FPXSummaryInformation * theSummary);
+	FPXImageHandle *        theFPX,
+	FPXSummaryInformation * theSummary);
 
 FPXStatus FPX_GetSummaryInformation(
-              FPXImageHandle *        theFPX,
-              FPXSummaryInformation * theSummary);
+	FPXImageHandle *        theFPX,
+	FPXSummaryInformation * theSummary);
+
+// CHG_GBLINFO - added call to return a struct containing data from the Global
+//  Info property set
+typedef struct {
+    FPXbool       visible_outputs_valid;
+    FPXLongArray  visible_outputs;
+
+    FPXbool       max_image_index_valid;
+    unsigned int max_image_index;
+
+    FPXbool       max_transform_index_valid;
+    unsigned int max_transform_index;
+
+    FPXbool       max_operation_index_valid;
+    unsigned int max_operation_index;
+
+}FPXGlobalInformation;
+
+FPXStatus FPX_GetGlobalInformation(
+	FPXImageHandle *        theFPX,
+	FPXGlobalInformation *  theGlobalInfo);
 
 /***************************************************************************
    IMAGE INFO PROPERTY SET  A.K.A 'NON-IMAGE DATA'
@@ -1212,629 +1211,626 @@ FPXStatus FPX_GetSummaryInformation(
 /* Set/Get the Non-Image data ("Image Info" Property Set). This is a
  * very large collection of values of various sorts divided into several
  * groups of values. The interface will be through structs passed into the
- * set/get routines.  Passing a valid flag==TRUE will cause the associated 
- * field to be adjusted when a set operation is performed.  After a get 
- * operation finding the valid flag==TRUE means that the file produced a 
+ * set/get routines.  Passing a valid flag==TRUE will cause the associated
+ * field to be adjusted when a set operation is performed.  After a get
+ * operation finding the valid flag==TRUE means that the file produced a
  * value for the associated field.
  */
 
 typedef enum {
-              FPX_UNIDENTIFIED_SOURCE = 0,
-              FPX_FILM_SCANNER,
-              FPX_REFLECTION_PRINT_SCANNER,
-              FPX_DIGITAL_CAMERA,
-              FPX_STILL_FROM_VIDEO,
-              FPX_COMPUTER_GRAPHICS
+	FPX_UNIDENTIFIED_SOURCE = 0,
+	FPX_FILM_SCANNER,
+	FPX_REFLECTION_PRINT_SCANNER,
+	FPX_DIGITAL_CAMERA,
+	FPX_STILL_FROM_VIDEO,
+	FPX_COMPUTER_GRAPHICS
 } FPXSource;
 
 typedef enum {
-              FPX_UNIDENTIFIED_SCENE = 0,
-              FPX_ORIGINAL_SCENE,
-              FPX_SECOND_GENERATION_SCENE,
-              FPX_DIGITAL_SCENE_GENERATION
+	FPX_UNIDENTIFIED_SCENE = 0,
+	FPX_ORIGINAL_SCENE,
+	FPX_SECOND_GENERATION_SCENE,
+	FPX_DIGITAL_SCENE_GENERATION
 } FPXScene;
 
 /***************************************************************************/
 
 typedef struct {
-              FPXbool       file_source_valid;
-              FPXSource     file_source;
+	FPXbool       file_source_valid;
+	FPXSource     file_source;
 
-              FPXbool       scene_type_valid;
-              FPXScene      scene_type;
+	FPXbool       scene_type_valid;
+	FPXScene      scene_type;
 
-              FPXbool       creation_path_valid;
-              FPXLongArray  creation_path;
+	FPXbool       creation_path_valid;
+	FPXLongArray  creation_path;
 
-              FPXbool       name_man_release_valid;
-              FPXWideStr    name_man_release;
+	FPXbool       name_man_release_valid;
+	FPXWideStr    name_man_release;
 
-              FPXbool       user_defined_id_valid;
-              FPXWideStr    user_defined_id;
+	FPXbool       user_defined_id_valid;
+	FPXWideStr    user_defined_id;
 
-              FPXbool       original_sharpness_approximation_valid;
-              float         original_sharpness_approximation;
+	FPXbool       original_sharpness_approximation_valid;
+	float         original_sharpness_approximation;
 } FPXFileSourceGroup;
 
-FPXStatus FPX_SetSourceGroup ( 
+FPXStatus FPX_SetSourceGroup (
         FPXImageHandle*     theFPX,
         FPXFileSourceGroup* theSourceGroup);
 
-FPXStatus FPX_GetSourceGroup ( 
+FPXStatus FPX_GetSourceGroup (
         FPXImageHandle*     theFPX,
           FPXFileSourceGroup* theSourceGroup);
 
 /***************************************************************************/
 
 typedef struct {
-              FPXbool       copyright_valid;
-              FPXWideStr    copyright;
+	FPXbool       copyright_valid;
+	FPXWideStr    copyright;
 
-              FPXbool       legal_broker_for_orig_image_valid;
-              FPXWideStr    legal_broker_for_orig_image;
+	FPXbool       legal_broker_for_orig_image_valid;
+	FPXWideStr    legal_broker_for_orig_image;
 
-              FPXbool       legal_broker_for_digital_image_valid;
-              FPXWideStr    legal_broker_for_digital_image;
+	FPXbool       legal_broker_for_digital_image_valid;
+	FPXWideStr    legal_broker_for_digital_image;
 
-              FPXbool       authorship_valid;
-              FPXWideStr    authorship;
+	FPXbool       authorship_valid;
+	FPXWideStr    authorship;
 
-              FPXbool       intellectual_prop_notes_valid;
-              FPXWideStr    intellectual_prop_notes;
+	FPXbool       intellectual_prop_notes_valid;
+	FPXWideStr    intellectual_prop_notes;
 } FPXIntellectualPropertyGroup;
 
- FPXStatus FPX_SetIntellectualPropGroup ( 
+ FPXStatus FPX_SetIntellectualPropGroup (
         FPXImageHandle*     theFPX,
-              FPXIntellectualPropertyGroup*  thePropGroup);
+	FPXIntellectualPropertyGroup*  thePropGroup);
 
- FPXStatus FPX_GetIntellectualPropGroup ( 
+ FPXStatus FPX_GetIntellectualPropGroup (
         FPXImageHandle*     theFPX,
-              FPXIntellectualPropertyGroup*  thePropGroup);
+	FPXIntellectualPropertyGroup*  thePropGroup);
 
 /***************************************************************************/
 
 typedef enum {
-              FPX_UNIDENTIFIED_TARGET = 0,
-              FPX_COLOR_CHART,
-              FPX_GREY_CARD,
-              FPX_GREYSCALE,
-              FPX_RESOLUTION_CHART,
-              FPX_INCH_SCALE,
-              FPX_CENTIMETER_SCALE,
-              FPX_MILLIMETER_SCALE,
-              FPX_MICROMETER_SCALE
+	FPX_UNIDENTIFIED_TARGET = 0,
+	FPX_COLOR_CHART,
+	FPX_GREY_CARD,
+	FPX_GREYSCALE,
+	FPX_RESOLUTION_CHART,
+	FPX_INCH_SCALE,
+	FPX_CENTIMETER_SCALE,
+	FPX_MILLIMETER_SCALE,
+	FPX_MICROMETER_SCALE
 } FPXTestTargetInImage;
 
 typedef struct {
-              FPXbool         test_target_in_the_image_valid;
-              unsigned long   test_target_in_the_image;
+	FPXbool         test_target_in_the_image_valid;
+	uint32_t        test_target_in_the_image;
 
-              FPXbool         group_caption_valid;
-              FPXWideStr      group_caption;
+	FPXbool         group_caption_valid;
+	FPXWideStr      group_caption;
 
-              FPXbool         caption_text_valid;
-              FPXWideStr      caption_text;
+	FPXbool         caption_text_valid;
+	FPXWideStr      caption_text;
 
-              FPXbool         people_in_the_image_valid;
-              FPXWideStrArray people_in_the_image;
+	FPXbool         people_in_the_image_valid;
+	FPXWideStrArray people_in_the_image;
 
-              FPXbool         things_in_image_valid;
-              FPXWideStrArray things_in_image;
+	FPXbool         things_in_image_valid;
+	FPXWideStrArray things_in_image;
 
-              FPXbool         date_of_original_image_valid;
-              FPXfiletime     date_of_original_image;       
+	FPXbool         date_of_original_image_valid;
+	FPXfiletime     date_of_original_image;
 
-              FPXbool         events_in_the_image_valid;
-              FPXWideStrArray events_in_the_image;
+	FPXbool         events_in_the_image_valid;
+	FPXWideStrArray events_in_the_image;
 
-              FPXbool         places_in_the_valid;
-              FPXWideStrArray places_in_the;
+	FPXbool         places_in_the_valid;
+	FPXWideStrArray places_in_the;
 
-              FPXbool         content_description_notes_valid;
-              FPXWideStr      content_description_notes;
+	FPXbool         content_description_notes_valid;
+	FPXWideStr      content_description_notes;
 } FPXContentDescriptionGroup;
 
 FPXStatus FPX_SetContentDescriptionGroup (
         FPXImageHandle*     theFPX,
-              FPXContentDescriptionGroup*    theContentGroup);
+	FPXContentDescriptionGroup*    theContentGroup);
 
 FPXStatus FPX_GetContentDescriptionGroup (
         FPXImageHandle*     theFPX,
-              FPXContentDescriptionGroup*    theContentGroup);
+	FPXContentDescriptionGroup*    theContentGroup);
 
 /***************************************************************************/
 
 typedef struct {
-              FPXbool     camera_manufacturer_name_valid;
-              FPXWideStr  camera_manufacturer_name;
+	FPXbool     camera_manufacturer_name_valid;
+	FPXWideStr  camera_manufacturer_name;
 
-              FPXbool     camera_model_name_valid;
-              FPXWideStr  camera_model_name;
+	FPXbool     camera_model_name_valid;
+	FPXWideStr  camera_model_name;
 
-              FPXbool     camera_serial_number_valid;
-              FPXWideStr  camera_serial_number;
+	FPXbool     camera_serial_number_valid;
+	FPXWideStr  camera_serial_number;
 } FPXCameraInformationGroup;
 
 FPXStatus FPX_SetCameraInformationGroup (
-        FPXImageHandle*               theFPX,
-              FPXCameraInformationGroup*    theCameraGroup);
+        FPXImageHandle*	 theFPX,
+	FPXCameraInformationGroup*    theCameraGroup);
 
 FPXStatus FPX_GetCameraInformationGroup (
-        FPXImageHandle*               theFPX,
-              FPXCameraInformationGroup*    theCameraGroup);
+        FPXImageHandle*	 theFPX,
+	FPXCameraInformationGroup*    theCameraGroup);
 
 /***************************************************************************/
 
 typedef enum {
-              FPX_UNIDENTIFIED_EXPOSURE_PROGRAM = 0,
-              FPX_MANUAL,
-              FPX_PROGRAM_NORMAL,
-              FPX_APERTURE_PRIORITY,
-              FPX_SHUTTER_PRIORITY,
-              FPX_PROGRAM_CREATIVE,
-              FPX_PROGRAM_ACTION,
-              FPX_PROTRAIT_MODE,
-              FPX_LANDSCAPE_MODE
+	FPX_UNIDENTIFIED_EXPOSURE_PROGRAM = 0,
+	FPX_MANUAL,
+	FPX_PROGRAM_NORMAL,
+	FPX_APERTURE_PRIORITY,
+	FPX_SHUTTER_PRIORITY,
+	FPX_PROGRAM_CREATIVE,
+	FPX_PROGRAM_ACTION,
+	FPX_PROTRAIT_MODE,
+	FPX_LANDSCAPE_MODE
 } FPXExposureProgram;
 
 typedef enum {
-              FPX_UNIDENTIFED_METERING_MODE = 0,
-              FPX_AVERAGE,
-              FPX_CENTER_WEIGHTED_AVERAGE,
-              FPX_SPOT,
-              FPX_MULTI_SPOT
+	FPX_UNIDENTIFED_METERING_MODE = 0,
+	FPX_AVERAGE,
+	FPX_CENTER_WEIGHTED_AVERAGE,
+	FPX_SPOT,
+	FPX_MULTI_SPOT
 } FPXMeteringMode;
 
 typedef enum {
-              FPX_UNIDENTIFIED_SCENE_ILLUMINANT = 0,
-              FPX_DAYLIGHT,
-              FPX_FLUORESCENT_LIGHT,
-              FPX_TUNGSTEN_LAMP,
-              FPX_FLASH,
-              FPX_STANDARD_ILLUMINANT_A,
-              FPX_STANDARD_ILLUMINANT_B,
-              FPX_STANDARD_ILLUMINANT_C,
-              FPX_D55_ILLUMINANT,
-              FPX_D65_ILLUMINANT,
-              FPX_D75_ILLUMINANT
+	FPX_UNIDENTIFIED_SCENE_ILLUMINANT = 0,
+	FPX_DAYLIGHT,
+	FPX_FLUORESCENT_LIGHT,
+	FPX_TUNGSTEN_LAMP,
+	FPX_FLASH,
+	FPX_STANDARD_ILLUMINANT_A,
+	FPX_STANDARD_ILLUMINANT_B,
+	FPX_STANDARD_ILLUMINANT_C,
+	FPX_D55_ILLUMINANT,
+	FPX_D65_ILLUMINANT,
+	FPX_D75_ILLUMINANT
 } FPXSceneIlluminant;
 
 typedef enum {
-              FPX_FLASH_USE_UNKNOWN = 0,
-              FPX_NO_FLASH_USED,
-              FPX_FLASH_USED
+	FPX_FLASH_USE_UNKNOWN = 0,
+	FPX_NO_FLASH_USED,
+	FPX_FLASH_USED
 } FPXFlash;
 
 typedef enum {
-              FPX_NOT_A_CAMERA_FEATURE_FLASH_RETURN = 0,
-              FPX_SUBJECT_OUTSIDE_FLASH_RANGE,
-              FPX_SUBJECT_INSIDE_FLASH_RANGE
+	FPX_NOT_A_CAMERA_FEATURE_FLASH_RETURN = 0,
+	FPX_SUBJECT_OUTSIDE_FLASH_RANGE,
+	FPX_SUBJECT_INSIDE_FLASH_RANGE
 } FPXFlashReturn;
 
 typedef enum {
-              FPX_NOT_A_CAMERA_FEATURE_BACKLIGHT = 0,
-              FPX_FRONT_LIT,
-              FPX_BACK_LIT1,
-              FPX_BACK_LIT2
+	FPX_NOT_A_CAMERA_FEATURE_BACKLIGHT = 0,
+	FPX_FRONT_LIT,
+	FPX_BACK_LIT1,
+	FPX_BACK_LIT2
 } FPXBackLight;
 
 typedef enum {
-              FPX_UNIDENTIFIED_SPECIAL_EFFECTS_OPTICAL_FILTER = 0,
-              FPX_NONE,
-              FPX_COLORED,
-              FPX_DIFFUSION,
-              FPX_MULTI_IMAGE,
-              FPX_POLARIZING,
-              FPX_SPLIT_FIELD,
-              FPX_STAR
+	FPX_UNIDENTIFIED_SPECIAL_EFFECTS_OPTICAL_FILTER = 0,
+	FPX_NONE,
+	FPX_COLORED,
+	FPX_DIFFUSION,
+	FPX_MULTI_IMAGE,
+	FPX_POLARIZING,
+	FPX_SPLIT_FIELD,
+	FPX_STAR
 } FPXSpecialEffectsOpticalFilter;
 
 typedef struct {
-      unsigned long length; // number of filters
+      unsigned int length; // number of filters
       FPXSpecialEffectsOpticalFilter *ptr;
 } FPXOpticalFilterArray;
 
 typedef struct {
-              FPXbool            capture_date_valid;
-              FPXfiletime        capture_date;            
+	FPXbool            capture_date_valid;
+	FPXfiletime        capture_date;
 
-              FPXbool            exposure_time_valid;
-              float              exposure_time;
+	FPXbool            exposure_time_valid;
+	float              exposure_time;
 
-              FPXbool            f_number_valid;
-              float              f_number;
+	FPXbool            f_number_valid;
+	float              f_number;
 
-              FPXbool            exposure_program_valid;
-              FPXExposureProgram exposure_program;
+	FPXbool            exposure_program_valid;
+	FPXExposureProgram exposure_program;
 
-              FPXbool            brightness_value_valid;
-              FPXRealArray       brightness_value;
+	FPXbool            brightness_value_valid;
+	FPXRealArray       brightness_value;
 
-              FPXbool            exposure_bias_value_valid;
-              float              exposure_bias_value;
+	FPXbool            exposure_bias_value_valid;
+	float              exposure_bias_value;
 
-              FPXbool            subject_distance_valid;
-              FPXRealArray       subject_distance;
+	FPXbool            subject_distance_valid;
+	FPXRealArray       subject_distance;
 
-              FPXbool            metering_mode_valid;
-              FPXMeteringMode    metering_mode;
+	FPXbool            metering_mode_valid;
+	FPXMeteringMode    metering_mode;
 
-              FPXbool            scene_illuminant_valid;
-              FPXSceneIlluminant scene_illuminant;
+	FPXbool            scene_illuminant_valid;
+	FPXSceneIlluminant scene_illuminant;
 
-              FPXbool            focal_length_valid;
-              float              focal_length;
+	FPXbool            focal_length_valid;
+	float              focal_length;
 
-              FPXbool            maximum_aperature_value_valid;
-              float              maximum_aperature_value;
+	FPXbool            maximum_aperature_value_valid;
+	float              maximum_aperature_value;
 
-              FPXbool            flash_valid;
-              FPXFlash           flash;
+	FPXbool            flash_valid;
+	FPXFlash           flash;
 
-              FPXbool            flash_energy_valid;
-              float              flash_energy;
+	FPXbool            flash_energy_valid;
+	float              flash_energy;
 
-              FPXbool            flash_return_valid;
-              FPXFlashReturn     flash_return;
+	FPXbool            flash_return_valid;
+	FPXFlashReturn     flash_return;
 
-              FPXbool            back_light_valid;
-              FPXBackLight       back_light;
+	FPXbool            back_light_valid;
+	FPXBackLight       back_light;
 
-              FPXbool            subject_location_valid;
-              FPXRealArray       subject_location;
+	FPXbool            subject_location_valid;
+	FPXRealArray       subject_location;
 
-              FPXbool            exposure_index_valid;
-              float              exposure_index;
+	FPXbool            exposure_index_valid;
+	float              exposure_index;
 
-              FPXbool           special_effects_optical_filter_valid;
-              FPXLongArray    special_effects_optical_filter;
+	FPXbool           special_effects_optical_filter_valid;
+	FPXLongArray    special_effects_optical_filter;
 
-              FPXbool            per_picture_notes_valid;
-              FPXWideStr         per_picture_notes;
+	FPXbool            per_picture_notes_valid;
+	FPXWideStr         per_picture_notes;
 } FPXPerPictureCameraSettingsGroup;
 
 FPXStatus FPX_SetPerPictureGroup (
-        FPXImageHandle*                      theFPX,
-              FPXPerPictureCameraSettingsGroup*    thePerPictureGroup);
+        FPXImageHandle*	        theFPX,
+	FPXPerPictureCameraSettingsGroup*    thePerPictureGroup);
 
 FPXStatus FPX_GetPerPictureGroup (
-        FPXImageHandle*                      theFPX,
-              FPXPerPictureCameraSettingsGroup*    thePerPictureGroup);
+        FPXImageHandle*	        theFPX,
+	FPXPerPictureCameraSettingsGroup*    thePerPictureGroup);
 
 /***************************************************************************/
 
 typedef enum {
-              FPX_UNDEFINED = 0,
-              FPX_MONOCHROME_AREA_SENSOR,
-              FPX_ONE_CHIP_COLOR_AREA_SENSOR,
-              FPX_TWO_CHIP_COLOR_AREA_SENSOR,
-              FPX_THREE_CHIP_COLOR_AREA_SENSOR,
-              FPX_COLOR_SEQUENCIAL_AREA_SENSOR,
-              FPX_MONOCHROME_LINEAR_SENSOR,
-              FPX_TRILINEAR_SENSOR,
-              FPX_COLOR_SEQUENCIAL_LINEAR_SENSOR
+	FPX_UNDEFINED = 0,
+	FPX_MONOCHROME_AREA_SENSOR,
+	FPX_ONE_CHIP_COLOR_AREA_SENSOR,
+	FPX_TWO_CHIP_COLOR_AREA_SENSOR,
+	FPX_THREE_CHIP_COLOR_AREA_SENSOR,
+	FPX_COLOR_SEQUENCIAL_AREA_SENSOR,
+	FPX_MONOCHROME_LINEAR_SENSOR,
+	FPX_TRILINEAR_SENSOR,
+	FPX_COLOR_SEQUENCIAL_LINEAR_SENSOR
 } FPXSensingMethod;
 
 typedef enum {
-              FPX_RED = 0,
-              FPX_GREEN,
-              FPX_BLUE,
-              FPX_CYAN,
-              FPX_MAGENTA,
-              FPX_YELLOW,
-              FPX_WHITE
+	FPX_RED = 0,
+	FPX_GREEN,
+	FPX_BLUE,
+	FPX_CYAN,
+	FPX_MAGENTA,
+	FPX_YELLOW,
+	FPX_WHITE
 } FPXColorFilterPatternValues;
 
 typedef struct {
-              unsigned long    number_of_columns;
-              unsigned long    number_of_rows;
-              FPXWideStrArray      column_headings;
-              FPXRealArray     data;
+	unsigned int    number_of_columns;
+	unsigned int    number_of_rows;
+	FPXWideStrArray      column_headings;
+	FPXRealArray     data;
 } FPXSpacialFrequencyResponseBlock;
 
 typedef struct {
-              unsigned short    cfa_repeat_rows;
-              unsigned short    cfa_repeat_cols;
-              FPXStr            cfa_array;
+	unsigned short    cfa_repeat_rows;
+	unsigned short    cfa_repeat_cols;
+	FPXStr            cfa_array;
 } FPXCFA_PatternBlock;
 
 typedef struct {
-              unsigned short   number_of_columns;
-              unsigned short   number_of_rows;
-              FPXWideStrArray      column_headings;
-              FPXRealArray     data;
+	unsigned short   number_of_columns;
+	unsigned short   number_of_rows;
+	FPXWideStrArray      column_headings;
+	FPXRealArray     data;
 } FPXOECF_Block;
 
 typedef struct {
-              FPXbool           sensing_method_valid;
-              FPXSensingMethod  sensing_method;
+	FPXbool           sensing_method_valid;
+	FPXSensingMethod  sensing_method;
 
-              FPXbool           focal_plane_x_resolution_valid;
-              float             focal_plane_x_resolution;
+	FPXbool           focal_plane_x_resolution_valid;
+	float             focal_plane_x_resolution;
 
-              FPXbool           focal_plane_y_resolution_valid;
-              float             focal_plane_y_resolution;
+	FPXbool           focal_plane_y_resolution_valid;
+	float             focal_plane_y_resolution;
 
-              FPXbool           focal_plane_resolution_unit_valid;
-              FPXResolutionUnit focal_plane_resolution_unit;
+	FPXbool           focal_plane_resolution_unit_valid;
+	FPXResolutionUnit focal_plane_resolution_unit;
 
-              FPXbool           spacial_frequency_valid;
-              FPXSpacialFrequencyResponseBlock spacial_frequency;
+	FPXbool           spacial_frequency_valid;
+	FPXSpacialFrequencyResponseBlock spacial_frequency;
 
-              FPXbool           cfa_pattern_valid;
-              FPXCFA_PatternBlock cfa_pattern;
+	FPXbool           cfa_pattern_valid;
+	FPXCFA_PatternBlock cfa_pattern;
 
-              FPXbool           spectral_sensitivity_valid;
-              FPXWideStr        spectral_sensitivity;
+	FPXbool           spectral_sensitivity_valid;
+	FPXWideStr        spectral_sensitivity;
 
-              FPXbool           iso_speed_ratings_valid;
-              FPXShortArray     iso_speed_ratings;
+	FPXbool           iso_speed_ratings_valid;
+	FPXShortArray     iso_speed_ratings;
 
-              FPXbool            oecf_valid;
-              FPXOECF_Block    oecf;
+	FPXbool            oecf_valid;
+	FPXOECF_Block    oecf;
 } FPXDigitalCameraCharacterizationGroup;
 
 FPXStatus FPX_SetDigitalCameraGroup (
-        FPXImageHandle*                        theFPX,
-              FPXDigitalCameraCharacterizationGroup* theDigitalCameraGroup);
+        FPXImageHandle*	          theFPX,
+	FPXDigitalCameraCharacterizationGroup* theDigitalCameraGroup);
 
 FPXStatus FPX_GetDigitalCameraGroup (
-        FPXImageHandle*                        theFPX,
-              FPXDigitalCameraCharacterizationGroup* theDigitalCameraGroup);
+        FPXImageHandle*	          theFPX,
+	FPXDigitalCameraCharacterizationGroup* theDigitalCameraGroup);
 
 /***************************************************************************/
 
 typedef enum {
-              FPX_UNIDENTIFIED = 0,
-              FPX_NEGATIVE_BW,
-              FPX_NEGATIVE_COLOR,
-              FPX_REVERSAL_BW,
-              FPX_REVERSAL_COLOR,
-              FPX_CHROMAGENIC,
-              FPX_INTERNEGATIVE_BW,
-              FPX_INTERNEGATIVE_COLOR
+	FPX_UNIDENTIFIED = 0,
+	FPX_NEGATIVE_BW,
+	FPX_NEGATIVE_COLOR,
+	FPX_REVERSAL_BW,
+	FPX_REVERSAL_COLOR,
+	FPX_CHROMAGENIC,
+	FPX_INTERNEGATIVE_BW,
+	FPX_INTERNEGATIVE_COLOR
 } FPXFilmCategory;
 
 
 typedef struct {
-              FPXbool           film_brand_valid;
-              FPXWideStr        film_brand;
+	FPXbool           film_brand_valid;
+	FPXWideStr        film_brand;
 
-              FPXbool           film_category_valid;
-              FPXFilmCategory   film_category;
+	FPXbool           film_category_valid;
+	FPXFilmCategory   film_category;
 
-              FPXbool           film_size_valid;
-              float       film_size_x;
-              float       film_size_y;
-              FPXResolutionUnit film_size_unit;
+	FPXbool           film_size_valid;
+	float       film_size_x;
+	float       film_size_y;
+	FPXResolutionUnit film_size_unit;
 
-              FPXbool           film_roll_number_valid;
-              unsigned short    film_roll_number;
+	FPXbool           film_roll_number_valid;
+	unsigned short    film_roll_number;
 
-              FPXbool           film_frame_number_valid;
-              unsigned short    film_frame_number;
+	FPXbool           film_frame_number_valid;
+	unsigned short    film_frame_number;
 } FPXFilmDescriptionGroup;
 
 FPXStatus FPX_SetFilmDescriptionGroup (
         FPXImageHandle*          theFPX,
-              FPXFilmDescriptionGroup* theFilmGroup);
+	FPXFilmDescriptionGroup* theFilmGroup);
 
 FPXStatus FPX_GetFilmDescriptionGroup (
         FPXImageHandle*          theFPX,
-              FPXFilmDescriptionGroup* theFilmGroup);
+	FPXFilmDescriptionGroup* theFilmGroup);
 
 /***************************************************************************/
 
 typedef enum {
-              FPX_UNIDENTIFIED_ORIGINAL_MEDIUM = 0,
-              FPX_CONTINUOUS_TONE_IMAGE,
-              FPX_HALFTONE_IMAGE,
-              FPX_LINE_ART
+	FPX_UNIDENTIFIED_ORIGINAL_MEDIUM = 0,
+	FPX_CONTINUOUS_TONE_IMAGE,
+	FPX_HALFTONE_IMAGE,
+	FPX_LINE_ART
 } FPXOriginalMedium;
 
 typedef enum {
-              FPX_UNIDENTIFIED_TYPE_OF_REFLECTION_ORIGINAL = 0,
-              FPX_BW_PRINT,
-              FPX_COLOR_PRINT,
-              FPX_BW_DOCUMENT,
-              FPX_COLOR_DOCUMENT
+	FPX_UNIDENTIFIED_TYPE_OF_REFLECTION_ORIGINAL = 0,
+	FPX_BW_PRINT,
+	FPX_COLOR_PRINT,
+	FPX_BW_DOCUMENT,
+	FPX_COLOR_DOCUMENT
 } FPXTypeOfReflectionOriginal;
 
 typedef struct {
-              float             original_size_x;
-              float             original_size_y;
-              FPXResolutionUnit original_size_unit;
+	float             original_size_x;
+	float             original_size_y;
+	FPXResolutionUnit original_size_unit;
 } FPXScannedImageSizeBlock;
 
 typedef struct {
-              FPXbool                     original_scanned_image_size_valid;
-              FPXScannedImageSizeBlock    original_scanned_image_size;
+	FPXbool                     original_scanned_image_size_valid;
+	FPXScannedImageSizeBlock    original_scanned_image_size;
 
-              FPXbool                     original_document_size_valid;
-              FPXScannedImageSizeBlock    original_document_size;
+	FPXbool                     original_document_size_valid;
+	FPXScannedImageSizeBlock    original_document_size;
 
-              FPXbool                     original_medium_valid;
-              FPXOriginalMedium           original_medium;
+	FPXbool                     original_medium_valid;
+	FPXOriginalMedium           original_medium;
 
-              FPXbool                     type_of_reflection_original_valid;
-              FPXTypeOfReflectionOriginal type_of_reflection_original;
+	FPXbool                     type_of_reflection_original_valid;
+	FPXTypeOfReflectionOriginal type_of_reflection_original;
 } FPXOriginalDocumentScanDescriptionGroup;
 
 FPXStatus FPX_SetOriginalDocDescriptionGroup (
-        FPXImageHandle*                          theFPX,
-              FPXOriginalDocumentScanDescriptionGroup* theDocGroup);
+        FPXImageHandle*	            theFPX,
+	FPXOriginalDocumentScanDescriptionGroup* theDocGroup);
 
 FPXStatus FPX_GetOriginalDocDescriptionGroup (
-        FPXImageHandle*                          theFPX,
-              FPXOriginalDocumentScanDescriptionGroup* theDocGroup);
+        FPXImageHandle*	            theFPX,
+	FPXOriginalDocumentScanDescriptionGroup* theDocGroup);
 
 /***************************************************************************/
 
 
 typedef struct {
-              FPXbool       scanner_manufacturer_name_valid;
-              FPXWideStr    scanner_manufacturer_name;
+	FPXbool       scanner_manufacturer_name_valid;
+	FPXWideStr    scanner_manufacturer_name;
 
-              FPXbool       scanner_model_name_valid;
-              FPXWideStr    scanner_model_name;
+	FPXbool       scanner_model_name_valid;
+	FPXWideStr    scanner_model_name;
 
-              FPXbool       scanner_serial_number_valid;
-              FPXWideStr    scanner_serial_number;
+	FPXbool       scanner_serial_number_valid;
+	FPXWideStr    scanner_serial_number;
 
-              FPXbool       scan_software_valid;
-              FPXWideStr    scan_software;
+	FPXbool       scan_software_valid;
+	FPXWideStr    scan_software;
 
-              FPXbool       scan_software_revision_date_valid;
-              DATE          scan_software_revision_date;    
+	FPXbool       scan_software_revision_date_valid;
+	DATE          scan_software_revision_date;
 
-              FPXbool       service_bureau_org_name_valid;
-              FPXWideStr    service_bureau_org_name;
+	FPXbool       service_bureau_org_name_valid;
+	FPXWideStr    service_bureau_org_name;
 
-              FPXbool       scan_operator_id_valid;
-              FPXWideStr    scan_operator_id;
+	FPXbool       scan_operator_id_valid;
+	FPXWideStr    scan_operator_id;
 
-              FPXbool       scan_date_valid;
-              FPXfiletime   scan_date;                       
+	FPXbool       scan_date_valid;
+	FPXfiletime   scan_date;
 
-              FPXbool       last_modified_date_valid;
-              FPXfiletime   last_modified_date;              
+	FPXbool       last_modified_date_valid;
+	FPXfiletime   last_modified_date;
 
-              FPXbool       scanner_pixel_size_valid;
-              float         scanner_pixel_size;
+	FPXbool       scanner_pixel_size_valid;
+	float         scanner_pixel_size;
 } FPXScanDevicePropertyGroup;
 
 FPXStatus FPX_SetScanDevicePropertyGroup (
         FPXImageHandle*             theFPX,
-              FPXScanDevicePropertyGroup* theScanGroup);
+	FPXScanDevicePropertyGroup* theScanGroup);
 
 FPXStatus FPX_GetScanDevicePropertyGroup (
         FPXImageHandle*             theFPX,
-              FPXScanDevicePropertyGroup* theScanGroup);
+	FPXScanDevicePropertyGroup* theScanGroup);
 
 /****************************************************************************/
-/* EXTENSION LIST MANAGEMENT                                                */
+/* EXTENSION LIST MANAGEMENT	                                  */
 /****************************************************************************/
 
 #define FPX_MAX_EXTENSION_ITEMS   5
 
 typedef enum {
-              FPX_EXTENSION_PERSISTENT = 0,
-              FPX_EXTENSION_VOLATILE,
-              FPX_EXTENSION_POTENTIALLY_VOLATILE
+	FPX_EXTENSION_PERSISTENT = 0,
+	FPX_EXTENSION_VOLATILE,
+	FPX_EXTENSION_POTENTIALLY_VOLATILE
 } FPXExtensionPersistence;
 
 typedef struct {
-              FPXWideStr                extensionName;
-              CLSID                     extensionClassID;
-              FPXExtensionPersistence   extensionPersistence;
+	FPXWideStr                extensionName;
+	CLSID                     extensionClassID;
+	FPXExtensionPersistence   extensionPersistence;
 
-              FPXbool           extensionCreationDateIsValid;
-              FPXfiletime               extensionCreationDate;
-              
-              FPXbool           extensionModificationDateIsValid;
-              FPXfiletime               extensionModificationDate;
-              
-              FPXbool           creatingApplicationIsValid;
-              FPXWideStr                creatingApplication;
-              
-              FPXbool           extensionDescriptionIsValid;
-              FPXWideStr                extensionDescription;
-              
-              FPXbool           streamPathNameIsValid;
-              FPXWideStrArray           streamPathName;
-              
-              FPXbool           fpxStreamPathNameIsValid;
-              FPXWideStrArray           fpxStreamPathName;
-              
-              FPXbool           fpxStreamOffsetIsValid;
-              FPXLongArray            fpxStreamOffset;
-              
-              FPXbool           propertySetPathNameIsValid;
-              FPXWideStrArray           propertySetPathName;
-              
-              FPXbool           propertySetFormatIDIsValid;
-              FPXClsIDArray             propertySetFormatID;
-              
-              FPXbool           propertySetIDCodesIsValid;
-              FPXWideStrArray           propertySetIDCodes;
-              
+	FPXbool           extensionCreationDateIsValid;
+	FPXfiletime               extensionCreationDate;
+
+	FPXbool           extensionModificationDateIsValid;
+	FPXfiletime               extensionModificationDate;
+
+	FPXbool           creatingApplicationIsValid;
+	FPXWideStr                creatingApplication;
+
+	FPXbool           extensionDescriptionIsValid;
+	FPXWideStr                extensionDescription;
+
+	FPXbool           streamPathNameIsValid;
+	FPXWideStrArray           streamPathName;
+
+	FPXbool           fpxStreamPathNameIsValid;
+	FPXWideStrArray           fpxStreamPathName;
+
+	FPXbool           fpxStreamOffsetIsValid;
+	FPXLongArray            fpxStreamOffset;
+
+	FPXbool           propertySetPathNameIsValid;
+	FPXWideStrArray           propertySetPathName;
+
+	FPXbool           propertySetFormatIDIsValid;
+	FPXClsIDArray             propertySetFormatID;
+
+	FPXbool           propertySetIDCodesIsValid;
+	FPXWideStrArray           propertySetIDCodes;
+
 } FPXExtensionDescription;
 
 FPXStatus FPX_GetExtensionDescription (
-              FPXImageHandle*               theFPX,
-              LPWSTR                        extensionName,
-              FPXExtensionDescription*      theDescription);
+	FPXImageHandle*               theFPX,
+	LPWSTR                        extensionName,
+	FPXExtensionDescription*      theDescription);
 FPXStatus FPX_SetExtensionDescription (
-              FPXImageHandle*               theFPX,
-              LPWSTR                        extensionName,
-              FPXExtensionDescription*      theDescription);
+	FPXImageHandle*               theFPX,
+	LPWSTR                        extensionName,
+	FPXExtensionDescription*      theDescription);
 FPXStatus FPX_GetStreamPointer (
-              FPXImageHandle*             theFPX,
-              char*                       streamName,
-              IStream**                   oleStream);
+	FPXImageHandle*             theFPX,
+	char*                       streamName,
+	IStream**                   oleStream);
 FPXStatus FPX_GetPropertySetPointer (
-              FPXImageHandle*             theFPX,
-              char*                       propertySetName,
-              IStream**                   olePropertySet);
+	FPXImageHandle*             theFPX,
+	char*                       propertySetName,
+	IStream**                   olePropertySet);
 
 //  Viewing Toolkit Class Definitions
 //  ---------------------------------
 
-typedef struct PageImage {
-  long pagehandle;
-} FPXPage;
-typedef struct ViewWorld {
-  long worldhandle;
-} FPXWorld;
-typedef struct ViewImage {
-  long imagehandle;
-} FPXImageInWorld;
-typedef struct ViewWindow {
-  long windowshandle;
-} FPXWindow;
+/* Some of these are classes, but in C they can only be structs */
+#ifdef __cplusplus
+typedef class PageImage FPXPage;
+typedef class ViewWorld FPXWorld;
+typedef class ViewImage FPXImageInWorld;
+typedef class ViewWindow FPXWindow;
+#else
+typedef struct PageImage FPXPage;
+typedef struct ViewWorld FPXWorld;
+typedef struct ViewImage FPXImageInWorld;
+typedef struct ViewWindow FPXWindow;
+#endif
 
 // Formatted output tools :
 // Perhaps misnamed. Actually should be called simple render or
 // simple print. provide quick means of rendering a single image.
-// allows for simple rotation. Auto scales to maximize rotated 
+// allows for simple rotation. Auto scales to maximize rotated
 // image size in page without crop.
 
 FPXStatus FPX_SetPageSetup (
-              FPXImageHandle* theFPX, 
-              FPXPage**       thePage, 
-              long            width, 
-              long            height,
-              float           rotation,
-              FPXColorspace   backgroundColorspace,
-              FPXBackground   backgroundColor);
-             
-                        
-FPXStatus FPX_ClosePage (
-              FPXPage*      thePage);
-             
-                        
-FPXStatus FPX_ReadPage (
-              FPXPage*      thePage, 
-              FPXImageDesc* renderingBuffer);
+	FPXImageHandle* theFPX,
+	FPXPage**       thePage,
+	int             width,
+	int             height,
+	float           rotation,
+	FPXColorspace   backgroundColorspace,
+	FPXBackground   backgroundColor);
 
-                        
+FPXStatus FPX_ClosePage (
+	FPXPage*      thePage);
+
+FPXStatus FPX_ReadPage (
+	FPXPage*      thePage,
+	FPXImageDesc* renderingBuffer);
+
 FPXStatus FPX_ReadPageLine (
-              FPXPage*      thePage, 
-              long          lineNumber, 
-              FPXImageDesc* renderingBuffer);
-                           
+	FPXPage*      thePage,
+	int           lineNumber,
+	FPXImageDesc* renderingBuffer);
+
 // World tools :
-                        
+
 FPXStatus FPX_CreateWorld (
-              FPXWorld**    theWorld, 
-              float         width, 
-              float         height,
-              FPXColorspace backgroundColorspace,
-              FPXBackground backgroundColor);
-            
+	FPXWorld**    theWorld,
+	float         width,
+	float         height,
+	FPXColorspace backgroundColorspace,
+	FPXBackground backgroundColor);
+
 FPXStatus FPX_DeleteWorld (
-              FPXWorld*     theWorld);
-        
+	FPXWorld*     theWorld);
+
 // the following several functions are for managing multiple images
 // in a world.
 // Should we wish to support multiple FPX images in a world,
@@ -1843,177 +1839,176 @@ FPXStatus FPX_DeleteWorld (
 // List of images management :
 
 FPXStatus FPX_AddImage (
-              FPXWorld*         theWorld, 
-              FPXImageInWorld** theImage,
-              FPXImageHandle*   theFPX);
-                
-// Adds an image to the world. returns handle to the 
+	FPXWorld*         theWorld,
+	FPXImageInWorld** theImage,
+	FPXImageHandle*   theFPX);
+
+// Adds an image to the world. returns handle to the
 // FPXImageInWorld.
-// The image is placed as specified by the affine 
+// The image is placed as specified by the affine
 // matrix in it's view.
-                                
+
 FPXStatus FPX_DeleteImage (
-              FPXWorld*        theWorld, 
-              FPXImageInWorld* theImage);
-                
+	FPXWorld*        theWorld,
+	FPXImageInWorld* theImage);
+
 // removes an image from the world.
-// does not remove associated window created at 
+// does not remove associated window created at
 // FPX_AddImage time.
-                
+
 FPXStatus FPX_GetFirstImage (
-              FPXWorld*         theWorld, 
-              FPXImageInWorld** theImage);
-                
+	FPXWorld*         theWorld,
+	FPXImageInWorld** theImage);
+
 // get first image from world image list.
-                                
+
 FPXStatus FPX_GetLastImage (
-              FPXWorld*         theWorld, 
-              FPXImageInWorld** theImage);
-                
+	FPXWorld*         theWorld,
+	FPXImageInWorld** theImage);
+
 // get last image from world image list.
-                                
+
 FPXStatus FPX_GetCurrentImage (
-              FPXWorld*         theWorld, 
-              FPXImageInWorld** theImage);
-                
+	FPXWorld*         theWorld,
+	FPXImageInWorld** theImage);
+
 // get current image from world image list.
-                
+
 FPXStatus FPX_NextImage (
-              FPXWorld*         theWorld, 
-              FPXImageInWorld** theImage);
-                
+	FPXWorld*         theWorld,
+	FPXImageInWorld** theImage);
+
 // get the next image in the list. becomes current.
-                                
+
 FPXStatus FPX_PreviousImage (
-              FPXWorld*         theWorld, 
-              FPXImageInWorld** theImage);
+	FPXWorld*         theWorld,
+	FPXImageInWorld** theImage);
 
 // get the previous image in the list. becomes current.
-
 
 // misc.
 
 // Image position tools :
 FPXStatus FPX_SetImageSize (
-              FPXImageInWorld* theImage, 
-              float            width, 
-              float            height);
+	FPXImageInWorld* theImage,
+	float            width,
+	float            height);
 
 // Set width and height of image in world coord.s
 // I.e. scale in x and y.
 
 FPXStatus FPX_SetImageTransform (
-              FPXImageInWorld* theImage, 
-              float x0,  float y0, 
-              float m11, float m12, float m21, float m22);
-                    
+	FPXImageInWorld* theImage,
+	float x0,  float y0,
+	float m11, float m12, float m21, float m22);
+
 // Set full 2D affine in one swell foop.
-        
+
 FPXStatus FPX_ApplyImageTransform (
-              FPXImageInWorld* theImage, 
-              float x0,  float y0, 
-              float m11, float m12, float m21, float m22);
-                    
-// Compose the specified affine with the existing affine xfrm 
+	FPXImageInWorld* theImage,
+	float x0,  float y0,
+	float m11, float m12, float m21, float m22);
+
+// Compose the specified affine with the existing affine xfrm
 // of the image.
-        
+
 FPXStatus FPX_TranslateImage (
-              FPXImageInWorld* theImage, 
-              float dx, float dy);
-           
+	FPXImageInWorld* theImage,
+	float dx, float dy);
+
 // Move the image in world coord.s. will form new rendering xform.
 // Composed with existing xform.
-        
+
 FPXStatus FPX_RotateImage (
-              FPXImageInWorld* theImage, 
-              float x0, float y0,
-              float theta);
-                                 
+	FPXImageInWorld* theImage,
+	float x0, float y0,
+	float theta);
+
 // Rotate an image ccw about a given point.
-// Implemented as xlate of said point to origin, rotate, 
+// Implemented as xlate of said point to origin, rotate,
 // xlate back.
-        
+
 FPXStatus FPX_ScaleImage (
-              FPXImageInWorld* theImage, 
-              float x0, float y0,
-              float sx, float sy);
-                                
+	FPXImageInWorld* theImage,
+	float x0, float y0,
+	float sx, float sy);
+
 // Scale in x and y about a specific point.
-// Implemented as xlation of said point to origin, scale, 
+// Implemented as xlation of said point to origin, scale,
 // xlate back.
 
 FPXStatus FPX_ShearHorizontal (
-              FPXImageInWorld* theImage, 
-              float x0, float y0, 
-              float sh);
-                                     
+	FPXImageInWorld* theImage,
+	float x0, float y0,
+	float sh);
+
 // Compose a horizontal shear on to the xform.
 // Shear is wrt a given point. Implemented by translation of
 // said point to the origin, shear, translation back.
-        
+
 FPXStatus FPX_ShearVertical (
-              FPXImageInWorld* theImage, 
-              float x0, float y0, 
-              float sh);
-           
+	FPXImageInWorld* theImage,
+	float x0, float y0,
+	float sh);
+
 // Compose a vertical shear on to the xform.
 // Shear is wrt a given point. Implemented by translation of
 // said point to the origin, shear, translation back.
-        
+
 FPXStatus FPX_FlipHorizontal (
-              FPXImageInWorld* theImage, 
-              float x0, float y0);
-           
+	FPXImageInWorld* theImage,
+	float x0, float y0);
+
 // Flip (mirror) image about a horzontal line.
 // Said line runs through x0,y0.
-// Implemented by xlate of point to origin, scale x by -1, 
+// Implemented by xlate of point to origin, scale x by -1,
 // xlate back.
 
 FPXStatus FPX_FlipVertical (
-              FPXImageInWorld* theImage, 
-              float x0, float y0);
-           
+	FPXImageInWorld* theImage,
+	float x0, float y0);
+
 // Flip (mirror) image about a vertical line.
 // Said line runs through x0,y0.
-// Implemented by xlate of point to origin, scale x by -1, 
+// Implemented by xlate of point to origin, scale x by -1,
 // xlate back.
-        
+
 FPXStatus FPX_GetOutlineParallelogram (
-              FPXImageInWorld* theImage, 
-              float* x0, float* y0, 
-              float* x1, float* y1,
-              float* x2, float* y2, 
-              float* x3, float* y3);
-                                                                                        
+	FPXImageInWorld* theImage,
+	float* x0, float* y0,
+	float* x1, float* y1,
+	float* x2, float* y2,
+	float* x3, float* y3);
+
 // Return corners of an image as rendered.
 // The bounding box including shear and rotation and crop (ROI).
-        
-FPXStatus FPX_GetOutlineRectangle (
-              FPXImageInWorld* theImage, 
-              float* x0, float* y0, 
-              float* x1, float* y1);
 
-// Get the corners of a 0 rotation rectangle which bounds the 
+FPXStatus FPX_GetOutlineRectangle (
+	FPXImageInWorld* theImage,
+	float* x0, float* y0,
+	float* x1, float* y1);
+
+// Get the corners of a 0 rotation rectangle which bounds the
 // image. Conventional bounding box.
-        
+
 FPXStatus FPX_GetOrigin (
-              FPXImageInWorld* theImage, 
-              float* x0, float* y0);
-           
+	FPXImageInWorld* theImage,
+	float* x0, float* y0);
+
 // return coord.s of origin of the image (upper left)
-// == translation values from xfrm. I.e. location of the 
+// == translation values from xfrm. I.e. location of the
 // upper left.
-        
+
 FPXStatus FPX_SetImageCrop (
-              FPXImageInWorld* theImage, 
-              float x0, float y0, 
-              float x1, float y1);
-                                  
+	FPXImageInWorld* theImage,
+	float x0, float y0,
+	float x1, float y1);
+
 // Set Region of Interest (ROI) on image.
 // Coords. are in world coords.
-        
+
 FPXStatus FPX_ResetImageCrop (
-              FPXImageInWorld* theImage);
+	FPXImageInWorld* theImage);
 
 // Set ROI to full image.
 
@@ -2021,149 +2016,151 @@ FPXStatus FPX_ResetImageCrop (
 // with the image in the composition:
 
 FPXStatus FPX_UseAlphaChannel (
-              FPXImageInWorld* theImage,
-              FPXbool          useAlphaChannel);
+	FPXImageInWorld* theImage,
+	FPXbool          useAlphaChannel);
 // The alpha channel is taken into account if (useAlphaChannel == true)
 
 FPXStatus FPX_InvertAlphaChannel (
-              FPXImageInWorld* theImage,
-              FPXbool          inverseAlpha);
+	FPXImageInWorld* theImage,
+	FPXbool          inverseAlpha);
 // The opacity is inversed prior composition if (inverseAlpha == true)
-    
+
 // View Window  tools :
 // An FPX window is really a viewport on the world.
 // It establishes resolution and hence pixels.
-                        
+
 FPXStatus FPX_CreateWindow (
-              FPXWorld*    theWorld, 
-              FPXWindow**  theWindow, 
-              float x0,    float y0, 
-              float width, float height, 
-              float resolution);
-                                  
+	FPXWorld*    theWorld,
+	FPXWindow**  theWindow,
+	float x0,    float y0,
+	float width, float height,
+	float resolution);
+
 FPXStatus FPX_DeleteWindow (
-              FPXWindow* theWindow);
+	FPXWindow* theWindow);
 
 FPXStatus FPX_ReadWindowSample (
-              FPXWindow*    theWindow, 
-              long x0,      long y0,
-              FPXImageDesc* windowBufferInfo);
-                                      
+	FPXWindow*    theWindow,
+	int x0,       int y0,
+	FPXImageDesc* windowBufferInfo);
+
 // Render one lump of output.
-// This is a 4x4 square about the specified point (in pixels) 
+// This is a 4x4 square about the specified point (in pixels)
 // in the window.
-                        
+
 FPXStatus FPX_RefreshWindow (
-              FPXWindow*    theWindow, 
-              FPXImageDesc* windowBufferInfo);
-           
+	FPXWindow*    theWindow,
+	FPXImageDesc* windowBufferInfo);
+
 // Render the entire window at once.
-// Includes a progress Function, as rendering may take a while, 
+// Includes a progress Function, as rendering may take a while,
 // especially at high res.
-        
+
 FPXStatus FPX_TranslateWindow (
-              FPXWindow* theWindow, 
-              float  dx, float  dy);
-           
+	FPXWindow* theWindow,
+	float  dx, float  dy);
+
 // Move a window in world coords.
 // Changes xform associated with window.
-        
+
 FPXStatus FPX_ResizeWindow (
-              FPXWindow*   theWindow, 
-              float width, float height);
-           
+	FPXWindow*   theWindow,
+	float width, float height);
+
 // Crop or enlarge a window, without changing resolution.
 // I.e. no zooming, just a bigger window with more pixels in it.
-        
+
 FPXStatus FPX_ZoomWindow (
-              FPXWindow* theWindow, 
-              float      zoomRatio);
-           
-// Change window dimensions and resolution inversely so as 
+	FPXWindow* theWindow,
+	float      zoomRatio);
+
+// Change window dimensions and resolution inversely so as
 // to zoom/dezoom.
-        
+
 FPXStatus FPX_GetWindowDefinition (
-              FPXWindow*    theWindow, 
-              float* x0,    float* y0, 
-              float* width, float* height, 
-              float* resolution);
-                                         
-// Get vital statistics about a window: location, size, 
+	FPXWindow*    theWindow,
+	float* x0,    float* y0,
+	float* width, float* height,
+	float* resolution);
+
+// Get vital statistics about a window: location, size,
 // resolution.
-        
+
 FPXStatus FPX_WindowToWorld (
-              FPXWindow* theWindow, 
-              long i,    long j, 
-              float* x,  float* y);
-                                   
+	FPXWindow* theWindow,
+	int i,     int j,
+	float* x,  float* y);
+
 // Xform point from window (pixels) to world coords.
-        
+
 FPXStatus FPX_WorldToWindow (
-              FPXWindow* theWindow, 
-              float x, float y, 
-              long* i, long* j);
-                                   
+	FPXWindow* theWindow,
+	float x, float y,
+	int* i, int* j);
+
 // Xform point from world coords. to window coord.s (pixels.)
 
 
 //      Contrast adjustment:
-//              Setting, getting, processing.
-//              Note that this is really a property of a View of an image.
-//              We will associate it with the image in the world.
+//	Setting, getting, processing.
+//	Note that this is really a property of a View of an image.
+//	We will associate it with the image in the world.
 /*
         Contrast Adjustment
 */
 
 FPXStatus FPX_SetImageInWorldContrastAdjustment (
-              FPXImageInWorld*       theImage,
-              FPXContrastAdjustment* theContrastAdjustment);
-        
+	FPXImageInWorld*       theImage,
+	FPXContrastAdjustment* theContrastAdjustment);
+
 FPXStatus FPX_GetImageInWorldContrastAdjustment (
-              FPXImageInWorld*       theImage,
-              FPXContrastAdjustment* theContrastAdjustment);
-        
-        
+	FPXImageInWorld*       theImage,
+	FPXContrastAdjustment* theContrastAdjustment);
+
+
 //      Color twist:
-//              Setting, getting, processing.
+//	Setting, getting, processing.
 /*
         ColorTwist Matrix */
 
 FPXStatus FPX_SetImageInWorldColorTwistMatrix (
-              FPXImageInWorld*     theImage,
-              FPXColorTwistMatrix* theColorTwistMatrix);
-        
+	FPXImageInWorld*     theImage,
+	FPXColorTwistMatrix* theColorTwistMatrix);
+
 FPXStatus FPX_GetImageInWorldColorTwistMatrix (
-              FPXImageInWorld*     theImage,
-              FPXColorTwistMatrix* theColorTwistMatrix);
-        
-                
+	FPXImageInWorld*     theImage,
+	FPXColorTwistMatrix* theColorTwistMatrix);
+
 //      Sharpening:
-//              Setting, getting, processing.
-//              This is defined to occur after Image Decompression, but
-//              before color transformation/twisting/constrast adjustment.
+//	Setting, getting, processing.
+//	This is defined to occur after Image Decompression, but
+//	before color transformation/twisting/constrast adjustment.
 
 /*        Filtering. */
 
 FPXStatus FPX_SetImageInWorldFilteringValue (
-              FPXImageInWorld*   theImage,
-              FPXFilteringValue* theFiltering);
-        
+	FPXImageInWorld*   theImage,
+	FPXFilteringValue* theFiltering);
+
 FPXStatus FPX_GetImageInWorldFilteringValue (
-              FPXImageInWorld*   theImage,
-              FPXFilteringValue* theFiltering);
+	FPXImageInWorld*   theImage,
+	FPXFilteringValue* theFiltering);
 
 /* Get current Image in World Affine Matrix */
 
 FPXStatus FPX_GetImageInWorldAffineMatrix (
-      FPXImageInWorld*    theImage,
-      FPXAffineMatrix*  mat);
-      
+	FPXImageInWorld*    theImage,
+	FPXAffineMatrix*  mat);
+
 /* Set current Image in World Affine Matrix */
 
 FPXStatus FPX_SetImageInWorldAffineMatrix (
-      FPXImageInWorld*    theImage,
-      FPXAffineMatrix*  mat);
-                
+	FPXImageInWorld*    theImage,
+	FPXAffineMatrix*  mat);
+
+#ifdef __cplusplus
+}
+#endif
 /****************************************************************************/
 #endif // FPXLibAPI_h
 /****************************************************************************/

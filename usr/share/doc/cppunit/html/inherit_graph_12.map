@@ -1,0 +1,4 @@
+<map id="G" name="G">
+<area shape="rect" id="node1" href="$class_message.html" title="Message associated to an Exception.A message is composed of two items:" alt="" coords="5,5,85,35"/>
+<area shape="rect" id="node3" href="$class_additional_message.html" title="An additional Message for assertions.Provides a implicit constructor that takes a single string..." alt="" coords="135,5,276,35"/>
+</map>

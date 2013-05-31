@@ -22,7 +22,11 @@
 #ifndef __GTK_SEPARATOR_TOOL_ITEM_H__
 #define __GTK_SEPARATOR_TOOL_ITEM_H__
 
-#include "gtktoolitem.h"
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
+#include <gtk/gtktoolitem.h>
 
 G_BEGIN_DECLS
 
@@ -40,9 +44,9 @@ typedef struct _GtkSeparatorToolItemPrivate GtkSeparatorToolItemPrivate;
 struct _GtkSeparatorToolItem
 {
   GtkToolItem parent;
-  
+
   /*< private >*/
-  GtkSeparatorToolItemPrivate *priv;
+  GtkSeparatorToolItemPrivate *GSEAL (priv);
 };
 
 struct _GtkSeparatorToolItemClass

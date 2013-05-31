@@ -1,0 +1,29 @@
+/usr/bin/mktexlsr
+/usr/bin/updmap-sys --nohash --nomkmap --enable MixedMap=cm-super-t1.map
+/usr/bin/updmap-sys --nohash --nomkmap --enable MixedMap=cm-super-t2a.map
+/usr/bin/updmap-sys --nohash --nomkmap --enable MixedMap=cm-super-t2b.map
+/usr/bin/updmap-sys --nohash --nomkmap --enable MixedMap=cm-super-t2c.map
+/usr/bin/updmap-sys --nohash --nomkmap --enable MixedMap=cm-super-ts1.map
+/usr/bin/updmap-sys --nohash --nomkmap --enable MixedMap=cm-super-x2.map
+/usr/bin/updmap-sys --nohash --nomkmap --enable MixedMap=eurosym.map
+/usr/bin/updmap-sys --nohash --nomkmap --enable Map=lm.map
+/usr/bin/updmap-sys --nohash --nomkmap --enable Map=marvosym.map
+/usr/bin/updmap-sys --nohash --nomkmap --enable Map=pxfonts.map
+/usr/bin/updmap-sys --nohash --nomkmap --enable MixedMap=rsfs.map
+/usr/bin/updmap-sys --nohash --nomkmap --enable Map=qag.map
+/usr/bin/updmap-sys --nohash --nomkmap --enable Map=qbk.map
+/usr/bin/updmap-sys --nohash --nomkmap --enable Map=qcr.map
+/usr/bin/updmap-sys --nohash --nomkmap --enable Map=qcs.map
+/usr/bin/updmap-sys --nohash --nomkmap --enable Map=qhv.map
+/usr/bin/updmap-sys --nohash --nomkmap --enable Map=qpl.map
+/usr/bin/updmap-sys --nohash --nomkmap --enable Map=qtm.map
+/usr/bin/updmap-sys --nohash --nomkmap --enable Map=qzc.map
+/usr/bin/updmap-sys --nohash --nomkmap --enable MixedMap=tipa.map
+/usr/bin/updmap-sys --nohash --nomkmap --enable Map=txfonts.map
+/usr/bin/updmap-sys --nohash --nomkmap --enable MixedMap=wasy.map
+/usr/bin/updmap-sys --nohash --syncwithtrees
+/usr/bin/updmap-sys --nohash
+/usr/bin/mktexlsr
+/usr/bin/fc-cache -f /usr/share/texmf-dist/fonts/opentype
+/usr/bin/fc-cache -f /usr/share/texmf-dist/fonts/truetype
+/usr/bin/fc-cache -f /usr/share/texmf-dist/fonts/type1

@@ -1,0 +1,58 @@
+gccmakedep
+------------------------------------------
+Xorg preprocessor dependency maker
+
+Build requirements:
+  cygwin-1.5.20-1
+  autoconf2.5-2.59-2
+  automake1.7-1.9.6-1
+  binutils-20050610-1
+  cygport-0.2.1-1
+  gawk-3.1.5-2
+  gcc-core-3.4.4-1
+  make-3.80-1
+  sed-4.1.5-1
+  xorg-util-macros-1.0.2-1
+
+Canonical website:
+  http://xorg.freedesktop.org/
+
+Canonical download:
+  http://ftp.x.org/pub/X11R7.0/src/everything/
+
+-------------------------------------------
+
+Build instructions:
+  unpack gccmakedep-1.0.2-X-src.tar.bz2
+    if you use setup to install this src package, it will be
+	 unpacked under /usr/src automatically
+  cd /usr/src
+  cygport ./gccmakedep-1.0.2-X.cygport all
+
+This will create:
+  /usr/src/gccmakedep-1.0.2-X-src.tar.bz2
+  /usr/src/gccmakedep-1.0.2-X.tar.bz2
+
+-------------------------------------------
+
+Files included in the binary package:
+
+  /usr/bin/gccmakedep
+  /usr/share/doc/Cygwin/gccmakedep-1.0.2.README
+  /usr/share/doc/gccmakedep-1.0.2/COPYING
+  /usr/share/doc/gccmakedep-1.0.2/ChangeLog
+  /usr/share/man/man1/gccmakedep.1.gz
+
+------------------
+
+Port Notes:
+
+----- version 1.0.2-1 -----
+Version bump for X11R7.1.
+
+----- version 1.0.1-1 -----
+Initial Cygwin release of modular X11R7.0.
+
+
+Cygwin port maintained by:
+http://cygwinports.dotsrc.org/

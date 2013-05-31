@@ -37,7 +37,7 @@ GNATS_ADDR=bug-cvs@nongnu.org
 ## [ ! -d $DATADIR/gnats -a -d "$GCC_EXEC_PREFIX" ] && DATADIR=${GCC_EXEC_PREFIX}..
 
 # The default release for this host.
-DEFAULT_RELEASE="1.11.22"
+DEFAULT_RELEASE="1.12.13"
 
 # The default organization.
 DEFAULT_ORGANIZATION="net"
@@ -53,7 +53,7 @@ MKTEMP="/usr/bin/mktemp"
 
 # What mailer to use.  This must come after the config file, since it is
 # host-dependent.
-SENDMAIL="no"
+SENDMAIL="/usr/sbin/sendmail"
 MAIL_AGENT="$SENDMAIL -oi -t"
 MAILER=`echo $MAIL_AGENT | sed -e 's, .*,,'`
 if [ ! -f "$MAILER" ] ; then
@@ -108,14 +108,14 @@ elif [ -f /bin/domainname ]; then
     /usr/bin/ypcat passwd 2>/dev/null | cat - /etc/passwd | grep "^$LOGNAME:" |
       cut -f5 -d':' | sed -e 's/,.*//' > $TEMP
     ORIGINATOR="`cat $TEMP`"
-    rm -f $TEMP
+    > $TEMP
   fi
 fi
 
 if [ "$ORIGINATOR" = "" ]; then
   grep "^$LOGNAME:" /etc/passwd | cut -f5 -d':' | sed -e 's/,.*//' > $TEMP
   ORIGINATOR="`cat $TEMP`"
-  rm -f $TEMP
+  > $TEMP
 fi
 
 if [ -n "$ORGANIZATION" ]; then

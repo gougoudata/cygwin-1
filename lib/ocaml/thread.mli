@@ -11,7 +11,7 @@
 (*                                                                     *)
 (***********************************************************************)
 
-(* $Id: thread.mli,v 1.19 2001/12/28 23:14:48 guesdon Exp $ *)
+(* $Id: thread.mli 9547 2010-01-22 12:48:24Z doligez $ *)
 
 (** Lightweight threads for Posix [1003.1c] and Win32. *)
 
@@ -33,10 +33,10 @@ val create : ('a -> 'b) -> 'a -> t
    result of the application [funct arg] is discarded and not
    directly accessible to the parent thread. *)
 
-external self : unit -> t = "caml_thread_self"
+val self : unit -> t
 (** Return the thread currently executing. *)
 
-external id : t -> int = "caml_thread_id"
+val id : t -> int
 (** Return the identifier of the given thread. A thread identifier
    is an integer that identifies uniquely the thread.
    It can be used to build data structures indexed by threads. *)
@@ -54,7 +54,7 @@ val delay: float -> unit
    [d] seconds. The other program threads continue to run during
    this time. *)
 
-external join : t -> unit = "caml_thread_join"
+val join : t -> unit
 (** [join th] suspends the execution of the calling thread
    until the thread [th] has terminated. *)
 
@@ -74,7 +74,7 @@ val wait_timed_write : Unix.file_descr -> float -> bool
    on the given Unix file descriptor. Wait for at most
    the amount of time given as second argument (in seconds).
    Return [true] if the file descriptor is ready for input/output
-   and [false] if the timeout expired. 
+   and [false] if the timeout expired.
 
    These functions return immediately [true] in the Win32
    implementation. *)
@@ -96,16 +96,38 @@ val wait_pid : int -> int * Unix.process_status
    its termination status, as per [Unix.wait].
    This function is not implemented under MacOS. *)
 
-val wait_signal : int list -> int
-(** [wait_signal sigs] suspends the execution of the calling thread
-   until the process receives one of the signals specified in the
-   list [sigs].  It then returns the number of the signal received.
-   Signal handlers attached to the signals in [sigs] will not
-   be invoked.  Do not call [wait_signal] concurrently 
-   from several threads on the same signals. *)
-
 val yield : unit -> unit
 (** Re-schedule the calling thread without suspending it.
    This function can be used to give scheduling hints,
    telling the scheduler that now is a good time to
    switch to other threads. *)
+
+(** {6 Management of signals} *)
+
+(** Signal handling follows the POSIX thread model: signals generated
+  by a thread are delivered to that thread; signals generated externally
+  are delivered to one of the threads that does not block it.
+  Each thread possesses a set of blocked signals, which can be modified
+  using {!Thread.sigmask}.  This set is inherited at thread creation time.
+  Per-thread signal masks are supported only by the system thread library
+  under Unix, but not under Win32, nor by the VM thread library. *)
+
+val sigmask : Unix.sigprocmask_command -> int list -> int list
+(** [sigmask cmd sigs] changes the set of blocked signals for the
+   calling thread.
+   If [cmd] is [SIG_SETMASK], blocked signals are set to those in
+   the list [sigs].
+   If [cmd] is [SIG_BLOCK], the signals in [sigs] are added to
+   the set of blocked signals.
+   If [cmd] is [SIG_UNBLOCK], the signals in [sigs] are removed
+   from the set of blocked signals.
+   [sigmask] returns the set of previously blocked signals for the thread. *)
+
+
+val wait_signal : int list -> int
+(** [wait_signal sigs] suspends the execution of the calling thread
+   until the process receives one of the signals specified in the
+   list [sigs].  It then returns the number of the signal received.
+   Signal handlers attached to the signals in [sigs] will not
+   be invoked.  The signals [sigs] are expected to be blocked before
+   calling [wait_signal]. *)

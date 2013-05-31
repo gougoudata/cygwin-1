@@ -1,0 +1,25 @@
+var classFl__Input__Choice =
+[
+    [ "Fl_Input_Choice", "classFl__Input__Choice.html#abe9a1e94ed035c3224ae032b4a7bbd3d", null ],
+    [ "add", "classFl__Input__Choice.html#a4b2c4ef1c3d2adb1297d5166ce0c8380", null ],
+    [ "changed", "classFl__Input__Choice.html#a525df023463adad55058d920f6e0788b", null ],
+    [ "clear", "classFl__Input__Choice.html#ae59095122eb3c017358f1e304c4f8827", null ],
+    [ "clear_changed", "classFl__Input__Choice.html#a5f3f753b734c696a54fd230920fdaa4b", null ],
+    [ "down_box", "classFl__Input__Choice.html#a20c725981b37689ba42668568480aa27", null ],
+    [ "down_box", "classFl__Input__Choice.html#aae8d386ea74f814aaf95edd1b6086979", null ],
+    [ "input", "classFl__Input__Choice.html#a7e863b5c9a096f52a9502619d11a7cd0", null ],
+    [ "menu", "classFl__Input__Choice.html#acbadffb3c908366614a427c8165d3710", null ],
+    [ "menu", "classFl__Input__Choice.html#a1479291479bc0ea95826b9dfa442e9f1", null ],
+    [ "menubutton", "classFl__Input__Choice.html#a7781575229c339905dd1e42a2451141f", null ],
+    [ "resize", "classFl__Input__Choice.html#a03c0a02d26ef3498a67d4868be32b552", null ],
+    [ "set_changed", "classFl__Input__Choice.html#a1d933199d171d494c2f679a52d5f285e", null ],
+    [ "textcolor", "classFl__Input__Choice.html#a0fcd719e32656e8869cd1ad5f80dc6c7", null ],
+    [ "textcolor", "classFl__Input__Choice.html#a3493fd9e57bcf19cc47f311a94167eb4", null ],
+    [ "textfont", "classFl__Input__Choice.html#ae11f83ef112337f1e4e6405d65aa13b3", null ],
+    [ "textfont", "classFl__Input__Choice.html#addb190d3be1a1fbc3414b71794ef470b", null ],
+    [ "textsize", "classFl__Input__Choice.html#aefd91d20d275d467485f3584bec7b6aa", null ],
+    [ "textsize", "classFl__Input__Choice.html#a2a3188cec171934af55a48645ccc5bd0", null ],
+    [ "value", "classFl__Input__Choice.html#aac6a4abc3718967fa7e3e70c6075348c", null ],
+    [ "value", "classFl__Input__Choice.html#abd94b4a2f8a86a01870f3c00940966eb", null ],
+    [ "value", "classFl__Input__Choice.html#a6f244a8fd6ee3827918dd3f4505c9764", null ]
+];

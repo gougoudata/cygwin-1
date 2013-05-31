@@ -1,0 +1,178 @@
+<!-- DSSSL Document Architecture -->
+
+<!ENTITY % declarations
+ "features | baseset-encoding | literal-described-char | add-name-chars
+  | add-separator-chars | standard-chars | other-chars
+  | combine-char | map-sdata-entity | char-repertoire | sgml-grove-plan"
+>
+
+<!element dsssl-specification - O
+          ((%declarations;)*,
+           (style-specification | transformation-specification
+            | external-specification)+)>
+<!attlist dsssl-specification
+          dsssl NAME dsssl-specification
+          version CDATA #FIXED "ISO/IEC 10179:1996"
+>
+
+<!element transformation-specification - O
+          ((%declarations;)*, transformation-specification-body*)>
+<!attlist transformation-specification
+          dsssl NAME transformation-specification
+          id ID #IMPLIED
+          desc CDATA #IMPLIED
+          -- human readable description of specification --
+
+          partial (partial | complete) complete
+          -- is the specification complete is or is it just a fragment
+             to be used in other specifications? --
+
+          use
+          -- reftype(transformation-specification|external-specification) --
+              IDREFS #IMPLIED -- Default: none --
+
+          entities
+          -- entities available to be specified as DTD for validation
+             of result document --
+              ENTITIES #IMPLIED -- Default: none --
+>
+
+<!element style-specification - O
+          ((%declarations;)*, style-specification-body*)>
+<!attlist style-specification
+          dsssl NAME style-specification
+          id ID #IMPLIED
+          desc CDATA #IMPLIED
+          -- human readable description of specification --
+
+          partial (partial | complete) complete
+          -- is the specification complete is or is it just a fragment
+             to be used in other specifications? --
+
+          use   -- reftype(style-specification|external-specification) --
+             IDREFS #IMPLIED -- Default: none --
+>
+
+<!-- Assign a local ID to a specification in another document. -->
+<!element external-specification - O EMPTY>
+<!attlist external-specification
+          dsssl NAME external-specification
+          id ID #REQUIRED
+          document -- document containing spec --
+                  ENTITY #REQUIRED
+          specid -- id of spec in document --
+                  NAME #IMPLIED -- Default: first spec in document --
+>
+
+<!-- Declares features used by specification. -->
+
+<!element features - O (#PCDATA)
+  -- lextype(featurename*) -->
+<!attlist features
+          dsssl NAME features
+>
+
+<!-- Map character numbers in a base character set to character names;
+not needed when system knows a character set, and all characters
+in character set have universal code. -->
+<!element baseset-encoding - O (#PCDATA)
+  -- lextype((number, charname)*) -->
+<!attlist baseset-encoding
+          dsssl NAME baseset-encoding
+          name CDATA #REQUIRED -- public identifier of baseset --
+>
+
+<!-- Map a character described in the SGML declaration with a minimum literal
+to a character name. -->
+<!element literal-described-char - O (#PCDATA)
+  -- lextype(charname) -->
+<!attlist literal-described-char
+          dsssl NAME literal-described-char
+          desc CDATA #REQUIRED -- the literal description --
+>
+
+<!-- Declare additional characters allowed in name within DSSSL notation. -->
+<!element add-name-chars - O (#PCDATA)
+  -- lextype(charname*) -->
+<!attlist add-name-chars
+          dsssl NAME add-name-chars
+>
+
+<!-- Declare additional characters allowed as separators within
+     DSSSL notation. -->
+<!element add-separator-chars - O (#PCDATA)
+  -- lextype(charname*) -->
+<!attlist add-separator-chars
+          dsssl NAME add-separator-chars
+>
+
+<!-- Define characters associating names with universal codes. -->
+
+<!element standard-chars - O (#PCDATA)
+  -- lextype((charname, number))*) -->
+<!attlist standard-chars
+          dsssl NAME standard-chars
+>
+
+<!-- Define characters with no universal codes. -->
+
+<!element other-chars - O (#PCDATA)
+  -- lextype(charname*) -->
+<!attlist other-chars
+          dsssl NAME other-chars
+>
+
+<!-- Map an SDATA entity onto a character. -->
+
+<!element map-sdata-entity - O (#PCDATA)
+  -- lextype(charname) -->
+<!attlist map-sdata-entity
+         dsssl NAME map-sdata-entity
+         name CDATA #IMPLIED -- Default: mapping uses replacement text only --
+         text CDATA #IMPLIED -- Default: mapping uses name only --
+>
+
+<!-- Declare character combining. -->
+<!element combine-char - O (#PCDATA)
+  -- lextype(charname, charname, charname+) -->
+<!attlist combine-char
+          dsssl NAME combine-char
+>
+
+<!-- Declare a character repertoire. -->
+
+<!element char-repertoire - O EMPTY>
+<!attlist char-repertoire
+          dsssl NAME char-repertoire
+          name -- public identifier for repertoire --
+               CDATA #REQUIRED
+>
+<!-- Declare the grove plan for the SGML property set. -->
+<!element sgml-grove-plan - O EMPTY>
+<!attlist sgml-grove-plan
+          dsssl NAME sgml-grove-plan
+          modadd -- names of modules to be added to default grove plan --
+               NAMES #IMPLIED -- Default: none added --
+>
+
+<!element style-specification-body - - CDATA
+  -- content uses notation of DSSSL style language -->
+<!attlist style-specification-body
+          dsssl NAME style-specification-body
+          content ENTITY #CONREF -- Default: syntactic content --
+>
+
+<!element transformation-specification-body - - CDATA
+  -- content uses notation of DSSSL transformation language -->
+<!attlist transformation-specification-body
+          dsssl NAME transformation-specification-body
+          content ENTITY #CONREF -- Default: syntactic content --
+>
+
+
+<!-- This notation is intended for use as the value of the ArcDataF
+  architectural form support attribute. -->
+
+<!NOTATION dsssl-specification PUBLIC
+  "ISO/IEC 10179:1996//NOTATION DSSSL Specification//EN">
+

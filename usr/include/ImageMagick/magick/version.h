@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2008 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999-2012 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.
@@ -26,10 +26,39 @@ extern "C" {
   Define declarations.
 */
 #define MagickPackageName "ImageMagick"
-#define MagickCopyright  "Copyright (C) 1999-2008 ImageMagick Studio LLC"
-#define MagickLibVersion  0x640
-#define MagickLibVersionText  "6.4.0"
-#define MagickLibVersionNumber  6,4,0,6
+#define MagickCopyright  "Copyright (C) 1999-2012 ImageMagick Studio LLC"
+#define MagickSVNRevision  "7291"
+#define MagickLibVersion  0x676
+#define MagickLibVersionText  "6.7.6"
+#define MagickLibVersionNumber  5,0,0
+#define MagickLibAddendum  "-3"
+#define MagickLibInterface  5
+#define MagickLibMinInterface  5
+#define MagickReleaseDate  "2012-04-28"
+#define MagickChangeDate   "20120329"
+#define MagickAuthoritativeURL  "http://www.imagemagick.org"
+#if defined(MAGICKCORE_OPENMP_SUPPORT)
+#define MagickOpenMPFeature  "OpenMP "
+#else
+#define MagickOpenMPFeature  " "
+#endif
+#if defined(MAGICKCORE_OPENCL_SUPPORT)
+#define MagickOpenCLFeature  "OpenCL "
+#else
+#define MagickOpenCLFeature  " "
+#endif
+#if defined(MAGICKCORE_HDRI_SUPPORT)
+#define MagickHDRIFeature  "HDRI "
+#else
+#define MagickHDRIFeature  " "
+#endif
+#if defined(MAGICKCORE_ZERO_CONFIGURATION_SUPPORT)
+#define MagickZeroConfigurationFeature  "Zero-Configuration "
+#else
+#define MagickZeroConfigurationFeature  " "
+#endif
+#define MagickFeatures MagickOpenMPFeature MagickOpenCLFeature MagickHDRIFeature MagickZeroConfigurationFeature
+#define MagickHomeURL  "file:///usr/share/doc/ImageMagick//index.html"
 #if (MAGICKCORE_QUANTUM_DEPTH == 8)
 #define MagickQuantumDepth  "Q8"
 #define MagickQuantumRange  "255"
@@ -46,26 +75,21 @@ extern "C" {
 #define MagickQuantumDepth  "Q?"
 #define MagickQuantumRange  "?"
 #endif
-#define MagickReleaseDate  "04/17/08"
-#if !defined(UseHDRI)
-#define MagickVersion MagickPackageName " " MagickLibVersionText " " \
-  MagickReleaseDate " " MagickQuantumDepth " http://www.imagemagick.org"
-#else
-#define MagickVersion MagickPackageName " " MagickLibVersionText " " \
-  MagickReleaseDate " " MagickQuantumDepth " HDRI http://www.imagemagick.org"
-#endif
-#define MagickHomeURL  "file:///usr/share/doc/ImageMagick-6.4.0/index.html"
+#define MagickVersion  \
+  MagickPackageName " " MagickLibVersionText MagickLibAddendum " " \
+  MagickReleaseDate " " MagickQuantumDepth " " MagickAuthoritativeURL
 
 extern MagickExport char
   *GetMagickHomeURL(void);
 
 extern MagickExport const char
   *GetMagickCopyright(void),
+  *GetMagickFeatures(void),
   *GetMagickPackageName(void),
-  *GetMagickQuantumDepth(unsigned long *),
-  *GetMagickQuantumRange(unsigned long *),
+  *GetMagickQuantumDepth(size_t *),
+  *GetMagickQuantumRange(size_t *),
   *GetMagickReleaseDate(void),
-  *GetMagickVersion(unsigned long *);
+  *GetMagickVersion(size_t *);
 
 #if defined(__cplusplus) || defined(c_plusplus)
 }

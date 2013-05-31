@@ -21,20 +21,20 @@ U system.wid_wchar%s	s-widwch.ads		019d0107 NE PU PK
 W system%s		system.ads		system.ali
 W system.wch_con%s	s-wchcon.ads		s-wchcon.ali
 
-D ada.ads		20030424175358 a0108083
-D a-except.ads		20031021134154 a1717b33
+D ada.ads		20030424175357 a0108083
+D a-except.ads		20031021134153 a1717b33
 D system.ads		20031021134222 6af26689
 D s-imgcha.ads		20030424175410 ccbbc005
 D s-secsta.ads		20040105152046 7804722c
 D s-soflin.ads		20031021134214 14059e84
 D s-stache.ads		20031021134214 6135f334
 D s-stalib.ads		20031021134214 e7ad2af0
-D s-stoele.ads		20050603190336 5a73170b
-D s-stoele.adb		20030424175414 792079f8
+D s-stoele.ads		20050603200336 5a73170b
+D s-stoele.adb		20030424175413 792079f8
 D s-traent.ads		20031021134218 e81a0978
 D s-wchcon.ads		20031021134218 6002a858
-D s-widwch.ads		20030424175416 0b6dcfd6
-D s-widwch.adb		20030424175416 ac28590f
+D s-widwch.ads		20030424175415 0b6dcfd6
+D s-widwch.adb		20030424175415 ac28590f
 D unchconv.ads		20030424175420 1b7a14c5
 X 3 system.ads
 44K9*System 163e11 13|36r6 38r9 43r16 49r5 14|34r6 34r26 36r14 100r5

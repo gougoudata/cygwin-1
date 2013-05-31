@@ -11,7 +11,7 @@
 (*                                                                     *)
 (***********************************************************************)
 
-(* $Id: unix.mli,v 1.79.2.3 2004/07/08 08:40:47 xleroy Exp $ *)
+(* $Id: unix.mli 10972 2011-03-06 16:17:09Z weis $ *)
 
 (** Interface to the Unix system *)
 
@@ -90,7 +90,7 @@ type error =
   | EOVERFLOW           (** File size or position not representable *)
 
   | EUNKNOWNERR of int  (** Unknown error *)
-(** The type of error codes. 
+(** The type of error codes.
    Errors defined in the POSIX standard
    and additional errors from UNIX98 and BSD.
    All other errors are mapped to EUNKNOWNERR.
@@ -118,7 +118,7 @@ val handle_unix_error : ('a -> 'b) -> 'a -> 'b
 val environment : unit -> string array
 (** Return the process environment, as an array of strings
     with the format ``variable=value''. *)
-        
+
 val getenv : string -> string
 (** Return the value associated to a variable in the process
    environment. Raise [Not_found] if the variable is unbound.
@@ -135,8 +135,8 @@ val putenv : string -> string -> unit
 
 
 type process_status =
-    WEXITED of int 
-        (** The process terminated normally by [exit]; 
+    WEXITED of int
+        (** The process terminated normally by [exit];
            the argument is the return code. *)
   | WSIGNALED of int
         (** The process was killed by a signal;
@@ -144,7 +144,9 @@ type process_status =
   | WSTOPPED of int
         (** The process was stopped by a signal; the argument is the
            signal number. *)
-(** The termination status of a process. *)
+(** The termination status of a process.  See module {!Sys} for the
+    definitions of the standard signal numbers.  Note that they are
+    not the numbers used by the OS. *)
 
 
 type wait_flag =
@@ -155,9 +157,9 @@ type wait_flag =
 
 val execv : string -> string array -> 'a
 (** [execv prog args] execute the program in file [prog], with
-   the arguments [args], and the current process environment. 
-   These [execv*] functions never return: on success, the current 
-   program is replaced by the new one; 
+   the arguments [args], and the current process environment.
+   These [execv*] functions never return: on success, the current
+   program is replaced by the new one;
    on failure, a {!Unix.Unix_error} exception is raised. *)
 
 val execve : string -> string array -> string array -> 'a
@@ -165,11 +167,11 @@ val execve : string -> string array -> string array -> 'a
    environment to the program executed. *)
 
 val execvp : string -> string array -> 'a
-(** Same as {!Unix.execv} respectively, except that
+(** Same as {!Unix.execv}, except that
    the program is searched in the path. *)
 
 val execvpe : string -> string array -> string array -> 'a
-(** Same as {!Unix.execvp} respectively, except that
+(** Same as {!Unix.execve}, except that
    the program is searched in the path. *)
 
 val fork : unit -> int
@@ -240,7 +242,7 @@ type open_flag =
 
 
 type file_perm = int
-(** The type of file access rights, e.g. [0o640] is read and write for user, 
+(** The type of file access rights, e.g. [0o640] is read and write for user,
     read for group, none for others *)
 
 val openfile : string -> open_flag list -> file_perm -> file_descr
@@ -310,7 +312,7 @@ val ftruncate : file_descr -> int -> unit
    to the given size. *)
 
 
-(** {6 File statistics} *)
+(** {6 File status} *)
 
 
 type file_kind =
@@ -334,21 +336,24 @@ type stats =
     st_size : int;              (** Size in bytes *)
     st_atime : float;           (** Last access time *)
     st_mtime : float;           (** Last modification time *)
-    st_ctime : float;           (** Last status change time *) 
+    st_ctime : float;           (** Last status change time *)
   }
-(** The informations returned by the {!Unix.stat} calls. *)
+(** The information returned by the {!Unix.stat} calls. *)
 
 val stat : string -> stats
-(** Return the informations for the named file. *)
+(** Return the information for the named file. *)
 
 val lstat : string -> stats
 (** Same as {!Unix.stat}, but in case the file is a symbolic link,
-   return the informations for the link itself. *)
+   return the information for the link itself. *)
 
 val fstat : file_descr -> stats
-(** Return the informations for the file associated with the given
+(** Return the information for the file associated with the given
    descriptor. *)
 
+val isatty : file_descr -> bool
+(** Return [true] if the given file descriptor refers to a terminal or
+   console window, [false] otherwise. *)
 
 (** {6 File operations on large files} *)
 
@@ -369,7 +374,7 @@ module LargeFile :
         st_size : int64;            (** Size in bytes *)
         st_atime : float;           (** Last access time *)
         st_mtime : float;           (** Last modification time *)
-        st_ctime : float;           (** Last status change time *) 
+        st_ctime : float;           (** Last status change time *)
       }
     val stat : string -> stats
     val lstat : string -> stats
@@ -569,23 +574,23 @@ val open_process_full :
    and standard error of the command. *)
 
 val close_process_in : in_channel -> process_status
-(** Close channels opened by {!Unix.open_process_in}, 
+(** Close channels opened by {!Unix.open_process_in},
    wait for the associated command to terminate,
    and return its termination status. *)
 
 val close_process_out : out_channel -> process_status
-(** Close channels opened by {!Unix.open_process_out}, 
+(** Close channels opened by {!Unix.open_process_out},
    wait for the associated command to terminate,
    and return its termination status. *)
 
 val close_process : in_channel * out_channel -> process_status
-(** Close channels opened by {!Unix.open_process}, 
+(** Close channels opened by {!Unix.open_process},
    wait for the associated command to terminate,
    and return its termination status. *)
 
 val close_process_full :
   in_channel * out_channel * in_channel -> process_status
-(** Close channels opened by {!Unix.open_process_full}, 
+(** Close channels opened by {!Unix.open_process_full},
    wait for the associated command to terminate,
    and return its termination status. *)
 
@@ -659,14 +664,14 @@ val lockf : file_descr -> lock_command -> int -> unit
 
 (** {6 Signals}
    Note: installation of signal handlers is performed via
-   the functions {!Sys.signal} and {!Sys.set_signal}. 
+   the functions {!Sys.signal} and {!Sys.set_signal}.
 *)
 
 val kill : int -> int -> unit
 (** [kill pid sig] sends signal number [sig] to the process
    with id [pid]. *)
 
-type sigprocmask_command = 
+type sigprocmask_command =
     SIG_SETMASK
   | SIG_BLOCK
   | SIG_UNBLOCK
@@ -700,12 +705,12 @@ type process_times =
   { tms_utime : float;  (** User time for the process *)
     tms_stime : float;  (** System time for the process *)
     tms_cutime : float; (** User time for the children processes *)
-    tms_cstime : float; (** System time for the children processes *) 
+    tms_cstime : float; (** System time for the children processes *)
   }
 (** The execution times (CPU times) of a process. *)
 
 type tm =
-  { tm_sec : int;               (** Seconds 0..59 *)
+  { tm_sec : int;               (** Seconds 0..60 *)
     tm_min : int;               (** Minutes 0..59 *)
     tm_hour : int;              (** Hours 0..23 *)
     tm_mday : int;              (** Day of month 1..31 *)
@@ -713,7 +718,7 @@ type tm =
     tm_year : int;              (** Year - 1900 *)
     tm_wday : int;              (** Day of week (Sunday is 0) *)
     tm_yday : int;              (** Day of year 0..365 *)
-    tm_isdst : bool;            (** Daylight time savings in effect *) 
+    tm_isdst : bool;            (** Daylight time savings in effect *)
   }
 (** The type representing wallclock time and calendar date. *)
 
@@ -755,10 +760,11 @@ val times : unit -> process_times
 val utimes : string -> float -> float -> unit
 (** Set the last access time (second arg) and last modification time
    (third arg) for a file. Times are expressed in seconds from
-   00:00:00 GMT, Jan. 1, 1970. *)
+   00:00:00 GMT, Jan. 1, 1970.  A time of [0.0] is interpreted as the
+   current time. *)
 
 type interval_timer =
-    ITIMER_REAL 
+    ITIMER_REAL
       (** decrements in real time, and sends the signal [SIGALRM] when expired.*)
   | ITIMER_VIRTUAL
       (**  decrements in process virtual time, and sends [SIGVTALRM] when expired. *)
@@ -770,7 +776,7 @@ type interval_timer =
 
 type interval_timer_status =
   { it_interval : float;         (** Period *)
-    it_value : float;            (** Current value of the timer *) 
+    it_value : float;            (** Current value of the timer *)
   }
 (** The type describing the status of an interval timer *)
 
@@ -814,6 +820,16 @@ val getgroups : unit -> int array
 (** Return the list of groups to which the user executing the process
    belongs. *)
 
+val setgroups : int array -> unit
+  (** [setgroups groups] sets the supplementary group IDs for the
+      calling process. Appropriate privileges are required. *)
+
+val initgroups : string -> int -> unit
+  (** [initgroups user group] initializes the group access list by
+      reading the group database /etc/group and using all groups of
+      which [user] is a member. The additional group [group] is also
+      added to the list. *)
+
 type passwd_entry =
   { pw_name : string;
     pw_passwd : string;
@@ -821,7 +837,7 @@ type passwd_entry =
     pw_gid : int;
     pw_gecos : string;
     pw_dir : string;
-    pw_shell : string 
+    pw_shell : string
   }
 (** Structure of entries in the [passwd] database. *)
 
@@ -829,7 +845,7 @@ type group_entry =
   { gr_name : string;
     gr_passwd : string;
     gr_gid : int;
-    gr_mem : string array 
+    gr_mem : string array
   }
 (** Structure of entries in the [groups] database. *)
 
@@ -894,7 +910,8 @@ type socket_domain =
     PF_UNIX                     (** Unix domain *)
   | PF_INET                     (** Internet domain (IPv4) *)
   | PF_INET6                    (** Internet domain (IPv6) *)
-(** The type of socket domains. *)
+(** The type of socket domains.  Not all platforms support
+    IPv6 sockets (type [PF_INET6]). *)
 
 type socket_type =
     SOCK_STREAM                 (** Stream socket *)
@@ -904,7 +921,9 @@ type socket_type =
 (** The type of socket kinds, specifying the semantics of
    communications. *)
 
-type sockaddr = ADDR_UNIX of string | ADDR_INET of inet_addr * int
+type sockaddr =
+    ADDR_UNIX of string
+  | ADDR_INET of inet_addr * int
 (** The type of socket addresses. [ADDR_UNIX name] is a socket
    address in the Unix domain; [name] is a file name in the file
    system. [ADDR_INET(addr,port)] is a socket address in the Internet
@@ -958,11 +977,11 @@ val getsockname : file_descr -> sockaddr
 val getpeername : file_descr -> sockaddr
 (** Return the address of the host connected to the given socket. *)
 
-type msg_flag = 
+type msg_flag =
     MSG_OOB
   | MSG_DONTROUTE
   | MSG_PEEK
-(** The flags for {!Unix.recv},  {!Unix.recvfrom}, 
+(** The flags for {!Unix.recv},  {!Unix.recvfrom},
    {!Unix.send} and {!Unix.sendto}. *)
 
 val recv : file_descr -> string -> int -> int -> msg_flag list -> int
@@ -992,6 +1011,8 @@ type socket_bool_option =
   | SO_DONTROUTE   (** Bypass the standard routing algorithms *)
   | SO_OOBINLINE   (** Leave out-of-band data in line *)
   | SO_ACCEPTCONN  (** Report whether socket listening is enabled *)
+  | TCP_NODELAY    (** Control the Nagle algorithm for TCP sockets *)
+  | IPV6_ONLY      (** Forbid binding an IPv6 socket to an IPv4 address *)
 (** The socket options that can be consulted with {!Unix.getsockopt}
    and modified with {!Unix.setsockopt}.  These options have a boolean
    ([true]/[false]) value. *)
@@ -999,7 +1020,7 @@ type socket_bool_option =
 type socket_int_option =
     SO_SNDBUF      (** Size of send buffer *)
   | SO_RCVBUF      (** Size of received buffer *)
-  | SO_ERROR       (** Report the error status and clear it *)
+  | SO_ERROR       (** Deprecated.  Use {!Unix.getsockopt_error} instead. *)
   | SO_TYPE        (** Report the socket type *)
   | SO_RCVLOWAT    (** Minimum number of bytes to process for input operations *)
   | SO_SNDLOWAT    (** Minimum number of bytes to process for output operations *)
@@ -1014,7 +1035,7 @@ type socket_optint_option =
 (** The socket options that can be consulted with {!Unix.getsockopt_optint}
    and modified with {!Unix.setsockopt_optint}.  These options have a
    value of type [int option], with [None] meaning ``disabled''. *)
-                  
+
 type socket_float_option =
     SO_RCVTIMEO    (** Timeout for input operations *)
   | SO_SNDTIMEO    (** Timeout for output operations *)
@@ -1030,30 +1051,28 @@ val getsockopt : file_descr -> socket_bool_option -> bool
 val setsockopt : file_descr -> socket_bool_option -> bool -> unit
 (** Set or clear a boolean-valued option in the given socket. *)
 
-external getsockopt_int :
-  file_descr -> socket_int_option -> int = "unix_getsockopt_int"
+val getsockopt_int : file_descr -> socket_int_option -> int
 (** Same as {!Unix.getsockopt} for an integer-valued socket option. *)
 
-external setsockopt_int :
-  file_descr -> socket_int_option -> int -> unit = "unix_setsockopt_int"
+val setsockopt_int : file_descr -> socket_int_option -> int -> unit
 (** Same as {!Unix.setsockopt} for an integer-valued socket option. *)
 
-external getsockopt_optint :
-  file_descr -> socket_optint_option -> int option = "unix_getsockopt_optint"
+val getsockopt_optint : file_descr -> socket_optint_option -> int option
 (** Same as {!Unix.getsockopt} for a socket option whose value is an [int option]. *)
 
-external setsockopt_optint :
-  file_descr -> socket_optint_option -> int option ->
-    unit = "unix_setsockopt_optint"
+val setsockopt_optint :
+      file_descr -> socket_optint_option -> int option -> unit
 (** Same as {!Unix.setsockopt} for a socket option whose value is an [int option]. *)
 
-external getsockopt_float :
-  file_descr -> socket_float_option -> float = "unix_getsockopt_float"
+val getsockopt_float : file_descr -> socket_float_option -> float
 (** Same as {!Unix.getsockopt} for a socket option whose value is a floating-point number. *)
 
-external setsockopt_float :
-  file_descr -> socket_float_option -> float -> unit = "unix_setsockopt_float"
+val setsockopt_float : file_descr -> socket_float_option -> float -> unit
 (** Same as {!Unix.setsockopt} for a socket option whose value is a floating-point number. *)
+
+val getsockopt_error : file_descr -> error option
+(** Return the error condition associated with the given socket,
+    and clear it. *)
 
 (** {6 High-level network connection functions} *)
 
@@ -1084,14 +1103,14 @@ type host_entry =
   { h_name : string;
     h_aliases : string array;
     h_addrtype : socket_domain;
-    h_addr_list : inet_addr array 
+    h_addr_list : inet_addr array
   }
 (** Structure of entries in the [hosts] database. *)
 
 type protocol_entry =
-  { p_name : string; 
-    p_aliases : string array; 
-    p_proto : int 
+  { p_name : string;
+    p_aliases : string array;
+    p_proto : int
   }
 (** Structure of entries in the [protocols] database. *)
 
@@ -1099,7 +1118,7 @@ type service_entry =
   { s_name : string;
     s_aliases : string array;
     s_port : int;
-    s_proto : string 
+    s_proto : string
   }
 (** Structure of entries in the [services] database. *)
 
@@ -1143,7 +1162,7 @@ type getaddrinfo_option =
     AI_FAMILY of socket_domain          (** Impose the given socket domain *)
   | AI_SOCKTYPE of socket_type          (** Impose the given socket type *)
   | AI_PROTOCOL of int                  (** Impose the given protocol  *)
-  | AI_NUMERICHOST                      (** Do not call name resolver, 
+  | AI_NUMERICHOST                      (** Do not call name resolver,
                                             expect numeric IP address *)
   | AI_CANONNAME                        (** Fill the [ai_canonname] field
                                             of the result *)
@@ -1151,7 +1170,7 @@ type getaddrinfo_option =
                                             for use with {!Unix.bind} *)
 (** Options to {!Unix.getaddrinfo}. *)
 
-val getaddrinfo: 
+val getaddrinfo:
   string -> string -> getaddrinfo_option list -> addr_info list
 (** [getaddrinfo host service opts] returns a list of {!Unix.addr_info}
     records describing socket parameters and addresses suitable for
@@ -1200,7 +1219,7 @@ val getnameinfo : sockaddr -> getnameinfo_option list -> name_info
    complete description. *)
 
 type terminal_io =
-  { 
+  {
     (* input modes *)
     mutable c_ignbrk : bool;  (** Ignore the break condition. *)
     mutable c_brkint : bool;  (** Signal interrupt on break condition. *)
@@ -1245,15 +1264,15 @@ type terminal_io =
                                  before the read request is satisfied. *)
     mutable c_vtime : int;    (** Maximum read wait (in 0.1s units). *)
     mutable c_vstart : char;  (** Start character (usually ctrl-Q). *)
-    mutable c_vstop : char;   (** Stop character (usually ctrl-S). *) 
+    mutable c_vstop : char;   (** Stop character (usually ctrl-S). *)
   }
 
 val tcgetattr : file_descr -> terminal_io
 (** Return the status of the terminal referred to by the given
    file descriptor. *)
 
-type setattr_when = 
-  TCSANOW
+type setattr_when =
+    TCSANOW
   | TCSADRAIN
   | TCSAFLUSH
 
@@ -1276,7 +1295,7 @@ val tcdrain : file_descr -> unit
 (** Waits until all output written on the given file descriptor
    has been transmitted. *)
 
-type flush_queue = 
+type flush_queue =
     TCIFLUSH
   | TCOFLUSH
   | TCIOFLUSH
@@ -1288,7 +1307,7 @@ val tcflush : file_descr -> flush_queue -> unit
    [TCOFLUSH] flushes data written but not transmitted, and
    [TCIOFLUSH] flushes both. *)
 
-type flow_action = 
+type flow_action =
     TCOOFF
   | TCOON
   | TCIOFF

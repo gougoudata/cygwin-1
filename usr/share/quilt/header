@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /usr/bin/bash
 
 #  This script is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License version 2 as
@@ -21,7 +21,7 @@ fi
 
 usage()
 {
-	printf $"Usage: quilt header [-a|-r|-e] [--backup] [--strip-diffstat] [--strip-trailing-whitespace] [patch]\n"
+	printf $"Usage: quilt header [-a|-r|-e] [--backup] [--dep3] [--strip-diffstat] [--strip-trailing-whitespace] [patch]\n"
 
 	if [ x$1 = x-h ]
 	then
@@ -41,6 +41,10 @@ Print or change the header of the topmost or specified patch.
 
 --backup
 	Create a backup copy of the old version of a patch as patch~.
+
+--dep3
+	When editing (-e), insert a template with DEP-3 headers.
+	DEP-3 is http://dep.debian.net/deps/dep3/ Patch Tagging Guidelines.
 " "$EDITOR"
 		exit 0
 	else
@@ -68,7 +72,7 @@ maybe_strip_diffstat()
 	fi
 }
 
-options=`getopt -o areh --long backup,strip-trailing-whitespace,strip-diffstat -- "$@"`
+options=`getopt -o areh --long backup,dep3,strip-trailing-whitespace,strip-diffstat -- "$@"`
 
 if [ $? -ne 0 ]
 then
@@ -91,6 +95,9 @@ do
 		shift ;;
 	--backup)
 		QUILT_BACKUP=1
+		shift ;;
+	--dep3)
+		opt_use_dep3_headers=1
 		shift ;;
 	--strip-diffstat)
 		opt_strip_diffstat=1
@@ -125,6 +132,8 @@ if [ -z "$opt_replace" -a -z "$opt_append" -a -z "$opt_edit" ]
 then
 	[ -e "$patch_file" ] || exit 0
 
+	setup_pager
+
 	cat_file "$patch_file" \
 	| patch_header \
 	| maybe_strip_diffstat \
@@ -135,7 +144,7 @@ else
 
 	tmp=$(gen_tempfile) || exit 1
 	tmp2=$(gen_tempfile) || exit 1
-	trap "rm -f $tmp $tmp2" EXIT
+	add_exit_handler "rm -f $tmp $tmp2"
 
 	(	if [ -z "$opt_replace" ]
 		then
@@ -146,6 +155,25 @@ else
 			cat
 		fi
 	) > $tmp
+
+        # If triggered and file is empty, cat dep-3 headers into it
+	if [ -n "$opt_use_dep3_headers" -a ! -s $tmp ]
+	then
+		cat >$tmp <<-END
+		Description: <short description, required>
+		 <long description that can span multiple lines, optional>
+		Author: <name and email of author, optional>
+		Origin: <upstream|backport|vendor|other>, <URL, required except if Author is present>
+		Bug: <URL to the upstream bug report if any, implies patch has been forwarded, optional>
+		Bug-<Vendor>: <URL to the vendor bug report if any, optional>
+		Forwarded: <URL|no|not-needed, useless if you have a Bug field, optional>
+		Applied-Upstream: <version|URL|commit, identifies patches merged upstream, optional>
+		Reviewed-by: <name and email of a reviewer, optional>
+		Last-Update: <YYYY-MM-DD, last update of the meta-information, optional>
+		---
+		This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+		END
+        fi
 
 	if [ -n "$opt_edit" ]
 	then

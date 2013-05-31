@@ -44,18 +44,17 @@ typedef struct _PangoContextClass PangoContextClass;
 
 
 /* The PangoContext and PangoContextClass structs are private; if you
- * need to create a subclass of these, mail otaylor@redhat.com
+ * need to create a subclass of these, file a bug.
  */
 
 GType         pango_context_get_type      (void) G_GNUC_CONST;
 
-#ifdef PANGO_ENABLE_BACKEND
 PangoContext *pango_context_new           (void);
+void          pango_context_changed       (PangoContext                 *context);
 void          pango_context_set_font_map  (PangoContext                 *context,
 					   PangoFontMap                 *font_map);
-#endif /* PANGO_ENABLE_BACKEND */
 PangoFontMap *pango_context_get_font_map  (PangoContext                 *context);
-
+guint         pango_context_get_serial    (PangoContext                 *context);
 void          pango_context_list_families (PangoContext                 *context,
 					   PangoFontFamily            ***families,
 					   int                          *n_families);
@@ -78,14 +77,21 @@ void                      pango_context_set_language         (PangoContext      
 void                      pango_context_set_base_dir         (PangoContext               *context,
 							      PangoDirection              direction);
 PangoDirection            pango_context_get_base_dir         (PangoContext               *context);
+void                      pango_context_set_base_gravity     (PangoContext               *context,
+							      PangoGravity                gravity);
+PangoGravity              pango_context_get_base_gravity     (PangoContext               *context);
+PangoGravity              pango_context_get_gravity          (PangoContext               *context);
+void                      pango_context_set_gravity_hint     (PangoContext               *context,
+							      PangoGravityHint            hint);
+PangoGravityHint          pango_context_get_gravity_hint     (PangoContext               *context);
 
-void                        pango_context_set_matrix (PangoContext      *context,
-						      const PangoMatrix *matrix);
-G_CONST_RETURN PangoMatrix *pango_context_get_matrix (PangoContext      *context);
+void                      pango_context_set_matrix           (PangoContext      *context,
+						              const PangoMatrix *matrix);
+const PangoMatrix *       pango_context_get_matrix           (PangoContext      *context);
 
 /* Break a string of Unicode characters into segments with
  * consistent shaping/language engine and bidrectional level.
- * Returns a GList of PangoItem's
+ * Returns a #GList of #PangoItem's
  */
 GList *pango_itemize                (PangoContext      *context,
 				     const char        *text,

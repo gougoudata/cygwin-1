@@ -1,4 +1,4 @@
-# Copyright (C) 2002, 2004, 2006 Free Software Foundation, Inc.
+# Copyright (C) 2002-2012 Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -11,12 +11,10 @@
 # GNU General Public License for more details.
 
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-# 02110-1301, USA.
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ###############################################################
-# The main copy of this file is in Automake's CVS repository. #
+# The main copy of this file is in Automake's git repository. #
 # Updates should be sent to automake-patches@gnu.org.         #
 ###############################################################
 
@@ -37,13 +35,20 @@ Autom4te::Channels - support functions for error and warning management
   register_channel 'system', type => 'error', exit_code => 4;
 
   # Output a message on channel 'unused'.
-  msg 'unused', "$file:$line", "unused variable `$var'";
+  msg 'unused', "$file:$line", "unused variable '$var'";
 
   # Make the 'unused' channel silent.
   setup_channel 'unused', silent => 1;
 
   # Turn on all channels of type 'warning'.
   setup_channel_type 'warning', silent => 0;
+
+  # Redirect all channels to push messages on a Thread::Queue using
+  # the specified serialization key.
+  setup_channel_queue $queue, $key;
+
+  # Output a message pending in a Thread::Queue.
+  pop_channel_queue $queue;
 
   # Treat all warnings as errors.
   $warnings_are_errors = 1;
@@ -61,7 +66,7 @@ etc.) that can also be overridden on a per-message basis.
 
 =cut
 
-use 5.005;
+use 5.006;
 use strict;
 use Exporter;
 use Carp;
@@ -76,6 +81,7 @@ use vars qw (@ISA @EXPORT %channels $me);
 	      &setup_channel &setup_channel_type
 	      &dup_channel_setup &drop_channel_setup
 	      &buffer_messages &flush_messages
+	      &setup_channel_queue &pop_channel_queue
 	      US_GLOBAL US_LOCAL
 	      UP_NONE UP_TEXT UP_LOC_TEXT);
 
@@ -157,14 +163,14 @@ functions.  The possible keys, with their default value are:
 The type of the channel.  One of C<'debug'>, C<'warning'>, C<'error'>, or
 C<'fatal'>.  Fatal messages abort the program when they are output.
 Error messages update the exit status.  Debug and warning messages are
-harmless, except that warnings can be treated as errors of
+harmless, except that warnings are treated as errors if
 C<$warnings_are_errors> is set.
 
 =item C<exit_code =E<gt> 1>
 
 The value to update C<$exit_code> with when a fatal or error message
 is emitted.  C<$exit_code> is also updated for warnings output
-when @<$warnings_are_errors> is set.
+when C<$warnings_are_errors> is set.
 
 =item C<file =E<gt> \*STDERR>
 
@@ -174,6 +180,11 @@ The file where the error should be output.
 
 Whether the channel should be silent.  Use this do disable a
 category of warning, for instance.
+
+=item C<ordered =E<gt> 1>
+
+Whether, with multi-threaded execution, the message should be queued
+for ordered output.
 
 =item C<uniq_part =E<gt> UP_LOC_TEXT>
 
@@ -192,10 +203,14 @@ C<US_LOCAL>, and C<US_GLOBAL> constants above.
 =item C<header =E<gt> ''>
 
 A string to prepend to each message emitted through this channel.
+With partial messages, only the first part will have C<header>
+prepended.
 
 =item C<footer =E<gt> ''>
 
 A string to append to each message emitted through this channel.
+With partial messages, only the final part will have C<footer>
+appended.
 
 =item C<backtrace =E<gt> 0>
 
@@ -254,6 +269,9 @@ use vars qw (%_default_options %_global_duplicate_messages
    exit_code => 1,
    file => \*STDERR,
    silent => 0,
+   ordered => 1,
+   queue => 0,
+   queue_key => undef,
    uniq_scope => US_LOCAL,
    uniq_part => UP_LOC_TEXT,
    header => '',
@@ -322,8 +340,15 @@ sub _merge_options (\%%)
 	}
       else
 	{
-	  confess "unknown option `$_'";
+	  confess "unknown option '$_'";
 	}
+    }
+  if ($hash->{'ordered'})
+    {
+      confess "fatal messages cannot be ordered"
+	if $hash->{'type'} eq 'fatal';
+      confess "backtrace cannot be output on ordered messages"
+	if $hash->{'backtrace'};
     }
 }
 
@@ -377,20 +402,24 @@ sub _format_sub_message ($$)
   return $leader . join ("\n" . $leader, split ("\n", $message)) . "\n";
 }
 
+# Store partial messages here. (See the 'partial' option.)
+use vars qw ($partial);
+$partial = '';
+
 # _format_message ($LOCATION, $MESSAGE, %OPTIONS)
 # -----------------------------------------------
 # Format the message.  Return a string ready to print.
 sub _format_message ($$%)
 {
   my ($location, $message, %opts) = @_;
-  my $msg = '';
+  my $msg = ($partial eq '' ? $opts{'header'} : '') . $message
+	    . ($opts{'partial'} ? '' : $opts{'footer'});
   if (ref $location)
     {
       # If $LOCATION is a reference, assume it's an instance of the
       # Autom4te::Location class and display contexts.
       my $loc = $location->get || $me;
-      $msg = _format_sub_message ("$loc: ", $opts{'header'}
-				  . $message . $opts{'footer'});
+      $msg = _format_sub_message ("$loc: ", $msg);
       for my $pair ($location->get_contexts)
 	{
 	  $msg .= _format_sub_message ($pair->[0] . ":   ", $pair->[1]);
@@ -399,15 +428,67 @@ sub _format_message ($$%)
   else
     {
       $location ||= $me;
-      $msg = _format_sub_message ("$location: ", $opts{'header'}
-				  . $message . $opts{'footer'});
+      $msg = _format_sub_message ("$location: ", $msg);
     }
   return $msg;
 }
 
-# Store partial messages here. (See the 'partial' option.)
-use vars qw ($partial);
-$partial = '';
+# _enqueue ($QUEUE, $KEY, $UNIQ_SCOPE, $TO_FILTER, $MSG, $FILE)
+# -------------------------------------------------------------
+# Push message on a queue, to be processed by another thread.
+sub _enqueue ($$$$$$)
+{
+  my ($queue, $key, $uniq_scope, $to_filter, $msg, $file) = @_;
+  $queue->enqueue ($key, $msg, $to_filter, $uniq_scope);
+  confess "message queuing works only for STDERR"
+    if $file ne \*STDERR;
+}
+
+# _dequeue ($QUEUE)
+# -----------------
+# Pop a message from a queue, and print, similarly to how
+# _print_message would do it.  Return 0 if the queue is
+# empty.  Note that the key has already been dequeued.
+sub _dequeue ($)
+{
+  my ($queue) = @_;
+  my $msg = $queue->dequeue || return 0;
+  my $to_filter = $queue->dequeue;
+  my $uniq_scope = $queue->dequeue;
+  my $file = \*STDERR;
+
+  if ($to_filter ne '')
+    {
+      # Do we want local or global uniqueness?
+      my $dups;
+      if ($uniq_scope == US_LOCAL)
+	{
+	  $dups = \%_local_duplicate_messages;
+	}
+      elsif ($uniq_scope == US_GLOBAL)
+	{
+	  $dups = \%_global_duplicate_messages;
+	}
+      else
+	{
+	  confess "unknown value for uniq_scope: " . $uniq_scope;
+	}
+
+      # Update the hash of messages.
+      if (exists $dups->{$to_filter})
+	{
+	  ++$dups->{$to_filter};
+	  return 1;
+	}
+      else
+	{
+	  $dups->{$to_filter} = 0;
+	}
+    }
+  print $file $msg;
+  return 1;
+}
+
 
 # _print_message ($LOCATION, $MESSAGE, %OPTIONS)
 # ----------------------------------------------
@@ -421,7 +502,7 @@ sub _print_message ($$%)
   my $msg = _format_message ($location, $message, %opts);
   if ($opts{'partial'})
     {
-      # Incomplete message.   Store, don't print.
+      # Incomplete message.  Store, don't print.
       $partial .= $msg;
       return;
     }
@@ -432,11 +513,14 @@ sub _print_message ($$%)
       $partial = '';
     }
 
+  msg ('note', '', 'warnings are treated as errors', uniq_scope => US_GLOBAL)
+    if ($opts{'type'} eq 'warning' && $warnings_are_errors);
+
   # Check for duplicate message if requested.
+  my $to_filter;
   if ($opts{'uniq_part'} ne UP_NONE)
     {
       # Which part of the error should we match?
-      my $to_filter;
       if ($opts{'uniq_part'} eq UP_TEXT)
 	{
 	  $to_filter = $message;
@@ -477,7 +561,15 @@ sub _print_message ($$%)
 	}
     }
   my $file = $opts{'file'};
-  print $file $msg;
+  if ($opts{'ordered'} && $opts{'queue'})
+    {
+      _enqueue ($opts{'queue'}, $opts{'queue_key'}, $opts{'uniq_scope'},
+		$to_filter, $msg, $file);
+    }
+  else
+    {
+      print $file $msg;
+    }
   return 1;
 }
 
@@ -493,12 +585,12 @@ associated to the message.
 For instance to complain about some unused variable C<mumble>
 declared at line 10 in F<foo.c>, one could do:
 
-  msg 'unused', 'foo.c:10', "unused variable `mumble'";
+  msg 'unused', 'foo.c:10', "unused variable 'mumble'";
 
 If channel C<unused> is not silent (and if this message is not a duplicate),
 the following would be output:
 
-  foo.c:10: unused variable `mumble'
+  foo.c:10: unused variable 'mumble'
 
 C<$location> can also be an instance of C<Autom4te::Location>.  In this
 case, the stack of contexts will be displayed in addition.
@@ -527,7 +619,7 @@ both print
 =cut
 
 
-use vars qw (@backlog %buffering @chain);
+use vars qw (@backlog %buffering);
 
 # See buffer_messages() and flush_messages() below.
 %buffering = ();	# The map of channel types to buffer.
@@ -568,7 +660,12 @@ sub msg ($$;$%)
 
       # Die on fatal messages.
       confess if $opts{'backtrace'};
-      exit $exit_code if $opts{'type'} eq 'fatal';
+      if ($opts{'type'} eq 'fatal')
+        {
+	  # flush messages explicitly here, needed in worker threads.
+	  STDERR->flush;
+	  exit $exit_code;
+	}
     }
 }
 
@@ -582,7 +679,7 @@ Override the options of C<$channel> with those specified by C<%options>.
 sub setup_channel ($%)
 {
   my ($name, %opts) = @_;
-  confess "channel $name doesn't exist" unless exists $channels{$name};
+  confess "unknown channel $name" unless exists $channels{$name};
   _merge_options %{$channels{$name}}, %opts;
 }
 
@@ -618,8 +715,9 @@ entry, while C<drop_channel_setup ()> just deletes it.
 
 =cut
 
-use vars qw (@_saved_channels);
+use vars qw (@_saved_channels @_saved_werrors);
 @_saved_channels = ();
+@_saved_werrors = ();
 
 sub dup_channel_setup ()
 {
@@ -629,12 +727,14 @@ sub dup_channel_setup ()
       $channels_copy{$k1} = {%{$channels{$k1}}};
     }
   push @_saved_channels, \%channels_copy;
+  push @_saved_werrors, $warnings_are_errors;
 }
 
 sub drop_channel_setup ()
 {
   my $saved = pop @_saved_channels;
   %channels = %$saved;
+  $warnings_are_errors = pop @_saved_werrors;
 }
 
 =item C<buffer_messages (@types)>, C<flush_messages ()>
@@ -675,6 +775,33 @@ sub flush_messages ()
       &msg (@$args);
     }
   @backlog = ();
+}
+
+=item C<setup_channel_queue ($queue, $key)>
+
+Set the queue to fill for each channel that is ordered,
+and the key to use for serialization.
+
+=cut
+sub setup_channel_queue ($$)
+{
+  my ($queue, $key) = @_;
+  foreach my $channel (keys %channels)
+    {
+      setup_channel $channel, queue => $queue, queue_key => $key
+        if $channels{$channel}{'ordered'};
+    }
+}
+
+=item C<pop_channel_queue ($queue)>
+
+pop a message off the $queue; the key has already been popped.
+
+=cut
+sub pop_channel_queue ($)
+{
+  my ($queue) = @_;
+  return _dequeue ($queue);
 }
 
 =back

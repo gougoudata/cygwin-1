@@ -1,0 +1,57 @@
+cocom
+------------------------------------------
+COCOM tool set is oriented towards the creation of compilers, 
+cross-compilers, interpreters, and other language processors. Now COCOM 
+tool set consists of the following components:
+
+* Ammunition (reusable packages)
+* Sprut (internal representation description translator)
+* Nona (code selector description translator)
+* Msta (syntax description translator)
+* Oka (pipeline hazards description translator)
+* Shilka (keywords description translator)
+
+Runtime requirements:
+  cygwin-1.7.7-1
+  libgmp3-4.3.1-3
+
+Build requirements:
+(besides corresponding -devel packages)
+  autoconf2.5-2.65-1
+  binutils-2.20.51-2
+  cygport-0.10.0-1
+  gawk-3.1.7-1
+  gcc4-core-4.5.0-1
+  gcc4-g++-4.5.0-1
+  make-3.81-2
+  sed-4.2.1-1
+
+Canonical website:
+  http://cocom.sourceforge.net/
+
+Canonical download:
+  http://downloads.sourceforge.net/cocom/
+
+-------------------------------------------
+
+Build instructions:
+  unpack cocom-0.996-X-src.tar.bz2
+    if you use setup to install this src package, it will be
+	 unpacked under /usr/src automatically
+  cd /usr/src
+  cygport ./cocom-0.996-X.cygport all
+
+This will create:
+  /usr/src/cocom-0.996-X-src.tar.bz2
+  /usr/src/cocom-0.996-X.tar.bz2
+
+-------------------------------------------
+
+Port Notes:
+
+----- version 0.996-1 -----
+Long-overdue version bump.
+
+
+Cygwin port maintained by:
+http://sourceware.org/cygwinports/

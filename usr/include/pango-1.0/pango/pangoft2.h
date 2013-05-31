@@ -41,7 +41,7 @@ G_BEGIN_DECLS
 typedef struct _PangoFT2FontMap      PangoFT2FontMap;
 
 typedef void (*PangoFT2SubstituteFunc) (FcPattern *pattern,
-                                        gpointer   data);
+					gpointer   data);
 
 /* Calls for applications */
 
@@ -74,7 +74,7 @@ void pango_ft2_render_layout_subpixel      (FT_Bitmap        *bitmap,
 					    int               x,
 					    int               y);
 
-GType pango_ft2_font_map_get_type (void);
+GType pango_ft2_font_map_get_type (void) G_GNUC_CONST;
 
 PangoFontMap *pango_ft2_font_map_new                    (void);
 void          pango_ft2_font_map_set_resolution         (PangoFT2FontMap        *fontmap,
@@ -85,22 +85,32 @@ void          pango_ft2_font_map_set_default_substitute (PangoFT2FontMap        
 							 gpointer                data,
 							 GDestroyNotify          notify);
 void          pango_ft2_font_map_substitute_changed     (PangoFT2FontMap         *fontmap);
+#ifndef PANGO_DISABLE_DEPRECATED
+G_DEPRECATED_FOR(pango_font_map_create_context)
 PangoContext *pango_ft2_font_map_create_context         (PangoFT2FontMap         *fontmap);
+#endif
 
 
 /* API for rendering modules
  */
 #ifndef PANGO_DISABLE_DEPRECATED
+G_DEPRECATED_FOR(pango_font_map_create_context)
 PangoContext      *pango_ft2_get_context          (double dpi_x,
 						   double dpi_y);
+G_DEPRECATED_FOR(pango_ft2_font_map_new)
 PangoFontMap      *pango_ft2_font_map_for_display (void);
+G_DEPRECATED
 void               pango_ft2_shutdown_display     (void);
 
+G_DEPRECATED_FOR(PANGO_GET_UNKNOWN_GLYPH)
 PangoGlyph     pango_ft2_get_unknown_glyph (PangoFont       *font);
+G_DEPRECATED_FOR(pango_fc_font_kern_glyphs)
 int            pango_ft2_font_get_kerning  (PangoFont       *font,
 					    PangoGlyph       left,
 					    PangoGlyph       right);
+G_DEPRECATED_FOR(pango_fc_font_lock_face)
 FT_Face        pango_ft2_font_get_face     (PangoFont       *font);
+G_DEPRECATED_FOR(pango_font_get_coverage)
 PangoCoverage *pango_ft2_font_get_coverage (PangoFont       *font,
 					    PangoLanguage   *language);
 #endif /* PANGO_DISABLE_DEPRECATED */

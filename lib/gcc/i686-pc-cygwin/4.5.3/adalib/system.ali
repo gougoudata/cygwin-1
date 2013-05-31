@@ -1,0 +1,91 @@
+V "GNAT Lib v4.5"
+A -gnatwa
+A -O2
+A -W
+A -Wall
+A -g
+A -gnatp
+A -gnatg
+A -mtune=generic
+A -march=i686
+P ZX
+R nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnvnnnnnnnnnnnnnnnnnn
+
+U system%s		system.ads		f47f7e1a NE OL PU PK
+L "-Wl,--stack=0x2000000"
+
+D system.ads		20111023073219 f47f7e1a
+X 1 system.ads
+39K9*System 199l5 199e11
+45E9*Name 45e35 46r27
+45n18*SYSTEM_NAME_GNAT{45E9} 46r35
+46e4*System_Name{45E9}
+50N4*Min_Int
+51N4*Max_Int
+53N4*Max_Binary_Modulus
+54N4*Max_Nonbinary_Modulus
+56N4*Max_Base_Digits
+57N4*Max_Digits
+59N4*Max_Mantissa 60r49
+60N4*Fine_Delta
+62N4*Tick
+66M9*Address 67r41 68r28 76r33 77r33 78r33 79r33 80r33 107c9 108r28
+68m4*Null_Address{66M9} 108c4
+70N4*Storage_Unit
+71N4*Word_Size
+72N4*Memory_Size 107r24
+76V13*"<"{boolean} 76>19 76>25 82b30
+76m19 Left{66M9}
+76m25 Right{66M9}
+77V13*"<="{boolean} 77>19 77>25 83b30
+77m19 Left{66M9}
+77m25 Right{66M9}
+78V13*">"{boolean} 78>19 78>25 84b30
+78m19 Left{66M9}
+78m25 Right{66M9}
+79V13*">="{boolean} 79>19 79>25 85b30
+79m19 Left{66M9}
+79m25 Right{66M9}
+80V13*"="{boolean} 80>19 80>25 86b30
+80m19 Left{66M9}
+80m25 Right{66M9}
+90E9*Bit_Order 90e57 91r33
+90n23*High_Order_First{90E9}
+90n41*Low_Order_First{90E9} 91r46
+91e4*Default_Bit_Order{90E9} 92r26
+96i4*Max_Priority{positive}
+97i4*Max_Interrupt_Priority{positive}
+99I12*Any_Priority{integer} 100r34 101r34 160r38
+100I12*Priority{99I12} 103r32 165r7 181r7
+101I12*Interrupt_Priority{99I12} 182r7
+103i4*Default_Priority{100I12} 166r7 167r7 168r7 169r7 170r7 171r7 172r7
+. 173r7 174r7 175r7 176r7 177r7 178r7 179r7 180r7
+120b4 Backend_Divide_Checks{boolean}
+121b4 Backend_Overflow_Checks{boolean}
+122b4 Command_Line_Args{boolean}
+123b4 Configurable_Run_Time{boolean}
+124b4 Denorm{boolean}
+125b4 Duration_32_Bits{boolean}
+126b4 Exit_Status_Supported{boolean}
+127b4 Fractional_Fixed_Ops{boolean}
+128b4 Frontend_Layout{boolean}
+129b4 Machine_Overflows{boolean}
+130b4 Machine_Rounds{boolean}
+131b4 Preallocated_Stacks{boolean}
+132b4 Signed_Zeros{boolean}
+133b4 Stack_Check_Default{boolean}
+134b4 Stack_Check_Probes{boolean}
+135b4 Stack_Check_Limits{boolean}
+136b4 Support_64_Bit_Divides{boolean}
+137b4 Support_Aggregates{boolean}
+138b4 Support_Composite_Assign{boolean}
+139b4 Support_Composite_Compare{boolean}
+140b4 Support_Long_Shifts{boolean}
+141b4 Always_Compatible_Rep{boolean}
+142b4 Suppress_Standard_Library{boolean}
+143b4 Use_Ada_Main_Program_Name{boolean}
+144b4 ZCX_By_Default{boolean}
+145b4 GCC_ZCX_Support{boolean}
+160A9 Priorities_Mapping(integer)<integer> 161r36 164r37
+164a4 Underlying_Priorities{160A9}
+

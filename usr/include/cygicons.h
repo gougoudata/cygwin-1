@@ -33,6 +33,7 @@
 #define IDI_CYGWIN_G      108
 #define IDI_CYGWIN_GS     109
 #define IDI_CYGWIN_KDE    110
+#define IDI_CYGWIN_HIPPO  111
 
 #endif /* !CYGUTILS_CYGICONS_H */
 

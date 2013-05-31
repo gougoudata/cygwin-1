@@ -1,0 +1,87 @@
+libggimisc2
+------------------------------------------
+General Graphics Interface, misc extension
+
+Runtime requirements:
+  cygwin-1.7.17 or newer
+  libggi2
+  libgii1
+
+Build requirements:
+  cygwin-1.7.17 or newer
+  gcc-4.5.3 or newer
+  binutils-2.23.51-1 or newer
+  libggi2-devel
+  libgii1-devel
+  w32api
+  cygport
+
+Canonical homepage:
+  http://www.ggi-project.org/
+
+Canonical download:
+  http://www.ggi-project.org/ftp/ggi/v2.2/libggimisc-2.2.2.src.tar.gz
+
+License:
+  BSD
+
+Language:
+  C
+
+------------------------------------
+
+Build instructions:
+  unpack libggimisc2-2.2.2-3-src.tar.bz2
+    if you use setup to install this src package, it will be
+	 unpacked under /usr/src automatically
+  cd /usr/src
+  cygport libggimisc2-2.2.2-3.cygport all
+
+This will create:
+  /usr/src/libggimisc2-2.2.2-3.tar.bz2
+  /usr/src/libggimisc2-devel-2.2.2-3.tar.bz2
+  /usr/src/libggimisc2-samples-2.2.2-3.tar.bz2
+  /usr/src/libggimisc2-2.2.2-3-src.tar.bz2
+  /usr/src/libggimisc2-debuginfo-2.2.2-3.tar.bz2
+
+Or use 'cygport libggimisc2-2.2.2-3.cygport prep' to get a patched source
+directory.
+
+To find out the files included in the binary distribution, you can
+use "cygcheck -l libggimisc2", or browse the listing for the appropriate
+version at <http://cygwin.com/packages/>.
+
+------------------
+
+Port Notes:
+
+----------  libggimisc2-2.2.2-3 -- 2013-03-15 -----------
+Modernize the cygport file.
+Build with fresher autotools.
+Provide a debuginfo package.
+
+----------  libggimisc2-2.2.2-1 -- 2008-11-19 -----------
+New upstreams bugfix release.
+
+- buildsystem: make bootstrapping with automake 1.10 work.
+
+Move from g-b-s to cygport.
+
+----------  libggimisc2-2.2.1-1 -- 2006-03-02 -----------
+New upstreams bugfix release.
+
+- Cleanup properly on failure in ggiMiscInit
+- pseudo-stubs: kill leftover (debugging) printf
+- buildsystem: libtool update / fixes
+
+Fix Cygwin package problem to not drop -DDEBUG option, in order to
+facilitate debugging.
+
+----------  libggimisc2-2.2.0-1 -- 2006-02-20 -----------
+Initial release
+
+For more information about this package, see the upstream documentation in
+/usr/share/doc/libggimisc2.
+
+Cygwin port maintained by: Peter Rosin <peda |at| lysator.liu.se>
+Please address all questions to the Cygwin mailing list at <cygwin@cygwin.com>

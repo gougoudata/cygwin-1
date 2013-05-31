@@ -8,18 +8,17 @@
  * needed by rmgr routines (redo support for individual record types).
  * So the XLogRecord typedef and associated stuff appear in xlog.h.
  *
- * Portions Copyright (c) 1996-2006, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2012, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
- * $PostgreSQL: pgsql/src/include/access/xlog_internal.h,v 1.17 2006/10/04 00:30:07 momjian Exp $
+ * src/include/access/xlog_internal.h
  */
 #ifndef XLOG_INTERNAL_H
 #define XLOG_INTERNAL_H
 
-#include <time.h>
-
 #include "access/xlog.h"
 #include "fmgr.h"
+#include "pgtime.h"
 #include "storage/block.h"
 #include "storage/relfilenode.h"
 
@@ -41,6 +40,7 @@
 typedef struct BkpBlock
 {
 	RelFileNode node;			/* relation containing block */
+	ForkNumber	fork;			/* fork within the relation */
 	BlockNumber block;			/* block number */
 	uint16		hole_offset;	/* number of bytes before "hole" */
 	uint16		hole_length;	/* number of bytes in "hole" */
@@ -71,7 +71,7 @@ typedef struct XLogContRecord
 /*
  * Each page of XLOG file has a header like this:
  */
-#define XLOG_PAGE_MAGIC 0xD05E	/* can be used as WAL version indicator */
+#define XLOG_PAGE_MAGIC 0xD071	/* can be used as WAL version indicator */
 
 typedef struct XLogPageHeaderData
 {
@@ -106,8 +106,10 @@ typedef XLogLongPageHeaderData *XLogLongPageHeader;
 #define XLP_FIRST_IS_CONTRECORD		0x0001
 /* This flag indicates a "long" page header */
 #define XLP_LONG_HEADER				0x0002
+/* This flag indicates backup blocks starting in this page are optional */
+#define XLP_BKP_REMOVABLE			0x0004
 /* All defined flag bits in xlp_info (used for validity checking of header) */
-#define XLP_ALL_FLAGS				0x0003
+#define XLP_ALL_FLAGS				0x0007
 
 #define XLogPageHeaderSize(hdr)		\
 	(((hdr)->xlp_info & XLP_LONG_HEADER) ? SizeOfXLogLongPHD : SizeOfXLogShortPHD)
@@ -149,6 +151,19 @@ typedef XLogLongPageHeaderData *XLogLongPageHeader;
 			(logId)--; \
 			(logSeg) = XLogSegsPerFile-1; \
 		} \
+	} while (0)
+
+/* Align a record pointer to next page */
+#define NextLogPage(recptr) \
+	do {	\
+		if ((recptr).xrecoff % XLOG_BLCKSZ != 0)	\
+			(recptr).xrecoff += \
+				(XLOG_BLCKSZ - (recptr).xrecoff % XLOG_BLCKSZ); \
+		if ((recptr).xrecoff >= XLogFileSize) \
+		{	\
+			((recptr).xlogid)++;	\
+			(recptr).xrecoff = 0; \
+		}	\
 	} while (0)
 
 /*
@@ -203,6 +218,9 @@ typedef XLogLongPageHeaderData *XLogLongPageHeader;
 #define XLogFileName(fname, tli, log, seg)	\
 	snprintf(fname, MAXFNAMELEN, "%08X%08X%08X", tli, log, seg)
 
+#define XLogFromFileName(fname, tli, log, seg)	\
+	sscanf(fname, "%08X%08X%08X", tli, log, seg)
+
 #define XLogFilePath(path, tli, log, seg)	\
 	snprintf(path, MAXPGPATH, XLOGDIR "/%08X%08X%08X", tli, log, seg)
 
@@ -240,10 +258,15 @@ typedef struct RmgrData
 extern const RmgrData RmgrTable[];
 
 /*
- * Exported to support xlog switching from bgwriter
+ * Exported to support xlog switching from checkpointer
  */
-extern time_t GetLastSegSwitchTime(void);
+extern pg_time_t GetLastSegSwitchTime(void);
 extern XLogRecPtr RequestXLogSwitch(void);
+
+/*
+ * Exported to support xlog archive status setting from WALReceiver
+ */
+extern void XLogArchiveForceDone(const char *xlog);
 
 /*
  * These aren't in xlog.h because I'd rather not include fmgr.h there.
@@ -251,9 +274,18 @@ extern XLogRecPtr RequestXLogSwitch(void);
 extern Datum pg_start_backup(PG_FUNCTION_ARGS);
 extern Datum pg_stop_backup(PG_FUNCTION_ARGS);
 extern Datum pg_switch_xlog(PG_FUNCTION_ARGS);
+extern Datum pg_create_restore_point(PG_FUNCTION_ARGS);
 extern Datum pg_current_xlog_location(PG_FUNCTION_ARGS);
 extern Datum pg_current_xlog_insert_location(PG_FUNCTION_ARGS);
+extern Datum pg_last_xlog_receive_location(PG_FUNCTION_ARGS);
+extern Datum pg_last_xlog_replay_location(PG_FUNCTION_ARGS);
+extern Datum pg_last_xact_replay_timestamp(PG_FUNCTION_ARGS);
 extern Datum pg_xlogfile_name_offset(PG_FUNCTION_ARGS);
 extern Datum pg_xlogfile_name(PG_FUNCTION_ARGS);
+extern Datum pg_is_in_recovery(PG_FUNCTION_ARGS);
+extern Datum pg_xlog_replay_pause(PG_FUNCTION_ARGS);
+extern Datum pg_xlog_replay_resume(PG_FUNCTION_ARGS);
+extern Datum pg_is_xlog_replay_paused(PG_FUNCTION_ARGS);
+extern Datum pg_xlog_location_diff(PG_FUNCTION_ARGS);
 
 #endif   /* XLOG_INTERNAL_H */

@@ -5,13 +5,13 @@
  *	  along with the relation's initial contents.
  *
  *
- * Portions Copyright (c) 1996-2006, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2012, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
- * $PostgreSQL: pgsql/src/include/catalog/pg_aggregate.h,v 1.58 2006/10/04 00:30:07 momjian Exp $
+ * src/include/catalog/pg_aggregate.h
  *
  * NOTES
- *	  the genbki.sh script reads this file and generates .bki
+ *	  the genbki.pl script reads this file and generates .bki
  *	  information from the DATA() statements.
  *
  *-------------------------------------------------------------------------
@@ -19,14 +19,8 @@
 #ifndef PG_AGGREGATE_H
 #define PG_AGGREGATE_H
 
+#include "catalog/genbki.h"
 #include "nodes/pg_list.h"
-
-/* ----------------
- *		postgres.h contains the system type definitions and the
- *		CATALOG(), BKI_BOOTSTRAP and DATA() sugar words so this file
- *		can be read by both genbki.sh and the C compiler.
- * ----------------
- */
 
 /* ----------------------------------------------------------------
  *		pg_aggregate definition.
@@ -50,7 +44,10 @@ CATALOG(pg_aggregate,2600) BKI_WITHOUT_OIDS
 	regproc		aggfinalfn;
 	Oid			aggsortop;
 	Oid			aggtranstype;
-	text		agginitval;		/* VARIABLE LENGTH FIELD */
+
+#ifdef CATALOG_VARLEN			/* variable-length fields start here */
+	text		agginitval;
+#endif
 } FormData_pg_aggregate;
 
 /* ----------------
@@ -80,10 +77,10 @@ typedef FormData_pg_aggregate *Form_pg_aggregate;
  */
 
 /* avg */
-DATA(insert ( 2100	int8_accum		numeric_avg		0	1231	"{0,0,0}" ));
+DATA(insert ( 2100	int8_avg_accum	numeric_avg		0	1231	"{0,0}" ));
 DATA(insert ( 2101	int4_avg_accum	int8_avg		0	1016	"{0,0}" ));
 DATA(insert ( 2102	int2_avg_accum	int8_avg		0	1016	"{0,0}" ));
-DATA(insert ( 2103	numeric_accum	numeric_avg		0	1231	"{0,0,0}" ));
+DATA(insert ( 2103	numeric_avg_accum	numeric_avg		0	1231	"{0,0}" ));
 DATA(insert ( 2104	float4_accum	float8_avg		0	1022	"{0,0,0}" ));
 DATA(insert ( 2105	float8_accum	float8_avg		0	1022	"{0,0,0}" ));
 DATA(insert ( 2106	interval_accum	interval_avg	0	1187	"{0 second,0 second}" ));
@@ -118,6 +115,7 @@ DATA(insert ( 2130	numeric_larger	-				1756	1700	_null_ ));
 DATA(insert ( 2050	array_larger	-				1073	2277	_null_ ));
 DATA(insert ( 2244	bpchar_larger	-				1060	1042	_null_ ));
 DATA(insert ( 2797	tidlarger		-				2800	27		_null_ ));
+DATA(insert ( 3526	enum_larger		-				3519	3500	_null_ ));
 
 /* min */
 DATA(insert ( 2131	int8smaller		-				412		20		_null_ ));
@@ -139,6 +137,7 @@ DATA(insert ( 2146	numeric_smaller -				1754	1700	_null_ ));
 DATA(insert ( 2051	array_smaller	-				1072	2277	_null_ ));
 DATA(insert ( 2245	bpchar_smaller	-				1058	1042	_null_ ));
 DATA(insert ( 2798	tidsmaller		-				2799	27		_null_ ));
+DATA(insert ( 3527	enum_smaller	-				3518	3500	_null_ ));
 
 /* count */
 DATA(insert ( 2147	int8inc_any		-				0		20		"0" ));
@@ -207,9 +206,9 @@ DATA(insert ( 2828	float8_regr_accum	float8_covar_samp		0	1022	"{0,0,0,0,0,0}" )
 DATA(insert ( 2829	float8_regr_accum	float8_corr				0	1022	"{0,0,0,0,0,0}" ));
 
 /* boolean-and and boolean-or */
-DATA(insert ( 2517	booland_statefunc	-			0	16		_null_ ));
-DATA(insert ( 2518	boolor_statefunc	-			0	16		_null_ ));
-DATA(insert ( 2519	booland_statefunc	-			0	16		_null_ ));
+DATA(insert ( 2517	booland_statefunc	-			58	16		_null_ ));
+DATA(insert ( 2518	boolor_statefunc	-			59	16		_null_ ));
+DATA(insert ( 2519	booland_statefunc	-			58	16		_null_ ));
 
 /* bitwise integer */
 DATA(insert ( 2236 int2and		  -					0	21		_null_ ));
@@ -220,6 +219,18 @@ DATA(insert ( 2240 int8and		  -					0	20		_null_ ));
 DATA(insert ( 2241 int8or		  -					0	20		_null_ ));
 DATA(insert ( 2242 bitand		  -					0	1560	_null_ ));
 DATA(insert ( 2243 bitor		  -					0	1560	_null_ ));
+
+/* xml */
+DATA(insert ( 2901 xmlconcat2	  -					0	142		_null_ ));
+
+/* array */
+DATA(insert ( 2335	array_agg_transfn	array_agg_finalfn		0	2281	_null_ ));
+
+/* text */
+DATA(insert ( 3538	string_agg_transfn	string_agg_finalfn		0	2281	_null_ ));
+
+/* bytea */
+DATA(insert ( 3545	bytea_string_agg_transfn	bytea_string_agg_finalfn		0	2281	_null_ ));
 
 /*
  * prototypes for functions in pg_aggregate.c

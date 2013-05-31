@@ -4,7 +4,7 @@
    cppcomp.h : This file is part of pstoedit
    header declaring compiler dependent stuff
 
-   Copyright (C) 1998 - 2006 Wolfgang Glunz, wglunz34_AT_pstoedit.net
+   Copyright (C) 1998 - 2012 Wolfgang Glunz, wglunz35_AT_pstoedit.net
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,6 +21,9 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 */
+#ifdef HAVE_CONFIG_H
+#include "pstoedit_config.h"
+#endif
 
 #ifdef _MSC_VER
 # ifndef DLLEXPORT
@@ -166,6 +169,9 @@
 
 #if (defined(unix) || defined(__unix__) || defined(_unix) || defined(__unix) || defined(__EMX__) || defined (NetBSD) ) && !defined(DJGPP)
 #define I_strstream		<strstream.h>
+// next macro is to avoid usage of the above lengthy || list and because in .fl file __unix__ cannot be used sometimes because m4 
+// expands this sometimes to ""
+#define PSTOEDIT_UNIXLIKE
 #else
 #define I_strstream		<strstrea.h>
 #endif
@@ -220,9 +226,31 @@ const bool true  = 1;
 // for other systems we have to "emulate" them
 #define TARGETWITHLEN(str,len) str,len
 
+// MSVC moans: 'open': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _open. See online help for details.
+
+#define OPEN _open
+#define CLOSE _close
+#define READ _read
+#define STRICMP _stricmp
+#define FILENO _fileno
+#define SETMODE _setmode
+#define TEMPNAM _tempnam
+#define GETCWD _getcwd
 #else
 
 #include I_iostream
+#include I_string_h	// for strlen
+#include I_stdlib	// for exit
+
+#define OPEN open
+#define CLOSE close
+#define READ read
+#define STRICMP stricmp
+#define FILENO fileno
+#define SETMODE setmode
+#define TEMPNAM tempnam
+#define GETCWD getcwd
+
 USESTD
 
 // approach for emulation:

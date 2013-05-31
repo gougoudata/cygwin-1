@@ -4,10 +4,10 @@
  *	  Declarations for operations on 64-bit integers.
  *
  *
- * Portions Copyright (c) 1996-2006, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2012, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
- * $PostgreSQL: pgsql/src/include/utils/int8.h,v 1.45 2006/07/28 18:33:04 tgl Exp $
+ * src/include/utils/int8.h
  *
  * NOTES
  * These data types are supported on all 64-bit architectures, and may
@@ -96,6 +96,16 @@ extern Datum int48mi(PG_FUNCTION_ARGS);
 extern Datum int48mul(PG_FUNCTION_ARGS);
 extern Datum int48div(PG_FUNCTION_ARGS);
 
+extern Datum int82pl(PG_FUNCTION_ARGS);
+extern Datum int82mi(PG_FUNCTION_ARGS);
+extern Datum int82mul(PG_FUNCTION_ARGS);
+extern Datum int82div(PG_FUNCTION_ARGS);
+
+extern Datum int28pl(PG_FUNCTION_ARGS);
+extern Datum int28mi(PG_FUNCTION_ARGS);
+extern Datum int28mul(PG_FUNCTION_ARGS);
+extern Datum int28div(PG_FUNCTION_ARGS);
+
 extern Datum int48(PG_FUNCTION_ARGS);
 extern Datum int84(PG_FUNCTION_ARGS);
 
@@ -110,9 +120,6 @@ extern Datum ftoi8(PG_FUNCTION_ARGS);
 
 extern Datum i8tooid(PG_FUNCTION_ARGS);
 extern Datum oidtoi8(PG_FUNCTION_ARGS);
-
-extern Datum int8_text(PG_FUNCTION_ARGS);
-extern Datum text_int8(PG_FUNCTION_ARGS);
 
 extern Datum generate_series_int8(PG_FUNCTION_ARGS);
 extern Datum generate_series_step_int8(PG_FUNCTION_ARGS);

@@ -2,7 +2,7 @@
  * Copyright (C) 1998 David Abilleira Freijeiro <odaf@nexo.es>
  * All rights reserved
  * Based on gnome-color-picker by Federico Mena <federico@nuclecu.unam.mx>
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
  * License as published by the Free Software Foundation; either
@@ -21,11 +21,15 @@
  * Modified by the GTK+ Team and others 2003.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 #ifndef __GTK_FONT_BUTTON_H__
 #define __GTK_FONT_BUTTON_H__
+
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
 
 #include <gtk/gtkbutton.h>
 
@@ -50,7 +54,7 @@ struct _GtkFontButton {
   GtkButton button;
 
   /*< private >*/
-  GtkFontButtonPrivate *priv;
+  GtkFontButtonPrivate *GSEAL (priv);
 };
 
 struct _GtkFontButtonClass {
@@ -71,7 +75,7 @@ GType                 gtk_font_button_get_type       (void) G_GNUC_CONST;
 GtkWidget            *gtk_font_button_new            (void);
 GtkWidget            *gtk_font_button_new_with_font  (const gchar   *fontname);
 
-G_CONST_RETURN gchar *gtk_font_button_get_title      (GtkFontButton *font_button);
+const gchar *         gtk_font_button_get_title      (GtkFontButton *font_button);
 void                  gtk_font_button_set_title      (GtkFontButton *font_button,
                                                       const gchar   *title);
 gboolean              gtk_font_button_get_use_font   (GtkFontButton *font_button);
@@ -80,7 +84,7 @@ void                  gtk_font_button_set_use_font   (GtkFontButton *font_button
 gboolean              gtk_font_button_get_use_size   (GtkFontButton *font_button);
 void                  gtk_font_button_set_use_size   (GtkFontButton *font_button,
                                                       gboolean       use_size);
-G_CONST_RETURN gchar* gtk_font_button_get_font_name  (GtkFontButton *font_button);
+const gchar *         gtk_font_button_get_font_name  (GtkFontButton *font_button);
 gboolean              gtk_font_button_set_font_name  (GtkFontButton *font_button,
                                                       const gchar   *fontname);
 gboolean              gtk_font_button_get_show_style (GtkFontButton *font_button);
@@ -92,9 +96,5 @@ void                  gtk_font_button_set_show_size  (GtkFontButton *font_button
 
 G_END_DECLS
 
-    
+
 #endif /* __GTK_FONT_BUTTON_H__ */
-
-
-
-

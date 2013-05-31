@@ -1,4 +1,3 @@
-/* -*- mode: C; c-file-style: "gnu" -*- */
 /* Pango
  * pango-script.h: Script tag handling
  *
@@ -25,13 +24,11 @@
 
 #include <glib.h>
 
-#include <pango/pango-types.h>
-
 G_BEGIN_DECLS
 
 /**
  * PangoScriptIter:
-
+ *
  * A #PangoScriptIter is used to iterate through a string
  * and identify ranges in different scripts.
  **/
@@ -94,23 +91,67 @@ typedef enum {                         /* ISO 15924 code */
       PANGO_SCRIPT_SHAVIAN,            /* Shaw */
       PANGO_SCRIPT_LINEAR_B,           /* Linb */
       PANGO_SCRIPT_TAI_LE,             /* Tale */
-      PANGO_SCRIPT_UGARITIC            /* Ugar */
+      PANGO_SCRIPT_UGARITIC,           /* Ugar */
+
+      /* Unicode-4.1 additions */
+      PANGO_SCRIPT_NEW_TAI_LUE,        /* Talu */
+      PANGO_SCRIPT_BUGINESE,           /* Bugi */
+      PANGO_SCRIPT_GLAGOLITIC,         /* Glag */
+      PANGO_SCRIPT_TIFINAGH,           /* Tfng */
+      PANGO_SCRIPT_SYLOTI_NAGRI,       /* Sylo */
+      PANGO_SCRIPT_OLD_PERSIAN,        /* Xpeo */
+      PANGO_SCRIPT_KHAROSHTHI,         /* Khar */
+
+      /* Unicode-5.0 additions */
+      PANGO_SCRIPT_UNKNOWN,            /* Zzzz */
+      PANGO_SCRIPT_BALINESE,           /* Bali */
+      PANGO_SCRIPT_CUNEIFORM,          /* Xsux */
+      PANGO_SCRIPT_PHOENICIAN,         /* Phnx */
+      PANGO_SCRIPT_PHAGS_PA,           /* Phag */
+      PANGO_SCRIPT_NKO,                /* Nkoo */
+
+      /* Unicode-5.1 additions */
+      PANGO_SCRIPT_KAYAH_LI,           /* Kali */
+      PANGO_SCRIPT_LEPCHA,             /* Lepc */
+      PANGO_SCRIPT_REJANG,             /* Rjng */
+      PANGO_SCRIPT_SUNDANESE,          /* Sund */
+      PANGO_SCRIPT_SAURASHTRA,         /* Saur */
+      PANGO_SCRIPT_CHAM,               /* Cham */
+      PANGO_SCRIPT_OL_CHIKI,           /* Olck */
+      PANGO_SCRIPT_VAI,                /* Vaii */
+      PANGO_SCRIPT_CARIAN,             /* Cari */
+      PANGO_SCRIPT_LYCIAN,             /* Lyci */
+      PANGO_SCRIPT_LYDIAN,             /* Lydi */
+
+      /* Unicode-6.0 additions */
+      PANGO_SCRIPT_BATAK,              /* Batk */
+      PANGO_SCRIPT_BRAHMI,             /* Brah */
+      PANGO_SCRIPT_MANDAIC,            /* Mand */
+
+      /* Unicode-6.1 additions */
+      PANGO_SCRIPT_CHAKMA,             /* Cakm */
+      PANGO_SCRIPT_MEROITIC_CURSIVE,   /* Merc */
+      PANGO_SCRIPT_MEROITIC_HIEROGLYPHS,/* Mero */
+      PANGO_SCRIPT_MIAO,               /* Plrd */
+      PANGO_SCRIPT_SHARADA,            /* Shrd */
+      PANGO_SCRIPT_SORA_SOMPENG,       /* Sora */
+      PANGO_SCRIPT_TAKRI               /* Takr */
 } PangoScript;
 
-PangoScript pango_script_for_unichar         (gunichar             ch);
+PangoScript pango_script_for_unichar         (gunichar             ch) G_GNUC_CONST;
 
 PangoScriptIter *pango_script_iter_new       (const char          *text,
 					      int                  length);
-void             pango_script_iter_get_range (PangoScriptIter      *iter,
-					      G_CONST_RETURN char **start,
-					      G_CONST_RETURN char **end,
-					      PangoScript          *script);
-gboolean         pango_script_iter_next      (PangoScriptIter      *iter);
-void             pango_script_iter_free      (PangoScriptIter      *iter);
+void             pango_script_iter_get_range (PangoScriptIter     *iter,
+                                              const char         **start,
+                                              const char         **end,
+                                              PangoScript         *script);
+gboolean         pango_script_iter_next      (PangoScriptIter     *iter);
+void             pango_script_iter_free      (PangoScriptIter     *iter);
 
-PangoLanguage *pango_script_get_sample_language (PangoScript    script);
-gboolean       pango_language_includes_script   (PangoLanguage *language,
-						 PangoScript    script);
+#include <pango/pango-language.h>
+
+PangoLanguage *pango_script_get_sample_language (PangoScript    script) G_GNUC_PURE;
 
 G_END_DECLS
 

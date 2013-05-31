@@ -20,13 +20,13 @@ W system%s		system.ads		system.ali
 W system.storage_elements%s  s-stoele.adb	s-stoele.ali
 W system.vectors%s	s-vector.ads		s-vector.ali
 
-D ada.ads		20030424175358 a0108083
+D ada.ads		20030424175357 a0108083
 D a-unccon.ads		20030424175356 5b55fe29
 D system.ads		20031021134222 6af26689
 D s-geveop.ads		20031021134214 588cf4b6
-D s-geveop.adb		20031203114754 fe6b323d
-D s-stoele.ads		20050603190336 5a73170b
-D s-stoele.adb		20030424175414 792079f8
+D s-geveop.adb		20031203114753 fe6b323d
+D s-stoele.ads		20050603200336 5a73170b
+D s-stoele.adb		20030424175413 792079f8
 D s-vector.ads		20031021134218 18717986
 D unchconv.ads		20030424175420 1b7a14c5
 X 1 ada.ads

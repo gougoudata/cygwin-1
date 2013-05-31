@@ -7,10 +7,10 @@
  * It can be used to buffer either ordinary C strings (null-terminated text)
  * or arbitrary binary data.  All storage is allocated with palloc().
  *
- * Portions Copyright (c) 1996-2006, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2012, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
- * $PostgreSQL: pgsql/src/include/lib/stringinfo.h,v 1.32 2006/03/05 15:58:56 momjian Exp $
+ * src/include/lib/stringinfo.h
  *
  *-------------------------------------------------------------------------
  */
@@ -79,6 +79,13 @@ extern StringInfo makeStringInfo(void);
 extern void initStringInfo(StringInfo str);
 
 /*------------------------
+ * resetStringInfo
+ * Clears the current content of the StringInfo, if any. The
+ * StringInfo remains valid.
+ */
+extern void resetStringInfo(StringInfo str);
+
+/*------------------------
  * appendStringInfo
  * Format text data under the control of fmt (an sprintf-style format string)
  * and append it to whatever is already in str.  More space is allocated
@@ -88,7 +95,7 @@ extern void initStringInfo(StringInfo str);
 extern void
 appendStringInfo(StringInfo str, const char *fmt,...)
 /* This extension allows gcc to check the format string */
-__attribute__((format(printf, 2, 3)));
+__attribute__((format(PG_PRINTF_ATTRIBUTE, 2, 3)));
 
 /*------------------------
  * appendStringInfoVA
@@ -98,7 +105,9 @@ __attribute__((format(printf, 2, 3)));
  * without modifying str.  Typically the caller would enlarge str and retry
  * on false return --- see appendStringInfo for standard usage pattern.
  */
-extern bool appendStringInfoVA(StringInfo str, const char *fmt, va_list args);
+extern bool
+appendStringInfoVA(StringInfo str, const char *fmt, va_list args)
+__attribute__((format(PG_PRINTF_ATTRIBUTE, 2, 0)));
 
 /*------------------------
  * appendStringInfoString
@@ -123,6 +132,12 @@ extern void appendStringInfoChar(StringInfo str, char ch);
 	(((str)->len + 1 >= (str)->maxlen) ? \
 	 appendStringInfoChar(str, ch) : \
 	 (void)((str)->data[(str)->len] = (ch), (str)->data[++(str)->len] = '\0'))
+
+/*------------------------
+ * appendStringInfoSpaces
+ * Append a given number of spaces to str.
+ */
+extern void appendStringInfoSpaces(StringInfo str, int count);
 
 /*------------------------
  * appendBinaryStringInfo

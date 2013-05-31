@@ -143,7 +143,6 @@ set ::msgcat::header "Project-Id-Version: git-gui\nReport-Msgid-Bugs-To: \nPOT-C
 ::msgcat::mcset zh_cn "Delete Only If Merged Into" "\u4ec5\u5728\u5408\u5e76\u540e\u5220\u9664"
 ::msgcat::mcset zh_cn "Always (Do not perform merge test.)" "\u603b\u662f\u5408\u5e76 (\u4e0d\u4f5c\u5408\u5e76\u6d4b\u8bd5.)"
 ::msgcat::mcset zh_cn "The following branches are not completely merged into %s:" "\u4e0b\u5217\u5206\u652f\u6ca1\u6709\u5b8c\u5168\u88ab\u5408\u5e76\u5230 %s:"
-::msgcat::mcset zh_cn "Recovering deleted branches is difficult. \n\n Delete the selected branches?" "\u6062\u590d\u88ab\u5220\u9664\u7684\u5206\u652f\u975e\u5e38\u56f0\u96be.\n\n\u662f\u5426\u8981\u5220\u9664\u6240\u9009\u5206\u652f?"
 ::msgcat::mcset zh_cn "Failed to delete branches:\n%s" "\u65e0\u6cd5\u5220\u9664\u5206\u652f:\n%s"
 ::msgcat::mcset zh_cn "Rename Branch" "\u66f4\u6539\u5206\u652f\u540d:"
 ::msgcat::mcset zh_cn "Rename" "\u66f4\u540d..."

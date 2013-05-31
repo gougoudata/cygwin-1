@@ -1,0 +1,72 @@
+automake1.5
+--------------------------------------
+Provides the latest version of automake in the 1.5 series
+
+Runtime requirements (these or newer):
+  cygwin-1.7.0-30
+  perl-5.10.0-5
+  coreutils-6.12-2
+  autoconf2.1
+  autoconf
+
+Build requirements (these or newer):
+  cygwin-1.7.0-30
+  perl-5.10.0-5
+  coreutils-6.12-2
+  cygport-0.9.2
+  autoconf2.1
+  autoconf
+
+Canonical homepage:
+  http://sources.redhat.com/automake/
+
+Canonical download:
+  ftp://ftp.gnu.org/pub/gnu/automake/
+
+License:
+  GPL
+
+Language:
+  perl, m4
+
+===========================================================
+
+Build instructions:
+  unpack automake1.5-1.5-X-src.tar.bz2
+    if you use setup to install this src package, it will be unpacked
+    under /usr/src automatically
+  cd /usr/src
+  cygport ./automake1.5-1.5-X.cygport all
+
+This will create:
+  /usr/src/automake1.5-1.5-X-src.tar.bz2
+  /usr/src/automake1.5-1.5-X.bz2
+
+Also, 'cygport ./automake1.5-1.5-X.cygport check' will test the package
+
+===========================================================
+
+Files included in automake1.5-1.5-X:
+  see cygcheck -l output
+
+===========================================================
+
+Port Notes:
+----- version 1.5-10 -- 22 Oct 2008 -----
+* This version marks the beginning of cygwin-1.7 specific
+  ports. Releases 1.5-3 thru 1.5-9 are reserved for
+  cygwin-1.5.
+* Use stock cygport 0.9.2
+* Fix setup.hint
+* Ensure /usr/share/aclocal directory is preserved
+
+1.5-2
+----------
+Switch to cygport build framework
+
+1.5-1
+----------
+First release.
+
+----------------------------------------
+Cygwin port maintained by: Chuck Wilson <cygwin@cygwin.com>

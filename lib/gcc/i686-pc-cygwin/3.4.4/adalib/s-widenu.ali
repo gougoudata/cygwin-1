@@ -17,8 +17,8 @@ U system.wid_enum%s	s-widenu.ads		abba021f NE PU PK
 W system%s		system.ads		system.ali
 
 D system.ads		20031021134222 6af26689
-D s-widenu.ads		20030424175416 c1486496
-D s-widenu.adb		20030424175416 a1bc96b7
+D s-widenu.ads		20030424175415 c1486496
+D s-widenu.adb		20030424175415 a1bc96b7
 D unchconv.ads		20030424175420 1b7a14c5
 X 1 system.ads
 44K9*System 163e11 2|36r9 41r17 61r17 69r17 75r5 3|36r14 44r17 57r35 77r17

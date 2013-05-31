@@ -1,11 +1,40 @@
+/* GDK - The GIMP Drawing Kit
+ * Copyright (C) 1995-1997 Peter Mattis, Spencer Kimball and Josh MacDonald
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the
+ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
+ */
+
+/*
+ * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
+ * file for a list of people on the GTK+ Team.  See the ChangeLog
+ * files for a list of changes.  These files are distributed with
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
+ */
+
 #ifndef __GDK_COLOR_H__
 #define __GDK_COLOR_H__
 
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GDK_H_INSIDE__) && !defined (GDK_COMPILATION)
+#error "Only <gdk/gdk.h> can be included directly."
+#endif
+
+#include <cairo.h>
 #include <gdk/gdktypes.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 /* The color type.
  *   A color consists of red, green and blue values in the
@@ -38,16 +67,17 @@ typedef struct _GdkColormapClass GdkColormapClass;
 
 struct _GdkColormap
 {
+  /*< private >*/
   GObject parent_instance;
 
   /*< public >*/
-  gint      size;
-  GdkColor *colors;
+  gint      GSEAL (size);
+  GdkColor *GSEAL (colors);
 
   /*< private >*/
-  GdkVisual *visual;
+  GdkVisual *GSEAL (visual);
   
-  gpointer windowing_data;
+  gpointer GSEAL (windowing_data);
 };
 
 struct _GdkColormapClass
@@ -82,32 +112,33 @@ void gdk_colormap_change (GdkColormap	*colormap,
 			  gint		 ncolors);
 #endif 
 
-gint  gdk_colormap_alloc_colors   (GdkColormap *colormap,
-				   GdkColor    *colors,
-				   gint         ncolors,
-				   gboolean     writeable,
-				   gboolean     best_match,
-				   gboolean    *success);
-gboolean gdk_colormap_alloc_color (GdkColormap *colormap,
-				   GdkColor    *color,
-				   gboolean     writeable,
-				   gboolean     best_match);
-void     gdk_colormap_free_colors (GdkColormap *colormap,
-				   GdkColor    *colors,
-				   gint         ncolors);
-void     gdk_colormap_query_color (GdkColormap *colormap,
-				   gulong       pixel,
-				   GdkColor    *result);
+gint  gdk_colormap_alloc_colors   (GdkColormap    *colormap,
+				   GdkColor       *colors,
+				   gint            n_colors,
+				   gboolean        writeable,
+				   gboolean        best_match,
+				   gboolean       *success);
+gboolean gdk_colormap_alloc_color (GdkColormap    *colormap,
+				   GdkColor       *color,
+				   gboolean        writeable,
+				   gboolean        best_match);
+void     gdk_colormap_free_colors (GdkColormap    *colormap,
+				   const GdkColor *colors,
+				   gint            n_colors);
+void     gdk_colormap_query_color (GdkColormap    *colormap,
+				   gulong          pixel,
+				   GdkColor       *result);
 
 GdkVisual *gdk_colormap_get_visual (GdkColormap *colormap);
-     
-GdkColor *gdk_color_copy  (const GdkColor *color);
-void      gdk_color_free  (GdkColor       *color);
-gint      gdk_color_parse (const gchar    *spec,
-			   GdkColor       *color);
-guint     gdk_color_hash  (const GdkColor *colora);
-gboolean  gdk_color_equal (const GdkColor *colora,
-			   const GdkColor *colorb);
+
+GdkColor *gdk_color_copy      (const GdkColor *color);
+void      gdk_color_free      (GdkColor       *color);
+gboolean  gdk_color_parse     (const gchar    *spec,
+			       GdkColor       *color);
+guint     gdk_color_hash      (const GdkColor *colora);
+gboolean  gdk_color_equal     (const GdkColor *colora,
+			       const GdkColor *colorb);
+gchar *   gdk_color_to_string (const GdkColor *color);
 
 GType     gdk_color_get_type (void) G_GNUC_CONST;
 
@@ -140,8 +171,6 @@ void gdk_colors_free	 (GdkColormap	*colormap,
 			  gulong	 planes);
 #endif /* !GDK_DISABLE_DEPRECATED || GDK_COMPILATION */
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __GDK_COLOR_H__ */

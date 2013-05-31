@@ -1,0 +1,88 @@
+<html><head><title>CHICKEN User's Manual - Accessing external objects</title></head><body>
+<a name="accessing-external-objects"></a><h1>Accessing external objects</h1><a name="foreign-code"></a><h2>foreign-code</h2><pre>[syntax] (foreign-code STRING ...)</pre><p>Executes the embedded C/C++ code <tt>STRING ...</tt>, which should be a sequence of C statements, which are executed and return an unspecified result.</p><PRE>
+(foreign-code <B><FONT COLOR="#BC8F8F">&quot;doSomeInitStuff();&quot;</FONT></B>)     <B><FONT COLOR="#A020F0">=&gt;</FONT></B>  #&lt;unspecified&gt;
+</PRE>
+<p>Code wrapped inside <tt>foreign-code</tt> may not invoke callbacks into Scheme.</p><a name="foreign-value"></a><h2>foreign-value</h2><pre>[syntax] (foreign-value STRING TYPE)</pre><p>Evaluates the embedded C/C++ expression <tt>STRING</tt>, returning a value of type given in the foreign-type specifier <tt>TYPE</tt>.</p><PRE>
+(print (foreign-value <B><FONT COLOR="#BC8F8F">&quot;my_version_string&quot;</FONT></B> c-string))
+</PRE>
+<a name="foreign-declare"></a><h2>foreign-declare</h2><pre>[syntax] (foreign-declare STRING ...)</pre><p>Include given strings verbatim into header of generated file.</p><a name="define-foreign-type"></a><h2>define-foreign-type</h2><pre>[syntax] (define-foreign-type NAME TYPE [ARGCONVERT [RETCONVERT]])</pre><p>Defines an alias for <tt>TYPE</tt> with the name <tt>NAME</tt> (a symbol). <tt>TYPE</tt> may be a type-specifier or a string naming a C type. The namespace of foreign type specifiers is separate from the normal Scheme namespace.  The optional arguments <tt>ARGCONVERT</tt> and <tt>RETCONVERT</tt> should evaluate to procedures that map argument- and result-values to a value that can be transformed to <tt>TYPE</tt>:</p><PRE>
+(define-foreign-type char-vector 
+  nonnull-c-string
+  (compose list-&gt;string vector-&gt;list)
+  (compose list-&gt;vector string-&gt;list) )
+
+(<B><FONT COLOR="#A020F0">define</FONT></B> <B><FONT COLOR="#0000FF">strlen</FONT></B>
+  (foreign-lambda int <B><FONT COLOR="#BC8F8F">&quot;strlen&quot;</FONT></B> char-vector) )
+
+(strlen '#(#\a #\b #\c))                      =<B><FONT COLOR="#A020F0">=&gt;</FONT></B> 3
+
+(<B><FONT COLOR="#A020F0">define</FONT></B> <B><FONT COLOR="#0000FF">memset</FONT></B>
+  (foreign-lambda char-vector <B><FONT COLOR="#BC8F8F">&quot;memset&quot;</FONT></B> char-vector char int) )
+
+(memset '#(#_ #_ #_) #\X 3)                =<B><FONT COLOR="#A020F0">=&gt;</FONT></B> #(#\X #\X #\X)
+</PRE>
+<p>Foreign type-definitions are only visible in the compilation-unit in which they are defined, so use <tt>include</tt> to use the same definitions in multiple files.</p><a name="define-foreign-variable"></a><h2>define-foreign-variable</h2><pre>[syntax] (define-foreign-variable NAME TYPE [STRING])</pre><p>Defines a foreign variable of name <tt>NAME</tt> (a symbol). <tt>STRING</tt> should be the real name of a foreign variable or parameterless macro. If <tt>STRING</tt> is not given, then the variable name <tt>NAME</tt> will be converted to a string and used instead. All references and assignments (via <tt>set!</tt>) are modified to correctly convert values between Scheme and C representation. This foreign variable can only be accessed in the current compilation unit, but the name can be lexically shadowed.  Note that <tt>STRING</tt> can name an arbitrary C expression. If no assignments are performed, then <tt>STRING</tt> doesn't even have to specify an lvalue.</p><PRE>
+#&gt;
+enum { abc=3, def, ghi }<I><FONT COLOR="#B22222">;
+</FONT></I>&lt;#
+
+(define-macro (define-simple-foreign-enum . items)
+  `(<B><FONT COLOR="#A020F0">begin</FONT></B>
+     ,@(map (match-lambda 
+              [(name realname) `(define-foreign-variable ,name int ,realname)]
+              [name `(define-foreign-variable ,name int)] )
+     items) ) )
+
+(define-simple-foreign-enum abc def ghi)
+
+ghi                               =<B><FONT COLOR="#A020F0">=&gt;</FONT></B> 5
+</PRE>
+<a name="define-foreign-record"></a><h2>define-foreign-record</h2><pre>[syntax] (define-foreign-record NAME [DECL ...] SLOT ...)</pre><p>Defines accessor procedures for a C structure definition. <tt>NAME</tt> should either be a symbol or a list of the form <tt>(TYPENAME FOREIGNNAME)</tt>. If <tt>NAME</tt> is a symbol, then a C declaration will be generated that defines a C struct named <tt>struct NAME</tt>. If <tt>NAME</tt> is a list, then no struct declaration will be generated and <tt>FOREIGNNAME</tt> should name an existing C record type. A foreign-type specifier named <tt>NAME</tt> (or <tt>TYPENAME</tt>) will be defined as a pointer to the given C structure. A <tt>SLOT</tt> definition should be a list of one of the following forms:</p><pre>(TYPE SLOTNAME)</pre><p>or</p><pre>(TYPE SLOTNAME SIZE)</pre><p>The latter form defines an array of <tt>SIZE</tt> elements of the type <tt>TYPE</tt> embedded in the structure. For every slot, the following accessor procedures will be generated:</p><a name="typename-slotname"></a><h3>TYPENAME-SLOTNAME</h3><pre>(TYPENAME-SLOTNAME FOREIGN-RECORD-POINTER [INDEX])</pre><p>A procedure of one argument (a pointer to a C structure), that returns the slot value of the slot <tt>SLOTNAME</tt>. If a <tt>SIZE</tt> has been given in the slot definition, then an additional argument <tt>INDEX</tt> is required that specifies the index of an array-element.</p><a name="typename-slotname-set"></a><h3>TYPENAME-SLOTNAME-set!</h3><pre>
+(TYPENAME-SLOTNAME-set! FOREIGN-RECORD-POINTER [INDEX] VALUE)</pre><p>A procedure of two arguments (a pointer to a C structure) and a value, that sets the slot value of the slot <tt>SLOTNAME</tt> in the structure. If a <tt>SIZE</tt> has been given in the slot definition, then an additional argument <tt>INDEX</tt> is required for the array index.</p><p>If a slot type is of the form <tt>(const ...)</tt>, then no setter procedure will be generated. Slots of the types <tt>(struct ...)</tt> or <tt>(union ...)</tt> are accessed as pointers to the embedded struct (or union) and no setter will be generated. </p><p>Additionally, special record-declarations (<tt>DECL ...</tt>) may be given, where each declaration consists of a list of the form <tt>(KEYWORD ARGUMENT ...)</tt>. The available declarations are:</p><a name="constructor"></a><h3>constructor</h3><pre>(constructor: NAME)</pre><p>Generate a constructor-procedure with no arguments that has the name <tt>NAME</tt> (a symbol) that returns a pointer to a structure of this type. The storage will be allocated with <tt>malloc(3)</tt>.</p><a name="destructor"></a><h3>destructor</h3><pre>(destructor: NAME)</pre><p>Generate a destructor function with the name <tt>NAME</tt> that takes a pointer to a structure of this type as its single argument and releases the storage with <tt>free(3)</tt>. If the argument is <tt>#f</tt>, the destructor procedure does nothing.</p><a name="rename"></a><h3>rename</h3><pre>(rename: EXPRESSION)</pre><p>Evaluates <tt>EXPRESSION</tt> at compile-/macro-expansion-time and applies the result, which should be a procedure, to the string-representation of the name of each accessor-procedure generated. Another (or the same) string should be returned, which in turn is taken as the actual name of the accessor.</p><p>An example:</p><PRE>
+(require-for-syntax 'srfi-13)
+
+(define-foreign-record Some_Struct
+  (rename: (compose string-downcase (cut string-translate &lt;&gt; <B><FONT COLOR="#BC8F8F">&quot;_&quot;</FONT></B> <B><FONT COLOR="#BC8F8F">&quot;-&quot;</FONT></B>)))
+  (constructor: make-some-struct)
+  (destructor: free-some-struct)
+  (int xCoord)
+  (int yCoord) )
+</PRE>
+<p>will generate the following procedures:</p><PRE>
+(make-some-struct)              --&gt; C-POINTER
+(free-some-struct C-POINTER)
+
+(some-struct-xcoord C-POINTER)  --&gt; NUMBER
+(some-struct-ycoord C-POINTER)  --&gt; NUMBER
+
+(some-struct-xcoord-set! C-POINTER NUMBER)
+(some-struct-ycoord-set! C-POINTER NUMBER)
+</PRE>
+<a name="define-foreign-enum"></a><h2>define-foreign-enum</h2><pre>[syntax] (define-foreign-enum TYPESPEC [USE-ALIASES] ENUMSPEC ...)</pre><p>Defines a foreign type (as with <tt>define-foreign-type</tt>) that maps the elements of a C/C++ enum (or a enum-like list of constants) to and from a set of symbols.</p><p><tt>TYPESPEC</tt> specifies a foreign type that converts a symbol argument from the set <tt>ENUMSPEC ...</tt> into the appropriate enum value when passed as an argument to a foreign function.</p><p>A list of symbols passed as an argument will be combined using <tt>bitwise-ior</tt>. An empty list will be passed as 0 (zero). Results of the enum type are automatically converted into a scheme value (note that combinations are not supported in this case).</p><p><tt>TYPESPEC</tt> maybe a TYPENAME symbol or a list of the form <tt>(SCHEMENAME REALTYPE [DEFAULT-SCHEME-VALUE])</tt>, where <tt>REALTYPE</tt> designates the native type used. The default type specification is <tt>(TYPENAME TYPENAME)</tt>. The <tt>DEFAULT-SCHEME-VALUE</tt> overrides the default result of mapping from the native type; i.e. when no such mapping exists. When supplied the form is used unquoted, otherwise the result is <tt>'()</tt>.</p><p><tt>ENUMSPEC</tt> is a TYPENAME symbol or a list of the form <tt>(SCHEMENAME REALTYPE [SCHEME-VALUE])</tt>, where <tt>REALTYPE</tt> designates the native type used. The default enum specification is <tt>(TYPENAME TYPENAME)</tt>. The <tt>SCHEME-VALUE</tt> overrides the result of mapping from the native type. When supplied the form is used unquoted, otherwise the <tt>SCHEMENAME</tt> symbol is returned.</p><p><tt>USE-ALIASES</tt> is an optional boolean flag that determines whether an alias or the <tt>SCHEMENAME</tt> is used as the defined foreign variable name. The default is <tt>#t</tt>.</p><p>Additionally two procedures are defined named <tt>SCHEMENAME-&gt;number</tt> and <tt>number-&gt;SCHEMENAME</tt>. <tt>SCHEMENAME-&gt;number</tt> takes one argument and converts a symbol (or a list of symbols) into its numeric value.  <tt>number-&gt;SCHEMENAME</tt> takes one argument and converts a numeric value into its scheme value.</p><p>Note that the specification of a scheme value override (<tt>SCHEME-VALUE</tt>) means the mapping may not be closed! <tt>(number-&gt;SCHEMENAME (SCHEMENAME-&gt;number SCHEMENAME))</tt> may not equal <tt>SCHEMENAME</tt>.</p><p>Here a heavily contrived example:</p><PRE>
+#&gt;
+enum foo { a_foo = 4, b_foo, c_foo }<I><FONT COLOR="#B22222">;
+</FONT></I>enum foo bar(enum foo x) { printf(<B><FONT COLOR="#BC8F8F">&quot;%d\n&quot;</FONT></B>, x)<I><FONT COLOR="#B22222">; return b_foo; }
+</FONT></I>&lt;#
+
+(define-foreign-enum (foo (enum <B><FONT COLOR="#BC8F8F">&quot;foo&quot;</FONT></B>)) a_foo b_foo (c c_foo))
+
+(<B><FONT COLOR="#A020F0">define</FONT></B> <B><FONT COLOR="#0000FF">bar</FONT></B> (foreign-lambda foo bar foo))
+
+(pp (bar '()))
+(pp (bar 'a_foo))
+(pp (bar '(b_foo c)))
+</PRE>
+<a name="foreign-lambda"></a><h2>foreign-lambda</h2><pre>[syntax] (foreign-lambda RETURNTYPE NAME ARGTYPE ...)</pre><p>Represents a binding to an external routine. This form can be used in the position of an ordinary <tt>lambda</tt> expression. <tt>NAME</tt> specifies the name of the external procedure and should be a string or a symbol.</p><a name="foreign-lambda"></a><h2>foreign-lambda*</h2><pre>[syntax] (foreign-lambda* RETURNTYPE ((ARGTYPE VARIABLE) ...) STRING ...)</pre><p>Similar to <tt>foreign-lambda</tt>, but instead of generating code to call an external function, the body of the C procedure is directly given in <tt>STRING ...</tt>:</p><PRE>
+(<B><FONT COLOR="#A020F0">define</FONT></B> <B><FONT COLOR="#0000FF">my-strlen</FONT></B>
+  (foreign-lambda* int ((c-string str))
+    <B><FONT COLOR="#BC8F8F">&quot;int n = 0;
+     while(*(str++)) ++n;
+     C_return(n);&quot;</FONT></B>) )
+
+(my-strlen <B><FONT COLOR="#BC8F8F">&quot;one two three&quot;</FONT></B>)             =<B><FONT COLOR="#A020F0">=&gt;</FONT></B> 13
+</PRE>
+<p>For obscure technical reasons you should use the <tt>C_return</tt> macro instead of the normal <tt>return</tt> statement to return a result from the foreign lambda body as some cleanup code has to be run before execution commences in the calling code.</p><a name="foreign-safe-lambda"></a><h2>foreign-safe-lambda</h2><pre>[syntax] (foreign-safe-lambda RETURNTYPE NAME ARGTYPE ...)</pre><p>This is similar to <tt>foreign-lambda</tt>, but also allows the called function to call Scheme functions and allocate Scheme data-objects. See <a href="callbacks.html" class="internal">Callbacks</a>.</p><a name="foreign-safe-lambda"></a><h2>foreign-safe-lambda*</h2><pre>[syntax] (foreign-safe-lambda* RETURNTYPE ((ARGTYPE VARIABLE)...) STRING ...)</pre><p>This is similar to <tt>foreign-lambda*</tt>, but also allows the called function to call Scheme functions and allocate Scheme data-objects. See <a href="callbacks.html" class="internal">Callbacks</a>.</p><a name="foreign-primitive"></a><h2>foreign-primitive</h2><pre>[syntax] (foreign-primitive [RETURNTYPE] ((ARGTYPE VARIABLE) ...) STRING ...)</pre><p>This is also similar to <tt>foreign-lambda*</tt> but the code will be executed in a <em>primitive</em> CPS context, which means it will not actually return, but call it's continuation on exit. This means that code inside this form may allocate Scheme data on the C stack (the <em>nursery</em>) with <tt>C_alloc</tt> (see below). If the <tt>RETURNTYPE</tt> is omitted it defaults to <tt>void</tt>. You can return multiple values inside the body of the <tt>foreign-primitive</tt> form by calling this C function:</p><PRE>
+C_values(N + 2, C_SCHEME_UNDEFINED, C_k, X1, ...)
+</PRE>
+<p>where <tt>N</tt> is the number of values to be returned, and <tt>X1, ...</tt> are the results, which should be Scheme data objects. When returning multiple values, the return-type should be omitted.</p><p>Previous: <a href="interface-to-external-functions-and-variables.html" class="internal">Interface to external functions and variables</a></p><p>Next: <a href="foreign-type-specifiers.html" class="internal">Foreign type specifiers</a></p>
+</body></html>

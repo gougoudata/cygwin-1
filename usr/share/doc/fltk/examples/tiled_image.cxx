@@ -1,24 +1,15 @@
 //
-// "$Id: tiled_image.cxx 5519 2006-10-11 03:12:15Z mike $"
+// "$Id: tiled_image.cxx 8864 2011-07-19 04:49:30Z greg.ercolano $"
 //
 // Fl_Tiled_Image test program for the Fast Light Tool Kit (FLTK).
 //
-// Copyright 1998-2006 by Bill Spitzak and others.
+// Copyright 1998-2010 by Bill Spitzak and others.
 //
-// This library is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Library General Public
-// License as published by the Free Software Foundation; either
-// version 2 of the License, or (at your option) any later version.
+// This library is free software. Distribution and use rights are outlined in
+// the file "COPYING" which should have been included with this file.  If this
+// file is missing or damaged, see the license at:
 //
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-// Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public
-// License along with this library; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
-// USA.
+//     http://www.fltk.org/COPYING.php
 //
 // Please report all bugs and problems on the following page:
 //
@@ -26,7 +17,7 @@
 //
 
 #include <FL/Fl.H>
-#include <FL/Fl_Window.H>
+#include <FL/Fl_Double_Window.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Pixmap.H>
 #include <FL/Fl_Tiled_Image.H>
@@ -37,7 +28,7 @@
 #include "pixmaps/tile.xpm"
 
 Fl_Button *b;
-Fl_Window *w;
+Fl_Double_Window *w;
 
 void button_cb(Fl_Widget *,void *) {
   w->hide();
@@ -83,7 +74,7 @@ int main(int argc, char **argv) {
   }
 #endif
 
-  Fl_Window window(400,400); ::w = &window;
+  Fl_Double_Window window(400,400); ::w = &window;
   Fl_Group group(0,0,400,400);
   group.image(new Fl_Tiled_Image(new Fl_Pixmap((const char * const *)tile_xpm)));
   group.align(FL_ALIGN_INSIDE);
@@ -101,5 +92,5 @@ int main(int argc, char **argv) {
 }
 
 //
-// End of "$Id: tiled_image.cxx 5519 2006-10-11 03:12:15Z mike $".
+// End of "$Id: tiled_image.cxx 8864 2011-07-19 04:49:30Z greg.ercolano $".
 //

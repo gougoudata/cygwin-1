@@ -24,20 +24,20 @@ W ada%s			ada.ads			ada.ali
 W ada.exceptions%s	a-except.adb		a-except.ali
 W gnat%s		gnat.ads		gnat.ali
 
-D ada.ads		20030424175358 a0108083
-D a-except.ads		20031021134154 a1717b33
+D ada.ads		20030424175357 a0108083
+D a-except.ads		20031021134153 a1717b33
 D a-unccon.ads		20030424175356 5b55fe29
 D gnat.ads		20030424175404 6380ea48
 D g-excact.ads		20031021134200 49a719e4
 D g-excact.adb		20031021134200 66e149af
 D g-eacodu.adb		20031021134200 34ed2823 gnat.exception_actions.core_dump
 D system.ads		20031021134222 6af26689
-D s-exctab.ads		20031021134214 6637f07f
+D s-exctab.ads		20031021134213 6637f07f
 D s-soflin.ads		20031021134214 14059e84
 D s-stache.ads		20031021134214 6135f334
 D s-stalib.ads		20031021134214 e7ad2af0
-D s-stoele.ads		20050603190336 5a73170b
-D s-stoele.adb		20030424175414 792079f8
+D s-stoele.ads		20050603200336 5a73170b
+D s-stoele.adb		20030424175413 792079f8
 D s-traent.ads		20031021134218 e81a0978
 D unchconv.ads		20030424175420 1b7a14c5
 X 1 ada.ads

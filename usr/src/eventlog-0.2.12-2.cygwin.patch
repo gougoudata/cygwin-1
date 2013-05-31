@@ -1,0 +1,29 @@
+--- origsrc/eventlog-0.2.12/CYGWIN-PATCHES/eventlog.hint	1970-01-01 01:00:00.000000000 +0100
++++ src/eventlog-0.2.12/CYGWIN-PATCHES/eventlog.hint	2012-05-04 10:37:59.863281931 +0200
+@@ -0,0 +1,6 @@
++sdesc: "Structured event logging library"
++ldesc: "The EventLog library aims to be a replacement of the simple syslog()
++API provided on UNIX systems. The major difference between EventLog and syslog
++is that EventLog tries to add structure to messages."
++category: Libs Devel
++requires: libevtlog0
+--- origsrc/eventlog-0.2.12/CYGWIN-PATCHES/libevtlog-devel.hint	1970-01-01 01:00:00.000000000 +0100
++++ src/eventlog-0.2.12/CYGWIN-PATCHES/libevtlog-devel.hint	2012-05-04 10:37:59.966276095 +0200
+@@ -0,0 +1,7 @@
++sdesc: "Structured event logging library (devel)"
++ldesc: "The EventLog library aims to be a replacement of the simple syslog()
++API provided on UNIX systems. The major difference between EventLog and syslog
++is that EventLog tries to add structure to messages."
++category: Devel
++requires: libevtlog0
++external-source: eventlog
+--- origsrc/eventlog-0.2.12/CYGWIN-PATCHES/libevtlog0.hint	1970-01-01 01:00:00.000000000 +0100
++++ src/eventlog-0.2.12/CYGWIN-PATCHES/libevtlog0.hint	2012-05-04 10:37:59.906279494 +0200
+@@ -0,0 +1,7 @@
++sdesc: "Structured event logging library (runtime)"
++ldesc: "The EventLog library aims to be a replacement of the simple syslog()
++API provided on UNIX systems. The major difference between EventLog and syslog
++is that EventLog tries to add structure to messages."
++category: Libs
++requires: 
++external-source: eventlog

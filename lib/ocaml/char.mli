@@ -11,13 +11,13 @@
 (*                                                                     *)
 (***********************************************************************)
 
-(* $Id: char.mli,v 1.16 2002/06/26 09:13:58 xleroy Exp $ *)
+(* $Id: char.mli 7164 2005-10-25 18:34:07Z doligez $ *)
 
 (** Character operations. *)
 
 external code : char -> int = "%identity"
 (** Return the ASCII code of the argument. *)
-        
+
 val chr : int -> char
 (** Return the character with the given ASCII code.
    Raise [Invalid_argument "Char.chr"] if the argument is

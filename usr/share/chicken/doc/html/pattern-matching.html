@@ -1,0 +1,101 @@
+<html><head><title>CHICKEN User's Manual - Pattern matching</title></head><body>
+<p> </p><a name="pattern-matching"></a><h1>Pattern matching</h1><p>(This description has been taken mostly from Andrew Wright's postscript document)</p><p>Pattern matching allows complicated control decisions based on data structure to be expressed in a concise manner.  Pattern matching is found in several modern languages, notably Standard ML, Haskell and Miranda. These syntactic extensions internally use the <tt>match</tt> library unit.</p><p>Note: this pattern matching package is not compatible with hygienic macro-expanders like the <tt>syntax-case</tt> extension (available separately).</p><p>The basic form of pattern matching expression is:</p><PRE>
+(match exp [pat body] ...)
+</PRE>
+<p>where <tt>exp</tt> is an expression, <tt>pat</tt> is a pattern, and <tt>body</tt> is one or more expressions (like the body of a lambda-expression). The <tt>match</tt> form matches its first subexpression against a sequence of patterns, and branches to the <tt>body</tt> corresponding to the first pattern successfully matched. For example, the following code defines the usual <tt>map</tt> function:</p><PRE>
+(<B><FONT COLOR="#A020F0">define</FONT></B> <B><FONT COLOR="#0000FF">map</FONT></B>
+  (<B><FONT COLOR="#A020F0">lambda</FONT></B> (f l)
+    (match l
+      [() '()]
+      [(x . y) (cons (f x) (map f y))])))
+</PRE>
+<p>The first pattern <tt>()</tt> matches the empty list.  The second pattern <tt>(x . y)</tt> matches a pair, binding <tt>x</tt> to the first component of the pair and <tt>y</tt> to the second component of the pair.</p><a name="pattern-matching-expressions"></a><h2>Pattern Matching Expressions</h2><p>The complete syntax of the pattern matching expressions follows:</p><pre>exp ::= (match exp clause ...)
+     |  (match-lambda clause ...)
+     |  (match-lambda* clause ...)
+     |  (match-let ([pat exp] ...) body)
+     |  (match-let* ([pat exp] ...) body)
+     |  (match-letrec ([pat exp] ...) body)
+     |  (match-let var ([pat exp] ...) body)
+     |  (match-define pat exp)</pre><pre>clause ::= [pat body]
+        |  [pat (=&gt; identifier) body]</pre><pre>pat ::= identifier           matches anything, and binds identifier as a variable
+     |  _                    anything
+     |  ()                   itself (the empty list)
+     |  #t                   itself
+     |  #f                   itself
+     |  string               an `equal?' string
+     |  number               an `equal?' number
+     |  character            an `equal?' character
+     |  's-expression        an `equal?' s-expression
+     |  (pat-1 ... pat-n)    a proper list of n elements
+     |  (pat-1 ... pat-n . pat-n+1)  
+                             a list of n or more elements
+     |  (pat-1 ... pat-n pat-n+1 ..k)  
+                             a proper list of n+k or more elements [1]
+     |  #(pat-1 ... pat-n)   a vector of n elements
+     |  #(pat-1 ... pat-n pat-n+1 ..k)  
+                             a vector of n+k or more elements
+     |  ($ struct pat-1 ... pat-n)  
+                             a structure
+     |  (= field pat)        a field of a structure
+     |  (and pat-1 ... pat-n)  
+                             if all of pat-1 through pat-n match
+     |  (or pat-1 ... pat-n) 
+                             if any of pat-1 through pat-n match
+     |  (not pat-1 ... pat-n)
+                             if none of pat-1 through pat-n match
+     |  (? predicate pat-1 ... pat-n)  
+                             if predicate true and pat-1 through pat-n all match
+     |  (set! identifier)    anything, and binds identifier as a setter
+     |  (get! identifier)    anything, and binds identifier as a getter
+     |  `qp                  a quasipattern</pre><pre>qp ::= ()                    itself (the empty list)
+    |  #t                    itself
+    |  #f                    itself
+    |  string                an `equal?' string
+    |  number                an `equal?' number
+    |  character             an `equal?' character
+    |  symbol                an `equal?' symbol
+    |  (qp-1 ... qp-n)       a proper list of n elements
+    |  (qp-1 ... qp-n . qp-n+1)  
+                             a list of n or more elements
+    |  (qp-1 ... qp-n qp-n+1 ..k)  
+                             a proper list of n+k or more elements
+    |  #(qp-1 ... qp-n)      a vector of n elements
+    |  #(qp-1 ... qp-n qp-n+1 ..k)  
+                             a vector of n+k or more elements
+    |  ,pat                  a pattern
+    |  ,@pat                 a pattern, spliced</pre><p>The notation <tt>..k</tt> denotes a keyword consisting of three consecutive dots (ie., <em><tt>...</tt></em>),  or two dots and an non-negative integer (eg., <em><tt>..1</tt></em>, <em><tt>..2</tt></em>), or three consecutive underscores (ie., <em><tt>___</tt></em>), or two underscores and a non-negative integer. The keywords <em><tt>..k</tt></em> and <em><tt>__ k</tt></em> are equivalent. The keywords <em><tt>...</tt></em>, <em><tt>___</tt></em>, <em><tt>..0</tt></em>, and <em><tt>__0</tt></em> are equivalent.</p><p>The next subsection describes the various patterns.</p><p>The <tt>match-lambda</tt> and <tt>match-lambda*</tt> forms are convenient combinations of <tt>match</tt> and <tt>lambda</tt>, and can be explained as follows:</p><PRE>
+(match-lambda [pat body] ...)   =  (<B><FONT COLOR="#A020F0">lambda</FONT></B> (x) (match x [pat body] ...))
+(match-lambda* [pat body] ...)  =  (<B><FONT COLOR="#A020F0">lambda</FONT></B> x (match x [pat body] ...))
+</PRE>
+<p>where <tt>x</tt> is a unique variable. The <tt>match-lambda</tt> form is convenient when defining a single argument function that immediately destructures its argument. The <tt>match-lambda*</tt> form constructs a function that accepts any number of arguments; the patterns of <tt>match-lambda*</tt> should be lists.</p><p>The <tt>match-let</tt>, <tt>match-let*</tt>, <tt>match-letrec</tt>, and <tt>match-define</tt> forms generalize Scheme's <tt>let</tt>, <tt>let*</tt>, <tt>letrec</tt>, and <tt>define</tt> expressions to allow patterns in the binding position rather than just variables. For example, the following expression:</p><PRE>
+(match-let ([(x y z) (list 1 2 3)]) body ...)
+</PRE>
+<p>binds <tt>x</tt> to 1, <tt>y</tt> to 2, and <tt>z</tt> to 3 in <tt>body ...</tt>. These forms are convenient for destructuring the result of a function that returns multiple values as a list or vector. As usual for <tt>letrec</tt> and <tt>define</tt>, pattern variables bound by <tt>match-letrec</tt> and <tt>match-define</tt> should not be used in computing the bound value.</p><p>The <tt>match</tt>, <tt>match-lambda</tt>, and <tt>match-lambda*</tt> forms allow the optional syntax <tt>(=&gt; identifier)</tt> between the pattern and the body of a clause.  When the pattern match for such a clause succeeds, the <tt>identifier</tt> is bound to a `failure procedure' of zero arguments within the <tt>body</tt>.  If this procedure is invoked, it jumps back to the pattern matching expression, and resumes the matching process as if the pattern had failed to match.  The <tt>body</tt> must not mutate the object being matched, otherwise unpredictable behavior may result.</p><a name="patterns"></a><h2>Patterns</h2><p><tt>identifier</tt>: (excluding the reserved names <tt>?</tt>, <tt>,</tt>, <tt>=</tt>, <tt>_</tt>, <tt>and</tt>, <tt>or</tt>, <tt>not</tt>, <tt>set!</tt>, <tt>get!</tt>, <tt>...</tt>, and <tt>..k</tt> for non-negative integers <tt>k</tt>) matches anything, and binds a variable of this name to the matching value in the <tt>body</tt>.</p><p><tt>_</tt>: matches anything, without binding any variables.</p><p><tt>()</tt>, <tt>#t</tt>, <tt>#f</tt>, <tt>string</tt>, <tt>number</tt>, <tt>character</tt>, '<tt>s-expression</tt>: These constant patterns match themselves, i.e., the corresponding value must be <tt>equal?</tt> to the pattern.</p><p><tt>(pat-1 ... pat-n)</tt>: matches a proper list of <tt>n</tt> elements that match <tt>pat-1</tt> through <tt>pat-n</tt>.</p><p><tt>(pat-1 ... pat-n . pat-n+1)</tt>: matches a (possibly improper) list of at least <tt>n</tt> elements that ends in something matching <tt>pat-n+1</tt>.</p><p><tt>(pat-1 ... pat-n pat-n+1 ...)</tt>: matches a proper list of <tt>n</tt> or more elements, where each element of the tail matches <tt>pat-n+1</tt>.  Each pattern variable in <tt>pat-n+1</tt> is bound to a list of the matching values.  For example, the expression:</p><PRE>
+(match '(<B><FONT COLOR="#A020F0">let</FONT></B> ([x 1][y 2]) z)
+  [('<B><FONT COLOR="#A020F0">let</FONT></B> ((binding values) ...) exp)  body])
+</PRE>
+<p>binds <tt>binding</tt> to the list <tt>'(x y)</tt>, <tt>values</tt> to the list \<tt>'(1 2)</tt>, and <tt>exp</tt> to <tt>'z</tt> in the body of the <tt>match</tt>-expression. For the special case where <tt>pat-n+1</tt> is a pattern variable, the list bound to that variable may share with the matched value.</p><p><tt>(pat-1 ... pat-n pat-n+1 ___)</tt>: This pattern means the same thing as the previous pattern.</p><p><tt>(pat-1 ... pat-n pat-n+1 ..k)</tt>: This pattern is similar to the previous pattern, but the tail must be at least <tt>k</tt> elements long. The pattern keywords <tt>..0</tt> and <tt>...</tt> are equivalent.</p><p><tt>(pat-1 ... pat-n ~ pat-n+1 __k)</tt>: This pattern means the same thing as the previous pattern.</p><p><tt>#(pat-1 ... pat-n)</tt>: matches a vector of length <tt>n</tt>, whose elements match <tt>pat-1</tt> through <tt>pat-n</tt>.</p><p><tt>#(pat-1 ... pat-n pat-n+1 ...)</tt>: matches a vector of length <tt>n</tt> or more, where each element beyond <tt>n</tt> matches <tt>pat-n+1</tt>.</p><p><tt>#(pat-1 ... pat-n pat-n+1 ..k)</tt>: matches a vector of length <tt>n+k</tt> or more, where each element beyond <tt>n</tt> matches <tt>pat-n+1</tt>.</p><p><tt>($ struct pat-1 ... pat-n)</tt>: matches a structure declared with <tt>define-record</tt> or <tt>define-record-type</tt>.</p><p><tt>(= field pat)</tt>: is intended for selecting a field from a structure.  <em>field</em> may be any expression; it is applied to the value being matched, and the result of this application is matched against <tt>pat</tt>.</p><p><tt>(and pat-1 ... pat-n)</tt>: matches if all of the subpatterns match. At least one subpattern must be present. This pattern is often used as <tt>(and x pat)</tt> to bind <tt>x</tt> to to the entire value that matches <tt>pat</tt> (cf. <em>as-patterns</em> in ML or Haskell).</p><p><tt>(or pat-1 ... pat-n)</tt>: matches if any of the subpatterns match. At least one subpattern must be present. All subpatterns must bind the same set of pattern variables.</p><p><tt>(not pat-1 ... pat-n)</tt>: matches if none of the subpatterns match. At least one subpattern must be present. The subpatterns may not bind any pattern variables.</p><p><tt>(? predicate pat-1 ... pat-n)</tt>: In this pattern, <tt>predicate</tt> must be an expression evaluating to a single argument function. This pattern matches if <tt>predicate</tt> applied to the corresponding value is true, and the subpatterns <tt>pat-1 ... pat-n</tt> all match. The <tt>predicate</tt> should not have side effects, as the code generated by the pattern matcher may invoke predicates repeatedly in any order. The <tt>predicate</tt> expression is bound in the same scope as the match expression, i.e., free variables in <tt>predicate</tt> are not bound by pattern variables.</p><p><tt>(set! identifier)</tt>: matches anything, and binds <tt>identifier</tt> to a procedure of one argument that mutates the corresponding field of the matching value. This pattern must be nested within a pair, vector, box, or structure pattern. For example, the expression:</p><PRE>
+(<B><FONT COLOR="#A020F0">define</FONT></B> <B><FONT COLOR="#0000FF">x</FONT></B> (list 1 (list 2 3)))
+(match x [(_ (_ (<B><FONT COLOR="#A020F0">set!</FONT></B> setit)))  (setit 4)])
+</PRE>
+<p>mutates the <tt>cadadr</tt> of <tt>x</tt> to 4, so that <tt>x</tt> is <tt>'(1 (2 4))</tt>.</p><p><tt>(get! identifier)</tt>: matches anything, and binds <tt>identifier</tt> to a procedure of zero arguments that accesses the corresponding field of the matching value.  This pattern is the complement to <tt>set!</tt>. As with <tt>set!</tt>, this pattern must be nested within a pair, vector, box, or structure pattern.</p><p><em>Quasipatterns</em>: Quasiquote introduces a quasipattern, in which identifiers are considered to be symbolic constants.  Like Scheme's quasiquote for data, <tt>unquote</tt> (,) and <tt>unquote-splicing</tt> (,@) escape back to normal patterns.</p><a name="match-failure"></a><h2>Match Failure</h2><p>If no clause matches the value, the default action  is to invoke the procedure <tt>(match-error-procedure)</tt> with the value that did not match.  The default definition of <tt>(match-error-procedure)</tt> calls <tt>error</tt> with an appropriate message:</p><PRE>
+#<I><FONT COLOR="#B22222">;1&gt; (match 1 (2 2))
+</FONT></I>
+Failed match:
+Error: no matching clause for <B><FONT COLOR="#5F9EA0">:</FONT></B> 1
+</PRE>
+<p>For most situations, this behavior is adequate, but it can be changed by altering the value of the parameter <tt>match-error-control</tt>:</p><dl><dt>{procedure} match-error-control</dt></dl><PRE>
+(match-error-control [MODE])
+</PRE>
+<p>Selects a mode that specifies how <tt>match...</tt> macro forms are to be expanded.  With no argument this procedure returns the current mode. A single argument specifies the new mode that decides what should happen if no match-clause applies.  The following modes are supported:</p><table><tr><td><ol><li>:error</li></ol></td><td><p>Signal an error. This is the default.</p></td></tr><tr><td><ol><li>:match</li></ol></td><td><p>Signal an error and output the offending form.</p></td></tr><tr><td><ol><li>:fail</li></ol></td><td><p>Omits <tt>pair?</tt> tests when the consequence is to fail in <tt>car</tt> or <tt>cdr</tt> rather than to signal an error.</p></td></tr><tr><td><p>unspecified</p></td><td><p>Non-matching expressions will either fail in <tt>car</tt> or <tt>cdr</tt> or return an unspecified value.  This mode applies to files compiled with the <tt>unsafe</tt> option or declaration.</p></td></tr></table><p>When an error is signalled, the raised exception will be of kind <tt>(exn match)</tt>.</p><dl><dt>[procedure] match-error-procedure</dt></dl><PRE>
+(match-error-procedure [PROCEDURE])
+</PRE>
+<p>Sets or returns the procedure called upon a match error. The procedure takes one argument, the value which failed to match. When the error control mode is <tt>#:match</tt> a second argument, the source form of the match expression is available.</p><a name="record-structures-pattern"></a><h2>Record Structures Pattern</h2><p>The <tt>$</tt> pattern handles native record structures and <a href="http://srfi.schemers.org/srfi-9/srfi-9.html" class="external">SRFI-9</a> records transparently. Currently it is required that <a href="http://srfi.schemers.org/srfi-9/srfi-9.html" class="external">SRFI-9</a> record predicates are named exactly like the record type name, followed by a <tt>?</tt> (question mark) character.</p><a name="code-generation"></a><h2>Code Generation</h2><p>Pattern matching macros are compiled into <tt>if</tt>-expressions that decompose the value being matched with standard Scheme procedures, and test the components with standard predicates. Rebinding or lexically shadowing the names of any of these procedures will change the semantics of the <tt>match</tt> macros.  The names that should not be rebound or shadowed are:</p><PRE>
+null? pair? number? string? symbol? boolean? char? procedure? vector? list?
+equal?
+car cdr cadr cdddr ...
+vector-length vector-ref
+reverse length call/cc
+</PRE>
+<p>Additionally, the code generated to match a structure pattern like <tt>($ Foo pat-1 ... pat-n)</tt> refers to the name <tt>Foo?</tt>. This name also should not be shadowed.</p><p>Previous: <a href="non-standard-macros-and-special-forms.html" class="internal">Non-standard macros and special forms</a></p><p>Next: <a href="declarations.html" class="internal">Declarations</a></p>
+</body></html>

@@ -22,11 +22,15 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 #ifndef __GTK_STATUSBAR_H__
 #define __GTK_STATUSBAR_H__
+
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
 
 #include <gtk/gtkhbox.h>
 
@@ -47,25 +51,25 @@ struct _GtkStatusbar
 {
   GtkHBox parent_widget;
 
-  GtkWidget *frame;
-  GtkWidget *label;
+  GtkWidget *GSEAL (frame);
+  GtkWidget *GSEAL (label);
 
-  GSList *messages;
-  GSList *keys;
+  GSList *GSEAL (messages);
+  GSList *GSEAL (keys);
 
-  guint seq_context_id;
-  guint seq_message_id;
+  guint GSEAL (seq_context_id);
+  guint GSEAL (seq_message_id);
 
-  GdkWindow *grip_window;
-  
-  guint has_resize_grip : 1;
+  GdkWindow *GSEAL (grip_window);
+
+  guint GSEAL (has_resize_grip) : 1;
 };
 
 struct _GtkStatusbarClass
 {
   GtkHBoxClass parent_class;
 
-  GMemChunk *messages_mem_chunk;
+  gpointer reserved;
 
   void	(*text_pushed)	(GtkStatusbar	*statusbar,
 			 guint		 context_id,
@@ -98,10 +102,15 @@ void       gtk_statusbar_pop          	(GtkStatusbar *statusbar,
 void       gtk_statusbar_remove        	(GtkStatusbar *statusbar,
 					 guint	       context_id,
 					 guint         message_id);
+void       gtk_statusbar_remove_all    	(GtkStatusbar *statusbar,
+					 guint	       context_id);
+					 
 
 void     gtk_statusbar_set_has_resize_grip (GtkStatusbar *statusbar,
 					    gboolean      setting);
 gboolean gtk_statusbar_get_has_resize_grip (GtkStatusbar *statusbar);
+
+GtkWidget* gtk_statusbar_get_message_area  (GtkStatusbar *statusbar);
 
 G_END_DECLS
 

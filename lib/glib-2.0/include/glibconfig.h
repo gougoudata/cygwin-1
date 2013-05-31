@@ -1,10 +1,10 @@
 /* glibconfig.h
  *
- * This is a generated file.  Please modify 'configure.in'
+ * This is a generated file.  Please modify 'configure.ac'
  */
 
-#ifndef __G_LIBCONFIG_H__
-#define __G_LIBCONFIG_H__
+#ifndef __GLIBCONFIG_H__
+#define __GLIBCONFIG_H__
 
 #include <glib/gmacros.h>
 
@@ -12,6 +12,12 @@
 #include <float.h>
 #define GLIB_HAVE_ALLOCA_H
 #define GLIB_HAVE_SYS_POLL_H
+
+/* Specifies that GLib's g_print*() functions wrap the
+ * system printf functions.  This is useful to know, for example,
+ * when using glibc's register_printf_function().
+ */
+#define GLIB_USING_SYSTEM_PRINTF
 
 G_BEGIN_DECLS
 
@@ -63,12 +69,30 @@ typedef unsigned int gsize;
 #define G_GSIZE_FORMAT "u"
 
 #define G_MAXSIZE	G_MAXUINT
+#define G_MINSSIZE	G_MININT
+#define G_MAXSSIZE	G_MAXINT
 
-#define GPOINTER_TO_INT(p)	((gint)   (p))
-#define GPOINTER_TO_UINT(p)	((guint)  (p))
+typedef gint64 goffset;
+#define G_MINOFFSET	G_MININT64
+#define G_MAXOFFSET	G_MAXINT64
 
-#define GINT_TO_POINTER(i)	((gpointer)  (i))
-#define GUINT_TO_POINTER(u)	((gpointer)  (u))
+#define G_GOFFSET_MODIFIER      G_GINT64_MODIFIER
+#define G_GOFFSET_FORMAT        G_GINT64_FORMAT
+#define G_GOFFSET_CONSTANT(val) G_GINT64_CONSTANT(val)
+
+
+#define GPOINTER_TO_INT(p)	((gint)  (gint) (p))
+#define GPOINTER_TO_UINT(p)	((guint) (guint) (p))
+
+#define GINT_TO_POINTER(i)	((gpointer) (gint) (i))
+#define GUINT_TO_POINTER(u)	((gpointer) (guint) (u))
+
+typedef signed int gintptr;
+typedef unsigned int guintptr;
+
+#define G_GINTPTR_MODIFIER      ""
+#define G_GINTPTR_FORMAT        "i"
+#define G_GUINTPTR_FORMAT       "u"
 
 #ifdef NeXT /* @#%@! NeXTStep */
 # define g_ATEXIT(proc)	(!atexit (proc))
@@ -79,12 +103,13 @@ typedef unsigned int gsize;
 #define g_memmove(dest,src,len) G_STMT_START { memmove ((dest), (src), (len)); } G_STMT_END
 
 #define GLIB_MAJOR_VERSION 2
-#define GLIB_MINOR_VERSION 10
+#define GLIB_MINOR_VERSION 34
 #define GLIB_MICRO_VERSION 3
 
 #define G_OS_UNIX
 #define G_PLATFORM_WIN32
 #define G_WITH_CYGWIN
+
 
 #define G_VA_COPY	va_copy
 
@@ -118,39 +143,22 @@ typedef unsigned int gsize;
 #endif
 
 #define G_HAVE_GNUC_VARARGS 1
-#define G_HAVE_GROWING_STACK 0
+#define G_HAVE_GROWING_STACK 1
 
+#if defined(__SUNPRO_C) && (__SUNPRO_C >= 0x590)
+#define G_GNUC_INTERNAL __attribute__((visibility("hidden")))
+#elif defined(__SUNPRO_C) && (__SUNPRO_C >= 0x550)
+#define G_GNUC_INTERNAL __hidden
+#elif defined (__GNUC__) && defined (G_HAVE_GNUC_VISIBILITY)
+#define G_GNUC_INTERNAL __attribute__((visibility("hidden")))
+#else
 #define G_GNUC_INTERNAL
+#endif
 
 #define G_THREADS_ENABLED
 #define G_THREADS_IMPL_POSIX
-typedef struct _GStaticMutex GStaticMutex;
-struct _GStaticMutex
-{
-  struct _GMutex *runtime_mutex;
-  union {
-    char   pad[4];
-    double dummy_double;
-    void  *dummy_pointer;
-    long   dummy_long;
-  } static_mutex;
-};
-#define	G_STATIC_MUTEX_INIT	{ NULL, { { 20,0,0,0} } }
-#define	g_static_mutex_get_mutex(mutex) \
-  (g_thread_use_default_impl ? ((GMutex*) ((mutex)->static_mutex.pad)) : \
-   g_static_mutex_get_mutex_impl_shortcut (&((mutex)->runtime_mutex)))
-/* This represents a system thread as used by the implementation. An
- * alien implementaion, as loaded by g_thread_init can only count on
- * "sizeof (gpointer)" bytes to store their info. We however need more
- * for some of our native implementations. */
-typedef union _GSystemThread GSystemThread;
-union _GSystemThread
-{
-  char   data[4];
-  double dummy_double;
-  void  *dummy_pointer;
-  long   dummy_long;
-};
+
+#define G_ATOMIC_LOCK_FREE
 
 #define GINT16_TO_LE(val)	((gint16) (val))
 #define GUINT16_TO_LE(val)	((guint16) (val))
@@ -172,6 +180,10 @@ union _GSystemThread
 #define GUINT_TO_LE(val)	((guint) GUINT32_TO_LE (val))
 #define GINT_TO_BE(val)		((gint) GINT32_TO_BE (val))
 #define GUINT_TO_BE(val)	((guint) GUINT32_TO_BE (val))
+#define GSIZE_TO_LE(val)	((gsize) GUINT32_TO_LE (val))
+#define GSSIZE_TO_LE(val)	((gssize) GINT32_TO_LE (val))
+#define GSIZE_TO_BE(val)	((gsize) GUINT32_TO_BE (val))
+#define GSSIZE_TO_BE(val)	((gssize) GINT32_TO_BE (val))
 #define G_BYTE_ORDER G_LITTLE_ENDIAN
 
 #define GLIB_SYSDEF_POLLIN =1
@@ -185,6 +197,14 @@ union _GSystemThread
 
 typedef int GPid;
 
+#define GLIB_SYSDEF_AF_UNIX 1
+#define GLIB_SYSDEF_AF_INET 2
+#define GLIB_SYSDEF_AF_INET6 23
+
+#define GLIB_SYSDEF_MSG_OOB 1
+#define GLIB_SYSDEF_MSG_PEEK 2
+#define GLIB_SYSDEF_MSG_DONTROUTE 4
+
 G_END_DECLS
 
-#endif /* GLIBCONFIG_H */
+#endif /* __GLIBCONFIG_H__ */

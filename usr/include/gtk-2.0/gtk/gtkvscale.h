@@ -21,20 +21,21 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 #ifndef __GTK_VSCALE_H__
 #define __GTK_VSCALE_H__
 
 
-#include <gdk/gdk.h>
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
 #include <gtk/gtkscale.h>
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 
 #define GTK_TYPE_VSCALE            (gtk_vscale_get_type ())
@@ -48,6 +49,12 @@ extern "C" {
 typedef struct _GtkVScale       GtkVScale;
 typedef struct _GtkVScaleClass  GtkVScaleClass;
 
+/**
+ * GtkVScale:
+ *
+ * The #GtkVScale struct contains private data only, and
+ * should be accessed using the functions below.
+ */
 struct _GtkVScale
 {
   GtkScale scale;
@@ -66,10 +73,7 @@ GtkWidget* gtk_vscale_new_with_range (gdouble        min,
                                       gdouble        step);
 
 
-
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 
 #endif /* __GTK_VSCALE_H__ */

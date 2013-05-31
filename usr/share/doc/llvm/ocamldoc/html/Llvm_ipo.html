@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Llvm_executionengine.html">
+<link rel="next" href="Llvm_scalar_opts.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Llvm" rel="Chapter" href="Llvm.html">
+<link title="Llvm_analysis" rel="Chapter" href="Llvm_analysis.html">
+<link title="Llvm_bitreader" rel="Chapter" href="Llvm_bitreader.html">
+<link title="Llvm_bitwriter" rel="Chapter" href="Llvm_bitwriter.html">
+<link title="Llvm_executionengine" rel="Chapter" href="Llvm_executionengine.html">
+<link title="Llvm_ipo" rel="Chapter" href="Llvm_ipo.html">
+<link title="Llvm_scalar_opts" rel="Chapter" href="Llvm_scalar_opts.html">
+<link title="Llvm_target" rel="Chapter" href="Llvm_target.html"><title>Llvm_ipo</title>
+</head>
+<body>
+<div class="navbar"><a href="Llvm_executionengine.html">Previous</a>
+&nbsp;<a href="index.html">Up</a>
+&nbsp;<a href="Llvm_scalar_opts.html">Next</a>
+</div>
+<center><h1>Module <a href="type_Llvm_ipo.html">Llvm_ipo</a></h1></center>
+<br>
+<pre><span class="keyword">module</span> Llvm_ipo: <code class="code"><span class="keyword">sig</span></code> <a href="Llvm_ipo.html">..</a> <code class="code"><span class="keyword">end</span></code></pre>IPO Transforms.
+<p>
+
+    This interface provides an ocaml API for LLVM interprocedural optimizations, the
+    classes in the <code class="code"><span class="constructor">LLVMIPO</span></code> library.<br>
+<hr width="100%">
+<pre><span id="VALadd_argument_promotion"><span class="keyword">val</span> add_argument_promotion</span> : <code class="type">[ `Module ] <a href="Llvm.PassManager.html#TYPEt">Llvm.PassManager.t</a> -> unit</code></pre><div class="info">
+See llvm::createAddArgumentPromotionPass
+<p>
+See llvm::createConstantMergePass function.<br>
+</div>
+<pre><span id="VALadd_constant_merge"><span class="keyword">val</span> add_constant_merge</span> : <code class="type">[ `Module ] <a href="Llvm.PassManager.html#TYPEt">Llvm.PassManager.t</a> -> unit</code></pre><pre><span id="VALadd_dead_arg_elimination"><span class="keyword">val</span> add_dead_arg_elimination</span> : <code class="type">[ `Module ] <a href="Llvm.PassManager.html#TYPEt">Llvm.PassManager.t</a> -> unit</code></pre><div class="info">
+See llvm::createDeadArgEliminationPass function.<br>
+</div>
+<pre><span id="VALadd_function_attrs"><span class="keyword">val</span> add_function_attrs</span> : <code class="type">[ `Module ] <a href="Llvm.PassManager.html#TYPEt">Llvm.PassManager.t</a> -> unit</code></pre><div class="info">
+See llvm::createFunctionAttrsPass function.<br>
+</div>
+<pre><span id="VALadd_function_inlining"><span class="keyword">val</span> add_function_inlining</span> : <code class="type">[ `Module ] <a href="Llvm.PassManager.html#TYPEt">Llvm.PassManager.t</a> -> unit</code></pre><div class="info">
+See llvm::createFunctionInliningPass function.<br>
+</div>
+<pre><span id="VALadd_global_dce"><span class="keyword">val</span> add_global_dce</span> : <code class="type">[ `Module ] <a href="Llvm.PassManager.html#TYPEt">Llvm.PassManager.t</a> -> unit</code></pre><div class="info">
+See llvm::createGlobalDCEPass function.<br>
+</div>
+<pre><span id="VALadd_global_optimizer"><span class="keyword">val</span> add_global_optimizer</span> : <code class="type">[ `Module ] <a href="Llvm.PassManager.html#TYPEt">Llvm.PassManager.t</a> -> unit</code></pre><div class="info">
+See llvm::createGlobalOptimizerPass function.<br>
+</div>
+<pre><span id="VALadd_ipc_propagation"><span class="keyword">val</span> add_ipc_propagation</span> : <code class="type">[ `Module ] <a href="Llvm.PassManager.html#TYPEt">Llvm.PassManager.t</a> -> unit</code></pre><div class="info">
+See llvm::createIPConstantPropagationPass function.<br>
+</div>
+<pre><span id="VALadd_prune_eh"><span class="keyword">val</span> add_prune_eh</span> : <code class="type">[ `Module ] <a href="Llvm.PassManager.html#TYPEt">Llvm.PassManager.t</a> -> unit</code></pre><div class="info">
+See llvm::createPruneEHPass function.<br>
+</div>
+<pre><span id="VALadd_ipsccp"><span class="keyword">val</span> add_ipsccp</span> : <code class="type">[ `Module ] <a href="Llvm.PassManager.html#TYPEt">Llvm.PassManager.t</a> -> unit</code></pre><div class="info">
+See llvm::createIPSCCPPass function.<br>
+</div>
+<pre><span id="VALadd_internalize"><span class="keyword">val</span> add_internalize</span> : <code class="type">[ `Module ] <a href="Llvm.PassManager.html#TYPEt">Llvm.PassManager.t</a> -> bool -> unit</code></pre><div class="info">
+See llvm::createInternalizePass function.<br>
+</div>
+<pre><span id="VALadd_strip_dead_prototypes"><span class="keyword">val</span> add_strip_dead_prototypes</span> : <code class="type">[ `Module ] <a href="Llvm.PassManager.html#TYPEt">Llvm.PassManager.t</a> -> unit</code></pre><div class="info">
+See llvm::createStripDeadPrototypesPass function.<br>
+</div>
+<pre><span id="VALadd_strip_symbols"><span class="keyword">val</span> add_strip_symbols</span> : <code class="type">[ `Module ] <a href="Llvm.PassManager.html#TYPEt">Llvm.PassManager.t</a> -> unit</code></pre><div class="info">
+See llvm::createStripSymbolsPass function.<br>
+</div>
+</body></html>

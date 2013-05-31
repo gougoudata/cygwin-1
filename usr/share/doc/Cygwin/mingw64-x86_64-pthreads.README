@@ -1,0 +1,28 @@
+mingw64-x86_64-pthreads
+The pthreads-win32 package is used for Pthreads development. This package is for the x86_64-w64-mingw32 toolchain.
+
+Canonical homepage:
+http://sourceware.org/pthreads-win32/
+
+Canonical download:
+http://sourceforge.net/projects/mingw-w64/files/Cygwin%20Snapshots/pthreads-w32-20100619.tar.xz/download
+
+This package contains:
+
+  /usr/share/doc/Cygwin/mingw64-x86_64-pthreads.README
+  /usr/share/doc/mingw64-x86_64-pthreads/ANNOUNCE
+  /usr/share/doc/mingw64-x86_64-pthreads/BUGS
+  /usr/share/doc/mingw64-x86_64-pthreads/CONTRIBUTORS
+  /usr/share/doc/mingw64-x86_64-pthreads/COPYING
+  /usr/share/doc/mingw64-x86_64-pthreads/COPYING.LIB
+  /usr/share/doc/mingw64-x86_64-pthreads/ChangeLog
+  /usr/share/doc/mingw64-x86_64-pthreads/FAQ
+  /usr/share/doc/mingw64-x86_64-pthreads/MAINTAINERS
+  /usr/share/doc/mingw64-x86_64-pthreads/NEWS
+  /usr/share/doc/mingw64-x86_64-pthreads/README
+  /usr/share/doc/mingw64-x86_64-pthreads/TODO
+  /usr/x86_64-w64-mingw32/sys-root/mingw/bin/pthreadGC2.dll
+  /usr/x86_64-w64-mingw32/sys-root/mingw/include/pthread.h
+  /usr/x86_64-w64-mingw32/sys-root/mingw/include/sched.h
+  /usr/x86_64-w64-mingw32/sys-root/mingw/include/semaphore.h
+  /usr/x86_64-w64-mingw32/sys-root/mingw/lib/libpthread.a

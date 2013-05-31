@@ -25,7 +25,7 @@
 ## Release information
 my $PROGRAM      = "intltool-prepare";
 my $PACKAGE      = "intltool";
-my $VERSION      = "0.40.3";
+my $VERSION      = "0.50.2";
 
 ## Loaded modules
 use strict;
@@ -112,8 +112,7 @@ and "description".
   -v, --version              shows the version
   -x, --verbose              show lots of feedback
 
-Report bugs to http://bugzilla.gnome.org/ (product name "$PACKAGE")
-or send email to <xml-i18n-tools\@gnome.org>.
+Report bugs to http://bugs.launchpad.net/intltool
 _EOF_
     exit;
 }

@@ -1,0 +1,27 @@
+2001-05-25  Eric Bischoff <eric@caldera.de>
+
+	* added XML ISO entities
+
+	* switched to version 0.6.3
+
+2001-04-27 Eric Bischoff <eric@caldera.de>
+
+	* "-a" flag for automake is cleaner (thanks Mark)
+
+	* switched to version 0.6.2
+
+2001-01-30  Eric Bischoff <eric@caldera.de>
+
+	* fixed autoconf/automake support
+
+	* switched to version 0.6.1
+
+2001-01-12  Eric Bischoff <eric@caldera.de>
+
+	* added autoconf/automake support
+
+	* install-catalog.in: added backward compatibility
+	with old DocBook-tools' install-catalog (thanks
+	Tim Waugh from RedHat)  
+
+	* switched to version 0.6

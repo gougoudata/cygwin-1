@@ -20,7 +20,7 @@ W system%s		system.ads		system.ali
 
 D system.ads		20031021134222 6af26689
 D s-bitops.ads		20030424175408 0c033dfd
-D s-bitops.adb		20031021134214 2e3bec0d
+D s-bitops.adb		20031021134213 2e3bec0d
 D s-purexc.ads		20031021134214 a2383b42
 D s-unstyp.ads		20031021134218 0d291e44
 D unchconv.ads		20030424175420 1b7a14c5

@@ -4,26 +4,44 @@
  *	  prototypes for planner.c.
  *
  *
- * Portions Copyright (c) 1996-2006, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2012, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
- * $PostgreSQL: pgsql/src/include/optimizer/planner.h,v 1.35 2006/03/05 15:58:57 momjian Exp $
+ * src/include/optimizer/planner.h
  *
  *-------------------------------------------------------------------------
  */
 #ifndef PLANNER_H
 #define PLANNER_H
 
-#include "nodes/params.h"
-#include "nodes/parsenodes.h"
 #include "nodes/plannodes.h"
+#include "nodes/relation.h"
 
 
-extern ParamListInfo PlannerBoundParamList;		/* current boundParams */
+/* Hook for plugins to get control in planner() */
+typedef PlannedStmt *(*planner_hook_type) (Query *parse,
+													   int cursorOptions,
+												  ParamListInfo boundParams);
+extern PGDLLIMPORT planner_hook_type planner_hook;
 
-extern Plan *planner(Query *parse, bool isCursor, int cursorOptions,
+
+extern PlannedStmt *planner(Query *parse, int cursorOptions,
 		ParamListInfo boundParams);
-extern Plan *subquery_planner(Query *parse, double tuple_fraction,
-				 List **subquery_pathkeys);
+extern PlannedStmt *standard_planner(Query *parse, int cursorOptions,
+				 ParamListInfo boundParams);
+
+extern Plan *subquery_planner(PlannerGlobal *glob, Query *parse,
+				 PlannerInfo *parent_root,
+				 bool hasRecursion, double tuple_fraction,
+				 PlannerInfo **subroot);
+
+extern void add_tlist_costs_to_plan(PlannerInfo *root, Plan *plan,
+									List *tlist);
+
+extern bool is_dummy_plan(Plan *plan);
+
+extern Expr *expression_planner(Expr *expr);
+
+extern bool plan_cluster_use_sort(Oid tableOid, Oid indexOid);
 
 #endif   /* PLANNER_H */

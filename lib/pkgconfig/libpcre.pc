@@ -6,7 +6,7 @@ libdir=${exec_prefix}/lib
 includedir=${prefix}/include
 
 Name: libpcre
-Description: PCRE - Perl compatible regular expressions C library
-Version: 7.8
+Description: PCRE - Perl compatible regular expressions C library with 8 bit character support
+Version: 8.32
 Libs: -L${libdir} -lpcre
-Cflags: -I${includedir}
+Cflags: -I${includedir} 

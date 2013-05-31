@@ -11,7 +11,7 @@
 (*                                                                     *)
 (***********************************************************************)
 
-(* $Id: int64.ml,v 1.11 2004/01/01 16:42:40 doligez Exp $ *)
+(* $Id: int64.ml 7818 2007-01-30 09:34:36Z xleroy $ *)
 
 (* Module [Int64]: 64-bit integers *)
 
@@ -56,4 +56,4 @@ external float_of_bits : int64 -> float = "caml_int64_float_of_bits"
 
 type t = int64
 
-let compare = (Pervasives.compare: t -> t -> int)
+let compare (x: t) (y: t) = Pervasives.compare x y

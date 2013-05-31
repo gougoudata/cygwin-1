@@ -4,10 +4,10 @@
  *	  POSTGRES memory context node definitions.
  *
  *
- * Portions Copyright (c) 1996-2006, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2012, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
- * $PostgreSQL: pgsql/src/include/nodes/memnodes.h,v 1.31 2006/03/05 15:58:56 momjian Exp $
+ * src/include/nodes/memnodes.h
  *
  *-------------------------------------------------------------------------
  */
@@ -41,10 +41,10 @@ typedef struct MemoryContextMethods
 	void	   *(*realloc) (MemoryContext context, void *pointer, Size size);
 	void		(*init) (MemoryContext context);
 	void		(*reset) (MemoryContext context);
-	void		(*delete) (MemoryContext context);
+	void		(*delete_context) (MemoryContext context);
 	Size		(*get_chunk_space) (MemoryContext context, void *pointer);
 	bool		(*is_empty) (MemoryContext context);
-	void		(*stats) (MemoryContext context);
+	void		(*stats) (MemoryContext context, int level);
 #ifdef MEMORY_CONTEXT_CHECKING
 	void		(*check) (MemoryContext context);
 #endif
@@ -59,6 +59,7 @@ typedef struct MemoryContextData
 	MemoryContext firstchild;	/* head of linked list of children */
 	MemoryContext nextchild;	/* next child of same parent */
 	char	   *name;			/* context name (just for debugging) */
+	bool		isReset;		/* T = no space alloced since last reset */
 } MemoryContextData;
 
 /* utils/palloc.h contains typedef struct MemoryContextData *MemoryContext */

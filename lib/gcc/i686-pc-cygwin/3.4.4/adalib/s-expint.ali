@@ -16,8 +16,8 @@ U system.exp_int%s	s-expint.ads		59e4a0dc NE PU PK
 W system%s		system.ads		system.ali
 
 D system.ads		20031021134222 6af26689
-D s-expint.ads		20031021134214 3316c655
-D s-expint.adb		20031021134214 65589ddb
+D s-expint.ads		20031021134213 3316c655
+D s-expint.adb		20031021134213 65589ddb
 X 1 system.ads
 44K9*System 163e11 2|36r9 44r5 3|34r14 85r5
 X 2 s-expint.ads

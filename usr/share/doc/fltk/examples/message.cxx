@@ -1,24 +1,15 @@
 //
-// "$Id: message.cxx 5519 2006-10-11 03:12:15Z mike $"
+// "$Id: message.cxx 8864 2011-07-19 04:49:30Z greg.ercolano $"
 //
 // Message test program for the Fast Light Tool Kit (FLTK).
 //
-// Copyright 1998-2005 by Bill Spitzak and others.
+// Copyright 1998-2010 by Bill Spitzak and others.
 //
-// This library is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Library General Public
-// License as published by the Free Software Foundation; either
-// version 2 of the License, or (at your option) any later version.
+// This library is free software. Distribution and use rights are outlined in
+// the file "COPYING" which should have been included with this file.  If this
+// file is missing or damaged, see the license at:
 //
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-// Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public
-// License along with this library; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
-// USA.
+//     http://www.fltk.org/COPYING.php
 //
 // Please report all bugs and problems on the following page:
 //
@@ -38,8 +29,15 @@ int main(int argc, char **argv) {
   fl_message("Spelling check sucessful, %d errors found with %g%% confidence",
 	     1002, 100*(15/77.0));
 
-  fl_alert("Quantum fluctuations in the space-time continuum detected, "
-	   "you have %g seconds to comply.", 10.0);
+  fl_alert(
+		"Quantum fluctuations in the space-time continuum detected,\n"
+	  "you have %g seconds to comply.\n\n"
+		"\"In physics, spacetime is any mathematical model that combines\n"
+		"space and time into a single construct called the space-time\n"
+		"continuum. Spacetime is usually interpreted with space being\n"
+		"three-dimensional and time playing the role of the\n"
+		"fourth dimension.\" - Wikipedia",
+		10.0);
 
   printf("fl_choice returned %d\n",
     fl_choice("Do you really want to %s?", "No", "Yes", 0L, "continue"));
@@ -59,5 +57,5 @@ int main(int argc, char **argv) {
 }
 
 //
-// End of "$Id: message.cxx 5519 2006-10-11 03:12:15Z mike $".
+// End of "$Id: message.cxx 8864 2011-07-19 04:49:30Z greg.ercolano $".
 //

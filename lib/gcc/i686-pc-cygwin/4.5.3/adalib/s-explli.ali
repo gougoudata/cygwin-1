@@ -1,0 +1,38 @@
+V "GNAT Lib v4.5"
+A -gnatwa
+A -O2
+A -W
+A -Wall
+A -g
+A -gnatp
+A -gnatg
+A -mtune=generic
+A -march=i686
+P ZX
+R nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
+
+U system.exp_lli%b	s-explli.adb		e16fd72a NE OL PK
+W interfaces%s		interfac.ads		interfac.ali
+W system%s		system.ads		system.ali
+W system.arith_64%s	s-arit64.adb		s-arit64.ali
+
+U system.exp_lli%s	s-explli.ads		42e5af64 NE OL PU PK
+W system%s		system.ads		system.ali
+
+D interfac.ads		20090409150019 a69cad5c
+D system.ads		20111023073219 f47f7e1a
+D s-arit64.ads		20090409150019 ded5f422
+D s-explli.ads		20090409150019 b69ad17e
+D s-explli.adb		20090409150019 57f50654
+X 2 system.ads
+39K9*System 199e11 4|34r9 42r5 5|32r14 83r5
+X 4 s-explli.ads
+34K16*Exp_LLI 2|39k9 4|42l12 42e19 5|32b21 83l12 83t19
+37V13*Exp_Long_Long_Integer{long_long_integer} 38>7 39>7 5|41b13 81l8 81t29
+38i7 Left{long_long_integer} 5|42b7 47r37
+39i7 Right{natural} 5|43b7 48r27
+X 5 s-explli.adb
+46i7 Result{long_long_integer} 65m19 65r29 80r14
+47i7 Factor{long_long_integer} 65r38 75m16 75r26 75r35
+48i7 Exp{natural} 59r10 61r16 69m13 69r20 70r23
+

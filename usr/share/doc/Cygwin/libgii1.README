@@ -1,0 +1,101 @@
+libgii1
+------------------------------------------
+General Input Interface
+Mainly the input layer for GGI, the General Graphics Interface,
+but also usable standalone.
+
+Runtime requirements:
+  cygwin-1.7.17 or newer
+
+Build requirements:
+  cygwin-1.7.17 or newer
+  gcc-4.5.3 or newer
+  binutils-2.23.51-1 or newer
+  libX11-devel
+  w32api
+  file
+  cygport
+
+Canonical homepage:
+  http://www.ggi-project.org/
+
+Canonical download:
+  http://www.ggi-project.org/ftp/ggi/v2.2/libgii-1.0.2.src.tar.gz
+
+License:
+  BSD
+
+Language:
+  C
+
+------------------------------------
+
+Build instructions:
+  unpack libgii1-1.0.2-3-src.tar.bz2
+    if you use setup to install this src package, it will be
+	 unpacked under /usr/src automatically
+  cd /usr/src
+  cygport libgii1-1.0.2-3.cygport all
+
+This will create:
+  /usr/src/libgii1-1.0.2-3.tar.bz2
+  /usr/src/libgii1-devel-1.0.2-3.tar.bz2
+  /usr/src/libgii1-input-x-1.0.2-3.tar.bz2
+  /usr/src/libgii1-1.0.2-3-src.tar.bz2
+  /usr/src/libgii1-debuginfo-1.0.2-3.tar.bz2
+
+Or use 'cygport libgii1-1.0.2-3.cygport prep' to get a patched source
+directory.
+
+To find out the files included in the binary distribution, you can
+use "cygcheck -l libgii1", or browse the listing for the appropriate version
+at <http://cygwin.com/packages/>.
+
+------------------
+
+Port Notes:
+
+----------  libgii2-1.0.2-3 -- 2013-03-15 -----------
+Modernize the cygport file.
+Depend on directx includes now found in w32api.
+Build with fresher autotools.
+Provide a debuginfo package.
+
+----------  libgii1-1.0.2-1 -- 2008-11-19 -----------
+New upstreams bugfix release.
+
+- input-linux-evdev(7): EV_RST has been renamed to EV_SYN in Linux
+2.6. Fixed SF bugs #1159466 and #1447483
+- buildsystem: make bootstrapping with automake 1.10 work.
+
+Move from g-b-s to cygport.
+
+----------  libgii1-1.0.1-1 -- 2006-02-28 -----------
+New upstreams bugfix release.
+
+- Look at GII_DEBUGSYNC instead of GGI_DEBUGSYNC
+- Update doc/README.directx to help MinGW users configure properly
+- input-mouse: ignore undefined bit in IMPS/2 protocol. Now buttons
+recognized properly.
+- input-quartz: make mouse moving and mouse wheel work properly                 
+- buildsystem: include/ggi/system.h is no longer (unintentionally)
+distributed. It disturbed out of tree builds.
+- buildsystem: libtool update / fixes           
+- Prevent (broken) loading of dynamic modules if linking with static libgg.
+- Fix internal bugs in configuration parsing, which prevented the ".include"
+directive to work properly.
+- gg-tree(3): RedBlack tree fixes             
+- Fixed signal based scheduler so that it finds the ggtick executable even
+if configuring with the default prefix. Bug reported by Rodney Lamb.
+
+Fix Cygwin package problem to not drop -DDEBUG option, in order to
+facilitate debugging.
+
+----------  libgii1-1.0.0-1 -- 2006-02-16 -----------
+Initial release
+
+For more information about this package, see the upstream documentation in
+/usr/share/doc/libgii1.
+
+Cygwin port maintained by: Peter Rosin <peda |at| lysator.liu.se>
+Please address all questions to the Cygwin mailing list at <cygwin@cygwin.com>

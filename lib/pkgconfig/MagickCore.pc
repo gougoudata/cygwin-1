@@ -5,6 +5,6 @@ includedir=${prefix}/include/ImageMagick
 
 Name: MagickCore
 Description: MagickCore - C API for ImageMagick
-Version: 6.4.0
-Libs: -L${libdir} -lMagickWand -lMagickCore
-Cflags: -I${includedir} 
+Version: 6.7.6
+Libs: -L${libdir} -lMagickCore
+Cflags: -I${includedir} -fopenmp

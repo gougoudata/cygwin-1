@@ -3,24 +3,23 @@
 #
 # Function: Format PDF Output from groff Markup
 #
-# Copyright (C) 2005, Free Software Foundation, Inc.
+# Copyright (C) 2005, 2006, 2009, 2010, Free Software Foundation, Inc.
 # Written by Keith Marshall (keith.d.marshall@ntlworld.com)
 # 
 # This file is part of groff.
 # 
 # groff is free software; you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free
-# Software Foundation; either version 2, or (at your option) any later
-# version.
+# Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
 # 
 # groff is distributed in the hope that it will be useful, but WITHOUT ANY
 # WARRANTY; without even the implied warranty of MERCHANTABILITY or
 # FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
 # for more details.
 # 
-# You should have received a copy of the GNU General Public License along
-# with groff; see the file COPYING.  If not, write to the Free Software
-# Foundation, 51 Franklin St - Fifth Floor, Boston, MA 02110-1301, USA.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # ------------------------------------------------------------------------------
 #
@@ -45,7 +44,7 @@
   #
   # Usage:  searchpath progname path
   #
-    IFS="${PATH_SEPARATOR-":"}" prog=':'
+    IFS=${PATH_SEPARATOR-":"} prog=':'
     for dir in $2
     do
       for ext in '' '.exe'
@@ -61,6 +60,12 @@
     done
     echo "$prog"
   }
+#
+# If the system maps '/bin/sh' to some 'zsh' implementation,
+# then we may need this hack, adapted from autoconf code.
+#
+  test x${ZSH_VERSION+"set"} = x"set" && NULLCMD=":" \
+    && (emulate sh) >$NULLDEV 2>&1 && emulate sh
 #
 # We need both 'grep' and 'sed' programs, to parse script options,
 # and we also need 'cat', to display help and some error messages,
@@ -119,9 +124,50 @@
     exit 1
   fi
 #
-# Set up temporary/intermediate file locations.
+# Identify the postprocessor command, for writing PDF output.
+# (May be forced, by defining PDFROFF_POSTPROCESSOR_COMMAND in the environment;
+#  if this is not set, leave blank to use the built in default).
 #
-  WRKFILE=${GROFF_TMPDIR=${TMPDIR-${TMP-${TEMP-"."}}}}/pdf$$.tmp
+  if test -n "${PDFROFF_POSTPROCESSOR_COMMAND}"
+  then
+    GROFF_GHOSTSCRIPT_INTERPRETER=`set command ${PDFROFF_POSTPROCESSOR_COMMAND};
+      echo $2`
+  fi
+#
+# Set up temporary/intermediate file locations, with traps to
+# clean them up on exit.  Note that, for greater portability, we
+# prefer to refer to events by number, rather than by symbolic
+# names; thus, the EXIT event is trapped as event zero.
+#
+  export TMPDIR GROFF_TMPDIR
+  TMPDIR=${GROFF_TMPDIR=${TMPDIR-${TMP-${TEMP-"."}}}}
+  if GROFF_TMPDIR=`exec 2>${NULLDEV}; mktemp -dt pdfroff-XXXXXXXXXX`
+  then
+  #
+  # We successfully created a private temporary directory,
+  # so to clean up, we may simply purge it.
+  #
+    trap "rm -rf ${GROFF_TMPDIR}" 0
+  #
+  else
+  #
+  # Creation of a private temporary directory was unsuccessful;
+  # fall back to user nominated directory, (using current directory
+  # as default), and schedule removal of only the temporary files.
+  #
+    GROFF_TMPDIR=${TMPDIR}
+    trap "rm -f ${GROFF_TMPDIR}/pdf$$.*" 0
+  fi
+  #
+  # In the case of abnormal termination events, we force an exit
+  # (with status code '1'), leaving the normal exit trap to clean
+  # up the temporary files, as above.  Note that we again prefer
+  # to refer to events by number, rather than by symbolic names;
+  # here we trap SIGHUP, SIGINT, SIGQUIT, SIGPIPE and SIGTERM.
+  #
+  trap "exit 1" 1 2 3 13 15
+#
+  WRKFILE=${GROFF_TMPDIR}/pdf$$.tmp
 #
   REFCOPY=${GROFF_TMPDIR}/pdf$$.cmp
   REFFILE=${GROFF_TMPDIR}/pdf$$.ref
@@ -129,11 +175,6 @@
   CS_DATA=""
   TC_DATA=${GROFF_TMPDIR}/pdf$$.tc
   BD_DATA=${GROFF_TMPDIR}/pdf$$.ps
-#
-# Set a trap, to delete temporary files on exit.
-# (FIXME: may want to include other signals, in released version).
-#
-  trap "rm -f ${GROFF_TMPDIR}/pdf$$.*" 0
 #
 # Initialise 'groff' format control settings,
 # to discriminate table of contents and document body formatting passes.
@@ -145,6 +186,7 @@
     help	reference-dictionary	no-reference-dictionary
     stylesheet	pdf-output		no-pdf-output
     version	report-progress		no-toc-relocation
+    emit-ps	keep-temporary-files	no-kill-null-pages
     "
 # Parse the command line, to identify 'pdfroff' specific options.
 # Collect all other parameters into new argument and file lists,
@@ -178,7 +220,7 @@
            case "$MATCH" in
 
              --help)
-               $CAT >&2 <<-ETX
+               $CAT <<-ETX
 		Usage: $CMD [-option ...] [--long-option ...] [file ...]
 
 		Options:
@@ -194,14 +236,22 @@
 		  	Enable console messages, indicating the progress of the
 		 	PDF document formatting process.
 
+		  --emit-ps
+		  	Emit PostScript output instead of PDF; this may be useful
+		 	when the ultimate PDF output is to be generated by a more
+		 	specialised postprocessor, (e.g. gpresent), rather than
+		 	the default GhostScript PDF writer.
+
 		  --pdf-output=name
-		  	Write the PDF output stream to file 'name'; if this option
-		 	is unspecified, standard output is used for PDF output.
+		  	Write the PDF, (or PostScript), output stream to file
+		 	'name'; if this option is unspecified, standard output
+		 	is used for PDF, (or PostScript), output.
 
 		  --no-pdf-output
-		 	Suppress the generation of PDF output entirely; use this
-		 	with the --reference-dictionary option, if processing a
-		 	document stream to produce only a reference dictionary.
+		 	Suppress the generation of PDF, (or PostScript), output
+		 	entirely; use this with the --reference-dictionary option,
+		 	if processing a document stream to produce only a
+		 	reference dictionary.
 
 		  --no-reference-dictionary
 		 	Suppress the generation of a '$CMD' reference dictionary
@@ -230,18 +280,35 @@
 		 	normally required to position the table of contents at the
 		 	start of a PDF document.
 
+		  --no-kill-null-pages
+		 	Suppress the 'null page' elimination filter, which is used
+		 	to remove the excess blank pages produced by the collation
+		 	algorithm used for 'toc-relocation'.
+
+		  --keep-temporary-files
+		 	Suppress the normal clean up of temporary files, which is
+		 	scheduled when 'pdfroff' completes.
+
 		ETX
                exit 0
                ;;
 
              --version)
 	       GROFF_STYLE="$GROFF_STYLE \"$1\""
-               SHOW_VERSION="GNU pdfroff (groff) version 1.19.2"
+               SHOW_VERSION="GNU pdfroff (groff) version 1.21"
                ;;
 
              --report-progress)
                SHOW_PROGRESS=echo
                ;;
+
+             --keep-temporary-files)
+               trap "" 0
+               ;;
+
+	     --emit-ps)
+	       PDFROFF_POSTPROCESSOR_COMMAND="$CAT"
+	       ;;
 
              --pdf-output)
 	       PDF_OUTPUT="$OPTARG"
@@ -265,6 +332,10 @@
 
 	     --no-toc-relocation)
 	       TC_DATA="" TOC_FORMAT="" BODY_FORMAT=""
+	       ;;
+
+	     --no-kill-null-pages)
+	       PDFROFF_COLLATE="$CAT" PDFROFF_KILL_NULL_PAGES=""
 	       ;;
 #
 #          any other non-null match must have matched more than one defined case,
@@ -296,7 +367,7 @@
 #
 #     Those standard options which expect an argument, but are specified with
 #     an intervening space, between flag and argument, must be reparsed, so we
-#     can trap illegal use of '-T dev', or missing input files.
+#     can trap invalid use of '-T dev', or missing input files.
 #
       -[dfFILmMnoPrTwW])
            OPTNAME="$1"
@@ -373,7 +444,7 @@
   then
     >> $REFFILE
     echo kickstart > $REFCOPY
-    test "${SHOW_PROGRESS+"set"}" = "set" && SAY=echo
+    test x${SHOW_PROGRESS+"set"} = x"set" && SAY=echo
 #
 #   In order to correctly resolve 'pdfmark' references,
 #   we need to have both the 'awk' and 'diff' programs available.
@@ -513,7 +584,7 @@
 # (Missing 'awk' or 'diff' may have disabled it, to avoid display
 #  of spurious messages associated with reference resolution).
 #
-  test "${SHOW_PROGRESS+"set"}" = "set" && SAY=echo
+  test x${SHOW_PROGRESS+"set"} = x"set" && SAY=echo
 #
 # If a document cover style sheet is specified ...
 # then we run a special formatting pass, to create a cover section file.
@@ -549,11 +620,24 @@
 # PostScript intermediate files into a single PDF output file.
 #
   $SAY >&2 $n "Writing PDF output ..$c"
-  PDFWRITE="$GS -dQUIET -dBATCH -dNOPAUSE -sDEVICE=pdfwrite"
+  if test -z "$PDFROFF_POSTPROCESSOR_COMMAND"
+  then
+    PDFROFF_POSTPROCESSOR_COMMAND="$GS -dQUIET -dBATCH -dNOPAUSE -dSAFER
+      -sDEVICE=pdfwrite -sOutputFile="${PDF_OUTPUT-"-"}
+
+  elif test -n "$PDF_OUTPUT"
+  then
+    exec > $PDF_OUTPUT
+  fi
 #
 # (This 'sed' script is a hack, to eliminate redundant blank pages).
 #
-  $SED '
+  ${PDFROFF_COLLATE-"$SED"} ${PDFROFF_KILL_NULL_PAGES-'
+      /%%Page:/{
+	N
+	/%%BeginPageSetup/b again
+      }
+      b
     :again
       /%%EndPageSetup/b finish
       /%%Page:/{
@@ -563,9 +647,9 @@
       b
     :finish
       N
-      /^%%Page:.*0 *Cg *EP/d
-    ' $TC_DATA $BD_DATA | $PDFWRITE -sOutputFile=${PDF_OUTPUT-"-"} $CS_DATA -
+      /^%%Page:.*\n0 Cg EP$/d
+    '} $TC_DATA $BD_DATA | $PDFROFF_POSTPROCESSOR_COMMAND $CS_DATA -
   $SAY >&2 ". done"
 #
 # ------------------------------------------------------------------------------
-# $RCSfile: pdfroff.sh,v $ $Revision: 1.7 $: end of file
+# $RCSfile: pdfroff.sh,v $ $Revision: 1.18 $: end of file

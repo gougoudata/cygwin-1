@@ -1,0 +1,12 @@
+prefix=/usr/x86_64-pc-cygwin/sys-root/usr
+exec_prefix=/usr/x86_64-pc-cygwin/sys-root/usr
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: com_err
+Description: Common error description library
+Version: 1.42.7
+Requires:
+Cflags: -I${includedir}/et -I${includedir}
+Libs: -L${libdir} -lcom_err
+Libs.private: 

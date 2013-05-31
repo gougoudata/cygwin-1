@@ -5,7 +5,7 @@ includedir=${prefix}/include
 
 Name: pstoedit
 Description: converts Postscript(TM) and PDF files to other vector graphic formats
-Version: 3.45.0
+Version: 3.61.0
 Requires: 
-Libs: -L${exec_prefix}/lib -lpstoedit -lpng -lz   -ldl
+Libs: -L${exec_prefix}/lib -lpstoedit -lpng -lz  -lstdc++  -ldl
 Cflags: -I${prefix}/include

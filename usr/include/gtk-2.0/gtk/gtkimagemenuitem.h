@@ -21,15 +21,19 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 #ifndef __GTK_IMAGE_MENU_ITEM_H__
 #define __GTK_IMAGE_MENU_ITEM_H__
 
 
-#include <gdk/gdk.h>
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
 #include <gtk/gtkmenuitem.h>
+
 
 G_BEGIN_DECLS
 
@@ -49,7 +53,8 @@ struct _GtkImageMenuItem
   GtkMenuItem menu_item;
 
   /*< private >*/
-  GtkWidget *image;
+  GtkWidget      *GSEAL (image);
+
 };
 
 struct _GtkImageMenuItemClass
@@ -64,9 +69,17 @@ GtkWidget* gtk_image_menu_item_new_with_label    (const gchar      *label);
 GtkWidget* gtk_image_menu_item_new_with_mnemonic (const gchar      *label);
 GtkWidget* gtk_image_menu_item_new_from_stock    (const gchar      *stock_id,
                                                   GtkAccelGroup    *accel_group);
+void       gtk_image_menu_item_set_always_show_image (GtkImageMenuItem *image_menu_item,
+                                                      gboolean          always_show);
+gboolean   gtk_image_menu_item_get_always_show_image (GtkImageMenuItem *image_menu_item);
 void       gtk_image_menu_item_set_image         (GtkImageMenuItem *image_menu_item,
                                                   GtkWidget        *image);
 GtkWidget* gtk_image_menu_item_get_image         (GtkImageMenuItem *image_menu_item);
+void       gtk_image_menu_item_set_use_stock     (GtkImageMenuItem *image_menu_item,
+						  gboolean          use_stock);
+gboolean   gtk_image_menu_item_get_use_stock     (GtkImageMenuItem *image_menu_item);
+void       gtk_image_menu_item_set_accel_group   (GtkImageMenuItem *image_menu_item, 
+						  GtkAccelGroup    *accel_group);
 
 G_END_DECLS
 

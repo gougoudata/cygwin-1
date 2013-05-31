@@ -127,6 +127,16 @@ typedef struct timespec scm_t_timespec;
 #define SCM_USE_NULL_THREADS 1 /* 0 or 1 */
 /* Define to 1 if need braces around PTHREAD_ONCE_INIT (for Solaris). */
 #define SCM_NEED_BRACES_ON_PTHREAD_ONCE_INIT 0 /* 0 or 1 */
+/* Define to 1 if need braces around PTHREAD_MUTEX_INITIALIZER
+   (for IRIX with GCC)  */
+#define SCM_NEED_BRACES_ON_PTHREAD_MUTEX_INITIALIZER 0 /* 0 or 1 */
+
+
+/*** File system access ***/
+/* Define to 1 if `struct dirent64' is available.  */
+#define SCM_HAVE_STRUCT_DIRENT64 0 /* 0 or 1 */
+/* Define to 1 if `readdir64_r ()' is available.  */
+#define SCM_HAVE_READDIR64_R 0 /* 0 or 1 */
 
 #if SCM_ENABLE_DEPRECATED == 1
 # define USE_THREADS 1 /* always true now */

@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" id="node1" href="$class_outputter.html" title="Abstract outputter to print test result summary." alt="" coords="5,59,85,88"/>
+<area shape="rect" id="node3" href="$class_compiler_outputter.html" title="Outputs a TestResultCollector in a compiler compatible format.Printing the test results in a compiler..." alt="" coords="133,5,269,35"/>
+<area shape="rect" id="node5" href="$class_text_outputter.html" title="Prints a TestResultCollector to a text stream." alt="" coords="148,59,255,88"/>
+<area shape="rect" id="node7" href="$class_xml_outputter.html" title="Outputs a TestResultCollector in XML format.Save the test result as a XML stream." alt="" coords="151,112,252,141"/>
+</map>

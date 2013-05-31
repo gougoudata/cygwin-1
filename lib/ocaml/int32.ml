@@ -11,7 +11,7 @@
 (*                                                                     *)
 (***********************************************************************)
 
-(* $Id: int32.ml,v 1.9 2004/01/01 16:42:40 doligez Exp $ *)
+(* $Id: int32.ml 7818 2007-01-30 09:34:36Z xleroy $ *)
 
 (* Module [Int32]: 32-bit integers *)
 
@@ -51,4 +51,4 @@ external of_string : string -> int32 = "caml_int32_of_string"
 
 type t = int32
 
-let compare = (Pervasives.compare: t -> t -> int)
+let compare (x: t) (y: t) = Pervasives.compare x y

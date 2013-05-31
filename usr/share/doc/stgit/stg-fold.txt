@@ -1,0 +1,42 @@
+stg-fold(1)
+===========
+
+NAME
+----
+stg-fold - Integrate a GNU diff patch into the current patch
+
+SYNOPSIS
+--------
+[verse]
+'stg' fold [options] [--] [<file>]
+
+DESCRIPTION
+-----------
+
+Apply the given GNU diff file (or the standard input) onto the top of
+the current patch. With the '--threeway' option, the patch is applied
+onto the bottom of the current patch and a three-way merge is
+performed with the current top. With the --base option, the patch is
+applied onto the specified base and a three-way merged is performed
+with the current top.
+
+OPTIONS
+-------
+-t::
+--threeway::
+        Perform a three-way merge with the current patch.
+
+-b BASE::
+--base BASE::
+        Use BASE instead of HEAD when applying the patch.
+
+-p N::
+--strip N::
+        Remove N leading slashes from diff paths (default 1).
+
+--reject::
+        Leave the rejected hunks in corresponding *.rej files.
+
+StGit
+-----
+Part of the StGit suite - see linkman:stg[1]

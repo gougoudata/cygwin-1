@@ -29,4 +29,4 @@ dlopen=''
 dlpreopen=''
 
 # Directory that this library needs to be installed in:
-libdir='/mingw/lib'
+libdir='/usr/lib/gcc/i686-pc-mingw32/3.4.4'

@@ -1,26 +1,26 @@
 /*-------------------------------------------------------------------------
  *
  * datetime.h
- *	  Definitions for the date/time and other date/time support code.
+ *	  Definitions for date/time support code.
  *	  The support code is shared with other date data types,
  *	   including abstime, reltime, date, and time.
  *
  *
- * Portions Copyright (c) 1996-2006, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2012, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
- * $PostgreSQL: pgsql/src/include/utils/datetime.h,v 1.62.2.1 2007/05/29 04:59:14 neilc Exp $
+ * src/include/utils/datetime.h
  *
  *-------------------------------------------------------------------------
  */
 #ifndef DATETIME_H
 #define DATETIME_H
 
-#include <limits.h>
-#include <math.h>
-
+#include "nodes/nodes.h"
 #include "utils/timestamp.h"
-#include "utils/tzparser.h"
+
+/* this struct is declared in utils/tzparser.h: */
+struct tzEntry;
 
 
 /* ----------------------------------------------------------------
@@ -29,7 +29,7 @@
  * String definitions for standard time quantities.
  *
  * These strings are the defaults used to form output time strings.
- * Other alternate forms are hardcoded into token tables in datetime.c.
+ * Other alternative forms are hardcoded into token tables in datetime.c.
  * ----------------------------------------------------------------
  */
 
@@ -84,7 +84,8 @@
  *
  * Furthermore, the values for YEAR, MONTH, DAY, HOUR, MINUTE, SECOND
  * must be in the range 0..14 so that the associated bitmasks can fit
- * into the left half of an INTERVAL's typmod value.
+ * into the left half of an INTERVAL's typmod value.  Since those bits
+ * are stored in typmods, you can't change them without initdb!
  */
 
 #define RESERV	0
@@ -113,6 +114,11 @@
 /* generic fields to help with parsing */
 #define ISODATE 22
 #define ISOTIME 23
+/* these are only for parsing intervals */
+#define WEEK		24
+#define DECADE		25
+#define CENTURY		26
+#define MILLENNIUM	27
 /* reserved for unrecognized string values */
 #define UNKNOWN_FIELD	31
 
@@ -167,6 +173,8 @@
 #define DTK_DOY			33
 #define DTK_TZ_HOUR		34
 #define DTK_TZ_MINUTE	35
+#define DTK_ISOYEAR		36
+#define DTK_ISODOW		37
 
 
 /*
@@ -175,7 +183,7 @@
 
 #define DTK_M(t)		(0x01 << (t))
 
-/* Convenvience: a second, plus any fractional component */
+/* Convenience: a second, plus any fractional component */
 #define DTK_ALL_SECS_M	(DTK_M(SECOND) | DTK_M(MILLISECOND) | DTK_M(MICROSECOND))
 #define DTK_DATE_M		(DTK_M(YEAR) | DTK_M(MONTH) | DTK_M(DAY))
 #define DTK_TIME_M		(DTK_M(HOUR) | DTK_M(MINUTE) | DTK_ALL_SECS_M)
@@ -194,6 +202,13 @@ typedef struct
 	char		type;
 	char		value;			/* this may be unsigned, alas */
 } datetkn;
+
+/* one of its uses is in tables of time zone abbreviations */
+typedef struct TimeZoneAbbrevTable
+{
+	int			numabbrevs;
+	datetkn		abbrevs[1];		/* VARIABLE LENGTH ARRAY */
+} TimeZoneAbbrevTable;
 
 
 /* FMODULO()
@@ -237,28 +252,6 @@ extern const int day_tab[2][13];
 #define isleap(y) (((y) % 4) == 0 && (((y) % 100) != 0 || ((y) % 400) == 0))
 
 
-/* Julian date support for date2j() and j2date()
- *
- * IS_VALID_JULIAN checks the minimum date exactly, but is a bit sloppy
- * about the maximum, since it's far enough out to not be especially
- * interesting.
- */
-
-#define JULIAN_MINYEAR (-4713)
-#define JULIAN_MINMONTH (11)
-#define JULIAN_MINDAY (24)
-#define JULIAN_MAXYEAR (5874898)
-
-#define IS_VALID_JULIAN(y,m,d) ((((y) > JULIAN_MINYEAR) \
-  || (((y) == JULIAN_MINYEAR) && (((m) > JULIAN_MINMONTH) \
-  || (((m) == JULIAN_MINMONTH) && ((d) >= JULIAN_MINDAY))))) \
- && ((y) < JULIAN_MAXYEAR))
-
-/* Julian-date equivalents of Day 0 in Unix and Postgres reckoning */
-#define UNIX_EPOCH_JDATE		2440588 /* == date2j(1970, 1, 1) */
-#define POSTGRES_EPOCH_JDATE	2451545 /* == date2j(2000, 1, 1) */
-
-
 /*
  * Datetime input parsing routines (ParseDateTime, DecodeDateTime, etc)
  * return zero or a positive value on success.	On failure, they return
@@ -286,26 +279,33 @@ extern int DecodeDateTime(char **field, int *ftype,
 extern int DecodeTimeOnly(char **field, int *ftype,
 			   int nf, int *dtype,
 			   struct pg_tm * tm, fsec_t *fsec, int *tzp);
-extern int DecodeInterval(char **field, int *ftype,
-			   int nf, int *dtype,
-			   struct pg_tm * tm, fsec_t *fsec);
+extern int DecodeInterval(char **field, int *ftype, int nf, int range,
+			   int *dtype, struct pg_tm * tm, fsec_t *fsec);
+extern int DecodeISO8601Interval(char *str,
+					  int *dtype, struct pg_tm * tm, fsec_t *fsec);
+
 extern void DateTimeParseError(int dterr, const char *str,
 				   const char *datatype);
 
 extern int	DetermineTimeZoneOffset(struct pg_tm * tm, pg_tz *tzp);
 
-extern int	EncodeDateOnly(struct pg_tm * tm, int style, char *str);
-extern int	EncodeTimeOnly(struct pg_tm * tm, fsec_t fsec, int *tzp, int style, char *str);
-extern int	EncodeDateTime(struct pg_tm * tm, fsec_t fsec, int *tzp, char **tzn, int style, char *str);
-extern int	EncodeInterval(struct pg_tm * tm, fsec_t fsec, int style, char *str);
+extern void EncodeDateOnly(struct pg_tm * tm, int style, char *str);
+extern void EncodeTimeOnly(struct pg_tm * tm, fsec_t fsec, bool print_tz, int tz, int style, char *str);
+extern void EncodeDateTime(struct pg_tm * tm, fsec_t fsec, bool print_tz, int tz, const char *tzn, int style, char *str);
+extern void EncodeInterval(struct pg_tm * tm, fsec_t fsec, int style, char *str);
 
 extern int	DecodeSpecial(int field, char *lowtoken, int *val);
 extern int	DecodeUnits(int field, char *lowtoken, int *val);
 
 extern int	j2day(int jd);
 
+extern Node *TemporalTransform(int32 max_precis, Node *node);
+
 extern bool CheckDateTokenTables(void);
-extern void InstallTimeZoneAbbrevs(tzEntry *abbrevs, int n);
+
+extern void ConvertTimeZoneAbbrevs(TimeZoneAbbrevTable *tbl,
+					   struct tzEntry *abbrevs, int n);
+extern void InstallTimeZoneAbbrevs(TimeZoneAbbrevTable *tbl);
 
 extern Datum pg_timezone_abbrevs(PG_FUNCTION_ARGS);
 extern Datum pg_timezone_names(PG_FUNCTION_ARGS);

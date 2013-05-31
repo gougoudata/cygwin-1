@@ -1,0 +1,25 @@
+V "GNAT Lib v4.5"
+A -gnatwa
+A -O2
+A -W
+A -Wall
+A -g
+A -gnatp
+A -gnatg
+A -mtune=generic
+A -march=i686
+P ZX
+R nnnnnnnnnnnnnnnnnnnnnvnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
+
+U system.powten_table%s	s-powtab.ads		d4a0971e NE OL PU PK
+W system%s		system.ads		system.ali
+
+D system.ads		20111023073219 f47f7e1a
+D s-powtab.ads		20090409150019 20dfe904
+X 1 system.ads
+39K9*System 199e11 2|34r9 70r5
+X 2 s-powtab.ads
+34K16*Powten_Table 1|39k9 2|70l12 70e24
+37N4*Maxpow 45r34
+45a4*Powten(long_long_float)
+

@@ -25,15 +25,20 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 #ifndef __GTK_LAYOUT_H__
 #define __GTK_LAYOUT_H__
 
-#include <gdk/gdk.h>
+
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
 #include <gtk/gtkcontainer.h>
 #include <gtk/gtkadjustment.h>
+
 
 G_BEGIN_DECLS
 
@@ -50,25 +55,25 @@ typedef struct _GtkLayoutClass   GtkLayoutClass;
 
 struct _GtkLayout
 {
-  GtkContainer container;
+  GtkContainer GSEAL (container);
 
-  GList *children;
+  GList *GSEAL (children);
 
-  guint width;
-  guint height;
+  guint GSEAL (width);
+  guint GSEAL (height);
 
-  GtkAdjustment *hadjustment;
-  GtkAdjustment *vadjustment;
+  GtkAdjustment *GSEAL (hadjustment);
+  GtkAdjustment *GSEAL (vadjustment);
 
   /*< public >*/
-  GdkWindow *bin_window;
+  GdkWindow *GSEAL (bin_window);
 
   /*< private >*/
-  GdkVisibilityState visibility;
-  gint scroll_x;
-  gint scroll_y;
+  GdkVisibilityState GSEAL (visibility);
+  gint GSEAL (scroll_x);
+  gint GSEAL (scroll_y);
 
-  guint freeze_count;
+  guint GSEAL (freeze_count);
 };
 
 struct _GtkLayoutClass
@@ -89,17 +94,18 @@ struct _GtkLayoutClass
 GType          gtk_layout_get_type        (void) G_GNUC_CONST;
 GtkWidget*     gtk_layout_new             (GtkAdjustment *hadjustment,
 				           GtkAdjustment *vadjustment);
-void           gtk_layout_put             (GtkLayout     *layout, 
-		                           GtkWidget     *child_widget, 
-		                           gint           x, 
+GdkWindow*     gtk_layout_get_bin_window  (GtkLayout     *layout);
+void           gtk_layout_put             (GtkLayout     *layout,
+		                           GtkWidget     *child_widget,
+		                           gint           x,
 		                           gint           y);
-  
-void           gtk_layout_move            (GtkLayout     *layout, 
-		                           GtkWidget     *child_widget, 
-		                           gint           x, 
+
+void           gtk_layout_move            (GtkLayout     *layout,
+		                           GtkWidget     *child_widget,
+		                           gint           x,
 		                           gint           y);
-  
-void           gtk_layout_set_size        (GtkLayout     *layout, 
+
+void           gtk_layout_set_size        (GtkLayout     *layout,
 			                   guint          width,
 			                   guint          height);
 void           gtk_layout_get_size        (GtkLayout     *layout,

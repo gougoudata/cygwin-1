@@ -4,17 +4,17 @@
  *	  internal structures for hash joins
  *
  *
- * Portions Copyright (c) 1996-2006, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2012, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
- * $PostgreSQL: pgsql/src/include/executor/hashjoin.h,v 1.41 2006/07/13 18:01:02 momjian Exp $
+ * src/include/executor/hashjoin.h
  *
  *-------------------------------------------------------------------------
  */
 #ifndef HASHJOIN_H
 #define HASHJOIN_H
 
-#include "fmgr.h"
+#include "nodes/execnodes.h"
 #include "storage/buffile.h"
 
 /* ----------------------------------------------------------------
@@ -66,19 +66,59 @@ typedef struct HashJoinTupleData
 	struct HashJoinTupleData *next;		/* link to next tuple in same bucket */
 	uint32		hashvalue;		/* tuple's hash code */
 	/* Tuple data, in MinimalTuple format, follows on a MAXALIGN boundary */
-} HashJoinTupleData;
+}	HashJoinTupleData;
 
 #define HJTUPLE_OVERHEAD  MAXALIGN(sizeof(HashJoinTupleData))
 #define HJTUPLE_MINTUPLE(hjtup)  \
 	((MinimalTuple) ((char *) (hjtup) + HJTUPLE_OVERHEAD))
 
+/*
+ * If the outer relation's distribution is sufficiently nonuniform, we attempt
+ * to optimize the join by treating the hash values corresponding to the outer
+ * relation's MCVs specially.  Inner relation tuples matching these hash
+ * values go into the "skew" hashtable instead of the main hashtable, and
+ * outer relation tuples with these hash values are matched against that
+ * table instead of the main one.  Thus, tuples with these hash values are
+ * effectively handled as part of the first batch and will never go to disk.
+ * The skew hashtable is limited to SKEW_WORK_MEM_PERCENT of the total memory
+ * allowed for the join; while building the hashtables, we decrease the number
+ * of MCVs being specially treated if needed to stay under this limit.
+ *
+ * Note: you might wonder why we look at the outer relation stats for this,
+ * rather than the inner.  One reason is that the outer relation is typically
+ * bigger, so we get more I/O savings by optimizing for its most common values.
+ * Also, for similarly-sized relations, the planner prefers to put the more
+ * uniformly distributed relation on the inside, so we're more likely to find
+ * interesting skew in the outer relation.
+ */
+typedef struct HashSkewBucket
+{
+	uint32		hashvalue;		/* common hash value */
+	HashJoinTuple tuples;		/* linked list of inner-relation tuples */
+} HashSkewBucket;
+
+#define SKEW_BUCKET_OVERHEAD  MAXALIGN(sizeof(HashSkewBucket))
+#define INVALID_SKEW_BUCKET_NO	(-1)
+#define SKEW_WORK_MEM_PERCENT  2
+#define SKEW_MIN_OUTER_FRACTION  0.01
+
 
 typedef struct HashJoinTableData
 {
 	int			nbuckets;		/* # buckets in the in-memory hash table */
+	int			log2_nbuckets;	/* its log2 (nbuckets must be a power of 2) */
+
 	/* buckets[i] is head of list of tuples in i'th in-memory bucket */
 	struct HashJoinTupleData **buckets;
 	/* buckets array is per-batch storage, as are all the tuples */
+
+	bool		keepNulls;		/* true to store unmatchable NULL tuples */
+
+	bool		skewEnabled;	/* are we using skew optimization? */
+	HashSkewBucket **skewBucket;	/* hashtable of skew buckets */
+	int			skewBucketLen;	/* size of skewBucket array (a power of 2!) */
+	int			nSkewBuckets;	/* number of active skew buckets */
+	int		   *skewBucketNums; /* array indexes of active skew buckets */
 
 	int			nbatch;			/* number of batches */
 	int			curbatch;		/* current batch #; 0 during 1st pass */
@@ -102,17 +142,21 @@ typedef struct HashJoinTableData
 
 	/*
 	 * Info about the datatype-specific hash functions for the datatypes being
-	 * hashed.	We assume that the inner and outer sides of each hashclause
-	 * are the same type, or at least share the same hash function. This is an
-	 * array of the same length as the number of hash keys.
+	 * hashed. These are arrays of the same length as the number of hash join
+	 * clauses (hash keys).
 	 */
-	FmgrInfo   *hashfunctions;	/* lookup data for hash functions */
+	FmgrInfo   *outer_hashfunctions;	/* lookup data for hash functions */
+	FmgrInfo   *inner_hashfunctions;	/* lookup data for hash functions */
+	bool	   *hashStrict;		/* is each hash join operator strict? */
 
 	Size		spaceUsed;		/* memory space currently used by tuples */
 	Size		spaceAllowed;	/* upper limit for space used */
+	Size		spacePeak;		/* peak space used */
+	Size		spaceUsedSkew;	/* skew hash table's current space usage */
+	Size		spaceAllowedSkew;		/* upper limit for skew hashtable */
 
 	MemoryContext hashCxt;		/* context for whole-hash-join storage */
 	MemoryContext batchCxt;		/* context for this-batch-only storage */
-} HashJoinTableData;
+}	HashJoinTableData;
 
 #endif   /* HASHJOIN_H */

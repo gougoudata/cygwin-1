@@ -16,8 +16,8 @@ U system.fore%s		s-fore.ads		77f0d72e NE PU PK
 W system%s		system.ads		system.ali
 
 D system.ads		20031021134222 6af26689
-D s-fore.ads		20030424175410 1d02b1a7
-D s-fore.adb		20030424175410 bb5d39e5
+D s-fore.ads		20030424175409 1d02b1a7
+D s-fore.adb		20030424175409 bb5d39e5
 X 1 system.ads
 44K9*System 163e11 2|36r9 43r5 3|34r14 58r5
 X 2 s-fore.ads

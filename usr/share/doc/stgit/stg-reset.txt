@@ -1,0 +1,31 @@
+stg-reset(1)
+============
+
+NAME
+----
+stg-reset - Reset the patch stack to an earlier state
+
+SYNOPSIS
+--------
+[verse]
+'stg' reset [options] [--] [<state> [<patchnames>]]
+
+DESCRIPTION
+-----------
+
+Reset the patch stack to an earlier state. If no state is specified,
+reset only the changes in the worktree.
+
+The state is specified with a commit id from a stack log; "stg log" lets
+you view this log, and "stg reset" lets you reset to any state you see
+in the log. If one or more patch names are given, reset only those
+patches, and leave the rest alone.
+
+OPTIONS
+-------
+--hard::
+        Discard changes in your index/worktree.
+
+StGit
+-----
+Part of the StGit suite - see linkman:stg[1]

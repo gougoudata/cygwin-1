@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>class Rake::Task - rake-0.9.6 Documentation</title>
+
+<link type="text/css" media="screen" href="../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../index.html">Home</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/rake/task.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link"><a href="../Object.html">Object</a>
+  
+</nav>
+
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-5B-5D">::[]</a>
+    
+    <li><a href="#method-c-clear">::clear</a>
+    
+    <li><a href="#method-c-create_rule">::create_rule</a>
+    
+    <li><a href="#method-c-define_task">::define_task</a>
+    
+    <li><a href="#method-c-new">::new</a>
+    
+    <li><a href="#method-c-scope_name">::scope_name</a>
+    
+    <li><a href="#method-c-task_defined-3F">::task_defined?</a>
+    
+    <li><a href="#method-c-tasks">::tasks</a>
+    
+    <li><a href="#method-i-add_description">#add_description</a>
+    
+    <li><a href="#method-i-arg_names">#arg_names</a>
+    
+    <li><a href="#method-i-clear">#clear</a>
+    
+    <li><a href="#method-i-clear_actions">#clear_actions</a>
+    
+    <li><a href="#method-i-clear_comments">#clear_comments</a>
+    
+    <li><a href="#method-i-clear_prerequisites">#clear_prerequisites</a>
+    
+    <li><a href="#method-i-comment-3D">#comment=</a>
+    
+    <li><a href="#method-i-enhance">#enhance</a>
+    
+    <li><a href="#method-i-execute">#execute</a>
+    
+    <li><a href="#method-i-inspect">#inspect</a>
+    
+    <li><a href="#method-i-investigation">#investigation</a>
+    
+    <li><a href="#method-i-invoke">#invoke</a>
+    
+    <li><a href="#method-i-name">#name</a>
+    
+    <li><a href="#method-i-needed-3F">#needed?</a>
+    
+    <li><a href="#method-i-prerequisite_tasks">#prerequisite_tasks</a>
+    
+    <li><a href="#method-i-reenable">#reenable</a>
+    
+    <li><a href="#method-i-set_arg_names">#set_arg_names</a>
+    
+    <li><a href="#method-i-source">#source</a>
+    
+    <li><a href="#method-i-sources">#sources</a>
+    
+    <li><a href="#method-i-timestamp">#timestamp</a>
+    
+    <li><a href="#method-i-to_s">#to_s</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../CHANGES.html">CHANGES</a>
+  
+    <li class="file"><a href="../MIT-LICENSE.html">MIT-LICENSE</a>
+  
+    <li class="file"><a href="../README_rdoc.html">README</a>
+  
+    <li class="file"><a href="../TODO.html">TODO</a>
+  
+    <li class="file"><a href="../doc/command_line_usage_rdoc.html">command_line_usage</a>
+  
+    <li class="file"><a href="../doc/glossary_rdoc.html">glossary</a>
+  
+    <li class="file"><a href="../doc/proto_rake_rdoc.html">proto_rake</a>
+  
+    <li class="file"><a href="../doc/rakefile_rdoc.html">rakefile</a>
+  
+    <li class="file"><a href="../doc/rational_rdoc.html">rational</a>
+  
+    <li class="file"><a href="../doc/release_notes/rake-0_4_14_rdoc.html">rake-0.4.14</a>
+  
+    <li class="file"><a href="../doc/release_notes/rake-0_4_15_rdoc.html">rake-0.4.15</a>
+  
+    <li class="file"><a href="../doc/release_notes/rake-0_5_0_rdoc.html">rake-0.5.0</a>
+  
+    <li class="file"><a href="../doc/release_notes/rake-0_5_3_rdoc.html">rake-0.5.3</a>
+  
+    <li class="file"><a href="../doc/release_notes/rake-0_5_4_rdoc.html">rake-0.5.4</a>
+  
+    <li class="file"><a href="../doc/release_notes/rake-0_6_0_rdoc.html">rake-0.6.0</a>
+  
+    <li class="file"><a href="../doc/release_notes/rake-0_7_0_rdoc.html">rake-0.7.0</a>
+  
+    <li class="file"><a href="../doc/release_notes/rake-0_7_1_rdoc.html">rake-0.7.1</a>
+  
+    <li class="file"><a href="../doc/release_notes/rake-0_7_2_rdoc.html">rake-0.7.2</a>
+  
+    <li class="file"><a href="../doc/release_notes/rake-0_7_3_rdoc.html">rake-0.7.3</a>
+  
+    <li class="file"><a href="../doc/release_notes/rake-0_8_0_rdoc.html">rake-0.8.0</a>
+  
+    <li class="file"><a href="../doc/release_notes/rake-0_8_2_rdoc.html">rake-0.8.2</a>
+  
+    <li class="file"><a href="../doc/release_notes/rake-0_8_3_rdoc.html">rake-0.8.3</a>
+  
+    <li class="file"><a href="../doc/release_notes/rake-0_8_4_rdoc.html">rake-0.8.4</a>
+  
+    <li class="file"><a href="../doc/release_notes/rake-0_8_5_rdoc.html">rake-0.8.5</a>
+  
+    <li class="file"><a href="../doc/release_notes/rake-0_8_6_rdoc.html">rake-0.8.6</a>
+  
+    <li class="file"><a href="../doc/release_notes/rake-0_8_7_rdoc.html">rake-0.8.7</a>
+  
+    <li class="file"><a href="../doc/release_notes/rake-0_9_0_rdoc.html">rake-0.9.0</a>
+  
+    <li class="file"><a href="../doc/release_notes/rake-0_9_1_rdoc.html">rake-0.9.1</a>
+  
+    <li class="file"><a href="../doc/release_notes/rake-0_9_2_2_rdoc.html">rake-0.9.2.2</a>
+  
+    <li class="file"><a href="../doc/release_notes/rake-0_9_2_rdoc.html">rake-0.9.2</a>
+  
+    <li class="file"><a href="../doc/release_notes/rake-0_9_3_rdoc.html">rake-0.9.3</a>
+  
+    <li class="file"><a href="../doc/release_notes/rake-0_9_4_rdoc.html">rake-0.9.4</a>
+  
+    <li class="file"><a href="../doc/release_notes/rake-0_9_5_rdoc.html">rake-0.9.5</a>
+  
+    <li class="file"><a href="../doc/release_notes/rake-0_9_6_rdoc.html">rake-0.9.6</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../Rake/AltSystem.html">Rake::AltSystem</a>
+  
+    <li><a href="../Rake/Application.html">Rake::Application</a>
+  
+    <li><a href="../Rake/Application.html">Rake::Application</a>
+  
+    <li><a href="../Rake/Backtrace.html">Rake::Backtrace</a>
+  
+    <li><a href="../Rake/Cloneable.html">Rake::Cloneable</a>
+  
+    <li><a href="../Rake/CompositePublisher.html">Rake::CompositePublisher</a>
+  
+    <li><a href="../Rake/DSL.html">Rake::DSL</a>
+  
+    <li><a href="../Rake/DefaultLoader.html">Rake::DefaultLoader</a>
+  
+    <li><a href="../Rake/EarlyTime.html">Rake::EarlyTime</a>
+  
+    <li><a href="../Rake/FileCreationTask.html">Rake::FileCreationTask</a>
+  
+    <li><a href="../Rake/FileList.html">Rake::FileList</a>
+  
+    <li><a href="../Rake/FileList.html">Rake::FileList</a>
+  
+    <li><a href="../Rake/FileTask.html">Rake::FileTask</a>
+  
+    <li><a href="../Rake/FileUtilsExt.html">Rake::FileUtilsExt</a>
+  
+    <li><a href="../Rake/FileUtilsExt.html">Rake::FileUtilsExt</a>
+  
+    <li><a href="../Rake/FtpFile.html">Rake::FtpFile</a>
+  
+    <li><a href="../Rake/FtpUploader.html">Rake::FtpUploader</a>
+  
+    <li><a href="../Rake/InvocationChain.html">Rake::InvocationChain</a>
+  
+    <li><a href="../Rake/InvocationChain/EmptyInvocationChain.html">Rake::InvocationChain::EmptyInvocationChain</a>
+  
+    <li><a href="../Rake/InvocationExceptionMixin.html">Rake::InvocationExceptionMixin</a>
+  
+    <li><a href="../Rake/MakefileLoader.html">Rake::MakefileLoader</a>
+  
+    <li><a href="../Rake/MultiTask.html">Rake::MultiTask</a>
+  
+    <li><a href="../Rake/NameSpace.html">Rake::NameSpace</a>
+  
+    <li><a href="../Rake/PackageTask.html">Rake::PackageTask</a>
+  
+    <li><a href="../Rake/PrivateReader.html">Rake::PrivateReader</a>
+  
+    <li><a href="../Rake/PseudoStatus.html">Rake::PseudoStatus</a>
+  
+    <li><a href="../Rake/RubyForgePublisher.html">Rake::RubyForgePublisher</a>
+  
+    <li><a href="../Rake/RuleRecursionOverflowError.html">Rake::RuleRecursionOverflowError</a>
+  
+    <li><a href="../Rake/SshDirPublisher.html">Rake::SshDirPublisher</a>
+  
+    <li><a href="../Rake/SshFilePublisher.html">Rake::SshFilePublisher</a>
+  
+    <li><a href="../Rake/SshFreshDirPublisher.html">Rake::SshFreshDirPublisher</a>
+  
+    <li><a href="../Rake/Task.html">Rake::Task</a>
+  
+    <li><a href="../Rake/TaskArgumentError.html">Rake::TaskArgumentError</a>
+  
+    <li><a href="../Rake/TaskArguments.html">Rake::TaskArguments</a>
+  
+    <li><a href="../Rake/TaskLib.html">Rake::TaskLib</a>
+  
+    <li><a href="../Rake/TaskManager.html">Rake::TaskManager</a>
+  
+    <li><a href="../Rake/TestTask.html">Rake::TestTask</a>
+  
+    <li><a href="../Rake/TraceOutput.html">Rake::TraceOutput</a>
+  
+    <li><a href="../Rake/Win32.html">Rake::Win32</a>
+  
+    <li><a href="../Rake/Win32/Win32HomeError.html">Rake::Win32::Win32HomeError</a>
+  
+    <li><a href="../CompositePublisher.html">CompositePublisher</a>
+  
+    <li><a href="../FileUtils.html">FileUtils</a>
+  
+    <li><a href="../Module.html">Module</a>
+  
+    <li><a href="../Object.html">Object</a>
+  
+    <li><a href="../SshDirPublisher.html">SshDirPublisher</a>
+  
+    <li><a href="../SshFilePublisher.html">SshFilePublisher</a>
+  
+    <li><a href="../SshFreshDirPublisher.html">SshFreshDirPublisher</a>
+  
+    <li><a href="../String.html">String</a>
+  
+    <li><a href="../Sys.html">Sys</a>
+  
+    <li><a href="../Time.html">Time</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class Rake::Task</h1>
+
+  <div id="description" class="description">
+    
+<p>######################################################################### A
+<a href="Task.html">Task</a> is the basic unit of work in a Rakefile. 
+Tasks have associated actions (possibly more than one) and a list of
+prerequisites.  When invoked, a task will first ensure that all of its
+prerequisites have an opportunity to run and then it will execute its own
+actions.</p>
+
+<p>Tasks are not usually created directly using the new method, but rather use
+the <code>file</code> and <code>task</code> convenience methods.</p>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+    <!-- Attributes -->
+    <section id="attribute-method-details" class="method-section section">
+      <h3 class="section-header">Attributes</h3>
+
+      
+      <div id="attribute-i-actions" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">actions</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
+
+        <div class="method-description">
+        
+        <p>List of actions attached to a task.</p>
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-application" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">application</span><span
+            class="attribute-access-type">[RW]</span>
+        </div>
+
+        <div class="method-description">
+        
+        <p><a href="Application.html">Application</a> owning this task.</p>
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-comment" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">comment</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
+
+        <div class="method-description">
+        
+        <p>Comment for this task.  Restricted to a single line of no more than 50
+characters.</p>
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-full_comment" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">full_comment</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
+
+        <div class="method-description">
+        
+        <p>Full text of the (possibly multi-line) comment.</p>
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-locations" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">locations</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
+
+        <div class="method-description">
+        
+        <p>File/Line locations of each of the task definitions for this task (only
+valid if the task was defined with the detect location option set).</p>
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-prerequisites" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">prerequisites</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
+
+        <div class="method-description">
+        
+        <p>List of prerequisites for a task.</p>
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-scope" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">scope</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
+
+        <div class="method-description">
+        
+        <p>Array of nested namespaces names used for task lookup by this task.</p>
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-sources" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">sources</span><span
+            class="attribute-access-type">[W]</span>
+        </div>
+
+        <div class="method-description">
+        
+        <p>List of sources for task.</p>
+        
+        </div>
+      </div>
+      
+    </section><!-- attribute-method-details -->
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-5B-5D" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">[]</span><span
+            class="method-args">(task_name)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Return a task with the given name.  If the task is not currently known, try
+to synthesize one from the defined rules.  If no rules are found, but an
+existing file matches the task name, assume it is a file task with no
+dependencies or actions.</p>
+          
+
+          
+          <div class="method-source-code" id="5B-5D-source">
+            <pre><span class="ruby-comment"># File lib/rake/task.rb, line 320</span>
+<span class="ruby-keyword">def</span> <span class="ruby-operator">[]</span>(<span class="ruby-identifier">task_name</span>)
+  <span class="ruby-constant">Rake</span>.<span class="ruby-identifier">application</span>[<span class="ruby-identifier">task_name</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- 5B-5D-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- 5B-5D-method -->
+
+    
+      <div id="method-c-clear" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">clear</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Clear the task list.  This cause rake to immediately forget all the tasks
+that have been assigned.  (Normally used in the unit tests.)</p>
+          
+
+          
+          <div class="method-source-code" id="clear-source">
+            <pre><span class="ruby-comment"># File lib/rake/task.rb, line 307</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">clear</span>
+  <span class="ruby-constant">Rake</span>.<span class="ruby-identifier">application</span>.<span class="ruby-identifier">clear</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- clear-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- clear-method -->
+
+    
+      <div id="method-c-create_rule" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">create_rule</span><span
+            class="method-args">(*args, &block)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Define a rule for synthesizing tasks.</p>
+          
+
+          
+          <div class="method-source-code" id="create_rule-source">
+            <pre><span class="ruby-comment"># File lib/rake/task.rb, line 337</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">create_rule</span>(*<span class="ruby-identifier">args</span>, &amp;<span class="ruby-identifier">block</span>)
+  <span class="ruby-constant">Rake</span>.<span class="ruby-identifier">application</span>.<span class="ruby-identifier">create_rule</span>(*<span class="ruby-identifier">args</span>, &amp;<span class="ruby-identifier">block</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- create_rule-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- create_rule-method -->
+
+    
+      <div id="method-c-define_task" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">define_task</span><span
+            class="method-args">(*args, &block)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Define a task given <code>args</code> and an option block.  If a rule with
+the given name already exists, the prerequisites and actions are added to
+the existing task.  Returns the defined task.</p>
+          
+
+          
+          <div class="method-source-code" id="define_task-source">
+            <pre><span class="ruby-comment"># File lib/rake/task.rb, line 332</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">define_task</span>(*<span class="ruby-identifier">args</span>, &amp;<span class="ruby-identifier">block</span>)
+  <span class="ruby-constant">Rake</span>.<span class="ruby-identifier">application</span>.<span class="ruby-identifier">define_task</span>(<span class="ruby-keyword">self</span>, *<span class="ruby-identifier">args</span>, &amp;<span class="ruby-identifier">block</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- define_task-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- define_task-method -->
+
+    
+      <div id="method-c-new" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">new</span><span
+            class="method-args">(task_name, app)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Create a task named <code>task_name</code> with no actions or
+prerequisites. Use <code>enhance</code> to add actions and prerequisites.</p>
+          
+
+          
+          <div class="method-source-code" id="new-source">
+            <pre><span class="ruby-comment"># File lib/rake/task.rb, line 71</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">task_name</span>, <span class="ruby-identifier">app</span>)
+  <span class="ruby-ivar">@name</span> = <span class="ruby-identifier">task_name</span>.<span class="ruby-identifier">to_s</span>
+  <span class="ruby-ivar">@prerequisites</span> = []
+  <span class="ruby-ivar">@actions</span> = []
+  <span class="ruby-ivar">@already_invoked</span> = <span class="ruby-keyword">false</span>
+  <span class="ruby-ivar">@full_comment</span> = <span class="ruby-keyword">nil</span>
+  <span class="ruby-ivar">@comment</span> = <span class="ruby-keyword">nil</span>
+  <span class="ruby-ivar">@lock</span> = <span class="ruby-constant">Monitor</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-ivar">@application</span> = <span class="ruby-identifier">app</span>
+  <span class="ruby-ivar">@scope</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">current_scope</span>
+  <span class="ruby-ivar">@arg_names</span> = <span class="ruby-keyword">nil</span>
+  <span class="ruby-ivar">@locations</span> = []
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- new-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- new-method -->
+
+    
+      <div id="method-c-scope_name" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">scope_name</span><span
+            class="method-args">(scope, task_name)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Apply the scope to the task name according to the rules for this kind of
+task.  Generic tasks will accept the scope as part of the name.</p>
+          
+
+          
+          <div class="method-source-code" id="scope_name-source">
+            <pre><span class="ruby-comment"># File lib/rake/task.rb, line 344</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">scope_name</span>(<span class="ruby-identifier">scope</span>, <span class="ruby-identifier">task_name</span>)
+  (<span class="ruby-identifier">scope</span> <span class="ruby-operator">+</span> [<span class="ruby-identifier">task_name</span>]).<span class="ruby-identifier">join</span>(<span class="ruby-string">':'</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- scope_name-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- scope_name-method -->
+
+    
+      <div id="method-c-task_defined-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">task_defined?</span><span
+            class="method-args">(task_name)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>TRUE if the task name is already defined.</p>
+          
+
+          
+          <div class="method-source-code" id="task_defined-3F-source">
+            <pre><span class="ruby-comment"># File lib/rake/task.rb, line 325</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">task_defined?</span>(<span class="ruby-identifier">task_name</span>)
+  <span class="ruby-constant">Rake</span>.<span class="ruby-identifier">application</span>.<span class="ruby-identifier">lookup</span>(<span class="ruby-identifier">task_name</span>) <span class="ruby-operator">!=</span> <span class="ruby-keyword">nil</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- task_defined-3F-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- task_defined-3F-method -->
+
+    
+      <div id="method-c-tasks" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">tasks</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>List of all defined tasks.</p>
+          
+
+          
+          <div class="method-source-code" id="tasks-source">
+            <pre><span class="ruby-comment"># File lib/rake/task.rb, line 312</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">tasks</span>
+  <span class="ruby-constant">Rake</span>.<span class="ruby-identifier">application</span>.<span class="ruby-identifier">tasks</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- tasks-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- tasks-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-add_description" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">add_description</span><span
+            class="method-args">(description)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Add a description to the task.  The description can consist of an option
+argument list (enclosed brackets) and an optional comment.</p>
+          
+
+          
+          <div class="method-source-code" id="add_description-source">
+            <pre><span class="ruby-comment"># File lib/rake/task.rb, line 246</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">add_description</span>(<span class="ruby-identifier">description</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span> <span class="ruby-identifier">description</span>
+  <span class="ruby-identifier">comment</span> = <span class="ruby-identifier">description</span>.<span class="ruby-identifier">strip</span>
+  <span class="ruby-identifier">add_comment</span>(<span class="ruby-identifier">comment</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">comment</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span> <span class="ruby-identifier">comment</span>.<span class="ruby-identifier">empty?</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- add_description-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- add_description-method -->
+
+    
+      <div id="method-i-arg_names" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">arg_names</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Name of arguments for this task.</p>
+          
+
+          
+          <div class="method-source-code" id="arg_names-source">
+            <pre><span class="ruby-comment"># File lib/rake/task.rb, line 112</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">arg_names</span>
+  <span class="ruby-ivar">@arg_names</span> <span class="ruby-operator">||</span> []
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- arg_names-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- arg_names-method -->
+
+    
+      <div id="method-i-clear" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">clear</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Clear the existing prerequisites and actions of a rake task.</p>
+          
+
+          
+          <div class="method-source-code" id="clear-source">
+            <pre><span class="ruby-comment"># File lib/rake/task.rb, line 123</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">clear</span>
+  <span class="ruby-identifier">clear_prerequisites</span>
+  <span class="ruby-identifier">clear_actions</span>
+  <span class="ruby-identifier">clear_comments</span>
+  <span class="ruby-keyword">self</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- clear-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- clear-method -->
+
+    
+      <div id="method-i-clear_actions" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">clear_actions</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Clear the existing actions on a rake task.</p>
+          
+
+          
+          <div class="method-source-code" id="clear_actions-source">
+            <pre><span class="ruby-comment"># File lib/rake/task.rb, line 137</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">clear_actions</span>
+  <span class="ruby-identifier">actions</span>.<span class="ruby-identifier">clear</span>
+  <span class="ruby-keyword">self</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- clear_actions-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- clear_actions-method -->
+
+    
+      <div id="method-i-clear_comments" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">clear_comments</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Clear the existing comments on a rake task.</p>
+          
+
+          
+          <div class="method-source-code" id="clear_comments-source">
+            <pre><span class="ruby-comment"># File lib/rake/task.rb, line 143</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">clear_comments</span>
+  <span class="ruby-ivar">@full_comment</span> = <span class="ruby-keyword">nil</span>
+  <span class="ruby-ivar">@comment</span> = <span class="ruby-keyword">nil</span>
+  <span class="ruby-keyword">self</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- clear_comments-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- clear_comments-method -->
+
+    
+      <div id="method-i-clear_prerequisites" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">clear_prerequisites</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Clear the existing prerequisites of a rake task.</p>
+          
+
+          
+          <div class="method-source-code" id="clear_prerequisites-source">
+            <pre><span class="ruby-comment"># File lib/rake/task.rb, line 131</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">clear_prerequisites</span>
+  <span class="ruby-identifier">prerequisites</span>.<span class="ruby-identifier">clear</span>
+  <span class="ruby-keyword">self</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- clear_prerequisites-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- clear_prerequisites-method -->
+
+    
+      <div id="method-i-comment-3D" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">comment=</span><span
+            class="method-args">(description)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Writing to the comment attribute is the same as adding a description.</p>
+          
+
+          
+          <div class="method-source-code" id="comment-3D-source">
+            <pre><span class="ruby-comment"># File lib/rake/task.rb, line 253</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">comment=</span>(<span class="ruby-identifier">description</span>)
+  <span class="ruby-identifier">add_description</span>(<span class="ruby-identifier">description</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- comment-3D-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- comment-3D-method -->
+
+    
+      <div id="method-i-enhance" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">enhance</span><span
+            class="method-args">(deps=nil, &block)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Enhance a task with prerequisites or actions.  Returns self.</p>
+          
+
+          
+          <div class="method-source-code" id="enhance-source">
+            <pre><span class="ruby-comment"># File lib/rake/task.rb, line 86</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">enhance</span>(<span class="ruby-identifier">deps</span>=<span class="ruby-keyword">nil</span>, &amp;<span class="ruby-identifier">block</span>)
+  <span class="ruby-ivar">@prerequisites</span> <span class="ruby-operator">|=</span> <span class="ruby-identifier">deps</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">deps</span>
+  <span class="ruby-ivar">@actions</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">block</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">block_given?</span>
+  <span class="ruby-keyword">self</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- enhance-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- enhance-method -->
+
+    
+      <div id="method-i-execute" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">execute</span><span
+            class="method-args">(args=nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Execute the actions associated with this task.</p>
+          
+
+          
+          <div class="method-source-code" id="execute-source">
+            <pre><span class="ruby-comment"># File lib/rake/task.rb, line 213</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">execute</span>(<span class="ruby-identifier">args</span>=<span class="ruby-keyword">nil</span>)
+  <span class="ruby-identifier">args</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">EMPTY_TASK_ARGS</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">application</span>.<span class="ruby-identifier">options</span>.<span class="ruby-identifier">dryrun</span>
+    <span class="ruby-identifier">application</span>.<span class="ruby-identifier">trace</span> <span class="ruby-node">&quot;** Execute (dry run) #{name}&quot;</span>
+    <span class="ruby-keyword">return</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">application</span>.<span class="ruby-identifier">options</span>.<span class="ruby-identifier">trace</span>
+    <span class="ruby-identifier">application</span>.<span class="ruby-identifier">trace</span> <span class="ruby-node">&quot;** Execute #{name}&quot;</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">application</span>.<span class="ruby-identifier">enhance_with_matching_rule</span>(<span class="ruby-identifier">name</span>) <span class="ruby-keyword">if</span> <span class="ruby-ivar">@actions</span>.<span class="ruby-identifier">empty?</span>
+  <span class="ruby-ivar">@actions</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">act</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">case</span> <span class="ruby-identifier">act</span>.<span class="ruby-identifier">arity</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-value">1</span>
+      <span class="ruby-identifier">act</span>.<span class="ruby-identifier">call</span>(<span class="ruby-keyword">self</span>)
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">act</span>.<span class="ruby-identifier">call</span>(<span class="ruby-keyword">self</span>, <span class="ruby-identifier">args</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- execute-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- execute-method -->
+
+    
+      <div id="method-i-inspect" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">inspect</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="inspect-source">
+            <pre><span class="ruby-comment"># File lib/rake/task.rb, line 44</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">inspect</span>
+  <span class="ruby-node">&quot;&lt;#{self.class} #{name} =&gt; [#{prerequisites.join(', ')}]&gt;&quot;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- inspect-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- inspect-method -->
+
+    
+      <div id="method-i-investigation" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">investigation</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Return a string describing the internal state of a task.  Useful for
+debugging.</p>
+          
+
+          
+          <div class="method-source-code" id="investigation-source">
+            <pre><span class="ruby-comment"># File lib/rake/task.rb, line 282</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">investigation</span>
+  <span class="ruby-identifier">result</span> = <span class="ruby-string">&quot;------------------------------\n&quot;</span>
+  <span class="ruby-identifier">result</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;Investigating #{name}\n&quot;</span>
+  <span class="ruby-identifier">result</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;class: #{self.class}\n&quot;</span>
+  <span class="ruby-identifier">result</span> <span class="ruby-operator">&lt;&lt;</span>  <span class="ruby-node">&quot;task needed: #{needed?}\n&quot;</span>
+  <span class="ruby-identifier">result</span> <span class="ruby-operator">&lt;&lt;</span>  <span class="ruby-node">&quot;timestamp: #{timestamp}\n&quot;</span>
+  <span class="ruby-identifier">result</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&quot;pre-requisites: \n&quot;</span>
+  <span class="ruby-identifier">prereqs</span> = <span class="ruby-identifier">prerequisite_tasks</span>
+  <span class="ruby-identifier">prereqs</span>.<span class="ruby-identifier">sort!</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">a</span>,<span class="ruby-identifier">b</span><span class="ruby-operator">|</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">timestamp</span> <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">b</span>.<span class="ruby-identifier">timestamp</span>}
+  <span class="ruby-identifier">prereqs</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">p</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">result</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;--#{p.name} (#{p.timestamp})\n&quot;</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">latest_prereq</span> = <span class="ruby-identifier">prerequisite_tasks</span>.<span class="ruby-identifier">collect</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">pre</span><span class="ruby-operator">|</span> <span class="ruby-identifier">pre</span>.<span class="ruby-identifier">timestamp</span> }.<span class="ruby-identifier">max</span>
+  <span class="ruby-identifier">result</span> <span class="ruby-operator">&lt;&lt;</span>  <span class="ruby-node">&quot;latest-prerequisite time: #{latest_prereq}\n&quot;</span>
+  <span class="ruby-identifier">result</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&quot;................................\n\n&quot;</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">result</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- investigation-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- investigation-method -->
+
+    
+      <div id="method-i-invoke" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">invoke</span><span
+            class="method-args">(*args)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Invoke the task if it is needed.  Prerequisites are invoked first.</p>
+          
+
+          
+          <div class="method-source-code" id="invoke-source">
+            <pre><span class="ruby-comment"># File lib/rake/task.rb, line 150</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">invoke</span>(*<span class="ruby-identifier">args</span>)
+  <span class="ruby-identifier">task_args</span> = <span class="ruby-constant">TaskArguments</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">arg_names</span>, <span class="ruby-identifier">args</span>)
+  <span class="ruby-identifier">invoke_with_call_chain</span>(<span class="ruby-identifier">task_args</span>, <span class="ruby-constant">InvocationChain</span><span class="ruby-operator">::</span><span class="ruby-constant">EMPTY</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- invoke-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- invoke-method -->
+
+    
+      <div id="method-i-name" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">name</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Name of the task, including any namespace qualifiers.</p>
+          
+
+          
+          <div class="method-source-code" id="name-source">
+            <pre><span class="ruby-comment"># File lib/rake/task.rb, line 93</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">name</span>
+  <span class="ruby-ivar">@name</span>.<span class="ruby-identifier">to_s</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- name-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- name-method -->
+
+    
+      <div id="method-i-needed-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">needed?</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Is this task needed?</p>
+          
+
+          
+          <div class="method-source-code" id="needed-3F-source">
+            <pre><span class="ruby-comment"># File lib/rake/task.rb, line 234</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">needed?</span>
+  <span class="ruby-keyword">true</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- needed-3F-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- needed-3F-method -->
+
+    
+      <div id="method-i-prerequisite_tasks" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">prerequisite_tasks</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>List of prerequisite tasks</p>
+          
+
+          
+          <div class="method-source-code" id="prerequisite_tasks-source">
+            <pre><span class="ruby-comment"># File lib/rake/task.rb, line 55</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">prerequisite_tasks</span>
+  <span class="ruby-identifier">prerequisites</span>.<span class="ruby-identifier">collect</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">pre</span><span class="ruby-operator">|</span> <span class="ruby-identifier">lookup_prerequisite</span>(<span class="ruby-identifier">pre</span>) }
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- prerequisite_tasks-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- prerequisite_tasks-method -->
+
+    
+      <div id="method-i-reenable" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">reenable</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Reenable the task, allowing its tasks to be executed if the task is invoked
+again.</p>
+          
+
+          
+          <div class="method-source-code" id="reenable-source">
+            <pre><span class="ruby-comment"># File lib/rake/task.rb, line 118</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">reenable</span>
+  <span class="ruby-ivar">@already_invoked</span> = <span class="ruby-keyword">false</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- reenable-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- reenable-method -->
+
+    
+      <div id="method-i-set_arg_names" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">set_arg_names</span><span
+            class="method-args">(args)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Set the names of the arguments for this task. <code>args</code> should be
+an array of symbols, one for each argument name.</p>
+          
+
+          
+          <div class="method-source-code" id="set_arg_names-source">
+            <pre><span class="ruby-comment"># File lib/rake/task.rb, line 276</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">set_arg_names</span>(<span class="ruby-identifier">args</span>)
+  <span class="ruby-ivar">@arg_names</span> = <span class="ruby-identifier">args</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">to_sym</span> }
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- set_arg_names-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- set_arg_names-method -->
+
+    
+      <div id="method-i-source" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">source</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>First source from a rule (nil if no sources)</p>
+          
+
+          
+          <div class="method-source-code" id="source-source">
+            <pre><span class="ruby-comment"># File lib/rake/task.rb, line 65</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">source</span>
+  <span class="ruby-ivar">@sources</span>.<span class="ruby-identifier">first</span> <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-ivar">@sources</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- source-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- source-method -->
+
+    
+      <div id="method-i-sources" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">sources</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="sources-source">
+            <pre><span class="ruby-comment"># File lib/rake/task.rb, line 50</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">sources</span>
+  <span class="ruby-ivar">@sources</span> <span class="ruby-operator">||=</span> []
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- sources-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- sources-method -->
+
+    
+      <div id="method-i-timestamp" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">timestamp</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Timestamp for this task.  Basic tasks return the current time for their
+time stamp.  Other tasks can be more sophisticated.</p>
+          
+
+          
+          <div class="method-source-code" id="timestamp-source">
+            <pre><span class="ruby-comment"># File lib/rake/task.rb, line 240</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">timestamp</span>
+  <span class="ruby-identifier">prerequisite_tasks</span>.<span class="ruby-identifier">collect</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">pre</span><span class="ruby-operator">|</span> <span class="ruby-identifier">pre</span>.<span class="ruby-identifier">timestamp</span> }.<span class="ruby-identifier">max</span> <span class="ruby-operator">||</span> <span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- timestamp-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- timestamp-method -->
+
+    
+      <div id="method-i-to_s" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">to_s</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Return task name</p>
+          
+
+          
+          <div class="method-source-code" id="to_s-source">
+            <pre><span class="ruby-comment"># File lib/rake/task.rb, line 40</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_s</span>
+  <span class="ruby-identifier">name</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- to_s-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- to_s-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.1.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

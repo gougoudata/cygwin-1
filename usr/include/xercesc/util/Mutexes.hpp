@@ -16,12 +16,11 @@
  */
 
 /*
- * $Id: Mutexes.hpp 568078 2007-08-21 11:43:25Z amassari $
+ * $Id: Mutexes.hpp 745390 2009-02-18 05:51:29Z borisk $
  */
 
-
-#if !defined(MUTEXES_HPP)
-#define MUTEXES_HPP
+#if !defined(XERCESC_INCLUDE_GUARD_MUTEXES_HPP)
+#define XERCESC_INCLUDE_GUARD_MUTEXES_HPP
 
 #include <xercesc/util/XMemory.hpp>
 #include <xercesc/util/PlatformUtils.hpp>

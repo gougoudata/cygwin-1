@@ -17,7 +17,7 @@ W system%s		system.ads		system.ali
 U system.fat_gen%s	s-fatgen.ads		ea2f5617 BN NE PU PK GE
 W system%s		system.ads		system.ali
 
-D ada.ads		20030424175358 a0108083
+D ada.ads		20030424175357 a0108083
 D a-unccon.ads		20030424175356 5b55fe29
 D system.ads		20031021134222 6af26689
 D s-fatgen.ads		20031021134214 80dd309e

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Name=Qt3 Designer
+Type=Application
+Comment=
+Exec=designer-qt3
+TryExec=designer-qt3
+Icon=designer-qt3.png
+Categories=Development;GUIDesigner;Qt;
+

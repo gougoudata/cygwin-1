@@ -25,14 +25,16 @@
  * Modified by the GTK+ Team and others 2003.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
+
 #ifndef __GTK_UI_MANAGER_H__
 #define __GTK_UI_MANAGER_H__
 
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
 
-#include <glib.h>
-#include <glib-object.h>
 #include <gtk/gtkaccelgroup.h>
 #include <gtk/gtkwidget.h>
 #include <gtk/gtkaction.h>
@@ -57,14 +59,14 @@ struct _GtkUIManager {
 
   /*< private >*/
 
-  GtkUIManagerPrivate *private_data;
+  GtkUIManagerPrivate *GSEAL (private_data);
 };
 
 struct _GtkUIManagerClass {
   GObjectClass parent_class;
 
   /* Signals */
-  void (* add_widget)       (GtkUIManager *merge, 
+  void (* add_widget)       (GtkUIManager *merge,
                              GtkWidget    *widget);
   void (* actions_changed)  (GtkUIManager *merge);
   void (* connect_proxy)    (GtkUIManager *merge,
@@ -90,16 +92,17 @@ struct _GtkUIManagerClass {
 };
 
 typedef enum {
-  GTK_UI_MANAGER_AUTO         = 0,
-  GTK_UI_MANAGER_MENUBAR      = 1 << 0,
-  GTK_UI_MANAGER_MENU         = 1 << 1,
-  GTK_UI_MANAGER_TOOLBAR      = 1 << 2,
-  GTK_UI_MANAGER_PLACEHOLDER  = 1 << 3,
-  GTK_UI_MANAGER_POPUP        = 1 << 4,
-  GTK_UI_MANAGER_MENUITEM     = 1 << 5,
-  GTK_UI_MANAGER_TOOLITEM     = 1 << 6,
-  GTK_UI_MANAGER_SEPARATOR    = 1 << 7,
-  GTK_UI_MANAGER_ACCELERATOR  = 1 << 8
+  GTK_UI_MANAGER_AUTO              = 0,
+  GTK_UI_MANAGER_MENUBAR           = 1 << 0,
+  GTK_UI_MANAGER_MENU              = 1 << 1,
+  GTK_UI_MANAGER_TOOLBAR           = 1 << 2,
+  GTK_UI_MANAGER_PLACEHOLDER       = 1 << 3,
+  GTK_UI_MANAGER_POPUP             = 1 << 4,
+  GTK_UI_MANAGER_MENUITEM          = 1 << 5,
+  GTK_UI_MANAGER_TOOLITEM          = 1 << 6,
+  GTK_UI_MANAGER_SEPARATOR         = 1 << 7,
+  GTK_UI_MANAGER_ACCELERATOR       = 1 << 8,
+  GTK_UI_MANAGER_POPUP_WITH_ACCELS = 1 << 9
 } GtkUIManagerItemType;
 
 #ifdef G_OS_WIN32

@@ -23,7 +23,11 @@
 #ifndef __GTK_RADIO_TOOL_BUTTON_H__
 #define __GTK_RADIO_TOOL_BUTTON_H__
 
-#include "gtktoggletoolbutton.h"
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
+#include <gtk/gtktoggletoolbutton.h>
 
 G_BEGIN_DECLS
 

@@ -1,0 +1,33 @@
+stg-patches(1)
+==============
+
+NAME
+----
+stg-patches - Show the applied patches modifying a file
+
+SYNOPSIS
+--------
+[verse]
+'stg' patches [options] [--] [<files or dirs>]
+
+DESCRIPTION
+-----------
+
+Show the applied patches modifying the given files. Without arguments,
+it shows the patches affected by the local tree modifications. The
+'--diff' option also lists the patch log and the diff for the given
+files.
+
+OPTIONS
+-------
+-d::
+--diff::
+        Show the diff for the given files.
+
+-b BRANCH::
+--branch BRANCH::
+        Use BRANCH instead of the default branch.
+
+StGit
+-----
+Part of the StGit suite - see linkman:stg[1]

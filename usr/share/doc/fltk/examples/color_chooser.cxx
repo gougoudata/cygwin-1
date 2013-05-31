@@ -1,24 +1,15 @@
 //
-// "$Id: color_chooser.cxx 5519 2006-10-11 03:12:15Z mike $"
+// "$Id: color_chooser.cxx 8864 2011-07-19 04:49:30Z greg.ercolano $"
 //
 // Color chooser test program for the Fast Light Tool Kit (FLTK).
 //
-// Copyright 1998-2005 by Bill Spitzak and others.
+// Copyright 1998-2010 by Bill Spitzak and others.
 //
-// This library is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Library General Public
-// License as published by the Free Software Foundation; either
-// version 2 of the License, or (at your option) any later version.
+// This library is free software. Distribution and use rights are outlined in
+// the file "COPYING" which should have been included with this file.  If this
+// file is missing or damaged, see the license at:
 //
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-// Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public
-// License along with this library; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
-// USA.
+//     http://www.fltk.org/COPYING.php
 //
 // Please report all bugs and problems on the following page:
 //
@@ -63,7 +54,7 @@ class Pens : public Fl_Box {
   void draw();
 public:
   Pens(int X, int Y, int W, int H, const char* L)
-    : Fl_Box(X,Y,W,H,L) {}
+  : Fl_Box(X,Y,W,H,L) {}
 };
 void Pens::draw() {
   // use every color in the gray ramp:
@@ -86,7 +77,7 @@ void cb1(Fl_Widget *, void *v) {
 void cb2(Fl_Widget *, void *v) {
   uchar r,g,b;
   Fl::get_color(c,r,g,b);
-  if (!fl_color_chooser("New color:",r,g,b)) return;
+  if (!fl_color_chooser("New color:",r,g,b,3)) return;
   c = fullcolor_cell;
   Fl::set_color(fullcolor_cell,r,g,b);
   Fl_Box* bx = (Fl_Box*)v;
@@ -112,11 +103,11 @@ int main(int argc, char ** argv) {
   Pens p(80,200,3*8,120,"lines");
   p.align(FL_ALIGN_TOP);
   int i = 1;
-  if (!Fl::args(argc,argv,i) || i != argc-1) {
+  if (!Fl::args(argc,argv,i) || i < argc-1) {
     printf("usage: %s <switches> visual-number\n"
-	   " - : default visual\n"
-	   " r : call Fl::visual(FL_RGB)\n"
-	   " c : call Fl::own_colormap()\n",argv[0]);
+           " - : default visual\n"
+           " r : call Fl::visual(FL_RGB)\n"
+           " c : call Fl::own_colormap()\n",argv[0]);
 #if !defined(WIN32) && !defined(__APPLE__)
     printf(" # : use this visual with an empty colormap:\n");
     list_visuals();
@@ -124,29 +115,31 @@ int main(int argc, char ** argv) {
     puts(Fl::help);
     exit(1);
   }
-  if (argv[i][0] == 'r') {
-    if (!Fl::visual(FL_RGB)) printf("Fl::visual(FL_RGB) returned false.\n");
-  } else if (argv[i][0] == 'c') {
-    Fl::own_colormap();
-  } else if (argv[i][0] != '-') {
+  if (i!=argc) {
+    if (argv[i][0] == 'r') {
+      if (!Fl::visual(FL_RGB)) printf("Fl::visual(FL_RGB) returned false.\n");
+    } else if (argv[i][0] == 'c') {
+      Fl::own_colormap();
+    } else if (argv[i][0] != '-') {
 #if !defined(WIN32) && !defined(__APPLE__)
-    int visid = atoi(argv[i]);
-    fl_open_display();
-    XVisualInfo templt; int num;
-    templt.visualid = visid;
-    fl_visual = XGetVisualInfo(fl_display, VisualIDMask, &templt, &num);
-    if (!fl_visual) Fl::fatal("No visual with id %d",visid);
-    fl_colormap = XCreateColormap(fl_display, RootWindow(fl_display,fl_screen),
-				  fl_visual->visual, AllocNone);
-    fl_xpixel(FL_BLACK); // make sure black is allocated
+      int visid = atoi(argv[i]);
+      fl_open_display();
+      XVisualInfo templt; int num;
+      templt.visualid = visid;
+      fl_visual = XGetVisualInfo(fl_display, VisualIDMask, &templt, &num);
+      if (!fl_visual) Fl::fatal("No visual with id %d",visid);
+      fl_colormap = XCreateColormap(fl_display, RootWindow(fl_display,fl_screen),
+                                    fl_visual->visual, AllocNone);
+      fl_xpixel(FL_BLACK); // make sure black is allocated
 #else
-    Fl::fatal("Visual id's not supported on MSWindows or MacOS.");
+      Fl::fatal("Visual id's not supported on MSWindows or MacOS.");
 #endif
+    }
   }
   window.show(argc,argv);
   return Fl::run();
 }
 
 //
-// End of "$Id: color_chooser.cxx 5519 2006-10-11 03:12:15Z mike $".
+// End of "$Id: color_chooser.cxx 8864 2011-07-19 04:49:30Z greg.ercolano $".
 //

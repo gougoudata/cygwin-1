@@ -1,0 +1,73 @@
+LibGII FAQ
+==========
+
+Please read the file README in this directory if you are not sure about what
+LibGII is.
+
+I. Installation questions
+
+Q: In which order do I need to install all that libs for a GGI system ?
+
+A: Start with LibGII - the input handling layer.
+   LibGGI - the graphics layer - depends on it. Install it second.
+   After that order is usually not important, except for packages that
+   depend on other packages. This would be documented in the respective
+   README documents.
+
+Q: How does one compile and install LibGII ?
+
+A: Reading INSTALL and INSTALL.autoconf should help.
+
+Q: What if autodetection of inputs fails somehow and compilation stops
+   somewhere ?
+
+A: Check if the input in which make fails should work on your system.
+   If yes, chances are, that you don't have some development package
+   installed properly. If you can't figure out for yourself, please
+   report to out mailing list metioned in the README.
+   If no, just disable it using the --disable flags to configure. You might
+   still want to report that case to the mailinglist.
+
+Q: I am not root here. Can I still install LibGII ?
+
+A: Yes. The GGI libs are usually relocatable. Just use --prefix. See INSTALL
+   for details.
+
+II. Post install configuration questions
+
+Q: My mouse does not work at all/properly
+
+A: Check that you have permissions to read the device /dev/mouse is linked
+   to. PS/2 devices might need read/write access.
+   Your mouse might be misconfigured due to earlier installs or an
+   improperly configured SVGAlib. Please read doc/inputs.txt on how to do it
+   right.
+
+III. Using LibGII
+
+Q: Umm - I have installed it. What great apps can I run now ?
+
+A: LibGII is rarely used on its own. Most applications will require you to
+   install LibGGI (mind GGI vs. GII !) first.
+   One useful application is delivered with LibGII, though: mhub.
+   See its own manpage for usage information. If you don't know what it is
+   talking about, chances are, that you won't need it.
+
+Q: What's that environment variable stuff ? Why don't you have commandline
+   switches ?
+
+A: Commandline switches require application cooperation. LibGII/GGI are
+   intended to give the user full freedom. It allows to override stuff
+   without the application having to care.
+
+Q: Why are the debugging vars called GGI_DEBUG[SYNC] ?
+
+A: Convenience. LibGII is almost always coupled to LibGGI, especially when
+   you need to debug stuff.
+
+Q: Why doesn't GII_INPUT work with the LibGGI programs I am running ?
+
+A: GII_INPUT only influences giiOpen() calls with a NULL argument.
+   LibGGI never does this. It determines the required inputlibs and
+   calls LibGII with _them_ in the argument. LibGGI has its own mechanism
+   to add inputs. Have a look at its FAQ

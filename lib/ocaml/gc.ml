@@ -11,7 +11,7 @@
 (*                                                                     *)
 (***********************************************************************)
 
-(* $Id: gc.ml,v 1.20 2004/06/14 13:27:36 doligez Exp $ *)
+(* $Id: gc.ml 10315 2010-04-27 07:55:08Z xleroy $ *)
 
 type stat = {
   minor_words : float;
@@ -29,6 +29,7 @@ type stat = {
   fragments : int;
   compactions : int;
   top_heap_words : int;
+  stack_size : int;
 };;
 
 type control = {
@@ -38,6 +39,7 @@ type control = {
   mutable verbose : int;
   mutable max_overhead : int;
   mutable stack_limit : int;
+  mutable allocation_policy : int;
 };;
 
 external stat : unit -> stat = "caml_gc_stat";;

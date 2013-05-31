@@ -1,0 +1,195 @@
+libtool
+========================================================================
+The libtool shared library generation tool.
+
+Runtime (and build) requirements (these or newer)
+  cygwin-1.7.7-1
+  libgcc1-4.3.4-3
+  perl-5.10.1-4
+  automake1.11
+  autoconf2.5
+  autoconf-8-1
+  automake-4-10
+  file
+  texinfo
+  binutils-2.20.51-2
+  gcc4-core-4.3.4-3
+  gcc4-fortran-4.3.4-3
+  gcc4-g++-4.3.4-3
+  xz-4.999.9beta-11
+  bash-3.2.51-24
+  make-3.81-2
+  cygport-0.10.0-1
+
+Canonical homepage:
+  http://www.gnu.org/software/libtool/libtool.html
+
+Canonical download:
+  ftp://ftp.gnu.org/pub/gnu/libtool/
+
+License:
+  GPL (libltdl: LGPL)
+
+Language:
+  m4, sh (libltdl: C)
+
+========================================================================
+
+Build instructions:
+  unpack libtool-2.4-X-src.tar.bz2
+    if you use setup to install this src package, it will be unpacked
+    under /usr/src automatically
+  cd /usr/src
+  cygport ./libtool-2.4-X.cygport all
+
+This will create:
+  /usr/src/libtool-2.4-X-src.tar.bz2
+  /usr/src/libtool-2.4-X.bz2
+  /usr/src/libltdl7-2.4-X.bz2
+
+Also, 'cygport ./libtool-2.4-X.cygport check' will test the package
+
+========================================================================
+
+Files included in libltdl7-2.4-X:
+
+  /usr/bin/cygltdl-7.dll
+
+Files included in libtool-2.4-X:
+  see cygcheck -l output
+
+========================================================================
+
+Port Notes:
+----- libtool-2.4-1 -- 2010-09-23 -----
+* Updated to latest upstream release
+* Old patches
+  + allow runtime library flags (like -static-libgcc)
+  + Fix linking with -fstack-protector (Yaakov Selkowitz)
+  + [cygwin|mingw] Create UAC manifest files (as modified)
+* New patches
+  + Fix regression in command-line length computation
+* Major upstream changes:
+  + supports sysroots via --with-sysroot option
+  + supports CC=/path/to/msvc/cl.exe
+  + supports LTO with GNU gcc (4.5 or later)
+
+----- libtool-2.2.11a-1 -- 2010-09-02 -----
+* Updated to latest git master version (2010-09-02,
+  0f052db3b89835904b95d8336b2491e7b8eef8f7)
+* Largest cygwin patches have been merged upstream
+* Remaining (old) patches:
+  + allow runtime library flags (like -static-libgcc)
+    - Yaakov Selkowitz "libtool: -{shared,static}-libgcc"
+      http://www.cygwin.com/ml/cygwin/2009-08/msg00243.html
+  + [cygwin|mingw] Create UAC manifest files (as modified)
+* New patches:
+  + Fix linking with -fstack-protector (Yaakov Selkowitz)
+    http://thread.gmane.org/gmane.comp.gnu.libtool.bugs/7330/focus=7341
+  + Fix order of PATH manipulation in cwrapper (reported by Jon Turney)
+    http://cygwin.com/ml/cygwin/2010-07/msg00601.html
+* Does not yet support LTO. There is an lto branch upstream, and it is
+  slated to be merged in to the release branch before 2.2.12 (due RSN)
+  I'll update again at that time.
+
+----- libtool-2.2.10-1 -- 2010-06-10 (unreleased) -----
+* Refresh to official upstream release
+  + rebase patch series (still 58k of cygwin-specific patches)
+  + had newly introduced bugs, so did not publish
+
+----- libtool-2.2.7a-15 -- 2009-12-30 -----
+* Updated to latest git master version (2009-12-30,
+  78f270a9ab4b56dc9c09020282e77a3b861099a1)
+* STILL has 73kB of cygwin-specific patches (ridiculous review
+  backlog upstream)
+* Additional patches to fix:
+  + cwrapper test problems on mingw
+  + certain issues with UAC wrappers
+    - Cesar Strauss "Libtool: Generated manifests need execute permission"
+      http://www.cygwin.com/ml/cygwin/2009-09/msg00471.html
+    - Eric Blake "[PATCH] [cygwin|mingw] Create UAC manifest files."
+      http://lists.gnu.org/archive/html/libtool-patches/2009-06/msg00060.html
+      (clean up manifests)
+    - Kai Tietz "[PATCH] [cygwin|mingw] Create UAC manifest files."
+      http://lists.gnu.org/archive/html/libtool-patches/2009-06/msg00061.html
+      (Support 64bit windows)
+  + allow runtime library flags (like -static-libgcc)
+    - Yaakov Selkowitz "libtool: -{shared,static}-libgcc"
+      http://www.cygwin.com/ml/cygwin/2009-08/msg00243.html
+* Compiled using gcc4
+
+----- libtool-2.2.7a-14 -- 2009-07-12 -----
+* Updated to latest git master version (2009-06-30,
+  00558363daebeb41c02ab8eaa9cb5218caf97867
+* Still has 72kB of cygwin-specific patches (review
+  backlog upstream)
+
+----- libtool-2.2.7a-13 -- 2009-06-19 -----
+* Updated to latest git master version (2009-06-15,
+  2772d14559c584d142e44fdea69124ce62285b40
+  This incorporates all of the earlier patches from 
+  Yaakov Selkowitz.  However, git master does not yet
+  include the following patches
+  - allow -dlpreopen with -disable-shared
+  - enable cwrapper execution in unix-to-cygwin cross
+    environment, assuming $build is x86, wine installed,
+    and binfmt kernel extension in use.
+  - additional cwrapper documentation
+  These patches are still included in this cygwin release.
+* Include two new patches from Yaakov Selkowitz
+  - Ensure LT_PATH_LD works when called before LT_INIT
+  - [cygwin|mingw] Create UAC manifest files.
+* Remove explicit 'cygwin' requires: entry from .hint files
+  as that is handled on sourceware.
+
+----- libtool-2.2.7a-12 -- 2009-03-30 -----
+* Corrected incompatibility with automake-1.8 and older.
+
+----- libtool-2.2.7a-11 -- 2009-03-26 -----
+* Removed patches from msvc branch (not ready for prime time)
+* Added two patches from Yaakov Selkowitz:
+  - Allow libltdl to properly detect that cygwin applications
+    can dlopen(self) under certain circumstances
+  - Make -export-dynamic actually work
+  - gcc4 compatibility
+
+----- libtool-2.2.7a-10 -- 2009-02-20 -----
+* This version marks the beginning of cygwin-1.7 specific
+  ports. Releases 2.2.7X-2 thru 2.2.7X-9 are reserved for
+  cygwin-1.5.
+* Use stock cygport 0.9.4
+* Import several fixes waiting upstream:
+  - allow -dlpreopen with -disable-shared
+  - enable cwrapper execution in unix-to-cygwin cross
+    environment, assuming $build is x86, wine installed,
+    and binfmt kernel extension in use.
+  - additional cwrapper documentation
+  - Some other patches from the msvc branch (not strictly
+    necessary for cygwin). This is not a complete set of
+    the changes from the pr-msvc branch, but only a few.
+* Passes all regression tests.
+* Original tarball taken 2009-02-16 21:59:34 +0100 from
+  git revision 9e9ba5e0e2c0b3f33ee44081c5bc3f0b8991aebd 
+
+----- libtool-2.2.6a-1 -- 2008-11-07 -----
+* Routine update to newest release
+* Fix regression with regards to --disable-static and
+  dlpreopen (and subtle bug when --enable-shared and
+  dlpreopen).
+
+----- libtool-2.2.2-2 -- 2008-04-14 -----
+* Incorporate patches from Yaakov Selkowitz
+  http://cygwin.com/ml/cygwin/2008-04/msg00378.html
+* RENAMED package to 'libtool'
+
+----- libtool2.2-2.2.2-1 -- 2008-04-02 -----
+* update to official 2.2.2 release
+
+----- libtool2.0-2.1a-2 -- not officially released -----
+* update to CVS 20070226
+
+----- libtool2.0-2.1a-1 -- not officially released -----
+* Initial cygport of libtool CVS HEAD (20070205)
+
+----------------------------------------
+Cygwin port maintained by: Chuck Wilson <cygwin@cygwin.com>

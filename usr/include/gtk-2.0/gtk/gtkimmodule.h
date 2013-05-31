@@ -20,15 +20,13 @@
 #ifndef __GTK_IM_MODULE_H__
 #define __GTK_IM_MODULE_H__
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+#include <gtk/gtk.h>
 
-#include <gtk/gtkimcontext.h>
+G_BEGIN_DECLS
 
 typedef struct _GtkIMContextInfo GtkIMContextInfo;
 
-struct _GtkIMContextInfo 
+struct _GtkIMContextInfo
 {
   const gchar *context_id;
   const gchar *context_name;
@@ -39,10 +37,10 @@ struct _GtkIMContextInfo
 
 /* Functions for use within GTK+
  */
-void          _gtk_im_module_list                   (const GtkIMContextInfo ***contexts,
-						    guint                    *n_contexts);
-GtkIMContext *_gtk_im_module_create                 (const gchar             *context_id);
-const gchar * _gtk_im_module_get_default_context_id (const gchar             *lang);
+void           _gtk_im_module_list                   (const GtkIMContextInfo ***contexts,
+						      guint                    *n_contexts);
+GtkIMContext * _gtk_im_module_create                 (const gchar              *context_id);
+const gchar  * _gtk_im_module_get_default_context_id (GdkWindow                *client_window);
 
 /* The following entry points are exported by each input method module
  */
@@ -50,13 +48,11 @@ const gchar * _gtk_im_module_get_default_context_id (const gchar             *la
 /*
 void          im_module_list   (const GtkIMContextInfo ***contexts,
 				guint                    *n_contexts);
-void          im_module_init   (GtkModule             *module);
+void          im_module_init   (GtkModule                *module);
 void          im_module_exit   (void);
-GtkIMContext *im_module_create (const gchar             *context_id);
+GtkIMContext *im_module_create (const gchar              *context_id);
 */
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __GTK_IM_MODULE_H__ */

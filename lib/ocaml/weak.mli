@@ -11,7 +11,7 @@
 (*                                                                     *)
 (***********************************************************************)
 
-(* $Id: weak.mli,v 1.15 2004/02/02 14:43:12 doligez Exp $ *)
+(* $Id: weak.mli 9153 2008-12-03 18:09:09Z doligez $ *)
 
 (** Arrays of weak pointers and hash tables of weak pointers. *)
 
@@ -20,13 +20,18 @@
 
 type 'a t
 (** The type of arrays of weak pointers (weak arrays).  A weak
-   pointer is a value that the garbage collector may erase at
-   any time.
+   pointer is a value that the garbage collector may erase whenever
+   the value is not used any more (through normal pointers) by the
+   program.  Note that finalisation functions are run after the
+   weak pointers are erased.
+
    A weak pointer is said to be full if it points to a value,
    empty if the value was erased by the GC.
-   Note that weak arrays cannot be marshaled using
-   {!Pervasives.output_value} or the functions of the {!Marshal}
-   module.
+
+   Notes:
+   - Integers are not allocated and cannot be stored in weak arrays.
+   - Weak arrays cannot be marshaled using {!Pervasives.output_value}
+     nor the functions of the {!Marshal} module.
 *)
 
 

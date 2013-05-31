@@ -1,0 +1,434 @@
+3.6.1
+=====
+* Updated translations:
+  km    (Khoem Sokhem)
+
+3.6.0
+=====
+* Updated translations:
+  ar    (Khaled Hosny, Abu Osaid)
+  el    (Tom Tryfonidis)
+  hi    (Rajesh Ranjan)
+  ky    (Timur Zhamakeev)
+  lv    (Rūdolfs Mazurs)
+  ml    (Ani Peter)
+  th    (Theppitak Karoonboonyanan)
+
+3.5.92
+======
+* Updated translations:
+  pl    (Piotr Drąg)
+
+3.5.91
+======
+* Updated translations:
+  si    (Danishka Navin)
+  th    (cjl)
+
+3.5.90
+======
+* Added support for depth attribute on section links
+* Improved various bits of the build process (Colin Walters)
+* Corrected jQuery.Syntax license info (Steve Magoun)
+* Updated translations:
+  el    (Tom Tryfonidis)
+  gl    (Fran Diéguez)
+  lt    (Aurimas Černius)
+
+3.4.2
+=====
+* Fixed invalid translations, bug #675905
+* Fixed handling of inline markup in translation messages
+* Removed old and incorrect code referencing old parameters
+* Fixed Mallard if:if for "maybe" values
+* Removed custom DocBook keys in favor of db.id.key
+* Updated translations:
+  el    (Tom Tryfonidis)
+
+3.4.1
+=====
+* Updated translations:
+  ca    (Jordi Serratosa)
+  ca@valencia (Carles Ferrando)
+  hi    (Chandan Kumar)
+  id    (Andika Triwidada)
+  ja    (Jiro Matsuzawa)
+  lt    (Aurimas Černius)
+  sk    (Marian Scerbak)
+
+3.4.0
+=====
+* Updated translations:
+  cs    (Marek Černocký)
+  te    (Krishnababu Krothapalli)
+  zh_CN (YunQiang Su)
+
+3.3.92
+======
+* Be more flexible with revisions for editor banner
+* Don't auto-link Python symbols when syntax highlighting
+* Fixed private templates and stylesheet variables in xsldoc
+* Use common links template for topic, guide, seealso, facets
+* Support for profile-checking in TTML
+* Support for xml:lang and xml:space in TTML
+* Support for TTML br element
+* Support for TTML dur attribute
+* Support for h and m time units in TTML
+* Support for Mallard block content in TTML
+* Dropped unused DocBook chunking params
+* Handle DocBook literallayout with class="monospaced"
+* Updated translations:
+  as          (Nilamdyuti Goswami)
+  ca          (Gil Forcada)
+  ca@valencia (Carles Ferrando)
+  de          (Mario Blättermann)
+  en_GB       (Bruce Cowan)
+  eo          (Tiffany Antopolski)
+  et          (Mattias Põldaru)
+  eu          (Inaki Larranaga Murgoitio)
+  fa          (Arash Mousavi)
+  fi          (Timo Jyrinki)
+  fr          (Bruno Brouard)
+  hu          (Gabor Kelemen)
+  it          (Milo Casagrande)
+  ko          (Seong-ho Cho)
+  lv          (Anita Reitere)
+  nl          (Hannie Dumoleyn)
+  pa          (A S Alam)
+  pl          (Piotr Drąg)
+  pt          (Duarte Loreto)
+  pt_BR       (Gabriel Speckhahn)
+  ta          (Dr.T.Vasudevan)
+  te          (Krishnababu Krothapalli)
+  uk          (Daniel Korostil)
+  vi          (Nguyễn Thái Ngọc Duy)
+
+3.3.3
+=====
+* Use series link titles for series links
+* Fixed facet link-handling, broken by HTML changes
+* Style tweaks for mobile rendering
+* Implemented new Conditionals extension
+* Initial support for new ui:thumb extension
+* Added customization stubs for Mallard linking
+* Added support for DocBook bridgehead element
+* Don't output empty About footer
+* Changed mal2html.section.mode to named template
+* Made copyright notices localizable (DocBook and Mallard)
+* Strip query string from email address in tooltip
+* Alignment fixed for DocBook synopfragment
+* Fixed handling of DocBook biblioset
+* Fixed handling of DocBook indexdiv
+* Basic support for DocBook task element
+* Support for DocBook package element
+* Support for DocBook sidebar element
+* Use common formatting for DocBook example and procedure
+* Changed some XSLT key names and made public
+* Set language attributes on HTML body
+* Moved gettext stylesheet into common
+* Updated translations:
+  bg       (Alexander Shopov)
+  da       (Ask H. Larsen)
+  sr       (Мирослав Николић)
+  sr@latin (Мирослав Николић)
+  ug       (Gheyret Kenji)
+  sv       (Daniel Nylander)
+  ja       (Jiro Matsuzawa, Hideki Yamane)
+  tr       (Muhammet Kara)
+  ru       (Yuri Myasoedov)
+  gl       (Fran Diéguez)
+  be       (Ihar Hrachyshka)
+  zh_HK    (Chao-Hsiung Liao)
+  zh_TW    (Chao-Hsiung Liao)
+  sl       (Matej Urbančič)
+  nb       (Kjartan Maraas)
+  he       (Yaron Shahrabani)
+  es       (Daniel Mustieles)
+
+3.3.2
+=====
+* Customized rendering for mobile devices
+* Changed how :first-child margin-top is set
+* Changed div.all to div.page
+* Copy page/section attributes to cache
+* Updated translations:
+  be    (Kasia Bondarava)
+  bg    (Alexander Shopov)
+  eo    (Kristjan SCHMIDT)
+  fa    (Arash Mousavi)
+  fi    (Timo Jyrinki)
+  he    (Yaron Shahrabani)
+  lt    (Aurimas Černius)
+  sl    (Matej Urbančič)
+  sv    (Daniel Nylander)
+  te    (Praveen Illa)
+  zh_CN (Yinghua Wang)
+  zh_HK (Pin-hsien Li)
+  zh_TW (Pin-hsien Li)
+
+3.3.1
+=====
+* Made linktrails more extensible for customizations
+* Added new 'About' footer to HTML output
+* Moved Yelp's location.hash formatting to yelp-xsl
+* Updated style for key/keycap elements
+* Style work on post-content links, no header
+* Fall back to correct link title for sort titles
+* Strip links from descs in link blocks
+* Added html.top.custom and html.bottom.custom
+* Added html.header.custom and html.footer.custom
+* Correctly set ARIA controls for expanders
+* Use the correct type for "prevnext" links elements
+* Simplifications to DocBook bibliography handling
+* Cleaned up DocBook block and title output templates
+* Moved DocBook links templates to db2html-links
+* Replaced db2html-autotoc with simpler section links
+* Fixed DocBook footnote handling
+* Use html.lang.attrs consistently in DocBook
+* Removed special-case code in Mallard cache stylesheet
+* Updated translations:
+  ca          (Gil Forcada)
+  ca@valencia (Gil Forcada)
+  de          (Mario Blättermann)
+  es          (Daniel Mustieles)
+  gl          (Fran Diéguez)
+  nb          (Kjartan Maraas)
+  tr          (Muhammet Kara)
+
+3.2.1
+=====
+* Fixed editor-mode badges for final pages and pkgversion
+* Updated translations:
+  eo    (Tiffany Antopolski)
+  fi    (Tommi Vainikainen)
+  nl    (Wouter Bolsterlee)
+  te    (Hari Krishna)
+  uk    (Daniel Korostil)
+  vi    (Nguyễn Thái Ngọc Duy)
+
+3.2.0
+=====
+* Updated translations:
+  as          (Nilamdyuti Goswami)
+  ca@valencia (Carles Ferrando)
+  cs          (Petr Kovar)
+  da          (Aputsiaq Janussen)
+  eu          (Inaki Larranaga Murgoitio)
+  hu          (Gabor Kelemen)
+  ko          (Changwoo Ryu)
+  sr          (Мирослав Николић)
+  sr@latin    (Мирослав Николић)
+
+3.1.6
+=====
+* Updated translations:
+  ast   (Xandru Armesto)
+  da    (Aputsiaq Janussen)
+  en_GB (Bruce Cowan)
+  fa    (Arash Mousavi)
+  fi    (Timo Jyrinki)
+  fr    (Bruno Brouard)
+  it    (Milo Casagrande)
+  pl    (Piotr Drąg)
+  pt    (Duarte Loreto)
+  zh_CN (Yinghua Wang)
+
+3.1.5
+=====
+* Experimental Mallard extension for API references
+* Updated translations:
+  ca    (Gil Forcada)
+  de    (Mario Blättermann)
+  pt_BR (Og B. Maciel)
+  ta    (Dr.T.Vasudevan)
+  ug    (Abduxukur Abdurixit)
+
+3.1.4
+=====
+* Speed improvements for Mallard processing
+* Added if:supports to conditional processing
+* Added "button" style for links
+* Updated translations:
+  bg      (Alexander Shopov)
+  nb      (Kjartan Maraas)
+  ru      (Yuri Myasoedov)
+  zh_HK   (Chao-Hsiung Liao)
+  zh_TW   (Chao-Hsiung Liao)
+
+3.1.3
+=====
+* Experimental support for ui:expanded expanders
+* Changed steps and note visuals, less yellow now
+* Cleaned up some links handling, some API changes
+* Added accessible titles on notes in DocBook and Mallard, #613267
+* Mallard media type attribute defaults to 'image', per spec
+* Fixed seeie/seealsoie formatters in DocBook
+* Fixed the link text for DocBook glossentry links
+* Fixed formatting of DocBook inline quotes
+* Add PI to suppress DocBook section links, bug #346397
+* Experimental Mallard Glossaries extension  
+* Updated translations:
+  de    (Christian Kirbach)
+  es    (Jorge González, Daniel Mustieles)
+  gl    (Fran Dieguez)
+  he    (Yaron Shahrabani)
+  lt    (Aurimas Černius)
+  lv    (Rudolfs Mazurs)
+  nb    (Kjartan Maraas)
+  pa    (A S Alam)
+  ru    (Yuri Kozlov)
+  sl    (Matej Urbančič)
+  sv    (Daniel Nylander)
+  tr    (Muhammet Kara)
+  zh_CN (Aron Xu)
+
+3.1.2
+=====
+* Changed formatting of notes
+* Style tweaks to linkdivs and link trails
+* Fixed localization for bibliographies, citations, comments
+* Trim link trails that are longer forms of other trails
+* Added experimental ui:expanded support for notes
+* Updated translations
+  ca@valencia  (Carles Ferrando)
+  es           (Jorge González)
+  fa           (Arash Mousavi)
+  gl           (Fran Diéguez)
+  he           (Yaron Shahrabani)
+  nb           (Kjartan Maraas)
+  sl           (Matej Urbančič)
+  ug           (Abduxukur Abdurixit)
+
+3.1.1
+=====
+* Improvements to the JS/CSS for videos and TTML
+* Changed gettext infrastructure, use itstool
+* Improvements and cleanup to DocBook code
+* Implemented experimental Mallard conditional processing
+* Updated to jQuery.syntax 3.0, custom layout file
+* Don't embed div in a tag for linkdivs
+* Added title attribute to HTML output for all links
+* Updated translations:
+  en_GB (Bruce Cowan)
+  es    (Jorge González)
+  id    (Andika Triwidada)
+  sr    (Мирослав Николић)
+  sv    (Daniel Nylander)
+  vi    (Nguyễn Thái Ngọc Duy)
+
+3.0.2
+=====
+* Fixed Previous/Next link translation, bug #640318
+* Updated translations:
+  bg    (Alexander Shopov)
+  ca    (Gil Forcada)
+  cs    (Marek Černocký)
+  de    (Mario Blättermann)
+  en_GB (Bruce Cowan)
+  es    (Daniel Mustieles)
+  fr    (Bruno Brouard)
+  hu    (Gabor Kelemen)
+  ko    (Changwoo Ryu)
+  ru    (Yuri Myasoedov)
+  sl    (Matej Urbančič)
+  sv    (Daniel Nylander)
+  ug    (Abduxukur Abdurixit)
+  vi    (Nguyễn Thái Ngọc Duy)
+
+3.0.1
+=====
+* Fixed page sorting for groups on mal:links
+* Various small CSS tweaks
+* Fixed how JavaScript is included
+* Fixed cache behavior with roled link titles
+* Added floatstart and floatend hints, bug #645947
+
+3.0.0
+=====
+* No changes since 2.91.92
+
+Changes in 2.91.92
+==================
+* Use trail link title for link trails
+* Fix note icon craziness with nested inner divs
+* Added special fanciness for the gnome-help index
+* Added the 'bold' and 'nodesc' links styles
+* Corrected handling of media style attribute
+* Put links element in Mallard 1.0 namespace
+* Updated translations:
+  pl    (Piotr Drąg)
+
+Changes in 2.91.91
+==================
+* Support ubiquitous linking on media
+* Updated translations:
+  nb    (Kjartan Maraas)
+
+Changes in 2.91.90
+==================
+* Get link roles right for topic links
+* Full support for the links element
+* Made magic image scaling perform better
+* Use HTML <h*> elements for block titles, for a11y
+* Correct link trails separators for RTL
+* Updated translations:
+  gl    (Fran Diéguez)
+  hu    (Gabor Kelemen)
+
+Changes in 2.91.9
+=================
+* Added magic image scaling for figures
+* Added support for experimental series links
+* Fixed previous and next links for DocBook and Mallard
+* Enabled syntax highlighting in DocBook
+* Changes to html.js and html.css to make them easier to override
+* Added editor_mode status badges to linklist links
+* Improvements to link filtering with facets
+* Prevent key and keyseq from line-wrapping
+
+Changes in 2.91.8
+=================
+* Fixed non-well-formed XML in XSLT file
+
+Changes in 2.91.7
+=================
+* Added support for Mallard Facets extension
+* Fixed incorrect handling of topic link groups
+* Added automatic syntax highlighting using jQuery.Syntax
+* Implemented sidebar style for notes
+* Added support for line numbering in Mallard code blocks
+
+Changes in 2.31.6
+=================
+* Added support for TTML captions for Mallard media
+* Common section links styling for DocBook and Mallard
+* Implemented e:links for Mallard sections
+* Implement @style='linklist' for Mallard guide links
+* Implemented e:links for Mallard topic links
+* Normalize space for title sort keys
+* Load cache file relative to page file
+
+Changes in 2.31.5
+=================
+* Handle bare text content in guiseq
+* Added a (roughly) topological page sort
+* Include comment CSS when not in editor mode
+
+Changes in 2.31.4
+=================
+* Implemented #first and #last implicit topic link groups
+* Added support for title and desc on table
+* Added html.body.attr.mode
+
+Changes in 2.31.3
+=================
+* Use text titles for link tooltips when present.
+* Better support for mixed-directionality documents
+* Style tweaks
+
+Changes in 2.31.2
+=================
+* Added support for DocBook 5 (Brian M. Carlson)
+* New common HTML output stylesheets (Shaun McCance)
+* Removed numbering and labeling for DocBook (Shaun McCance)
+* Better behavior for links to invalid targets (Shaun McCance)

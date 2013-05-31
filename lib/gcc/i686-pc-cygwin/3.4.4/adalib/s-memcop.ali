@@ -14,7 +14,7 @@ W system%s		system.ads		system.ali
 W system.crtl%s		s-crtl.ads		s-crtl.ali
 
 D system.ads		20031021134222 6af26689
-D s-crtl.ads		20031217133704 a4a6fa53
+D s-crtl.ads		20031217133703 a4a6fa53
 D s-memcop.ads		20031215115100 ccedd03e
 D s-parame.ads		20031021134214 8479efe6
 X 1 system.ads

@@ -11,7 +11,7 @@
 (*                                                                     *)
 (***********************************************************************)
 
-(* $Id: arg.ml,v 1.33.2.1 2004/07/02 09:01:16 doligez Exp $ *)
+(* $Id: arg.ml 11028 2011-05-09 07:28:57Z xclerc $ *)
 
 type key = string
 type doc = string
@@ -65,7 +65,7 @@ let make_symlist prefix sep suffix l =
 
 let print_spec buf (key, spec, doc) =
   match spec with
-  | Symbol (l, _) -> bprintf buf "  %s %s %s\n" key (make_symlist "{" "|" "}" l)
+  | Symbol (l, _) -> bprintf buf "  %s %s%s\n" key (make_symlist "{" "|" "}" l)
                              doc
   | _ -> bprintf buf "  %s %s\n" key doc
 ;;
@@ -90,10 +90,14 @@ let usage_b buf speclist errmsg =
   List.iter (print_spec buf) (add_help speclist);
 ;;
 
-let usage speclist errmsg =
+let usage_string speclist errmsg =
   let b = Buffer.create 200 in
   usage_b b speclist errmsg;
-  eprintf "%s" (Buffer.contents b);
+  Buffer.contents b;
+;;
+
+let usage speclist errmsg =
+  eprintf "%s" (usage_string speclist errmsg);
 ;;
 
 let current = ref 0;;
@@ -225,13 +229,18 @@ let rec second_word s =
   with Not_found -> len
 ;;
 
-let max_arg_len cur (kwd, _, doc) =
-  max cur (String.length kwd + second_word doc)
+let max_arg_len cur (kwd, spec, doc) =
+  match spec with
+  | Symbol _ -> max cur (String.length kwd)
+  | _ -> max cur (String.length kwd + second_word doc)
 ;;
 
 let add_padding len ksd =
   match ksd with
-  | (_, Symbol _, _) -> ksd
+  | (kwd, (Symbol (l, _) as spec), msg) ->
+      let cutcol = second_word msg in
+      let spaces = String.make (len - cutcol + 3) ' ' in
+      (kwd, spec, "\n" ^ spaces ^ msg)
   | (kwd, spec, msg) ->
       let cutcol = second_word msg in
       let spaces = String.make (len - String.length kwd - cutcol) ' ' in

@@ -49,13 +49,13 @@ while test $# -gt 0; do
       ;;
     --libs)
       libdirs="-L${exec_prefix}/lib "
-      echo $libdirs -laa -lm   -L/usr/X11R6/lib -lX11  -lncurses
+      echo $libdirs -laa -lm   -lX11  -lslang  -lncurses
       ;;
-    --static-libs)
-#    --libs|--static-libs)
-      libdirs="-L${exec_prefix}/lib "
-      echo $libdirs -laa -lm   -L/usr/X11R6/lib -lX11  -lncurses 
-      ;;
+#    --static-libs)
+##    --libs|--static-libs)
+#      libdirs="-L${exec_prefix}/lib "
+#      echo $libdirs -laa -lm   -lX11  -lslang  -lncurses 
+#      ;;
     *)
       echo "${usage}" 1>&2
       exit 1

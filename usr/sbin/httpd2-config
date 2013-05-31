@@ -1,0 +1,167 @@
+#!/bin/sh
+#
+# httpd2-config, Copyright 2010 Yaakov Selkowitz
+#
+# This file is part of the Cygwin port of apache2.
+
+# ======================================================================
+# Initialization
+# ======================================================================
+PROGNAME=$(basename $0)
+_tdir=$(dirname $0)
+PROGDIR=$(cd $_tdir && pwd)
+
+CSIH_SCRIPT=/usr/share/csih/cygwin-service-installation-helper.sh
+
+# Subdirectory where the new package is being installed
+PREFIX=/usr
+
+# Directory where the config files are stored
+SYSCONFDIR=$(/usr/sbin/apxs2 -q SYSCONFDIR)
+LOGDIR=$(/usr/sbin/apxs2 -q LOGFILEDIR)
+RUNDIR=$(/usr/sbin/apxs2 -q RUNTIMEDIR)
+
+
+source ${CSIH_SCRIPT}
+
+# ======================================================================
+# Routine: install_service
+#   Install httpd2 as a service
+# ======================================================================
+install_service() {
+
+  if csih_is_nt
+  then
+
+    # Check if httpd2 is installed and remove on user request.
+    if cygrunsrv -Q httpd2 > /dev/null 2>&1
+    then
+      csih_warning "The httpd2 service is already installed."
+      echo
+      if csih_request "Do you want to reinstall it with different args?"
+      then
+        cygrunsrv -E httpd2
+        cygrunsrv -R httpd2
+      fi
+    fi
+
+    # Install httpd2 service if it is not already installed
+    if ! cygrunsrv -Q httpd2 > /dev/null 2>&1
+    then
+      echo
+      csih_warning "The following function requires administrator privileges!"
+      if csih_request "Do you want to install httpd2 as service?"
+      then
+        if cygrunsrv -I httpd2 -d "CYGWIN Apache2 web server" -p /usr/sbin/httpd2 -a "-DNO_DETACH -k start"
+        then
+	  echo
+	  csih_inform "The httpd2 service has been installed under the LocalSystem"
+	  csih_inform "account (also known as SYSTEM). To start the service now, call"
+          csih_inform "\`net start httpd2' or \`cygrunsrv -S httpd2'. Otherwise, it"
+          csih_inform "will start automatically after the next reboot."
+	  echo
+	  csih_inform "Check ${SYSCONFDIR}/httpd.conf first, if it suits your needs."
+        fi
+      fi # user allowed us to install httpd2
+    fi # httpd2 already installed
+  fi # csih_is_nt
+} # --- End of install_service --- #
+
+
+# ======================================================================
+# Main Entry Point
+# ======================================================================
+
+
+# Check how the script has been started.  If
+#   (1) it has been started by giving the full path and
+#       that path is /etc/postinstall, OR
+#   (2) Otherwise, if the environment variable
+#       CONFIG_AUTO_ANSWER_NO is set
+# then set auto_answer to "no".  This allows automatic
+# creation of the config files in /etc w/o overwriting
+# them if they already exist.  In both cases, color
+# escape sequences are suppressed, so as to prevent
+# cluttering setup's logfiles.
+if [ "$PROGDIR" = "/etc/postinstall" ]
+then
+  csih_auto_answer="no"
+  csih_disable_color
+fi
+if [ -n "${CONFIG_AUTO_ANSWER_NO}" ]
+then
+  csih_auto_answer="no"
+  csih_disable_color
+fi
+
+
+# ======================================================================
+# Parse options
+# ======================================================================
+while :
+do
+  case $# in
+  0)
+    break
+    ;;
+  esac
+
+  option=$1
+  shift
+
+  case "$option" in
+  -d | --debug )
+    set -x
+    csih_trace_on
+    ;;
+
+  -y | --yes )
+    csih_auto_answer=yes
+    ;;
+
+  -n | --no )
+    csih_auto_answer=no
+    ;;
+
+  *)
+    echo "usage: ${PROGNAME} [OPTION]..."
+    echo
+    echo "This script creates a basic httpd2 configuration."
+    echo
+    echo "Options:"
+    echo "    --debug  -d     Enable shell's debug output."
+    echo "    --yes    -y     Answer all questions with \"yes\" automatically."
+    echo "    --no     -n     Answer all questions with \"no\" automatically."
+    echo
+    exit 1
+    ;;
+
+  esac
+done
+
+# ======================================================================
+# Action!
+# ======================================================================
+
+# Check for ${SYSCONFDIR} directory
+csih_make_dir "${SYSCONFDIR}" "Cannot create global configuration files."
+chmod 775 "${SYSCONFDIR}"
+setfacl -m u:system:rwx "${SYSCONFDIR}"
+
+# Check for ${LOGDIR} directory
+csih_make_dir "${LOGDIR}" "Syslogging using httpd2 will not work."
+chmod 775 "${LOGDIR}"
+setfacl -m u:system:rwx "${LOGDIR}"
+
+# Check for ${RUNDIR} directory
+csih_make_dir "${RUNDIR}" "PID files of running processes will not be created."
+chmod 775 "${RUNDIR}"
+setfacl -m u:system:rwx "${RUNDIR}"
+
+# maybe: csih_auto_answer=no will skip,
+# interactive user will get a chance to override
+install_service
+
+
+echo
+echo "Configuration finished. Have fun!"

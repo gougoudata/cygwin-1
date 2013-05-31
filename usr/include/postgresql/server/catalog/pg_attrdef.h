@@ -5,13 +5,13 @@
  *	  along with the relation's initial contents.
  *
  *
- * Portions Copyright (c) 1996-2006, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2012, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
- * $PostgreSQL: pgsql/src/include/catalog/pg_attrdef.h,v 1.20 2006/03/05 15:58:54 momjian Exp $
+ * src/include/catalog/pg_attrdef.h
  *
  * NOTES
- *	  the genbki.sh script reads this file and generates .bki
+ *	  the genbki.pl script reads this file and generates .bki
  *	  information from the DATA() statements.
  *
  *-------------------------------------------------------------------------
@@ -19,12 +19,7 @@
 #ifndef PG_ATTRDEF_H
 #define PG_ATTRDEF_H
 
-/* ----------------
- *		postgres.h contains the system type definitions and the
- *		CATALOG(), BKI_BOOTSTRAP and DATA() sugar words so this file
- *		can be read by both genbki.sh and the C compiler.
- * ----------------
- */
+#include "catalog/genbki.h"
 
 /* ----------------
  *		pg_attrdef definition.	cpp turns this into
@@ -35,10 +30,13 @@
 
 CATALOG(pg_attrdef,2604)
 {
-	Oid			adrelid;
-	int2		adnum;
-	text		adbin;
-	text		adsrc;
+	Oid			adrelid;		/* OID of table containing attribute */
+	int2		adnum;			/* attnum of attribute */
+
+#ifdef CATALOG_VARLEN			/* variable-length fields start here */
+	pg_node_tree adbin;			/* nodeToString representation of default */
+	text		adsrc;			/* human-readable representation of default */
+#endif
 } FormData_pg_attrdef;
 
 /* ----------------

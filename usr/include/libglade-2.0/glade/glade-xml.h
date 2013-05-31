@@ -23,8 +23,7 @@
 #define GLADE_XML_H
 
 #include <glib.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtktooltips.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 
@@ -63,6 +62,10 @@ GladeXML  *glade_xml_new_from_buffer     (const char *buffer, int size,
 					  const char *root,
 					  const char *domain);
 gboolean   glade_xml_construct           (GladeXML *self, const char *fname,
+					  const char *root,
+					  const char *domain);
+
+gboolean   glade_xml_construct_from_buffer (GladeXML *self, const char *buffer, int size,
 					  const char *root,
 					  const char *domain);
 

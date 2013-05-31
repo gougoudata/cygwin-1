@@ -17,8 +17,8 @@ U system.storage_elements%s  s-stoele.ads	30817182 BN NE PU PK
 W system%s		system.ads		system.ali
 
 D system.ads		20031021134222 6af26689
-D s-stoele.ads		20050603190336 5a73170b
-D s-stoele.adb		20030424175414 792079f8
+D s-stoele.ads		20050603200336 5a73170b
+D s-stoele.adb		20030424175413 792079f8
 D unchconv.ads		20030424175420 1b7a14c5
 X 1 system.ads
 44K9*System 163e11 2|42r9 114r5 3|35r14 86r5

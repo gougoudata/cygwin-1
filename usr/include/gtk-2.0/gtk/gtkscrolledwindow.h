@@ -21,22 +21,23 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 #ifndef __GTK_SCROLLED_WINDOW_H__
 #define __GTK_SCROLLED_WINDOW_H__
 
 
-#include <gdk/gdk.h>
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
 #include <gtk/gtkhscrollbar.h>
 #include <gtk/gtkvscrollbar.h>
 #include <gtk/gtkviewport.h>
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 
 #define GTK_TYPE_SCROLLED_WINDOW            (gtk_scrolled_window_get_type ())
@@ -55,23 +56,25 @@ struct _GtkScrolledWindow
 {
   GtkBin container;
 
-  GtkWidget *hscrollbar;
-  GtkWidget *vscrollbar;
+  /*< public >*/
+  GtkWidget *GSEAL (hscrollbar);
+  GtkWidget *GSEAL (vscrollbar);
 
-  guint hscrollbar_policy      : 2;
-  guint vscrollbar_policy      : 2;
-  guint hscrollbar_visible     : 1;
-  guint vscrollbar_visible     : 1;
-  guint window_placement       : 2;
-  guint focus_out              : 1;	/* Flag used by ::move-focus-out implementation */
+  /*< private >*/
+  guint GSEAL (hscrollbar_policy)      : 2;
+  guint GSEAL (vscrollbar_policy)      : 2;
+  guint GSEAL (hscrollbar_visible)     : 1;
+  guint GSEAL (vscrollbar_visible)     : 1;
+  guint GSEAL (window_placement)       : 2;
+  guint GSEAL (focus_out)              : 1;	/* Flag used by ::move-focus-out implementation */
 
-  guint16 shadow_type;
+  guint16 GSEAL (shadow_type);
 };
 
 struct _GtkScrolledWindowClass
 {
   GtkBinClass parent_class;
-  
+
   gint scrollbar_spacing;
 
   /* Action signals for keybindings. Do not connect to these signals
@@ -81,9 +84,9 @@ struct _GtkScrolledWindowClass
    * no horizontal/vertical variants for GTK_SCROLL_START/END,
    * so we have to add an additional boolean flag.
    */
-  void (*scroll_child) (GtkScrolledWindow *scrolled_window,
-			GtkScrollType      scroll,
-			gboolean           horizontal);
+  gboolean (*scroll_child) (GtkScrolledWindow *scrolled_window,
+	  		    GtkScrollType      scroll,
+			    gboolean           horizontal);
 
   void (* move_focus_out) (GtkScrolledWindow *scrolled_window,
 			   GtkDirectionType   direction);
@@ -102,9 +105,11 @@ GtkWidget*     gtk_scrolled_window_new               (GtkAdjustment     *hadjust
 void           gtk_scrolled_window_set_hadjustment   (GtkScrolledWindow *scrolled_window,
 						      GtkAdjustment     *hadjustment);
 void           gtk_scrolled_window_set_vadjustment   (GtkScrolledWindow *scrolled_window,
-						      GtkAdjustment     *hadjustment);
+						      GtkAdjustment     *vadjustment);
 GtkAdjustment* gtk_scrolled_window_get_hadjustment   (GtkScrolledWindow *scrolled_window);
 GtkAdjustment* gtk_scrolled_window_get_vadjustment   (GtkScrolledWindow *scrolled_window);
+GtkWidget*     gtk_scrolled_window_get_hscrollbar    (GtkScrolledWindow *scrolled_window);
+GtkWidget*     gtk_scrolled_window_get_vscrollbar    (GtkScrolledWindow *scrolled_window);
 void           gtk_scrolled_window_set_policy        (GtkScrolledWindow *scrolled_window,
 						      GtkPolicyType      hscrollbar_policy,
 						      GtkPolicyType      vscrollbar_policy);
@@ -113,6 +118,8 @@ void           gtk_scrolled_window_get_policy        (GtkScrolledWindow *scrolle
 						      GtkPolicyType     *vscrollbar_policy);
 void           gtk_scrolled_window_set_placement     (GtkScrolledWindow *scrolled_window,
 						      GtkCornerType      window_placement);
+void           gtk_scrolled_window_unset_placement   (GtkScrolledWindow *scrolled_window);
+
 GtkCornerType  gtk_scrolled_window_get_placement     (GtkScrolledWindow *scrolled_window);
 void           gtk_scrolled_window_set_shadow_type   (GtkScrolledWindow *scrolled_window,
 						      GtkShadowType      type);
@@ -122,9 +129,8 @@ void	       gtk_scrolled_window_add_with_viewport (GtkScrolledWindow *scrolled_w
 
 gint _gtk_scrolled_window_get_scrollbar_spacing (GtkScrolledWindow *scrolled_window);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+
+G_END_DECLS
 
 
 #endif /* __GTK_SCROLLED_WINDOW_H__ */

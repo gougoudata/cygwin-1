@@ -21,12 +21,16 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 #ifndef __GTK_RC_H__
 #define __GTK_RC_H__
 
+
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
 
 #include <gtk/gtkstyle.h>
 
@@ -58,7 +62,7 @@ struct _GtkRcStyle
   GObject parent_instance;
 
   /*< public >*/
-  
+
   gchar *name;
   gchar *bg_pixmap_name[5];
   PangoFontDescription *font_desc;
@@ -74,7 +78,7 @@ struct _GtkRcStyle
 
   /*< private >*/
   GArray *rc_properties;
-  
+
   /* list of RC style lists including this RC style */
   GSList *rc_style_lists;
 
@@ -101,8 +105,8 @@ struct _GtkRcStyleClass
   guint     (*parse)  (GtkRcStyle   *rc_style,
 		       GtkSettings  *settings,
 		       GScanner     *scanner);
-  
-  /* Combine RC style data from src into dest. If overriden, this
+
+  /* Combine RC style data from src into dest. If overridden, this
    * function should chain to the parent.
    */
   void      (*merge)  (GtkRcStyle *dest,
@@ -126,7 +130,14 @@ struct _GtkRcStyleClass
 #define gtk_rc_parse gtk_rc_parse_utf8
 #endif
 
-void	  _gtk_rc_init			(void);
+void	  _gtk_rc_init			 (void);
+GSList*   _gtk_rc_parse_widget_class_path (const gchar *pattern);
+void      _gtk_rc_free_widget_class_path (GSList       *list);
+gboolean  _gtk_rc_match_widget_class     (GSList       *list,
+                                          gint          length,
+                                          gchar        *path,
+                                          gchar        *path_reversed);
+
 void      gtk_rc_add_default_file	(const gchar *filename);
 void      gtk_rc_set_default_files      (gchar **filenames);
 gchar**   gtk_rc_get_default_files      (void);
@@ -161,8 +172,11 @@ void	  gtk_rc_add_class_style	(GtkRcStyle   *rc_style,
 GType       gtk_rc_style_get_type   (void) G_GNUC_CONST;
 GtkRcStyle* gtk_rc_style_new        (void);
 GtkRcStyle* gtk_rc_style_copy       (GtkRcStyle *orig);
+
+#ifndef GTK_DISABLE_DEPRECATED
 void        gtk_rc_style_ref        (GtkRcStyle *rc_style);
 void        gtk_rc_style_unref      (GtkRcStyle *rc_style);
+#endif
 
 gchar*		gtk_rc_find_module_in_path	(const gchar 	*module_file);
 gchar*		gtk_rc_get_theme_dir		(void);
@@ -209,12 +223,17 @@ typedef enum {
   GTK_RC_TOKEN_STOCK,
   GTK_RC_TOKEN_LTR,
   GTK_RC_TOKEN_RTL,
+  GTK_RC_TOKEN_COLOR,
+  GTK_RC_TOKEN_UNBIND,
   GTK_RC_TOKEN_LAST
 } GtkRcTokenType;
 
 GScanner* gtk_rc_scanner_new	(void);
 guint	  gtk_rc_parse_color	(GScanner	     *scanner,
 				 GdkColor	     *color);
+guint	  gtk_rc_parse_color_full (GScanner	     *scanner,
+                                   GtkRcStyle        *style,
+				   GdkColor	     *color);
 guint	  gtk_rc_parse_state	(GScanner	     *scanner,
 				 GtkStateType	     *state);
 guint	  gtk_rc_parse_priority	(GScanner	     *scanner,
@@ -236,8 +255,16 @@ struct _GtkRcProperty
 const GtkRcProperty* _gtk_rc_style_lookup_rc_property (GtkRcStyle *rc_style,
 						       GQuark      type_name,
 						       GQuark      property_name);
+void	      _gtk_rc_style_set_rc_property	      (GtkRcStyle *rc_style,
+						       GtkRcProperty *property);
+void	      _gtk_rc_style_unset_rc_property	      (GtkRcStyle *rc_style,
+						       GQuark      type_name,
+						       GQuark      property_name);
+
+GSList     * _gtk_rc_style_get_color_hashes        (GtkRcStyle *rc_style);
 
 const gchar* _gtk_rc_context_get_default_font_name (GtkSettings *settings);
+void         _gtk_rc_context_destroy               (GtkSettings *settings);
 
 G_END_DECLS
 

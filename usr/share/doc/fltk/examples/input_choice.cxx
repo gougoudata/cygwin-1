@@ -1,29 +1,24 @@
 //
-// "$Id: input_choice.cxx 5519 2006-10-11 03:12:15Z mike $"
+// "$Id: input_choice.cxx 8864 2011-07-19 04:49:30Z greg.ercolano $"
 //
 // Test program for Fl_Input_Choice
 //
-// Copyright 1998-2006 by Bill Spitzak and others.
+// Copyright 1998-2010 by Bill Spitzak and others.
 //
-// This library is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Library General Public
-// License as published by the Free Software Foundation; either
-// version 2 of the License, or (at your option) any later version.
+// This library is free software. Distribution and use rights are outlined in
+// the file "COPYING" which should have been included with this file.  If this
+// file is missing or damaged, see the license at:
 //
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-// Library General Public License for more details.
+//     http://www.fltk.org/COPYING.php
 //
-// You should have received a copy of the GNU Library General Public
-// License along with this library; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
-// USA.
+// Please report all bugs and problems on the following page:
+//
+//     http://www.fltk.org/str.php
 //
 
 #include <stdio.h>
 #include <FL/Fl_Button.H>
-#include <FL/Fl_Window.H>
+#include <FL/Fl_Double_Window.H>
 #include <FL/Fl_Input_Choice.H>
 
 void buttcb(Fl_Widget*,void*data) {
@@ -32,6 +27,10 @@ void buttcb(Fl_Widget*,void*data) {
     flag ^= 1;
     if ( flag ) in->activate();
     else        in->deactivate();
+    if (in->changed()) {
+        printf("Callback: changed() is set\n");
+        in->clear_changed();
+    }
 }
 
 void input_choice_cb(Fl_Widget*,void*data) {
@@ -40,7 +39,7 @@ void input_choice_cb(Fl_Widget*,void*data) {
 }
 
 int main(int argc, char **argv) {
-    Fl_Window win(300, 200);
+    Fl_Double_Window win(300, 200);
 
     Fl_Input_Choice in(40,40,100,28,"Test");
     in.callback(input_choice_cb, (void*)&in);
@@ -60,5 +59,5 @@ int main(int argc, char **argv) {
 
 
 //
-// End of "$Id: input_choice.cxx 5519 2006-10-11 03:12:15Z mike $".
+// End of "$Id: input_choice.cxx 8864 2011-07-19 04:49:30Z greg.ercolano $".
 //

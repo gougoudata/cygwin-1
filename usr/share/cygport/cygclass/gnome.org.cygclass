@@ -1,0 +1,84 @@
+################################################################################
+#
+# gnome.org.cygclass - sets SRC_URI for ftp.gnome.org packages
+#
+# Part of cygport - Cygwin packaging application
+# Copyright (C) 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 Yaakov Selkowitz
+# Provided by the Cygwin Ports project <http://sourceware.org/cygwinports/>
+#
+# cygport is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# cygport is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with cygport.  If not, see <http://www.gnu.org/licenses/>.
+#
+################################################################################
+
+#****h* Cygclasses/gnome.org.cygclass
+#  SYNOPSIS
+#  inherit gnome.org
+#  DESCRIPTION
+#  This cygclass is to be used for packages which are part of GNOME
+#  or which are hosted on GNOME FTP or Git servers.
+#
+#  In most cases, you do not need to directly inherit this cygclass;
+#  most GNOME packages will anyway use one of the cygclasses listed below
+#  which already inherit this cygclass.
+#
+#  If PN does not match the name of the original source tarball,
+#  define ORIG_PN before inherit()ing.
+#  INHERITED BY
+#  gnome2.cygclass, gtkmm.cygclass, pygtk.cygclass
+#  SEE ALSO
+#  mirror_gnome
+#****
+
+#****v* gnome.org.cygclass/GNOME_ORG_TARBALL_SUFFIX
+#  DESCRIPTION
+#  The compression format for tarballs on gnome.org.  Until December 2011,
+#  almost all sources were available with at least bz2 compression, but from
+#  that point on, only xz-compressed tarballs are being published.
+#
+#  If undefined, the server is checked to find which type of tarball exists.
+#  This variable can be set to avoid the server check, or if the extension
+#  is neither "bz2" nor "xz".
+#  NOTE
+#  This must be defined before inherit()ing gnome.org.cygclass.
+#****
+if ! defined GNOME_ORG_TARBALL_SUFFIX
+then
+	check_prog_req wget
+	if wget -q --spider http://download.gnome.org/sources/${ORIG_PN:-${PN}}/${PVP[0]}.${PVP[1]}/${ORIG_PN:-${PN}}-${PV}.tar.bz2
+	then
+		GNOME_ORG_TARBALL_SUFFIX="bz2"
+	else
+		GNOME_ORG_TARBALL_SUFFIX="xz"
+	fi
+fi
+
+#****o* gnome.org.cygclass/HOMEPAGE (gnome.org)
+#  DEFINITION
+HOMEPAGE="http://www.gnome.org/"
+#****
+
+#****o* gnome.org.cygclass/SRC_URI (gnome.org)
+#  DEFINITION
+SRC_URI="mirror://gnome/sources/${ORIG_PN:-${PN}}/${PVP[0]}.${PVP[1]}/${ORIG_PN:-${PN}}-${PV}.tar.${GNOME_ORG_TARBALL_SUFFIX}"
+#****
+
+if ! defined GIT_URI
+then
+#****o* gnome.org.cygclass/GIT_URI (gnome.org)
+#  NOTE
+#  git.cygclass should be inherit()ed last for this to be of use.
+#  DEFINITION
+GIT_URI="git://git.gnome.org/${ORIG_PN:-${PN}}"
+#****
+fi

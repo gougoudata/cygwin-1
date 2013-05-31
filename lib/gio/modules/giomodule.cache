@@ -1,0 +1,7 @@
+cygdconfsettings.dll: gsettings-backend
+cyggiognomeproxy.dll: gio-proxy-resolver
+cyggiognutls.dll: gio-tls-backend
+cyggiolibproxy.dll: gio-proxy-resolver
+cyggioremote-volume-monitor.dll: gio-native-volume-monitor,gio-volume-monitor
+cyggvfsdbus.dll: gio-vfs,gio-volume-monitor
+cyggiofam.dll: gio-local-directory-monitor,gio-local-file-monitor

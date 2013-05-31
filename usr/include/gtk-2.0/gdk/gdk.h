@@ -21,15 +21,20 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 #ifndef __GDK_H__
 #define __GDK_H__
 
+#define __GDK_H_INSIDE__
+
+#include <gdk/gdkapplaunchcontext.h>
+#include <gdk/gdkcairo.h>
 #include <gdk/gdkcolor.h>
 #include <gdk/gdkcursor.h>
 #include <gdk/gdkdisplay.h>
+#include <gdk/gdkdisplaymanager.h>
 #include <gdk/gdkdnd.h>
 #include <gdk/gdkdrawable.h>
 #include <gdk/gdkenumtypes.h>
@@ -39,7 +44,6 @@
 #include <gdk/gdkimage.h>
 #include <gdk/gdkinput.h>
 #include <gdk/gdkkeys.h>
-#include <gdk/gdkdisplaymanager.h>
 #include <gdk/gdkpango.h>
 #include <gdk/gdkpixbuf.h>
 #include <gdk/gdkpixmap.h>
@@ -49,13 +53,14 @@
 #include <gdk/gdkscreen.h>
 #include <gdk/gdkselection.h>
 #include <gdk/gdkspawn.h>
+#include <gdk/gdktestutils.h>
 #include <gdk/gdktypes.h>
 #include <gdk/gdkvisual.h>
 #include <gdk/gdkwindow.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+#undef __GDK_H_INSIDE__
+
+G_BEGIN_DECLS
 
 
 /* Initialization, exit and events
@@ -72,10 +77,10 @@ void gdk_pre_parse_libgtk_only          (void);
 
 #ifndef GDK_DISABLE_DEPRECATED
 void  	  gdk_exit		   	(gint	    	 error_code);
-#endif /* GDK_DISABLE_DEPRECATED */
 gchar*	  gdk_set_locale	   	(void);
+#endif /* GDK_DISABLE_DEPRECATED */
 
-G_CONST_RETURN char *gdk_get_program_class (void);
+const char *         gdk_get_program_class (void);
 void                 gdk_set_program_class (const char *program_class);
 
 /* Push and pop error handlers for X errors
@@ -89,17 +94,14 @@ gboolean  gdk_get_use_xshm		(void);
 #endif /* GDK_DISABLE_DEPRECATED */
 
 gchar*	                  gdk_get_display		(void);
-G_CONST_RETURN gchar*	  gdk_get_display_arg_name	(void);
+const gchar*	          gdk_get_display_arg_name	(void);
 
-#if !defined (GDK_DISABLE_DEPRECATED) || defined (GTK_COMPILATION)
-/* Used by gtk_input_add_full () */
+#ifndef GDK_DISABLE_DEPRECATED
 gint gdk_input_add_full	  (gint		     source,
 			   GdkInputCondition condition,
 			   GdkInputFunction  function,
 			   gpointer	     data,
-			   GdkDestroyNotify  destroy);
-#endif /* !GDK_DISABLE_DEPRECATED || GTK_COMPILATION */
-#ifndef GDK_DISABLE_DEPRECATED
+			   GDestroyNotify    destroy);
 gint gdk_input_add	  (gint		     source,
 			   GdkInputCondition condition,
 			   GdkInputFunction  function,
@@ -146,12 +148,12 @@ void gdk_set_double_click_time             (guint       msec);
 
 /* Rectangle utilities
  */
-gboolean gdk_rectangle_intersect (GdkRectangle *src1,
-				  GdkRectangle *src2,
-				  GdkRectangle *dest);
-void     gdk_rectangle_union     (GdkRectangle *src1,
-				  GdkRectangle *src2,
-				  GdkRectangle *dest);
+gboolean gdk_rectangle_intersect (const GdkRectangle *src1,
+				  const GdkRectangle *src2,
+				  GdkRectangle       *dest);
+void     gdk_rectangle_union     (const GdkRectangle *src1,
+				  const GdkRectangle *src2,
+				  GdkRectangle       *dest);
 
 GType gdk_rectangle_get_type (void) G_GNUC_CONST;
 
@@ -178,6 +180,8 @@ gboolean gdk_event_send_client_message_for_display (GdkDisplay *display,
 
 void gdk_notify_startup_complete (void);
 
+void gdk_notify_startup_complete_with_id (const gchar* startup_id);
+
 /* Threading
  */
 
@@ -188,11 +192,34 @@ GDKVAR GMutex *gdk_threads_mutex; /* private */
 GDKVAR GCallback gdk_threads_lock;
 GDKVAR GCallback gdk_threads_unlock;
 
-void     gdk_threads_enter                (void);
-void     gdk_threads_leave                (void);
-void     gdk_threads_init                 (void);
-void     gdk_threads_set_lock_functions   (GCallback enter_fn,
-					   GCallback leave_fn);
+void     gdk_threads_enter                    (void);
+void     gdk_threads_leave                    (void);
+void     gdk_threads_init                     (void);
+void     gdk_threads_set_lock_functions       (GCallback enter_fn,
+					       GCallback leave_fn);
+
+guint    gdk_threads_add_idle_full            (gint           priority,
+		                               GSourceFunc    function,
+		                               gpointer       data,
+		                               GDestroyNotify notify);
+guint    gdk_threads_add_idle                 (GSourceFunc    function,
+		                               gpointer       data);
+guint    gdk_threads_add_timeout_full         (gint           priority,
+                                               guint          interval,
+                                               GSourceFunc    function,
+                                               gpointer       data,
+                                               GDestroyNotify notify);
+guint    gdk_threads_add_timeout              (guint          interval,
+                                               GSourceFunc    function,
+                                               gpointer       data);
+guint    gdk_threads_add_timeout_seconds_full (gint           priority,
+                                               guint          interval,
+                                               GSourceFunc    function,
+                                               gpointer       data,
+                                               GDestroyNotify notify);
+guint    gdk_threads_add_timeout_seconds      (guint          interval,
+                                               GSourceFunc    function,
+                                               gpointer       data);
 
 #ifdef	G_THREADS_ENABLED
 #  define GDK_THREADS_ENTER()	G_STMT_START {	\
@@ -208,9 +235,7 @@ void     gdk_threads_set_lock_functions   (GCallback enter_fn,
 #  define GDK_THREADS_LEAVE()
 #endif	/* !G_THREADS_ENABLED */
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 
 #endif /* __GDK_H__ */

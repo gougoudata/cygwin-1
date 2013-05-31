@@ -11,7 +11,7 @@
 (*                                                                     *)
 (***********************************************************************)
 
-(* $Id: hashtbl.ml,v 1.26 2004/03/23 12:37:19 starynke Exp $ *)
+(* $Id: hashtbl.ml 7164 2005-10-25 18:34:07Z doligez $ *)
 
 (* Hash tables *)
 
@@ -277,5 +277,3 @@ module Make(H: HashedType): (S with type key = H.t) =
     let fold = fold
     let length = length
   end
-
-(* eof $Id: hashtbl.ml,v 1.26 2004/03/23 12:37:19 starynke Exp $ *)

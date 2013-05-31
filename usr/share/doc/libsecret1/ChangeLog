@@ -1,0 +1,3206 @@
+# Generate automatically. Do not edit.
+
+commit f4e4ed10da6319c1bdbaf4953b89347688f91b2b
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-11-21
+
+    Release version 0.12
+
+ NEWS                        | 6 ++++++
+ configure.ac                | 2 +-
+ libsecret/tests/Makefile.am | 1 +
+ 3 files changed, 8 insertions(+), 1 deletion(-)
+
+commit fb5f66296f9e19250e470ca1272ee319e68d0849
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-11-14
+
+    Don't print messages when creating default collection
+    
+     * This is expected behavior, so don't complain.
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=688165
+
+ libsecret/secret-methods.c | 4 +---
+ libsecret/secret-paths.c   | 7 +++++++
+ libsecret/secret-private.h | 3 +++
+ 3 files changed, 11 insertions(+), 3 deletions(-)
+
+commit a23ee598c7634a7bc1c6d2090856dd465d46835f
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-11-14
+
+    Rework how we strip remote DBus errors
+    
+     * This is necessary because sometimes we don't want to complain,
+       for expected errors, when running nested operations.
+     * The fact that we have to do this is silly, and soon there
+       will be a solution in glib itself.
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=688165
+
+ libsecret/secret-collection.c | 12 ++++++------
+ libsecret/secret-item.c       | 18 +++++++-----------
+ libsecret/secret-methods.c    | 12 ++++++------
+ libsecret/secret-paths.c      | 22 ++++++++--------------
+ libsecret/secret-private.h    |  3 +++
+ libsecret/secret-prompt.c     |  4 +---
+ libsecret/secret-service.c    |  8 ++++----
+ libsecret/secret-session.c    |  4 +---
+ libsecret/secret-util.c       | 17 +++++++++++++----
+ 9 files changed, 49 insertions(+), 51 deletions(-)
+
+commit 430b217e3e17a4623894750bcb996489353aa6b3
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-11-14
+
+    Translated label for automatically created default keyrings
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=688165
+
+ libsecret/secret-methods.c | 4 +++-
+ po/POTFILES.in             | 1 +
+ 2 files changed, 4 insertions(+), 1 deletion(-)
+
+commit afc1d656791c938796894e7ef458a5d60875fc50
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-11-14
+
+    When storing a secret, create default keyring if necessary
+    
+     * If the default keyring does not exist when storing a secret
+       try and create it.
+     * We handle both secrets that correctly return NoSuchObject
+       and ones that just return the silly DBus UnknownMethod error.
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=688165
+
+ libsecret/secret-collection.c         |  8 ++---
+ libsecret/secret-methods.c            | 63 ++++++++++++++++++++++++++++++++---
+ libsecret/secret-private.h            |  4 +++
+ libsecret/tests/mock-service-empty.py | 17 ++++++++++
+ libsecret/tests/test-methods.c        | 50 +++++++++++++++++++++++++++
+ 5 files changed, 134 insertions(+), 8 deletions(-)
+
+commit 4eb3c4577e16feb74870c023eaaa474bc7490a1a
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-11-14
+
+    Fix collection creation bugs in mock service
+    
+     * Guarantee that collections have unique paths
+     * Set the alias of new collections correctly
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=688165
+
+ libsecret/tests/mock/service.py | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+commit 446648da529d8aeedae8539eceba5052f421bdac
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-11-07
+
+    egg-hex: Bring over changes from gnome-keyring and gcr
+
+ egg/egg-hex.c        | 37 ++++++++++++++++++++++---------------
+ egg/egg-hex.h        | 12 ++++++------
+ egg/tests/test-hex.c | 11 +++++++----
+ 3 files changed, 35 insertions(+), 25 deletions(-)
+
+commit e666db528e50b81f63005499fd56c6d8aa5f7252
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-11-06
+
+    Remove some unused test code
+
+ egg/tests/test-secmem.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+commit 21f2ccea31e32298a79a3e793b6dd20550c70bbe
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-10-27
+
+    Share the memory pool with the gcr or libgnome-keyring library.
+
+ libsecret/Makefile.am | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 7cea18071bd33d70834cc05b8bcdcaee05194270
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-10-27
+
+    Bring over a new version of the secure memory code from gcr
+    
+     * This allows libraries to share the pool if they have the same
+       version of the secure memory code.
+
+ egg/egg-secure-memory.c    | 453 +++++++++++++++++++++++----------------------
+ egg/egg-secure-memory.h    | 110 +++++------
+ egg/tests/test-dh.c        |   2 +-
+ egg/tests/test-hkdf.c      |   2 +-
+ egg/tests/test-secmem.c    |  20 +-
+ libsecret/secret-service.c |   2 +-
+ 6 files changed, 300 insertions(+), 289 deletions(-)
+
+commit 275d314d5706e412c346fe85027b888cf7d99f76
+Author: Xi Wang <xi.wang@gmail.com>
+Date:   2012-10-22
+
+    Fix incorrect loop condition in egg_hkdf_perform()
+    
+    This does not cause a change in behavior (as evidenced by tests,
+    at least on linux when built with gcc) but is more correct code,
+    and less likely to be miscompiled.
+    
+    The condition (i < 256) in the following loop is always false since i
+    is of type guchar, which is at most 255.
+    
+    	guchar i;
+    	...
+    	for (i = 1; i < 256; ++i) { ... }
+    
+    This patch changes i to a larger type gint.
+    
+    Also in the loop we have:
+    
+    	gcry_md_write (md2, &i, 1);
+    
+    change it to use gcry_md_putc().
+
+ egg/egg-hkdf.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+commit 24cc1e118f34c8d90e05e9a6a9762de5c0415328
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-10-22
+
+    Fix for glib deprecations
+    
+     * g_type_init() was deprecated in glib 2.35.0
+
+ docs/reference/libsecret/Makefile.am | 4 +++-
+ libsecret/tests/test-attributes.c    | 2 ++
+ libsecret/tests/test-collection.c    | 2 ++
+ libsecret/tests/test-item.c          | 2 ++
+ libsecret/tests/test-methods.c       | 2 ++
+ libsecret/tests/test-password.c      | 2 ++
+ libsecret/tests/test-paths.c         | 2 ++
+ libsecret/tests/test-prompt.c        | 2 ++
+ libsecret/tests/test-service.c       | 2 ++
+ libsecret/tests/test-session.c       | 2 ++
+ libsecret/tests/test-value.c         | 3 +++
+ tool/secret-tool.c                   | 2 ++
+ 12 files changed, 26 insertions(+), 1 deletion(-)
+
+commit 791b0c0b4d07d5120d08427a6d7ec94c5f4db813
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-10-15
+
+    Release version 0.11
+
+ NEWS         | 3 +++
+ configure.ac | 2 +-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
+
+commit 7e02a594a77c2730efcc13dd141cc78e201cd7e3
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-10-12
+
+    Better critical preconditions for invalid attributes
+    
+     * When passing NULL for a string vararg attribute print
+       a critical warning.
+     * Make all attribute warnings critical
+     * Add tests for the various critical warnings
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=686015
+
+ libsecret/secret-attributes.c     |  12 ++--
+ libsecret/secret-password.c       |  28 ++++++++
+ libsecret/tests/Makefile.am       |   1 +
+ libsecret/tests/test-attributes.c | 140 ++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 177 insertions(+), 4 deletions(-)
+
+commit bcf1093ff3401443dad0750cbc4fff7d16cd999d
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-09-18
+
+    Release version 0.10
+
+ NEWS         | 3 +++
+ configure.ac | 2 +-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
+
+commit 9e7eb50bfe6442bd03689912f370078ab27117f9
+Author: Piotr Drąg <piotrdrag@gmail.com>
+Date:   2012-09-04
+
+    Updated Polish translation
+
+ po/pl.po | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+commit ba3e19150e6bf02854a78c6bde744284bce91a1c
+Author: Takeshi AIHANA <takeshi.aihana@gmail.com>
+Date:   2012-09-01
+
+    Added Japanese translation.
+
+ po/LINGUAS |  1 +
+ po/ja.po   | 42 ++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 43 insertions(+)
+
+commit 8341d3c676624eebfe2cb0a3935175420c1bd86e
+Author: Piotr Drąg <piotrdrag@gmail.com>
+Date:   2012-08-23
+
+    Updated Polish translation
+
+ po/pl.po | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
+
+commit 590c4c1dec4736e63c4eeff79af97403e5b88059
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-08-20
+
+    Release version 0.9
+
+ NEWS | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+commit 131f2b209d8d4448905c798a0b604480868309a6
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-08-20
+
+    Fix gcc warning about uninitialized warning
+
+ libsecret/secret-methods.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit ea8c4e247dabfeaad9f65980c82d469708855979
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-08-16
+
+    Display vala enabled status when configuring
+
+ configure.ac | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit 8f3387caccdc88d45f70922c22c54770d093cc7f
+Author: Evan Nemerson <evan@coeus-group.com>
+Date:   2012-08-16
+
+    vala: use nodist sources for vala test cases
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=681330
+
+ libsecret/tests/Makefile.am | 35 ++++++++++++++++++++---------------
+ 1 file changed, 20 insertions(+), 15 deletions(-)
+
+commit 152371b3e465d31fccee125dea56f8f765616017
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-08-08
+
+    secret-tool: Add a manual page
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=681434
+
+ .gitignore               |   1 +
+ configure.ac             |  22 ++++++--
+ docs/Makefile.am         |   4 ++
+ docs/man/Makefile.am     |  19 +++++++
+ docs/man/secret-tool.xml | 132 +++++++++++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 175 insertions(+), 3 deletions(-)
+
+commit 053ecbd8f70676c76cd0cfc5648256ccae27a1e8
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-08-08
+
+    build: Fix build without libgcrypt
+    
+     * Needed to use m4_ifdef on the libgcrypt autoconf macro
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=681330
+
+ configure.ac | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
+
+commit 95f05f0e051b17551dd0e6f1f2a6c563abf11db7
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-08-06
+
+    Bump version number
+
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 6d4cf7c435bd2a67e94a17ff75682f00494069b2
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-08-06
+
+    Require valac in order to 'make distcheck'
+    
+     * Otherwise problems with vala files not being distributed
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=681330
+
+ Makefile.am | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
+
+commit 4001cdf871efdb11a84d245d3a5c4877edce1f66
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-08-06
+
+    Don't link to secure memory code twice
+    
+     * This leads to problems with the tests not being able to free
+       non-pageable memory returned from libsecret-testable.so
+
+ libsecret/tests/Makefile.am | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit 18e125d4622119a478fcf527d3313f6866ab8bf0
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-08-06
+
+    More licensing tweaks
+    
+     * Actually include in the tarball the other licenses for test code
+     * Refer to COPYING.TESTS not COPYING.GPL
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=681302
+
+ Makefile.am                  | 3 +++
+ libsecret/tests/mock/hkdf.py | 4 +---
+ 2 files changed, 4 insertions(+), 3 deletions(-)
+
+commit 1c400704de3856c40678f5242478de74823255c4
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-08-06
+
+    Release version 0.8
+
+ NEWS         | 6 ++++++
+ configure.ac | 2 +-
+ 2 files changed, 7 insertions(+), 1 deletion(-)
+
+commit 9011932730586dafe860e06503a91bcacd1139b1
+Author: Matthias Clasen <mclasen@redhat.com>
+Date:   2012-08-05
+
+    Actually export SECRET_SCHEMA_NOTE
+    
+    The regex for exported symbols was keeping the predefined
+    schemas from being available to outside users of the library.
+    This was showing up as a link error for seahorse, which is
+    trying to use SECRET_SCHEMA_NOTE.
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=681255
+
+ libsecret/Makefile.am | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit e43cba8174274d68356f298b06dda09827d810e5
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-08-06
+
+    Fix up libsecret licensing
+    
+     * License libsecret under LGPL2.1+. We can do this because the
+       files that make up the library are either LGPL2.0+ or LGPL2.1+
+     * Correctly include a file which contains the full texts of the
+       various licenses used in the tests.
+     * Include license headers in some files that contained no license
+       headers.
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=680781
+
+ COPYING                                    | 218 ++++++-----
+ COPYING.TESTS                              | 587 +++++++++++++++++++++++++++++
+ libsecret/tests/mock-service-delete.py     |  13 +-
+ libsecret/tests/mock-service-lock.py       |  13 +-
+ libsecret/tests/mock-service-normal.py     |  13 +-
+ libsecret/tests/mock-service-only-plain.py |  13 +-
+ libsecret/tests/mock-service-prompt.py     |  13 +-
+ libsecret/tests/mock/__init__.py           |  11 +
+ libsecret/tests/test-clear-password.js     |  10 +
+ libsecret/tests/test-clear-password.py     |  11 +
+ libsecret/tests/test-lookup-password.js    |  10 +
+ libsecret/tests/test-lookup-password.py    |  11 +
+ libsecret/tests/test-store-password.js     |  10 +
+ libsecret/tests/test-store-password.py     |  11 +
+ libsecret/tests/test-unstable.js           |  10 +
+ libsecret/tests/test-unstable.py           |  11 +
+ libsecret/tests/test-vala-lang.vala        |  11 +
+ libsecret/tests/test-vala-unstable.vala    |  11 +
+ 18 files changed, 883 insertions(+), 104 deletions(-)
+
+commit 66a7a81216122f2b9b845a722133da005f5237c3
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-31
+
+    Fix introspection tests
+    
+     * Regressed due to hiding of internal symbols in libsecret.so and
+       creation of a separate libsecret-testable.so library
+
+ libsecret/Makefile.am                   |  1 +
+ libsecret/secret-private.h              |  2 --
+ libsecret/secret-service.c              | 22 +++++++++++++---------
+ libsecret/tests/Makefile.am             |  1 -
+ libsecret/tests/mock-service.c          |  3 +--
+ libsecret/tests/test-clear-password.py  |  3 ++-
+ libsecret/tests/test-lookup-password.py |  3 ++-
+ libsecret/tests/test-methods.c          |  1 +
+ libsecret/tests/test-password.c         |  1 +
+ libsecret/tests/test-paths.c            |  1 +
+ libsecret/tests/test-service.c          |  1 +
+ libsecret/tests/test-store-password.py  |  3 ++-
+ libsecret/tests/test-unstable.py        |  1 +
+ libsecret/tests/test-vala-lang.vala     |  1 +
+ libsecret/tests/test-vala-unstable.vala |  1 +
+ 15 files changed, 28 insertions(+), 17 deletions(-)
+
+commit 6becc33e8c9893c68fa16d84d8d9fa7956cdf8a9
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-30
+
+    Support building with automake 1.12.x
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=680839
+
+ autogen.sh | 20 +++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
+
+commit 9544b683f172ce888218cd56bfab3f16a27d65b0
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-30
+
+    secret-tool: Use the correct call to wipe password in memory
+    
+     * Fixes crash
+
+ tool/secret-tool.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit e34381276e458f5061c14ad39c48c3a4631ed885
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-24
+
+    Set correct module flags on libsecret
+    
+     * Pointed out by Robert Ancell
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=680207
+
+ libsecret/Makefile.am       | 19 +++++++++++--------
+ libsecret/tests/Makefile.am |  5 ++---
+ 2 files changed, 13 insertions(+), 11 deletions(-)
+
+commit 54b73f5cb609b388d31d99708dc542d3aa03dbe1
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-17
+
+    Initialize gettext in secret-tool
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=680072
+
+ tool/Makefile.am   | 1 +
+ tool/secret-tool.c | 9 +++++++++
+ 2 files changed, 10 insertions(+)
+
+commit 9bf240ef4d4e3f3a22f2899a163e3cc4b790656d
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-16
+
+    Release version 0.7
+
+ NEWS         | 6 ++++++
+ configure.ac | 2 +-
+ 2 files changed, 7 insertions(+), 1 deletion(-)
+
+commit 45e01e66001fdc3399f3490baca5b02595ff801f
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-14
+
+    Match schema names for notes and network passwords
+    
+     * These are old item types from libgnome-keyring, and
+       gnome-keyring-daemon has special code to generate the
+       schema for these types of items.
+
+ libsecret/secret-schemas.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
+
+commit ebc65dba98353fd6bd4cff63c0928c11bd2ec5c3
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-14
+
+    Remove multiple definitions of SecretCollection
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=679913
+
+ libsecret/secret-collection.h | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit ce03e082a2a7d025e0b4ff6f235f96bfd37299f5
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-14
+
+    Remove empty secret-unstable.h file
+
+ 0 files changed
+
+commit f4d8fc4751caefc715981465424009a5f49b6b11
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-14
+
+    Add flags argument to secret_collection_for_alias()
+    
+     * Can control whether items are loaded or not.
+
+ libsecret/secret-collection.c     | 78 +++++++++++++++++++++++++++++----------
+ libsecret/secret-collection.h     |  2 +
+ libsecret/tests/test-collection.c | 74 ++++++++++++++++++++++++++++++++++---
+ 3 files changed, 129 insertions(+), 25 deletions(-)
+
+commit 56ece9eff0940786ef2aabb4fab4ee8e61537b89
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-14
+
+    Correct flags for SecretCollection
+    
+     * The SECRET_COLLECTION_LOAD_ITEMS flag was always set
+
+ libsecret/secret-collection.c | 39 +++++++++++++--------------------------
+ 1 file changed, 13 insertions(+), 26 deletions(-)
+
+commit 49cdaf5df8732f4085ff3e6b64bb09beb1f7e9c5
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-14
+
+    Release version 0.6
+
+ NEWS                                             |  7 +++
+ configure.ac                                     |  2 +-
+ docs/reference/libsecret/libsecret-examples.sgml | 52 +++++++++---------
+ libsecret/tests/test-clear-password.js           | 68 +++++++++++++++++++++++
+ libsecret/tests/test-clear-password.py           | 69 ++++++++++++++++++++++++
+ libsecret/tests/test-remove-password.js          | 68 -----------------------
+ libsecret/tests/test-remove-password.py          | 69 ------------------------
+ 7 files changed, 171 insertions(+), 164 deletions(-)
+
+commit e0ba10ee09d66d5eba05798ea268437fb9e23518
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-14
+
+    Rename secret_password_remove() to secret_password_clear()
+    
+     * It's clearer what happens here: we try to remove as many matching
+       passwords as possible.
+     * Also rename secret_service_remove() to secret_service_clear()
+     * Rename secret_password_clear() which used to wipe password memory
+       to secret_password_wipe().
+
+ docs/reference/libsecret/libsecret-sections.txt    | 16 ++--
+ .../libsecret/migrating-libgnome-keyring.xml       |  8 +-
+ libsecret/Secret-1.metadata                        |  6 +-
+ libsecret/secret-methods.c                         | 54 ++++++-------
+ libsecret/secret-password.c                        | 88 +++++++++++-----------
+ libsecret/secret-password.h                        | 12 +--
+ libsecret/secret-service.h                         |  6 +-
+ libsecret/tests/Makefile.am                        |  4 +-
+ libsecret/tests/test-methods.c                     | 46 +++++------
+ libsecret/tests/test-password.c                    | 38 +++++-----
+ libsecret/tests/test-remove-password.js            | 14 ++--
+ libsecret/tests/test-vala-lang.vala                | 16 ++--
+ tool/secret-tool.c                                 | 20 ++---
+ 13 files changed, 162 insertions(+), 166 deletions(-)
+
+commit 7efb4d5073815f58c4ecb917821d3998dcd1e373
+Author: Colin Walters <walters@verbum.org>
+Date:   2012-07-13
+
+    build: Disable parallelism in tests
+
+ libsecret/tests/Makefile.am | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+commit 19eb104158083808f864e34eb03a40e5698659c3
+Author: Colin Walters <walters@verbum.org>
+Date:   2012-07-13
+
+    build: Fix parallel make issue
+    
+    SecretUnstable.gir depends on Secret.gir, which in turn depends
+    on the stuff that was previously listed.
+
+ libsecret/Makefile.am | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 69fd67ae19aff85f5e565d06949d731b7f8da908
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-13
+
+    Properly refer to the fact that multiple passwords may be removed.
+
+ libsecret/secret-password.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+commit 6422acd085ef76d69f3182b593175d7275abd873
+Author: Colin Walters <walters@verbum.org>
+Date:   2012-07-13
+
+    build: Various introspection-related build fixes
+    
+    Don't set PKG_CONFIG_PATH, this breaks jhbuild; instead, use
+    --include-uninstalled to tell the scanner where to find internal
+    libraries.
+    
+    Don't set _PACKAGES = gio-2.0; we already pick that up from the
+    Gio-2.0.gir.
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=679852
+
+ libsecret/Makefile.am | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
+
+commit 5d725daf29b0f90654367e6b9aa2e3c6b8a44384
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-13
+
+    Clearer warning when using unstable parts of API
+
+ libsecret/secret.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+commit 79d1f4b71842cbff82db1080046f8a77a4a3d611
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-13
+
+    The secret_attribute_build() functions are stable
+
+ libsecret/secret.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 561e5c72ba33be522a12e941fc5f1950bb5cddf2
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-13
+
+    The predefined secret schemas are stable
+
+ libsecret/Makefile.am | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 4fc7d144bb262ab11f63c5fb9953f33c7e663a49
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-13
+
+    Search for mock-service-0.vapi in the right directory
+
+ libsecret/tests/Makefile.am | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 772eef69e65d8d810554b074b495439dffeb0912
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-13
+
+    Documentation fix for SecretItem:flags
+
+ libsecret/secret-item.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 77f8368a3ad34e16faab5e467b4024861ad4a8be
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-13
+
+    Install headers to libsecret-1 instead of secret-1
+    
+     * Clearer and more consistent
+
+ libsecret/Makefile.am     | 2 +-
+ libsecret/libsecret.pc.in | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+commit 83c8674a03bb3373daa63be3eb44385d10bff968
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-13
+
+    Update documentation for to have correct headers
+    
+     * Add add more warnings to unstable API documentation
+
+ docs/reference/libsecret/libsecret-sections.txt | 14 +++++++-------
+ libsecret/secret-collection.c                   |  3 +++
+ libsecret/secret-item.c                         |  3 +++
+ libsecret/secret-password.c                     |  5 ++++-
+ libsecret/secret-paths.c                        |  3 +++
+ libsecret/secret-prompt.c                       |  3 +++
+ libsecret/secret-service.c                      |  3 +++
+ libsecret/secret-value.c                        |  3 +++
+ 8 files changed, 29 insertions(+), 8 deletions(-)
+
+commit 7816417167bb0656b9d176890ebb1af793d1b17d
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-13
+
+    Release version 0.5
+
+ NEWS                                 | 14 ++++++++++++++
+ docs/reference/libsecret/Makefile.am |  2 +-
+ libsecret/tests/Makefile.am          |  1 -
+ tool/Makefile.am                     |  2 +-
+ 4 files changed, 16 insertions(+), 3 deletions(-)
+
+commit db95ff86b34b966c710001c0435363793e07f4d2
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-13
+
+    Add missing documentation for secret_item_get_schema_name()
+
+ docs/reference/libsecret/libsecret-sections.txt | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit 1b84a1ad42fdb9bf40cf8d3c9cd8b76ae798bd98
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-13
+
+    More fixes for broken vapi and gir generation
+    
+     * Man this is brittle
+
+ libsecret/Makefile.am       | 12 ++++++++----
+ libsecret/tests/Makefile.am |  2 +-
+ 2 files changed, 9 insertions(+), 5 deletions(-)
+
+commit 234855ea7d6590edcdb2b981050d9257bfcabcdc
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-13
+
+    Bump the library major version number
+    
+     * We want to settle on 1 after first stable release
+     * Since we're going to start patching projects we want this to have
+       the pkg-config file be libsecret-1
+
+ configure.ac                |  2 +-
+ libsecret/Secret-0.metadata | 20 --------------------
+ libsecret/Secret-1.metadata | 20 ++++++++++++++++++++
+ 3 files changed, 21 insertions(+), 21 deletions(-)
+
+commit a1c3e9bb097b0dabb690972122f53ebc839c558e
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-13
+
+    Document how to build with or use libsecret
+
+ .gitignore                                    |   1 +
+ configure.ac                                  |   1 +
+ docs/reference/libsecret/Makefile.am          |   3 +-
+ docs/reference/libsecret/libsecret-docs.sgml  |   2 +
+ docs/reference/libsecret/libsecret-using.sgml | 146 ++++++++++++++++++++++++++
+ docs/reference/libsecret/version-major.xml.in |   1 +
+ libsecret/tests/Makefile.am                   |   2 +-
+ 7 files changed, 154 insertions(+), 2 deletions(-)
+
+commit 994ae44a77e55077bb64141a08ab8a5143a7d3f1
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-13
+
+    Split the pkg-config files, gir, and vapi into stable/unstable
+    
+     * C callers need to use libsecret-0 pkg-config file for stable and
+       libsecret-unstable for unstable stuff.
+     * Vala callers need to '--pkg libsecret-unstable' for unstable
+     * GObject Introspection callers need to use the SecretUnstable package
+
+ .gitignore                              |  4 +-
+ configure.ac                            |  1 +
+ libsecret/Makefile.am                   | 70 +++++++++++++++++++++++++--------
+ libsecret/SecretUnstable-0.metadata     |  5 +++
+ libsecret/libsecret-unstable.pc.in      | 13 ++++++
+ libsecret/secret-attributes.h           |  2 +-
+ libsecret/secret-collection.c           |  6 +--
+ libsecret/secret-collection.h           |  5 ++-
+ libsecret/secret-item.c                 |  4 +-
+ libsecret/secret-item.h                 |  3 +-
+ libsecret/secret-methods.c              |  4 +-
+ libsecret/secret-password.h             |  2 +-
+ libsecret/secret-paths.c                |  4 +-
+ libsecret/secret-paths.h                |  2 +-
+ libsecret/secret-private.h              |  1 +
+ libsecret/secret-prompt.h               |  3 +-
+ libsecret/secret-schema.h               |  2 +-
+ libsecret/secret-schemas.h              |  2 +-
+ libsecret/secret-service.c              |  2 +-
+ libsecret/secret-service.h              | 11 +++++-
+ libsecret/secret-types.h                | 15 +------
+ libsecret/secret-unstable.h             | 39 ------------------
+ libsecret/secret-value.c                |  2 +-
+ libsecret/secret-value.h                |  4 +-
+ libsecret/secret.h                      | 18 +++++++++
+ libsecret/tests/Makefile.am             | 56 +++++++++++++-------------
+ libsecret/tests/test-unstable.js        | 17 ++++++++
+ libsecret/tests/test-unstable.py        | 23 +++++++++++
+ libsecret/tests/test-vala-unstable.vala | 25 ++++++++++++
+ 29 files changed, 227 insertions(+), 118 deletions(-)
+
+commit 5cc30b2b68f551506bd9bbbe1306a24009e14eca
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-13
+
+    Rename the library subdirectory to libsecret
+    
+     * Death by a thousand paper cuts from gir and vapi not liking
+       the fact that the secret.h file was not usable uninstalled
+       and installed in the same way.
+
+ .gitignore                                      |   18 +-
+ Makefile.am                                     |    2 +-
+ autogen.sh                                      |    2 +-
+ configure.ac                                    |    8 +-
+ docs/reference/libsecret/Makefile.am            |    8 +-
+ docs/reference/libsecret/libsecret-sections.txt |   20 +-
+ library/Makefile.am                             |  178 --
+ library/Secret-0.metadata                       |   20 -
+ library/libsecret.pc.in                         |   14 -
+ library/org.freedesktop.Secrets.xml             |  160 --
+ library/secret-attributes.c                     |  287 ---
+ library/secret-attributes.h                     |   38 -
+ library/secret-collection.c                     | 2223 --------------------
+ library/secret-collection.h                     |  174 --
+ library/secret-enum-types.c.template            |   43 -
+ library/secret-enum-types.h.template            |   28 -
+ library/secret-item.c                           | 2086 -------------------
+ library/secret-item.h                           |  195 --
+ library/secret-methods.c                        | 1936 ------------------
+ library/secret-password.c                       |  864 --------
+ library/secret-password.h                       |  135 --
+ library/secret-paths.c                          | 2479 -----------------------
+ library/secret-paths.h                          |  277 ---
+ library/secret-private.h                        |  206 --
+ library/secret-prompt.c                         |  543 -----
+ library/secret-prompt.h                         |   79 -
+ library/secret-schema.c                         |  383 ----
+ library/secret-schema.h                         |   77 -
+ library/secret-schemas.c                        |   79 -
+ library/secret-schemas.h                        |   42 -
+ library/secret-service.c                        | 1724 ----------------
+ library/secret-service.h                        |  292 ---
+ library/secret-session.c                        |  669 ------
+ library/secret-types.h                          |   56 -
+ library/secret-unstable.h                       |   39 -
+ library/secret-util.c                           |  449 ----
+ library/secret-value.c                          |  299 ---
+ library/secret-value.h                          |   52 -
+ library/secret.h                                |   29 -
+ library/tests/Makefile.am                       |  202 --
+ library/tests/mock-service-delete.py            |   17 -
+ library/tests/mock-service-lock.py              |   17 -
+ library/tests/mock-service-normal.py            |    7 -
+ library/tests/mock-service-only-plain.py        |    8 -
+ library/tests/mock-service-prompt.py            |   44 -
+ library/tests/mock-service.c                    |   93 -
+ library/tests/mock-service.h                    |   27 -
+ library/tests/mock/__init__.py                  |    1 -
+ library/tests/mock/aes.py                       |  656 ------
+ library/tests/mock/dh.py                        |   81 -
+ library/tests/mock/hkdf.py                      |   86 -
+ library/tests/mock/service.py                   |  710 -------
+ library/tests/test-collection.c                 |  960 ---------
+ library/tests/test-item.c                       |  867 --------
+ library/tests/test-lookup-password.js           |   52 -
+ library/tests/test-lookup-password.py           |   59 -
+ library/tests/test-methods.c                    |  945 ---------
+ library/tests/test-password.c                   |  328 ---
+ library/tests/test-paths.c                      |  746 -------
+ library/tests/test-prompt.c                     |  414 ----
+ library/tests/test-remove-password.js           |   68 -
+ library/tests/test-remove-password.py           |   69 -
+ library/tests/test-service.c                    |  583 ------
+ library/tests/test-session.c                    |  231 ---
+ library/tests/test-store-password.js            |   58 -
+ library/tests/test-store-password.py            |   59 -
+ library/tests/test-vala-lang.vala               |  172 --
+ library/tests/test-value.c                      |  210 --
+ libsecret/Makefile.am                           |  178 ++
+ libsecret/Secret-0.metadata                     |   20 +
+ libsecret/libsecret.pc.in                       |   14 +
+ libsecret/org.freedesktop.Secrets.xml           |  160 ++
+ libsecret/secret-attributes.c                   |  287 +++
+ libsecret/secret-attributes.h                   |   38 +
+ libsecret/secret-collection.c                   | 2223 ++++++++++++++++++++
+ libsecret/secret-collection.h                   |  174 ++
+ libsecret/secret-enum-types.c.template          |   43 +
+ libsecret/secret-enum-types.h.template          |   28 +
+ libsecret/secret-item.c                         | 2086 +++++++++++++++++++
+ libsecret/secret-item.h                         |  195 ++
+ libsecret/secret-methods.c                      | 1936 ++++++++++++++++++
+ libsecret/secret-password.c                     |  864 ++++++++
+ libsecret/secret-password.h                     |  135 ++
+ libsecret/secret-paths.c                        | 2479 +++++++++++++++++++++++
+ libsecret/secret-paths.h                        |  277 +++
+ libsecret/secret-private.h                      |  206 ++
+ libsecret/secret-prompt.c                       |  543 +++++
+ libsecret/secret-prompt.h                       |   79 +
+ libsecret/secret-schema.c                       |  383 ++++
+ libsecret/secret-schema.h                       |   77 +
+ libsecret/secret-schemas.c                      |   79 +
+ libsecret/secret-schemas.h                      |   42 +
+ libsecret/secret-service.c                      | 1724 ++++++++++++++++
+ libsecret/secret-service.h                      |  292 +++
+ libsecret/secret-session.c                      |  669 ++++++
+ libsecret/secret-types.h                        |   56 +
+ libsecret/secret-unstable.h                     |   39 +
+ libsecret/secret-util.c                         |  449 ++++
+ libsecret/secret-value.c                        |  299 +++
+ libsecret/secret-value.h                        |   52 +
+ libsecret/secret.h                              |   29 +
+ libsecret/tests/Makefile.am                     |  202 ++
+ libsecret/tests/mock-service-delete.py          |   17 +
+ libsecret/tests/mock-service-lock.py            |   17 +
+ libsecret/tests/mock-service-normal.py          |    7 +
+ libsecret/tests/mock-service-only-plain.py      |    8 +
+ libsecret/tests/mock-service-prompt.py          |   44 +
+ libsecret/tests/mock-service.c                  |   93 +
+ libsecret/tests/mock-service.h                  |   27 +
+ libsecret/tests/mock/__init__.py                |    1 +
+ libsecret/tests/mock/aes.py                     |  656 ++++++
+ libsecret/tests/mock/dh.py                      |   81 +
+ libsecret/tests/mock/hkdf.py                    |   86 +
+ libsecret/tests/mock/service.py                 |  710 +++++++
+ libsecret/tests/test-collection.c               |  960 +++++++++
+ libsecret/tests/test-item.c                     |  867 ++++++++
+ libsecret/tests/test-lookup-password.js         |   52 +
+ libsecret/tests/test-lookup-password.py         |   59 +
+ libsecret/tests/test-methods.c                  |  945 +++++++++
+ libsecret/tests/test-password.c                 |  328 +++
+ libsecret/tests/test-paths.c                    |  746 +++++++
+ libsecret/tests/test-prompt.c                   |  414 ++++
+ libsecret/tests/test-remove-password.js         |   68 +
+ libsecret/tests/test-remove-password.py         |   69 +
+ libsecret/tests/test-service.c                  |  583 ++++++
+ libsecret/tests/test-session.c                  |  231 +++
+ libsecret/tests/test-store-password.js          |   58 +
+ libsecret/tests/test-store-password.py          |   59 +
+ libsecret/tests/test-vala-lang.vala             |  172 ++
+ libsecret/tests/test-value.c                    |  210 ++
+ po/POTFILES.in                                  |    4 +-
+ po/pl.po                                        |    4 +-
+ tool/Makefile.am                                |    4 +-
+ 133 files changed, 23960 insertions(+), 23960 deletions(-)
+
+commit 931f677c7ac8af0a6ebed2e3ef7472a7076bc8be
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-12
+
+    Bump version number
+
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 80df2e6484af2b593286b1798c5e6de77f1289ac
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-12
+
+    Add flags for secret_item_create and secret_collection_create
+    
+     * For future extensibility
+
+ docs/reference/libsecret/libsecret-sections.txt |  6 +++++
+ library/secret-collection.c                     | 21 +++++++++++++---
+ library/secret-collection.h                     |  6 +++++
+ library/secret-item.c                           | 32 +++++++++++++++----------
+ library/secret-item.h                           |  9 +++++--
+ library/secret-methods.c                        |  4 ++--
+ library/secret-paths.c                          | 30 +++++++++++++----------
+ library/secret-paths.h                          |  6 +++--
+ library/tests/test-collection.c                 |  7 ++++--
+ library/tests/test-item.c                       |  4 ++--
+ library/tests/test-paths.c                      | 10 ++++----
+ 11 files changed, 93 insertions(+), 42 deletions(-)
+
+commit 494c13a265619b6588b4011d5bf3251de9ac49e4
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-12
+
+    Add secret_item_get_schema_name() function
+    
+     * And add tests for schemas on items
+
+ library/secret-item.c     | 50 +++++++++++++++++++++++++++++++++++++++--------
+ library/secret-item.h     |  2 ++
+ library/tests/test-item.c | 44 +++++++++++++++++++++++++++++++++++------
+ 3 files changed, 82 insertions(+), 14 deletions(-)
+
+commit 3c3e05eb11fcae1bd1be455811493e98e63ee0d4
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-12
+
+    Allow passing SecretSchema to secret_item_create() and set_attributes()
+
+ library/secret-item.c     | 47 ++++++++++++++++++++++++++++++++++++++---------
+ library/secret-item.h     |  8 ++++++--
+ library/tests/test-item.c | 12 ++++++------
+ 3 files changed, 50 insertions(+), 17 deletions(-)
+
+commit c22bc528df1abbf95a70ff174420a73e84567c8a
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-12
+
+    Rename secret_service_read_alias() to secret_collection_for_alias()
+    
+     * Much more logical, especially in the future when arbitrary aliases
+       are implemented in gnome-keyring-daemon
+
+ docs/reference/libsecret/libsecret-sections.txt |   6 +-
+ library/secret-collection.c                     | 241 +++++++++++++++++++++++-
+ library/secret-collection.h                     |  14 ++
+ library/secret-methods.c                        | 239 -----------------------
+ library/secret-service.h                        |  15 --
+ library/tests/test-collection.c                 |  57 ++++++
+ library/tests/test-methods.c                    |  69 +------
+ 7 files changed, 319 insertions(+), 322 deletions(-)
+
+commit 35022289dad465a866c012dec1662c99ceea685a
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-12
+
+    Add documentation for how to migrate from libgnome-keyring
+
+ docs/reference/libsecret/Makefile.am               |  11 +-
+ docs/reference/libsecret/libsecret-docs.sgml       |   2 +
+ docs/reference/libsecret/libsecret-sections.txt    |   2 +-
+ .../libsecret/migrating-libgnome-keyring.xml       | 839 +++++++++++++++++++++
+ library/secret-schema.c                            |   5 +
+ library/secret-schemas.c                           |  34 +
+ 6 files changed, 889 insertions(+), 4 deletions(-)
+
+commit a646cd2b331cde101adce54f39ab48af5822b64b
+Author: Evan Nemerson <evan@coeus-group.com>
+Date:   2012-07-10
+
+    introspection: add several missing element-type annotations
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=679090
+
+ library/secret-attributes.c |  8 ++++----
+ library/secret-item.c       |  8 ++++++--
+ library/secret-paths.c      | 10 ++++++----
+ 3 files changed, 16 insertions(+), 10 deletions(-)
+
+commit 3843751b6fc215a07e85635b2a3dfaebd00ad626
+Author: Evan Nemerson <evan@coeus-group.com>
+Date:   2012-06-28
+
+    vala: update metadata to reflect changes made by 89550876
+
+ library/Secret-0.metadata | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
+
+commit b63e664c2833fe8714ce01ae48fd8faf4ccff750
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-10
+
+    Remove erroneus precondition
+
+ library/secret-paths.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit 8583ef53dc51015a3c38e38a2538438a6589f58e
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-10
+
+    secret_service_remove() and secret_password_remove() remove multiple
+    
+     * Remove all items that are not locked that match in a
+       secret_service_remove() and secret_password_remove().
+
+ library/secret-methods.c      | 58 ++++++++++++++++++++-----------------------
+ library/secret-password.c     | 16 ++++++------
+ library/tests/test-methods.c  |  8 +++++-
+ library/tests/test-password.c | 10 ++++++++
+ 4 files changed, 52 insertions(+), 40 deletions(-)
+
+commit c85cadce76b99e5a3b20a9408edff09df3d7c777
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-10
+
+    Validate that we have attributes when looking up
+    
+     * When matching items, make sure we have attributes if
+       no schema name was included in the match
+     * This is particularly important because we don't want to
+       remove all the items.
+
+ library/secret-attributes.c | 33 ++++++++++++++++++++++-----------
+ library/secret-collection.c |  4 ++--
+ library/secret-methods.c    | 16 ++++++++--------
+ library/secret-password.c   | 16 ++++++++--------
+ library/secret-paths.c      |  6 +++---
+ library/secret-private.h    |  4 +++-
+ 6 files changed, 46 insertions(+), 33 deletions(-)
+
+commit b85c8758b07da3ff65cebdbac8a8984d27fe2fd4
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-09
+
+    Release version 0.4
+
+ NEWS | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+
+commit 9c2eca05ff0432ddc9267b693c91d690e7285095
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-09
+
+    Implement per collection search
+    
+     * Use the SearchItems dbus method on the Collection interface
+     * Tweak some issues with the service search code as well
+
+ docs/reference/libsecret/libsecret-sections.txt |   6 +
+ library/secret-collection.c                     | 381 ++++++++++++++++++++++++
+ library/secret-collection.h                     |  20 ++
+ library/secret-methods.c                        |  60 ++--
+ library/secret-paths.c                          | 150 +++++++++-
+ library/secret-paths.h                          |  16 +
+ library/secret-service.h                        |   7 -
+ library/secret-types.h                          |   7 +
+ library/tests/mock/service.py                   |   5 +
+ library/tests/test-collection.c                 | 348 ++++++++++++++++++++++
+ 10 files changed, 964 insertions(+), 36 deletions(-)
+
+commit 30d1337a7cb60693fbcee5ce67cc3907d144d35a
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-09
+
+    Register secret service errors as DBus errors
+    
+     * and strip remote error codes from error->message so that
+       they don't clutter things.
+
+ library/secret-item.c       | 14 +++++++++----
+ library/secret-paths.c      | 12 +++++++++++-
+ library/secret-private.h    |  2 ++
+ library/secret-prompt.c     |  2 ++
+ library/secret-service.c    |  4 ++++
+ library/secret-session.c    |  2 ++
+ library/secret-types.h      |  3 +++
+ library/secret-util.c       | 48 ++++++++++++++++++++++++++++++++++++---------
+ library/tests/test-prompt.c | 11 +++++++++++
+ 9 files changed, 84 insertions(+), 14 deletions(-)
+
+commit 8339f296e884c85cfe7f74f66a0d60323e6b7b9a
+Author: Martyn Russell <martyn@lanedo.com>
+Date:   2012-07-08
+
+    Don't try to build test-vala-lang if !HAVE_INTROSPECTION or !ENABLE_VAPIGEN
+    
+    * libsecret-@SECRET_MAJOR@.vapi is built only with those 2 defines and these
+      were not checked before depending that target for the test case
+    
+    Found during jhbuild run
+
+ library/tests/Makefile.am | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+commit 5ecab6d33ba945bd02fd7ba6c223d4c2e6d1da23
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-06
+
+    Get service correctly for secret_service_set_alias()
+    
+     * We can't use secret_collection_get_service() since a NULL
+       collection can be passed in.
+
+ library/secret-methods.c | 114 +++++++++++++++++++++++++++++++++++++----------
+ 1 file changed, 90 insertions(+), 24 deletions(-)
+
+commit c1f860d45ff5a87f4e8205ae27c3066598d2a01a
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-06
+
+    Fix up documentation
+
+ docs/reference/libsecret/libsecret-sections.txt |  1 +
+ library/secret-collection.c                     | 18 +++++++-----------
+ library/secret-item.c                           | 18 ++++++------------
+ library/secret-methods.c                        | 10 ++++++++++
+ library/secret-paths.c                          |  2 +-
+ 5 files changed, 25 insertions(+), 24 deletions(-)
+
+commit 175ae0898446de247530de47ae2a4edc0340e08e
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-06
+
+    Disconnect the cached default SecretService if service goes away
+    
+     * Because the session would no longer be valid if the service
+       was autostarted for the same SecretService proxy
+
+ docs/reference/libsecret/libsecret-sections.txt |   1 +
+ library/secret-service.c                        | 116 ++++++++++++++++++------
+ library/tests/mock-service.c                    |   1 +
+ library/tests/test-password.c                   |   1 -
+ 4 files changed, 88 insertions(+), 31 deletions(-)
+
+commit b535ed1bbfa1f8e78db1f4a27f42e06adcb1b04b
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-06
+
+    Use collection aliases with secret_password_store() and friends
+    
+     * Make SECRET_COLLECTION_DEFAULT and SECRET_COLLECTION_SESSION
+       be the simple aliases for those collections.
+     * Accept either an alias or a path in secret_password_store()
+       and secret_service_store() and friends.
+
+ library/secret-collection.c | 15 +++++++++++++++
+ library/secret-methods.c    | 16 ++++++++--------
+ library/secret-password.c   | 32 ++++++++++++++++----------------
+ library/secret-password.h   |  8 ++++----
+ library/secret-paths.c      | 13 ++++---------
+ library/secret-private.h    |  2 ++
+ library/secret-service.h    |  4 ++--
+ library/secret-types.h      |  4 ++--
+ library/secret-util.c       | 10 ++++++++++
+ 9 files changed, 63 insertions(+), 41 deletions(-)
+
+commit 7098b856b79de5f2234d98a203eb62b1d695a4d5
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-06
+
+    Rename the functions that operate on a dbus item path
+    
+     * They all contain '_dbus_path' in their name
+     * Move secret_service_get_session_path() to the paths functionality
+     * Move the secret_collection_new() and secret_item_new() functionality
+       to the path based section.
+
+ docs/reference/libsecret/libsecret-sections.txt |  80 +--
+ library/secret-collection.c                     | 171 +-----
+ library/secret-collection.h                     |  16 -
+ library/secret-item.c                           | 155 +----
+ library/secret-item.h                           |  16 -
+ library/secret-methods.c                        | 124 ++--
+ library/secret-paths.c                          | 733 ++++++++++++++++--------
+ library/secret-paths.h                          | 410 +++++++------
+ library/secret-private.h                        |   4 +
+ library/secret-service.c                        |  46 +-
+ library/secret-service.h                        |   6 +-
+ library/tests/test-collection.c                 |  70 +--
+ library/tests/test-item.c                       |  69 +--
+ library/tests/test-methods.c                    |  33 +-
+ library/tests/test-paths.c                      | 110 ++--
+ library/tests/test-service.c                    |  31 +-
+ library/tests/test-session.c                    |  74 +--
+ 17 files changed, 1084 insertions(+), 1064 deletions(-)
+
+commit 3cb0d8047da1bff2eb7286eef014ff8948c99333
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-05
+
+    Make sure notifications come in for new objects before waiting
+    
+     * In tests make sure notifications settle down before waiting
+       on new notifications. This fixes random test crashes.
+     * Using async here means all signals are delivered by the time
+       we get the new object.
+
+ library/tests/test-collection.c |  8 ++++++--
+ library/tests/test-item.c       | 14 ++++++++++++--
+ 2 files changed, 18 insertions(+), 4 deletions(-)
+
+commit 600021a30b9266ebf805e86ac3520570ad8c9d56
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-05
+
+    Accept NULL as a SecretService parameter for many methods
+    
+     * We use secret_service_get() to lookup the default
+       SecretService in these cases.
+     * Use this functionality in the secret_password_xxx()
+       functions to greatly simplify them.
+
+ library/secret-collection.c     | 168 ++++++++--
+ library/secret-item.c           |  76 ++++-
+ library/secret-methods.c        | 665 ++++++++++++++++++++++++++++++----------
+ library/secret-password.c       | 312 ++-----------------
+ library/secret-service.c        |  51 +--
+ library/secret-service.h        |  84 ++---
+ library/tests/test-collection.c |   1 +
+ library/tests/test-item.c       |   1 +
+ library/tests/test-methods.c    |   1 +
+ library/tests/test-password.c   |   1 +
+ library/tests/test-paths.c      |   1 +
+ library/tests/test-prompt.c     |   1 +
+ library/tests/test-service.c    |  11 +-
+ library/tests/test-session.c    |   1 +
+ 14 files changed, 820 insertions(+), 554 deletions(-)
+
+commit 153dfcec5ff7f9799ae6bbd1d053fa58cc49eb7e
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-05
+
+    Add secret_collection_load_items()
+    
+     * And flags to prevent loading of items when creating a
+       SecretCollection object
+     * Rename secret_service_ensure_collections() to
+       secret_service_load_collections()
+
+ docs/reference/libsecret/libsecret-sections.txt |  13 +-
+ library/secret-collection.c                     | 465 +++++++++++++++---------
+ library/secret-collection.h                     |  22 ++
+ library/secret-methods.c                        |   4 +-
+ library/secret-service.c                        |  64 ++--
+ library/secret-service.h                        |   6 +-
+ library/tests/test-collection.c                 |  46 ++-
+ library/tests/test-item.c                       |   6 +-
+ library/tests/test-methods.c                    |   9 +-
+ library/tests/test-service.c                    |   6 +-
+ 10 files changed, 417 insertions(+), 224 deletions(-)
+
+commit 3f0c69d8620ceafb99ec5558b6860b2bc490dc66
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-05
+
+    secret_service_search() accepts a SecretSchema
+    
+     * For validation and adding the xdg:schema attribute
+
+ library/secret-methods.c     | 16 ++++++++++++++--
+ library/secret-paths.c       | 25 +++++++++++++++++++++++--
+ library/secret-paths.h       |  2 ++
+ library/secret-service.h     |  2 ++
+ library/tests/test-methods.c | 34 ++++++++++++++++++----------------
+ library/tests/test-paths.c   | 18 +++++++++---------
+ 6 files changed, 68 insertions(+), 29 deletions(-)
+
+commit 889f6d66b72904df779ff52054ee86abc03bcd7e
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-05
+
+    Make secret_service_search() able to unlock, load secrets
+    
+     * Turn secret_service_search() and friends into a more convenient
+       API, so that callers can get attributes, unlocking, and secrets
+       if so desired.
+     * Also support retrieving either one secret, or all of them.
+
+ docs/reference/libsecret/libsecret-sections.txt |   3 +
+ library/secret-methods.c                        | 285 ++++++++++++++++--------
+ library/secret-service.h                        |  19 +-
+ library/tests/test-methods.c                    | 268 ++++++++++++++++------
+ 4 files changed, 413 insertions(+), 162 deletions(-)
+
+commit 9c44ab0fa23d24a12f4d92e2f737eaf6c76b0b4b
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-05
+
+    Update the "Locked" property of items/collections on lock/unlock
+    
+     * Make sure this property is kept in sync so it can be used
+       immediately in the logic to retrieve secrets or other stuff.
+     * We don't wait for a PropertiesChanged, which may come later
+
+ library/secret-methods.c | 220 ++++++++++++++---------------------------------
+ library/secret-paths.c   |  55 +++++-------
+ library/secret-private.h |  12 +++
+ 3 files changed, 100 insertions(+), 187 deletions(-)
+
+commit 012ed7d620e3736d99648267828d8bded5cdae6f
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-05
+
+    Move secret_service_get_secrets() to secret_item_load_secrets()
+    
+     * And cache the secrets on the items instead of returning
+       them in a GHashtable
+
+ docs/reference/libsecret/libsecret-sections.txt |   6 +-
+ library/secret-item.c                           | 231 ++++++++++++++++++++++++
+ library/secret-item.h                           |  12 ++
+ library/secret-methods.c                        | 228 -----------------------
+ library/secret-paths.c                          |   4 +-
+ library/secret-service.h                        |  15 --
+ library/tests/test-item.c                       | 115 ++++++++++++
+ library/tests/test-methods.c                    | 113 ------------
+ 8 files changed, 363 insertions(+), 361 deletions(-)
+
+commit ba7fe4fe8c3624f87c9332a0c3b03e96edcdaade
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-05
+
+    Fix invalid pre-condition in secret_item_get_service()
+
+ library/secret-item.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit f962662b09ffe9654ab22ce4d2133b3771c552ac
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-05
+
+    Separate path based functionality
+    
+     * Move the dbus object path based functionality into its
+       own file and own section of the documentation.
+
+ docs/reference/libsecret/libsecret-docs.sgml    |    1 +
+ docs/reference/libsecret/libsecret-sections.txt |   69 +-
+ library/Makefile.am                             |    2 +
+ library/secret-collection.c                     |    1 +
+ library/secret-item.c                           |    1 +
+ library/secret-methods.c                        | 2159 +++--------------------
+ library/secret-paths.c                          | 2054 +++++++++++++++++++++
+ library/secret-paths.h                          |  219 +++
+ library/secret-private.h                        |    6 +
+ library/secret-service.c                        |   87 +-
+ library/secret-service.h                        |  185 --
+ library/secret-unstable.h                       |    1 +
+ library/tests/Makefile.am                       |    1 +
+ library/tests/test-methods.c                    |  614 +------
+ library/tests/test-paths.c                      |  743 ++++++++
+ 15 files changed, 3295 insertions(+), 2848 deletions(-)
+
+commit 6f4a53f08be4746783f3cf0b448d776e2dedbe12
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-05
+
+    Don't continue initialization of SecretService if failed
+    
+     * Don't open session or load collections on SecretService
+       if the first part of the initialization failed
+
+ library/secret-service.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+commit fc0549d2ab35573d048c9c369be3afa2a2c9e9e9
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-05
+
+    Uninitialize the mutex in SecretService
+    
+     * Fix resource leak
+
+ library/secret-service.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit 49dd623e6e6a688ce7b63dc75fb410a203a58256
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-07-05
+
+    Keep a cached SecretValue on each SecretItem
+    
+     * This item can be retrieved immediately and loaded asynchronously
+     * It can also be loaded during initialization of the SecretItem
+       object
+
+ docs/reference/libsecret/libsecret-sections.txt |   9 +-
+ library/secret-collection.c                     |   5 +-
+ library/secret-item.c                           | 358 +++++++++++++++++++-----
+ library/secret-item.h                           |  17 +-
+ library/secret-methods.c                        |   5 +-
+ library/secret-private.h                        |   3 +
+ library/tests/test-item.c                       |  83 ++++--
+ library/tests/test-methods.c                    |  12 +-
+ 8 files changed, 377 insertions(+), 115 deletions(-)
+
+commit e72c4c5409e72e5f68ae8842d0655ba1c2f6efff
+Author: Colin Walters <walters@verbum.org>
+Date:   2012-06-28
+
+    build: Remove double usage of $(srcdir)
+    
+    This is a regression introduced by commit
+    3bc89a8971463d21535db1294bdfaadf62761b9b.
+
+ library/Makefile.am | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 541ba2095a9f1b44861d247622348f51034ca17a
+Author: Colin Walters <walters@verbum.org>
+Date:   2012-06-28
+
+    build: Ensure aclocal finds our local macros
+    
+    The vala bindings commit copied in vapigen.m4, but our autogen.sh
+    invocation was depending on it being found in the buildroot.  This
+    ensures autogen.sh will work without vala.
+
+ autogen.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 89550876ff1345e3f348d88a9be46261486c876f
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-06-28
+
+    Remove varargs SecretService methods
+    
+     * The SecretService methods aren't used as frequently as the
+       password methods, and it's not really necessary to have a whole
+       bunch of extra varargs functions.
+     * Add varargs functions for building a GHashTable of attributes
+
+ docs/reference/libsecret/libsecret-docs.sgml    |   1 +
+ docs/reference/libsecret/libsecret-sections.txt |  13 +-
+ library/Makefile.am                             |   2 +
+ library/secret-attributes.c                     | 276 ++++++++++++++++
+ library/secret-attributes.h                     |  38 +++
+ library/secret-item.c                           |   8 +-
+ library/secret-methods.c                        | 406 +++---------------------
+ library/secret-password.c                       |  61 ++--
+ library/secret-private.h                        |  11 +-
+ library/secret-service.h                        |  45 ---
+ library/secret-unstable.h                       |   1 +
+ library/secret-util.c                           | 199 ------------
+ library/tests/test-methods.c                    | 201 +++++++-----
+ tool/secret-tool.c                              |   6 +-
+ 14 files changed, 539 insertions(+), 729 deletions(-)
+
+commit d0df587f088623b01ceaba7e18b8ef939d8c0831
+Author: Evan Nemerson <evan@coeus-group.com>
+Date:   2012-06-28
+
+    Add Vala bindings.
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=678846
+
+ .gitignore                                       |   7 +-
+ build/m4/vapigen.m4                              |  96 +++++++++++++
+ configure.ac                                     |  12 ++
+ docs/reference/libsecret/libsecret-examples.sgml | 168 ++++++++++++++++++++++
+ library/Makefile.am                              |  24 +++-
+ library/Secret-0.metadata                        |  26 ++++
+ library/tests/Makefile.am                        |  82 ++++++++++-
+ library/tests/test-vala-lang.vala                | 172 +++++++++++++++++++++++
+ 8 files changed, 577 insertions(+), 10 deletions(-)
+
+commit 3bc89a8971463d21535db1294bdfaadf62761b9b
+Author: Evan Nemerson <evan@coeus-group.com>
+Date:   2012-06-28
+
+    Fix VPATH build.
+
+ library/Makefile.am | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 526bba24a41c4173e9fa448e5d47f20f0c89940f
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-06-28
+
+    Fix python tests when libsecret is not installed
+
+ library/tests/Makefile.am | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 30c0afeab1ba1261b0778b2edb79548eed3165d3
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-06-28
+
+    Add varargs function: secret_schema_new vs. secret_schema_newv
+    
+     * Rename secret_schema_new to secret_schema_newv which
+       accepts a GHashTable
+     * Make secret_schema_new accept varargs similar to the
+       password functions.
+     * This is useful from vala which supports varargs
+
+ docs/reference/libsecret/libsecret-sections.txt |  1 +
+ library/secret-password.c                       |  2 +-
+ library/secret-schema.c                         | 78 ++++++++++++++++++++++---
+ library/secret-schema.h                         |  6 +-
+ 4 files changed, 78 insertions(+), 9 deletions(-)
+
+commit 2ff021044aa7263ef4223a10963180f2056e44e0
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-06-27
+
+    Ignore built po file
+
+ .gitignore | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit eb5ff30028a5d667941bd0f75152eef7ccf10ac5
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-06-27
+
+    Bump the version number
+
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit f24984880e02f32adca0b6931ba476fc12fba0f5
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-06-27
+
+    Fix endless loop when retrieving properties
+
+ library/secret-util.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit d9ec34322d036e108ba945a5b4ca66fbb808db71
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-06-27
+
+    Use the correct 'g-properties-changed' signal
+
+ library/secret-util.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 5e73621f401a6732c069b5e89c4005b91947a979
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-06-27
+
+    Use correct path when initializing a collection
+
+ library/secret-service.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 277e65b87aeb43492a561cf1dc94130e1e75584c
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-06-27
+
+    Call correct method for secret_service_unlock()
+    
+     * Previously erroneously called "Lock" instead of "Unlock"
+
+ library/secret-methods.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit f64cf14f412cc58dd636d285785d040e7709c555
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-06-27
+
+    Don't dispose SecretItem proxies when they go away
+    
+     * This is strange behavior and causes unexpected results
+       in calling programs
+
+ library/secret-item.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+commit 738b11c14c672eae6e9a86a8c9b4e0ba076eb205
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-06-27
+
+    Proper async behavior for seahorse_collection_delete ()
+    
+     * The async 'source' object was set to a SecretService
+       instead of a SecretCollection in the callback
+
+ library/secret-collection.c | 30 ++++++++++++++++++++++++++++--
+ 1 file changed, 28 insertions(+), 2 deletions(-)
+
+commit 463c649ca8e227af518042a7dc4c8ed5740c0476
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-06-27
+
+    Update the collection 'Items' property correctly
+    
+     * Problems due to not setting constructing flag when construction
+       of SecretCollection completed
+
+ library/secret-collection.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+commit 258ef1b8b812ac5a7c5f0468b1fe5ab6a8f700a2
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-06-27
+
+    Fix null-pointer dereference
+    
+     * In the corner case where we don't know about a collection/item
+       but receive the CollectionChanged or ItemChanged signal,
+       fix use of a null pointer
+
+ library/secret-collection.c | 6 ++++--
+ library/secret-service.c    | 6 ++++--
+ 2 files changed, 8 insertions(+), 4 deletions(-)
+
+commit 9b9db3fb517d8595bcd10595f2607c3b14cb7d90
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-06-27
+
+    Use correct variant signatures for Secret Service signals
+    
+     * Fix typo for signatures used when receiving CollectionCreated,
+       CollectionChanged, CollectionDeleted, ItemCreated, ItemChanged,
+       ItemDeleted
+
+ library/secret-collection.c | 6 +++---
+ library/secret-service.c    | 6 +++---
+ 2 files changed, 6 insertions(+), 6 deletions(-)
+
+commit 52d455f673c5afbd5b0489425c311471358f1f43
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-06-27
+
+    Notify the 'items' and 'collections' properties when udpated
+    
+     * When SecretCollection updates its 'items' property or
+       SecretService 'collections' property notify that these
+       have been changed.
+
+ library/secret-collection.c | 1 +
+ library/secret-service.c    | 2 ++
+ 2 files changed, 3 insertions(+)
+
+commit fda131178a5e9a302b2447cff03cfb04857cfb55
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-06-27
+
+    Pass service GType to secret_service_new() and friends.
+    
+     * This allows callers to use a custom SecretService derived
+       type with the rest of libsecret
+     * The default way to get a SecretService is via secret_service_get()
+       which remains simple without the GType parameter
+
+ library/secret-service.c     | 20 ++++++++++++++++----
+ library/secret-service.h     |  6 ++++--
+ library/tests/test-service.c | 33 ++++++++++++++++++++++-----------
+ 3 files changed, 42 insertions(+), 17 deletions(-)
+
+commit 268f2dfd62f6cb97b35d2d2e365ea13669e92175
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-06-27
+
+    Don't leak extra mock service when running python tests
+    
+     * Were erroneously starting the mock service when loading
+       the python test modules, although already started in setUp()
+
+ library/tests/test-lookup-password.py | 2 --
+ library/tests/test-remove-password.py | 2 --
+ library/tests/test-store-password.py  | 2 --
+ 3 files changed, 6 deletions(-)
+
+commit 1e697f6796b24afb23fe64626c099d5794f7dac6
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-06-25
+
+    Add SECRET_SCHEMA_NOTE
+    
+     * A real simple schema for stuff stored by the user.
+     * No attributes
+
+ library/secret-schemas.c | 11 +++++++++++
+ library/secret-schemas.h |  5 +++++
+ 2 files changed, 16 insertions(+)
+
+commit 8e68f748c3df4a41f55f86cc455656964754addd
+Author: Colin Walters <walters@verbum.org>
+Date:   2012-06-25
+
+    secret-tool: Don't read uninitialized variable on error path
+
+ tool/secret-tool.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 26326a7c8b6700bd36404691a2901030a3005a51
+Author: Colin Walters <walters@verbum.org>
+Date:   2012-06-25
+
+    build: Fix srcdir != builddir
+
+ library/Makefile.am | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 7d603a4c06000a0fd0afdb28e8420fb13242537e
+Author: Piotr Drąg <piotrdrag@gmail.com>
+Date:   2012-06-25
+
+    Added Polish translation
+
+ po/LINGUAS |  1 +
+ po/pl.po   | 47 +++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 48 insertions(+)
+
+commit 1dacc110b92a02fd11d122f94b626637a34f72c1
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-06-25
+
+    Release version 0.3
+
+ Makefile.am  | 3 +++
+ NEWS         | 7 +++++++
+ configure.ac | 2 +-
+ 3 files changed, 11 insertions(+), 1 deletion(-)
+
+commit e13b8c468083093f84be5ab9235dda2699f3f56d
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-06-25
+
+    Add methods to get services from collections, items
+    
+     * Add secret_collection_get_service()
+     * Add secret_item_get_service()
+
+ docs/reference/libsecret/libsecret-sections.txt |  2 ++
+ library/secret-collection.c                     | 15 +++++++++++++++
+ library/secret-collection.h                     |  2 ++
+ library/secret-item.c                           | 16 ++++++++++++++++
+ library/secret-item.h                           |  2 ++
+ 5 files changed, 37 insertions(+)
+
+commit 79aab9d941738afb62b2403d243d999c126943b1
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-06-23
+
+    Add secret_service_read_alias() and secret_service_set_alias()
+    
+     * Wrappers for Secret Service ReadAlias() and SetAlias() methods
+       in various permutations.
+
+ docs/reference/libsecret/libsecret-sections.txt |  12 +
+ library/secret-methods.c                        | 533 ++++++++++++++++++++++++
+ library/secret-private.h                        |   3 +
+ library/secret-service.c                        |  25 +-
+ library/secret-service.h                        |  64 +++
+ library/tests/mock/service.py                   |  16 +-
+ library/tests/test-methods.c                    | 127 ++++++
+ 7 files changed, 768 insertions(+), 12 deletions(-)
+
+commit 279ea1cc10064261779e02656772d8546ce194df
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-04-29
+
+    Add methods which handle prompts for a DBus object path
+    
+     * Various prompting methods return the prompt result as
+       a GVariant.
+     * Added new prompt_path methods to SecretService
+
+ docs/reference/libsecret/libsecret-sections.txt |   4 +-
+ library/secret-methods.c                        |  29 ++--
+ library/secret-prompt.c                         | 155 ++++++++-------------
+ library/secret-prompt.h                         |  12 +-
+ library/secret-service.c                        | 171 ++++++++++++++++++++----
+ library/secret-service.h                        |  31 ++++-
+ library/tests/test-prompt.c                     |  98 +++++++-------
+ 7 files changed, 295 insertions(+), 205 deletions(-)
+
+commit 60be863e8ef343caa03c69ec65fca29a7a7c017f
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-04-27
+
+    Header path fix
+
+ library/secret-unstable.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 8e9284b4bc459f118842316292d695f74bec342d
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-04-27
+
+    Fix documentation problems
+
+ library/secret-collection.c | 2 +-
+ library/secret-item.c       | 8 ++++----
+ library/secret-password.c   | 7 +++----
+ library/secret-prompt.c     | 2 +-
+ library/secret-schema.c     | 4 ++--
+ library/secret-service.c    | 2 +-
+ library/secret-util.c       | 2 +-
+ library/secret-value.c      | 6 +++---
+ 8 files changed, 16 insertions(+), 17 deletions(-)
+
+commit 965ea230e74605dbd2d8b723b52f86528688b129
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-04-16
+
+    Release 0.2
+
+ NEWS         | 7 ++++++-
+ configure.ac | 2 +-
+ 2 files changed, 7 insertions(+), 2 deletions(-)
+
+commit 125289ae4518edbe98c46099ed4a890b2c5b83b3
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-03-31
+
+    Fix license header issues
+    
+     * Update to LGPL 2.1
+     * Fix typos in license comments
+     * Update FSF address
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=673194
+
+ egg/egg-dh.c                | 20 +++++++++++---------
+ egg/egg-dh.h                | 20 +++++++++++---------
+ egg/egg-hex.c               | 20 +++++++++++---------
+ egg/egg-hex.h               | 20 +++++++++++---------
+ egg/egg-hkdf.c              | 18 +++++++++---------
+ egg/egg-hkdf.h              | 18 +++++++++---------
+ egg/egg-libgcrypt.c         |  6 ++++--
+ egg/egg-libgcrypt.h         |  6 ++++--
+ egg/egg-secure-memory.c     | 40 ++++++++++++++++++++--------------------
+ egg/egg-secure-memory.h     | 40 ++++++++++++++++++++--------------------
+ egg/egg-testing.c           | 20 ++++++++++----------
+ egg/egg-testing.h           | 18 +++++++++---------
+ library/secret-collection.c |  4 +++-
+ library/secret-collection.h |  4 +++-
+ library/secret-item.c       |  4 +++-
+ library/secret-item.h       |  4 +++-
+ library/secret-methods.c    |  4 +++-
+ library/secret-password.c   |  4 +++-
+ library/secret-password.h   |  4 +++-
+ library/secret-private.h    |  6 ++++--
+ library/secret-prompt.c     |  4 +++-
+ library/secret-prompt.h     |  4 +++-
+ library/secret-schema.c     |  4 +++-
+ library/secret-schema.h     |  4 +++-
+ library/secret-schemas.c    |  4 +++-
+ library/secret-schemas.h    |  4 +++-
+ library/secret-service.c    |  4 +++-
+ library/secret-service.h    |  4 +++-
+ library/secret-session.c    |  4 +++-
+ library/secret-types.h      |  4 +++-
+ library/secret-unstable.h   |  4 +++-
+ library/secret-util.c       |  4 +++-
+ library/secret-value.c      |  4 +++-
+ library/secret-value.h      |  4 +++-
+ library/secret.h            |  4 +++-
+ tool/secret-tool.c          |  2 +-
+ 36 files changed, 200 insertions(+), 142 deletions(-)
+
+commit 271c4556bd2913dfa5ade5033d89a3939ccb4619
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-03-30
+
+    More build fixes for openbsd
+
+ library/secret-prompt.c  | 4 ++--
+ library/secret-service.c | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+commit 46b6ece9492d02bbbddc9cc7f6917b12ca6ea189
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-03-30
+
+    Add missing 'authtype' attribute to the 'network' schema
+
+ library/secret-schemas.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit 1f5d6567cf15bd3764e3ba58b6877ad63a51cfec
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-03-30
+
+    Add secret-schemas.h to the 'stable' API
+
+ library/secret-unstable.h | 1 -
+ library/secret.h          | 1 +
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+
+commit 3fcfe9234eed97121b321b5a7d1fcf5ae9e498ba
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-03-30
+
+    Remove multiple typedef definitions
+
+ library/secret-item.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+commit f327460ef54852f1d18db64d1e185466b6591415
+Author: Kalev Lember <kalevlember@gmail.com>
+Date:   2012-03-29
+
+    Fix parallel make
+    
+    Make doesn't know that 'libmock_service.la' is the same as
+    '$(top_builddir)/library/tests/libmock_service.la', and fails to
+    properly order builds when using -jX with parallel make. Fix this by
+    using 'libmock_service.la' everywhere.
+    
+    make[4]: *** No rule to make target `../../library/tests/libmock_service.la', needed by `test-value'.  Stop.
+
+ library/tests/Makefile.am | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit b363b7e86eec499c8227a19655c1bc85a400b2e0
+Author: Kalev Lember <kalevlember@gmail.com>
+Date:   2012-03-29
+
+    configure: Fix syntax error
+    
+    checking build strict... ./configure: line 15065: =no: command not found
+
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 0be598f82c98fd02a284ae1a10e8ce86eb071f87
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-03-25
+
+    Release version 0.1
+
+ Makefile.am               |  3 ++-
+ NEWS                      | 34 ++--------------------------------
+ library/tests/Makefile.am | 30 ++++++++++++++++++------------
+ po/POTFILES.in            |  1 +
+ 4 files changed, 23 insertions(+), 45 deletions(-)
+
+commit 7f7f048b1566f0dee608323e961ff07491295dd0
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-03-25
+
+    Add local upload target for uploading documentation
+
+ Makefile.am | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+commit 9e49677afa2171a5f628d33cc8a1343d7432bc4d
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-03-25
+
+    Initialise libgcrypt properly
+    
+     * This prevents blocking on entropy
+
+ library/secret-session.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+commit 441f8554e33658f81939652505c1849798ca07b8
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-03-25
+
+    Fix C example code
+
+ docs/reference/libsecret/libsecret-examples.sgml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+commit 3a8b4a36d89f8721b5f59547a5bbfaf7dac6bb90
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-03-25
+
+    Add secret-tool command
+    
+     * See usage for details on how to use it
+
+ .gitignore         |   1 +
+ Makefile.am        |   2 +-
+ configure.ac       |   1 +
+ tool/Makefile.am   |  15 +++
+ tool/secret-tool.c | 356 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 374 insertions(+), 1 deletion(-)
+
+commit 37e6765b8d5b5a876e95195281d8d8ab7c48c212
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-03-25
+
+    Use the correct D-Bus service name
+
+ library/secret-private.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 3aa77c6918d5670d894fc5f14240901073128952
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-03-25
+
+    Support content type application/octet-stream for passwords
+    
+     * Older versions of gnome-keyring erroneously set this content type
+       for passwords even though they're textual.
+     * If we see this content type, then check if the password is textual
+       and allow usage as a null-terminated password
+
+ library/secret-password.c  | 18 ++++--------------
+ library/secret-value.c     | 17 +++++++++++++++--
+ library/tests/test-value.c |  2 +-
+ 3 files changed, 20 insertions(+), 17 deletions(-)
+
+commit 11cc25f4e8336e7d3ca9e20b8cd2efeea97a3b1e
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-03-25
+
+    Allow NULL schema for certain service methods
+    
+     * So that we can work without a schema from the secret-tool
+     * Users can handle the schema on their own if desired, using
+       the 'Complete API'
+
+ library/secret-methods.c | 44 +++++++++++++++++++++-----------------------
+ 1 file changed, 21 insertions(+), 23 deletions(-)
+
+commit de403fd9274b9dfb9082415f36cd131f99c2a23f
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-03-25
+
+    Add secret_password_clear() function
+    
+     * Useful for clearing passwords in memory
+
+ docs/reference/libsecret/libsecret-sections.txt |  2 +-
+ library/secret-password.c                       | 15 +++++++++++++++
+ library/secret-password.h                       |  2 ++
+ 3 files changed, 18 insertions(+), 1 deletion(-)
+
+commit dd83ac0db310f2c33480118d1397453e0dfb6bc0
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-03-25
+
+    Only copy the correct amount of bytes from SecretValue
+    
+     * When transferring to a null-terminated password
+
+ egg/egg-secure-memory.c | 22 ++++++++++++++++++++++
+ egg/egg-secure-memory.h |  5 +++++
+ library/secret-value.c  |  8 ++++----
+ 3 files changed, 31 insertions(+), 4 deletions(-)
+
+commit add0a1a55ddab6f31059296df314dedf355caee1
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-03-24
+
+    More documentation clarifications
+    
+     * Document how the 'paths' variants of functions work
+     * Add more about aliases
+     * Document @properties arguments
+
+ docs/reference/libsecret/libsecret-docs.sgml |   1 -
+ library/secret-collection.c                  |  18 +-
+ library/secret-item.c                        |   6 +-
+ library/secret-methods.c                     | 248 +++++++++++++++++++--------
+ library/secret-password.c                    |  22 +--
+ library/secret-service.c                     |  10 +-
+ 6 files changed, 215 insertions(+), 90 deletions(-)
+
+commit ebb280694664dae9a773babe3fd5e869e1a8e203
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-03-24
+
+    Add documentation of which parts of the API are unstable
+    
+     * Use secret-unstable.h header for unstable bits
+     * Add stability tag to SECTION headers
+
+ docs/reference/libsecret/libsecret-docs.sgml    |  3 ++-
+ docs/reference/libsecret/libsecret-sections.txt |  8 ++++++
+ library/Makefile.am                             |  1 +
+ library/secret-collection.c                     |  2 ++
+ library/secret-collection.h                     |  2 +-
+ library/secret-item.c                           |  2 ++
+ library/secret-item.h                           |  2 +-
+ library/secret-password.c                       |  2 ++
+ library/secret-password.h                       |  2 +-
+ library/secret-prompt.c                         |  2 ++
+ library/secret-prompt.h                         |  2 +-
+ library/secret-schema.c                         |  6 ++++-
+ library/secret-schema.h                         |  2 +-
+ library/secret-schemas.h                        |  2 +-
+ library/secret-service.c                        |  2 ++
+ library/secret-service.h                        |  2 +-
+ library/secret-types.h                          |  2 +-
+ library/secret-unstable.h                       | 36 +++++++++++++++++++++++++
+ library/secret-util.c                           | 12 +++++++++
+ library/secret-value.c                          |  2 ++
+ library/secret-value.h                          |  2 +-
+ library/secret.h                                | 12 +--------
+ 22 files changed, 86 insertions(+), 22 deletions(-)
+
+commit 8417d8c98bc4362b6ab6f6ac1e31f03892bbed8f
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-03-18
+
+    Fine tune how schemas work
+    
+     * Handled entirely on the client side.
+     * Schema names are stored in an xdg:schema attribute
+     * Add option to turn of matching on schema names. So that we can
+       lookup items stored by libgnome-keyring and others
+     * Change schema 'identifier' to 'name'
+     * Fix up tests
+
+ docs/reference/libsecret/libsecret-sections.txt |   8 +-
+ library/Makefile.am                             |   2 +
+ library/org.freedesktop.Secrets.xml             |   2 -
+ library/secret-item.c                           |  71 ++--------------
+ library/secret-item.h                           |   4 -
+ library/secret-methods.c                        |  46 ++++++++---
+ library/secret-password.c                       |  15 ++--
+ library/secret-private.h                        |   9 +-
+ library/secret-schema.c                         |  69 ++++++++++++----
+ library/secret-schema.h                         |   8 +-
+ library/secret-schemas.c                        |   2 +-
+ library/secret-util.c                           |  37 +++++----
+ library/secret.h                                |   1 +
+ library/tests/mock/service.py                   |  41 ++++++---
+ library/tests/test-item.c                       |  25 ++----
+ library/tests/test-lookup-password.js           |   2 +-
+ library/tests/test-lookup-password.py           |   2 +-
+ library/tests/test-methods.c                    | 105 ++++++++++++++++++------
+ library/tests/test-password.c                   |  89 +++++++++++++++++---
+ library/tests/test-remove-password.js           |   2 +-
+ library/tests/test-remove-password.py           |   2 +-
+ library/tests/test-store-password.js            |   2 +-
+ library/tests/test-store-password.py            |   2 +-
+ 23 files changed, 342 insertions(+), 204 deletions(-)
+
+commit 65969cf82ef3082bff5d721a90cf60f61a3a36e3
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-03-18
+
+    WIP schemas
+
+ library/secret-schema.c  | 36 ------------------------------------
+ library/secret-schema.h  | 11 +----------
+ library/secret-schemas.c | 31 +++++++++++++++++++++++++++++++
+ library/secret-schemas.h | 35 +++++++++++++++++++++++++++++++++++
+ 4 files changed, 67 insertions(+), 46 deletions(-)
+
+commit 966c1da87b150cc3935d878255c0e978ad3bee6c
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-03-18
+
+    Complete the example documentation
+
+ docs/reference/libsecret/Makefile.am             |   2 +-
+ docs/reference/libsecret/libsecret-docs.sgml     |   2 +
+ docs/reference/libsecret/libsecret-examples.sgml | 617 +++++++++++++++++++++++
+ 3 files changed, 620 insertions(+), 1 deletion(-)
+
+commit 432f5617fe4451021e15ec500b13058433761513
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-03-17
+
+    Round up the documentation
+
+ .gitignore                                      |  1 +
+ docs/reference/libsecret/libsecret-docs.sgml    |  1 +
+ docs/reference/libsecret/libsecret-sections.txt | 23 ++++++++++++++++----
+ library/secret-collection.c                     |  2 +-
+ library/secret-item.c                           |  2 +-
+ library/secret-prompt.c                         |  2 +-
+ library/secret-schema.c                         | 29 ++++++++++++++++++++-----
+ library/secret-service.c                        | 11 +++++-----
+ 8 files changed, 52 insertions(+), 19 deletions(-)
+
+commit ad9936e3f527e3bdb6fe02db85091d2e8bec9fe3
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-03-17
+
+    Add python tests
+
+ .gitignore                            |  1 +
+ library/tests/Makefile.am             | 12 +++++-
+ library/tests/test-javascript.js      | 14 -------
+ library/tests/test-lookup-password.py | 61 ++++++++++++++++++++++++++++++
+ library/tests/test-remove-password.py | 71 +++++++++++++++++++++++++++++++++++
+ library/tests/test-store-password.py  | 61 ++++++++++++++++++++++++++++++
+ 6 files changed, 205 insertions(+), 15 deletions(-)
+
+commit 605e0b1f9bd6853a97f338350cd4c5c81079e432
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-02-19
+
+    Add support for old style Secret Service signals
+    
+     * As used by ksecretservice
+
+ library/secret-collection.c | 82 ++++++++++++++++++++++++++++++++++++++++++
+ library/secret-private.h    | 11 +++++-
+ library/secret-service.c    | 86 +++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 178 insertions(+), 1 deletion(-)
+
+commit 2bc2140d4323cfb6a828d8d28313025b867e0f4c
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-03-11
+
+    Complete javascript testing of password functionality
+    
+     * And fix bugs, nullable collection_path
+
+ .gitignore                            |  2 ++
+ library/secret-methods.c              | 47 ++++++++++++++++--------
+ library/secret-password.c             | 27 ++++++++++----
+ library/secret-types.h                |  4 +++
+ library/tests/Makefile.am             | 20 ++++++++---
+ library/tests/test-javascript.js      | 14 ++++++++
+ library/tests/test-lookup-password.js | 52 +++++++++++++++++++++++++++
+ library/tests/test-remove-password.js | 68 +++++++++++++++++++++++++++++++++++
+ library/tests/test-store-password.js  | 58 ++++++++++++++++++++++++++++++
+ 9 files changed, 266 insertions(+), 26 deletions(-)
+
+commit e202ac9d1968961ca9ad7729fd6b4f93dee8ad5c
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-03-11
+
+    Fix critical assertion when secret_password_lookup_xx() returns null.
+
+ library/secret-password.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+commit fda4704c56ffa3570dd43347deb0ba07b034fb78
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-03-11
+
+    Reference nonstatic schemas when we put them in a closure
+
+ library/secret-password.c |  9 +++--
+ library/secret-private.h  | 88 +++++++++++++++++++++++++----------------------
+ library/secret-schema.c   | 16 +++++++++
+ 3 files changed, 68 insertions(+), 45 deletions(-)
+
+commit 60f6e8e770045160d39d8c469e7e05d88ba50780
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-03-11
+
+    Tons of fixes for introspectable usage
+    
+     * Schemas can also be created dynamically
+     * Correct introspection types for hash tables passed as args
+     * Validate argument hash tables
+     * Add some predefined schemas
+     * Allow allocation of pageable passwords from lookup functions
+
+ docs/reference/libsecret/libsecret-sections.txt |  18 +-
+ library/Makefile.am                             |   2 +
+ library/secret-item.c                           |   8 +-
+ library/secret-methods.c                        |  46 +++-
+ library/secret-password.c                       | 270 +++++++++++++++++------
+ library/secret-password.h                       |  14 ++
+ library/secret-private.h                        |   7 +
+ library/secret-schema.c                         | 276 ++++++++++++++++++++++++
+ library/secret-schema.h                         |  80 +++++++
+ library/secret-service.h                        |   1 +
+ library/secret-types.h                          |  26 ---
+ library/secret-util.c                           | 102 ++++++++-
+ library/secret-value.c                          |  32 +++
+ library/secret.h                                |   1 +
+ library/tests/Makefile.am                       |  36 ++++
+ library/tests/test-methods.c                    |  14 +-
+ library/tests/test-password.c                   |  31 +--
+ 17 files changed, 828 insertions(+), 136 deletions(-)
+
+commit 4f323b2e6785b188651b2a42d9200fa057a64276
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-03-01
+
+    Change argument of secret_password_free() to gchar *
+
+ library/secret-password.c | 4 ++--
+ library/secret-password.h | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+commit d1bc425af92f66380511799d093cbd929379f833
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-02-17
+
+    Add DOAP file for project
+
+ libsecret.doap | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
+
+commit 2b7c1d8cdf90ea34deb97241c4faf191bd8e0d1e
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-02-17
+
+    Remove the gtkdoc interfaces file from git
+
+ docs/reference/libsecret/libsecret.interfaces | 6 ------
+ 1 file changed, 6 deletions(-)
+
+commit 3edec363509ffe8b36bfbfc5de5b031aa2e7c1e6
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-02-02
+
+    Reference documentation
+
+ .gitignore                                       |  26 ++-
+ Makefile.am                                      |   2 +-
+ autogen.sh                                       |   2 +
+ configure.ac                                     |   6 +
+ docs/Makefile.am                                 |   2 +
+ docs/reference/COPYING                           |  30 +++
+ docs/reference/Makefile.am                       |   2 +
+ docs/reference/libsecret/Makefile.am             | 102 +++++++++
+ docs/reference/libsecret/libsecret-docs.sgml     |  34 +++
+ docs/reference/libsecret/libsecret-overrides.txt |   2 +
+ docs/reference/libsecret/libsecret-sections.txt  | 252 +++++++++++++++++++++++
+ docs/reference/libsecret/libsecret.interfaces    |   6 +
+ docs/reference/libsecret/libsecret.types         |   7 +
+ docs/reference/libsecret/version.xml.in          |   1 +
+ library/Makefile.am                              |   2 +-
+ library/secret-collection.c                      |  73 +++++++
+ library/secret-collection.h                      |   4 +
+ library/secret-item.c                            |  90 ++++++++
+ library/secret-item.h                            |   4 +
+ library/secret-methods.c                         |  12 +-
+ library/secret-password.c                        |  54 +++++
+ library/secret-prompt.c                          |  32 ++-
+ library/secret-prompt.h                          |   4 +
+ library/secret-service.c                         |  93 ++++++++-
+ library/secret-service.h                         |   3 +
+ library/secret-types.h                           |  10 +-
+ library/secret-util.c                            |   9 +
+ library/secret-value.c                           |  24 +++
+ 28 files changed, 870 insertions(+), 18 deletions(-)
+
+commit 06e8436557795490d65d46ec2b313035ff928274
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-02-02
+
+    Build fixes for 'make distcheck'
+
+ .gitignore                |  1 +
+ Makefile.am               |  4 +++-
+ build/Makefile.am         | 12 ++++++----
+ configure.ac              | 60 +++++++++++++++++++++++++----------------------
+ library/Makefile.am       | 14 ++++++++++-
+ library/tests/Makefile.am | 10 ++++++++
+ 6 files changed, 67 insertions(+), 34 deletions(-)
+
+commit 9c20c4d65ea0e95ee589f50fe66bb4fb13bc5b03
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-02-02
+
+    Initial gobject-introspection support
+
+ .gitignore                  |    3 +
+ build/Makefile.am           |   11 +-
+ configure.ac                |   27 +
+ library/Makefile.am         |   85 ++-
+ library/libsecret.pc.in     |   14 +
+ library/secret-collection.c |  183 +++---
+ library/secret-collection.h |   80 +--
+ library/secret-item.c       |  598 ++++++++++++++----
+ library/secret-item.h       |  154 ++---
+ library/secret-methods.c    | 1449 +++++++++++++++++++++++++++++++++++--------
+ library/secret-password.c   |  471 +++++++++++---
+ library/secret-password.h   |  124 ++--
+ library/secret-private.h    |   90 +--
+ library/secret-prompt.c     |  117 +++-
+ library/secret-prompt.h     |   35 +-
+ library/secret-service.c    |  439 ++++++++++---
+ library/secret-service.h    |  508 +++++++--------
+ library/secret-session.c    |   10 +-
+ library/secret-types.h      |    4 +
+ library/secret-util.c       |   46 +-
+ library/secret-value.c      |   88 ++-
+ library/secret-value.h      |   30 +-
+ library/secret.h            |   34 +
+ library/tests/Makefile.am   |    5 +-
+ library/tests/test-prompt.c |   24 +-
+ 25 files changed, 3416 insertions(+), 1213 deletions(-)
+
+commit 46137f865bfcd131c82c4b2742e79f43e25a6c84
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-02-01
+
+    Rename gsecret to libsecret
+    
+     * Fixes the namespacing capitalization issues run into with
+       gobject-introspection and glib code tools
+
+ .gitignore                            |    6 +-
+ ChangeLog                             |    2 +-
+ autogen.sh                            |    4 +-
+ configure.ac                          |    6 +-
+ library/Makefile.am                   |   64 +-
+ library/gsecret-collection.c          | 1227 -----------------
+ library/gsecret-collection.h          |  116 --
+ library/gsecret-enum-types.c.template |   43 -
+ library/gsecret-enum-types.h.template |   28 -
+ library/gsecret-item.c                | 1205 -----------------
+ library/gsecret-item.h                |  169 ---
+ library/gsecret-methods.c             | 2357 ---------------------------------
+ library/gsecret-password.c            |  613 ---------
+ library/gsecret-password.h            |  109 --
+ library/gsecret-private.h             |  146 --
+ library/gsecret-prompt.c              |  467 -------
+ library/gsecret-prompt.h              |   72 -
+ library/gsecret-service.c             | 1121 ----------------
+ library/gsecret-service.h             |  451 -------
+ library/gsecret-session.c             |  663 ----------
+ library/gsecret-types.h               |   60 -
+ library/gsecret-util.c                |  490 -------
+ library/gsecret-value.c               |  156 ---
+ library/gsecret-value.h               |   46 -
+ library/secret-collection.c           | 1227 +++++++++++++++++
+ library/secret-collection.h           |  116 ++
+ library/secret-enum-types.c.template  |   43 +
+ library/secret-enum-types.h.template  |   28 +
+ library/secret-item.c                 | 1205 +++++++++++++++++
+ library/secret-item.h                 |  169 +++
+ library/secret-methods.c              | 2357 +++++++++++++++++++++++++++++++++
+ library/secret-password.c             |  613 +++++++++
+ library/secret-password.h             |  109 ++
+ library/secret-private.h              |  146 ++
+ library/secret-prompt.c               |  467 +++++++
+ library/secret-prompt.h               |   72 +
+ library/secret-service.c              | 1121 ++++++++++++++++
+ library/secret-service.h              |  451 +++++++
+ library/secret-session.c              |  663 ++++++++++
+ library/secret-types.h                |   60 +
+ library/secret-util.c                 |  490 +++++++
+ library/secret-value.c                |  156 +++
+ library/secret-value.h                |   46 +
+ library/tests/Makefile.am             |    4 +-
+ library/tests/mock-service.c          |    6 +-
+ library/tests/mock-service.h          |    2 +-
+ library/tests/test-collection.c       |  132 +-
+ library/tests/test-item.c             |  220 +--
+ library/tests/test-methods.c          |  300 ++---
+ library/tests/test-password.c         |  108 +-
+ library/tests/test-prompt.c           |  102 +-
+ library/tests/test-service.c          |  238 ++--
+ library/tests/test-session.c          |   80 +-
+ library/tests/test-value.c            |  102 +-
+ po/POTFILES.in                        |    4 +-
+ 55 files changed, 10229 insertions(+), 10229 deletions(-)
+
+commit 797b63f8e3e9144a86f943621aebc6ebcfeba683
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-01-31
+
+    Some more documentation of the collection
+
+ library/gsecret-collection.c | 82 +++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 78 insertions(+), 4 deletions(-)
+
+commit 3a6cfa697f6baedd68c552a507938945d247083d
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-01-31
+
+    Update the mock service to more closely mirror real secret service
+
+ library/gsecret-collection.c         | 136 +++++++++++++++++++++++++++
+ library/gsecret-item.c               |   7 +-
+ library/gsecret-prompt.c             |   2 +
+ library/gsecret-session.c            |   2 +-
+ library/org.freedesktop.Secrets.xml  |   2 +-
+ library/tests/mock-service-delete.py |   4 +-
+ library/tests/mock-service-lock.py   |   4 +-
+ library/tests/mock-service-prompt.py |   2 +-
+ library/tests/mock/aes.py            |   4 +-
+ library/tests/mock/dh.py             |   8 +-
+ library/tests/mock/hkdf.py           | 170 ++++++++++++++++-----------------
+ library/tests/mock/service.py        | 177 +++++++++++++++++++++++++++--------
+ library/tests/test-collection.c      |  12 +--
+ library/tests/test-item.c            |  36 +++----
+ library/tests/test-methods.c         |  88 +++++++++--------
+ library/tests/test-prompt.c          |   7 +-
+ 16 files changed, 453 insertions(+), 208 deletions(-)
+
+commit 075ca76cc023cf52fa4ba250810addd4775d1b21
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-01-30
+
+    Tests for password functionality
+
+ library/gsecret-password.c    |   3 +-
+ library/tests/test-password.c | 130 ++++++++++++++++++++++++++++++++++++++++--
+ 2 files changed, 128 insertions(+), 5 deletions(-)
+
+commit d797ef2ba358a98a48d7965b6ac6047fdeb2c6fb
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-01-30
+
+    Testing item stuff, and fixing bugs
+
+ egg/egg-testing.c                   |  28 +++++---
+ egg/egg-testing.h                   |   3 +
+ library/gsecret-item.c              |   1 +
+ library/org.freedesktop.Secrets.xml |   2 +
+ library/tests/mock/service.py       |  32 ++++++---
+ library/tests/test-collection.c     |  72 +++++++++++++++----
+ library/tests/test-item.c           | 133 +++++++++++++++++++++++++++++++++++-
+ 7 files changed, 237 insertions(+), 34 deletions(-)
+
+commit dea9a3a043b866076fec215e9787c31626a64883
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-01-30
+
+    Test creating items and collections
+
+ egg/egg-testing.c                    |  21 +++++
+ library/gsecret-methods.c            |   9 +-
+ library/tests/mock-service-prompt.py |   4 +-
+ library/tests/mock/service.py        |  33 +++++--
+ library/tests/test-methods.c         | 176 ++++++++++++++++++++++++++++++++---
+ 5 files changed, 214 insertions(+), 29 deletions(-)
+
+commit f1bd681e8a6a8fc9a92e5645495e1b32003f32f3
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-01-30
+
+    Split out tests for service and service methods
+
+ library/tests/Makefile.am    |    1 +
+ library/tests/test-methods.c | 1197 ++++++++++++++++++++++++++++++++++++++++++
+ library/tests/test-service.c | 1125 ---------------------------------------
+ 3 files changed, 1198 insertions(+), 1125 deletions(-)
+
+commit 1a86e7152d220c9e38e6266ba948b7f74375e3a9
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-01-30
+
+    Test storing passwords and fix bugs
+
+ library/gsecret-collection.c  |   2 +-
+ library/gsecret-item.c        |   6 +-
+ library/gsecret-methods.c     | 149 ++++++++-------------------------------
+ library/gsecret-session.c     |   2 -
+ library/tests/mock/service.py |  54 ++++++++++++--
+ library/tests/test-service.c  | 160 ++++++++++++++++++++++++++++++++++++++++++
+ 6 files changed, 242 insertions(+), 131 deletions(-)
+
+commit 45705b781b0a88307fa585f26709c0f974709a10
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-01-26
+
+    Implement CreateCollection and CreateItem and related
+
+ library/gsecret-collection.c | 156 +++++++++++++++++
+ library/gsecret-collection.h |  16 ++
+ library/gsecret-item.c       | 370 +++++++++++++++++++++++++++++++++++++++-
+ library/gsecret-item.h       |  39 +++++
+ library/gsecret-methods.c    | 396 +++++++++++++++++++++++++++++++++++++++++++
+ library/gsecret-private.h    |   4 +-
+ library/gsecret-service.h    |  38 +++++
+ library/gsecret-util.c       |  20 ++-
+ 8 files changed, 1033 insertions(+), 6 deletions(-)
+
+commit 97dca3072820a5ad86214242f5b51b81e68c3f80
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-01-26
+
+    Split up the gsecret-service.c file
+
+ library/Makefile.am       |    1 +
+ library/gsecret-methods.c | 2055 ++++++++++++++++++++++++++++++++++++++++++++
+ library/gsecret-service.c | 2084 +--------------------------------------------
+ 3 files changed, 2078 insertions(+), 2062 deletions(-)
+
+commit 4c80765ef814cf1f1d55d14f65403250b01b3258
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-01-26
+
+    More testing, and more bug fixes
+
+ library/gsecret-collection.c       |    5 +-
+ library/gsecret-item.c             |    4 +-
+ library/gsecret-private.h          |   21 +-
+ library/gsecret-service.c          |  179 ++++--
+ library/gsecret-service.h          |    4 +-
+ library/gsecret-util.c             |    1 -
+ library/tests/mock-service-lock.py |   17 +
+ library/tests/mock/service.py      |   98 +++-
+ library/tests/test-collection.c    |  209 ++++++-
+ library/tests/test-item.c          |   82 ++-
+ library/tests/test-service.c       | 1066 +++++++++++++++++++++++++++++++++---
+ 11 files changed, 1468 insertions(+), 218 deletions(-)
+
+commit c6c6afa2cc95aff8344bcc264b89f98fbb63e931
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-01-25
+
+    Rework how the initialization work for various proxy objects
+    
+     * Fix bugs and tests
+
+ .gitignore                            |   1 +
+ configure.ac                          |   2 +
+ library/Makefile.am                   |  24 +-
+ library/gsecret-collection.c          | 442 +++++++++++------
+ library/gsecret-enum-types.c.template |  43 ++
+ library/gsecret-enum-types.h.template |  28 ++
+ library/gsecret-item.c                | 157 ++++--
+ library/gsecret-password.c            |  19 +-
+ library/gsecret-private.h             |   4 +-
+ library/gsecret-service.c             | 873 ++++++++++++++++++++--------------
+ library/gsecret-service.h             |  28 +-
+ library/gsecret-session.c             |  12 +-
+ library/tests/test-collection.c       |  11 +-
+ library/tests/test-item.c             |  17 +-
+ library/tests/test-prompt.c           |  11 +-
+ library/tests/test-service.c          |  46 +-
+ library/tests/test-session.c          |  12 +-
+ po/POTFILES.in                        |   2 +-
+ 18 files changed, 1091 insertions(+), 641 deletions(-)
+
+commit f44aae6efa58c388bebd5778a169a62c6ddf3525
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-01-23
+
+    Tests for GSecretItem  and GSecretValue
+    
+     * And fix bugs found in the process
+
+ library/Makefile.am             |   1 +
+ library/gsecret-collection.c    | 121 +++++--
+ library/gsecret-collection.h    |   2 +-
+ library/gsecret-item.c          | 243 +++++++------
+ library/gsecret-item.h          |   5 +-
+ library/gsecret-private.h       |  36 +-
+ library/gsecret-service.c       | 740 +++++-----------------------------------
+ library/gsecret-service.h       |  18 +-
+ library/gsecret-session.c       | 671 ++++++++++++++++++++++++++++++++++++
+ library/gsecret-util.c          |  60 +++-
+ library/gsecret-value.h         |   2 +-
+ library/tests/Makefile.am       |   3 +
+ library/tests/mock/service.py   | 101 +++++-
+ library/tests/test-collection.c | 339 ++++++++++++++++++
+ library/tests/test-item.c       | 534 +++++++++++++++++++++++++++++
+ library/tests/test-value.c      | 210 ++++++++++++
+ 16 files changed, 2268 insertions(+), 818 deletions(-)
+
+commit 116447c59e89c5bdbf7a043061c6ab5733b4bb7a
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-01-23
+
+    Split out starting/stopping mock service into library
+    
+     * Later this will be introspectable so we can start it from
+       python or javascript based tests
+
+ library/tests/Makefile.am     | 15 +++++++
+ library/tests/mock-service.c  | 92 +++++++++++++++++++++++++++++++++++++++++++
+ library/tests/mock-service.h  | 27 +++++++++++++
+ library/tests/mock/service.py | 14 +++++--
+ library/tests/test-password.c | 19 ++-------
+ library/tests/test-prompt.c   | 22 ++---------
+ library/tests/test-service.c  | 17 ++------
+ library/tests/test-session.c  | 19 ++-------
+ 8 files changed, 161 insertions(+), 64 deletions(-)
+
+commit 31d8f1508e1aea796a9e1fc7bab70c33ac640f7a
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-01-20
+
+    Complete most of implementation, thread safety
+    
+    Not tested or run yet
+
+ library/Makefile.am           |    3 +-
+ library/gsecret-collection.c  |  677 ++++++++++++++++
+ library/gsecret-collection.h  |  100 ++-
+ library/gsecret-item.c        |  396 +++++++++-
+ library/gsecret-item.h        |   31 +-
+ library/gsecret-password.c    |  146 ++--
+ library/gsecret-password.h    |   10 +-
+ library/gsecret-private.h     |   36 +-
+ library/gsecret-prompt.c      |   43 +-
+ library/gsecret-prompt.h      |   11 +-
+ library/gsecret-service.c     | 1722 +++++++++++++++++++++++++++++++----------
+ library/gsecret-service.h     |  628 +++++++--------
+ library/gsecret-util.c        |  192 ++++-
+ library/tests/test-password.c |    6 +-
+ library/tests/test-prompt.c   |    7 +-
+ library/tests/test-service.c  |   42 +-
+ 16 files changed, 3095 insertions(+), 955 deletions(-)
+
+commit 805355e78e960e05b89d4759f60f8fe1d64d001f
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-01-16
+
+    Complete the gsecret_item_xxx() functions
+
+ library/gsecret-item.c    | 200 +++++++++++++++++++++++++++++++++++++++-------
+ library/gsecret-item.h    |  14 ++--
+ library/gsecret-private.h |   2 +
+ 3 files changed, 177 insertions(+), 39 deletions(-)
+
+commit 72dc330a0401e31b21160110ce98cbbb37cdfb81
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-01-16
+
+    Complete the gsecret_password_xxx() API.
+
+ library/gsecret-password.c  | 357 ++++++++++++++++++++------
+ library/gsecret-password.h  |  34 ++-
+ library/gsecret-private.h   |  23 ++
+ library/gsecret-prompt.c    |  19 +-
+ library/gsecret-prompt.h    |   3 +-
+ library/gsecret-service.c   | 602 +++++++++++++++++++++++++++++++++++++++++++-
+ library/gsecret-service.h   |  46 +++-
+ library/gsecret-util.c      | 119 +++++++++
+ library/gsecret-value.c     |  35 ++-
+ library/gsecret-value.h     |   6 +-
+ library/tests/test-prompt.c |   8 +-
+ 11 files changed, 1142 insertions(+), 110 deletions(-)
+
+commit f2e275f25eebd5456967d431580668fcbbcf0601
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-01-11
+
+    Prompting and item deletion
+
+ build/glib.supp                      |   8 +
+ build/unknown.supp                   |  25 ++
+ egg/egg-testing.c                    |  11 +
+ egg/egg-testing.h                    |   2 +
+ library/Makefile.am                  |   2 +
+ library/gsecret-collection.h         |   1 -
+ library/gsecret-item.c               |  75 +---
+ library/gsecret-item.h               |   2 +-
+ library/gsecret-password.c           | 440 ++++++++++++++++++++++
+ library/gsecret-password.h           |  87 +++++
+ library/gsecret-private.h            |  24 +-
+ library/gsecret-prompt.c             | 433 +++++++++++++++++++++
+ library/gsecret-prompt.h             |  35 +-
+ library/gsecret-service.c            | 710 ++++++++++++++++++++++++++++++++++-
+ library/gsecret-service.h            | 145 ++++++-
+ library/gsecret-types.h              |  30 ++
+ library/gsecret-util.c               |  75 ++++
+ library/gsecret-value.h              |   4 +-
+ library/org.freedesktop.Secrets.xml  | 142 ++++---
+ library/tests/Makefile.am            |   2 +
+ library/tests/mock-service-delete.py |  17 +
+ library/tests/mock-service-prompt.py |  42 +++
+ library/tests/mock/service.py        |  72 +++-
+ library/tests/test-password.c        | 137 +++++++
+ library/tests/test-prompt.c          | 429 +++++++++++++++++++++
+ library/tests/test-service.c         | 214 ++++++++++-
+ library/tests/test-session.c         |   4 +-
+ 27 files changed, 2982 insertions(+), 186 deletions(-)
+
+commit b36268afc1f5c2b1bcae605d39da8afc4be49bab
+Author: Stef Walter <stefw@gnome.org>
+Date:   2012-01-11
+
+    Hide glib deprecation warnings in generated code
+
+ library/Makefile.am | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 59467128109d1812e59f20404c8cf453fd44a5f5
+Author: Stef Walter <stefw@gnome.org>
+Date:   2011-11-19
+
+    Some build fixes
+
+ Makefile.decl      |  2 +-
+ build/unknown.supp | 11 +++++++++++
+ 2 files changed, 12 insertions(+), 1 deletion(-)
+
+commit a075105bf43b3f70548df1ceb0d1bc75e88010ed
+Author: Stef Walter <stefw@gnome.org>
+Date:   2011-11-19
+
+    Fix problem when compiling without valgrind
+
+ egg/egg-secure-memory.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+commit 17fade31736bed8509827e4790a96f5933fbd29d
+Author: Stef Walter <stefw@gnome.org>
+Date:   2011-11-12
+
+    Implement gsecret_service_get_secrets_for_paths() and friends
+    
+     * Lots of testing, fine tuning and other bits too.
+
+ .gitignore                               |   7 +-
+ Makefile.am                              |  14 --
+ Makefile.decl                            |  21 +-
+ build/Makefile.am                        |   4 +-
+ build/glib.supp                          |  16 ++
+ build/unknown.supp                       |   9 +
+ egg/Makefile.am                          |   6 +-
+ egg/egg-hex.c                            | 150 +++++++++++++++
+ egg/egg-hex.h                            |  46 +++++
+ egg/egg-testing.c                        |  11 +-
+ egg/tests/Makefile.am                    |   1 +
+ egg/tests/test-hex.c                     | 121 ++++++++++++
+ library/Makefile.am                      |   3 +
+ library/gsecret-private.h                |  11 ++
+ library/gsecret-service.c                | 320 +++++++++++++++++++++++++++++--
+ library/gsecret-service.h                |  68 +++++--
+ library/gsecret-util.c                   |  26 +++
+ library/gsecret-value.c                  |   7 +-
+ library/tests/mock-service-normal.py     |  12 +-
+ library/tests/mock-service-only-plain.py |   1 +
+ library/tests/mock/dh.py                 |  19 +-
+ library/tests/mock/service.py            |  97 +++++++++-
+ library/tests/test-service.c             | 211 +++++++++++++++++---
+ library/tests/test-session.c             |   5 +-
+ 24 files changed, 1055 insertions(+), 131 deletions(-)
+
+commit 09a9d856d2ad87b1a222301537b76c2416d65e0b
+Author: Stef Walter <stefw@gnome.org>
+Date:   2011-11-06
+
+    Add more coverage testing for search paths
+
+ .gitignore                    |   2 +-
+ Makefile.am                   |   6 +-
+ library/tests/Makefile.am     |   2 +-
+ library/tests/mock/service.py |   3 +-
+ library/tests/test-service.c  | 125 ++++++++++++++++++++++++++++++++++++++++++
+ library/tests/test-session.c  |   3 +-
+ 6 files changed, 134 insertions(+), 7 deletions(-)
+
+commit 9a319cb767b94dc640470a638066e8d8ca9e080d
+Author: Stef Walter <stefw@gnome.org>
+Date:   2011-11-06
+
+    Remove built file
+
+ po/gsecret.pot | 29 -----------------------------
+ 1 file changed, 29 deletions(-)
+
+commit 4893c73c5b2a4102a40fddb38fd693ac1f6d04d3
+Author: Stef Walter <stefw@gnome.org>
+Date:   2011-11-06
+
+    Valgrind integration, refactor build process
+    
+     * Cleanup secure memory allocator for valgrind.
+     * Bring valgrind headers in.
+     * Add lots of suppressions for glib, gdbus, gcrypt
+     * Fix up a bunch of bugs where things weren't getting freed
+     * Add new 'make check-memory' target
+
+ .gitignore                   |    8 +-
+ Makefile.am                  |   18 +-
+ Makefile.decl                |   10 +
+ build/Makefile.am            |   19 +
+ build/gcrypt.supp            |   12 +
+ build/glib.supp              |  303 +++
+ build/pthread.supp           |    7 +
+ build/unknown.supp           |  346 +++
+ build/valgrind/memcheck.h    |  283 +++
+ build/valgrind/valgrind.h    | 5344 ++++++++++++++++++++++++++++++++++++++++++
+ configure.ac                 |    3 +-
+ egg/Makefile.am              |    4 +-
+ egg/egg-dh.c                 |    2 +-
+ egg/egg-hkdf.c               |    1 +
+ egg/egg-secure-memory.c      |  115 +-
+ egg/egg-testing.c            |   19 +
+ egg/egg-testing.h            |   10 +
+ egg/tests/Makefile.am        |    3 +
+ egg/tests/test-secmem.c      |    3 +
+ library/tests/Makefile.am    |    6 +-
+ library/tests/test-service.c |    8 +-
+ library/tests/test-session.c |    7 +-
+ po/gsecret.pot               |    6 +-
+ 23 files changed, 6479 insertions(+), 58 deletions(-)
+
+commit e670fe5645eb43fb48c67e566ac7c0fb85dd37f8
+Author: Stef Walter <stefw@gnome.org>
+Date:   2011-11-06
+
+    Fix for deprecations in glib 2.31.0
+
+ .gitignore                       |    1 +
+ configure.ac                     |    4 +-
+ egg/egg-libgcrypt.c              |    6 +-
+ egg/egg-testing.c                |  122 +-
+ egg/egg-testing.h                |    4 +-
+ library/gsecret-dbus-generated.c | 3125 --------------------------------------
+ library/gsecret-dbus-generated.h |  444 ------
+ library/tests/test-service.c     |    2 +-
+ library/tests/test-session.c     |    2 +-
+ 9 files changed, 75 insertions(+), 3635 deletions(-)
+
+commit 38031d943e6cc2b7c12dc36d5792830713f140f4
+Author: Stef Walter <stefw@gnome.org>
+Date:   2011-11-06
+
+    Add test for async negotiation of encrypted session
+
+ library/tests/test-session.c | 29 ++++++++++++++++++++++++++---
+ 1 file changed, 26 insertions(+), 3 deletions(-)
+
+commit a05725fd1828656ec91c2c1908663595bf99b067
+Author: Stef Walter <stefw@gnome.org>
+Date:   2011-11-06
+
+    Set the session correctly on the service
+
+ library/gsecret-service.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+commit 76ae17b24f365488c3e1846033ec229e42e4d92c
+Author: Stef Walter <stefw@gnome.org>
+Date:   2011-11-06
+
+    Add test for GSecretService singleton, and make it work
+
+ library/gsecret-service.c    | 12 +++++++++++-
+ library/tests/test-service.c | 37 +++++++++++++++++++++++++++++++++++++
+ 2 files changed, 48 insertions(+), 1 deletion(-)
+
+commit 7ac228b62fdf375039e6e42126cbc3e50d020c67
+Author: Stef Walter <stefw@gnome.org>
+Date:   2011-11-05
+
+    Simple test for gsecret_service_search_paths()
+
+ .gitignore                           |   3 +-
+ library/gsecret-private.h            |   2 +
+ library/gsecret-service.c            |  24 ++------
+ library/gsecret-util.c               |  20 +++++++
+ library/tests/Makefile.am            |   1 +
+ library/tests/mock-service-normal.py |  11 ++++
+ library/tests/mock/service.py        |  54 ++++++++++++++++-
+ library/tests/test-service.c         | 109 +++++++++++++++++++++++++++++++++++
+ library/tests/test-session.c         |   2 +-
+ po/gsecret.pot                       |   2 +-
+ 10 files changed, 204 insertions(+), 24 deletions(-)
+
+commit 737e3a1ca301c1a6eeceae1b134d66239bf89e8c
+Author: Stef Walter <stefw@gnome.org>
+Date:   2011-11-05
+
+    Implement the Service.SearchPath() method
+
+ configure.ac                        |    5 +-
+ library/Makefile.am                 |   17 +-
+ library/gsecret-dbus-generated.c    | 3125 +++++++++++++++++++++++++++++++++++
+ library/gsecret-dbus-generated.h    |  444 +++++
+ library/gsecret-service.c           |  134 +-
+ library/gsecret-service.h           |    8 +-
+ library/org.freedesktop.Secrets.xml |  176 ++
+ po/gsecret.pot                      |    6 +-
+ 8 files changed, 3906 insertions(+), 9 deletions(-)
+
+commit 6b4d7b648415df0f9b86bd6b752cf4c080ab783f
+Author: Stef Walter <stefw@gnome.org>
+Date:   2011-09-25
+
+    Testing of gsecret_service_ensure and friends
+
+ Makefile.am                              |   5 +-
+ library/gsecret-service.c                |  53 ++++++++++--
+ library/gsecret-service.h                |   4 +
+ library/tests/mock-service-only-plain.py |   7 ++
+ library/tests/mock/service.py            |  19 +++--
+ library/tests/test-session.c             | 138 +++++++++++++++++++++++++++++--
+ po/gsecret.pot                           |   6 +-
+ 7 files changed, 204 insertions(+), 28 deletions(-)
+
+commit 51896081f02116ce6cb72eebd816c5333c6faace
+Author: Stef Walter <stefw@gnome.org>
+Date:   2011-09-25
+
+    Add --enable-debug and --enable-coverage, egg tests etc
+
+ .gitignore              |   8 ++
+ Makefile.am             |  33 +++++
+ configure.ac            |  99 ++++++++++++--
+ egg/Makefile.am         |   4 +
+ egg/egg-testing.c       | 157 ++++++++++++++++++++++
+ egg/egg-testing.h       |  52 ++++++++
+ egg/tests/Makefile.am   |  27 ++++
+ egg/tests/test-dh.c     | 209 +++++++++++++++++++++++++++++
+ egg/tests/test-hkdf.c   | 345 ++++++++++++++++++++++++++++++++++++++++++++++++
+ egg/tests/test-secmem.c | 267 +++++++++++++++++++++++++++++++++++++
+ po/POTFILES.in          |   2 +
+ po/gsecret.pot          |  29 ++++
+ 12 files changed, 1218 insertions(+), 14 deletions(-)
+
+commit 41e7cb387ee01090410e8c7db8ce949fd7780c24
+Author: Stef Walter <stefw@gnome.org>
+Date:   2011-09-25
+
+    Complete Service instantiation, add mock service, and initial test
+    
+     * Not yet tested, but compiles
+
+ .gitignore                           |   3 +
+ library/gsecret-item.c               |   9 +-
+ library/gsecret-private.h            |  19 +-
+ library/gsecret-service.c            | 111 +++++-
+ library/gsecret-util.c               |  15 +
+ library/tests/Makefile.am            |   3 +-
+ library/tests/mock-service-normal.py |   6 +
+ library/tests/mock.py                |  71 ----
+ library/tests/mock/__init__.py       |   1 +
+ library/tests/mock/aes.py            | 656 +++++++++++++++++++++++++++++++++++
+ library/tests/mock/dh.py             |  80 +++++
+ library/tests/mock/hkdf.py           |  86 +++++
+ library/tests/mock/service.py        | 126 +++++++
+ library/tests/test-initial.c         |  39 ---
+ library/tests/test-session.c         |  89 +++++
+ 15 files changed, 1190 insertions(+), 124 deletions(-)
+
+commit 8a6ba782dbff995718adf825e8decf922c50bb06
+Author: Stef Walter <stefw@gnome.org>
+Date:   2011-09-25
+
+    Beginnings of a mock python secret service
+
+ library/tests/mock.py | 71 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 71 insertions(+)
+
+commit ef85c4ff453c95ad76159e5d748f60d22ce3232e
+Author: Stef Walter <stefw@gnome.org>
+Date:   2011-09-25
+
+    Add dependency on libgcrypt
+    
+     * This can be disabled using --disable-libgcrypt, which then disables
+       encryption of secrets in transit to the secret service
+
+ configure.ac              |  74 ++++++++++++++++++++++++----
+ egg/Makefile.am           |  13 +++--
+ egg/egg-libgcrypt.c       | 120 ++++++++++++++++++++++++++++++++++++++++++++++
+ egg/egg-libgcrypt.h       |  28 +++++++++++
+ library/Makefile.am       |   4 ++
+ library/gsecret-service.c |  54 +++++++++++++++++----
+ 6 files changed, 273 insertions(+), 20 deletions(-)
+
+commit b1b54f525d4c3f2db6bff59952323d2424850597
+Author: Stef Walter <stefw@gnome.org>
+Date:   2011-09-25
+
+    More Implementation of GSecretService session related code.
+
+ .gitignore                   |   3 +
+ Makefile.decl                |   1 +
+ autogen.sh                   |   2 +-
+ configure.ac                 |  16 +-
+ egg/Makefile.am              |   2 +
+ egg/egg-dh.c                 | 353 ++++++++++++++++++++++
+ egg/egg-dh.h                 |  50 ++++
+ egg/egg-hkdf.c               | 109 +++++++
+ egg/egg-hkdf.h               |  39 +++
+ egg/egg-secure-memory.c      | 313 ++++++++++++--------
+ egg/egg-secure-memory.h      |  31 +-
+ library/Makefile.am          |   8 +-
+ library/gsecret-collection.h |  67 +++++
+ library/gsecret-data.c       | 118 --------
+ library/gsecret-data.h       |  46 ---
+ library/gsecret-item.c       | 297 +++++++++++++++++++
+ library/gsecret-item.h       | 120 ++++++++
+ library/gsecret-private.h    |  42 +++
+ library/gsecret-prompt.h     |  57 ++++
+ library/gsecret-service.c    | 691 +++++++++++++++++++++++++++++++++++++++++++
+ library/gsecret-service.h    | 192 ++++++++++++
+ library/gsecret-types.h      |  30 ++
+ library/gsecret-util.c       |  32 ++
+ library/gsecret-value.c      | 122 ++++++++
+ library/gsecret-value.h      |  46 +++
+ library/tests/Makefile.am    |  27 ++
+ library/tests/test-initial.c |  39 +++
+ 27 files changed, 2554 insertions(+), 299 deletions(-)
+
+commit 3dfd7aa70f64f4ec13c2684a80771b07a2b5843d
+Author: Stef Walter <stefw@gnome.org>
+Date:   2011-06-12
+
+    Initial module setup. Implement GSecretData
+
+ .gitignore              |   26 +
+ AUTHORS                 |    1 +
+ COPYING                 |  482 ++++++++++++++++++
+ ChangeLog               |   32 ++
+ Makefile.am             |    6 +
+ NEWS                    |   33 ++
+ README                  |    2 +
+ autogen.sh              |  105 ++++
+ configure.ac            |   79 +++
+ egg/Makefile.am         |   10 +
+ egg/egg-secure-memory.c | 1235 +++++++++++++++++++++++++++++++++++++++++++++++
+ egg/egg-secure-memory.h |  101 ++++
+ library/Makefile.am     |   19 +
+ library/gsecret-data.c  |  118 +++++
+ library/gsecret-data.h  |   46 ++
+ 15 files changed, 2295 insertions(+)

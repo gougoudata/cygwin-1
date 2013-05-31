@@ -1,8 +1,5 @@
-
 /*
- *
- * (C) Copyright IBM Corp. 1998-2007 - All Rights Reserved
- *
+ * (C) Copyright IBM Corp. 1998-2011 - All Rights Reserved
  */
 
 #ifndef __LAYOUTENGINE_H
@@ -65,6 +62,12 @@ class LEGlyphStorage;
  * @stable ICU 2.8
  */
 class U_LAYOUT_API LayoutEngine : public UObject {
+public:
+    /** @internal Flag to request kerning. */
+    static const le_int32 kTypoFlagKern;
+    /** @internal Flag to request ligatures. */
+    static const le_int32 kTypoFlagLiga;
+
 protected:
     /**
      * The object which holds the glyph storage
@@ -122,15 +125,20 @@ protected:
      * @param fontInstance - the font for the text
      * @param scriptCode - the script for the text
      * @param languageCode - the language for the text
-     * @param typoFlags - the typographic control flags for the text.  Set bit 1 if kerning
-     * is desired, set bit 2 if ligature formation is desired.  Others are reserved.
+     * @param typoFlags - the typographic control flags for the text (a bitfield).  Use kTypoFlagKern
+     * if kerning is desired, kTypoFlagLiga if ligature formation is desired.  Others are reserved.
+     * @param success - set to an error code if the operation fails
      *
      * @see LEFontInstance
      * @see ScriptAndLanguageTags.h
      *
      * @internal
      */
-    LayoutEngine(const LEFontInstance *fontInstance, le_int32 scriptCode, le_int32 languageCode, le_int32 typoFlags);
+    LayoutEngine(const LEFontInstance *fontInstance,
+                 le_int32 scriptCode,
+                 le_int32 languageCode,
+                 le_int32 typoFlags,
+                 LEErrorCode &success);
 
     /**
      * This overrides the default no argument constructor to make it
@@ -488,4 +496,3 @@ public:
 
 U_NAMESPACE_END
 #endif
-

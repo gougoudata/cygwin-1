@@ -26,10 +26,7 @@
 #include <glib-object.h>
 #include <gmodule.h>
 #include <glade/glade-xml.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtkaccelgroup.h>
-#include <gtk/gtkadjustment.h>
+#include <gtk/gtk.h>
 
 #include <glade/glade-parser.h>
 

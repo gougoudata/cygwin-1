@@ -10,7 +10,7 @@
 # License as specified in the README file that comes with the man
 # distribution.  
 #
-# apropos/whatis-1.5m aeb 2003-08-01 (from man-1.6e)
+# apropos/whatis-1.5m aeb 2003-08-01 (from man-1.6g)
 #
 # keep old PATH - 000323 - Bryan Henderson
 # also look in /var/cache/man - 030801 - aeb
@@ -44,7 +44,7 @@ args=
 for arg in $*; do
     case $arg in
         --version|-V|-v)
-	    echo "$program from man-1.6e"
+	    echo "$program from man-1.6g"
 	    exit 0
 	    ;;
 	--help|-h)

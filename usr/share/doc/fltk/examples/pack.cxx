@@ -1,5 +1,5 @@
 //
-// "$Id: pack.cxx 5519 2006-10-11 03:12:15Z mike $"
+// "$Id: pack.cxx 8864 2011-07-19 04:49:30Z greg.ercolano $"
 //
 // Fl_Pack test program for the Fast Light Tool Kit (FLTK).
 //
@@ -7,22 +7,13 @@
 // Changing the type() of an Fl_Pack after it is displayed is not supported
 // so I have to do a lot of resizing of things before that.
 //
-// Copyright 1998-2005 by Bill Spitzak and others.
+// Copyright 1998-2010 by Bill Spitzak and others.
 //
-// This library is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Library General Public
-// License as published by the Free Software Foundation; either
-// version 2 of the License, or (at your option) any later version.
+// This library is free software. Distribution and use rights are outlined in
+// the file "COPYING" which should have been included with this file.  If this
+// file is missing or damaged, see the license at:
 //
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-// Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public
-// License along with this library; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
-// USA.
+//     http://www.fltk.org/COPYING.php
 //
 // Please report all bugs and problems on the following page:
 //
@@ -32,7 +23,7 @@
 #include <FL/Fl.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Light_Button.H>
-#include <FL/Fl_Window.H>
+#include <FL/Fl_Double_Window.H>
 #include <FL/Fl_Scroll.H>
 #include <FL/Fl_Value_Slider.H>
 #include <FL/Fl_Pack.H>
@@ -57,8 +48,8 @@ void spacing_cb(Fl_Value_Slider*o, long) {
 }
 
 int main(int argc, char **argv) {
- Fl_Window *w;
- {Fl_Window* o = new Fl_Window(360, 370);
+ Fl_Double_Window *w;
+ {Fl_Double_Window* o = new Fl_Double_Window(360, 370);
   w = o;
   scroll = new Fl_Scroll(10,10,340,285);
  {Fl_Pack* o = new Fl_Pack(10, 10, 340, 285);
@@ -116,5 +107,5 @@ int main(int argc, char **argv) {
 }
 
 //
-// End of "$Id: pack.cxx 5519 2006-10-11 03:12:15Z mike $".
+// End of "$Id: pack.cxx 8864 2011-07-19 04:49:30Z greg.ercolano $".
 //

@@ -17,8 +17,8 @@ W gnat%s		gnat.ads		gnat.ali
 W unchecked_deallocation%s
 
 D gnat.ads		20030424175404 6380ea48
-D g-string.ads		20031021134206 8a142a61
-D g-string.adb		20031021134206 9708f9c1
+D g-string.ads		20031021134205 8a142a61
+D g-string.adb		20031021134205 9708f9c1
 D system.ads		20031021134222 6af26689
 D unchdeal.ads		20030424175420 8ac9d15e
 X 1 gnat.ads

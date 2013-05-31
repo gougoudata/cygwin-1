@@ -5,13 +5,13 @@
  *	  along with the relation's initial contents.
  *
  *
- * Portions Copyright (c) 1996-2006, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2012, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
- * $PostgreSQL: pgsql/src/include/catalog/pg_statistic.h,v 1.31 2006/03/05 15:58:55 momjian Exp $
+ * src/include/catalog/pg_statistic.h
  *
  * NOTES
- *	  the genbki.sh script reads this file and generates .bki
+ *	  the genbki.pl script reads this file and generates .bki
  *	  information from the DATA() statements.
  *
  *-------------------------------------------------------------------------
@@ -19,18 +19,7 @@
 #ifndef PG_STATISTIC_H
 #define PG_STATISTIC_H
 
-/* ----------------
- *		postgres.h contains the system type definitions and the
- *		CATALOG(), BKI_BOOTSTRAP and DATA() sugar words so this file
- *		can be read by both genbki.sh and the C compiler.
- * ----------------
- */
-
-/*
- * Keep C compiler happy with anyarray, below.	This will need to go elsewhere
- * if we ever use anyarray for more than pg_statistic.
- */
-typedef struct varlena anyarray;
+#include "catalog/genbki.h"
 
 /* ----------------
  *		pg_statistic definition.  cpp turns this into
@@ -44,6 +33,7 @@ CATALOG(pg_statistic,2619) BKI_WITHOUT_OIDS
 	/* These fields form the unique key for the entry: */
 	Oid			starelid;		/* relation containing attribute */
 	int2		staattnum;		/* attribute (column) stats are for */
+	bool		stainherit;		/* true if inheritance children are included */
 
 	/* the fraction of the column's entries that are NULL: */
 	float4		stanullfrac;
@@ -83,7 +73,7 @@ CATALOG(pg_statistic,2619) BKI_WITHOUT_OIDS
 	 * we do not hard-wire any particular meaning for the remaining
 	 * statistical fields.	Instead, we provide several "slots" in which
 	 * statistical data can be placed.	Each slot includes:
-	 *		kind			integer code identifying kind of data
+	 *		kind			integer code identifying kind of data (see below)
 	 *		op				OID of associated operator, if needed
 	 *		numbers			float4 array (for statistical values)
 	 *		values			anyarray (for representations of data values)
@@ -98,36 +88,37 @@ CATALOG(pg_statistic,2619) BKI_WITHOUT_OIDS
 	int2		stakind2;
 	int2		stakind3;
 	int2		stakind4;
+	int2		stakind5;
 
 	Oid			staop1;
 	Oid			staop2;
 	Oid			staop3;
 	Oid			staop4;
+	Oid			staop5;
 
-	/*
-	 * THE REST OF THESE ARE VARIABLE LENGTH FIELDS, and may even be absent
-	 * (NULL). They cannot be accessed as C struct entries; you have to use
-	 * the full field access machinery (heap_getattr) for them.  We declare
-	 * them here for the catalog machinery.
-	 */
-
+#ifdef CATALOG_VARLEN			/* variable-length fields start here */
 	float4		stanumbers1[1];
 	float4		stanumbers2[1];
 	float4		stanumbers3[1];
 	float4		stanumbers4[1];
+	float4		stanumbers5[1];
 
 	/*
-	 * Values in these arrays are values of the column's data type.  We
-	 * presently have to cheat quite a bit to allow polymorphic arrays of this
-	 * kind, but perhaps someday it'll be a less bogus facility.
+	 * Values in these arrays are values of the column's data type, or of some
+	 * related type such as an array element type.	We presently have to cheat
+	 * quite a bit to allow polymorphic arrays of this kind, but perhaps
+	 * someday it'll be a less bogus facility.
 	 */
 	anyarray	stavalues1;
 	anyarray	stavalues2;
 	anyarray	stavalues3;
 	anyarray	stavalues4;
+	anyarray	stavalues5;
+#endif
 } FormData_pg_statistic;
 
-#define STATISTIC_NUM_SLOTS  4
+#define STATISTIC_NUM_SLOTS  5
+
 
 /* ----------------
  *		Form_pg_statistic corresponds to a pointer to a tuple with
@@ -140,32 +131,37 @@ typedef FormData_pg_statistic *Form_pg_statistic;
  *		compiler constants for pg_statistic
  * ----------------
  */
-#define Natts_pg_statistic				21
+#define Natts_pg_statistic				26
 #define Anum_pg_statistic_starelid		1
 #define Anum_pg_statistic_staattnum		2
-#define Anum_pg_statistic_stanullfrac	3
-#define Anum_pg_statistic_stawidth		4
-#define Anum_pg_statistic_stadistinct	5
-#define Anum_pg_statistic_stakind1		6
-#define Anum_pg_statistic_stakind2		7
-#define Anum_pg_statistic_stakind3		8
-#define Anum_pg_statistic_stakind4		9
-#define Anum_pg_statistic_staop1		10
-#define Anum_pg_statistic_staop2		11
-#define Anum_pg_statistic_staop3		12
-#define Anum_pg_statistic_staop4		13
-#define Anum_pg_statistic_stanumbers1	14
-#define Anum_pg_statistic_stanumbers2	15
-#define Anum_pg_statistic_stanumbers3	16
-#define Anum_pg_statistic_stanumbers4	17
-#define Anum_pg_statistic_stavalues1	18
-#define Anum_pg_statistic_stavalues2	19
-#define Anum_pg_statistic_stavalues3	20
-#define Anum_pg_statistic_stavalues4	21
+#define Anum_pg_statistic_stainherit	3
+#define Anum_pg_statistic_stanullfrac	4
+#define Anum_pg_statistic_stawidth		5
+#define Anum_pg_statistic_stadistinct	6
+#define Anum_pg_statistic_stakind1		7
+#define Anum_pg_statistic_stakind2		8
+#define Anum_pg_statistic_stakind3		9
+#define Anum_pg_statistic_stakind4		10
+#define Anum_pg_statistic_stakind5		11
+#define Anum_pg_statistic_staop1		12
+#define Anum_pg_statistic_staop2		13
+#define Anum_pg_statistic_staop3		14
+#define Anum_pg_statistic_staop4		15
+#define Anum_pg_statistic_staop5		16
+#define Anum_pg_statistic_stanumbers1	17
+#define Anum_pg_statistic_stanumbers2	18
+#define Anum_pg_statistic_stanumbers3	19
+#define Anum_pg_statistic_stanumbers4	20
+#define Anum_pg_statistic_stanumbers5	21
+#define Anum_pg_statistic_stavalues1	22
+#define Anum_pg_statistic_stavalues2	23
+#define Anum_pg_statistic_stavalues3	24
+#define Anum_pg_statistic_stavalues4	25
+#define Anum_pg_statistic_stavalues5	26
 
 /*
- * Currently, three statistical slot "kinds" are defined: most common values,
- * histogram, and correlation.	Additional "kinds" will probably appear in
+ * Currently, five statistical slot "kinds" are defined by core PostgreSQL,
+ * as documented below.  Additional "kinds" will probably appear in
  * future to help cope with non-scalar datatypes.  Also, custom data types
  * can define their own "kind" codes by mutual agreement between a custom
  * typanalyze routine and the selectivity estimation functions of the type's
@@ -184,7 +180,9 @@ typedef FormData_pg_statistic *Form_pg_statistic;
  *				(values in this range will be documented in this file)
  *	100-199:	reserved for assignment by the PostGIS project
  *				(values to be documented in PostGIS documentation)
- *	200-9999:	reserved for future public assignments
+ *	200-299:	reserved for assignment by the ESRI ST_Geometry project
+ *				(values to be documented in ESRI ST_Geometry documentation)
+ *	300-9999:	reserved for future public assignments
  *
  * For private use you may choose a "kind" code at random in the range
  * 10000-30000.  However, for code that is to be widely disseminated it is
@@ -232,5 +230,42 @@ typedef FormData_pg_statistic *Form_pg_statistic;
  * their actual tuple positions.  The coefficient ranges from +1 to -1.
  */
 #define STATISTIC_KIND_CORRELATION	3
+
+/*
+ * A "most common elements" slot is similar to a "most common values" slot,
+ * except that it stores the most common non-null *elements* of the column
+ * values.	This is useful when the column datatype is an array or some other
+ * type with identifiable elements (for instance, tsvector).  staop contains
+ * the equality operator appropriate to the element type.  stavalues contains
+ * the most common element values, and stanumbers their frequencies.  Unlike
+ * MCV slots, frequencies are measured as the fraction of non-null rows the
+ * element value appears in, not the frequency of all rows.  Also unlike
+ * MCV slots, the values are sorted into the element type's default order
+ * (to support binary search for a particular value).  Since this puts the
+ * minimum and maximum frequencies at unpredictable spots in stanumbers,
+ * there are two extra members of stanumbers, holding copies of the minimum
+ * and maximum frequencies.  Optionally, there can be a third extra member,
+ * which holds the frequency of null elements (expressed in the same terms:
+ * the fraction of non-null rows that contain at least one null element).  If
+ * this member is omitted, the column is presumed to contain no null elements.
+ *
+ * Note: in current usage for tsvector columns, the stavalues elements are of
+ * type text, even though their representation within tsvector is not
+ * exactly text.
+ */
+#define STATISTIC_KIND_MCELEM  4
+
+/*
+ * A "distinct elements count histogram" slot describes the distribution of
+ * the number of distinct element values present in each row of an array-type
+ * column.	Only non-null rows are considered, and only non-null elements.
+ * staop contains the equality operator appropriate to the element type.
+ * stavalues is not used and should be NULL.  The last member of stanumbers is
+ * the average count of distinct element values over all non-null rows.  The
+ * preceding M (>=2) members form a histogram that divides the population of
+ * distinct-elements counts into M-1 bins of approximately equal population.
+ * The first of these is the minimum observed count, and the last the maximum.
+ */
+#define STATISTIC_KIND_DECHIST	5
 
 #endif   /* PG_STATISTIC_H */

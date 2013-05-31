@@ -1,0 +1,148 @@
+                                                                   -*- text -*-
+Aside from the standard Debian modifications of paths, default
+editors, and such, this package contains the following
+modifications:
+
+Pserver Patch
+~~~~~~~~~~~~~
+
+This package has a patch for pserver that fixes the problem that
+pserver wanted to read /root/.cvsignore. The problem is that the
+HOME environment variable is set, and it overrides the uid based
+password lookup. What we do now is drop the cached home directory
+if the uid has changed.
+
+-- Wichert Akkerman <wakkerma@debian.org>, Sun Dec 19 15:50:48 CET 1999
+
+PAM Support
+~~~~~~~~~~~
+
+I've implemented PAM authentication support for the CVS pserver. The
+normal search "path" used by CVS when trying to authenticate is
+
+CVSROOT/passwd (always checked)
+/etc/passwd (optional, enabled by default)
+
+The new PAM support changes this order to:
+
+CVSROOT/passwd (always checked)
+PAM (optional, enabled by default)
+/etc/passwd (optional, disabled by default)
+
+If you want to change these, edit CVSROOT/config and set PamAuth
+and/or SystemAuth as appropriate.
+
+Once the upstream PAM support is released, this may change.
+
+ -- Steve McIntyre <93sam@debian.org> Mon, 13 Oct 2003 23:56:52 +0100
+
+CVS Repouid - patch and documentation by Wichert Akkerman
+~~~~~~~~~~~
+
+CVS is a common source control system used by the majority of all free
+software projects. It provides remote access to repositories via its
+pserver system. Unfortunately pserver is not very secure:
+
+  * Commit access to a repository is equivalent to giving shell access
+    to the CVS server since it is trivial to add or modify scripts
+    that are run automatically when the repository is accessed.
+
+  * The CVSROOT/passwd file in a repository lists all the users who
+    can access the repository, along with the name of the local unix
+    account which pserver should use when accessing the
+    repository. Everyone who can edit that file can combine this with
+    the previously mentioned problem to gain access to all accounts on
+    a system, including root.
+
+To solve this I wrote the cvs-repouid patch which does two things: it
+allows the administrator to force usage of a specific account for a
+repository instead of the ones given in the CVSROOT/passwd file, and
+it prevents pserver from running as root. This gives the owner of the
+repository the freedom to modify accounts for his repository while
+preventing abuse.
+
+This is administered through the new /etc/cvs-repouids file which has
+a very simple syntax: each line contains a repository path and a
+accountname, separated by a colon (:). For example:
+
+/cvs/dpkg:wichert
+/cvs/pyrad:anon-pyrad
+
+This forces the account wichert to be used when the dpkg repository is
+accessed and the anon-pyrad account when the pyrad repository is
+accessed.
+
+ -- Steve McIntyre <93sam@debian.org> Tue, 10 Feb 2004 19:54:50 +0000
+
+Control of Keyword Expansion
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Since version 1.12.2 CVS has supported, without external 
+patches, custom keyword expansion options.  Previously CVS required a 
+patch to implement this, and users may know the feature as the options 
+"tag" and "tagexpand" from the CVSROOT/options file.  CVS now uses a 
+similar method in CVSROOT/config.  For more information see the CVS 
+documentation(infobrowser "(CVS)Configuring keyword expansion").
+
+The old CVSROOT/options patch is still present (and updated) to
+support users with old config for now, but will be removed
+soon. Update your config to use CVSROOT/config instead!
+
+ -- James Rowe <Jay@jnrowe.ukfsn.org>  Sat,  03 Apr 2004 23:23:57 +0100
+
+External password file support
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The default location for the CVS-specific password file is still
+CVSROOT/passwd. However, support has also been added to override
+this. On the cvs pserver command line you can now add --password-file
+<filename>, or alternatively add
+
+CVS_EXT_PASSWD_FILE=<filename>
+
+in your /etc/cvs-pserver.conf for the Debian pserver wrapper scripts
+to do the right thing for you. If there is enough demand, I'll add
+support for this variable in the CVS debconf templates.
+
+The format of this external password file is *almost* the same as the
+CVSROOT/passwd file. To allow support for multiple repositories, the
+password file needs extra information. Each repository will need its
+own section, then entries for users in the same style as in a normal
+CVSROOT/passwd file:
+
+/full/path/to/repository1
+user1:passwd1:
+user2:passwd2:local_user2
+/full/path/to/repository2
+user1:passwd4:
+user3:passwd5:local_user6
+
+ -- Steve McIntyre <93sam@debian.org> Sun, 20 Aug 2006 01:54:08 +0100
+
+Running pserver from inetd
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+From version 1.12.13-6 and later, the cvs package will no longer
+attempt to automatically manage the cvspserver inetd entry as it used
+to. Most cvs client users do not want to use the pserver at all, and
+upstream have long considered the pserver to be a security risk for
+anything except anonymous use. Also, tracking and configuring the
+user's wishes in inetd.conf in a policy-compliant manner seems to be
+actually impossible.
+
+At initial installation *only*, the cvs package will therefore ask the
+user if the pserver should be run from inetd and configure
+accordingly. At package removal time, this entry will be
+removed. Otherwise, any configuration will need to be done directly by
+the user. For reference, a typical entry in inetd.conf would be:
+
+cvspserver  stream  tcp  nowait.400  root  /usr/sbin/tcpd  /usr/sbin/cvs-pserver
+
+The number 400 in the "nowait.400" section above configures the
+allowed respawn rate in inetd, in invocations per minute. The default
+value for the respawn rate is 40; if you expect to use the pserver a
+lot (e.g. for large checkins or via scripts), it is recommended that
+you add this piece of configuration also, maybe using an even larger
+value.
+
+ -- Steve McIntyre <93sam@debian.org> Sat, 23 Dec 2006 21:35:08 +0000

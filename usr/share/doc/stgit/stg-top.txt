@@ -1,0 +1,26 @@
+stg-top(1)
+==========
+
+NAME
+----
+stg-top - Print the name of the top patch
+
+SYNOPSIS
+--------
+[verse]
+'stg' top 
+
+DESCRIPTION
+-----------
+
+Print the name of the current (topmost) patch.
+
+OPTIONS
+-------
+-b BRANCH::
+--branch BRANCH::
+        Use BRANCH instead of the default branch.
+
+StGit
+-----
+Part of the StGit suite - see linkman:stg[1]

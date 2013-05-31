@@ -18,8 +18,8 @@ W system%s		system.ads		system.ali
 W system.vectors%s	s-vector.ads		s-vector.ali
 
 D system.ads		20031021134222 6af26689
-D s-stoele.ads		20050603190336 5a73170b
-D s-stoele.adb		20030424175414 792079f8
+D s-stoele.ads		20050603200336 5a73170b
+D s-stoele.adb		20030424175413 792079f8
 D s-vector.ads		20031021134218 18717986
 D s-veboop.ads		20031021134218 9bdff6a6
 D s-veboop.adb		20031021134218 d53292ec

@@ -1,0 +1,11 @@
+prefix=/usr/x86_64-pc-cygwin/sys-root/usr
+exec_prefix=/usr/x86_64-pc-cygwin/sys-root/usr
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: XCB Screensaver
+Description: XCB Screensaver Extension
+Version: 1.9
+Requires: xcb
+Libs: -L${libdir} -lxcb-screensaver
+Cflags: -I${includedir}

@@ -17,7 +17,7 @@ W system%s		system.ads		system.ali
 
 D system.ads		20031021134222 6af26689
 D s-proinf.ads		20031021134214 48cbe034
-D s-proinf.adb		20030424175414 1e28bddf
+D s-proinf.adb		20030424175413 1e28bddf
 X 1 system.ads
 44K9*System 163e11 2|37r9 44r5 3|34r14 43r5
 X 2 s-proinf.ads

@@ -19,7 +19,7 @@ U gnat.table%s		g-table.ads		b60e2cce BN EB NE PK GE
 W gnat%s		gnat.ads		gnat.ali
 
 D gnat.ads		20030424175404 6380ea48
-D g-table.ads		20031021134206 d58ec686
+D g-table.ads		20031021134205 d58ec686
 D g-table.adb		20031205102404 eec919d2
 D system.ads		20031021134222 6af26689
 D s-memory.ads		20031021134214 0df2d6b0

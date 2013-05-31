@@ -1,0 +1,37 @@
+In addition to " #pragma", " #error" should also be granted
+an exception, since the unindented form would be rejected by
+pre-ANSI C preprocessors.
+  From Karl Heuer
+
+Write documentation
+  Include an example explaining how to use cppi as part of a cvs commit hook.
+
+Add overwrite option -- maybe use GNU-style backup code.
+
+Suggestion from Ulrich Drepper:
+Add an option to convert code like this, removing unnecessary
+parentheses and adding any spaces required to replace them:
+  #if defined(FOO) || !defined (BAR)
+to this:
+  #if defined FOO || !defined BAR
+
+Allow regex filtering (use Henry Spencer's new perl-like regexps)
+   rather than hard-coding test for .c and .h suffixes
+
+Add an option to enable the following (there's already support for it):
+  Uli's suggestion for setting initial indentation level to e.g. -1
+  for header files bracketed with #ifdef FOO_H/#define FOO_H...#endif.
+
+Make sure we get a reasonable failure when cppi.l is modified
+and flex is not available.
+
+Likewise with cpp.gp and gperf (do this via the `missing' script).
+
+Currently, the indentation width is hard-coded
+at one space per nesting level.  Add an option to change that.
+
+Add an option to tell cppi to ignore file-spanning directives like these:
+#ifndef FOO_H
+#define FOO_H
+...
+#endif FOO_H

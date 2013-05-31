@@ -1,0 +1,13 @@
+# Package Information for pkg-config
+
+prefix=/usr/x86_64-pc-cygwin/sys-root/usr
+exec_prefix=/usr/x86_64-pc-cygwin/sys-root/usr
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: SQLite
+Description: SQL database engine
+Version: 3.7.15.2
+Libs: -L${libdir} -lsqlite3
+Libs.private: 
+Cflags: -I${includedir}

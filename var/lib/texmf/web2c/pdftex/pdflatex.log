@@ -1,0 +1,895 @@
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Cygwin) (INITEX)  31 MAY 2013 13:10
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+ (/usr/share/texmf/web2c/cp227.tcx)
+***pdflatex.ini
+(/usr/share/texmf-dist/tex/latex/latexconfig/pdflatex.ini
+(/usr/share/texmf/tex/generic/config/pdftexconfig.tex)
+(/usr/share/texmf-dist/tex/latex/base/latex.ltx
+(/usr/share/texmf-dist/tex/latex/base/texsys.cfg)
+\openout15 = `texsys.aux'.
+
+
+./texsys.aux found
+
+
+\@currdir set to: ./.
+
+
+Assuming \openin and \input 
+have the same search path.
+
+
+Defining UNIX/DOS style filename parser.
+
+catcodes, registers,
+\maxdimen=\dimen10
+\hideskip=\skip10
+\p@=\dimen11
+\z@=\dimen12
+\z@skip=\skip11
+\voidb@x=\box10
+ compatibility for TeX 2,  parameters,
+\normalbaselineskip=\skip12
+\normallineskip=\skip13
+\normallineskiplimit=\dimen13
+\interfootnotelinepenalty=\count23
+\strutbox=\box11
+
+LaTeX2e <2011/06/27>
+hacks,
+\@tempcnta=\count24
+\@tempcntb=\count25
+\@tempdima=\dimen14
+\@tempdimb=\dimen15
+\@tempdimc=\dimen16
+\@tempboxa=\box12
+\@tempskipa=\skip14
+\@tempskipb=\skip15
+\@temptokena=\toks10
+\@flushglue=\skip16
+ control, par, spacing,
+\@savsk=\dimen17
+\@savsf=\count26
+\smallskipamount=\skip17
+\medskipamount=\skip18
+\bigskipamount=\skip19
+\fill=\skip20
+ files,
+\@inputcheck=\read0
+\@unused=\write0
+\@mainaux=\write1
+\@partaux=\write2
+\@clubpenalty=\count27
+ font encodings, lengths,
+\everymath=\toks11
+\everydisplay=\toks12
+\every@math@size=\toks13
+\lower@bound=\dimen18
+\upper@bound=\dimen19
+\c@mv@normal=\count28
+\c@mv@bold=\count29
+
+====================================
+
+Local config file fonttext.cfg used
+
+====================================
+(/usr/share/texmf-dist/tex/latex/base/fonttext.cfg
+File: fonttext.cfg 2004/02/04 v2.3a LaTeX Kernel (Uncustomised text font setup)
+
+
+(/usr/share/texmf-dist/tex/latex/base/fonttext.ltx
+File: fonttext.ltx 2004/02/04 v2.3a LaTeX Kernel (Text font setup)
+
+=== Don't modify this file, use a .cfg file instead ===
+
+(/usr/share/texmf-dist/tex/latex/base/omlenc.def
+File: omlenc.def 2005/09/27 v1.99g Standard LaTeX file
+)
+(/usr/share/texmf-dist/tex/latex/base/t1enc.def
+File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
+)
+(/usr/share/texmf-dist/tex/latex/base/ot1enc.def
+File: ot1enc.def 2005/09/27 v1.99g Standard LaTeX file
+)
+(/usr/share/texmf-dist/tex/latex/base/omsenc.def
+File: omsenc.def 2005/09/27 v1.99g Standard LaTeX file
+)
+(/usr/share/texmf-dist/tex/latex/base/t1cmr.fd
+File: t1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+(/usr/share/texmf-dist/tex/latex/base/ot1cmr.fd
+File: ot1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+(/usr/share/texmf-dist/tex/latex/base/ot1cmss.fd
+File: ot1cmss.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+(/usr/share/texmf-dist/tex/latex/base/ot1cmtt.fd
+File: ot1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)))
+====================================
+
+Local config file fontmath.cfg used
+
+====================================
+(/usr/share/texmf-dist/tex/latex/base/fontmath.cfg
+File: fontmath.cfg 2004/02/04 v2.3a LaTeX Kernel (Uncustomised math font setup)
+
+
+(/usr/share/texmf-dist/tex/latex/base/fontmath.ltx
+File: fontmath.ltx 2004/02/04 v2.3a LaTeX Kernel (Math font setup)
+
+=== Don't modify this file, use a .cfg file instead ===
+
+LaTeX Font Info:    Redeclaring font encoding OML on input line 59.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 60.
+(/usr/share/texmf-dist/tex/latex/base/omlcmm.fd
+File: omlcmm.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+(/usr/share/texmf-dist/tex/latex/base/omscmsy.fd
+File: omscmsy.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+(/usr/share/texmf-dist/tex/latex/base/omxcmex.fd
+File: omxcmex.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+(/usr/share/texmf-dist/tex/latex/base/ucmr.fd
+File: ucmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+\symoperators=\mathgroup0
+\symletters=\mathgroup1
+\symsymbols=\mathgroup2
+\symlargesymbols=\mathgroup3
+LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
+(Font)                  OT1/cmr/m/n --> OT1/cmr/bx/n on input line 78.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `bold'
+(Font)                  OML/cmm/m/it --> OML/cmm/b/it on input line 79.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
+(Font)                  OMS/cmsy/m/n --> OMS/cmsy/b/n on input line 80.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
+(Font)                  OT1/cmss/m/n --> OT1/cmss/bx/n on input line 88.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
+(Font)                  OT1/cmr/m/it --> OT1/cmr/bx/it on input line 89.
+))
+====================================
+
+Local config file preload.cfg used
+
+=====================================
+(/usr/share/texmf-dist/tex/latex/base/preload.cfg
+File: preload.cfg 2004/02/04 v2.3a LaTeX Kernel (Uncustomised preload font setu
+p)
+
+(/usr/share/texmf-dist/tex/latex/base/preload.ltx
+File: preload.ltx 1998/08/17 v2.1g LaTeX Kernel (Font Preloading)
+)) page nos., x-ref,
+environments, center,
+\@rightskip=\skip21
+ verbatim, math definitions,
+\jot=\dimen20
+\interdisplaylinepenalty=\count30
+\rootbox=\box13
+\c@equation=\count31
+\@eqcnt=\count32
+\@eqpen=\count33
+\@centering=\skip22
+\topsep=\skip23
+\partopsep=\skip24
+\itemsep=\skip25
+\parsep=\skip26
+\@topsep=\skip27
+\@topsepadd=\skip28
+\@outerparskip=\skip29
+\leftmargin=\dimen21
+\rightmargin=\dimen22
+\listparindent=\dimen23
+\itemindent=\dimen24
+\labelwidth=\dimen25
+\labelsep=\dimen26
+\linewidth=\dimen27
+\@totalleftmargin=\dimen28
+\leftmargini=\dimen29
+\leftmarginii=\dimen30
+\leftmarginiii=\dimen31
+\leftmarginiv=\dimen32
+\leftmarginv=\dimen33
+\leftmarginvi=\dimen34
+\@listdepth=\count34
+\@itempenalty=\count35
+\@beginparpenalty=\count36
+\@endparpenalty=\count37
+\@labels=\box14
+\par@deathcycles=\count38
+\@enumdepth=\count39
+\c@enumi=\count40
+\c@enumii=\count41
+\c@enumiii=\count42
+\c@enumiv=\count43
+\@itemdepth=\count44
+ boxes,
+\fboxrule=\dimen35
+\fboxsep=\dimen36
+\@mplistdepth=\count45
+\@mpfootins=\insert254
+\@gtempa=\dimen37
+\@gtempa=\dimen38
+\@gtempa=\dimen39
+\@gtempa=\dimen40
+\@gtempa=\dimen41
+\@gtempa=\dimen42
+\@gtempa=\dimen43
+\@gtempa=\dimen44
+\@gtempa=\dimen45
+\@gtempa=\dimen46
+\@gtempa=\dimen47
+\@gtempa=\dimen48
+\@gtempa=\dimen49
+\@gtempa=\dimen50
+\@nxttabmar=\count46
+\@curtabmar=\count47
+\@curtab=\count48
+\@hightab=\count49
+\@tabpush=\count50
+\@curline=\box15
+\@curfield=\box16
+\@tabfbox=\box17
+\tabbingsep=\dimen51
+\@chclass=\count51
+\@lastchclass=\count52
+\@chnum=\count53
+\arraycolsep=\dimen52
+\tabcolsep=\dimen53
+\arrayrulewidth=\dimen54
+\doublerulesep=\dimen55
+\@arstrutbox=\box18
+\@wholewidth=\dimen56
+\@halfwidth=\dimen57
+\unitlength=\dimen58
+\@picbox=\box19
+\@picht=\dimen59
+\@ovxx=\dimen60
+\@ovyy=\dimen61
+\@ovdx=\dimen62
+\@ovdy=\dimen63
+\@ovro=\dimen64
+\@ovri=\dimen65
+\@xarg=\count54
+\@yarg=\count55
+\@yyarg=\count56
+\@multicnt=\count57
+\@xdim=\dimen66
+\@ydim=\dimen67
+\@linechar=\box20
+\@linelen=\dimen68
+\@clnwd=\dimen69
+\@clnht=\dimen70
+\@dashdim=\dimen71
+\@dashbox=\box21
+\@dashcnt=\count58
+ title, sectioning,
+\@secpenalty=\count59
+\c@secnumdepth=\count60
+\c@tocdepth=\count61
+
+contents, floats,
+\@floatpenalty=\count62
+ footnotes,
+\footins=\insert253
+\c@footnote=\count63
+\c@mpfootnote=\count64
+\footnotesep=\dimen72
+ index, bibliography, output,
+\bx@A=\insert252
+\bx@B=\insert251
+\bx@C=\insert250
+\bx@D=\insert249
+\bx@E=\insert248
+\bx@F=\insert247
+\bx@G=\insert246
+\bx@H=\insert245
+\bx@I=\insert244
+\bx@J=\insert243
+\bx@K=\insert242
+\bx@L=\insert241
+\bx@M=\insert240
+\bx@N=\insert239
+\bx@O=\insert238
+\bx@P=\insert237
+\bx@Q=\insert236
+\bx@R=\insert235
+\topmargin=\dimen73
+\oddsidemargin=\dimen74
+\evensidemargin=\dimen75
+\headheight=\dimen76
+\headsep=\dimen77
+\footskip=\dimen78
+\textheight=\dimen79
+\textwidth=\dimen80
+\columnwidth=\dimen81
+\columnsep=\dimen82
+\columnseprule=\dimen83
+\marginparwidth=\dimen84
+\marginparsep=\dimen85
+\marginparpush=\dimen86
+\@begindvibox=\box22
+\@maxdepth=\dimen87
+\paperheight=\dimen88
+\paperwidth=\dimen89
+\col@number=\count65
+\@topnum=\count66
+\@toproom=\dimen90
+\@dbltopnum=\count67
+\@dbltoproom=\dimen91
+\@botnum=\count68
+\@botroom=\dimen92
+\@colnum=\count69
+\@textmin=\dimen93
+\@fpmin=\dimen94
+\@colht=\dimen95
+\@colroom=\dimen96
+\@pageht=\dimen97
+\@pagedp=\dimen98
+\@mparbottom=\dimen99
+\@currtype=\count70
+\@outputbox=\box23
+\@leftcolumn=\box24
+\@holdpg=\box25
+\@kludgeins=\insert234
+\@fpstype=\count71
+\@reqcolroom=\dimen100
+\@textfloatsheight=\dimen101
+\c@topnumber=\count72
+\c@bottomnumber=\count73
+\c@totalnumber=\count74
+\c@dbltopnumber=\count75
+\floatsep=\skip30
+\textfloatsep=\skip31
+\intextsep=\skip32
+\dblfloatsep=\skip33
+\dbltextfloatsep=\skip34
+\@fptop=\skip35
+\@fpsep=\skip36
+\@fpbot=\skip37
+\@dblfptop=\skip38
+\@dblfpsep=\skip39
+\@dblfpbot=\skip40
+\@lowpenalty=\count76
+\@medpenalty=\count77
+\@highpenalty=\count78
+
+===========================================
+Local configuration file hyphen.cfg used
+===========================================
+(/usr/share/texmf-dist/tex/generic/babel/hyphen.cfg
+File: hyphen.cfg 2008/07/08 v3.8m Babel language switching mechanism
+\l@english=\language0
+
+(/usr/share/texmf/tex/generic/hyphen/hyphen.tex)
+\l@usenglish=\language0
+\l@USenglish=\language0
+\l@american=\language0
+\l@dumylang=\language1
+
+(/usr/share/texmf/tex/generic/hyphen/dumyhyph.tex)
+\l@nohyphenation=\language2
+
+(/usr/share/texmf/tex/generic/hyphen/zerohyph.tex)
+\l@german-x-2012-05-30=\language3
+
+(/usr/share/texmf-dist/tex/generic/dehyph-exptl/dehypht-x-2012-05-30.tex
+dehyph-exptl: using an 8-bit TeX engine.
+(/usr/share/texmf-dist/tex/generic/dehyph-exptl/dehypht-x-2012-05-30.pat
+German Hyphenation Patterns (Traditional Orthography) `dehypht-x' 2012-05-30 (W
+L)))
+\l@german-x-latest=\language3
+\l@ngerman-x-2012-05-30=\language4
+ (/usr/share/texmf-dist/tex/generic/dehyph-exptl/dehyphn-x-2012-05-30.tex
+dehyph-exptl: using an 8-bit TeX engine.
+(/usr/share/texmf-dist/tex/generic/dehyph-exptl/dehyphn-x-2012-05-30.pat
+German Hyphenation Patterns (Reformed Orthography, 2006) `dehyphn-x' 2012-05-30
+ (WL)))
+\l@ngerman-x-latest=\language4
+\l@afrikaans=\language5
+ (/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-af.tex
+EC Afrikaans hyphenation patterns
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/conversions/conv-utf8-ec.tex)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-af.tex))
+\l@ancientgreek=\language6
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-grc.tex
+Hyphenation patterns for Ancient Greek
+(/usr/share/texmf/tex/generic/hyphen/grahyph5.tex
+Hyphenation patterns for Ancient Greek))
+\l@ibycus=\language7
+
+(/usr/share/texmf/tex/generic/hyphen/ibyhyph.tex
+Greek hyphenation patterns for Ibycus encoding, v3.0)
+\l@arabic=\language8
+
+(/usr/share/texmf/tex/generic/hyphen/zerohyph.tex)
+\l@armenian=\language9
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-hy.tex
+No Armenian hyphenation patterns - only for Unicode engines)
+\l@basque=\language10
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-eu.tex
+EC Basque hyphenation patterns
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/conversions/conv-utf8-ec.tex)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-eu.tex))
+\l@bulgarian=\language11
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-bg.tex
+T2A Bulgarian hyphenation patterns
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/conversions/conv-utf8-t2a.tex)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-bg.tex))
+\l@catalan=\language12
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-ca.tex
+EC Catalan hyphenation patterns
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/conversions/conv-utf8-ec.tex)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-ca.tex))
+\l@pinyin=\language13
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-zh-latn-pinyin.t
+ex EC Hyphenation patterns for unaccented pinyin syllables (CJK 4.8.0)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/conversions/conv-utf8-ec.tex)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-zh-latn-pinyin.t
+ex))
+\l@coptic=\language14
+ (/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-cop.tex
+Coptic hyphenation patterns
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex-8bit/copthyph.tex))
+\l@croatian=\language15
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-hr.tex
+EC Croatian hyphenation patterns
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/conversions/conv-utf8-ec.tex)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-hr.tex))
+\l@czech=\language16
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-cs.tex
+EC Czech hyphenation patterns (Pavel Sevecek, v3, 1995)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/conversions/conv-utf8-ec.tex)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-cs.tex))
+\l@danish=\language17
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-da.tex
+EC Danish hyphenation patterns
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/conversions/conv-utf8-ec.tex)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-da.tex))
+\l@dutch=\language18
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-nl.tex
+EC Dutch hyphenation patterns
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/conversions/conv-utf8-ec.tex)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-nl.tex))
+\l@ukenglish=\language19
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-en-gb.tex
+ASCII Hyphenation patterns for British English
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-en-gb.tex))
+\l@british=\language19
+\l@UKenglish=\language19
+\l@usenglishmax=\language20
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-en-us.tex
+ASCII Hyphenation patterns for American English
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-en-us.tex))
+\l@esperanto=\language21
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-eo.tex
+IL3 Esperanto hyphenation patterns
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/conversions/conv-utf8-il3.tex)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-eo.tex))
+\l@estonian=\language22
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-et.tex
+EC Estonian hyphenation patterns
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/conversions/conv-utf8-ec.tex)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-et.tex))
+\l@ethiopic=\language23
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-mul-ethi.tex
+No Pan-Ethiopic hyphenation patterns - only for Unicode engines)
+\l@amharic=\language23
+\l@geez=\language23
+\l@farsi=\language24
+
+(/usr/share/texmf/tex/generic/hyphen/zerohyph.tex)
+\l@persian=\language24
+\l@finnish=\language25
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-fi.tex
+EC Finnish hyphenation patterns
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/conversions/conv-utf8-ec.tex)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-fi.tex))
+\l@french=\language26
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-fr.tex
+EC French hyphenation patterns (V2.12, 2002/12/11)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/conversions/conv-utf8-ec.tex)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-fr.tex))
+\l@patois=\language26
+\l@francais=\language26
+\l@friulan=\language27
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-fur.tex
+EC Friulan hyphenation patterns
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/conversions/conv-utf8-ec.tex)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-fur.tex))
+\l@galician=\language28
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-gl.tex
+EC Galician hyphenation patterns
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/conversions/conv-utf8-ec.tex)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-gl.tex))
+\l@german=\language29
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-de-1901.tex
+EC German hyphenation patterns (traditional orthography)
+(/usr/share/texmf/tex/generic/hyphen/dehypht.tex
+German Traditional Hyphenation Patterns `dehypht' Version 3.2a <1999/03/03>
+(Formerly known under the name `ghyph31' and `ghyphen'.)))
+\l@ngerman=\language30
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-de-1996.tex
+EC German hyphenation patterns (reformed orthography)
+(/usr/share/texmf/tex/generic/hyphen/dehyphn.tex
+New German Hyphenation Patterns `dehyphn' Rev.31 <2001-05-07> (WaS)))
+\l@swissgerman=\language31
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-de-ch-1901.tex
+EC Swiss-German hyphenation patterns (traditional orthography)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/conversions/conv-utf8-ec.tex)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-de-ch-1901.tex
+Swiss-German Hyphenation Patterns (Traditional Orthography) `dehyphts-x' 2012-0
+5-30 (WL)))
+\l@monogreek=\language32
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-el-monoton.tex
+Hyphenation patterns for uni-accent (monotonic) Modern Greek
+(/usr/share/texmf/tex/generic/hyphen/grmhyph5.tex
+Hyphenation patterns for uni-accent (monotonic) Modern Greek))
+\l@greek=\language33
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-el-polyton.tex
+Hyphenation patterns for multi-accent (polytonic) Modern Greek
+(/usr/share/texmf/tex/generic/hyphen/grphyph5.tex
+Hyphenation patterns for multi-accent (polytonic) Modern Greek))
+\l@polygreek=\language33
+\l@hungarian=\language34
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-hu.tex
+EC Hungarian hyphenation patterns (v20110815)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/conversions/conv-utf8-ec.tex)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-hu.tex
+Huhyphn - hungarian hyphenation patterns v20110815))
+\l@icelandic=\language35
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-is.tex
+EC Icelandic hyphenation patterns
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/conversions/conv-utf8-ec.tex)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-is.tex))
+\l@assamese=\language36
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-as.tex
+No Assamese hyphenation patterns - only for Unicode engines)
+\l@bengali=\language37
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-bn.tex
+No Bengali hyphenation patterns - only for Unicode engines)
+\l@gujarati=\language38
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-gu.tex
+No Gujarati hyphenation patterns - only for Unicode engines)
+\l@hindi=\language39
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-hi.tex
+No Hindi hyphenation patterns - only for Unicode engines)
+\l@kannada=\language40
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-kn.tex
+No Kannada hyphenation patterns - only for Unicode engines)
+\l@malayalam=\language41
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-ml.tex
+No Malayalam hyphenation patterns - only for Unicode engines)
+\l@marathi=\language42
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-mr.tex
+No Marathi hyphenation patterns - only for Unicode engines)
+\l@oriya=\language43
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-or.tex
+No Oriya hyphenation patterns - only for Unicode engines)
+\l@panjabi=\language44
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-pa.tex
+No Panjabi hyphenation patterns - only for Unicode engines)
+\l@tamil=\language45
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-ta.tex
+No Tamil hyphenation patterns - only for Unicode engines)
+\l@telugu=\language46
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-te.tex
+No Telugu hyphenation patterns - only for Unicode engines)
+\l@indonesian=\language47
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-id.tex
+ASCII Indonesian hyphenation patterns
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-id.tex))
+\l@interlingua=\language48
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-ia.tex
+ASCII Hyphenation patterns for Interlingua
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-ia.tex))
+\l@irish=\language49
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-ga.tex
+EC Irish hyphenation patterns
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/conversions/conv-utf8-ec.tex)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-ga.tex))
+\l@italian=\language50
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-it.tex
+ASCII Italian hyphenation patterns
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-it.tex))
+\l@kurmanji=\language51
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-kmr.tex
+EC Kurmanji hyphenation patterns (v. 1.0 2009/06/29 JKn and MSh)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/conversions/conv-utf8-ec.tex)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-kmr.tex))
+\l@latin=\language52
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-la.tex
+EC Latin hyphenation patterns
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/conversions/conv-utf8-ec.tex)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-la.tex))
+\l@latvian=\language53
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-lv.tex
+L7X Latvian hyphenation patterns
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/conversions/conv-utf8-l7x.tex)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-lv.tex))
+\l@lithuanian=\language54
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-lt.tex
+L7X Lithuanian hyphenation patterns
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/conversions/conv-utf8-l7x.tex)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-lt.tex))
+\l@mongolian=\language55
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-mn-cyrl.tex
+T2A (New) Mongolian hyphenation patterns
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/conversions/conv-utf8-t2a.tex)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-mn-cyrl.tex))
+\l@mongolianlmc=\language56
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-mn-cyrl-x-lmc.te
+x LMC Mongolian hyphenation patterns
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/conversions/conv-utf8-lmc.tex)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-mn-cyrl-x-lmc.te
+x))
+\l@bokmal=\language57
+ (/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-nb.tex
+EC Norwegian Bokmal hyphenation patterns
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/conversions/conv-utf8-ec.tex)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-nb.tex
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-no.tex)))
+\l@norwegian=\language57
+\l@norsk=\language57
+\l@nynorsk=\language58
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-nn.tex
+EC Norwegian Nynorsk hyphenation patterns
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/conversions/conv-utf8-ec.tex)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-nn.tex
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-no.tex)))
+\l@polish=\language59
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-pl.tex
+QX Polish hyphenation patterns
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/conversions/conv-utf8-qx.tex)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-pl.tex))
+\l@portuguese=\language60
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-pt.tex
+EC Portuguese hyphenation patterns
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/conversions/conv-utf8-ec.tex)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-pt.tex))
+\l@portuges=\language60
+\l@romanian=\language61
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-ro.tex
+EC Romanian hyphenation patterns
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/conversions/conv-utf8-ec.tex)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-ro.tex))
+\l@romansh=\language62
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-rm.tex
+ASCII Romansh hyphenation patterns
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-rm.tex))
+\l@russian=\language63
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-ru.tex
+T2A Russian hyphenation patterns
+(/usr/share/texmf-dist/tex/generic/ruhyphen/ruhyphen.tex
+(/usr/share/texmf-dist/tex/generic/ruhyphen/catkoi.tex)
+(/usr/share/texmf-dist/tex/generic/ruhyphen/koi2t2a.tex)
+(/usr/share/texmf-dist/tex/generic/ruhyphen/ruhyphal.tex)
+(/usr/share/texmf-dist/tex/generic/ruhyphen/cyryoal.tex)
+(/usr/share/texmf-dist/tex/generic/ruhyphen/hypht2.tex)))
+\l@sanskrit=\language64
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-sa.tex
+No Sanskrit hyphenation patterns (v0.6, 2011/09/14) - only for Unicode engines)
+\l@serbian=\language65
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-sr-latn.tex
+EC Serbian hyphenation patterns in Latin script
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/conversions/conv-utf8-ec.tex)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-sh-latn.tex))
+\l@serbianc=\language66
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-sr-cyrl.tex
+T2A Serbian hyphenation patterns in Cyrillic script
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/conversions/conv-utf8-t2a.tex)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-sh-cyrl.tex))
+\l@slovak=\language67
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-sk.tex
+EC Slovak hyphenation patterns (Jana Chlebikova, 1992)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/conversions/conv-utf8-ec.tex)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-sk.tex))
+\l@slovenian=\language68
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-sl.tex
+EC Slovenian hyphenation patterns
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/conversions/conv-utf8-ec.tex)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-sl.tex))
+\l@slovene=\language68
+\l@spanish=\language69
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-es.tex
+EC Spanish hyphenation patterns
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/conversions/conv-utf8-ec.tex)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-es.tex))
+\l@espanol=\language69
+\l@swedish=\language70
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-sv.tex
+EC Swedish hyphenation patterns (Jan Michael Rynning, 1994-03-03)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/conversions/conv-utf8-ec.tex)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-sv.tex))
+\l@turkish=\language71
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-tr.tex
+EC Turkish hyphenation patterns
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/conversions/conv-utf8-ec.tex)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-tr.tex))
+\l@turkmen=\language72
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-tk.tex
+EC Turkmen hyphenation patterns
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/conversions/conv-utf8-ec.tex)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-tk.tex))
+\l@ukrainian=\language73
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-uk.tex
+T2A Ukrainian hyphenation patterns
+(/usr/share/texmf-dist/tex/generic/ukrhyph/ukrhyph.tex
+Ukrainian hyphenation patterns in t2a encoding
+(/usr/share/texmf-dist/tex/generic/ukrhyph/catlcy.tex)
+(/usr/share/texmf-dist/tex/generic/ukrhyph/lcy2t2a.tex)
+(/usr/share/texmf-dist/tex/generic/ukrhyph/ukrhypmp.tex)
+(/usr/share/texmf-dist/tex/generic/ruhyphen/hypht2.tex)))
+\l@uppersorbian=\language74
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-hsb.tex
+EC Upper Sorbian hyphenation patterns (E. Werner)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/conversions/conv-utf8-ec.tex)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-hsb.tex))
+\l@welsh=\language75
+
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/loadhyph/loadhyph-cy.tex
+EC Welsh hyphenation patterns
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/conversions/conv-utf8-ec.tex)
+(/usr/share/texmf-dist/tex/generic/hyph-utf8/patterns/tex/hyph-cy.tex)))
+=================================
+Applying patch file ltpatch.ltx
+=================================
+(/usr/share/texmf-dist/tex/latex/base/ltpatch.ltx)
+ ) )
+Beginning to dump on file pdflatex.fmt
+ (format=pdflatex 2013.5.31)
+6512 strings of total length 103122
+48558 memory locations dumped; current usage is 144&44283
+3412 multiletter control sequences
+\font\nullfont=nullfont
+\font\OMX/cmex/m/n/10=cmex10
+\font\tenln=line10
+\font\tenlnw=linew10
+\font\tencirc=lcircle10
+\font\tencircw=lcirclew10
+\font\OT1/cmr/m/n/5=cmr5
+\font\OT1/cmr/m/n/7=cmr7
+\font\OT1/cmr/m/n/10=cmr10
+\font\OML/cmm/m/it/5=cmmi5
+\font\OML/cmm/m/it/7=cmmi7
+\font\OML/cmm/m/it/10=cmmi10
+\font\OMS/cmsy/m/n/5=cmsy5
+\font\OMS/cmsy/m/n/7=cmsy7
+\font\OMS/cmsy/m/n/10=cmsy10
+3633 words of font info for 14 preloaded fonts
+957 hyphenation exceptions
+Hyphenation trie of length 322747 has 7937 ops out of 35111
+  143 for language 75
+  110 for language 74
+  138 for language 73
+  7 for language 72
+  12 for language 71
+  127 for language 70
+  165 for language 69
+  71 for language 68
+  248 for language 67
+  62 for language 66
+  66 for language 65
+  119 for language 63
+  43 for language 62
+  58 for language 61
+  7 for language 60
+  194 for language 59
+  852 for language 58
+  852 for language 57
+  21 for language 56
+  38 for language 55
+  77 for language 54
+  58 for language 53
+  25 for language 52
+  27 for language 51
+  37 for language 50
+  229 for language 49
+  38 for language 48
+  21 for language 47
+  147 for language 35
+  185 for language 34
+  50 for language 33
+  18 for language 32
+  369 for language 31
+  235 for language 30
+  207 for language 29
+  76 for language 28
+  40 for language 27
+  88 for language 26
+  31 for language 25
+  113 for language 22
+  145 for language 21
+  377 for language 20
+  224 for language 19
+  265 for language 18
+  60 for language 17
+  63 for language 16
+  19 for language 15
+  14 for language 14
+  2 for language 13
+  21 for language 12
+  12 for language 11
+  5 for language 10
+  148 for language 7
+  97 for language 6
+  137 for language 5
+  374 for language 4
+  387 for language 3
+  2 for language 1
+  181 for language 0
+0 words of pdfTeX memory
+0 indirect objects
+No pages of output.
+PDF statistics:
+ 0 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+

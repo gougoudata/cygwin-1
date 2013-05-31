@@ -19,11 +19,11 @@ W interfaces%s		interfac.ads		interfac.ali
 W system%s		system.ads		system.ali
 W system.crtl%s		s-crtl.ads		s-crtl.ali
 
-D interfac.ads		20031021134210 6e859da6
+D interfac.ads		20031021134209 6e859da6
 D i-cstrea.ads		20031215115100 7690e8d9
 D i-cstrea.adb		20040105152044 ce7edd9b
 D system.ads		20031021134222 6af26689
-D s-crtl.ads		20031217133704 a4a6fa53
+D s-crtl.ads		20031217133703 a4a6fa53
 D s-parame.ads		20031021134214 8479efe6
 D unchconv.ads		20030424175420 1b7a14c5
 X 1 interfac.ads

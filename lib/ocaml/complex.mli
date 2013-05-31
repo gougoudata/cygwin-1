@@ -11,7 +11,7 @@
 (*                                                                     *)
 (***********************************************************************)
 
-(* $Id: complex.mli,v 1.3 2002/04/18 07:27:42 garrigue Exp $ *)
+(* $Id: complex.mli 7164 2005-10-25 18:34:07Z doligez $ *)
 
 (** Complex numbers.
 
@@ -73,7 +73,7 @@ val arg: t -> float
     negative real axis. *)
 
 val polar: float -> float -> t
-(** [polar norm arg] returns the complex having norm [norm] 
+(** [polar norm arg] returns the complex having norm [norm]
     and argument [arg]. *)
 
 val exp: t -> t

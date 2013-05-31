@@ -1,0 +1,63 @@
+OpenSP
+------------------------------------------
+OpenJade is a project undertaken by the DSSSL community to maintain and 
+extend Jade, as well as the related SP suite of SGML/XML processing 
+tools. OpenJade and OpenSP are distributed under the same license as 
+Jade.
+
+Runtime requirements:
+  cygwin-1.7.0-62
+  libgcc1-4.3.4-1
+  libintl8-0.17-11
+  libstdc++6-4.3.4-1
+
+Build requirements:
+(besides corresponding -devel packages)
+  autoconf2.5-2.63-10
+  automake1.9-1.9.6-10
+  binutils-2.19.51-1
+  cygport-0.9.10-1
+  docbook-xml412-4.1.2-4
+  gawk-3.1.7-1
+  gcc4-core-4.3.4-1
+  gcc4-g++-4.3.4-1
+  libtool-2.2.7a-14
+  make-3.81-2
+  sed-4.1.5-2
+  xmlto-0.0.18-2
+
+Canonical website:
+  http://openjade.sourceforge.net/
+
+Canonical download:
+  http://downloads.sourceforge.net/openjade/
+
+-------------------------------------------
+
+Build instructions:
+  unpack OpenSP-1.5.2-X-src.tar.bz2
+    if you use setup to install this src package, it will be
+	 unpacked under /usr/src automatically
+  cd /usr/src
+  cygport ./OpenSP-1.5.2-X.cygport all
+
+This will create:
+  /usr/src/OpenSP-1.5.2-X-src.tar.bz2
+  /usr/src/OpenSP-1.5.2-X.tar.bz2
+  /usr/src/libosp-devel-1.5.2-X.tar.bz2
+  /usr/src/libosp5-1.5.2-X.tar.bz2
+
+-------------------------------------------
+
+Port Notes:
+
+----- version 1.5.2-2 -----
+Moved SGML data under /usr/share/sgml/.
+Added patch from BLFS to silence warnings when running openjade.
+
+----- version 1.5.2-1 -----
+Initial release for Cygwin 1.7.
+
+
+Cygwin port maintained by:
+http://sourceware.org/cygwinports/

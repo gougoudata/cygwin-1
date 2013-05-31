@@ -1,0 +1,1497 @@
+2007-01-16 19:52  cegger
+
+	* configure.in: Next bugfix release is 0.3.2. Bump version.
+
+2007-01-09 21:30  cegger
+
+	* checkversion.sh: pull up the following revision(s) (requested by
+	  cegger):  checkversion.sh: 1.4 - 1.5
+
+	  Check and accept version numbers that are greater than the
+	  required one. Now we can use automake 1.10.
+
+2006-12-30 21:07  cegger
+
+	* doc/man/: ggiWmhIconify.3, ggiWmhInit.3, ggiWmhMove.3,
+	  ggiWmhSetTitle.3, ggiWmhZOrder.3, libggiwmh.7: regen.
+
+2006-02-25 19:47  cegger
+
+	* ChangeLog: update for libggiwmh 0.3.1
+
+2006-02-25 19:44  cegger
+
+	* configure.in: welcome to libggiwmh 0.3.1
+
+2006-02-24 21:16  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: pull up the following
+	  revision(s) (requested by cegger):  misc/libggiwmh/ltmain.sh:
+	  1.52 - 1.72  misc/libggiwmh/m4/libtool.m4: 1.48 - 1.63
+	  misc/libggiwmh/m4/ltoptions.m4: 1.8 - 1.10
+	  misc/libggiwmh/m4/ltsugar.m4: 1.5 - 1.7
+	  misc/libggiwmh/m4/ltversion.m4: 1.41 - 1.61
+
+	  sync with HEAD
+
+2006-01-18 19:02  cegger
+
+	* wmh/init.c: pull up the following revision(s) (requested by
+	  pekberg):  wmh/init.c: 1.20 - 1.21 Clear config handle variable
+	  on last exit
+
+2006-01-18 18:11  cegger
+
+	* wmh/init.c: pull up the following revision(s) (requested by
+	  pekberg):  wmh/init.c: 1.18 - 1.19 Fail (and cleanup)
+	  ggiWmhInit() if malloc() fails.
+
+2005-12-10 15:26  cegger
+
+	* ChangeLog: update for final libggiwmh 0.3.0
+
+2005-12-10 15:24  cegger
+
+	* configure.in: welcome to final libggiwmh 0.3.0
+
+2005-11-28 20:19  cegger
+
+	* configure.in, ChangeLog: welcome to libggiwmh 0.3.0 release
+	  candidate 2
+
+2005-11-20 21:01  cegger
+
+	* m4/ltversion.m4: pull up revisions 1.41 - 1.52 (requested by
+	  cegger):
+
+	  sync with libtool cvs head to version 1.2197
+
+2005-11-20 21:00  cegger
+
+	* m4/ltsugar.m4: pull up revisions 1.5 - 1.7 (requested by cegger):
+
+	  sync with libtool cvs head to version 1.2197
+
+2005-11-20 21:00  cegger
+
+	* m4/ltoptions.m4: pull up revisions 1.8 - 1.10 (requested by
+	  cegger):
+
+	  sync with libtool cvs head to version 1.2197
+
+2005-11-20 20:59  cegger
+
+	* m4/libtool.m4: pull up revisions 1.48 - 1.56 (requested by
+	  cegger):
+
+	  sync with libtool cvs head to version 1.2197
+
+2005-11-20 20:59  cegger
+
+	* ltmain.sh: pull up revisions 1.52 - 1.63 (requested by cegger):
+
+	  sync with libtool cvs head to version 1.2197
+
+2005-10-30 09:34  cegger
+
+	* autogen.sh: pull up revisions 1.11 - 1.12 (requested by cegger):
+
+	  fix syntax error on solaris
+
+2005-09-21 21:15  cegger
+
+	* doc/man/: ggiWmhIconify.3, ggiWmhInit.3, ggiWmhMove.3,
+	  ggiWmhSetTitle.3, ggiWmhZOrder.3, libggiwmh.7: regen.
+
+2005-09-21 12:48  cegger
+
+	* configure.in: welcome to 0.3.0 release candidate 1
+
+2005-09-21 08:25  cegger
+
+	* ChangeLog: update for libggiwmh 0.3.0
+
+2005-09-20 21:15  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync with libtool cvs
+	  head to version 1.2081
+
+2005-09-20 20:54  cegger
+
+	* include/ggi/internal/debug_macros.h: #define DMESSAGE also when
+	  DEBUG is not defines. Fixes build error reported by Bernhard
+	  Fischer
+
+2005-09-20 19:52  cegger
+
+	* include/ggi/internal/debug_macros.h: trim some whitespace
+
+2005-09-19 07:49  cegger
+
+	* wmh/init.c: use new ggiExtensionLoadDL() semantic. builtin
+	  targets work now
+
+2005-09-14 09:51  cegger
+
+	* Makefile.am: remove config.lt when run 'make distclean'
+
+2005-09-14 08:47  cegger
+
+	* wmh/builtins.c: correct description in copyright block - this is
+	  libggiwmh, not libggi
+
+2005-09-13 11:35  pekberg
+
+	* m4/Makefile.am: Libltdl isn't needed, can't be used (LGPL) and
+	  isn't used, so zap ltdl.m4.
+
+2005-09-13 09:47  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltoptions.m4, m4/ltversion.m4: sync
+	  with libtool cvs head to version 1.2073
+
+2005-09-08 14:37  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync with libtool cvs
+	  head to version 1.2066
+
+2005-09-07 12:02  pekberg
+
+	* configure.in: Use new GGI_NEED_INTTYPES macro
+
+2005-09-07 11:46  pekberg
+
+	* m4/common.m4: Add macro to centralize C99 inttypes detection.
+
+2005-09-07 09:00  pekberg
+
+	* configure.in: Add modern autoconf init macro that specifies name
+	  of package and bug report address etc. Specify the m4 macro dir.
+
+2005-09-06 15:10  cegger
+
+	* display/: quartz/init.c, X/init.c: add flag to not be unloaded on
+	  setmode
+
+2005-09-06 15:06  pekberg
+
+	* display/directx/init.c: add flag to not be unloaded on setmode
+	  (in the future).
+
+2005-09-05 18:44  cegger
+
+	* include/ggi/internal/debug_macros.h: update mail address in
+	  Copyright
+
+2005-09-05 13:22  pekberg
+
+	* autogen.sh: Add --force option that disables version checks.
+
+2005-09-05 12:46  cegger
+
+	* display/pseudo_stubs/init.c: Check that priv is valid before
+	  dereferencing it
+
+2005-09-05 12:38  pekberg
+
+	* display/pseudo_stubs/init.c: Zero out pointer to prevent double
+	  detach.
+
+2005-09-05 10:50  pekberg
+
+	* wmh/EXPSYMS: Export _wmhDebug
+
+2005-09-05 10:45  pekberg
+
+	* demos/wmhtest.c, display/directx/init.c, display/directx/move.c,
+	  display/directx/order.c, display/directx/texts.c: .c files should
+	  include config.h
+
+2005-09-05 10:39  pekberg
+
+	* configure.in: Fix the build for the poor sods out there that
+	  don't have proper integer types.  They really should upgrade.
+
+2005-09-05 03:54  pekberg
+
+	* libggiwmh.conf.in: Proper name for generic-pseudo-stubs-wmh
+
+2005-09-04 17:19  cegger
+
+	* libggiwmh.conf.in, wmh/builtins.c: builtins should theoretically
+	  work this way, but do not
+
+2005-09-04 14:35  cegger
+
+	* config.guess, install-sh: update to version shipped with libtool
+	  1.5.20
+
+2005-09-03 17:12  cegger
+
+	* Makefile.am, configure.in, libggiwmh.conf.in,
+	  display/X/Makefile.am, display/directx/Makefile.am,
+	  display/pseudo_stubs/Makefile.am, display/quartz/Makefile.am,
+	  display-shared/.cvsignore, display-shared/Makefile.am,
+	  wmh/Makefile.am, wmh/builtins.am, wmh/builtins.c, wmh/init.c: add
+	  support for static linking
+
+2005-09-03 10:38  cegger
+
+	* configure.in: handle dependency of directx target in the right
+	  place
+
+2005-09-03 08:03  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltoptions.m4, m4/ltversion.m4: sync
+	  with libtool cvs head to version 1.2057
+
+2005-09-02 18:46  cegger
+
+	* wmh/init.c: add missing GG_ITER_DONE
+
+2005-09-02 18:29  cegger
+
+	* wmh/init.c: minor cleanup
+
+2005-09-02 18:21  cegger
+
+	* wmh/init.c: replace ggMatchConfig() with config iterator
+
+2005-08-31 09:17  cegger
+
+	* autogen.sh, ltmain.sh, m4/libtool.m4, m4/ltoptions.m4,
+	  m4/ltversion.m4: sync with libtool cvs head to version 1.2049
+	  This requires autoconf 2.59 and automake 1.9.6
+
+2005-08-31 08:40  cegger
+
+	* checkversion.sh: error properly out when where autotools are
+	  missing
+
+2005-08-28 15:18  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 to version 1.1667.2.298
+
+2005-08-22 10:50  cegger
+
+	* Makefile.am: remove genlibtool from EXTRA_DIST and *CLEANFILES
+
+2005-08-19 09:27  cegger
+
+	* autogen.sh: Change message 'Running autoconf - generating
+	  configure...' to 'Running autoconf...' as suggested by Peter
+	  Ekberg
+
+2005-08-19 09:12  cegger
+
+	* autogen.sh, m4/common.m4: do not generate genlibtool, remove
+	  GGI_GENLIBTOOL, step 2
+
+2005-08-19 08:51  cegger
+
+	* .cvsignore, configure.in: Zap genlibtool, step 1
+
+2005-08-18 19:22  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 to version 1.1667.2.292
+
+2005-08-10 07:23  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 to version 1.1667.2.283
+
+2005-08-08 12:06  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 to version 1.1667.2.281
+
+2005-07-30 17:54  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 to version 1.1667.2.274
+
+2005-07-30 16:29  cegger
+
+	* display/X/init.c, display/directx/init.c,
+	  display/pseudo_stubs/init.c, display/quartz/init.c,
+	  include/ggi/internal/wmh_debug.h, wmh/init.c: use C99 inttypes
+
+2005-07-28 11:33  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 to version 1.1667.2.272
+
+2005-07-14 06:08  cegger
+
+	* compile, config.guess, config.sub, depcomp, install-sh, missing,
+	  mkinstalldirs: update to the versions shipped with automake 1.9.6
+
+2005-07-08 18:22  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 to version 1.1667.2.262
+
+2005-06-28 12:04  cegger
+
+	* include/ggi/internal/Makefile.am: add debug_macros.h and
+	  wmh_debug.h to noinst_HEADERS
+
+2005-06-28 11:55  cegger
+
+	* Makefile.am: add genlibtool.cache to DISTCLEANFILES
+
+2005-06-28 05:30  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltoptions.m4, m4/ltsugar.m4,
+	  m4/ltversion.m4: sync up with libtool cvs branch-2-0 to version
+	  1.1667.2.252
+
+2005-06-20 08:04  cegger
+
+	* wmh/init.c: #include <ggi/internal/gg_replace.h> and zap
+	  HAVE_SNPRINTF
+
+2005-06-12 11:47  cegger
+
+	* m4/ltsugar.m4: This libtool change fixes an infinite m4 loop in
+	  CVS autoconf, but causes one in autoconf 2.59. Since we use the
+	  stable version we downgrade...
+
+2005-06-12 08:54  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltoptions.m4, m4/ltsugar.m4,
+	  m4/ltversion.m4: sync up with libtool cvs branch-2-0 to version
+	  1.1167.2.245
+
+2005-06-10 12:27  cegger
+
+	* m4/common.m4: add GGI_CHECK_LIB, like AC_CHECK_LIB, but uses
+	  libtool as a compiler
+
+2005-06-10 08:51  cegger
+
+	* display/X/move.c: XGeometry expects last four arguments as
+	  unsigned. Fixes warnings
+
+2005-06-09 20:11  cegger
+
+	* configure.in: use -Wuninitialized, -Wcast-qual and
+	  -Wwrite-strings on gcc
+
+2005-06-02 20:08  cegger
+
+	* ltmain.sh, m4/ltversion.m4: sync up with libtool cvs branch-2-0
+	  to version 1.1167.2.239
+
+2005-05-21 20:40  cegger
+
+	* display/quartz/: init.c, move.c, order.c, size.c, texts.c: needs
+	  config.h
+
+2005-05-21 19:55  cegger
+
+	* display/X/: init.c, move.c, order.c, texts.c: needs config.h
+
+2005-05-21 19:44  cegger
+
+	* display/pseudo_stubs/: init.c, move.c, order.c, texts.c: needs
+	  config.h
+
+2005-05-21 19:25  cegger
+
+	* wmh/stubs.c: needs config.h
+
+2005-05-16 15:12  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 to version 1.1167.2.236
+
+2005-05-12 17:14  cegger
+
+	* doc/man/ggiWmhZOrder.3: regen.
+
+2005-05-12 08:16  pekberg
+
+	* doc/libggiwmh-functions.txt: Minor language tweaks.
+
+2005-05-12 07:57  pekberg
+
+	* demos/wmhtest.c, display/X/order.c, display/directx/order.c,
+	  display/pseudo_stubs/order.c, display/quartz/order.c,
+	  include/ggi/wmh.h, include/ggi/internal/wmh.h, wmh/stubs.c: Make
+	  use of non-polluting new ZO-names
+
+2005-05-12 05:26  cegger
+
+	* doc/man/: ggiWmhIconify.3, ggiWmhInit.3, ggiWmhMove.3,
+	  ggiWmhSetTitle.3, ggiWmhZOrder.3: regen.
+
+2005-05-12 05:26  cegger
+
+	* doc/libggiwmh-functions.txt: adapt ggiWmhZOrder(3) manpage to fit
+	  modifications from include/ggi/wmh.h, rev 1.4. Document ZO_* to
+	  be depricated
+
+2005-05-12 05:15  cegger
+
+	* include/ggi/wmh.h: fix retarded namespace pollution: rename
+	  ordercmd  ->	ggi_wmh_ordercmd	ZO_TOP	-> GGI_WMH_ZO_TOP
+	       ZO_ONE_UP -> GGI_WMH_ZO_ONE_UP	     ZO_ONE_DOWN ->
+	  GGI_WMH_ZO_ONE_DOWN	     ZO_BOTTOM	-> GGI_WMH_ZO_BOTTOM
+
+	  Since the ZO_* existed for too long we provide backward
+	  compatibility to allow users a smooth migration w/o running into
+	  upgrade-troubles:	   ZO_TOP, ZO_ONE_UP, ZO_ONE_DOWN and
+	  ZO_BOTTOM are aliases for their GGI_WMH_* pendants
+	  ordercmd is an alias for ggi_wmh_ordercmd
+
+2005-04-29 16:20  cegger
+
+	* m4/: common.m4, libtool.m4: Quote all arguments to AC_DEFINE and
+	  AC_DEFINE_UNQUOTED consistently. Patch from libtool branch-2-0
+
+2005-04-29 08:55  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 to version 1.1167.2.229
+
+2005-04-29 08:38  cegger
+
+	* configure.in: use new GGI_GENLIBTOOL macro introduced in
+	  m4/common.m4, rev 1.2
+
+2005-04-29 08:32  cegger
+
+	* m4/common.m4: new macro: GGI_GENLIBTOOL. It generates libtool for
+	  use of configure. Implementation copied from
+	  ggi-core/libgii/configure.in, rev 1.160
+
+2005-04-29 07:56  cegger
+
+	* m4/Makefile.am: consolidate m4 macros into one common.m4 file
+	  each GGI lib or extension needs anyway.
+
+2005-04-29 07:31  cegger
+
+	* m4/common.m4: consolidate m4 macros into one common.m4 file each
+	  GGI lib or extension needs anyway.
+
+2005-04-24 09:39  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 to version 1.1167.2.219
+
+2005-04-16 20:29  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 to version 1.1167.2.211
+
+2005-04-11 18:39  cegger
+
+	* doc/man/: Makefile.am, ggiWmhIconify.3, ggiWmhInit.3,
+	  ggiWmhMove.3, ggiWmhSetTitle.3, ggiWmhZOrder.3, libggiwmh.7:
+	  regen.
+
+2005-04-07 21:41  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 to version 1.1167.2.207
+
+2005-03-20 09:03  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 to version 1.1167.2.193
+
+2005-03-11 21:25  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 to verison 1.1667.2.175
+
+2005-02-26 18:32  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 to version 1.1667.2.166
+
+2005-02-17 23:32  cegger
+
+	* ltmain.sh: pass -pthread like flags to the linker when linking
+	  executables too. Now libtool tracks -pthread dependency correctly
+
+2005-02-15 06:32  cegger
+
+	* autogen.sh: We now require automake 1.9.5 to benefit from
+	  bugfixes and a license change:
+
+	  All m4 files have been relicensed under an all-permissive
+	  license.
+
+	  Previously they used a GPL license, and an all-permissive license
+	  was prepended when they were copied into aclocal.m4, leading to
+	  some confusion.
+
+2005-02-15 06:12  cegger
+
+	* compile, config.guess, config.sub, depcomp, install-sh, missing,
+	  mkinstalldirs: update to versions shipped with automake 1.9.5
+
+2005-02-09 06:24  cegger
+
+	* ltmain.sh, m4/ltversion.m4: sync up with libtool cvs branch-2-0
+	  to version 1.1667.2.158
+
+2005-02-01 21:23  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 to version 1.1667.2.149
+
+2005-01-29 13:57  cegger
+
+	* display/quartz/: Makefile.am, init.c, move.c, quartzwmh.h,
+	  size.c: refactor: move positioning and (re)sizing code from
+	  move.c to size.c
+
+	  User can resize windows now. Implementation partially done -
+	  window content does not update itself
+
+2005-01-28 22:01  cegger
+
+	* wmh/init.c: correct comment: dummyfunc() returns GGI_ENOFUNC, not
+	  -1
+
+2005-01-28 21:51  cegger
+
+	* wmh/init.c: revert rev. 1.4. libggiwmh has its own wmh_debug.h.
+
+2005-01-28 12:16  cegger
+
+	* display/quartz/texts.c: Implement GGI_WMH_MAPSTATE_ICON. Now it
+	  is possible to iconify the window
+
+2005-01-27 20:21  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 to version 1.1667.2.141
+
+2005-01-27 08:17  pekberg
+
+	* display/directx/: move.c, order.c, texts.c: Change locking in the
+	  directx target to use a mutex instead of a critical section. The
+	  ordinary ggLock can't be used as the ggLock is not reentrant by
+	  the thread that owns the lock, a feature required by the window
+	  procedure.  The reentrance feature *could* be supplied by
+	  ggLocks, but only by introducing more locks, which would hurt
+	  performance. Critical sections can't be used as the entry point
+	  TryEnterCriticalSection does not exist on Win9x/ME.
+
+2005-01-26 10:49  pekberg
+
+	* display/directx/Makefile.am: Add dependency on user32.dll.
+
+2005-01-24 22:30  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 version 1.1667.2.137
+
+2005-01-21 13:05  cegger
+
+	* demos/wmhtest.c: libwmh has been renamed to libggiwmh a long time
+	  ago. Adapt title messages.
+
+2005-01-19 07:56  cegger
+
+	* display/quartz/move.c: implement ggiWmhResize()
+
+2005-01-18 14:49  pekberg
+
+	* demos/wmhtest.c: small is apparently not a good variable name on
+	  MinGW.
+
+2005-01-13 11:56  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltoptions.m4, m4/ltsugar.m4,
+	  m4/ltversion.m4: sync up with libtool cvs branch-2-0 version
+	  1.1667.2.129
+
+2005-01-12 00:06  cegger
+
+	* ltmain.sh, m4/ltversion.m4: sync up with libtool cvs branch-2-0
+	  version 1.1667.2.127
+
+2005-01-09 12:58  cegger
+
+	* wmh/init.c: cast dummyfunc to appropriate function pointers.
+	  Fixes warning about 'ISO C forbids assignment between function
+	  pointer and void *'.
+
+2005-01-09 12:49  cegger
+
+	* display/quartz/EXPSYMS: export WMHdl_quartz_wmh. Forgot to commit
+	  this file. Issue found by autobuilder
+
+2005-01-05 13:44  soyt
+
+	* include/ggi/internal/wmh_debug.h: use my personal email address
+
+2005-01-03 13:36  cegger
+
+	* demos/wmhtest.c: nuke unused variables tv and ev in ggi_resize()
+
+2005-01-03 12:54  pekberg
+
+	* demos/wmhtest.c: When receiving several switch requests, ignore
+	  all but the last.  Clean up event handling so that pressing a key
+	  exits the app more deterministically.
+
+2005-01-03 12:49  pekberg
+
+	* demos/wmhtest.c: Set allowed resize as intended when manually
+	  resizing between 300x300 and 600x600.
+
+2004-12-30 16:04  cegger
+
+	* configure.in, libggiwmh.conf.in, display/Makefile.am,
+	  display/quartz/.cvsignore, display/quartz/Makefile.am,
+	  display/quartz/init.c, display/quartz/move.c,
+	  display/quartz/order.c, display/quartz/quartzwmh.h,
+	  display/quartz/texts.c: add display-quartz. It implements so far:
+
+	  ggiWmhMove(), ggiWmhGetPos(), ggiWmhGetSize(), ggiWmhZOrder() -
+	  ZO_TOP and ZO_BOTTOM, ggiWmhSetTitle(), ggiWmhIconify() -
+	  GGI_WMH_MAPSTATE_NORMAL and GGI_WMH_MAPSTATE_WITHDRAWN
+
+2004-12-28 18:59  cegger
+
+	* config.guess, config.sub, install-sh: update to the versions
+	  shipped with automake 1.9.4
+
+2004-12-28 18:39  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 version 1.1667.2.118
+
+2004-12-22 13:20  cegger
+
+	* checkversion.sh: use 'head -n 1' than 'head -1'. Last form is
+	  depricated. Patch from Tobias Hunger.
+
+2004-12-21 16:00  pekberg
+
+	* display/directx/move.c: Make ggiWmhGetPos and ggiWmhMove act on
+	  the client area, not the window including decorations. This makes
+	  wmh-directx behave like X11.
+
+2004-12-20 14:33  pekberg
+
+	* display/directx/move.c: Make ggiWmhGetPos and ggiWmhGetSize
+	  return values consistent with any previous calls to ggiWmhMove
+	  and ggiWmhResize.
+
+2004-12-17 14:46  pekberg
+
+	* display/directx/move.c: Don't adjust the window with the size of
+	  the decorations. That was a bug that made the window bigger on
+	  each and every move.
+
+2004-12-13 17:53  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 version 1.1667.2.100
+
+2004-12-08 08:40  cegger
+
+	* include/ggi/internal/debug_macros.h: sync up with revision 1.6 of
+	  tools/buildframework/include/ggi/internal/debug_macros.h:
+
+	  'fmt' becomes 'form'. Finally, it is in a working state again.
+
+2004-12-08 07:29  cegger
+
+	* include/ggi/internal/debug_macros.h: sync up with revision 1.5 of
+	  tools/buildframework/include/ggi/internal/debug_macros.h:
+
+	  disable DPRINTIF that is meant for compatibility. Fixes build
+	  problems due to re-declaration.
+
+2004-12-07 09:05  cegger
+
+	* include/ggi/internal/debug_macros.h: sync with rev. 1.4:
+
+	  More work on the debug framework - multiple debug level - macros
+	  for defining debug context
+
+2004-12-06 22:34  cegger
+
+	* doc/man/ggiWmhMaximize.3: regen.
+
+2004-12-06 22:26  cegger
+
+	* doc/man/: Makefile.am, ggiWmhIconify.3, ggiWmhInit.3,
+	  ggiWmhMove.3, ggiWmhSetTitle.3, ggiWmhZOrder.3: regen.
+
+2004-12-04 20:11  cegger
+
+	* wmh/init.c: #include <ggi/internal/wmh_debug.h> for DEBUG_*
+	  macros. Makes this file compile again
+
+2004-12-04 19:45  neiljp
+
+	* doc/libggiwmh-functions.txt: libggiwmh doc fixes
+
+2004-11-30 15:04  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 version 1.1667.2.95
+
+2004-11-29 19:58  soyt
+
+	* display/X/Makefile.am, display/directx/Makefile.am,
+	  display/pseudo_stubs/Makefile.am, wmh/Makefile.am: - change
+	  AM_CFLAGS to AM_CPPFLAGS - use '.' rather than ':' in
+	  DEBUG_NAMESPACE
+
+2004-11-27 23:48  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 version 1.1667.2.88
+
+2004-11-27 22:29  soyt
+
+	* display/X/Makefile.am, display/directx/Makefile.am,
+	  display/pseudo_stubs/Makefile.am, include/ggi/wmh-defs.h,
+	  include/ggi/internal/debug_macros.h,
+	  include/ggi/internal/wmh_debug.h, wmh/Makefile.am, wmh/init.c:
+	  update to new debug scheme
+
+2004-11-19 22:00  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 version 1.1667.2.78
+
+2004-11-18 19:09  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 version 1.1667.2.73
+
+2004-11-17 00:12  cegger
+
+	* doc/man/: ggiWmhIconify.3, ggiWmhInit.3, ggiWmhMove.3,
+	  ggiWmhSetTitle.3, ggiWmhZOrder.3, libggiwmh.7: regen.
+
+2004-11-17 00:11  cegger
+
+	* doc/libggiwmh-functions.txt: - reformulate error code sentence,
+	  spotted by Neil Pilgrim - mark parameters
+
+2004-11-17 00:09  cegger
+
+	* doc/libggiwmh-libraries.txt: lowercase GGI, spotted by Neil
+	  Pilgrim
+
+2004-11-15 21:23  cegger
+
+	* doc/man/: ggiWmhIconify.3, ggiWmhInit.3, ggiWmhMove.3,
+	  ggiWmhSetTitle.3, ggiWmhZOrder.3: regen.
+
+2004-11-15 21:23  cegger
+
+	* doc/libggiwmh-functions.txt: reference to ggi-error(3) when
+	  talking about error codes
+
+2004-11-14 23:49  cegger
+
+	* display/X/move.c, display/X/order.c, display/directx/init.c,
+	  display/directx/move.c, display/directx/order.c,
+	  display/directx/texts.c, display/pseudo_stubs/init.c, wmh/init.c:
+	  use proper defines for return value if applicable
+
+2004-11-14 21:31  cegger
+
+	* configure.in: - use -std=gnu99 flag when gcc has it - also use
+	  -W* flags when we don't compile debug code
+
+2004-11-11 14:22  cegger
+
+	* configure.in: - use GGI_CHECK_STRING_FUNCS - use
+	  GGI_CC_CHECK4_OPTION for -pedantic  $CC option - use
+	  GGI_CHECK_IMPLICIT_DECLARATIONS
+
+2004-11-10 20:14  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltoptions.m4, m4/ltversion.m4: -
+	  sync up with libtool cvs branch-2-0 version 1.1667.2.67 - Add
+	  -pthread and other thread flags to inherited_linker_flags.
+
+2004-11-03 18:07  cegger
+
+	* ltmain.sh, m4/ltversion.m4: sync with libtool branch-2-0 cvs
+	  branch, version 1.1667.2.55
+
+2004-11-03 08:21  cegger
+
+	* doc/man/: Makefile.am, libggiwmh.7: regenerate manpages
+
+2004-11-01 22:46  cegger
+
+	* compile, config.guess, install-sh: sync with
+	  tools/buildframework:
+
+	  update to versions shipped with automake 1.9.3
+
+2004-11-01 18:59  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync with libtool
+	  branch-2-0 cvs branch, version 1.1667.2.53
+
+2004-10-31 18:19  cegger
+
+	* wmh/init.c: disable debug code until libggiwmh has its own. For
+	  now, this makes libggiwmh compile again.
+
+2004-10-28 07:14  pekberg
+
+	* configure.in: Zap dlopen from LT_INIT, we're not using the
+	  -dlopen or -dlpreopen libtool flags anywhere.
+
+2004-10-27 13:31  pekberg
+
+	* configure.in: It appears that using _LT_SET_OPTION multiple times
+	  do not work as expected.
+
+2004-10-27 13:04  cegger
+
+	* doc/man/libggiwmh.7: regen.
+
+2004-10-27 10:21  pekberg
+
+	* doc/libggiwmh-libraries.txt: Mention GGI_CONFDIR.
+
+2004-10-27 10:21  pekberg
+
+	* wmh/init.c: Don't allow overiding the compiled in path on Cygwin.
+
+2004-10-26 14:31  cegger
+
+	* .cvsignore: sync with ggi-core/libggi/.cvsignore, rev 1.3
+
+2004-10-25 12:39  cegger
+
+	* wmh/Makefile.am: bump to devel version. better late than never...
+
+2004-10-23 16:26  cegger
+
+	* configure.in: update via autoupdate with slight modifications by
+	  me
+
+2004-10-23 16:23  cegger
+
+	* Makefile.am, configure.in: add genlibtool.in and genlibtool to
+	  distribution run genlibtool from ${srcdir} than CWD.
+
+	  make distcheck works again
+
+2004-10-23 15:10  cegger
+
+	* configure.in: update via autoupdate
+
+2004-10-23 15:08  cegger
+
+	* configure.in: libtool 1.4.3 generated the platform dependent
+	  libtool script at configure time when AM_PROG_LIBTOOL was
+	  invoked.
+
+	  With libtool 2.0, config.status generates the platform dependent
+	  libtool script. config.status is invoked by configure _after_
+	  configure finished.
+
+	  This arises the problem, that library checks via AC_CHECK_LIB
+	  fail. We wrap around CC with '/bin/tcsh ./libtool ' to easily
+	  track somewhat hidden library dependencies that may even differ
+	  from platform to platform. This way assumes that libtool exists
+	  and has been generated before.  Unfortunately, with libtool 2.0
+	  this is no longer true.
+
+	  The solution is to add a minimalistic configure script called
+	  genlibtool. genlibtool only performs the checks required to
+	  generate the libtool script.
+
+	  configure invokes genlibtool right after AM_PROG_LIBTOOL (which
+	  will be renamed to the new name LT_INIT later), to ensure that
+	  libtool exists _before_ performing the library checks via
+	  AC_CHECK_LIB as described above.
+
+	  Now, since configure calls another 'embedded' configure don't get
+	  confused when some checks seem to be done twice.
+
+	  configure creates a confdefs.h file for internal use and deletes
+	  it after exiting. We make a safety copy of it _before_ calling
+	  genlibtool. When genlibtool finishs, we restore it to not break
+	  following checks assuming confdefs.h to be there.
+
+2004-10-23 14:07  cegger
+
+	* ltmain.sh, m4/ltversion.m4: sync with libtool-2-0 branch
+
+2004-10-23 13:46  cegger
+
+	* m4/check4libggi.m4: libtool 2.0 requires --mode=link option
+
+2004-10-23 13:30  cegger
+
+	* autogen.sh: libtool 1.4.3 generated the platform dependent
+	  libtool script at configure time when AM_PROG_LIBTOOL was
+	  invoked.
+
+	  With libtool 2.0, config.status generates the platform dependent
+	  libtool script. config.status is invoked by configure _after_
+	  configure finished.
+
+	  This arises the problem, that library checks via AC_CHECK_LIB
+	  fail. We wrap around CC with '/bin/tcsh ./libtool ' to easily
+	  track somewhat hidden library dependencies that may even differ
+	  from platform to platform. This way assumes that libtool exists
+	  and has been generated before.  Unfortunately, with libtool 2.0
+	  this is no longer true.
+
+	  The solution is to add a minimalistic configure script called
+	  genlibtool. genlibtool only performs the checks required to
+	  generate the libtool script.
+
+	  configure invokes genlibtool right after AM_PROG_LIBTOOL (which
+	  will be renamed to the new name LT_INIT later), to ensure that
+	  libtool exists _before_ performing the library checks via
+	  AC_CHECK_LIB as described above.
+
+	  Now, since configure calls another 'embedded' configure don't get
+	  confused when some checks seem to be done twice.
+
+	  configure creates a confdefs.h file for internal use and deletes
+	  it after exiting. We make a safety copy of it _before_ calling
+	  genlibtool. When genlibtool finishs, we restore it to not break
+	  following checks assuming confdefs.h to be there.
+
+2004-10-22 05:31  cegger
+
+	* ltmain.sh, m4/ltversion.m4: sync with libtool-2-0 cvs branch
+
+2004-10-20 23:46  cegger
+
+	* m4/libtool.m4: incorporate latest libtool 2.0 pre-release fixes
+
+2004-10-19 20:18  cegger
+
+	* configure.in: make use of AC_DEFINE's third argument. This get us
+	  rid from acconfig.h and fixes the autoheader warnings.
+
+2004-10-18 21:20  cegger
+
+	* configure.in: Build update process, part 3: We now require
+	  autoconf 2.59
+
+2004-10-18 21:06  cegger
+
+	* m4/: ltoptions.m4, ltsugar.m4, ltversion.m4: Build process
+	  update, part 2b: Update to libtool 2.0 pre-release
+
+2004-10-18 20:54  cegger
+
+	* ltmain.sh, m4/libtool.m4: Build process update, part 2a: Update
+	  to libtool 2.0 pre-release
+
+2004-10-18 20:42  cegger
+
+	* autogen.sh: Build process update, part 1: We now require autoconf
+	  2.59 and automake 1.9.2
+
+2004-10-18 11:55  cegger
+
+	* configure.in: bump to devel version
+
+2004-10-14 21:59  cegger
+
+	* display/Makefile.am: add directx and pseudo_stubs to distribution
+
+2004-10-14 21:53  cegger
+
+	* configure.in, wmh/Makefile.am: bump version to 0.2 - the next
+	  major version number
+
+2004-10-14 19:09  cegger
+
+	* Makefile.am, configure.in, doc/.cvsignore, doc/Makefile.am,
+	  doc/libggiwmh-functions.txt, doc/libggiwmh-libraries.txt,
+	  doc/libggiwmh.txt, doc/man/.cvsignore, doc/man/Makefile.am,
+	  doc/man/ggiWmhAllowResize.3, doc/man/ggiWmhAttach.3,
+	  doc/man/ggiWmhDetach.3, doc/man/ggiWmhExit.3,
+	  doc/man/ggiWmhGetPos.3, doc/man/ggiWmhGetSize.3,
+	  doc/man/ggiWmhIconify.3, doc/man/ggiWmhInit.3,
+	  doc/man/ggiWmhMove.3, doc/man/ggiWmhMoveIcon.3,
+	  doc/man/ggiWmhResize.3, doc/man/ggiWmhSetIconTitle.3,
+	  doc/man/ggiWmhSetTitle.3, doc/man/ggiWmhZOrder.3,
+	  doc/man/libggiwmh.7: document the libggiwmh API
+
+2004-09-30 12:58  cegger
+
+	* config.guess, config.sub, depcomp, install-sh, missing: sync with
+	  tools/buildframework: update to the version shipped with automake
+	  1.9.2
+
+2004-09-25 09:52  cegger
+
+	* Makefile.am: autogen.sh requires checkversion.sh. So distribute
+	  it, too
+
+2004-09-24 14:11  pekberg
+
+	* display/directx/: move.c, order.c: prevent meaningless actions in
+	  fullscreen mode
+
+2004-09-19 13:04  cegger
+
+	* display/X/: move.c, order.c, texts.c: consistently use GGIX_PRIV
+
+2004-09-19 12:57  cegger
+
+	* display/X/init.c: consistently use GGIX_PRIV, return GGI_ENOFUNC
+	  on failure
+
+2004-09-10 06:20  cegger
+
+	* configure.in: use same CFLAGS as libggi\'s configure rev 1.130
+
+2004-09-08 14:10  cegger
+
+	* m4/libtool.m4: sync with tools/buildframework/m4/libtool.m4 rev
+	  1.3:
+
+	  Use 'gcc -shared' on both cygwin and mingw.  Optimize out dlltool
+	  and dllwrap.
+
+2004-08-17 06:59  pekberg
+
+	* configure.in, libggiwmh.conf.in, m4/Makefile.am: Use relative
+	  paths in the configuration file on mingw.
+
+2004-08-13 19:15  cegger
+
+	* ltmain.sh: sync with tools/buildframework/ltmain.sh, rev 1.2:
+
+	  Install core dlls in bin instead of in lib on mingw.	No longer
+	  needed to have the lib dir in the path.
+
+2004-08-11 10:31  cegger
+
+	* m4/libtool.m4:
+	  sync with tools/buildframework/m4/libtool.m4 rev 1.2:
+
+	  Make libtool build functional dlls on cygwin
+
+2004-07-28 08:14  cegger
+
+	* autogen.sh: echo -n only works on linux, *BSD and darwin. Use
+	  printf to make it work on all platforms including System V
+
+2004-06-06 21:11  cegger
+
+	* configure.in: since libtool tracks lib dependencies correctly,
+	  $THREADLIBS is no longer needed
+
+2004-06-06 20:52  cegger
+
+	* m4/check4libggi.m4: sync with new versions from
+	  tools/buildframework/
+
+2004-06-06 20:18  cegger
+
+	* m4/gii_paths.m4: sync with new versions from
+	  tools/buildframework/
+
+2004-05-28 11:27  cegger
+
+	* m4/check4libggi.m4: sync with new versions from
+	  tools/buildframework/
+
+2004-05-25 09:40  pekberg
+
+	* demos/Makefile.am: Remove explicit references to $(THREADLIBS) as
+	  they are no longer needed.  This is taken care of implicitly by
+	  the recent ltmain.sh update.
+
+2004-05-24 17:09  cegger
+
+	* ltmain.sh: sync with new versions from tools/buildframework/
+
+2004-05-10 17:38  aldot
+
+	* demos/Makefile.am: threadlibs are needed for FreeBSD
+
+2004-05-09 20:20  cegger
+
+	* config.guess, config.sub: sync with new versions from
+	  tools/buildscripts/
+
+2004-05-09 12:54  cegger
+
+	* config.guess, config.sub, depcomp, install-sh: sync with new
+	  versions from tools/buildscripts/
+
+2004-05-08 22:22  cegger
+
+	* configure.in: use new GGI_CHECKLIB macro
+
+2004-05-08 22:15  cegger
+
+	* m4/Makefile.am: GGI_CHECKLIB needs GGI_THREADLIBS
+
+2004-05-08 22:13  cegger
+
+	* m4/check4libggi.m4: switch over to new libggi detection
+
+2004-05-08 22:12  cegger
+
+	* m4/Makefile.am: add missing m4's to EXTRA_DIST
+
+2004-05-06 19:16  pekberg
+
+	* configure.in: There should be no need for extra ld flags when
+	  linking with libtool
+
+2004-05-06 06:31  pekberg
+
+	* configure.in: locate ggi using libtool, as ggi detects gii
+
+2004-04-23 04:35  cegger
+
+	* .cvsignore: ignore autom4te.cache
+
+2004-04-09 22:44  cegger
+
+	* config.guess, config.sub: update to version shipped with libtool
+	  1.5.4
+
+2004-04-09 22:43  cegger
+
+	* install-sh, mkinstalldirs: update to version shipped with
+	  automake 1.8.3
+
+2004-03-25 10:43  pekberg
+
+	* configure.in, libggiwmh.conf.in, display/directx/.cvsignore,
+	  display/directx/EXPSYMS, display/directx/Makefile.am,
+	  display/directx/directxwmh.h, display/directx/init.c,
+	  display/directx/move.c, display/directx/order.c,
+	  display/directx/texts.c: add directx-wmh
+
+2004-03-25 10:00  pekberg
+
+	* configure.in, libggiwmh.conf.in, display/pseudo_stubs/.cvsignore,
+	  display/pseudo_stubs/EXPSYMS, display/pseudo_stubs/Makefile.am,
+	  display/pseudo_stubs/init.c, display/pseudo_stubs/move.c,
+	  display/pseudo_stubs/order.c,
+	  display/pseudo_stubs/pseudostubswmh.h,
+	  display/pseudo_stubs/texts.c: add pseudo-stubs for palemu/trueemu
+
+2004-03-25 09:51  pekberg
+
+	* configure.in, display/X/init.c, include/ggi/Makefile.am,
+	  include/ggi/wmh-defs.h, include/ggi/wmh.h,
+	  include/ggi/internal/wmh.h, wmh/EXPSYMS, wmh/init.c: make it
+	  build on win32
+
+2004-03-24 11:53  pekberg
+
+	* demos/wmhtest.c: Don't be a CPU hog.
+
+2004-03-11 06:44  pekberg
+
+	* demos/wmhtest.c: sleep is seconds, ggUSleep is microseconds
+
+2004-02-29 23:48  cegger
+
+	* m4/libtool.m4: sync with libgii's revision 1.15
+
+2004-02-29 13:37  cegger
+
+	* demos/wmhtest.c: use portable ggUSleep() than non-portable
+	  sleep() call.
+
+2004-02-10 06:41  cegger
+
+	* m4/libtool.m4: make install works on mingw. Patch from Peter
+	  Ekberg.
+
+2004-01-31 11:23  cegger
+
+	* checkversion.sh: sync with libgii's latest revision 1.4
+
+2004-01-31 10:40  cegger
+
+	* autogen.sh, checkversion.sh: make autogen.sh checking for
+	  required autoconf & automake version
+
+2004-01-31 10:15  cegger
+
+	* m4/libtool.m4: sync with libgii's revision 1.12
+
+2004-01-29 20:29  cegger
+
+	* m4/libtool.m4: sync libtool with libgii (revision 1.11)
+
+2004-01-24 23:14  cegger
+
+	* ltmain.sh, m4/libtool.m4: merge libgii's libtool update
+
+	  ltmain.sh (revisions 1.11-1.13) m4/ltdl.m4 (revision 1.3)
+	  m4/libtool.m4 (revision 1.10)
+
+2004-01-24 22:49  cegger
+
+	* compile, config.guess, config.sub, depcomp, install-sh, missing,
+	  mkinstalldirs: update to version shipped with automake 1.8.2
+
+2003-12-13 14:57  cegger
+
+	* config.guess, config.sub, depcomp, missing: update to version
+	  shipped by automake 1.7.9
+
+2003-11-27 20:42  cegger
+
+	* configure.in: sync warning flags for libggiwmh with other libs
+
+2003-11-27 20:41  cegger
+
+	* demos/wmhtest.c: declare functions static
+
+2003-11-27 20:40  cegger
+
+	* display/X/move.c: XResizeWindow() expects unsigned int.
+
+2003-09-22 19:56  cegger
+
+	* depcomp, install-sh: update to version shipped by automake 1.7.6
+
+2003-07-14 16:33  cegger
+
+	* autogen.sh: synchronize with libgii
+
+2003-07-09 09:01  cegger
+
+	* config.guess, config.sub: update from
+	  ftp://ftp.gnu.org/gnu/config/
+
+2003-06-12 08:12  cegger
+
+	* config.guess, config.sub, install-sh: update to the version
+	  shipped by automake 1.7.5
+
+2003-05-09 22:11  cegger
+
+	* configure.in: warn on incomplete switch/case handling
+
+2003-04-28 11:38  cegger
+
+	* COPYING: make libggiwmh BSD licensed
+
+2003-04-22 20:46  cegger
+
+	* configure.in: make gcc more silence and warn about more serious
+	  things
+
+2003-04-14 00:01  ggibecka
+
+	* demos/wmhtest.c, display/X/texts.c, include/ggi/wmh.h: Added
+	  withdrawn state to iconify. Testing if mail now work.
+
+2003-04-04 18:07  ggibecka
+
+	* display/X/move.c: Allow minsize to be 0/0
+
+2003-02-26 21:49  cegger
+
+	* config.guess, config.sub, depcomp: update to the version shipped
+	  by automake 1.7.3
+
+2003-01-28 15:28  cegger
+
+	* ltmain.sh: merge OpenBSD fixes from libggi
+
+2003-01-04 22:18  cegger
+
+	* wmh/EXPSYMS: Follow three rules to compile a lib successfully
+	  under Solaris: 1. Never use emtpy lines in EXPSYMS 2. Never
+	  forget to remove obseleted/deprecated symbols that no longer
+	  exists in the lib 3. Never forget to add used symbols in EXPSYMS
+
+2002-12-21 00:45  cegger
+
+	* ReleaseNote: Update download link
+
+2002-12-17 18:25  cegger
+
+	* config.guess, config.sub, install-sh: update to the version
+	  coming along with autoconf 2.57/automake 1.7.2
+
+2002-12-17 16:13  cegger
+
+	* README: reflect all changed libnames
+
+2002-12-16 23:43  cegger
+
+	* ReleaseNote: update link
+
+2002-12-16 20:29  cegger
+
+	* Makefile.am, configure.in, libggiwmh.conf.in, demos/Makefile.am,
+	  display/X/Makefile.am, wmh/Makefile.am: renamed libwmh to
+	  libggiwmh
+
+2002-12-10 07:04  cegger
+
+	* ReleaseNote: be more talkative
+
+2002-12-10 00:54  cegger
+
+	* ReleaseNote: corrected download link
+
+2002-12-10 00:47  cegger
+
+	* ReleaseNote: add missing file ;)
+
+2002-12-10 00:46  cegger
+
+	* configure.in: bump version number
+
+2002-12-08 23:36  cegger
+
+	* README: add missing 'introduction' file
+
+2002-12-08 21:41  cegger
+
+	* ltmain.sh: add fixes from debian
+
+2002-12-08 13:46  cegger
+
+	* configure.in: configure fails now, when libggi not found + other
+	  improvements
+
+2002-12-08 02:05  skids
+
+	* display/X/init.c:
+	  Doctor, you left a spoon in the patient!
+
+2002-12-08 01:56  skids
+
+	* display/X/: init.c, move.c, order.c, texts.c, xwmh.h:
+	  Update X target to work with new X target.  Note: Interaction
+	  with ggiGetMode have not been investigated Note: Not stress
+	  tested WRT locking of xliblock.
+
+2002-11-28 18:35  cegger
+
+	* wmh/: .cvsignore, EXPSYMS, Makefile.am, init.c, stubs.c: change
+	  libwmh to modern extension layout structure
+
+2002-11-28 18:29  cegger
+
+	* Makefile.am, configure.in, libggiwmh.conf.in, demos/Makefile.am,
+	  demos/wmhtest.c, display/Makefile.am, display/X/EXPSYMS,
+	  display/X/Makefile.am, display/X/init.c, display/X/xwmh.h,
+	  include/.cvsignore, include/Makefile.am, include/ggi/.cvsignore,
+	  include/ggi/Makefile.am, include/ggi/wmh.h,
+	  include/ggi/internal/.cvsignore,
+	  include/ggi/internal/Makefile.am, include/ggi/internal/wmh.h:
+	  change libwmh to modern extension layout structure
+
+2002-11-27 22:08  cegger
+
+	* configure.in, m4/gii_paths.m4: configure cleanup
+
+2002-11-25 14:47  cegger
+
+	* config.guess, config.sub, install-sh, mkinstalldirs: update to
+	  the versions shipped with autoconf 2.55
+
+2002-10-24 15:27  cegger
+
+	* config.guess, ltmain.sh, m4/libtool.m4: update to libtool 1.4.3
+
+2002-10-17 21:10  cegger
+
+	* config.guess, config.sub: update to versions shipped with
+	  automake 1.7. This let configure recognize more CPU variants
+	  (i.e. of mips, powerpc64 and athlon (XP))
+
+2002-10-07 21:23  cegger
+
+	* config.guess, config.sub, depcomp, install-sh, missing,
+	  mkinstalldirs: update to the version shipped with automake 1.6.3
+
+2002-10-06 18:04  cegger
+
+	* compile, config.guess, config.sub, depcomp, install-sh,
+	  ltmain.sh, missing, mkinstalldirs, m4/libtool.m4: merge build
+	  system update from libgii
+
+2002-09-28 15:45  cegger
+
+	* Makefile.am: merge automake 1.6 fix from libgii
+
+2002-01-12 16:47  cegger
+
+	* configure.in: --with-ggi defaults to --prefix
+
+2001-07-16 15:08  thayne
+
+	* configure.in: revert to AM_PROG_LIBTOOL and AM_DISABLE_STATIC to
+	  fix "LIBTOOL no set in configure.in" bug and inconsistency with
+	  LIBTOOL docs.
+
+2001-07-10 05:22  thayne
+
+	* configure.in: AM_PROG_LIBTOOL and AM_DISABLE_STATIC are
+	  deprecated - use 'AC_' names.
+
+2001-07-09 14:49  thayne
+
+	* m4/libtool.m4: libtool 1.4 has moved tests from ltconfig to
+	  libtool.m4.  Delete unecessary ltconfig and update libtool.m4.
+
+2001-07-07 17:26  thayne
+
+	* Makefile.am, configure.in, libggiwmh.conf.in: Update configure.in
+	  and associated files to be consistent across libs
+
+2001-07-07 15:03  thayne
+
+	* ltmain.sh: Fixing bug in libtool 1.4 where it won't find
+	  interdependency libraries during install to a packaging dir
+
+2001-07-07 08:11  thayne
+
+	* config.guess, config.sub, ltmain.sh: Updating to libtool 1.4
+
+2001-07-03 20:09  cegger
+
+	* Makefile.am, configure.in, libggiwmh.conf.in: confdir fixes
+
+2001-06-27 13:09  ggibecka
+
+	* display/X/: init.c, move.c, xwmh.h: Added new functions for
+	  LibWmh: GetPos and GetSize.
+
+2001-04-22 19:00  cegger
+
+	* COPYING, Makefile.am, autogen.sh, config.guess, config.sub,
+	  configure.in, install-sh, libggiwmh.conf.in, .cvsignore,
+	  ltmain.sh, missing, mkinstalldirs, demos/Makefile.am,
+	  demos/wmhtest.c, display/Makefile.am, display/X/EXPSYMS,
+	  display/X/Makefile.am, display/X/init.c, display/X/move.c,
+	  display/X/order.c, display/X/texts.c, display/X/xwmh.h,
+	  m4/Makefile.am, m4/libtool.m4: Initial revision
+
+2001-04-22 19:00  cegger
+
+	* ChangeLog, INSTALL, demos/.cvsignore, display/.cvsignore,
+	  display/X/.cvsignore, m4/.cvsignore: initial import
+

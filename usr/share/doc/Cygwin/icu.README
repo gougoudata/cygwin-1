@@ -1,0 +1,159 @@
+icu
+-------------------------------------------
+IBM Internationalization Components for Unicode
+
+Runtime requirements:
+  cygwin-1.7
+  libgcc1-4.3.4
+  libstdc++6-4.3.4
+
+Build requirements:
+  cygwin-1.7
+  autoconf2.5-2.61
+  binutils
+  cygport
+  gawk
+  gcc-4.3.4
+  make
+  sed
+
+Canonical homepage:
+  http://ibm.com/software/globalization/icu/
+
+Canonical download:
+  ftp://www-126.ibm.com/pub/icu/
+
+-------------------------------------------
+
+Build instructions:
+  unpack icu-4.8.1-X-src.tar.bz2
+    if you use setup to install this src package, it will be
+	 unpacked under /usr/src automatically
+  cd /usr/src
+  cygport ./icu-4.8.1-X all
+
+This will create:
+  /usr/src/icu-4.8.1-X-src.tar.bz2
+  /usr/src/icu-4.8.1-X.tar.bz2
+  /usr/src/libicu38-4.8.1-X.tar.bz2
+  /usr/src/libicu-devel-4.8.1-X.tar.bz2
+  /usr/src/icu-doc-4.8.1-X.tar.bz2
+
+-------------------------------------------
+
+Files included in the binary packages:
+
+=icu= package:
+
+  usr/share/doc/Cygwin/icu-4.8.1.README
+
+=libicu48= package:
+
+  usr/bin/cygicudt48.dll	The huge DATA library
+  usr/bin/cygicuin48.dll	i18n Library
+  usr/bin/cygicuio48.dll	Optional stdio-like API with Unicode support
+  usr/bin/cygicule48.dll	Optional Font Layout Engine  
+  usr/bin/cygiculx48.dll 	Optional Font Layout Extensions Engine
+  usr/bin/cygicuuc48.dll	Base library required by all other ICU libraries
+
+=libicu-devel= package:
+
+  usr/bin/cygicuut48.dll	Internal Tool Utility Library
+  usr/bin/derb.exe
+  usr/bin/genbrk.exe
+  usr/bin/gencnval.exe
+  usr/bin/genctd.exe
+  usr/bin/genrb.exe
+  usr/bin/icu-config
+  usr/bin/makeconv.exe
+  usr/bin/pkgdata.exe
+  usr/bin/uconv.exe
+  usr/share/man/man1/derb.1
+  usr/share/man/man1/genbrk.1
+  usr/share/man/man1/gencnval.1
+  usr/share/man/man1/genctd.1
+  usr/share/man/man1/genrb.1
+  usr/share/man/man1/icu-config.1
+  usr/share/man/man1/makeconv.1
+  usr/share/man/man1/pkgdata.1
+  usr/share/man/man1/uconv.1
+  usr/share/man/man8/genccode.8
+  usr/share/man/man8/gencmn.8
+  usr/share/man/man8/gensprep.8
+  usr/share/man/man8/genuca.8
+  usr/share/man/man8/icupkg.8
+  usr/sbin/genccode.exe
+  usr/sbin/gencmn.exe
+  usr/sbin/gensprep.exe
+  usr/sbin/genuca.exe
+  usr/sbin/icupkg.exe
+  usr/sbin/icuswap.exe
+  usr/include/layout/*
+  usr/include/unicode/*
+  usr/lib/icu/4.5/Makefile.inc
+  usr/lib/icu/Makefile.inc
+  usr/lib/icu/current
+  usr/lib/libicudt48.0.dll.a
+  usr/lib/libicudt48.dll.a
+  usr/lib/libicuin48.0.dll.a
+  usr/lib/libicuin48.dll.a
+  usr/lib/libicuio48.0.dll.a
+  usr/lib/libicuio48.dll.a
+  usr/lib/libicule48.0.dll.a
+  usr/lib/libicule48.dll.a
+  usr/lib/libiculx48.0.dll.a
+  usr/lib/libiculx48.dll.a
+  usr/lib/libicuuc48.0.dll.a
+  usr/lib/libicuuc48.dll.a
+  usr/share/icu/4.8/config/mh-cygwin
+  usr/share/icu/4.8/mkinstalldirs
+
+=icu-doc= package:
+
+  usr/share/doc/icu/license.html
+  usr/share/doc/icu/PACKAGES 
+  usr/share/doc/icu/readme.html 
+  usr/share/doc/icu/unicode-license.txt   
+  usr/share/doc/icu/html/*.html
+
+------------------
+
+Port Notes:
+
+----- version 4.8.1-1 -----
+moved all /usr/lib/cygicu*.dll /usr/bin/
+fixed libicu*.dll.a symlinks
+
+----- version 4.5.1-1 -----
+most patches applied. at least 4.2 needed for hiphop.
+
+----- version 3.8-7 -----
+recompile with latest gcc-4.3.4
+updates dependency
+
+----- version 3.8-6 -----
+release-2: fixed packaging: patches
+
+----- version 3.8-5 -----
+release-2 test package with gcc-4.3
+
+----- version 3.8-4 -----
+Allow #include <windows.h> (patched unicode/pwin32.h)
+
+----- version 3.8-3 -----
+Official cygwin release. Merge of Yaakov's 
+version with mine: Yaakov's simplier cygport, 
+Reini's layout + doc fixes (reini)
+
+----- version 3.8-2 -----
+Patch from Gentoo Linux for CVE-2007-4770,4771. (yaakov)
+
+----- version 3.8-1 -----
+Long-overdue version bump. (yaakov)
+Another version was ITP'd at cygwin. (reini)
+
+----- version 3.2-1 -----
+Initial release for Cygwin. (yaakov)
+
+Cygwin port maintained by:
+Reini Urban

@@ -1,4 +1,4 @@
-#! /bin/perl -w
+#!/bin/perl -w
 
 # Remove trailing whitespace from modified lines in working files.
 #

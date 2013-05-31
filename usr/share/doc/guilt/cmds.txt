@@ -1,0 +1,96 @@
+linkguilt:guilt-add[1]::
+	guilt-add - Add a file to git and guilt.
+
+linkguilt:guilt-applied[1]::
+	guilt-applied - List applied patches.
+
+linkguilt:guilt-branch[1]::
+	guilt-branch - Branch the entire patch series.
+
+linkguilt:guilt-commit[1]::
+	guilt-commit - Commit specified number of patches.
+
+linkguilt:guilt-delete[1]::
+	guilt-delete - Delete a patch.
+
+linkguilt:guilt-diff[1]::
+	guilt-diff - Outputs various diffs.
+
+linkguilt:guilt-export[1]::
+	guilt-export - Export a patch series (to be used by quilt).
+
+linkguilt:guilt-files[1]::
+	guilt-files - Print the list of files that the topmost patch changes.
+
+linkguilt:guilt-fold[1]::
+	guilt-fold - Fold a specified patch into the topmost applied patch.
+
+linkguilt:guilt-fork[1]::
+	guilt-fork - Fork the topmost applied patch.
+
+linkguilt:guilt-graph[1]::
+	guilt-graph - Create a patch dependency graph.
+
+linkguilt:guilt-guard[1]::
+	guilt-guard - Assign guards to patches.
+
+linkguilt:guilt-header[1]::
+	guilt-header - Print a patch header.
+
+linkguilt:guilt-help[1]::
+	guilt-help - open man page of a guilt command.
+
+linkguilt:guilt-import-commit[1]::
+	guilt-import-commit - Import one or more commits as patches.
+
+linkguilt:guilt-import[1]::
+	guilt-import - Import specified patch file.
+
+linkguilt:guilt-init[1]::
+	guilt-init - Initialize guilt for use in a git repository.
+
+linkguilt:guilt-new[1]::
+	guilt-new - Create a new patch.
+
+linkguilt:guilt-next[1]::
+	guilt-next - Output the name of next patch to be pushed.
+
+linkguilt:guilt-patchbomb[1]::
+	guilt-patchbomb - Email a series of commits interactively.
+
+linkguilt:guilt-pop[1]::
+	guilt-pop - Pop patches from the tree.
+
+linkguilt:guilt-prev[1]::
+	guilt-prev - Output name of second topmost applied patch.
+
+linkguilt:guilt-push[1]::
+	guilt-push - Push patches onto the tree.
+
+linkguilt:guilt-rebase[1]::
+	guilt-rebase - Rebase pushed patches.
+
+linkguilt:guilt-refresh[1]::
+	guilt-refresh - Refresh topmost applied patch.
+
+linkguilt:guilt-repair[1]::
+	guilt-repair - Repair the repository state.
+
+linkguilt:guilt-rm[1]::
+	guilt-rm - Remove a file from the git tree and guilt.
+
+linkguilt:guilt-select[1]::
+	guilt-select - Select guards to apply when pushing patches.
+
+linkguilt:guilt-series[1]::
+	guilt-series - Print the stack of patches.
+
+linkguilt:guilt-status[1]::
+	guilt-status - Print the status of files since the last refresh.
+
+linkguilt:guilt-top[1]::
+	guilt-top - Output name of topmost applied patch.
+
+linkguilt:guilt-unapplied[1]::
+	guilt-unapplied - List all unapplied patches.
+

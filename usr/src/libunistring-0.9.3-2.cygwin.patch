@@ -1,0 +1,149 @@
+--- origsrc/libunistring-0.9.3/CYGWIN-PATCHES/libunistring-devel.hint	1970-01-01 01:00:00.000000000 +0100
++++ src/libunistring-0.9.3/CYGWIN-PATCHES/libunistring-devel.hint	2011-10-07 17:42:08.889585300 +0200
+@@ -0,0 +1,5 @@
++category: Devel Libs
++requires: libgcc1 libiconv
++sdesc: "Library for manipulating Unicode strings - development."
++ldesc: "This library provides functions for manipulating Unicode
++strings and for manipulating C strings according to the Unicode standard."
+--- origsrc/libunistring-0.9.3/CYGWIN-PATCHES/libunistring-doc.hint	1970-01-01 01:00:00.000000000 +0100
++++ src/libunistring-0.9.3/CYGWIN-PATCHES/libunistring-doc.hint	2011-10-07 17:42:09.279585300 +0200
+@@ -0,0 +1,6 @@
++category: Libs
++requires:
++external-source: libunistring
++sdesc: "Library for manipulating Unicode strings - documentation."
++ldesc: "This library provides functions for manipulating Unicode
++strings and for manipulating C strings according to the Unicode standard."
+--- origsrc/libunistring-0.9.3/CYGWIN-PATCHES/libunistring.README	1970-01-01 01:00:00.000000000 +0100
++++ src/libunistring-0.9.3/CYGWIN-PATCHES/libunistring.README	2011-10-07 17:42:08.842785300 +0200
+@@ -0,0 +1,120 @@
++libunistring
++================================================================================
++This library provides functions for manipulating Unicode strings and for
++manipulating C strings according to the Unicode standard.
++
++Runtime requirements:
++  cygwin-1.7.9-1
++  libgcc1-4.5.3-2
++  libiconv2-1.14-2
++
++Build requirements:
++  cygwin-1.7.9-1
++  cygport-0.10.5-1
++  gcc4-core-4.5.3-2
++  binutils-2.21.53-2
++  make-3.81-2
++  automake-4-10
++  automake1.11-1.11.1-1
++  autoconf-10-1
++  autoconf2.5-2.68-1
++  libtool-2.4-1
++  libiconv-1.14-1
++  m4-1.4.16-1
++  sed-4.2.1-1
++  gperf-3.0.3-1
++  perl-5.10.1-5
++
++Canonical homepage:
++  http://www.gnu.org/s/libunistring/
++
++Canonical download:
++  http://ftp.gnu.org/gnu/libunistring/
++
++License:
++  LGPL
++
++Language:
++  C
++
++================================================================================
++
++Build instructions:
++  unpack libunistring-0.9.3-X-src.tar.bz2
++    if you use setup to install this src package, it will be
++	 unpacked under /usr/src automatically
++  cd /usr/src
++  cygport libunistring-0.9.3-X-src all
++
++This will create:
++   /usr/src/libunistring-0.9.3-X-tar.bz2
++   /usr/src/libunistring-0.9.3-X-src.tar.bz2
++
++Files in libunistring0:
++  usr/bin/cygunistring-0.dll
++
++Files in libunistring:
++  usr/include/unicase.h
++  usr/include/uniconv.h
++  usr/include/unictype.h
++  usr/include/unilbrk.h
++  usr/include/uniname.h
++  usr/include/uninorm.h
++  usr/include/unistdio.h
++  usr/include/unistr.h
++  usr/include/unistring/
++  usr/include/unistring/cdefs.h
++  usr/include/unistring/iconveh.h
++  usr/include/unistring/inline.h
++  usr/include/unistring/localcharset.h
++  usr/include/unistring/stdbool.h
++  usr/include/unistring/stdint.h
++  usr/include/unistring/version.h
++  usr/include/unistring/woe32dll.h
++  usr/include/unitypes.h
++  usr/include/uniwbrk.h
++  usr/include/uniwidth.h
++  usr/lib/libunistring.a
++  usr/lib/libunistring.dll.a
++  usr/lib/libunistring.la
++
++Files in libunistring_doc:
++  usr/share/doc/Cygwin/libunistring.README
++  usr/share/doc/libunistring/
++  usr/share/doc/libunistring/AUTHORS
++  usr/share/doc/libunistring/BUGS
++  usr/share/doc/libunistring/ChangeLog
++  usr/share/doc/libunistring/COPYING
++  usr/share/doc/libunistring/COPYING.LIB
++  usr/share/doc/libunistring/HACKING
++  usr/share/doc/libunistring/libunistring_1.html
++  usr/share/doc/libunistring/libunistring_10.html
++  usr/share/doc/libunistring/libunistring_11.html
++  usr/share/doc/libunistring/libunistring_12.html
++  usr/share/doc/libunistring/libunistring_13.html
++  usr/share/doc/libunistring/libunistring_14.html
++  usr/share/doc/libunistring/libunistring_15.html
++  usr/share/doc/libunistring/libunistring_16.html
++  usr/share/doc/libunistring/libunistring_17.html
++  usr/share/doc/libunistring/libunistring_18.html
++  usr/share/doc/libunistring/libunistring_19.html
++  usr/share/doc/libunistring/libunistring_2.html
++  usr/share/doc/libunistring/libunistring_3.html
++  usr/share/doc/libunistring/libunistring_4.html
++  usr/share/doc/libunistring/libunistring_5.html
++  usr/share/doc/libunistring/libunistring_6.html
++  usr/share/doc/libunistring/libunistring_7.html
++  usr/share/doc/libunistring/libunistring_8.html
++  usr/share/doc/libunistring/libunistring_9.html
++  usr/share/doc/libunistring/libunistring_abt.html
++  usr/share/doc/libunistring/libunistring_toc.html
++  usr/share/doc/libunistring/NEWS
++  usr/share/doc/libunistring/README
++  usr/share/doc/libunistring/THANKS
++  usr/share/info/libunistring.info.gz
++
++================================================================================
++
++Cygwin port maintained by:
++  Erwin Waterlander <waterlan@xs4all.nl>
++
+--- origsrc/libunistring-0.9.3/CYGWIN-PATCHES/libunistring0.hint	1970-01-01 01:00:00.000000000 +0100
++++ src/libunistring-0.9.3/CYGWIN-PATCHES/libunistring0.hint	2011-10-07 17:42:08.889585300 +0200
+@@ -0,0 +1,6 @@
++category: Libs
++requires: libgcc1 libiconv2
++external-source: libunistring
++sdesc: "Library for manipulating Unicode strings - runtime."
++ldesc: "This library provides functions for manipulating Unicode
++strings and for manipulating C strings according to the Unicode standard."

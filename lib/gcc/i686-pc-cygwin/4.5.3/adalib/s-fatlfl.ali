@@ -1,0 +1,35 @@
+V "GNAT Lib v4.5"
+A -gnatwa
+A -O2
+A -W
+A -Wall
+A -g
+A -gnatp
+A -gnatg
+A -mtune=generic
+A -march=i686
+P ZX
+R nnnnnnnnnnnnnnnnnnvnnvnnnnnnnnnnnnnnnnnnnvnnnnnnnnnnnnnnnvvnvnnnnnnnnnnnnnnnn
+
+U system.fat_lflt%s	s-fatlfl.ads		90cad9a8 EE OL PU PK
+W ada%s			ada.ads			ada.ali
+W ada.unchecked_conversion%s
+W system%s		system.ads		system.ali
+W system.fat_gen%s
+W system.unsigned_types%s  s-unstyp.ads		s-unstyp.ali
+
+D ada.ads		20070406091342 9c7dd3ea
+D a-unccon.ads		20070406091342 51e09df2
+D system.ads		20111023073219 f47f7e1a
+D s-fatgen.ads		20090409150019 87841279
+D s-fatgen.adb		20091130102823 b3f7146b
+D s-fatlfl.ads		20090409150019 e331b5cb
+D s-unstyp.ads		20090409150019 c0f9fae5
+X 3 system.ads
+39K9*System 199e11 6|35r6 37r9 45r35 47r5
+X 4 s-fatgen.ads
+41k16*Fat_Gen 129e19 6|35w13 45r42
+X 6 s-fatlfl.ads
+37K16*Fat_LFlt 3|39k9 6|47l12 47e20
+45K12*Attr_Long_Float[4|41]
+

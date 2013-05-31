@@ -17,13 +17,13 @@ W system.secondary_stack%s  s-secsta.adb	s-secsta.ali
 U ada.command_line%s	a-comlin.ads		d8088025 NE PR PK
 W ada%s			ada.ads			ada.ali
 
-D ada.ads		20030424175358 a0108083
+D ada.ads		20030424175357 a0108083
 D a-comlin.ads		20030424175352 781800a6
-D a-comlin.adb		20031021134154 ac252e5e
+D a-comlin.adb		20031021134153 ac252e5e
 D system.ads		20031021134222 6af26689
 D s-secsta.ads		20040105152046 7804722c
-D s-stoele.ads		20050603190336 5a73170b
-D s-stoele.adb		20030424175414 792079f8
+D s-stoele.ads		20050603200336 5a73170b
+D s-stoele.adb		20030424175413 792079f8
 D unchconv.ads		20030424175420 1b7a14c5
 X 1 ada.ads
 16K9*Ada 19e8 2|38r9 136r5 3|36r14 132r5

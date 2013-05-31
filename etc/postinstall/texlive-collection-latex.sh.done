@@ -1,0 +1,19 @@
+/usr/bin/mktexlsr
+/usr/bin/updmap-sys --nohash --nomkmap --enable Map=charter.map
+/usr/bin/updmap-sys --nohash --nomkmap --enable Map=fpls.map
+/usr/bin/updmap-sys --nohash --nomkmap --enable Map=pazo.map
+/usr/bin/updmap-sys --nohash --nomkmap --enable Map=utopia.map
+/usr/bin/updmap-sys --nohash --syncwithtrees
+/usr/bin/updmap-sys --nohash
+/usr/bin/mktexlsr
+/usr/bin/fmtutil-sys --enablefmt latex
+/usr/bin/fmtutil-sys --byfmt latex
+/usr/bin/fmtutil-sys --enablefmt pdflatex
+/usr/bin/fmtutil-sys --byfmt pdflatex
+/usr/bin/fmtutil-sys --enablefmt dvilualatex
+/usr/bin/fmtutil-sys --byfmt dvilualatex
+/usr/bin/fmtutil-sys --enablefmt lualatex
+/usr/bin/fmtutil-sys --byfmt lualatex
+/usr/bin/fmtutil-sys --enablefmt mptopdf
+/usr/bin/fmtutil-sys --byfmt mptopdf
+/usr/bin/mktexlsr

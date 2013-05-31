@@ -1,53 +1,32 @@
-#if !defined(WEAVEPATH_CPP)
-#define WEAVEPATH_CPP
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/*
+ * $Id: LogicalPath.c 527149 2007-04-10 14:56:39Z amassari $
+ */
+
+#if !defined(XERCESC_INCLUDE_GUARD_WEAVEPATH_CPP)
+#define XERCESC_INCLUDE_GUARD_WEAVEPATH_CPP
 
 /***
  *
- *  Previously, each <OS>PlatformUtils.cpp has its onw copy of the
- *  method weavePaths(), and almost of them implemented the same logic,
- *  with few platform specific difference, and unfortunately that 
- *  implementation was wrong.
- *  
- *  The only platform specific issue is slash character.
- *  On all platforms other than Windows, chForwardSlash and chBackSlash 
- *  are considered slash, while on Windows, two additional characters, 
- *  chYenSign and chWonSign are slash as well.
+ *  Uses inline implementation XMLPlatformUtils::isAnySlashImpl rather
+ *  than public implementation XMLPlatformUtils::isAnySlash for efficiency.
  *
- *  The idea is to maintain a SINGLE copy of this method rather than
- *  each <OS>PlatformUtils.cpp has its own copy, we introduce a new
- *  method, XMLPlatformUtils::isAnySlash(), to replace the direct checking
- *  code ( if ( c == chForwardSlash || c == chBackSlash).
- *
- *  With this approach, we might have a performance hit since isAnySlash() 
- *  is so frequently used in this implementation, so we intend to make it 
- *  inline. Then we face a complier issue.
- *
- *  There are two compilation units involved, one is PlatformUtils.cpp and 
- *  the other <OS>PlatformUtils.cpp. When PlatformUtils.cp get compiled,
- *  the weavePath(), remove**Slash() have dependency upon isAnySlash() which
- *  is in <OS>PlatformUtils.cpp (and what is worse, it is inlined), so we have
- *  undefined/unresolved symbol: isAnySlash() on AIX/xlc_r, Solaris/cc and 
- *  Linux/gcc, while MSVC and HP/aCC are fine with this.
- *  
- *  That means we can not place these new methods in PlatformUtils.cpp with
- *  inlined XMLPlatformUtils::isAnySlash() in <OS>PlatformUtils.cpp.
- *
- *  The solution to this is <os>PlatformUtils.cpp will include this file so that
- *  we have only one copy of these methods while get compiled in <os>PlatformUtils
- *  inlined isAnySlash().
- *
- *  There is one additional wrinkle: because isAnySlash() is declared in the
- *  PlatformUtils.hpp header file as a public member of the XMLPlatformUtils class,
- *  it is a *public* method -- that is, available for use by clients of the 
- *  Xerces-C library. However, if it is inline but only defined in <OS>PlatformUtils.cpp
- *  then the clients will get a linker error (Linux/gcc, Solaris/cc, MinGW/gcc).
- *  Therefore, the XMLPlatformUtils::isAnySlash() method is *not* inline. However,
- *  we enforce the following contract: all <OS>PlatformUtils.cpp must declare and
- *  define a static inline function isAnySlashImpl(). Furthermore, each 
- *  XMLPlatformUtils::isAnySlash method must delegate to that inline static 
- *  isAnySlashImpl() function.  Finally, then the argument in the preceeding
- *  paragraph applies, except that *this* file also directly calls the static
- *  inline function isAnySlashImpl(), instead of XMLPlatformUtils::isAnySlash().
  ***/
 XMLCh* XMLPlatformUtils::weavePaths(const XMLCh* const    basePath
                                   , const XMLCh* const    relativePath

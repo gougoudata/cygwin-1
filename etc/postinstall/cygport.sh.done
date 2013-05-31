@@ -1,5 +1,14 @@
 if [ ! -f /etc/cygport.conf ]
 then
-    /bin/cp /etc/defaults/etc/cygport.conf /etc/cygport.conf
+    /usr/bin/mkdir -p /etc
+    /usr/bin/cp /etc/defaults/etc/cygport.conf /etc/cygport.conf
 fi
+
+if [ ! -f /etc/X11/cygport-xvfb.conf ]
+then
+    /usr/bin/mkdir -p /etc/X11
+    /usr/bin/cp /etc/defaults/etc/X11/cygport-xvfb.conf /etc/X11/cygport-xvfb.conf
+fi
+
+/usr/bin/update-mime-database /usr/share/mime
 

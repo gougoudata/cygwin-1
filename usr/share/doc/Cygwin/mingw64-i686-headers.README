@@ -1,0 +1,7 @@
+mingw64-i686-headers
+The mingw-w64 headers for Win32 and Win64 target development.
+This package is for the mingw-w64 toolchain that targets 32bit
+by default.
+
+Canonical homepage:
+mingw-w64.sourceforge.net

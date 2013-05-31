@@ -1,0 +1,62 @@
+stg-squash(1)
+=============
+
+NAME
+----
+stg-squash - Squash two or more patches into one
+
+SYNOPSIS
+--------
+[verse]
+'stg' squash [options] [--] <patches>
+
+DESCRIPTION
+-----------
+
+Squash two or more patches, creating one big patch that contains all
+their changes. In more detail:
+
+  1. Pop all the given patches, plus any other patches on top of them.
+
+  2. Push the given patches in the order they were given on the
+     command line.
+
+  3. Squash the given patches into one big patch.
+
+  4. Allow the user to edit the commit message of the new patch
+     interactively.
+
+  5. Push the other patches that were popped in step (1).
+
+Conflicts can occur whenever we push a patch; that is, in step (2) and
+(5). If there are conflicts, the command will stop so that you can
+resolve them.
+
+OPTIONS
+-------
+-n NAME::
+--name NAME::
+        Name of squashed patch.
+
+-m MESSAGE::
+--message MESSAGE::
+        Use MESSAGE instead of invoking the editor.
+
+-f FILE::
+--file FILE::
+        Use the contents of FILE instead of invoking the editor.
+        (If FILE is "-", write to stdout.)
+
+--save-template FILE::
+        Instead of running the command, just write the message
+        template to FILE, and exit. (If FILE is "-", write to
+        stdout.)
++
+When driving StGit from another program, it is often
+useful to first call a command with '--save-template',
+then let the user edit the message, and then call the
+same command with '--file'.
+
+StGit
+-----
+Part of the StGit suite - see linkman:stg[1]

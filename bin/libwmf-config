@@ -82,8 +82,8 @@ if test "$echo_exec_prefix" = "yes"; then
 	echo $exec_prefix
 fi
 
-wmf_cflags="-I/usr/include/freetype2   -I/usr/X11R6/include"
-wmf_liblflags="  -lfreetype -lz  -L/usr/X11R6/lib -lX11 -lexpat -ljpeg -lpng -lz -lm"
+wmf_cflags="-I/usr/include/freetype2  "
+wmf_liblflags="  -lfreetype -lz -lbz2  -lX11 -lexpat -ljpeg -lpng -lz -lm"
 
 
 libwmf_buildstyle=heavy

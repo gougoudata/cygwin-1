@@ -1,0 +1,37 @@
+stg-diff(1)
+===========
+
+NAME
+----
+stg-diff - Show the tree diff
+
+SYNOPSIS
+--------
+[verse]
+'stg' diff [options] [--] [<files or dirs>]
+
+DESCRIPTION
+-----------
+
+Show the diff (default) or diffstat between the current working copy
+or a tree-ish object and another tree-ish object (defaulting to HEAD).
+File names can also be given to restrict the diff output. The
+tree-ish object has the format accepted by the linkstg:id[] command.
+
+OPTIONS
+-------
+-r rev1[..[rev2]]::
+--range rev1[..[rev2]]::
+        Show the diff between revisions.
+
+-s::
+--stat::
+        Show the stat instead of the diff.
+
+-O OPTIONS::
+--diff-opts OPTIONS::
+        Extra options to pass to "git diff".
+
+StGit
+-----
+Part of the StGit suite - see linkman:stg[1]

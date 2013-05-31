@@ -24,14 +24,17 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 #ifndef __GTK_SPIN_BUTTON_H__
 #define __GTK_SPIN_BUTTON_H__
 
 
-#include <gdk/gdk.h>
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
 #include <gtk/gtkentry.h>
 #include <gtk/gtkadjustment.h>
 
@@ -72,27 +75,27 @@ typedef struct _GtkSpinButtonClass  GtkSpinButtonClass;
 struct _GtkSpinButton
 {
   GtkEntry entry;
-  
-  GtkAdjustment *adjustment;
-  
-  GdkWindow *panel;
-  
-  guint32 timer;
-  
-  gdouble climb_rate;
-  gdouble timer_step;
-  
-  GtkSpinButtonUpdatePolicy update_policy;
-  
-  guint in_child : 2;
-  guint click_child : 2; /* valid: GTK_ARROW_UP=0, GTK_ARROW_DOWN=1 or 2=NONE/BOTH */
-  guint button : 2;
-  guint need_timer : 1;
-  guint timer_calls : 3;
-  guint digits : 10;
-  guint numeric : 1;
-  guint wrap : 1;
-  guint snap_to_ticks : 1;
+
+  GtkAdjustment *GSEAL (adjustment);
+
+  GdkWindow *GSEAL (panel);
+
+  guint32 GSEAL (timer);
+
+  gdouble GSEAL (climb_rate);
+  gdouble GSEAL (timer_step);
+
+  GtkSpinButtonUpdatePolicy GSEAL (update_policy);
+
+  guint GSEAL (in_child) : 2;
+  guint GSEAL (click_child) : 2; /* valid: GTK_ARROW_UP=0, GTK_ARROW_DOWN=1 or 2=NONE/BOTH */
+  guint GSEAL (button) : 2;
+  guint GSEAL (need_timer) : 1;
+  guint GSEAL (timer_calls) : 3;
+  guint GSEAL (digits) : 10;
+  guint GSEAL (numeric) : 1;
+  guint GSEAL (wrap) : 1;
+  guint GSEAL (snap_to_ticks) : 1;
 };
 
 struct _GtkSpinButtonClass
@@ -108,11 +111,12 @@ struct _GtkSpinButtonClass
   void (*change_value) (GtkSpinButton *spin_button,
 			GtkScrollType  scroll);
 
+  void (*wrapped) (GtkSpinButton *spin_button);
+
   /* Padding for future expansion */
   void (*_gtk_reserved1) (void);
   void (*_gtk_reserved2) (void);
   void (*_gtk_reserved3) (void);
-  void (*_gtk_reserved4) (void);
 };
 
 
@@ -158,7 +162,7 @@ gdouble		gtk_spin_button_get_value          (GtkSpinButton  *spin_button);
 
 gint		gtk_spin_button_get_value_as_int   (GtkSpinButton  *spin_button);
 
-void		gtk_spin_button_set_value	   (GtkSpinButton  *spin_button, 
+void		gtk_spin_button_set_value	   (GtkSpinButton  *spin_button,
 						    gdouble	    value);
 
 void		gtk_spin_button_set_update_policy  (GtkSpinButton  *spin_button,

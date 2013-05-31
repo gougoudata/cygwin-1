@@ -1,0 +1,556 @@
+################################################################################
+#
+# pkg_info.cygpart - cygport package information functions
+#
+# Copyright (C) 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 Yaakov Selkowitz
+# Provided by the Cygwin Ports project <http://sourceware.org/cygwinports/>
+#
+# cygport is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# cygport is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with cygport.  If not, see <http://www.gnu.org/licenses/>.
+#
+################################################################################
+
+#****v* Information/HOMEPAGE
+#  DESCRIPTION
+#  The website URI of the package.  Besides being informational, this defines
+#  what address will be displayed in BROWSER by the homepage command.
+#****
+
+__show_info() {
+	cat <<-_EOF
+	Cygport package information
+	    Package name:     ${PN}
+	    Package version:  ${PV}
+	    Cygwin release:   ${PR}
+	    Homepage:         ${HOMEPAGE}
+	    Description:      ${SUMMARY:-${DESCRIPTION}}
+		_EOF
+}
+
+__list_files() {
+	pushd ${D}
+	find * -path 'usr/*/debug' -prune -o ! -type d -print | sed 's!^!  /!' | sort
+	popd
+}
+
+__list_debug_files() {
+	pushd ${D}
+	find usr/*/debug ! -type d 2>/dev/null | sed 's!^!  /!' | sort
+	popd
+}
+
+__list_deps() {
+	local d f ext
+	local alldeps girdep jar jpkg ladep luadep luapaths pcdep pidep
+	local mldep mldir mllib
+	local phpdep phpmoddir pldep pldirs pydep pydirs pyexts rbdep rbdirs
+	local tcldep tclpkgs vapidep vapidir
+	local tcgcclibdir tcgccsysroot
+	local dlltool="dlltool"
+	local os_path="${PATH}"
+
+	# if file list is empty, there are obviously no dependencies
+	(( $# > 0 )) || return
+
+	if __host_is_embedded
+	then
+		return
+	fi
+
+	if cross_compiling && check_prog ${CTARGET}-dlltool
+	then
+		dlltool="${CTARGET}-dlltool"
+	fi
+
+	pushd ${D}
+
+#****v* Information/DEPS_PATH
+#  DESCRIPTION
+#  A colon-separated list of directories not ordinarily in PATH in which to
+#  search for linked dependencies.  Given directories are searched both
+#  on the system and under $D.
+#****
+
+	# This prevents a package from listing itself as a dependency if
+	# already installed
+	unset PATH
+
+	for d in ${DEPS_PATH//:/ }
+	do
+		PATH+="${D}${d}:${d}:"
+		if inherited cross
+		then
+			PATH+="${D}${CROSS_SYSROOT}${d}:${CROSS_SYSROOT}${d}:"
+		fi
+	done
+
+	export PATH+="${D}$(__host_prefix)/bin:${os_path}";
+
+	# only on Cygwin: assure Windows\System32 is present for w32api DLLs
+	if check_prog cygpath
+	then
+		PATH+=":$(cygpath -S)"
+	fi
+
+	if (cross_compiling || [ "${CHOST}" != "${CTARGET}" ]) && ! __target_is_embedded && check_target_tool gcc
+	then
+		tcgcclibdir=$(dirname $(${CTARGET}-gcc --print-file-name=libgcc.a))
+		tcgccsysroot=$(${CTARGET}-gcc -print-sysroot)
+		PATH+=":${D}${tcgcclibdir#${D}}:${tcgcclibdir#${D}}"
+
+		# FIXME: thoroughout this section, CTARGET to get libgcc et. al. deps,
+		#        or CHOST to get canadian-cross deps
+		case ${CTARGET} in
+		${CBUILD%%-*}-*-mingw*|${CBUILD%%-*}-*-msys*)
+			PATH+=":${D}/usr/${CTARGET}/sys-root/$(__target_prefix)/bin:${tcgccsysroot}$(__target_prefix)/bin"
+			# native binutils handles both cygwin and mingw binaries
+			;;
+		*-*-cygwin*|*-*-mingw*|*-*-msys*)
+			PATH+=":${D}/usr/${CTARGET}/sys-root/$(__target_prefix)/bin:${tcgccsysroot}$(__target_prefix)/bin"
+			;;
+		*-*-darwin*)
+			PATH+=":${D}/usr/${CTARGET}/sys-root/$(__target_prefix)/lib:${tcgccsysroot}$(__target_prefix)/lib"
+			alldeps+=" "$(find "${@//^_^/ }" -type f -executable -exec ${CTARGET}-otool -L '{}' + 2>/dev/null | \
+				sed -e '1d;s|^\t\([^ ]*\).*|\1|g' | sort -u | xargs -r which || true )
+			;;
+		# FIXME: any other non-ELF systems?
+		*)	# ELF system; libc in /lib, other libs in /usr/lib
+			PATH+=":${D}/usr/${CTARGET}/sys-root/lib:${tcgccsysroot}/lib"
+			PATH+=":${D}/usr/${CTARGET}/sys-root/$(__target_prefix)/lib:${tcgccsysroot}$(__target_prefix)/lib"
+			alldeps+=" "$(find "${@//^_^/ }" -type f -executable -exec ${CTARGET}-objdump -p '{}' + 2>/dev/null | \
+				sed -n -e 's| *NEEDED *\([^ ]*\).*|\1|gp' | \
+				sort -u | xargs -r which || true )
+			;;
+		esac
+	fi
+
+	# *.so: Apache2 modules, OCaml stublibs, Ruby modules
+	# *.oct: Octave modules
+	# *.cmxs: OCaml natdynlink modules: http://gallium.inria.fr/~frisch/ndl.txt
+	alldeps+=" "$(find "${@//^_^/ }" -type f -executable \( -name '*.exe' -o -name '*.dll' -o -name '*.so' -o -name '*.oct' -o -name '*.cmxs' \) \
+		-exec ${OBJDUMP} -p '{}' + 2>/dev/null | grep "DLL Name:" | sort -u | \
+		cut -d ' ' -f 3 | xargs -r which || true)
+
+	# shebang script interpreters
+	alldeps+=" "$(find "${@//^_^/ }" -type f -executable ! -name '*.exe' ! -name '*.dll' ! -name '*.so' ! -name '*.cmxs' ! -name '*.oct' \
+			| xargs -r sed -n -e '/^#!/s|/env *|/|g;s|^#! *\([^ ]*\).*|\1|gp' \
+			| sort -u)
+
+	# implib devel->dll subpackage dependencies
+	alldeps+=" "$(find "${@//^_^/ }" -type f -name '*.dll.a' -exec ${dlltool} -I '{}' \; 2>/dev/null \
+			| sort -u | xargs -r which)
+
+	for ladep in $(find "${@//^_^/ }" -type f -name '*.la' \
+			| xargs -r sed -ne "s|^dependency_libs='\(.*\)'|\1|gp" \
+			| sed -e 's| -[LR][^ ]*||g;s| -l\([^ ]*\)| lib\1|g')
+	do
+		for f in ${ladep} $(__host_prefix)/lib/${ladep}.{dll.a,so,a}
+		do
+			if [ -f ${D}${f} ]
+			then
+				alldeps+=" "${D}${f};
+				break
+			elif [ -f ${f} ]
+			then
+				alldeps+=" "${f};
+				break
+			fi
+		done
+	done
+
+	# pkg-config dependencies on other devel packages
+	for pcdep in $(find "${@//^_^/ }" -type f -name '*.pc' | xargs -r grep -h ^Requires | cut -d' ' -f2- | sed -e 's/,/ /g')
+	do
+		# avoid version comparison tokens
+		case ${pcdep} in [A-Za-z]*) ;; *) continue ;; esac
+		for d in ${D}$(__host_prefix)/lib/pkgconfig ${D}$(__host_prefix)/share/pkgconfig ${D}/usr/share/pkgconfig \
+			 $(__host_prefix)/lib/pkgconfig $(__host_prefix)/share/pkgconfig /usr/share/pkgconfig
+		do
+			if [ -f ${d}/${pcdep}.pc ]
+			then
+				alldeps+=" "${d}/${pcdep}.pc;
+				break;
+			fi
+		done
+	done
+
+	# pkg-config dependencies on other libraries
+	for pcdep in $(find "${@//^_^/ }" -type f -name '*.pc' \
+			| xargs -r grep -h ^Libs \
+			| sed -e "s|^[^ ]*||g;s| \+-[^l][^ ]*||g;s| *-l\([^ ]*\)| lib\1|g")
+	do
+		for f in $(__host_prefix)/lib/${pcdep}.{dll.a,so,a}
+		do
+			if [ -f ${D}${f} ]
+			then
+				alldeps+=" "${D}${f};
+				break
+			elif [ -f ${f} ]
+			then
+				alldeps+=" "${f};
+				break
+			fi
+		done
+	done
+
+	if check_prog monodis
+	then
+		alldeps+=" "$(for x in $(monodis --assemblyref $(find "${@//^_^/ }" -type f -perm 644 \( -name '*.exe' -o -name '*.dll' \) ) 2>/dev/null \
+			| sed -e ':a;N;$!ba;s|\n\t| |g;s|\n0x00000000: ||g' | grep 'Public Key:' \
+			| sed -e 's|.* Version=\([1-9]\).* Name=\(mscorlib\) .*|usr/lib/mono/\1.0/\2.dll|g' \
+			-e 's|.* Version=\([0-9\.]*\) Name=\([^ ]*\).* Public Key:\([0-F ]*\)|usr/lib/mono/gac/\2/\1__\L\3\E/\2.dll|g' -e 's| ||g' \
+			| sort -u); do \
+			if ! test -f ./$x ; then echo /$x ; fi ; done)
+		alldeps+=" "$(find "${@//^_^/ }" \( -name '*.dll.config' -o -name '*.exe.config' \) \
+			| xargs -r sed -n -e 's|.*target="*\([^ "]*\.dll\).*|\1|gp' \
+			| sort -u | xargs -r which || true)
+	fi
+
+	if [ -d ${D}/usr/share/gir-1.0 ]
+	then
+		alldeps+=" "$(find "${@//^_^/ }" -path 'usr/share/gir-1.0/*.gir' | xargs -r sed -n -e '/shared-library/s/,/ /g;s/.*shared-library="\([^"]*\).*/\1/gp' | xargs -r which | sort -u)
+		for girdep in $(find "${@//^_^/ }" -path 'usr/share/gir-1.0/*.gir' \
+				| xargs -r sed -n -e 's/.*<include *name="\([^"]*\)" *version="\([^"]*\)".*/\1-\2.gir/gp' \
+				| sort -u)
+		do
+			if [ -f ${D}/usr/share/gir-1.0/${girdep} ]
+			then
+				alldeps+=" "${D}/usr/share/gir-1.0/${girdep}
+			else
+				alldeps+=" "/usr/share/gir-1.0/${girdep}
+			fi
+		done
+	fi
+
+	vapidir=/usr/share/vala/vapi
+	if [ -d ${D}${vapidir} ]
+	then
+		for vapidep in $(find "${@//^_^/ }" -path "${vapidir#/}/*.deps" | xargs -r cat | sort -u)
+		do
+			if [ -f ${D}${vapidir}/${vapidep}.vapi ]
+			then
+				alldeps+=" "${D}${vapidir}/${vapidep}.vapi
+			else
+				alldeps+=" "${vapidir}/${vapidep}.vapi
+			fi
+		done
+	fi
+
+	if [ $(find "${@//^_^/ }" -type f -name '*.jar' | wc -l) -gt 0 ] && check_prog jdepend jar
+	then
+		> ${T}/.jardb
+		for jar in $(find ${D} /usr/share/java -type f -name '*.jar' ! -name 'libgcj-*.jar')
+		do
+			echo $jar: $(jar tf $jar | grep '\.class$' | sed -e 's|/[^/]*.class$||g;s|/|.|g' | sort -u)" " >> ${T}/.jardb
+		done
+		for jpkg in $(find "${@//^_^/ }" -type f -name '*.jar' | xargs -r jdepend | sed -ne 's/^\([^,]*\),[0-9].*/\1/gp')
+		do
+			alldeps+=" "$(sed -ne "/ $jpkg /s|^\(.*\):.*|\1|1p" ${T}/.jardb)
+		done
+	fi
+
+	if check_prog lua
+	then
+		luapaths=($(lua -e 'print(package.path.."\;"..package.cpath)' | tr '\;' ' '))
+		luapaths+=" ${DEPS_PATH//:/ }"
+		for luadep in $(find "${@//^_^/ }" -path 'usr/share/doc/*' -prune \
+				-o -name '*.lua' -print \
+				-o -type f ! -name '*.*' -executable -exec grep -l '^#!.*lua' '{}' + \
+				| xargs -r sed -ne "s|^[^#]*require *['\"]\([^'\"]*\)['\"].*|\1|gp" \
+				| sort -u)
+		do
+			for f in ${luapaths[*]/\//${D}/} ${luapaths[*]}
+			do
+				if [ -f ${f/\?/${luadep}} ]
+				then
+					alldeps+=" "${f/\?/${luadep}};
+					break;
+				fi
+			done
+		done
+	fi
+
+	if check_prog ocamlc.opt
+	then
+		mldir=$(ocamlc.opt -where)
+		for mllib in $(find "${@//^_^/ }" -type f -name '*.cmxa')
+		do
+			for mldep in $(strings ${mllib} | sed -ne 's/^.-l\([^@]*\).*/lib\1/gp')
+			do
+				if [ -f ${mllib%/*}/${mldep}.a ]
+				then
+					alldeps+=" "${mllib%/*}/${mldep}.a
+				elif [ -f ${D}/usr/lib/${mldep}.dll.a ]
+				then
+					alldeps+=" "${D}/usr/lib/${mldep}.dll.a
+				else
+					alldeps+=" "/usr/lib/${mldep}.dll.a
+				fi
+			done
+		done
+		if check_prog ocamlfind
+		then
+			alldeps+=" "$(find "${@//^_^/ }" -path "${mldir#/}/*/META" \
+					| xargs -r grep -h 'requires *=' \
+					| sed -e 's|.*requires *= *"\([^"]*\)".*|\1|g;s/,/ /g;' \
+					| OCAMLPATH=${D}${mldir} xargs -r ocamlfind query -predicates byte -format '%d/%a')
+		fi
+	fi
+
+	if check_prog perl
+	then
+		pldirs=($(perl -e 'print join(" ",@INC)'))
+		pldirs+=" ${DEPS_PATH//:/ }"
+		for pldep in $(find "${@//^_^/ }" -path 'usr/share/doc/*' -prune \
+				-o \( -name '*.pl' -o -name '*.pm' \) -print \
+				-o -type f ! -name '*.*' -executable -exec grep -l '^#!.*perl.*' '{}' + \
+				| xargs -r sed -ne "s/^[^#]*use \(base\|parent\) ['\"]*\(qw( *\)*\([A-Z][^-)'\";]*\).*/\3/gp;s/^[^#]*\(use\|require\) ['\"]*\([A-Z][^ '\";]*\).*/\2/gp" \
+				| sort -u)
+		do
+			for d in ${pldirs[*]/\//${D}/} ${pldirs[*]}
+			do
+				if [ -f ${d}/${pldep//:://}.pm ]
+				then
+					alldeps+=" "${d}/${pldep//:://}.pm;
+					break;
+				fi
+			done
+		done
+	fi
+
+	if check_prog php
+	then
+		phpmoddir=$(php-config  --extension-dir)
+		for phpdep in $(find "${@//^_^/ }" -path 'usr/share/doc/*' -prune \
+				-o -name '*.php' -print \
+				-o -type f ! -name '*.*' -executable -exec grep -l '^#!.*php*' '{}' + \
+				| xargs -r sed -ne "s/^ *\(include\|require\)\(_once\)* '\([^'\"]*\).*\;/\3/gp;s/.*loadExtension *( *[^$]\([^)'\"]*\).*/\1.dll/gp" \
+				| sort -u)
+		do
+			case ${phpdep} in
+			*.php)	if [ -f ${D}/usr/share/pear/${phpdep} ]
+				then
+					alldeps+=" "${D}/usr/share/pear/${phpdep}
+				else
+					alldeps+=" "/usr/share/pear/${phpdep}
+				fi ;;
+			*.dll)	if php -mn | grep -q ^${phpdep%.dll}$
+				then
+					alldeps+=" "$(which php)
+				elif [ -f ${D}${phpmoddir}/${phpdep} ]
+				then
+					alldeps+=" "${D}${phpmoddir}/${phpdep}
+				else
+					alldeps+=" "${phpmoddir}/${phpdep}
+				fi ;;
+			esac
+		done
+	fi
+
+	if check_prog python && ! inherited python3 && ! inherited pypy \
+	   && [ ${PN} != "python3" ] && [ ${PN} != "pypy" ] || inherited python
+	then
+		pydirs=($(python -c 'import sys; print(" ".join(sys.path))'))
+		pydirs+=" ${DEPS_PATH//:/ }"
+		pyexts=$(python -c 'import imp
+for suffix, mode, type in imp.get_suffixes(): print(suffix)')
+		for pydep in $(find "${@//^_^/ }" -path 'usr/share/doc/*' -prune \
+				-o -path 'usr/lib/pypy/*' -prune -o -path 'usr/lib/python3.*' -prune \
+				-o -name '*-gdb.py' -prune \
+				-o -name '*.py' -print \
+				-o -type f ! -name '*.*' -executable -exec grep -l '^#!.*python[^3]*' '{}' + \
+				| xargs -r grep -h '^[^#]*import ' \
+				| sed -e 's/.*from \([^ ]*\) import .*/\1/g;s/.*import //g;s/ as [^ ]*//g;s/, */\n/g;s/ *#.*//g;/ /d' \
+				| sort -u)
+		do
+			for d in ${pydirs[*]/\//${D}/} ${pydirs[*]}
+			do
+				for ext in ${pyexts} /__init__.py /__init__.pyc
+				do
+					if [ -f ${d}/${pydep//\.//}${ext} ]
+					then
+						alldeps+=" "${d}/${pydep//\.//}${ext};
+						break 2;
+					fi
+				done
+			done
+		done
+	fi
+	if check_prog pypy && ! inherited python && ! inherited python3 \
+	   && [ ${PN} != "python" ] && [ ${PN} != "python3" ] || inherited pypy
+	then
+		pydirs=($(pypy -c 'import sys; print(" ".join(sys.path))'))
+		pydirs+=" ${DEPS_PATH//:/ }"
+		pyexts=$(pypy -c 'import imp
+for suffix, mode, type in imp.get_suffixes(): print(suffix)')
+		for pydep in $(find "${@//^_^/ }" -path 'usr/share/doc/*' -prune \
+				-o -path 'usr/lib/python[23].*' -prune \
+				-o -name '*-gdb.py' -prune \
+				-o -name '*.py' -print \
+				-o -type f ! -name '*.*' -executable -exec grep -l '^#!.*pypy' '{}' + \
+				| xargs -r grep -h '^[^#]*import ' \
+				| sed -e 's/.*from \([^ ]*\) import .*/\1/g;s/.*import //g;s/ as [^ ]*//g;s/, */\n/g;s/ *#.*//g;/ /d' \
+				| sort -u)
+		do
+			for d in ${pydirs[*]/\//${D}/} ${pydirs[*]}
+			do
+				for ext in ${pyexts} /__init__.py /__init__.pyc
+				do
+					if [ -f ${d}/${pydep//\.//}${ext} ]
+					then
+						alldeps+=" "${d}/${pydep//\.//}${ext};
+						break 2;
+					fi
+				done
+			done
+		done
+	fi
+	if check_prog python3 && ! inherited python && ! inherited pypy \
+	   && [ ${PN} != "python" ] && [ ${PN} != "pypy" ] || inherited python3
+	then
+		pydirs=($(python3 -c 'import sys; print(" ".join(sys.path))'))
+		pydirs+=" ${DEPS_PATH//:/ }"
+		pyexts=$(python3 -c 'import imp
+for suffix, mode, type in imp.get_suffixes(): print(suffix)')
+		for pydep in $(find "${@//^_^/ }" -path 'usr/share/doc/*' -prune \
+				-o -path 'usr/lib/pypy/*' -prune -o -path 'usr/lib/python2.*' -prune \
+				-o -name '*-gdb.py' -prune \
+				-o -name '*.py' -print \
+				-o -type f ! -name '*.*' -executable -exec grep -l '^#!.*python3' '{}' + \
+				| xargs -r grep -h '^[^#]*import ' \
+				| sed -e 's/.*from \([^ ]*\) import .*/\1/g;s/.*import //g;s/ as [^ ]*//g;s/, */\n/g;s/ *#.*//g;/ /d' \
+				| sort -u)
+		do
+			for d in ${pydirs[*]/\//${D}/} ${pydirs[*]}
+			do
+				for ext in ${pyexts} /__init__.py /__pycache__/__init__.pyc /__init__.pyc
+				do
+					if [ -f ${d}/${pydep//\.//}${ext} ]
+					then
+						alldeps+=" "${d}/${pydep//\.//}${ext};
+						break 2;
+					fi
+				done
+			done
+		done
+	fi
+
+	if check_prog ruby
+	then
+		rbdirs=($(ruby -e 'print($:.join(" "))'))
+		rbdirs+=" ${DEPS_PATH//:/ }"
+		if check_prog gem
+		then
+			gemdir=$(gem env gemdir)
+			for d in ${D}${gemdir}/gems/*/lib ${gemdir}/gems/*/lib
+			do
+				rbdirs[${#rbdirs[*]}]=${d}
+			done
+		fi
+		for rbdep in $(find "${@//^_^/ }" -path 'usr/share/doc/*' -prune \
+				-o -name '*.rb' -print \
+				-o -type f ! -name '*.*' -executable -exec grep -l '^#!.*ruby' '{}' + \
+				| xargs -r sed -ne "s|^[^#]*require ['\"]\([^'\"]*\)['\"].*|\1|gp" \
+				| sort -u)
+		do
+			for d in ${rbdirs[*]/\//${D}/} ${rbdirs[*]}
+			do
+				for f in ${rbdep}.rb ${rbdep}.so ${rbdep}
+				do
+					if [ -f ${d}/${f} ]
+					then
+						alldeps+=" "${d}/${f};
+						break 2;
+					fi
+				done
+			done
+		done
+	fi
+
+	if [ $(find "${@//^_^/ }" -path 'usr/share/doc/*' -prune \
+		-o -type f -name '*.tcl' ! -name 'pkgIndex.tcl' -print \
+		-o -type f ! -name '*.*' -executable -exec grep -l '^\(#!.*\|exec \)\(tcl\|wi\)sh*' '{}' + \
+		| wc -l) -gt 0 ]
+	then
+		tclpkgs=$(find ${D} /usr/lib/*/ -type f -name 'pkgIndex.tcl')
+		for tcldep in $(find "${@//^_^/ }" -path 'usr/share/doc/*' -prune \
+				-o -name '*.tcl' ! -name 'pkgIndex.tcl' -print \
+				-o -type f ! -name '*.*' -executable -exec grep -l '^\(#!.*\|exec \)\(tcl\|wi\)sh*' '{}' + \
+				| xargs -r sed -n -e 's|^[^#]*package require \([^ }]*\).*|\1|gp' \
+				| sort -u)
+		do
+			alldeps+=" "$(grep -l "package ifneeded $tcldep " $tclpkgs || true)
+		done
+	fi
+
+	# commands called in postinstall/preremove scripts
+	for pidep in $(find "${@//^_^/ }" -path 'etc/postinstall/*.sh' -o -path 'etc/preremove/*.sh' \
+			| xargs -r sed -ne 's|^\(/[^ ]*\).*|\1|gp' | sort -u)
+	do
+		if [ -x ${D}${pidep} ]
+		then
+			alldeps+=" "${D}${pidep}
+		else
+			alldeps+=" "${pidep}
+		fi
+	done
+
+	if [ "${CBUILD##*-}" = "cygwin" ]
+	then
+	    echo $alldeps | sort -u | xargs -r cygcheck -f;
+	else
+	    # cannot determine Cygwin package dependencies, but we can give
+	    # some guidance by listing the necessary libraries
+	    echo $alldeps | sort -fu;
+	fi
+
+	find ${T} -maxdepth 1 -name '.*.lst' \
+		| xargs -r grep -l $(echo $alldeps | sed -e "s|${D}/\([^ ]*\)|\1|g;s| /[^ ]*||g;s/\([^ ]*\)/-e ^\1$/g") \
+		| sort -u | sed -e "s|${T}/\.\(.*\)\.lst|\1-${PVR}|";
+
+	popd
+
+	PATH="${os_path}"
+}
+
+__show_deps() {
+	pushd ${D}
+	__list_deps * | sort -fu | sed "/^${PN}-[0-9].*$/d;s/^/  /g"
+	popd
+}
+
+__show_web() {
+	local mybrowser mywww
+
+	if defined HOMEPAGE
+	then
+		mywww=${HOMEPAGE}
+	else
+		warning "HOMEPAGE undefined, searching Google for ${ORIG_PN:-${PN}}"
+		mywww="http://www.google.com/search?q=${ORIG_PN:-${PN}}"
+	fi
+
+	for prog in "${BROWSER}" xdg-open cygstart false
+	do
+		if check_prog ${prog%% *}
+		then
+			mybrowser=${prog};
+			break;
+		fi
+	done
+
+	${mybrowser} ${mywww} &>/dev/null &
+}
+
+readonly -f __list_files __list_debug_files __list_deps \
+	    __show_deps __show_info __show_web

@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /usr/bin/bash
 
 #  This script is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License version 2 as
@@ -74,6 +74,7 @@ then
 fi
 
 # Save current working state
+create_db
 mkdir -p $QUILT_PC/$snap_subdir
 for patch in $(applied_patches); do
 	files_in_patch $patch
@@ -85,7 +86,7 @@ done \
 	}
 	{ print }
 ' \
-| $QUILT_LIB/backup-files -b -s -L -f - -B "$QUILT_PC/$snap_subdir/"
+| $QUILT_DIR/scripts/backup-files -c -s -f - -B "$QUILT_PC/$snap_subdir/"
 
 ### Local Variables:
 ### mode: shell-script

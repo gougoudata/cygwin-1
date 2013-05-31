@@ -1,0 +1,3209 @@
+%!PS-Adobe-3.0
+%%Creator: (Apache FOP Version 1.0)
+%%CreationDate: 2012-06-06T00:49:11
+%%LanguageLevel: 3
+%%Pages: (atend)
+%%BoundingBox: (atend)
+%%HiResBoundingBox: (atend)
+%%DocumentSuppliedResources: (atend)
+%%EndComments
+%%BeginDefaults
+%%EndDefaults
+%%BeginProlog
+%%BeginResource: procset (Apache XML Graphics Std ProcSet) 1.1 0
+%%Version: 1.1 0
+%%Copyright: (Copyright 2001-2003,2010 The Apache Software Foundation. License terms: http://www.apache.org/licenses/LICENSE-2.0)
+%%Title: (Basic set of procedures used by the XML Graphics project \(Batik and FOP\))
+/bd{bind def}bind def
+/ld{load def}bd
+/M/moveto ld
+/L/lineto ld
+/S/stroke ld
+/CC/setcmykcolor ld
+/CT/concat ld
+/GS/gsave ld
+/LJ/setlinejoin ld
+/C/curveto ld
+/RM/rmoveto ld
+/cp/closepath ld
+/GR/grestore ld
+/f/fill ld
+/A/ashow ld
+/N/newpath ld
+/ML/setmiterlimit ld
+/GC/setgray ld
+/t/show ld
+/LW/setlinewidth ld
+/RC/setrgbcolor ld
+/re {4 2 roll M
+1 index 0 rlineto
+0 exch rlineto
+neg 0 rlineto
+cp } bd
+/_ctm matrix def
+/_tm matrix def
+/BT { _ctm currentmatrix pop matrix _tm copy pop 0 0 moveto } bd
+/ET { _ctm setmatrix } bd
+/iTm { _ctm setmatrix _tm concat } bd
+/Tm { _tm astore pop iTm 0 0 moveto } bd
+/ux 0.0 def
+/uy 0.0 def
+/F {
+  /Tp exch def
+  /Tf exch def
+  Tf findfont Tp scalefont setfont
+  /cf Tf def  /cs Tp def  /cw ( ) stringwidth pop def
+} bd
+/ULS {currentpoint /uy exch def /ux exch def} bd
+/ULE {
+  /Tcx currentpoint pop def
+  gsave
+  newpath
+  cf findfont cs scalefont dup
+  /FontMatrix get 0 get /Ts exch def /FontInfo get dup
+  /UnderlinePosition get Ts mul /To exch def
+  /UnderlineThickness get Ts mul /Tt exch def
+  ux uy To add moveto  Tcx uy To add lineto
+  Tt setlinewidth stroke
+  grestore
+} bd
+/OLE {
+  /Tcx currentpoint pop def
+  gsave
+  newpath
+  cf findfont cs scalefont dup
+  /FontMatrix get 0 get /Ts exch def /FontInfo get dup
+  /UnderlinePosition get Ts mul /To exch def
+  /UnderlineThickness get Ts mul /Tt exch def
+  ux uy To add cs add moveto Tcx uy To add cs add lineto
+  Tt setlinewidth stroke
+  grestore
+} bd
+/SOE {
+  /Tcx currentpoint pop def
+  gsave
+  newpath
+  cf findfont cs scalefont dup
+  /FontMatrix get 0 get /Ts exch def /FontInfo get dup
+  /UnderlinePosition get Ts mul /To exch def
+  /UnderlineThickness get Ts mul /Tt exch def
+  ux uy To add cs 10 mul 26 idiv add moveto Tcx uy To add cs 10 mul 26 idiv add lineto
+  Tt setlinewidth stroke
+  grestore
+} bd
+/QT {
+/Y22 exch store
+/X22 exch store
+/Y21 exch store
+/X21 exch store
+currentpoint
+/Y21 load 2 mul add 3 div exch
+/X21 load 2 mul add 3 div exch
+/X21 load 2 mul /X22 load add 3 div
+/Y21 load 2 mul /Y22 load add 3 div
+/X22 load /Y22 load curveto
+} bd
+/SSPD {
+dup length /d exch dict def
+{
+/v exch def
+/k exch def
+currentpagedevice k known {
+/cpdv currentpagedevice k get def
+v cpdv ne {
+/upd false def
+/nullv v type /nulltype eq def
+/nullcpdv cpdv type /nulltype eq def
+nullv nullcpdv or
+{
+/upd true def
+} {
+/sametype v type cpdv type eq def
+sametype {
+v type /arraytype eq {
+/vlen v length def
+/cpdvlen cpdv length def
+vlen cpdvlen eq {
+0 1 vlen 1 sub {
+/i exch def
+/obj v i get def
+/cpdobj cpdv i get def
+obj cpdobj ne {
+/upd true def
+exit
+} if
+} for
+} {
+/upd true def
+} ifelse
+} {
+v type /dicttype eq {
+v {
+/dv exch def
+/dk exch def
+/cpddv cpdv dk get def
+dv cpddv ne {
+/upd true def
+exit
+} if
+} forall
+} {
+/upd true def
+} ifelse
+} ifelse
+} if
+} ifelse
+upd true eq {
+d k v put
+} if
+} if
+} if
+} forall
+d length 0 gt {
+d setpagedevice
+} if
+} bd
+%%EndResource
+%%BeginResource: procset (Apache XML Graphics EPS ProcSet) 1.0 0
+%%Version: 1.0 0
+%%Copyright: (Copyright 2002-2003 The Apache Software Foundation. License terms: http://www.apache.org/licenses/LICENSE-2.0)
+%%Title: (EPS procedures used by the Apache XML Graphics project \(Batik and FOP\))
+/BeginEPSF { %def
+/b4_Inc_state save def         % Save state for cleanup
+/dict_count countdictstack def % Count objects on dict stack
+/op_count count 1 sub def      % Count objects on operand stack
+userdict begin                 % Push userdict on dict stack
+/showpage { } def              % Redefine showpage, { } = null proc
+0 setgray 0 setlinecap         % Prepare graphics state
+1 setlinewidth 0 setlinejoin
+10 setmiterlimit [ ] 0 setdash newpath
+/languagelevel where           % If level not equal to 1 then
+{pop languagelevel             % set strokeadjust and
+1 ne                           % overprint to their defaults.
+{false setstrokeadjust false setoverprint
+} if
+} if
+} bd
+/EndEPSF { %def
+count op_count sub {pop} repeat            % Clean up stacks
+countdictstack dict_count sub {end} repeat
+b4_Inc_state restore
+} bd
+%%EndResource
+%%BeginResource: procset (Apache FOP Std ProcSet) 1.0 0
+%%Version: 1.0 0
+%%Copyright: (Copyright 2009 The Apache Software Foundation. License terms: http://www.apache.org/licenses/LICENSE-2.0)
+%%Title: (Basic set of procedures used by Apache FOP)
+/TJ { % Similar but not equal to PDF's TJ operator
+  {
+    dup type /stringtype eq
+    { show }
+    { neg 1000 div 0 rmoveto }
+    ifelse
+  } forall
+} bd
+/ATJ { % As TJ but adds letter-spacing
+  /ATJls exch def
+  {
+    dup type /stringtype eq
+    { ATJls 0 3 2 roll ashow }
+    { neg 1000 div 0 rmoveto }
+    ifelse
+  } forall
+} bd
+%%EndResource
+%%EndProlog
+%%BeginSetup
+%FOPBeginFontDict
+%%IncludeResource: font Courier-Bold
+%%IncludeResource: font Courier-Oblique
+%%IncludeResource: font Courier
+%%IncludeResource: font Times-BoldItalic
+%%IncludeResource: font Times-Bold
+%%IncludeResource: font Times-Italic
+%%IncludeResource: font Times-Roman
+%%IncludeResource: font Helvetica-BoldOblique
+%%IncludeResource: font Helvetica-Bold
+%%IncludeResource: font Helvetica-Oblique
+%%IncludeResource: font Helvetica
+%%IncludeResource: font ZapfDingbats
+%%IncludeResource: font Symbol
+%%IncludeResource: font Courier-BoldOblique
+%FOPEndFontDict
+%%BeginResource: encoding WinAnsiEncoding
+/WinAnsiEncoding [
+/.notdef /.notdef /.notdef /.notdef /.notdef
+/.notdef /.notdef /.notdef /.notdef /.notdef
+/.notdef /.notdef /.notdef /.notdef /.notdef
+/.notdef /.notdef /.notdef /.notdef /.notdef
+/.notdef /.notdef /.notdef /.notdef /.notdef
+/.notdef /.notdef /.notdef /.notdef /.notdef
+/.notdef /.notdef /space /exclam /quotedbl
+/numbersign /dollar /percent /ampersand /quotesingle
+/parenleft /parenright /asterisk /plus /comma
+/hyphen /period /slash /zero /one
+/two /three /four /five /six
+/seven /eight /nine /colon /semicolon
+/less /equal /greater /question /at
+/A /B /C /D /E
+/F /G /H /I /J
+/K /L /M /N /O
+/P /Q /R /S /T
+/U /V /W /X /Y
+/Z /bracketleft /backslash /bracketright /asciicircum
+/underscore /quoteleft /a /b /c
+/d /e /f /g /h
+/i /j /k /l /m
+/n /o /p /q /r
+/s /t /u /v /w
+/x /y /z /braceleft /bar
+/braceright /asciitilde /bullet /Euro /bullet
+/quotesinglbase /florin /quotedblbase /ellipsis /dagger
+/daggerdbl /circumflex /perthousand /Scaron /guilsinglleft
+/OE /bullet /Zcaron /bullet /bullet
+/quoteleft /quoteright /quotedblleft /quotedblright /bullet
+/endash /emdash /asciitilde /trademark /scaron
+/guilsinglright /oe /bullet /zcaron /Ydieresis
+/space /exclamdown /cent /sterling /currency
+/yen /brokenbar /section /dieresis /copyright
+/ordfeminine /guillemotleft /logicalnot /sfthyphen /registered
+/macron /degree /plusminus /twosuperior /threesuperior
+/acute /mu /paragraph /middot /cedilla
+/onesuperior /ordmasculine /guillemotright /onequarter /onehalf
+/threequarters /questiondown /Agrave /Aacute /Acircumflex
+/Atilde /Adieresis /Aring /AE /Ccedilla
+/Egrave /Eacute /Ecircumflex /Edieresis /Igrave
+/Iacute /Icircumflex /Idieresis /Eth /Ntilde
+/Ograve /Oacute /Ocircumflex /Otilde /Odieresis
+/multiply /Oslash /Ugrave /Uacute /Ucircumflex
+/Udieresis /Yacute /Thorn /germandbls /agrave
+/aacute /acircumflex /atilde /adieresis /aring
+/ae /ccedilla /egrave /eacute /ecircumflex
+/edieresis /igrave /iacute /icircumflex /idieresis
+/eth /ntilde /ograve /oacute /ocircumflex
+/otilde /odieresis /divide /oslash /ugrave
+/uacute /ucircumflex /udieresis /yacute /thorn
+/ydieresis
+] def
+%%EndResource
+%FOPBeginFontReencode
+/Courier-Bold findfont
+dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse} forall
+  /Encoding WinAnsiEncoding def
+  currentdict
+end
+/Courier-Bold exch definefont pop
+/Courier-Oblique findfont
+dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse} forall
+  /Encoding WinAnsiEncoding def
+  currentdict
+end
+/Courier-Oblique exch definefont pop
+/Courier findfont
+dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse} forall
+  /Encoding WinAnsiEncoding def
+  currentdict
+end
+/Courier exch definefont pop
+/Times-BoldItalic findfont
+dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse} forall
+  /Encoding WinAnsiEncoding def
+  currentdict
+end
+/Times-BoldItalic exch definefont pop
+/Times-Bold findfont
+dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse} forall
+  /Encoding WinAnsiEncoding def
+  currentdict
+end
+/Times-Bold exch definefont pop
+/Times-Italic findfont
+dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse} forall
+  /Encoding WinAnsiEncoding def
+  currentdict
+end
+/Times-Italic exch definefont pop
+/Times-Roman findfont
+dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse} forall
+  /Encoding WinAnsiEncoding def
+  currentdict
+end
+/Times-Roman exch definefont pop
+/Helvetica-BoldOblique findfont
+dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse} forall
+  /Encoding WinAnsiEncoding def
+  currentdict
+end
+/Helvetica-BoldOblique exch definefont pop
+/Helvetica-Bold findfont
+dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse} forall
+  /Encoding WinAnsiEncoding def
+  currentdict
+end
+/Helvetica-Bold exch definefont pop
+/Helvetica-Oblique findfont
+dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse} forall
+  /Encoding WinAnsiEncoding def
+  currentdict
+end
+/Helvetica-Oblique exch definefont pop
+/Helvetica findfont
+dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse} forall
+  /Encoding WinAnsiEncoding def
+  currentdict
+end
+/Helvetica exch definefont pop
+/Courier-BoldOblique findfont
+dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse} forall
+  /Encoding WinAnsiEncoding def
+  currentdict
+end
+/Courier-BoldOblique exch definefont pop
+%FOPEndFontReencode
+%%EndSetup
+%%Page: i 1
+%%PageBoundingBox: 0 0 612 792
+%%PageHiResBoundingBox: 0 0 612 792
+%%PageResources: (atend)
+%FOPSimplePageMaster: titlepage-first
+%%BeginPageSetup
+%FOPBeginSetPageDevice
+<<
+/PageSize [612 792]
+/ImagingBBox null
+>> setpagedevice
+%FOPEndSetPageDevice
+[1 0 0 -1 0 792] CT
+%%EndPageSetup
+GS
+[1 0 0 1 72 36] CT
+GR
+GS
+[0 -1 1 0 72 727.2] CT
+GR
+GS
+[0 -1 1 0 540 727.2] CT
+GR
+GS
+[1 0 0 1 72 727.2] CT
+GR
+GS
+[1 0 0 1 72 72] CT
+GS
+BT
+/Helvetica-Bold 24.883 F
+1 0 0 -1 84.011 21.287 Tm
+(MIT-SHM\(The MIT Shared) show
+1 0 0 -1 119.245 51.146 Tm
+(Memory Extension\)) show
+/Helvetica-Bold 20.736 F
+1 0 0 -1 29.468 93.009 Tm
+(How the shared memory extension works) show
+/Helvetica-Bold 12 F
+1 0 0 -1 109.992 254.419 Tm
+(Jonathan Corbet, National Center for Atmo-) show
+1 0 0 -1 103.11 268.819 Tm
+(spheric Research ) show
+/Courier-Bold 12 F
+1 0 0 -1 206.49 268.819 Tm
+(<corbet@ncar.ucar.edu>) show
+/Helvetica-Bold 12 F
+1 0 0 -1 165.312 283.219 Tm
+(Edited by Keith Packard) show
+ET
+GR
+GR
+showpage
+%%PageTrailer
+%%PageResources: font Courier-Bold
+%%+ font Helvetica-Bold
+%%+ procset (Apache XML Graphics Std ProcSet) 1.1 0
+%%Page: ii 2
+%%PageBoundingBox: 0 0 612 792
+%%PageHiResBoundingBox: 0 0 612 792
+%%PageResources: (atend)
+%FOPSimplePageMaster: titlepage-odd
+%%BeginPageSetup
+%FOPBeginSetPageDevice
+<<
+/PageSize [612 792]
+/ImagingBBox null
+>> setpagedevice
+%FOPEndSetPageDevice
+[1 0 0 -1 0 792] CT
+%%EndPageSetup
+GS
+[1 0 0 1 72 36] CT
+GS
+156 14.25 M
+156 14.5 lineto
+0 14.5 lineto
+0 14.25 lineto
+0 14 lineto
+156 14 lineto
+cp
+clip newpath
+0.5 LW
+0 14.25 M 156 14.25 lineto stroke newpath
+GR
+GS
+[1 0 0 1 156 0] CT
+GS
+156 14.25 M
+156 14.5 lineto
+0 14.5 lineto
+0 14.25 lineto
+0 14 lineto
+156 14 lineto
+cp
+clip newpath
+0.5 LW
+0 14.25 M 156 14.25 lineto stroke newpath
+GR
+GR
+GS
+[1 0 0 1 312 0] CT
+GS
+156 14.25 M
+156 14.5 lineto
+0 14.5 lineto
+0 14.25 lineto
+0 14 lineto
+156 14 lineto
+cp
+clip newpath
+0.5 LW
+0 14.25 M 156 14.25 lineto stroke newpath
+GR
+GR
+GR
+GS
+[0 -1 1 0 72 727.2] CT
+GR
+GS
+[0 -1 1 0 540 727.2] CT
+GR
+GS
+[1 0 0 1 72 727.2] CT
+GS
+[1 0 0 1 0 14.3] CT
+GS
+0 0.25 M
+0 0 lineto
+156 0 lineto
+156 0.25 lineto
+156 0.5 lineto
+0 0.5 lineto
+cp
+clip newpath
+0.5 LW
+0 0.25 M 156 0.25 lineto stroke newpath
+GR
+GR
+GS
+[1 0 0 1 156 14.3] CT
+GS
+0 0.25 M
+0 0 lineto
+156 0 lineto
+156 0.25 lineto
+156 0.5 lineto
+0 0.5 lineto
+cp
+clip newpath
+0.5 LW
+0 0.25 M 156 0.25 lineto stroke newpath
+GR
+GR
+GS
+[1 0 0 1 312 14.3] CT
+GS
+0 0.25 M
+0 0 lineto
+156 0 lineto
+156 0.25 lineto
+156 0.5 lineto
+0 0.5 lineto
+cp
+clip newpath
+0.5 LW
+0 0.25 M 156 0.25 lineto stroke newpath
+GR
+GR
+GR
+GS
+[1 0 0 1 72 72] CT
+GS
+BT
+/Helvetica-Bold 14.4 F
+1 0 0 -1 0 12.319 Tm
+[(MIT-SHM\(The ) 105 (MIT ) 105 (Shared ) 105 (Memory ) 105 (Extension\): ) 105 (How ) 105 (the ) 105 (shared ) 105 (mem-)] TJ
+1 0 0 -1 0 29.599 Tm
+(ory extension works) show
+/Times-Roman 10 F
+1 0 0 -1 0 42.89 Tm
+(by Jonathan Corbet and Keith Packard) show
+1 0 0 -1 0 59.89 Tm
+(X Version 11, Release 7.7) show
+1 0 0 -1 0 76.89 Tm
+(Version 1.0) show
+1 0 0 -1 0 88.89 Tm
+(Copyright ) show
+1 0 0 -1 43.06 88.89 Tm
+(\251) show
+1 0 0 -1 50.66 88.89 Tm
+( 1991 X Consortium) show
+/Helvetica-Bold 10 F
+1 0 0 -1 213.72 111.115 Tm
+(Abstract) show
+/Times-Roman 10 F
+1 0 0 -1 0 132.89 Tm
+[(This ) 198 (document ) 198 (briefly ) 198 (describes ) 198 (how ) 198 (to ) 198 (use ) 198 (the ) 198 (MIT-SHM ) 198 (shared ) 198 (memory ) 198 (extension. ) 198 (I ) 198 (have ) 198 (tried ) 198 
+(to ) 198 (make ) 198 (it ) 198 (accurate,)] TJ
+1 0 0 -1 0 144.89 Tm
+[(but ) 517 (it ) 517 (would ) 517 (not ) 517 (surprise ) 517 (me ) 517 (if ) 517 (some ) 517 (errors ) 517 (remained. ) 517 (If ) 517 (you ) 517 (find ) 517 (anything ) 517 (wrong, ) 517 (do ) 517 
+(let ) 517 (me ) 517 (know ) 517 (and ) 517 (I ) 517 (will ) 517 (incorporate)] TJ
+1 0 0 -1 0 156.89 Tm
+[(the ) -673 (corrections. ) -673 (Meanwhile, ) -673 (please ) -673 (take ) -673 (this ) -673 (document ) -673 ("as ) -673 (is" ) -673 (\(eman ) -673 (improvement ) -673 (over ) -673 (what ) -673 (was ) -673 
+(there ) -673 (before, ) -673 (but)] TJ
+1 0 0 -1 0 168.89 Tm
+(certainly not the definitive word.\)) show
+/Times-Roman 8 F
+1 0 0 -1 0 187.224 Tm
+[(Permission ) -116 (is ) -116 (hereby ) -116 (granted, ) -116 (free ) -116 (of ) -116 (charge, ) -116 (to ) -116 (any ) -116 (person ) -116 (obtaining ) -116 (a ) -116 (copy ) -116 (of ) -116 (this ) -116 
+(software ) -116 (and ) -116 (associated ) -116 (documentation ) -116 (files ) -116 (\(the ) -116 ("Software"\),)] TJ
+1 0 0 -1 0 196.824 Tm
+[(to ) -22 (deal ) -22 (in ) -22 (the ) -22 (Software ) -22 (without ) -22 (restriction, ) -22 (including ) -22 (without ) -22 (limitation ) -22 (the ) -22 (rights ) -22 (to ) -22 (use, ) -22 (copy, ) -22 
+(modify, ) -22 (merge, ) -22 (publish, ) -22 (distribute, ) -22 (sublicense, ) -22 (and/)] TJ
+1 0 0 -1 0 206.424 Tm
+(or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:) show
+1 0 0 -1 0 224.024 Tm
+(The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.) show
+1 0 0 -1 0 241.624 Tm
+[(THE ) -850 (SOFTWARE ) -850 (IS ) -850 (PROVIDED ) -850 (\223AS ) -850 (IS\224, ) -850 (WITHOUT ) -850 (WARRANTY ) -850 (OF ) -850 (ANY ) -850 (KIND, ) -850 (EXPRESS ) -850 (OR ) -850 (IMPLIED, ) -850 
+(INCLUDING ) -850 (BUT ) -850 (NOT)] TJ
+1 0 0 -1 0 251.224 Tm
+[(LIMITED ) -706 (TO ) -706 (THE ) -706 (WARRANTIES ) -706 (OF ) -706 (MERCHANTABILITY, ) -706 (FITNESS ) -706 (FOR ) -706 (A ) -706 (PARTICULAR ) -706 (PURPOSE ) -706 (AND ) -706 (NONINFRINGEMENT.)] TJ
+1 0 0 -1 0 260.824 Tm
+[(IN ) -472 (NO ) -472 (EVENT ) -472 (SHALL ) -472 (THE ) -472 (X ) -472 (CONSORTIUM ) -472 (BE ) -472 (LIABLE ) -472 (FOR ) -472 (ANY ) -472 (CLAIM, ) -472 (DAMAGES ) -472 (OR ) -472 (OTHER ) -472 
+(LIABILITY, ) -472 (WHETHER ) -472 (IN ) -472 (AN)] TJ
+1 0 0 -1 0 270.424 Tm
+[(ACTION ) -394 (OF ) -394 (CONTRACT, ) -394 (TORT ) -394 (OR ) -394 (OTHERWISE, ) -394 (ARISING ) -394 (FROM, ) -394 (OUT ) -394 (OF ) -394 (OR ) -394 (IN ) -394 (CONNECTION ) -394 (WITH ) -394 (THE ) -394 
+(SOFTWARE ) -394 (OR ) -394 (THE)] TJ
+1 0 0 -1 0 280.024 Tm
+(USE OR OTHER DEALINGS IN THE SOFTWARE.) show
+1 0 0 -1 0 297.624 Tm
+[(Except ) -446 (as ) -446 (contained ) -446 (in ) -446 (this ) -446 (notice, ) -446 (the ) -446 (name ) -446 (of ) -446 (the ) -446 (X ) -446 (Consortium ) -446 (shall ) -446 (not ) -446 (be ) -446 
+(used ) -446 (in ) -446 (advertising ) -446 (or ) -446 (otherwise ) -446 (to ) -446 (promote ) -446 (the ) -446 (sale, ) -446 (use ) -446 (or ) -446 (other)] TJ
+1 0 0 -1 0 307.224 Tm
+(dealings in this Software without prior written authorization from the X Consortium.) show
+1 0 0 -1 0 324.824 Tm
+(X Window System is a trademark of The OpenGroup.) show
+ET
+GR
+GR
+showpage
+%%PageTrailer
+%%PageResources: font Helvetica-Bold
+%%+ font Times-Roman
+%%+ procset (Apache XML Graphics Std ProcSet) 1.1 0
+%%Page: iii 3
+%%PageBoundingBox: 0 0 612 792
+%%PageHiResBoundingBox: 0 0 612 792
+%%PageResources: (atend)
+%FOPSimplePageMaster: lot-first
+%%BeginPageSetup
+%FOPBeginSetPageDevice
+<<
+/PageSize [612 792]
+/ImagingBBox null
+>> setpagedevice
+%FOPEndSetPageDevice
+[1 0 0 -1 0 792] CT
+%%EndPageSetup
+GS
+[1 0 0 1 72 36] CT
+GS
+156 14.25 M
+156 14.5 lineto
+0 14.5 lineto
+0 14.25 lineto
+0 14 lineto
+156 14 lineto
+cp
+clip newpath
+0.5 LW
+0 14.25 M 156 14.25 lineto stroke newpath
+GR
+GS
+[1 0 0 1 156 0] CT
+GS
+156 14.25 M
+156 14.5 lineto
+0 14.5 lineto
+0 14.25 lineto
+0 14 lineto
+156 14 lineto
+cp
+clip newpath
+0.5 LW
+0 14.25 M 156 14.25 lineto stroke newpath
+GR
+GR
+GS
+[1 0 0 1 312 0] CT
+GS
+156 14.25 M
+156 14.5 lineto
+0 14.5 lineto
+0 14.25 lineto
+0 14 lineto
+156 14 lineto
+cp
+clip newpath
+0.5 LW
+0 14.25 M 156 14.25 lineto stroke newpath
+GR
+GR
+GR
+GS
+[0 -1 1 0 72 727.2] CT
+GR
+GS
+[0 -1 1 0 540 727.2] CT
+GR
+GS
+[1 0 0 1 72 727.2] CT
+GS
+[1 0 0 1 0 14.3] CT
+GS
+0 0.25 M
+0 0 lineto
+156 0 lineto
+156 0.25 lineto
+156 0.5 lineto
+0 0.5 lineto
+cp
+clip newpath
+0.5 LW
+0 0.25 M 156 0.25 lineto stroke newpath
+GR
+GR
+GS
+[1 0 0 1 156 14.3] CT
+GS
+0 0.25 M
+0 0 lineto
+156 0 lineto
+156 0.25 lineto
+156 0.5 lineto
+0 0.5 lineto
+cp
+clip newpath
+0.5 LW
+0 0.25 M 156 0.25 lineto stroke newpath
+GR
+GS
+BT
+/Times-Roman 10 F
+1 0 0 -1 73.83 10.83 Tm
+(iii) show
+ET
+GR
+GR
+GS
+[1 0 0 1 312 14.3] CT
+GS
+0 0.25 M
+0 0 lineto
+156 0 lineto
+156 0.25 lineto
+156 0.5 lineto
+0 0.5 lineto
+cp
+clip newpath
+0.5 LW
+0 0.25 M 156 0.25 lineto stroke newpath
+GR
+GR
+GR
+GS
+[1 0 0 1 72 72] CT
+GS
+BT
+/Helvetica-Bold 17.28 F
+1 0 0 -1 48 14.783 Tm
+(Table of Contents) show
+/Times-Roman 10 F
+1 0 0 -1 48 37.706 Tm
+[(1. ) -1001 (REQUIREMENTS)] TJ
+1 0 0 -1 136.152 37.706 Tm
+[( ) -1001 ] TJ
+1 0 0 -1 139.653 37.706 Tm
+(.) show
+1 0 0 -1 142.653 37.706 Tm
+(.) show
+1 0 0 -1 145.653 37.706 Tm
+(.) show
+1 0 0 -1 148.653 37.706 Tm
+(.) show
+1 0 0 -1 151.653 37.706 Tm
+(.) show
+1 0 0 -1 154.653 37.706 Tm
+(.) show
+1 0 0 -1 157.653 37.706 Tm
+(.) show
+1 0 0 -1 160.653 37.706 Tm
+(.) show
+1 0 0 -1 163.653 37.706 Tm
+(.) show
+1 0 0 -1 166.653 37.706 Tm
+(.) show
+1 0 0 -1 169.653 37.706 Tm
+(.) show
+1 0 0 -1 172.653 37.706 Tm
+(.) show
+1 0 0 -1 175.653 37.706 Tm
+(.) show
+1 0 0 -1 178.653 37.706 Tm
+(.) show
+1 0 0 -1 181.653 37.706 Tm
+(.) show
+1 0 0 -1 184.653 37.706 Tm
+(.) show
+1 0 0 -1 187.653 37.706 Tm
+(.) show
+1 0 0 -1 190.653 37.706 Tm
+(.) show
+1 0 0 -1 193.653 37.706 Tm
+(.) show
+1 0 0 -1 196.653 37.706 Tm
+(.) show
+1 0 0 -1 199.653 37.706 Tm
+(.) show
+1 0 0 -1 202.653 37.706 Tm
+(.) show
+1 0 0 -1 205.653 37.706 Tm
+(.) show
+1 0 0 -1 208.653 37.706 Tm
+(.) show
+1 0 0 -1 211.653 37.706 Tm
+(.) show
+1 0 0 -1 214.653 37.706 Tm
+(.) show
+1 0 0 -1 217.653 37.706 Tm
+(.) show
+1 0 0 -1 220.653 37.706 Tm
+(.) show
+1 0 0 -1 223.653 37.706 Tm
+(.) show
+1 0 0 -1 226.653 37.706 Tm
+(.) show
+1 0 0 -1 229.653 37.706 Tm
+(.) show
+1 0 0 -1 232.653 37.706 Tm
+(.) show
+1 0 0 -1 235.653 37.706 Tm
+(.) show
+1 0 0 -1 238.653 37.706 Tm
+(.) show
+1 0 0 -1 241.653 37.706 Tm
+(.) show
+1 0 0 -1 244.653 37.706 Tm
+(.) show
+1 0 0 -1 247.653 37.706 Tm
+(.) show
+1 0 0 -1 250.653 37.706 Tm
+(.) show
+1 0 0 -1 253.653 37.706 Tm
+(.) show
+1 0 0 -1 256.653 37.706 Tm
+(.) show
+1 0 0 -1 259.653 37.706 Tm
+(.) show
+1 0 0 -1 262.653 37.706 Tm
+(.) show
+1 0 0 -1 265.653 37.706 Tm
+(.) show
+1 0 0 -1 268.653 37.706 Tm
+(.) show
+1 0 0 -1 271.653 37.706 Tm
+(.) show
+1 0 0 -1 274.653 37.706 Tm
+(.) show
+1 0 0 -1 277.653 37.706 Tm
+(.) show
+1 0 0 -1 280.653 37.706 Tm
+(.) show
+1 0 0 -1 283.653 37.706 Tm
+(.) show
+1 0 0 -1 286.653 37.706 Tm
+(.) show
+1 0 0 -1 289.653 37.706 Tm
+(.) show
+1 0 0 -1 292.653 37.706 Tm
+(.) show
+1 0 0 -1 295.653 37.706 Tm
+(.) show
+1 0 0 -1 298.653 37.706 Tm
+(.) show
+1 0 0 -1 301.653 37.706 Tm
+(.) show
+1 0 0 -1 304.653 37.706 Tm
+(.) show
+1 0 0 -1 307.653 37.706 Tm
+(.) show
+1 0 0 -1 310.653 37.706 Tm
+(.) show
+1 0 0 -1 313.653 37.706 Tm
+(.) show
+1 0 0 -1 316.653 37.706 Tm
+(.) show
+1 0 0 -1 319.653 37.706 Tm
+(.) show
+1 0 0 -1 322.653 37.706 Tm
+(.) show
+1 0 0 -1 325.653 37.706 Tm
+(.) show
+1 0 0 -1 328.653 37.706 Tm
+(.) show
+1 0 0 -1 331.653 37.706 Tm
+(.) show
+1 0 0 -1 334.653 37.706 Tm
+(.) show
+1 0 0 -1 337.653 37.706 Tm
+(.) show
+1 0 0 -1 340.653 37.706 Tm
+(.) show
+1 0 0 -1 343.653 37.706 Tm
+(.) show
+1 0 0 -1 346.653 37.706 Tm
+(.) show
+1 0 0 -1 349.653 37.706 Tm
+(.) show
+1 0 0 -1 352.653 37.706 Tm
+(.) show
+1 0 0 -1 355.653 37.706 Tm
+(.) show
+1 0 0 -1 358.653 37.706 Tm
+(.) show
+1 0 0 -1 361.653 37.706 Tm
+(.) show
+1 0 0 -1 364.653 37.706 Tm
+(.) show
+1 0 0 -1 367.653 37.706 Tm
+(.) show
+1 0 0 -1 370.653 37.706 Tm
+(.) show
+1 0 0 -1 373.653 37.706 Tm
+(.) show
+1 0 0 -1 376.653 37.706 Tm
+(.) show
+1 0 0 -1 379.653 37.706 Tm
+(.) show
+1 0 0 -1 382.653 37.706 Tm
+(.) show
+1 0 0 -1 385.653 37.706 Tm
+(.) show
+1 0 0 -1 388.653 37.706 Tm
+(.) show
+1 0 0 -1 391.653 37.706 Tm
+(.) show
+1 0 0 -1 394.653 37.706 Tm
+(.) show
+1 0 0 -1 397.653 37.706 Tm
+(.) show
+1 0 0 -1 400.653 37.706 Tm
+(.) show
+1 0 0 -1 403.653 37.706 Tm
+(.) show
+1 0 0 -1 406.653 37.706 Tm
+(.) show
+1 0 0 -1 409.653 37.706 Tm
+(.) show
+1 0 0 -1 412.653 37.706 Tm
+(.) show
+1 0 0 -1 415.653 37.706 Tm
+(.) show
+1 0 0 -1 418.653 37.706 Tm
+(.) show
+1 0 0 -1 421.653 37.706 Tm
+(.) show
+1 0 0 -1 424.653 37.706 Tm
+(.) show
+1 0 0 -1 427.653 37.706 Tm
+(.) show
+1 0 0 -1 430.653 37.706 Tm
+(.) show
+1 0 0 -1 433.653 37.706 Tm
+(.) show
+1 0 0 -1 436.653 37.706 Tm
+(.) show
+1 0 0 -1 439.653 37.706 Tm
+(.) show
+1 0 0 -1 442.653 37.706 Tm
+(.) show
+1 0 0 -1 445.653 37.706 Tm
+(.) show
+1 0 0 -1 448.653 37.706 Tm
+(.) show
+1 0 0 -1 451.653 37.706 Tm
+(.) show
+1 0 0 -1 454.653 37.706 Tm
+(.) show
+1 0 0 -1 459.426 37.706 Tm
+[( ) -1001 ] TJ
+1 0 0 -1 462.927 37.706 Tm
+(1) show
+1 0 0 -1 48 49.706 Tm
+[(2. ) -939 (WHAT ) -939 (IS ) -939 (PROVIDED)] TJ
+1 0 0 -1 155.042 49.706 Tm
+[( ) -939 ] TJ
+1 0 0 -1 158.481 49.706 Tm
+(.) show
+1 0 0 -1 161.481 49.706 Tm
+(.) show
+1 0 0 -1 164.481 49.706 Tm
+(.) show
+1 0 0 -1 167.481 49.706 Tm
+(.) show
+1 0 0 -1 170.481 49.706 Tm
+(.) show
+1 0 0 -1 173.481 49.706 Tm
+(.) show
+1 0 0 -1 176.481 49.706 Tm
+(.) show
+1 0 0 -1 179.481 49.706 Tm
+(.) show
+1 0 0 -1 182.481 49.706 Tm
+(.) show
+1 0 0 -1 185.481 49.706 Tm
+(.) show
+1 0 0 -1 188.481 49.706 Tm
+(.) show
+1 0 0 -1 191.481 49.706 Tm
+(.) show
+1 0 0 -1 194.481 49.706 Tm
+(.) show
+1 0 0 -1 197.481 49.706 Tm
+(.) show
+1 0 0 -1 200.481 49.706 Tm
+(.) show
+1 0 0 -1 203.481 49.706 Tm
+(.) show
+1 0 0 -1 206.481 49.706 Tm
+(.) show
+1 0 0 -1 209.481 49.706 Tm
+(.) show
+1 0 0 -1 212.481 49.706 Tm
+(.) show
+1 0 0 -1 215.481 49.706 Tm
+(.) show
+1 0 0 -1 218.481 49.706 Tm
+(.) show
+1 0 0 -1 221.481 49.706 Tm
+(.) show
+1 0 0 -1 224.481 49.706 Tm
+(.) show
+1 0 0 -1 227.481 49.706 Tm
+(.) show
+1 0 0 -1 230.481 49.706 Tm
+(.) show
+1 0 0 -1 233.481 49.706 Tm
+(.) show
+1 0 0 -1 236.481 49.706 Tm
+(.) show
+1 0 0 -1 239.481 49.706 Tm
+(.) show
+1 0 0 -1 242.481 49.706 Tm
+(.) show
+1 0 0 -1 245.481 49.706 Tm
+(.) show
+1 0 0 -1 248.481 49.706 Tm
+(.) show
+1 0 0 -1 251.481 49.706 Tm
+(.) show
+1 0 0 -1 254.481 49.706 Tm
+(.) show
+1 0 0 -1 257.481 49.706 Tm
+(.) show
+1 0 0 -1 260.481 49.706 Tm
+(.) show
+1 0 0 -1 263.481 49.706 Tm
+(.) show
+1 0 0 -1 266.481 49.706 Tm
+(.) show
+1 0 0 -1 269.481 49.706 Tm
+(.) show
+1 0 0 -1 272.481 49.706 Tm
+(.) show
+1 0 0 -1 275.481 49.706 Tm
+(.) show
+1 0 0 -1 278.481 49.706 Tm
+(.) show
+1 0 0 -1 281.481 49.706 Tm
+(.) show
+1 0 0 -1 284.481 49.706 Tm
+(.) show
+1 0 0 -1 287.481 49.706 Tm
+(.) show
+1 0 0 -1 290.481 49.706 Tm
+(.) show
+1 0 0 -1 293.481 49.706 Tm
+(.) show
+1 0 0 -1 296.481 49.706 Tm
+(.) show
+1 0 0 -1 299.481 49.706 Tm
+(.) show
+1 0 0 -1 302.481 49.706 Tm
+(.) show
+1 0 0 -1 305.481 49.706 Tm
+(.) show
+1 0 0 -1 308.481 49.706 Tm
+(.) show
+1 0 0 -1 311.481 49.706 Tm
+(.) show
+1 0 0 -1 314.481 49.706 Tm
+(.) show
+1 0 0 -1 317.481 49.706 Tm
+(.) show
+1 0 0 -1 320.481 49.706 Tm
+(.) show
+1 0 0 -1 323.481 49.706 Tm
+(.) show
+1 0 0 -1 326.481 49.706 Tm
+(.) show
+1 0 0 -1 329.481 49.706 Tm
+(.) show
+1 0 0 -1 332.481 49.706 Tm
+(.) show
+1 0 0 -1 335.481 49.706 Tm
+(.) show
+1 0 0 -1 338.481 49.706 Tm
+(.) show
+1 0 0 -1 341.481 49.706 Tm
+(.) show
+1 0 0 -1 344.481 49.706 Tm
+(.) show
+1 0 0 -1 347.481 49.706 Tm
+(.) show
+1 0 0 -1 350.481 49.706 Tm
+(.) show
+1 0 0 -1 353.481 49.706 Tm
+(.) show
+1 0 0 -1 356.481 49.706 Tm
+(.) show
+1 0 0 -1 359.481 49.706 Tm
+(.) show
+1 0 0 -1 362.481 49.706 Tm
+(.) show
+1 0 0 -1 365.481 49.706 Tm
+(.) show
+1 0 0 -1 368.481 49.706 Tm
+(.) show
+1 0 0 -1 371.481 49.706 Tm
+(.) show
+1 0 0 -1 374.481 49.706 Tm
+(.) show
+1 0 0 -1 377.481 49.706 Tm
+(.) show
+1 0 0 -1 380.481 49.706 Tm
+(.) show
+1 0 0 -1 383.481 49.706 Tm
+(.) show
+1 0 0 -1 386.481 49.706 Tm
+(.) show
+1 0 0 -1 389.481 49.706 Tm
+(.) show
+1 0 0 -1 392.481 49.706 Tm
+(.) show
+1 0 0 -1 395.481 49.706 Tm
+(.) show
+1 0 0 -1 398.481 49.706 Tm
+(.) show
+1 0 0 -1 401.481 49.706 Tm
+(.) show
+1 0 0 -1 404.481 49.706 Tm
+(.) show
+1 0 0 -1 407.481 49.706 Tm
+(.) show
+1 0 0 -1 410.481 49.706 Tm
+(.) show
+1 0 0 -1 413.481 49.706 Tm
+(.) show
+1 0 0 -1 416.481 49.706 Tm
+(.) show
+1 0 0 -1 419.481 49.706 Tm
+(.) show
+1 0 0 -1 422.481 49.706 Tm
+(.) show
+1 0 0 -1 425.481 49.706 Tm
+(.) show
+1 0 0 -1 428.481 49.706 Tm
+(.) show
+1 0 0 -1 431.481 49.706 Tm
+(.) show
+1 0 0 -1 434.481 49.706 Tm
+(.) show
+1 0 0 -1 437.481 49.706 Tm
+(.) show
+1 0 0 -1 440.481 49.706 Tm
+(.) show
+1 0 0 -1 443.481 49.706 Tm
+(.) show
+1 0 0 -1 446.481 49.706 Tm
+(.) show
+1 0 0 -1 449.481 49.706 Tm
+(.) show
+1 0 0 -1 452.481 49.706 Tm
+(.) show
+1 0 0 -1 455.481 49.706 Tm
+(.) show
+1 0 0 -1 459.348 49.706 Tm
+[( ) -939 ] TJ
+1 0 0 -1 462.787 49.706 Tm
+(2) show
+1 0 0 -1 48 61.706 Tm
+[(3. ) -493 (HOW ) -493 (TO ) -493 (USE ) -493 (THE ) -493 (SHARED ) -493 (MEMORY ) -493 (EXTENSION)] TJ
+1 0 0 -1 292.621 61.706 Tm
+[( ) -493 ] TJ
+1 0 0 -1 295.614 61.706 Tm
+(.) show
+1 0 0 -1 298.614 61.706 Tm
+(.) show
+1 0 0 -1 301.614 61.706 Tm
+(.) show
+1 0 0 -1 304.614 61.706 Tm
+(.) show
+1 0 0 -1 307.614 61.706 Tm
+(.) show
+1 0 0 -1 310.614 61.706 Tm
+(.) show
+1 0 0 -1 313.614 61.706 Tm
+(.) show
+1 0 0 -1 316.614 61.706 Tm
+(.) show
+1 0 0 -1 319.614 61.706 Tm
+(.) show
+1 0 0 -1 322.614 61.706 Tm
+(.) show
+1 0 0 -1 325.614 61.706 Tm
+(.) show
+1 0 0 -1 328.614 61.706 Tm
+(.) show
+1 0 0 -1 331.614 61.706 Tm
+(.) show
+1 0 0 -1 334.614 61.706 Tm
+(.) show
+1 0 0 -1 337.614 61.706 Tm
+(.) show
+1 0 0 -1 340.614 61.706 Tm
+(.) show
+1 0 0 -1 343.614 61.706 Tm
+(.) show
+1 0 0 -1 346.614 61.706 Tm
+(.) show
+1 0 0 -1 349.614 61.706 Tm
+(.) show
+1 0 0 -1 352.614 61.706 Tm
+(.) show
+1 0 0 -1 355.614 61.706 Tm
+(.) show
+1 0 0 -1 358.614 61.706 Tm
+(.) show
+1 0 0 -1 361.614 61.706 Tm
+(.) show
+1 0 0 -1 364.614 61.706 Tm
+(.) show
+1 0 0 -1 367.614 61.706 Tm
+(.) show
+1 0 0 -1 370.614 61.706 Tm
+(.) show
+1 0 0 -1 373.614 61.706 Tm
+(.) show
+1 0 0 -1 376.614 61.706 Tm
+(.) show
+1 0 0 -1 379.614 61.706 Tm
+(.) show
+1 0 0 -1 382.614 61.706 Tm
+(.) show
+1 0 0 -1 385.614 61.706 Tm
+(.) show
+1 0 0 -1 388.614 61.706 Tm
+(.) show
+1 0 0 -1 391.614 61.706 Tm
+(.) show
+1 0 0 -1 394.614 61.706 Tm
+(.) show
+1 0 0 -1 397.614 61.706 Tm
+(.) show
+1 0 0 -1 400.614 61.706 Tm
+(.) show
+1 0 0 -1 403.614 61.706 Tm
+(.) show
+1 0 0 -1 406.614 61.706 Tm
+(.) show
+1 0 0 -1 409.614 61.706 Tm
+(.) show
+1 0 0 -1 412.614 61.706 Tm
+(.) show
+1 0 0 -1 415.614 61.706 Tm
+(.) show
+1 0 0 -1 418.614 61.706 Tm
+(.) show
+1 0 0 -1 421.614 61.706 Tm
+(.) show
+1 0 0 -1 424.614 61.706 Tm
+(.) show
+1 0 0 -1 427.614 61.706 Tm
+(.) show
+1 0 0 -1 430.614 61.706 Tm
+(.) show
+1 0 0 -1 433.614 61.706 Tm
+(.) show
+1 0 0 -1 436.614 61.706 Tm
+(.) show
+1 0 0 -1 439.614 61.706 Tm
+(.) show
+1 0 0 -1 442.614 61.706 Tm
+(.) show
+1 0 0 -1 445.614 61.706 Tm
+(.) show
+1 0 0 -1 448.614 61.706 Tm
+(.) show
+1 0 0 -1 451.614 61.706 Tm
+(.) show
+1 0 0 -1 454.614 61.706 Tm
+(.) show
+1 0 0 -1 459.523 61.706 Tm
+[( ) -493 ] TJ
+1 0 0 -1 462.516 61.706 Tm
+(3) show
+1 0 0 -1 48 73.706 Tm
+[(4. ) -685 (USE ) -685 (OF ) -685 (SHARED ) -685 (MEMORY ) -685 (XIMAGES)] TJ
+1 0 0 -1 233.308 73.706 Tm
+[( ) -685 ] TJ
+1 0 0 -1 236.493 73.706 Tm
+(.) show
+1 0 0 -1 239.493 73.706 Tm
+(.) show
+1 0 0 -1 242.493 73.706 Tm
+(.) show
+1 0 0 -1 245.493 73.706 Tm
+(.) show
+1 0 0 -1 248.493 73.706 Tm
+(.) show
+1 0 0 -1 251.493 73.706 Tm
+(.) show
+1 0 0 -1 254.493 73.706 Tm
+(.) show
+1 0 0 -1 257.493 73.706 Tm
+(.) show
+1 0 0 -1 260.493 73.706 Tm
+(.) show
+1 0 0 -1 263.493 73.706 Tm
+(.) show
+1 0 0 -1 266.493 73.706 Tm
+(.) show
+1 0 0 -1 269.493 73.706 Tm
+(.) show
+1 0 0 -1 272.493 73.706 Tm
+(.) show
+1 0 0 -1 275.493 73.706 Tm
+(.) show
+1 0 0 -1 278.493 73.706 Tm
+(.) show
+1 0 0 -1 281.493 73.706 Tm
+(.) show
+1 0 0 -1 284.493 73.706 Tm
+(.) show
+1 0 0 -1 287.493 73.706 Tm
+(.) show
+1 0 0 -1 290.493 73.706 Tm
+(.) show
+1 0 0 -1 293.493 73.706 Tm
+(.) show
+1 0 0 -1 296.493 73.706 Tm
+(.) show
+1 0 0 -1 299.493 73.706 Tm
+(.) show
+1 0 0 -1 302.493 73.706 Tm
+(.) show
+1 0 0 -1 305.493 73.706 Tm
+(.) show
+1 0 0 -1 308.493 73.706 Tm
+(.) show
+1 0 0 -1 311.493 73.706 Tm
+(.) show
+1 0 0 -1 314.493 73.706 Tm
+(.) show
+1 0 0 -1 317.493 73.706 Tm
+(.) show
+1 0 0 -1 320.493 73.706 Tm
+(.) show
+1 0 0 -1 323.493 73.706 Tm
+(.) show
+1 0 0 -1 326.493 73.706 Tm
+(.) show
+1 0 0 -1 329.493 73.706 Tm
+(.) show
+1 0 0 -1 332.493 73.706 Tm
+(.) show
+1 0 0 -1 335.493 73.706 Tm
+(.) show
+1 0 0 -1 338.493 73.706 Tm
+(.) show
+1 0 0 -1 341.493 73.706 Tm
+(.) show
+1 0 0 -1 344.493 73.706 Tm
+(.) show
+1 0 0 -1 347.493 73.706 Tm
+(.) show
+1 0 0 -1 350.493 73.706 Tm
+(.) show
+1 0 0 -1 353.493 73.706 Tm
+(.) show
+1 0 0 -1 356.493 73.706 Tm
+(.) show
+1 0 0 -1 359.493 73.706 Tm
+(.) show
+1 0 0 -1 362.493 73.706 Tm
+(.) show
+1 0 0 -1 365.493 73.706 Tm
+(.) show
+1 0 0 -1 368.493 73.706 Tm
+(.) show
+1 0 0 -1 371.493 73.706 Tm
+(.) show
+1 0 0 -1 374.493 73.706 Tm
+(.) show
+1 0 0 -1 377.493 73.706 Tm
+(.) show
+1 0 0 -1 380.493 73.706 Tm
+(.) show
+1 0 0 -1 383.493 73.706 Tm
+(.) show
+1 0 0 -1 386.493 73.706 Tm
+(.) show
+1 0 0 -1 389.493 73.706 Tm
+(.) show
+1 0 0 -1 392.493 73.706 Tm
+(.) show
+1 0 0 -1 395.493 73.706 Tm
+(.) show
+1 0 0 -1 398.493 73.706 Tm
+(.) show
+1 0 0 -1 401.493 73.706 Tm
+(.) show
+1 0 0 -1 404.493 73.706 Tm
+(.) show
+1 0 0 -1 407.493 73.706 Tm
+(.) show
+1 0 0 -1 410.493 73.706 Tm
+(.) show
+1 0 0 -1 413.493 73.706 Tm
+(.) show
+1 0 0 -1 416.493 73.706 Tm
+(.) show
+1 0 0 -1 419.493 73.706 Tm
+(.) show
+1 0 0 -1 422.493 73.706 Tm
+(.) show
+1 0 0 -1 425.493 73.706 Tm
+(.) show
+1 0 0 -1 428.493 73.706 Tm
+(.) show
+1 0 0 -1 431.493 73.706 Tm
+(.) show
+1 0 0 -1 434.493 73.706 Tm
+(.) show
+1 0 0 -1 437.493 73.706 Tm
+(.) show
+1 0 0 -1 440.493 73.706 Tm
+(.) show
+1 0 0 -1 443.493 73.706 Tm
+(.) show
+1 0 0 -1 446.493 73.706 Tm
+(.) show
+1 0 0 -1 449.493 73.706 Tm
+(.) show
+1 0 0 -1 452.493 73.706 Tm
+(.) show
+1 0 0 -1 455.493 73.706 Tm
+(.) show
+1 0 0 -1 459.465 73.706 Tm
+[( ) -685 ] TJ
+1 0 0 -1 462.65 73.706 Tm
+(4) show
+1 0 0 -1 48 85.706 Tm
+[(5. ) -692 (USE ) -692 (OF ) -692 (SHARED ) -692 (MEMORY ) -692 (PIXMAPS)] TJ
+1 0 0 -1 231.134 85.706 Tm
+[( ) -692 ] TJ
+1 0 0 -1 234.326 85.706 Tm
+(.) show
+1 0 0 -1 237.326 85.706 Tm
+(.) show
+1 0 0 -1 240.326 85.706 Tm
+(.) show
+1 0 0 -1 243.326 85.706 Tm
+(.) show
+1 0 0 -1 246.326 85.706 Tm
+(.) show
+1 0 0 -1 249.326 85.706 Tm
+(.) show
+1 0 0 -1 252.326 85.706 Tm
+(.) show
+1 0 0 -1 255.326 85.706 Tm
+(.) show
+1 0 0 -1 258.326 85.706 Tm
+(.) show
+1 0 0 -1 261.326 85.706 Tm
+(.) show
+1 0 0 -1 264.326 85.706 Tm
+(.) show
+1 0 0 -1 267.326 85.706 Tm
+(.) show
+1 0 0 -1 270.326 85.706 Tm
+(.) show
+1 0 0 -1 273.326 85.706 Tm
+(.) show
+1 0 0 -1 276.326 85.706 Tm
+(.) show
+1 0 0 -1 279.326 85.706 Tm
+(.) show
+1 0 0 -1 282.326 85.706 Tm
+(.) show
+1 0 0 -1 285.326 85.706 Tm
+(.) show
+1 0 0 -1 288.326 85.706 Tm
+(.) show
+1 0 0 -1 291.326 85.706 Tm
+(.) show
+1 0 0 -1 294.326 85.706 Tm
+(.) show
+1 0 0 -1 297.326 85.706 Tm
+(.) show
+1 0 0 -1 300.326 85.706 Tm
+(.) show
+1 0 0 -1 303.326 85.706 Tm
+(.) show
+1 0 0 -1 306.326 85.706 Tm
+(.) show
+1 0 0 -1 309.326 85.706 Tm
+(.) show
+1 0 0 -1 312.326 85.706 Tm
+(.) show
+1 0 0 -1 315.326 85.706 Tm
+(.) show
+1 0 0 -1 318.326 85.706 Tm
+(.) show
+1 0 0 -1 321.326 85.706 Tm
+(.) show
+1 0 0 -1 324.326 85.706 Tm
+(.) show
+1 0 0 -1 327.326 85.706 Tm
+(.) show
+1 0 0 -1 330.326 85.706 Tm
+(.) show
+1 0 0 -1 333.326 85.706 Tm
+(.) show
+1 0 0 -1 336.326 85.706 Tm
+(.) show
+1 0 0 -1 339.326 85.706 Tm
+(.) show
+1 0 0 -1 342.326 85.706 Tm
+(.) show
+1 0 0 -1 345.326 85.706 Tm
+(.) show
+1 0 0 -1 348.326 85.706 Tm
+(.) show
+1 0 0 -1 351.326 85.706 Tm
+(.) show
+1 0 0 -1 354.326 85.706 Tm
+(.) show
+1 0 0 -1 357.326 85.706 Tm
+(.) show
+1 0 0 -1 360.326 85.706 Tm
+(.) show
+1 0 0 -1 363.326 85.706 Tm
+(.) show
+1 0 0 -1 366.326 85.706 Tm
+(.) show
+1 0 0 -1 369.326 85.706 Tm
+(.) show
+1 0 0 -1 372.326 85.706 Tm
+(.) show
+1 0 0 -1 375.326 85.706 Tm
+(.) show
+1 0 0 -1 378.326 85.706 Tm
+(.) show
+1 0 0 -1 381.326 85.706 Tm
+(.) show
+1 0 0 -1 384.326 85.706 Tm
+(.) show
+1 0 0 -1 387.326 85.706 Tm
+(.) show
+1 0 0 -1 390.326 85.706 Tm
+(.) show
+1 0 0 -1 393.326 85.706 Tm
+(.) show
+1 0 0 -1 396.326 85.706 Tm
+(.) show
+1 0 0 -1 399.326 85.706 Tm
+(.) show
+1 0 0 -1 402.326 85.706 Tm
+(.) show
+1 0 0 -1 405.326 85.706 Tm
+(.) show
+1 0 0 -1 408.326 85.706 Tm
+(.) show
+1 0 0 -1 411.326 85.706 Tm
+(.) show
+1 0 0 -1 414.326 85.706 Tm
+(.) show
+1 0 0 -1 417.326 85.706 Tm
+(.) show
+1 0 0 -1 420.326 85.706 Tm
+(.) show
+1 0 0 -1 423.326 85.706 Tm
+(.) show
+1 0 0 -1 426.326 85.706 Tm
+(.) show
+1 0 0 -1 429.326 85.706 Tm
+(.) show
+1 0 0 -1 432.326 85.706 Tm
+(.) show
+1 0 0 -1 435.326 85.706 Tm
+(.) show
+1 0 0 -1 438.326 85.706 Tm
+(.) show
+1 0 0 -1 441.326 85.706 Tm
+(.) show
+1 0 0 -1 444.326 85.706 Tm
+(.) show
+1 0 0 -1 447.326 85.706 Tm
+(.) show
+1 0 0 -1 450.326 85.706 Tm
+(.) show
+1 0 0 -1 453.326 85.706 Tm
+(.) show
+1 0 0 -1 456.326 85.706 Tm
+(.) show
+1 0 0 -1 459.459 85.706 Tm
+[( ) -692 ] TJ
+1 0 0 -1 462.651 85.706 Tm
+(7) show
+ET
+GR
+GR
+showpage
+%%PageTrailer
+%%PageResources: font Helvetica-Bold
+%%+ font Times-Roman
+%%+ procset (Apache XML Graphics Std ProcSet) 1.1 0
+%%Page: 1 4
+%%PageBoundingBox: 0 0 612 792
+%%PageHiResBoundingBox: 0 0 612 792
+%%PageResources: (atend)
+%FOPSimplePageMaster: body-first
+%%BeginPageSetup
+%FOPBeginSetPageDevice
+<<
+/PageSize [612 792]
+/ImagingBBox null
+>> setpagedevice
+%FOPEndSetPageDevice
+[1 0 0 -1 0 792] CT
+%%EndPageSetup
+GS
+[1 0 0 1 72 36] CT
+GS
+156 14.25 M
+156 14.5 lineto
+0 14.5 lineto
+0 14.25 lineto
+0 14 lineto
+156 14 lineto
+cp
+clip newpath
+0.5 LW
+0 14.25 M 156 14.25 lineto stroke newpath
+GR
+GS
+[1 0 0 1 156 0] CT
+GS
+156 14.25 M
+156 14.5 lineto
+0 14.5 lineto
+0 14.25 lineto
+0 14 lineto
+156 14 lineto
+cp
+clip newpath
+0.5 LW
+0 14.25 M 156 14.25 lineto stroke newpath
+GR
+GR
+GS
+[1 0 0 1 312 0] CT
+GS
+156 14.25 M
+156 14.5 lineto
+0 14.5 lineto
+0 14.25 lineto
+0 14 lineto
+156 14 lineto
+cp
+clip newpath
+0.5 LW
+0 14.25 M 156 14.25 lineto stroke newpath
+GR
+GR
+GR
+GS
+[0 -1 1 0 72 727.2] CT
+GR
+GS
+[0 -1 1 0 540 727.2] CT
+GR
+GS
+[1 0 0 1 72 727.2] CT
+GS
+[1 0 0 1 0 14.3] CT
+GS
+0 0.25 M
+0 0 lineto
+156 0 lineto
+156 0.25 lineto
+156 0.5 lineto
+0 0.5 lineto
+cp
+clip newpath
+0.5 LW
+0 0.25 M 156 0.25 lineto stroke newpath
+GR
+GR
+GS
+[1 0 0 1 156 14.3] CT
+GS
+0 0.25 M
+0 0 lineto
+156 0 lineto
+156 0.25 lineto
+156 0.5 lineto
+0 0.5 lineto
+cp
+clip newpath
+0.5 LW
+0 0.25 M 156 0.25 lineto stroke newpath
+GR
+GS
+BT
+/Times-Roman 10 F
+1 0 0 -1 75.5 10.83 Tm
+(1) show
+ET
+GR
+GR
+GS
+[1 0 0 1 312 14.3] CT
+GS
+0 0.25 M
+0 0 lineto
+156 0 lineto
+156 0.25 lineto
+156 0.5 lineto
+0 0.5 lineto
+cp
+clip newpath
+0.5 LW
+0 0.25 M 156 0.25 lineto stroke newpath
+GR
+GR
+GR
+GS
+[1 0 0 1 72 72] CT
+GS
+BT
+/Helvetica-Bold 24.883 F
+1 0 0 -1 0 21.287 Tm
+(Chapter 1. REQUIREMENTS) show
+/Times-Roman 10 F
+1 0 0 -1 48 48.189 Tm
+[(The ) 135 (shared ) 135 (memory ) 135 (extension ) 135 (is ) 135 (provided ) 135 (only ) 135 (by ) 135 (some ) 135 (X ) 135 (servers. ) 135 (To ) 135 (find ) 135 (out ) 135 (if ) 135 (your ) 135 
+(server ) 135 (supports ) 135 (the)] TJ
+1 0 0 -1 48 60.189 Tm
+[(extension, ) -488 (use ) -488 (xdpyinfo\(1\). ) -488 (In ) -488 (particular, ) -488 (to ) -488 (be ) -488 (able ) -488 (to ) -488 (use ) -488 (this ) -488 (extension, ) -488 (your ) -488 (system ) -488 
+(must ) -488 (provide ) -488 (the)] TJ
+1 0 0 -1 48 72.189 Tm
+[(SYSV ) -503 (shared ) -503 (memory ) -503 (primitives. ) -503 (There ) -503 (is ) -503 (not ) -503 (an ) -503 (mmap-based ) -503 (version ) -503 (of ) -503 (this ) -503 (extension. ) -503 (To ) -503 
+(use ) -503 (shared)] TJ
+1 0 0 -1 48 84.189 Tm
+[(memory ) 128 (on ) 128 (Sun ) 128 (systems, ) 128 (you ) 128 (must ) 128 (have ) 128 (built ) 128 (your ) 128 (kernel ) 128 (with ) 128 (SYSV ) 128 (shared ) 128 (memory ) 128 (enabled ) 128 (-- ) 128 
+(which ) 128 (is)] TJ
+1 0 0 -1 48 96.189 Tm
+[(not ) -83 (the ) -83 (default ) -83 (configuration. ) -83 (Additionally, ) -83 (the ) -83 (shared ) -83 (memeory ) -83 (maximum ) -83 (size ) -83 (will ) -83 (need ) -83 (to ) -83 (be ) -83 (increased)] TJ
+1 0 0 -1 48 108.189 Tm
+(on both Sun and Digital systems; the defaults are far too small for any useful work.) show
+ET
+GR
+GR
+showpage
+%%PageTrailer
+%%PageResources: font Helvetica-Bold
+%%+ font Times-Roman
+%%+ procset (Apache XML Graphics Std ProcSet) 1.1 0
+%%Page: 2 5
+%%PageBoundingBox: 0 0 612 792
+%%PageHiResBoundingBox: 0 0 612 792
+%%PageResources: (atend)
+%FOPSimplePageMaster: body-first
+%%BeginPageSetup
+%FOPBeginSetPageDevice
+<<
+/PageSize [612 792]
+/ImagingBBox null
+>> setpagedevice
+%FOPEndSetPageDevice
+[1 0 0 -1 0 792] CT
+%%EndPageSetup
+GS
+[1 0 0 1 72 36] CT
+GS
+156 14.25 M
+156 14.5 lineto
+0 14.5 lineto
+0 14.25 lineto
+0 14 lineto
+156 14 lineto
+cp
+clip newpath
+0.5 LW
+0 14.25 M 156 14.25 lineto stroke newpath
+GR
+GS
+[1 0 0 1 156 0] CT
+GS
+156 14.25 M
+156 14.5 lineto
+0 14.5 lineto
+0 14.25 lineto
+0 14 lineto
+156 14 lineto
+cp
+clip newpath
+0.5 LW
+0 14.25 M 156 14.25 lineto stroke newpath
+GR
+GR
+GS
+[1 0 0 1 312 0] CT
+GS
+156 14.25 M
+156 14.5 lineto
+0 14.5 lineto
+0 14.25 lineto
+0 14 lineto
+156 14 lineto
+cp
+clip newpath
+0.5 LW
+0 14.25 M 156 14.25 lineto stroke newpath
+GR
+GR
+GR
+GS
+[0 -1 1 0 72 727.2] CT
+GR
+GS
+[0 -1 1 0 540 727.2] CT
+GR
+GS
+[1 0 0 1 72 727.2] CT
+GS
+[1 0 0 1 0 14.3] CT
+GS
+0 0.25 M
+0 0 lineto
+156 0 lineto
+156 0.25 lineto
+156 0.5 lineto
+0 0.5 lineto
+cp
+clip newpath
+0.5 LW
+0 0.25 M 156 0.25 lineto stroke newpath
+GR
+GR
+GS
+[1 0 0 1 156 14.3] CT
+GS
+0 0.25 M
+0 0 lineto
+156 0 lineto
+156 0.25 lineto
+156 0.5 lineto
+0 0.5 lineto
+cp
+clip newpath
+0.5 LW
+0 0.25 M 156 0.25 lineto stroke newpath
+GR
+GS
+BT
+/Times-Roman 10 F
+1 0 0 -1 75.5 10.83 Tm
+(2) show
+ET
+GR
+GR
+GS
+[1 0 0 1 312 14.3] CT
+GS
+0 0.25 M
+0 0 lineto
+156 0 lineto
+156 0.25 lineto
+156 0.5 lineto
+0 0.5 lineto
+cp
+clip newpath
+0.5 LW
+0 0.25 M 156 0.25 lineto stroke newpath
+GR
+GR
+GR
+GS
+[1 0 0 1 72 72] CT
+GS
+BT
+/Helvetica-Bold 24.883 F
+1 0 0 -1 0 21.287 Tm
+(Chapter 2. WHAT IS PROVIDED) show
+/Times-Roman 10 F
+1 0 0 -1 48 48.189 Tm
+[(The ) 715 (basic ) 715 (capability ) 715 (provided ) 715 (is ) 715 (that ) 715 (of ) 715 (shared ) 715 (memory ) 715 (XImages. ) 715 (This ) 715 (is ) 715 (essentially ) 715 (a ) 715 (version ) 715 
+(of ) 715 (the ) 715 (ximage)] TJ
+1 0 0 -1 48 60.189 Tm
+[(interface ) -20 (where ) -20 (the ) -20 (actual ) -20 (image ) -20 (data ) -20 (is ) -20 (stored ) -20 (in ) -20 (a ) -20 (shared ) -20 (memory ) -20 (segment, ) -20 (and ) -20 (thus ) -20 (need ) -20 
+(not ) -20 (be ) -20 (moved)] TJ
+1 0 0 -1 48 72.189 Tm
+[(through ) -281 (the ) -281 (Xlib ) -281 (interprocess ) -281 (communication ) -281 (channel. ) -281 (For ) -281 (large ) -281 (images, ) -281 (use ) -281 (of ) -281 (this ) -281 (facility ) -281 
+(can ) -281 (result ) -281 (in)] TJ
+1 0 0 -1 48 84.189 Tm
+(some real performance increases.) show
+1 0 0 -1 48 106.189 Tm
+[(Additionally, ) 412 (some ) 412 (implementations ) 412 (provided ) 412 (shared ) 412 (memory ) 412 (pixmaps. ) 412 (These ) 412 (are ) 412 (2 ) 412 (dimensional ) 412 (arrays ) 412 (of)] TJ
+1 0 0 -1 48 118.189 Tm
+[(pixels ) 361 (in ) 361 (a ) 361 (format ) 361 (specified ) 361 (by ) 361 (the ) 361 (X ) 361 (server, ) 361 (where ) 361 (the ) 361 (image ) 361 (data ) 361 (is ) 361 (stored ) 361 (in ) 361 (the ) 361 
+(shared ) 361 (memory ) 361 (segment.)] TJ
+1 0 0 -1 48 130.189 Tm
+[(Through ) -505 (use ) -505 (of ) -505 (shared ) -505 (memory ) -505 (pixmaps, ) -505 (it ) -505 (is ) -505 (possible ) -505 (to ) -505 (change ) -505 (the ) -505 (contents ) -505 (of ) -505 (these ) -505 
+(pixmaps ) -505 (without)] TJ
+1 0 0 -1 48 142.189 Tm
+[(using ) -50 (any ) -50 (Xlib ) -50 (routines ) -50 (at ) -50 (all. ) -50 (Shared ) -50 (memory ) -50 (pixmaps ) -50 (can ) -50 (only ) -50 (be ) -50 (supported ) -50 (when ) -50 (the ) -50 (X ) -50 
+(server ) -50 (can ) -50 (use)] TJ
+1 0 0 -1 48 154.189 Tm
+[(regular ) 185 (virtual ) 185 (memory ) 185 (for ) 185 (pixmap ) 185 (data; ) 185 (if ) 185 (the ) 185 (pixmaps ) 185 (are ) 185 (stored ) 185 (in ) 185 (some ) 185 (magic ) 185 (graphics ) 185 
+(hardware, ) 185 (your)] TJ
+1 0 0 -1 48 166.189 Tm
+[(application ) 91 (will ) 91 (not ) 91 (be ) 91 (able ) 91 (to ) 91 (share ) 91 (them ) 91 (with ) 91 (the ) 91 (server. ) 91 (Xdpyinfo\(1\) ) 91 (doesn't ) 91 (print ) 91 (this ) 91 (particular ) 91 (nugget)] TJ
+1 0 0 -1 48 178.189 Tm
+(of information.) show
+ET
+GR
+GR
+showpage
+%%PageTrailer
+%%PageResources: font Helvetica-Bold
+%%+ font Times-Roman
+%%+ procset (Apache XML Graphics Std ProcSet) 1.1 0
+%%Page: 3 6
+%%PageBoundingBox: 0 0 612 792
+%%PageHiResBoundingBox: 0 0 612 792
+%%PageResources: (atend)
+%FOPSimplePageMaster: body-first
+%%BeginPageSetup
+%FOPBeginSetPageDevice
+<<
+/PageSize [612 792]
+/ImagingBBox null
+>> setpagedevice
+%FOPEndSetPageDevice
+[1 0 0 -1 0 792] CT
+%%EndPageSetup
+GS
+[1 0 0 1 72 36] CT
+GS
+156 14.25 M
+156 14.5 lineto
+0 14.5 lineto
+0 14.25 lineto
+0 14 lineto
+156 14 lineto
+cp
+clip newpath
+0.5 LW
+0 14.25 M 156 14.25 lineto stroke newpath
+GR
+GS
+[1 0 0 1 156 0] CT
+GS
+156 14.25 M
+156 14.5 lineto
+0 14.5 lineto
+0 14.25 lineto
+0 14 lineto
+156 14 lineto
+cp
+clip newpath
+0.5 LW
+0 14.25 M 156 14.25 lineto stroke newpath
+GR
+GR
+GS
+[1 0 0 1 312 0] CT
+GS
+156 14.25 M
+156 14.5 lineto
+0 14.5 lineto
+0 14.25 lineto
+0 14 lineto
+156 14 lineto
+cp
+clip newpath
+0.5 LW
+0 14.25 M 156 14.25 lineto stroke newpath
+GR
+GR
+GR
+GS
+[0 -1 1 0 72 727.2] CT
+GR
+GS
+[0 -1 1 0 540 727.2] CT
+GR
+GS
+[1 0 0 1 72 727.2] CT
+GS
+[1 0 0 1 0 14.3] CT
+GS
+0 0.25 M
+0 0 lineto
+156 0 lineto
+156 0.25 lineto
+156 0.5 lineto
+0 0.5 lineto
+cp
+clip newpath
+0.5 LW
+0 0.25 M 156 0.25 lineto stroke newpath
+GR
+GR
+GS
+[1 0 0 1 156 14.3] CT
+GS
+0 0.25 M
+0 0 lineto
+156 0 lineto
+156 0.25 lineto
+156 0.5 lineto
+0 0.5 lineto
+cp
+clip newpath
+0.5 LW
+0 0.25 M 156 0.25 lineto stroke newpath
+GR
+GS
+BT
+/Times-Roman 10 F
+1 0 0 -1 75.5 10.83 Tm
+(3) show
+ET
+GR
+GR
+GS
+[1 0 0 1 312 14.3] CT
+GS
+0 0.25 M
+0 0 lineto
+156 0 lineto
+156 0.25 lineto
+156 0.5 lineto
+0 0.5 lineto
+cp
+clip newpath
+0.5 LW
+0 0.25 M 156 0.25 lineto stroke newpath
+GR
+GR
+GR
+GS
+[1 0 0 1 72 72] CT
+GS
+BT
+/Helvetica-Bold 24.883 F
+1 0 0 -1 0 21.287 Tm
+(Chapter 3. HOW TO USE THE SHARED) show
+1 0 0 -1 0 51.146 Tm
+(MEMORY EXTENSION) show
+/Times-Roman 10 F
+1 0 0 -1 48 78.048 Tm
+(Code which uses the shared memory extension must include a number of header files:) show
+/Courier 10 F
+1 0 0 -1 48 112.078 Tm
+(#include <X11/Xlib.h>          /* of course */) show
+1 0 0 -1 48 124.078 Tm
+(#include <sys/ipc.h>) show
+1 0 0 -1 48 136.078 Tm
+(#include <sys/shm.h>) show
+1 0 0 -1 48 148.078 Tm
+(#include <X11/extensions/XShm.h>) show
+/Times-Roman 10 F
+1 0 0 -1 48 170.048 Tm
+[(Of ) -418 (course, ) -418 (if ) -418 (the ) -418 (system ) -418 (you ) -418 (are ) -418 (building ) -418 (on ) -418 (does ) -418 (not ) -418 (support ) -418 (shared ) -418 (memory, ) -418 (the ) -418 
+(file ) -418 (XShm.h ) -418 (may ) -418 (not)] TJ
+1 0 0 -1 48 182.048 Tm
+(be present. You may want to make liberal use of #ifdefs.) show
+1 0 0 -1 48 204.048 Tm
+[(Any ) -282 (code ) -282 (which ) -282 (uses ) -282 (the ) -282 (shared ) -282 (memory ) -282 (extension ) -282 (should ) -282 (first ) -282 (check ) -282 (to ) -282 (see ) -282 (that ) -282 (the ) -282 
+(server ) -282 (provides ) -282 (the)] TJ
+1 0 0 -1 48 216.048 Tm
+[(extension. ) -212 (You ) -212 (could ) -212 (always ) -212 (be ) -212 (running ) -212 (over ) -212 (the ) -212 (net, ) -212 (or ) -212 (in ) -212 (some ) -212 (other ) -212 (environment ) -212 
+(where ) -212 (the ) -212 (extension)] TJ
+1 0 0 -1 48 228.048 Tm
+(will not work. To perform this check, call either) show
+/Courier 10 F
+1 0 0 -1 48 250.078 Tm
+(Status ) show
+/Courier-Bold 10 F
+1 0 0 -1 90 250.078 Tm
+(XShmQueryExtension) show
+/Courier 10 F
+1 0 0 -1 198 250.078 Tm
+(\() show
+/Courier-Oblique 10 F
+1 0 0 -1 204 250.078 Tm
+(*display) show
+/Courier 10 F
+1 0 0 -1 252 250.078 Tm
+(\);) show
+/Times-Roman 10 F
+1 0 0 -1 48 272.048 Tm
+(or) show
+/Courier 10 F
+1 0 0 -1 48 294.078 Tm
+(Status ) show
+/Courier-Bold 10 F
+1 0 0 -1 90 294.078 Tm
+(XShmQueryVersion) show
+/Courier 10 F
+1 0 0 -1 186 294.078 Tm
+(\() show
+/Courier-Oblique 10 F
+1 0 0 -1 192 294.078 Tm
+(*display) show
+/Courier 10 F
+1 0 0 -1 240 294.078 Tm
+(, ) show
+/Courier-Oblique 10 F
+1 0 0 -1 252 294.078 Tm
+(*major) show
+/Courier 10 F
+1 0 0 -1 288 294.078 Tm
+(, ) show
+/Courier-Oblique 10 F
+1 0 0 -1 300 294.078 Tm
+(*minor) show
+/Courier 10 F
+1 0 0 -1 336 294.078 Tm
+(, ) show
+/Courier-Oblique 10 F
+1 0 0 -1 348 294.078 Tm
+(*pixmaps) show
+/Courier 10 F
+1 0 0 -1 396 294.078 Tm
+(\);) show
+/Times-Roman 10 F
+1 0 0 -1 48 316.048 Tm
+[(Where ) 148 ("display" ) 148 (is, ) 148 (of ) 148 (course, ) 148 (the ) 148 (display ) 148 (on ) 148 (which ) 148 (you ) 148 (are ) 148 (running. ) 148 (If ) 148 (the ) 148 (shared ) 148 (memory ) 148 
+(extension ) 148 (may)] TJ
+1 0 0 -1 48 328.048 Tm
+[(be ) -56 (used, ) -56 (the ) -56 (return ) -56 (value ) -56 (from ) -56 (either ) -56 (function ) -56 (will ) -56 (be ) -56 (True; ) -56 (otherwise ) -56 (your ) -56 (program ) -56 (should ) -56 
+(operate ) -56 (using)] TJ
+1 0 0 -1 48 340.048 Tm
+[(conventional ) -45 (Xlib ) -45 (calls. ) -45 (When ) -45 (the ) -45 (extension ) -45 (is ) -45 (available, ) -45 (\\fCXShmQueryVersion\\fP ) -45 (also ) -45 (returns ) -45 ("major")] TJ
+1 0 0 -1 48 352.048 Tm
+[(and ) 491 ("minor" ) 491 (which ) 491 (are ) 491 (the ) 491 (version ) 491 (numbers ) 491 (of ) 491 (the ) 491 (extension ) 491 (implementation, ) 491 (and ) 491 ("pixmaps" ) 491 (which ) 491 (is ) 491 (True)] TJ
+1 0 0 -1 48 364.048 Tm
+(iff shared memory pixmaps are supported.) show
+ET
+GR
+GR
+showpage
+%%PageTrailer
+%%PageResources: font Courier
+%%+ font Courier-Bold
+%%+ font Courier-Oblique
+%%+ font Helvetica-Bold
+%%+ font Times-Roman
+%%+ procset (Apache XML Graphics Std ProcSet) 1.1 0
+%%Page: 4 7
+%%PageBoundingBox: 0 0 612 792
+%%PageHiResBoundingBox: 0 0 612 792
+%%PageResources: (atend)
+%FOPSimplePageMaster: body-first
+%%BeginPageSetup
+%FOPBeginSetPageDevice
+<<
+/PageSize [612 792]
+/ImagingBBox null
+>> setpagedevice
+%FOPEndSetPageDevice
+[1 0 0 -1 0 792] CT
+%%EndPageSetup
+GS
+[1 0 0 1 72 36] CT
+GS
+156 14.25 M
+156 14.5 lineto
+0 14.5 lineto
+0 14.25 lineto
+0 14 lineto
+156 14 lineto
+cp
+clip newpath
+0.5 LW
+0 14.25 M 156 14.25 lineto stroke newpath
+GR
+GS
+[1 0 0 1 156 0] CT
+GS
+156 14.25 M
+156 14.5 lineto
+0 14.5 lineto
+0 14.25 lineto
+0 14 lineto
+156 14 lineto
+cp
+clip newpath
+0.5 LW
+0 14.25 M 156 14.25 lineto stroke newpath
+GR
+GR
+GS
+[1 0 0 1 312 0] CT
+GS
+156 14.25 M
+156 14.5 lineto
+0 14.5 lineto
+0 14.25 lineto
+0 14 lineto
+156 14 lineto
+cp
+clip newpath
+0.5 LW
+0 14.25 M 156 14.25 lineto stroke newpath
+GR
+GR
+GR
+GS
+[0 -1 1 0 72 727.2] CT
+GR
+GS
+[0 -1 1 0 540 727.2] CT
+GR
+GS
+[1 0 0 1 72 727.2] CT
+GS
+[1 0 0 1 0 14.3] CT
+GS
+0 0.25 M
+0 0 lineto
+156 0 lineto
+156 0.25 lineto
+156 0.5 lineto
+0 0.5 lineto
+cp
+clip newpath
+0.5 LW
+0 0.25 M 156 0.25 lineto stroke newpath
+GR
+GR
+GS
+[1 0 0 1 156 14.3] CT
+GS
+0 0.25 M
+0 0 lineto
+156 0 lineto
+156 0.25 lineto
+156 0.5 lineto
+0 0.5 lineto
+cp
+clip newpath
+0.5 LW
+0 0.25 M 156 0.25 lineto stroke newpath
+GR
+GS
+BT
+/Times-Roman 10 F
+1 0 0 -1 75.5 10.83 Tm
+(4) show
+ET
+GR
+GR
+GS
+[1 0 0 1 312 14.3] CT
+GS
+0 0.25 M
+0 0 lineto
+156 0 lineto
+156 0.25 lineto
+156 0.5 lineto
+0 0.5 lineto
+cp
+clip newpath
+0.5 LW
+0 0.25 M 156 0.25 lineto stroke newpath
+GR
+GR
+GR
+GS
+[1 0 0 1 72 72] CT
+GS
+BT
+/Helvetica-Bold 24.883 F
+1 0 0 -1 0 21.287 Tm
+(Chapter 4. USE OF SHARED MEMORY) show
+1 0 0 -1 0 51.146 Tm
+(XIMAGES) show
+/Times-Roman 10 F
+1 0 0 -1 48 78.063 Tm
+(The basic sequence of operations for shared memory XImages is as follows:) show
+1 0 0 -1 48 100.078 Tm
+(1.) show
+1 0 0 -1 60 100.078 Tm
+(Create the shared memory XImage structure) show
+1 0 0 -1 48 122.093 Tm
+(2.) show
+1 0 0 -1 60 122.093 Tm
+(Create a shared memory segment to store the image data) show
+1 0 0 -1 48 144.108 Tm
+(3.) show
+1 0 0 -1 60 144.108 Tm
+(Inform the server about the shared memory segment) show
+1 0 0 -1 48 166.123 Tm
+(4.) show
+1 0 0 -1 60 166.123 Tm
+(Use the shared memory XImage, much like a normal one.) show
+1 0 0 -1 48 188.138 Tm
+(To create a shared memory XImage, use:) show
+/Courier 10 F
+1 0 0 -1 48 210.183 Tm
+[(XImage ) 2000 ] TJ
+/Courier-Bold 10 F
+1 0 0 -1 88 210.183 Tm
+(*XShmCreateImage) show
+/Courier 10 F
+1 0 0 -1 184 210.183 Tm
+(\() show
+/Courier-Oblique 10 F
+1 0 0 -1 190 210.183 Tm
+(*display) show
+/Courier 10 F
+1 0 0 -1 238 210.183 Tm
+[(, ) 2000 ] TJ
+/Courier-Oblique 10 F
+1 0 0 -1 248 210.183 Tm
+(*visual) show
+/Courier 10 F
+1 0 0 -1 290 210.183 Tm
+[(, ) 2000 ] TJ
+/Courier-Oblique 10 F
+1 0 0 -1 300 210.183 Tm
+(depth) show
+/Courier 10 F
+1 0 0 -1 330 210.183 Tm
+[(, ) 2000 ] TJ
+/Courier-Oblique 10 F
+1 0 0 -1 340 210.183 Tm
+(format) show
+/Courier 10 F
+1 0 0 -1 376 210.183 Tm
+[(, ) 2000 ] TJ
+/Courier-Oblique 10 F
+1 0 0 -1 386 210.183 Tm
+(*data) show
+/Courier 10 F
+1 0 0 -1 416 210.183 Tm
+[(, ) 2000 ] TJ
+/Courier-Oblique 10 F
+1 0 0 -1 426 210.183 Tm
+(*shmin-) show
+1 0 0 -1 48 222.183 Tm
+(fo) show
+/Courier 10 F
+1 0 0 -1 60 222.183 Tm
+(, ) show
+/Courier-Oblique 10 F
+1 0 0 -1 72 222.183 Tm
+(width) show
+/Courier 10 F
+1 0 0 -1 102 222.183 Tm
+(, ) show
+/Courier-Oblique 10 F
+1 0 0 -1 114 222.183 Tm
+(height) show
+/Courier 10 F
+1 0 0 -1 150 222.183 Tm
+(\);) show
+/Times-Roman 10 F
+1 0 0 -1 48 244.168 Tm
+[(Most ) 288 (of ) 288 (the ) 288 (arguments ) 288 (are ) 288 (the ) 288 (same ) 288 (as ) 288 (for ) 288 (XCreateImage; ) 288 (I ) 288 (will ) 288 (not ) 288 (go ) 288 (through ) 288 (them ) 288 
+(here. ) 288 (Note, ) 288 (however,)] TJ
+1 0 0 -1 48 256.168 Tm
+[(that ) -130 (there ) -130 (are ) -130 (no ) -130 ("offset", ) -130 ("bitmap_pad", ) -130 (or ) -130 ("bytes_per_line" ) -130 (arguments. ) -130 (These ) -130 (quantities ) -130 (will ) -130 (be ) -130 (defined)] TJ
+1 0 0 -1 48 268.168 Tm
+[(by ) -252 (the ) -252 (server ) -252 (itself, ) -252 (and ) -252 (your ) -252 (code ) -252 (needs ) -252 (to ) -252 (abide ) -252 (by ) -252 (them. ) -252 (Unless ) -252 (you ) -252 (have ) -252 
+(already ) -252 (allocated ) -252 (the ) -252 (shared)] TJ
+1 0 0 -1 48 280.168 Tm
+(memory segment \(see below\), you should pass in NULL for the "data" pointer.) show
+1 0 0 -1 48 302.183 Tm
+[(There ) 152 (is ) 152 (one ) 152 (additional ) 152 (argument: ) 152 ("shminfo", ) 152 (which ) 152 (is ) 152 (a ) 152 (pointer ) 152 (to ) 152 (a ) 152 (structure ) 152 (of ) 152 (type ) 152 (XShmSegmentInfo.)] TJ
+1 0 0 -1 48 314.183 Tm
+[(You ) -624 (must ) -624 (allocate ) -624 (one ) -624 (of ) -624 (these ) -624 (structures ) -624 (such ) -624 (that ) -624 (it ) -624 (will ) -624 (have ) -624 (a ) -624 (lifetime ) -624 (at ) -624 
+(least ) -624 (as ) -624 (long ) -624 (as ) -624 (that ) -624 (of ) -624 (the)] TJ
+1 0 0 -1 48 326.183 Tm
+[(shared ) 123 (memory ) 123 (XImage. ) 123 (There ) 123 (is ) 123 (no ) 123 (need ) 123 (to ) 123 (initialize ) 123 (this ) 123 (structure ) 123 (before ) 123 (the ) 123 (call ) 123 (to ) 123 (XShmCreateImage.)] TJ
+1 0 0 -1 48 348.198 Tm
+[(The ) 361 (return ) 361 (value, ) 361 (if ) 361 (all ) 361 (goes ) 361 (well, ) 361 (will ) 361 (be ) 361 (an ) 361 (XImage ) 361 (structure, ) 361 (which ) 361 (you ) 361 (can ) 361 (use ) 361 (for ) 361 
+(the ) 361 (subsequent ) 361 (steps.)] TJ
+1 0 0 -1 48 370.213 Tm
+[(The ) 10 (next ) 10 (step ) 10 (is ) 10 (to ) 10 (create ) 10 (the ) 10 (shared ) 10 (memory ) 10 (segment. ) 10 (This ) 10 (is ) 10 (best ) 10 (done ) 10 (after ) 10 (the ) 10 (creation ) 10 (of ) 10 
+(the ) 10 (XImage,)] TJ
+1 0 0 -1 48 382.213 Tm
+[(since ) -605 (you ) -605 (need ) -605 (to ) -605 (make ) -605 (use ) -605 (of ) -605 (the ) -605 (information ) -605 (in ) -605 (that ) -605 (XImage ) -605 (to ) -605 (know ) -605 (how ) -605 (much ) -605 
+(memory ) -605 (to ) -605 (allocate.)] TJ
+1 0 0 -1 48 394.213 Tm
+(To create the segment, you need a call like:) show
+/Courier 10 F
+1 0 0 -1 48 428.258 Tm
+(shminfo.shmid = shmget \(IPC_PRIVATE,) show
+1 0 0 -1 48 440.258 Tm
+(          image->bytes_per_line * image->height, IPC_CREAT|0777\);) show
+/Times-Roman 10 F
+1 0 0 -1 48 462.243 Tm
+[(\(assuming ) 94 (that ) 94 (you ) 94 (have ) 94 (called ) 94 (your ) 94 (shared ) 94 (memory ) 94 (XImage ) 94 ("image"\). ) 94 (You ) 94 (should, ) 94 (of ) 94 (course, ) 94 (follow ) 94 (the)] TJ
+1 0 0 -1 48 474.243 Tm
+[(Rules ) 55 (and ) 55 (do ) 55 (error ) 55 (checking ) 55 (on ) 55 (all ) 55 (of ) 55 (these ) 55 (system ) 55 (calls. ) 55 (Also, ) 55 (be ) 55 (sure ) 55 (to ) 55 (use ) 55 (the ) 55 
+(bytes_per_line ) 55 (field, ) 55 (not)] TJ
+1 0 0 -1 48 486.243 Tm
+(the width you used to create the XImage as they may well be different.) show
+1 0 0 -1 48 508.258 Tm
+[(Note ) 104 (that ) 104 (the ) 104 (shared ) 104 (memory ) 104 (ID ) 104 (returned ) 104 (by ) 104 (the ) 104 (system ) 104 (is ) 104 (stored ) 104 (in ) 104 (the ) 104 (shminfo ) 104 (structure. ) 104 
+(The ) 104 (server ) 104 (will)] TJ
+1 0 0 -1 48 520.258 Tm
+(need that ID to attach itself to the segment.) show
+1 0 0 -1 48 542.273 Tm
+[(Also ) 69 (note ) 69 (that, ) 69 (on ) 69 (many ) 69 (systems ) 69 (for ) 69 (security ) 69 (reasons, ) 69 (the ) 69 (X ) 69 (server ) 69 (will ) 69 (only ) 69 (accept ) 69 (to ) 69 (attach ) 69 (to ) 69 
+(the ) 69 (shared)] TJ
+1 0 0 -1 48 554.273 Tm
+[(memory ) -454 (segment ) -454 (if ) -454 (it's ) -454 (readable ) -454 (and ) -454 (writeable ) -454 (by ) -454 ("other". ) -454 (On ) -454 (systems ) -454 (where ) -454 (the ) -454 (X ) -454 
+(server ) -454 (is ) -454 (able ) -454 (to ) -454 (de-)] TJ
+1 0 0 -1 48 566.273 Tm
+[(termine ) -730 (the ) -730 (uid ) -730 (of ) -730 (the ) -730 (X ) -730 (client ) -730 (over ) -730 (a ) -730 (local ) -730 (transport, ) -730 (the ) -730 (shared ) -730 (memory ) -730 (segment ) -730 
+(can ) -730 (be ) -730 (readable ) -730 (and)] TJ
+1 0 0 -1 48 578.273 Tm
+(writeable only by the uid of the client.) show
+1 0 0 -1 48 600.288 Tm
+(Next, attach this shared memory segment to your process:) show
+1 0 0 -1 48 622.303 Tm
+(shminfo.shmaddr = image->data = shmat \(shminfo.shmid, 0, 0\);) show
+1 0 0 -1 48 644.318 Tm
+[(The ) 325 (address ) 325 (returned ) 325 (by ) 325 (shmat ) 325 (should ) 325 (be ) 325 (stored ) 325 (in ) 325 (*both* ) 325 (the ) 325 (XImage ) 325 (structure ) 325 (and ) 325 (the ) 325 (shminfo ) 325 (structure.)] TJ
+ET
+GR
+GR
+showpage
+%%PageTrailer
+%%PageResources: font Courier
+%%+ font Courier-Bold
+%%+ font Courier-Oblique
+%%+ font Helvetica-Bold
+%%+ font Times-Roman
+%%+ procset (Apache XML Graphics Std ProcSet) 1.1 0
+%%Page: 5 8
+%%PageBoundingBox: 0 0 612 792
+%%PageHiResBoundingBox: 0 0 612 792
+%%PageResources: (atend)
+%FOPSimplePageMaster: body-odd
+%%BeginPageSetup
+%FOPBeginSetPageDevice
+<<
+/PageSize [612 792]
+/ImagingBBox null
+>> setpagedevice
+%FOPEndSetPageDevice
+[1 0 0 -1 0 792] CT
+%%EndPageSetup
+GS
+[1 0 0 1 72 36] CT
+GS
+156 24.25 M
+156 24.5 lineto
+0 24.5 lineto
+0 24.25 lineto
+0 24 lineto
+156 24 lineto
+cp
+clip newpath
+0.5 LW
+0 24.25 M 156 24.25 lineto stroke newpath
+GR
+GS
+[1 0 0 1 156 0] CT
+GS
+156 24.25 M
+156 24.5 lineto
+0 24.5 lineto
+0 24.25 lineto
+0 24 lineto
+156 24 lineto
+cp
+clip newpath
+0.5 LW
+0 24.25 M 156 24.25 lineto stroke newpath
+GR
+GS
+BT
+/Times-Roman 10 F
+1 0 0 -1 39.665 8.33 Tm
+(USE OF SHARED) show
+1 0 0 -1 31.475 20.33 Tm
+(MEMORY XIMAGES) show
+ET
+GR
+GR
+GS
+[1 0 0 1 312 0] CT
+GS
+156 24.25 M
+156 24.5 lineto
+0 24.5 lineto
+0 24.25 lineto
+0 24 lineto
+156 24 lineto
+cp
+clip newpath
+0.5 LW
+0 24.25 M 156 24.25 lineto stroke newpath
+GR
+GR
+GR
+GS
+[0 -1 1 0 72 727.2] CT
+GR
+GS
+[0 -1 1 0 540 727.2] CT
+GR
+GS
+[1 0 0 1 72 727.2] CT
+GS
+[1 0 0 1 0 14.3] CT
+GS
+0 0.25 M
+0 0 lineto
+156 0 lineto
+156 0.25 lineto
+156 0.5 lineto
+0 0.5 lineto
+cp
+clip newpath
+0.5 LW
+0 0.25 M 156 0.25 lineto stroke newpath
+GR
+GR
+GS
+[1 0 0 1 156 14.3] CT
+GS
+0 0.25 M
+0 0 lineto
+156 0 lineto
+156 0.25 lineto
+156 0.5 lineto
+0 0.5 lineto
+cp
+clip newpath
+0.5 LW
+0 0.25 M 156 0.25 lineto stroke newpath
+GR
+GS
+BT
+/Times-Roman 10 F
+1 0 0 -1 75.5 10.83 Tm
+(5) show
+ET
+GR
+GR
+GS
+[1 0 0 1 312 14.3] CT
+GS
+0 0.25 M
+0 0 lineto
+156 0 lineto
+156 0.25 lineto
+156 0.5 lineto
+0 0.5 lineto
+cp
+clip newpath
+0.5 LW
+0 0.25 M 156 0.25 lineto stroke newpath
+GR
+GR
+GR
+GS
+[1 0 0 1 72 72] CT
+GS
+BT
+/Times-Roman 10 F
+1 0 0 -1 48 8.33 Tm
+[(To ) -850 (finish ) -850 (filling ) -850 (in ) -850 (the ) -850 (shminfo ) -850 (structure, ) -850 (you ) -850 (need ) -850 (to ) -850 (decide ) -850 (how ) -850 (you ) -850 (want ) -850 (the ) -850 
+(server ) -850 (to ) -850 (attach ) -850 (to ) -850 (the)] TJ
+1 0 0 -1 48 20.33 Tm
+(shared memory segment, and set the "readOnly" field as follows. Normally, you would code:) show
+1 0 0 -1 48 42.918 Tm
+(shminfo.readOnly = False;) show
+1 0 0 -1 48 65.506 Tm
+[(If ) -530 (you ) -530 (set ) -530 (it ) -530 (to ) -530 (True, ) -530 (the ) -530 (server ) -530 (will ) -530 (not ) -530 (be ) -530 (able ) -530 (to ) -530 (write ) -530 (to ) -530 (this ) -530 
+(segment, ) -530 (and ) -530 (thus ) -530 (XShmGetImage ) -530 (calls)] TJ
+1 0 0 -1 48 77.506 Tm
+(will fail.) show
+1 0 0 -1 48 100.094 Tm
+(Finally, tell the server to attach to your shared memory segment with:) show
+/Courier 10 F
+1 0 0 -1 48 134.712 Tm
+(Status XShmAttach \(display, shminfo\);) show
+/Times-Roman 10 F
+1 0 0 -1 48 157.27 Tm
+(If all goes well, you will get a non-zero status back, and your XImage is ready for use.) show
+1 0 0 -1 48 179.858 Tm
+(To write a shared memory XImage into an X drawable, use XShmPutImage:) show
+/Courier 10 F
+1 0 0 -1 48 202.476 Tm
+[(Status ) -2250 ] TJ
+/Courier-Bold 10 F
+1 0 0 -1 92.25 202.476 Tm
+[(XShmPutImage ) -2250 ] TJ
+/Courier 10 F
+1 0 0 -1 172.5 202.476 Tm
+(\() show
+/Courier-Oblique 10 F
+1 0 0 -1 178.5 202.476 Tm
+(*display) show
+/Courier 10 F
+1 0 0 -1 226.5 202.476 Tm
+[(, ) -2250 ] TJ
+/Courier-Oblique 10 F
+1 0 0 -1 240.75 202.476 Tm
+(d) show
+/Courier 10 F
+1 0 0 -1 246.75 202.476 Tm
+[(, ) -2250 ] TJ
+/Courier-Oblique 10 F
+1 0 0 -1 261 202.476 Tm
+(gc) show
+/Courier 10 F
+1 0 0 -1 273 202.476 Tm
+[(, ) -2250 ] TJ
+/Courier-Oblique 10 F
+1 0 0 -1 287.25 202.476 Tm
+(*image) show
+/Courier 10 F
+1 0 0 -1 323.25 202.476 Tm
+[(, ) -2250 ] TJ
+/Courier-Oblique 10 F
+1 0 0 -1 337.5 202.476 Tm
+(src_x) show
+/Courier 10 F
+1 0 0 -1 367.5 202.476 Tm
+[(, ) -2250 ] TJ
+/Courier-Oblique 10 F
+1 0 0 -1 381.75 202.476 Tm
+(src_y) show
+/Courier 10 F
+1 0 0 -1 411.75 202.476 Tm
+[(, ) -2250 ] TJ
+/Courier-Oblique 10 F
+1 0 0 -1 426 202.476 Tm
+(dest_x) show
+/Courier 10 F
+1 0 0 -1 462 202.476 Tm
+(,) show
+/Courier-Oblique 10 F
+1 0 0 -1 48 214.476 Tm
+(dest_y) show
+/Courier 10 F
+1 0 0 -1 84 214.476 Tm
+(, ) show
+/Courier-Oblique 10 F
+1 0 0 -1 96 214.476 Tm
+(width) show
+/Courier 10 F
+1 0 0 -1 126 214.476 Tm
+(, ) show
+/Courier-Oblique 10 F
+1 0 0 -1 138 214.476 Tm
+(height) show
+/Courier 10 F
+1 0 0 -1 174 214.476 Tm
+(, ) show
+/Courier-Oblique 10 F
+1 0 0 -1 186 214.476 Tm
+(send_event) show
+/Courier 10 F
+1 0 0 -1 246 214.476 Tm
+(\);) show
+/Times-Roman 10 F
+1 0 0 -1 48 237.034 Tm
+[(The ) 628 (interface ) 628 (is ) 628 (identical ) 628 (to ) 628 (that ) 628 (of ) 628 (XPutImage, ) 628 (so ) 628 (I ) 628 (will ) 628 (spare ) 628 (my ) 628 (fingers ) 628 (and ) 628 (not ) 628 
+(repeat ) 628 (that ) 628 (documentation)] TJ
+1 0 0 -1 48 249.034 Tm
+[(here. ) 314 (There ) 314 (is ) 314 (one ) 314 (additional ) 314 (parameter, ) 314 (however, ) 314 (called ) 314 ("send_event". ) 314 (If ) 314 (this ) 314 (parameter ) 314 (is ) 314 (passed ) 314 
+(as ) 314 (True,)] TJ
+1 0 0 -1 48 261.034 Tm
+[(the ) -432 (server ) -432 (will ) -432 (generate ) -432 (a ) -432 ("completion" ) -432 (event ) -432 (when ) -432 (the ) -432 (image ) -432 (write ) -432 (is ) -432 (complete; ) -432 (thus ) -432 
+(your ) -432 (program ) -432 (can)] TJ
+1 0 0 -1 48 273.034 Tm
+(know when it is safe to begin manipulating the shared memory segment again.) show
+1 0 0 -1 48 295.622 Tm
+(The completion event has type XShmCompletionEvent, which is defined as the following:) show
+/Courier 10 F
+1 0 0 -1 48 330.24 Tm
+(typedef struct {) show
+1 0 0 -1 48 342.24 Tm
+(    int type;              /* of event */) show
+1 0 0 -1 48 354.24 Tm
+(    unsigned long serial;  /* # of last request processed */) show
+1 0 0 -1 48 366.24 Tm
+(    Bool send_event;       /* true if came from a SendEvent request */) show
+1 0 0 -1 48 378.24 Tm
+(    Display *display;      /* Display the event was read from */) show
+1 0 0 -1 48 390.24 Tm
+(    Drawable drawable;     /* drawable of request */) show
+1 0 0 -1 48 402.24 Tm
+(    int major_code;        /* ShmReqCode */) show
+1 0 0 -1 48 414.24 Tm
+(    int minor_code;        /* X_ShmPutImage */) show
+1 0 0 -1 48 426.24 Tm
+(    ShmSeg shmseg;         /* the ShmSeg used in the request */) show
+1 0 0 -1 48 438.24 Tm
+(    unsigned long offset;  /* the offset into ShmSeg used */) show
+1 0 0 -1 48 450.24 Tm
+(} XShmCompletionEvent;) show
+/Times-Roman 10 F
+1 0 0 -1 48 472.798 Tm
+(The event type value that will be used can be determined at run time with a line of the form:) show
+1 0 0 -1 48 495.386 Tm
+(int CompletionType = XShmGetEventBase \(display\) + ShmCompletion;) show
+1 0 0 -1 48 517.974 Tm
+[(If ) -135 (you ) -135 (modify ) -135 (the ) -135 (shared ) -135 (memory ) -135 (segment ) -135 (before ) -135 (the ) -135 (arrival ) -135 (of ) -135 (the ) -135 (completion ) -135 (event, ) -135 
+(the ) -135 (results ) -135 (you ) -135 (see)] TJ
+1 0 0 -1 48 529.974 Tm
+(on the screen may be inconsistent.) show
+1 0 0 -1 48 552.562 Tm
+(To read image data into a shared memory XImage, use the following:) show
+/Courier 10 F
+1 0 0 -1 48 575.18 Tm
+(Status ) show
+/Courier-Bold 10 F
+1 0 0 -1 90 575.18 Tm
+(XShmGetImage ) show
+/Courier 10 F
+1 0 0 -1 168 575.18 Tm
+(\() show
+/Courier-Oblique 10 F
+1 0 0 -1 174 575.18 Tm
+(*display) show
+/Courier 10 F
+1 0 0 -1 222 575.18 Tm
+(, ) show
+/Courier-Oblique 10 F
+1 0 0 -1 234 575.18 Tm
+(d) show
+/Courier 10 F
+1 0 0 -1 240 575.18 Tm
+(, ) show
+/Courier-Oblique 10 F
+1 0 0 -1 252 575.18 Tm
+(*image) show
+/Courier 10 F
+1 0 0 -1 288 575.18 Tm
+(, ) show
+/Courier-Oblique 10 F
+1 0 0 -1 300 575.18 Tm
+(x) show
+/Courier 10 F
+1 0 0 -1 306 575.18 Tm
+(, ) show
+/Courier-Oblique 10 F
+1 0 0 -1 318 575.18 Tm
+(y) show
+/Courier 10 F
+1 0 0 -1 324 575.18 Tm
+(, ) show
+/Courier-Oblique 10 F
+1 0 0 -1 336 575.18 Tm
+(plane_mask) show
+/Courier 10 F
+1 0 0 -1 396 575.18 Tm
+(\);) show
+/Times-Roman 10 F
+1 0 0 -1 48 597.738 Tm
+[(Where ) -53 ("display" ) -53 (is ) -53 (the ) -53 (display ) -53 (of ) -53 (interest, ) -53 ("d" ) -53 (is ) -53 (the ) -53 (source ) -53 (drawable, ) -53 ("image" ) -53 (is ) -53 (the ) -53 
+(destination ) -53 (XImage,)] TJ
+1 0 0 -1 48 609.738 Tm
+("x" and "y" are the offsets within "d", and "plane_mask" defines which planes are to be read.) show
+1 0 0 -1 48 632.326 Tm
+[(To ) -347 (destroy ) -347 (a ) -347 (shared ) -347 (memory ) -347 (XImage, ) -347 (you ) -347 (should ) -347 (first ) -347 (instruct ) -347 (the ) -347 (server ) -347 (to ) -347 (detach ) -347 (from ) -347 
+(it, ) -347 (then ) -347 (destroy)] TJ
+1 0 0 -1 48 644.326 Tm
+(the segment itself, as follows:) show
+ET
+GR
+GR
+showpage
+%%PageTrailer
+%%PageResources: font Courier
+%%+ font Courier-Bold
+%%+ font Courier-Oblique
+%%+ font Times-Roman
+%%+ procset (Apache XML Graphics Std ProcSet) 1.1 0
+%%Page: 6 9
+%%PageBoundingBox: 0 0 612 792
+%%PageHiResBoundingBox: 0 0 612 792
+%%PageResources: (atend)
+%FOPSimplePageMaster: body-odd
+%%BeginPageSetup
+%FOPBeginSetPageDevice
+<<
+/PageSize [612 792]
+/ImagingBBox null
+>> setpagedevice
+%FOPEndSetPageDevice
+[1 0 0 -1 0 792] CT
+%%EndPageSetup
+GS
+[1 0 0 1 72 36] CT
+GS
+156 24.25 M
+156 24.5 lineto
+0 24.5 lineto
+0 24.25 lineto
+0 24 lineto
+156 24 lineto
+cp
+clip newpath
+0.5 LW
+0 24.25 M 156 24.25 lineto stroke newpath
+GR
+GS
+[1 0 0 1 156 0] CT
+GS
+156 24.25 M
+156 24.5 lineto
+0 24.5 lineto
+0 24.25 lineto
+0 24 lineto
+156 24 lineto
+cp
+clip newpath
+0.5 LW
+0 24.25 M 156 24.25 lineto stroke newpath
+GR
+GS
+BT
+/Times-Roman 10 F
+1 0 0 -1 39.665 8.33 Tm
+(USE OF SHARED) show
+1 0 0 -1 31.475 20.33 Tm
+(MEMORY XIMAGES) show
+ET
+GR
+GR
+GS
+[1 0 0 1 312 0] CT
+GS
+156 24.25 M
+156 24.5 lineto
+0 24.5 lineto
+0 24.25 lineto
+0 24 lineto
+156 24 lineto
+cp
+clip newpath
+0.5 LW
+0 24.25 M 156 24.25 lineto stroke newpath
+GR
+GR
+GR
+GS
+[0 -1 1 0 72 727.2] CT
+GR
+GS
+[0 -1 1 0 540 727.2] CT
+GR
+GS
+[1 0 0 1 72 727.2] CT
+GS
+[1 0 0 1 0 14.3] CT
+GS
+0 0.25 M
+0 0 lineto
+156 0 lineto
+156 0.25 lineto
+156 0.5 lineto
+0 0.5 lineto
+cp
+clip newpath
+0.5 LW
+0 0.25 M 156 0.25 lineto stroke newpath
+GR
+GR
+GS
+[1 0 0 1 156 14.3] CT
+GS
+0 0.25 M
+0 0 lineto
+156 0 lineto
+156 0.25 lineto
+156 0.5 lineto
+0 0.5 lineto
+cp
+clip newpath
+0.5 LW
+0 0.25 M 156 0.25 lineto stroke newpath
+GR
+GS
+BT
+/Times-Roman 10 F
+1 0 0 -1 75.5 10.83 Tm
+(6) show
+ET
+GR
+GR
+GS
+[1 0 0 1 312 14.3] CT
+GS
+0 0.25 M
+0 0 lineto
+156 0 lineto
+156 0.25 lineto
+156 0.5 lineto
+0 0.5 lineto
+cp
+clip newpath
+0.5 LW
+0 0.25 M 156 0.25 lineto stroke newpath
+GR
+GR
+GR
+GS
+[1 0 0 1 72 72] CT
+GS
+BT
+/Courier 10 F
+1 0 0 -1 48 20.36 Tm
+(XShmDetach \(display, shminfo\);) show
+1 0 0 -1 48 32.36 Tm
+(XDestroyImage \(image\);) show
+1 0 0 -1 48 44.36 Tm
+(shmdt \(shminfo.shmaddr\);) show
+1 0 0 -1 48 56.36 Tm
+(shmctl \(shminfo.shmid, IPC_RMID, 0\);) show
+ET
+GR
+GR
+showpage
+%%PageTrailer
+%%PageResources: font Courier
+%%+ font Times-Roman
+%%+ procset (Apache XML Graphics Std ProcSet) 1.1 0
+%%Page: 7 10
+%%PageBoundingBox: 0 0 612 792
+%%PageHiResBoundingBox: 0 0 612 792
+%%PageResources: (atend)
+%FOPSimplePageMaster: body-first
+%%BeginPageSetup
+%FOPBeginSetPageDevice
+<<
+/PageSize [612 792]
+/ImagingBBox null
+>> setpagedevice
+%FOPEndSetPageDevice
+[1 0 0 -1 0 792] CT
+%%EndPageSetup
+GS
+[1 0 0 1 72 36] CT
+GS
+156 14.25 M
+156 14.5 lineto
+0 14.5 lineto
+0 14.25 lineto
+0 14 lineto
+156 14 lineto
+cp
+clip newpath
+0.5 LW
+0 14.25 M 156 14.25 lineto stroke newpath
+GR
+GS
+[1 0 0 1 156 0] CT
+GS
+156 14.25 M
+156 14.5 lineto
+0 14.5 lineto
+0 14.25 lineto
+0 14 lineto
+156 14 lineto
+cp
+clip newpath
+0.5 LW
+0 14.25 M 156 14.25 lineto stroke newpath
+GR
+GR
+GS
+[1 0 0 1 312 0] CT
+GS
+156 14.25 M
+156 14.5 lineto
+0 14.5 lineto
+0 14.25 lineto
+0 14 lineto
+156 14 lineto
+cp
+clip newpath
+0.5 LW
+0 14.25 M 156 14.25 lineto stroke newpath
+GR
+GR
+GR
+GS
+[0 -1 1 0 72 727.2] CT
+GR
+GS
+[0 -1 1 0 540 727.2] CT
+GR
+GS
+[1 0 0 1 72 727.2] CT
+GS
+[1 0 0 1 0 14.3] CT
+GS
+0 0.25 M
+0 0 lineto
+156 0 lineto
+156 0.25 lineto
+156 0.5 lineto
+0 0.5 lineto
+cp
+clip newpath
+0.5 LW
+0 0.25 M 156 0.25 lineto stroke newpath
+GR
+GR
+GS
+[1 0 0 1 156 14.3] CT
+GS
+0 0.25 M
+0 0 lineto
+156 0 lineto
+156 0.25 lineto
+156 0.5 lineto
+0 0.5 lineto
+cp
+clip newpath
+0.5 LW
+0 0.25 M 156 0.25 lineto stroke newpath
+GR
+GS
+BT
+/Times-Roman 10 F
+1 0 0 -1 75.5 10.83 Tm
+(7) show
+ET
+GR
+GR
+GS
+[1 0 0 1 312 14.3] CT
+GS
+0 0.25 M
+0 0 lineto
+156 0 lineto
+156 0.25 lineto
+156 0.5 lineto
+0 0.5 lineto
+cp
+clip newpath
+0.5 LW
+0 0.25 M 156 0.25 lineto stroke newpath
+GR
+GR
+GR
+GS
+[1 0 0 1 72 72] CT
+GS
+BT
+/Helvetica-Bold 24.883 F
+1 0 0 -1 0 21.287 Tm
+(Chapter 5. USE OF SHARED MEMORY) show
+1 0 0 -1 0 51.146 Tm
+(PIXMAPS) show
+/Times-Roman 10 F
+1 0 0 -1 48 78.048 Tm
+[(Unlike ) -767 (X ) -767 (images, ) -767 (for ) -767 (which ) -767 (any ) -767 (image ) -767 (format ) -767 (is ) -767 (usable, ) -767 (the ) -767 (shared ) -767 (memory ) -767 (extension ) -767 
+(supports ) -767 (only ) -767 (a)] TJ
+1 0 0 -1 48 90.048 Tm
+[(single ) 127 (format ) 127 (\(i.e. ) 127 (XYPixmap ) 127 (or ) 127 (ZPixmap\) ) 127 (for ) 127 (the ) 127 (data ) 127 (stored ) 127 (in ) 127 (a ) 127 (shared ) 127 (memory ) 127 (pixmap. ) 127 
+(This ) 127 (format ) 127 (is)] TJ
+1 0 0 -1 48 102.048 Tm
+[(independent ) -211 (of ) -211 (the ) -211 (depth ) -211 (of ) -211 (the ) -211 (image ) -211 (\(for ) -211 (1-bit ) -211 (pixmaps ) -211 (it ) -211 (doesn't ) -211 (really ) -211 (matter ) -211 
+(what ) -211 (this ) -211 (format ) -211 (is\) ) -211 (and)] TJ
+1 0 0 -1 48 114.048 Tm
+(independent of the screen. Use XShmPixmapFormat to get the format for the server:) show
+/Courier 10 F
+1 0 0 -1 48 136.078 Tm
+(int ) show
+/Courier-Bold 10 F
+1 0 0 -1 72 136.078 Tm
+(XShmPixmapFormat) show
+/Courier 10 F
+1 0 0 -1 168 136.078 Tm
+(\() show
+/Courier-Oblique 10 F
+1 0 0 -1 174 136.078 Tm
+(*display) show
+/Courier 10 F
+1 0 0 -1 222 136.078 Tm
+(\);) show
+/Times-Roman 10 F
+1 0 0 -1 48 158.048 Tm
+[(If ) -388 (your ) -388 (application ) -388 (can ) -388 (deal ) -388 (with ) -388 (the ) -388 (server ) -388 (pixmap ) -388 (data ) -388 (format ) -388 (\(including ) -388 (bits-per-pixel ) -388 (et ) -388 
+(al.\), ) -388 (create ) -388 (a)] TJ
+1 0 0 -1 48 170.048 Tm
+[(shared ) -779 (memory ) -779 (segment ) -779 (and ) -779 ("shminfo" ) -779 (structure ) -779 (in ) -779 (exactly ) -779 (the ) -779 (same ) -779 (way ) -779 (as ) -779 (is ) -779 (listed ) -779 
+(above ) -779 (for ) -779 (shared)] TJ
+1 0 0 -1 48 182.048 Tm
+[(memory ) 28 (XImages. ) 28 (While ) 28 (it ) 28 (is, ) 28 (not ) 28 (strictly ) 28 (necessary ) 28 (to ) 28 (create ) 28 (an ) 28 (XImage ) 28 (first, ) 28 (doing ) 28 (so ) 28 (incurs ) 28 (little ) 28 (over-)] TJ
+1 0 0 -1 48 194.048 Tm
+(head and will give you an appropriate bytes_per_line value to use.) show
+1 0 0 -1 48 216.048 Tm
+(Once you have your shminfo structure filled in, simply call:) show
+/Courier 10 F
+1 0 0 -1 48 238.078 Tm
+[(Pixmap ) -2000 ] TJ
+/Courier-Bold 10 F
+1 0 0 -1 92 238.078 Tm
+(XShmCreatePixmap) show
+/Courier 10 F
+1 0 0 -1 188 238.078 Tm
+(\() show
+/Courier-Oblique 10 F
+1 0 0 -1 194 238.078 Tm
+(*display) show
+/Courier 10 F
+1 0 0 -1 242 238.078 Tm
+[(, ) -2000 ] TJ
+/Courier-Oblique 10 F
+1 0 0 -1 256 238.078 Tm
+(d) show
+/Courier 10 F
+1 0 0 -1 262 238.078 Tm
+[(, ) -2000 ] TJ
+/Courier-Oblique 10 F
+1 0 0 -1 276 238.078 Tm
+(*data) show
+/Courier 10 F
+1 0 0 -1 306 238.078 Tm
+[(, ) -2000 ] TJ
+/Courier-Oblique 10 F
+1 0 0 -1 320 238.078 Tm
+(*shminfo) show
+/Courier 10 F
+1 0 0 -1 368 238.078 Tm
+[(, ) -2000 ] TJ
+/Courier-Oblique 10 F
+1 0 0 -1 382 238.078 Tm
+(width) show
+/Courier 10 F
+1 0 0 -1 412 238.078 Tm
+[(, ) -2000 ] TJ
+/Courier-Oblique 10 F
+1 0 0 -1 426 238.078 Tm
+(height) show
+/Courier 10 F
+1 0 0 -1 462 238.078 Tm
+(,) show
+/Courier-Oblique 10 F
+1 0 0 -1 48 250.078 Tm
+(depth) show
+/Courier 10 F
+1 0 0 -1 78 250.078 Tm
+(\);) show
+/Times-Roman 10 F
+1 0 0 -1 48 272.048 Tm
+[(The ) -897 (arguments ) -897 (are ) -897 (all ) -897 (the ) -897 (same ) -897 (as ) -897 (for ) -897 (XCreatePixmap, ) -897 (with ) -897 (two ) -897 (additions: ) -897 ("data" ) -897 (and ) -897 
+("shminfo". ) -897 (The)] TJ
+1 0 0 -1 48 284.048 Tm
+[(second ) -322 (of ) -322 (the ) -322 (two ) -322 (is ) -322 (the ) -322 (same ) -322 (old ) -322 (shminfo ) -322 (structure ) -322 (that ) -322 (has ) -322 (been ) -322 (used ) -322 (before. ) -322 
+(The ) -322 (first ) -322 (is ) -322 (the ) -322 (pointer ) -322 (to)] TJ
+1 0 0 -1 48 296.048 Tm
+[(the ) 197 (shared ) 197 (memory ) 197 (segment, ) 197 (and ) 197 (should ) 197 (be ) 197 (the ) 197 (same ) 197 (as ) 197 (the ) 197 (shminfo.shmaddr ) 197 (field. ) 197 (I ) 197 (am ) 197 (not ) 197 
+(sure ) 197 (why ) 197 (this)] TJ
+1 0 0 -1 48 308.048 Tm
+(is a separate parameter.) show
+1 0 0 -1 48 330.048 Tm
+[(If ) 26 (everything ) 26 (works, ) 26 (you ) 26 (will ) 26 (get ) 26 (back ) 26 (a ) 26 (pixmap, ) 26 (which ) 26 (you ) 26 (can ) 26 (manipulate ) 26 (in ) 26 (all ) 26 (of ) 26 (the ) 26 (usual ) 26 
+(ways, ) 26 (with)] TJ
+1 0 0 -1 48 342.048 Tm
+[(the ) -90 (added ) -90 (bonus ) -90 (of ) -90 (being ) -90 (able ) -90 (to ) -90 (tweak ) -90 (its ) -90 (contents ) -90 (directly ) -90 (through ) -90 (the ) -90 (shared ) -90 (memory ) -90 
+(segment. ) -90 (Shared)] TJ
+1 0 0 -1 48 354.048 Tm
+[(memory ) -697 (pixmaps ) -697 (are ) -697 (destroyed ) -697 (in ) -697 (the ) -697 (usual ) -697 (manner ) -697 (with ) -697 (XFreePixmap, ) -697 (though ) -697 (you ) -697 (should ) -697 (detach ) -697 (and)] TJ
+1 0 0 -1 48 366.048 Tm
+(destroy the shared memory segment itself as shown above.) show
+ET
+GR
+GR
+showpage
+%%PageTrailer
+%%PageResources: font Courier
+%%+ font Courier-Bold
+%%+ font Courier-Oblique
+%%+ font Helvetica-Bold
+%%+ font Times-Roman
+%%+ procset (Apache XML Graphics Std ProcSet) 1.1 0
+%%Trailer
+%%Pages: 10
+%%BoundingBox: 0 0 612 792
+%%HiResBoundingBox: 0 0 612 792
+%%DocumentNeededResources: font Courier
+%%+ font Courier-Bold
+%%+ font Courier-Oblique
+%%+ font Helvetica-Bold
+%%+ font Times-Roman
+%%DocumentSuppliedResources: encoding WinAnsiEncoding
+%%+ procset (Apache FOP Std ProcSet) 1.0 0
+%%+ procset (Apache XML Graphics EPS ProcSet) 1.0 0
+%%+ procset (Apache XML Graphics Std ProcSet) 1.1 0
+%%EOF

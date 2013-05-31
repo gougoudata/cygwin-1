@@ -1,6 +1,7 @@
 /* sys/cygwin.h
 
-   Copyright 1997, 1998, 2000, 2001, 2002 Red Hat, Inc.
+   Copyright 1997, 1998, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008,
+   2009, 2010, 2011, 2012 Red Hat, Inc.
 
 This file is part of Cygwin.
 
@@ -12,6 +13,7 @@ details. */
 #define _SYS_CYGWIN_H
 
 #include <sys/types.h>
+#include <limits.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -19,27 +21,64 @@ extern "C" {
 
 #define _CYGWIN_SIGNAL_STRING "cYgSiGw00f"
 
-extern pid_t cygwin32_winpid_to_pid (int);
-extern void cygwin32_win32_to_posix_path_list (const char *, char *);
-extern int cygwin32_win32_to_posix_path_list_buf_size (const char *);
-extern void cygwin32_posix_to_win32_path_list (const char *, char *);
-extern int cygwin32_posix_to_win32_path_list_buf_size (const char *);
-extern int cygwin32_conv_to_win32_path (const char *, char *);
-extern int cygwin32_conv_to_full_win32_path (const char *, char *);
-extern void cygwin32_conv_to_posix_path (const char *, char *);
-extern void cygwin32_conv_to_full_posix_path (const char *, char *);
-extern int cygwin32_posix_path_list_p (const char *);
-extern void cygwin32_split_path (const char *, char *, char *);
+/* DEPRECATED INTERFACES.  These are restricted to MAX_PATH length.
+   Don't use in modern applications. */
+extern int cygwin_win32_to_posix_path_list (const char *, char *)
+  __attribute__ ((deprecated));
+extern int cygwin_win32_to_posix_path_list_buf_size (const char *)
+  __attribute__ ((deprecated));
+extern int cygwin_posix_to_win32_path_list (const char *, char *)
+  __attribute__ ((deprecated));
+extern int cygwin_posix_to_win32_path_list_buf_size (const char *)
+  __attribute__ ((deprecated));
+extern int cygwin_conv_to_win32_path (const char *, char *)
+  __attribute__ ((deprecated));
+extern int cygwin_conv_to_full_win32_path (const char *, char *)
+  __attribute__ ((deprecated));
+extern int cygwin_conv_to_posix_path (const char *, char *)
+  __attribute__ ((deprecated));
+extern int cygwin_conv_to_full_posix_path (const char *, char *)
+  __attribute__ ((deprecated));
+
+/* Use these interfaces in favor of the above. */
+
+/* Possible 'what' values in calls to cygwin_conv_path/cygwin_create_path. */
+enum
+{
+  CCP_POSIX_TO_WIN_A = 0, /* from is char*, to is char*       */
+  CCP_POSIX_TO_WIN_W,	  /* from is char*, to is wchar_t*    */
+  CCP_WIN_A_TO_POSIX,	  /* from is char*, to is char*       */
+  CCP_WIN_W_TO_POSIX,	  /* from is wchar_t*, to is char*    */
+
+  CCP_CONVTYPE_MASK = 3,
+
+  /* Or these values to the above as needed. */
+  CCP_ABSOLUTE = 0,	  /* Request absolute path (default). */
+  CCP_RELATIVE = 0x100    /* Request to keep path relative.   */
+};
+typedef unsigned int cygwin_conv_path_t;
+
+/* If size is 0, cygwin_conv_path returns the required buffer size in bytes.
+   Otherwise, it returns 0 on success, or -1 on error and errno is set to
+   one of the below values:
+
+    EINVAL        what has an invalid value.
+    EFAULT        from or to point into nirvana.
+    ENAMETOOLONG  the resulting path is longer than 32K, or, in case
+		  of what == CCP_POSIX_TO_WIN_A, longer than MAX_PATH.
+    ENOSPC        size is less than required for the conversion.
+*/
+extern ssize_t cygwin_conv_path (cygwin_conv_path_t what, const void *from,
+				 void *to, size_t size);
+/* Same, but handles path lists separated by colon or semicolon. */
+extern ssize_t cygwin_conv_path_list (cygwin_conv_path_t what, const void *from,
+				 void *to, size_t size);
+/* Allocate a buffer for the conversion result using malloc(3), and return
+   a pointer to it.  Returns NULL if something goes wrong with errno set
+   to one of the above values, or to ENOMEM if malloc fails. */
+extern void *cygwin_create_path (cygwin_conv_path_t what, const void *from);
 
 extern pid_t cygwin_winpid_to_pid (int);
-extern int cygwin_win32_to_posix_path_list (const char *, char *);
-extern int cygwin_win32_to_posix_path_list_buf_size (const char *);
-extern int cygwin_posix_to_win32_path_list (const char *, char *);
-extern int cygwin_posix_to_win32_path_list_buf_size (const char *);
-extern int cygwin_conv_to_win32_path (const char *, char *);
-extern int cygwin_conv_to_full_win32_path (const char *, char *);
-extern int cygwin_conv_to_posix_path (const char *, char *);
-extern int cygwin_conv_to_full_posix_path (const char *, char *);
 extern int cygwin_posix_path_list_p (const char *);
 extern void cygwin_split_path (const char *, char *, char *);
 
@@ -87,8 +126,78 @@ typedef enum
     CW_ENVP,
     CW_DEBUG_SELF,
     CW_SYNC_WINENV,
-    CW_CYGTLS_PADSIZE
+    CW_CYGTLS_PADSIZE,
+    CW_SET_DOS_FILE_WARNING,
+    CW_SET_PRIV_KEY,
+    CW_SETERRNO,
+    CW_EXIT_PROCESS,
+    CW_SET_EXTERNAL_TOKEN,
+    CW_GET_INSTKEY,
+    CW_INT_SETLOCALE,
+    CW_CVT_MNT_OPTS,
+    CW_LST_MNT_OPTS,
+    CW_STRERROR,
+    CW_CVT_ENV_TO_WINENV,
+    CW_ALLOC_DRIVE_MAP,
+    CW_MAP_DRIVE_MAP,
+    CW_FREE_DRIVE_MAP
   } cygwin_getinfo_types;
+
+#define CW_LOCK_PINFO CW_LOCK_PINFO
+#define CW_UNLOCK_PINFO CW_UNLOCK_PINFO
+#define CW_GETTHREADNAME CW_GETTHREADNAME
+#define CW_GETPINFO CW_GETPINFO
+#define CW_SETPINFO CW_SETPINFO
+#define CW_SETTHREADNAME CW_SETTHREADNAME
+#define CW_GETVERSIONINFO CW_GETVERSIONINFO
+#define CW_READ_V1_MOUNT_TABLES CW_READ_V1_MOUNT_TABLES
+#define CW_USER_DATA CW_USER_DATA
+#define CW_PERFILE CW_PERFILE
+#define CW_GET_CYGDRIVE_PREFIXES CW_GET_CYGDRIVE_PREFIXES
+#define CW_GETPINFO_FULL CW_GETPINFO_FULL
+#define CW_INIT_EXCEPTIONS CW_INIT_EXCEPTIONS
+#define CW_GET_CYGDRIVE_INFO CW_GET_CYGDRIVE_INFO
+#define CW_SET_CYGWIN_REGISTRY_NAME CW_SET_CYGWIN_REGISTRY_NAME
+#define CW_GET_CYGWIN_REGISTRY_NAME CW_GET_CYGWIN_REGISTRY_NAME
+#define CW_STRACE_TOGGLE CW_STRACE_TOGGLE
+#define CW_STRACE_ACTIVE CW_STRACE_ACTIVE
+#define CW_CYGWIN_PID_TO_WINPID CW_CYGWIN_PID_TO_WINPID
+#define CW_EXTRACT_DOMAIN_AND_USER CW_EXTRACT_DOMAIN_AND_USER
+#define CW_CMDLINE CW_CMDLINE
+#define CW_CHECK_NTSEC CW_CHECK_NTSEC
+#define CW_GET_ERRNO_FROM_WINERROR CW_GET_ERRNO_FROM_WINERROR
+#define CW_GET_POSIX_SECURITY_ATTRIBUTE CW_GET_POSIX_SECURITY_ATTRIBUTE
+#define CW_GET_SHMLBA CW_GET_SHMLBA
+#define CW_GET_UID_FROM_SID CW_GET_UID_FROM_SID
+#define CW_GET_GID_FROM_SID CW_GET_GID_FROM_SID
+#define CW_GET_BINMODE CW_GET_BINMODE
+#define CW_HOOK CW_HOOK
+#define CW_ARGV CW_ARGV
+#define CW_ENVP CW_ENVP
+#define CW_DEBUG_SELF CW_DEBUG_SELF
+#define CW_SYNC_WINENV CW_SYNC_WINENV
+#define CW_CYGTLS_PADSIZE CW_CYGTLS_PADSIZE
+#define CW_SET_DOS_FILE_WARNING CW_SET_DOS_FILE_WARNING
+#define CW_SET_PRIV_KEY CW_SET_PRIV_KEY
+#define CW_SETERRNO CW_SETERRNO
+#define CW_EXIT_PROCESS CW_EXIT_PROCESS
+#define CW_SET_EXTERNAL_TOKEN CW_SET_EXTERNAL_TOKEN
+#define CW_GET_INSTKEY CW_GET_INSTKEY
+#define CW_INT_SETLOCALE CW_INT_SETLOCALE
+#define CW_CVT_MNT_OPTS CW_CVT_MNT_OPTS
+#define CW_LST_MNT_OPTS CW_LST_MNT_OPTS
+#define CW_STRERROR CW_STRERROR
+#define CW_CVT_ENV_TO_WINENV CW_CVT_ENV_TO_WINENV
+#define CW_ALLOC_DRIVE_MAP CW_ALLOC_DRIVE_MAP
+#define CW_MAP_DRIVE_MAP CW_MAP_DRIVE_MAP
+#define CW_FREE_DRIVE_MAP CW_FREE_DRIVE_MAP
+
+/* Token type for CW_SET_EXTERNAL_TOKEN */
+enum
+{
+CW_TOKEN_IMPERSONATION = 0,
+CW_TOKEN_RESTRICTED    = 1
+};
 
 #define CW_NEXTPID	0x80000000	/* or with pid to get next one */
 unsigned long cygwin_internal (cygwin_getinfo_types, ...);
@@ -101,26 +210,22 @@ enum
   PID_STOPPED	       = 0x00004, /* Waiting for SIGCONT. */
   PID_TTYIN	       = 0x00008, /* Waiting for terminal input. */
   PID_TTYOU	       = 0x00010, /* Waiting for terminal output. */
-  PID_ORPHANED	       = 0x00020, /* Member of an orphaned process group. */
+  PID_NOTCYGWIN	       = 0x00020, /* Set if process is not a cygwin app. */
   PID_ACTIVE	       = 0x00040, /* Pid accepts signals. */
   PID_CYGPARENT	       = 0x00080, /* Set if parent was a cygwin app. */
   PID_MAP_RW	       = 0x00100, /* Flag to open map rw. */
   PID_MYSELF	       = 0x00200, /* Flag that pid is me. */
   PID_NOCLDSTOP	       = 0x00400, /* Set if no SIGCHLD signal on stop. */
   PID_INITIALIZING     = 0x00800, /* Set until ready to receive signals. */
-  PID_USETTY	       = 0x01000, /* Setting this enables or disables cygwin's
-				     tty support.  This is inherited by
-				     all execed or forked processes. */
+  PID_UNUSED1	       = 0x01000, /* Available. */
   PID_ALLPIDS	       = 0x02000, /* used by pinfo scanner */
   PID_EXECED	       = 0x04000, /* redirect to original pid info block */
   PID_NOREDIR	       = 0x08000, /* don't redirect if execed */
-  PID_EXITED	       = 0x80000000 /* Free entry. */
+  PID_EXITED	       = 0x40000000, /* Free entry. */
+  PID_REAPED	       = 0x80000000  /* Reaped */
 };
 
 #ifdef WINVER
-#ifdef _PATH_PASSWD
-extern HANDLE cygwin_logon_user (const struct passwd *, const char *);
-#endif
 
 /* This lives in the app and is initialized before jumping into the DLL.
    It should only contain stuff which the user's process needs to see, or
@@ -141,6 +246,8 @@ extern HANDLE cygwin_logon_user (const struct passwd *, const char *);
 #ifdef __cplusplus
 class MTinterface;
 #endif
+
+struct per_process_cxx_malloc;
 
 struct per_process
 {
@@ -177,18 +284,13 @@ struct per_process
   /* For future expansion of values set by the app. */
   void (*premain[4]) (int, char **, struct per_process *);
 
-  /* The rest are *internal* to cygwin.dll.
-     Those that are here because we want the child to inherit the value from
-     the parent (which happens when bss is copied) are marked as such. */
-
   /* non-zero of ctors have been run.  Inherited from parent. */
   int run_ctors_p;
 
   DWORD unused[7];
 
-  /* Non-zero means the task was forked.  The value is the pid.
-     Inherited from parent. */
-  int forkee;
+  /* Pointers to real operator new/delete functions for forwarding.  */
+  struct per_process_cxx_malloc *cxx_malloc;
 
   HMODULE hmodule;
 
@@ -196,7 +298,10 @@ struct per_process
   DWORD api_minor;		/*  linked with */
   /* For future expansion, so apps won't have to be relinked if we
      add an item. */
-  DWORD unused2[6];
+  DWORD unused2[3];
+  void *pseudo_reloc_start;
+  void *pseudo_reloc_end;
+  void *image_base;
 
 #if defined (__INSIDE_CYGWIN__) && defined (__cplusplus)
   MTinterface *threadinterface;
@@ -207,16 +312,18 @@ struct per_process
 };
 #define per_process_overwrite ((unsigned) &(((struct per_process *) NULL)->threadinterface))
 
-extern void cygwin_premain0 (int argc, char **argv, struct per_process *);
-extern void cygwin_premain1 (int argc, char **argv, struct per_process *);
-extern void cygwin_premain2 (int argc, char **argv, struct per_process *);
-extern void cygwin_premain3 (int argc, char **argv, struct per_process *);
-
+#ifdef _PATH_PASSWD
+extern HANDLE cygwin_logon_user (const struct passwd *, const char *);
+#endif
 extern void cygwin_set_impersonation_token (const HANDLE);
 
 /* included if <windows.h> is included */
-extern int cygwin32_attach_handle_to_fd (char *, int, HANDLE, mode_t, DWORD);
 extern int cygwin_attach_handle_to_fd (char *, int, HANDLE, mode_t, DWORD);
+
+extern void cygwin_premain0 (int, char **, struct per_process *);
+extern void cygwin_premain1 (int, char **, struct per_process *);
+extern void cygwin_premain2 (int, char **, struct per_process *);
+extern void cygwin_premain3 (int, char **, struct per_process *);
 
 #ifdef __CYGWIN__
 #include <sys/resource.h>
@@ -225,7 +332,8 @@ extern int cygwin_attach_handle_to_fd (char *, int, HANDLE, mode_t, DWORD);
 
 #define EXTERNAL_PINFO_VERSION_16_BIT 0
 #define EXTERNAL_PINFO_VERSION_32_BIT 1
-#define EXTERNAL_PINFO_VERSION EXTERNAL_PINFO_VERSION_32_BIT
+#define EXTERNAL_PINFO_VERSION_32_LP  2
+#define EXTERNAL_PINFO_VERSION EXTERNAL_PINFO_VERSION_32_LP
 
 #ifndef _SYS_TYPES_H
 typedef unsigned short __uid16_t;
@@ -261,6 +369,9 @@ struct external_pinfo
   /* Only available if version >= EXTERNAL_PINFO_VERSION_32_BIT */
   __uid32_t uid32;
   __gid32_t gid32;
+
+  /* Only available if version >= EXTERNAL_PINFO_VERSION_32_LP */
+  char *progname_long;
 };
 #endif /*__CYGWIN__*/
 #endif /*WINVER*/

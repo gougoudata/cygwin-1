@@ -1,0 +1,38 @@
+stg-sync(1)
+===========
+
+NAME
+----
+stg-sync - Synchronise patches with a branch or a series
+
+SYNOPSIS
+--------
+[verse]
+'stg' sync [options] [--] [<patch1>] [<patch2>] [<patch3>..<patch4>]
+
+DESCRIPTION
+-----------
+
+For each of the specified patches perform a three-way merge with the
+same patch in the specified branch or series. The command can be used
+for keeping patches on several branches in sync. Note that the
+operation may fail for some patches because of conflicts. The patches
+in the series must apply cleanly.
+
+OPTIONS
+-------
+-a::
+--all::
+        Synchronise all the applied patches.
+
+-B REF-BRANCH::
+--ref-branch REF-BRANCH::
+        Syncronise patches with BRANCH.
+
+-s SERIES::
+--series SERIES::
+        Syncronise patches with SERIES.
+
+StGit
+-----
+Part of the StGit suite - see linkman:stg[1]

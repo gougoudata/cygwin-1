@@ -5,7 +5,7 @@
    simple template for a sorted list. I didn't want to use STL
    because not all compilers support it yet. 
   
-   Copyright (C) 1993 - 2006 Wolfgang Glunz, wglunz34_AT_pstoedit.net
+   Copyright (C) 1993 - 2012 Wolfgang Glunz, wglunz35_AT_pstoedit.net
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -49,7 +49,7 @@ public:
 		first(0),
 		l_size(0),
 		lastaccessptr((new ordlistElement *)),
-		lastaccessindexptr((new unsigned int)) {}
+		lastaccessindexptr((new size_t)) {}
 		// initialize the Refs with objects on the heap, because we need
 		// to modify these from within const functions
 		// (these act as a sort of cache, but they don't influence constness)
@@ -57,6 +57,7 @@ public:
 		clear();
 		delete (lastaccessptr); lastaccessptr=0;
 		delete (lastaccessindexptr);lastaccessindexptr=0;
+		first = 0;
 	}
 	void clear() {
 		ordlistElement * cur = first;
@@ -93,7 +94,7 @@ public:
 	}
 	const T &operator[](size_t i) const {
 		ordlistElement * start = 0;
-		unsigned int ind = 0;
+		size_t ind = 0;
 		if (i < size() ) {
 			if (i == (*lastaccessindexptr) ) { 
 //				cerr << "returning from last " << endl;
@@ -102,12 +103,12 @@ public:
 //				cerr << "returning via search from start " << endl;
 				start = first;
 				ind = 0;
-
 			} else {
 //				cerr << "returning via forward search" << endl;
 				start = (*lastaccessptr);
 				ind = (*lastaccessindexptr);
 			}
+			assert(start);
 			while(ind  < i) { start = start->next; ind++;}
 			// we need to cast away const for caching
 			(*lastaccessptr) = start;
@@ -121,7 +122,7 @@ public:
 		}
 		return start->elem; // never reached, just to keep compiler quiet 
 	}
-	unsigned int size() const { return l_size;}
+	size_t size() const { return l_size;}
 
 #ifdef TEST
 	void dump() const {
@@ -133,12 +134,12 @@ public:
 
 private:
 	ordlistElement * first;
-	unsigned int l_size ;
+	size_t l_size ;
 
 	// helpers for faster sequential access via operator[]
 	// these remember the position of the last access
 	ordlistElement **lastaccessptr;
-	unsigned int * lastaccessindexptr ;
+	size_t * lastaccessindexptr ;
 
 	// inhibitors: (may not be called)
 	ordlist(const ordlist<T,Telem,COMPARATOR> &);

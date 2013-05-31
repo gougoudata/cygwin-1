@@ -1,0 +1,91 @@
+libao, libao, libao-devel, libao4-1.1.0-1
+------------------------------------------
+Libao is a cross-platform audio library that allows programs to
+output audio using a simple API on a wide variety of platforms. It
+currently supports:
+
+    * Null output (handy for testing without a sound device)
+    * WAV files
+    * AU files
+    * OSS (Open Sound System, used on Linux and FreeBSD)
+    * ALSA (Advanced Linux Sound Architecture)
+    * polypaudio (next generation GNOME sound server)
+    * esd (EsounD or Enlightened Sound Daemon)
+    * AIX
+    * Sun/NetBSD/OpenBSD
+    * IRIX
+    * NAS (Network Audio Server)
+
+libao runtime requirements (these, or newer):
+  cygwin-1.7.9-1
+  libaudio2-1.9.2-1
+  libesd0-0.2.41-10
+
+libao-devel development requirements (these, or newer):
+  cygwin-1.7.9-1
+
+Additional build requirements (these, or newer):
+  autoconf2.5-2.68-1
+  automake1.9-1.9.6-10
+  binutils-2.20.51-2
+  cygport-0.10.4-1
+  gcc4-core-4.3.4-4
+  libaudio-devel-1.9.2-1
+  libesd-devel-0.2.41-10
+
+Canonical homepage:
+  http://www.xiph.org/ao/
+
+Canonical download:
+  http://www.xiph.org/downloads/
+
+License:
+  GPLv2+
+
+Language:
+  C
+
+------------------------------------
+
+Build instructions:
+  unpack libao-1.1.0-1-src.tar.bz2
+    if you use setup to install this src package, it will be
+	 unpacked under /usr/src automatically
+  cd /usr/src
+  cygport libao-1.1.0-1 all
+
+This will create:
+  /usr/src/libao-1.1.0-1.tar.bz2
+  /usr/src/libao-devel-1.1.0-1.tar.bz2
+  /usr/src/libao4-1.1.0-1.tar.bz2
+
+Or use 'cygport libao-1.1.0-1 prep' to get a patched source directory
+
+To find out the files included in the binary distribution, you can use
+"cygcheck -l libao libao-devel libao4", or browse the listing for the
+appropriate version at <http://cygwin.com/packages/>.
+
+Port Notes:
+
+----------  libao4-1.1.0-1 -- 2011-04-13 ---------
+New upstream release.
+ * Moved documentation to be part of libao4 package, leaving libao
+   empty. libao is a transaction package that will pull in libao4
+   and libao-devel. Hence, libao4 could not require libao (to get
+   the documentation) without also pulling in libao-devel.
+
+----------  libao4-1.0.0-1 -- 2010-07-05 ---------
+New upstream release.
+ * libao2 is now obsolete
+
+----------  libao2-0.8.8-1 -- 2007-07-26 ---------
+New upstream release.
+Switch to cygport framework.
+
+---------------
+
+For more information about this package, see the upstream documentation in
+/usr/share/doc/libao/.
+
+Cygwin port maintained by: David Rothenberger <daveroth@acm.org>.
+Please address all questions to the Cygwin mailing list at <cygwin@cygwin.com>

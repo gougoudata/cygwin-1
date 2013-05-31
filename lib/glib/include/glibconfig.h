@@ -1,6 +1,6 @@
 /* glibconfig.h
  *
- * This is a generated file.  Please modify `configure.in'
+ * This is a generated file.  Please modify 'configure.in'
  */
 
 #ifndef GLIBCONFIG_H
@@ -56,7 +56,6 @@ G_GNUC_EXTENSION typedef unsigned long long guint64;
 #else
 # define g_ATEXIT(proc)	(atexit (proc))
 #endif
-
 #define g_memmove(d,s,n) G_STMT_START { memmove ((d), (s), (n)); } G_STMT_END
 
 #define GLIB_MAJOR_VERSION 1
@@ -122,7 +121,6 @@ struct _GStaticMutex
 #define GLIB_SYSDEF_POLLERR =8
 #define GLIB_SYSDEF_POLLHUP =16
 #define GLIB_SYSDEF_POLLNVAL =32
-
 
 #define G_HAVE_WCHAR_H 1
 #define G_HAVE_WCTYPE_H 1

@@ -5,7 +5,7 @@
 # It is necessary for linking the library.
 
 # The name that we can dlopen(3).
-dlname='../bin/cygldap-2-3-0.dll'
+dlname='../bin/cygldap-2-4-2.dll'
 
 # Names of this library.
 library_names='libldap.dll.a'
@@ -14,12 +14,12 @@ library_names='libldap.dll.a'
 old_library=''
 
 # Libraries that this one depends upon.
-dependency_libs=' /usr/lib/liblber.la /usr/lib/libsasl2.la -lresolv -lssl -lcrypto'
+dependency_libs=' /usr/lib/liblber.la /usr/lib/libsasl2.la -L/usr/lib -ldl -lresolv -lssl -lcrypto'
 
 # Version information for libldap.
-current=2
-age=2
-revision=31
+current=11
+age=9
+revision=1
 
 # Is this an already installed library?
 installed=yes

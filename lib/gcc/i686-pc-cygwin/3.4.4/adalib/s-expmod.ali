@@ -16,8 +16,8 @@ U system.exp_mod%s	s-expmod.ads		40d72a81 NE PU PK
 W system%s		system.ads		system.ali
 
 D system.ads		20031021134222 6af26689
-D s-expmod.ads		20030424175410 2a254c08
-D s-expmod.adb		20030424175410 78b62e96
+D s-expmod.ads		20030424175409 2a254c08
+D s-expmod.adb		20030424175409 78b62e96
 X 1 system.ads
 44K9*System 163e11 2|38r9 47r5 3|34r14 89r5
 X 2 s-expmod.ads

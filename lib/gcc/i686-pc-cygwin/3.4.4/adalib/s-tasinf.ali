@@ -16,8 +16,8 @@ U system.task_info%s	s-tasinf.ads		a358223f EB NE PK
 W system%s		system.ads		system.ali
 
 D system.ads		20031021134222 6af26689
-D s-tasinf.ads		20031021134216 c9aa44b6
-D s-tasinf.adb		20031021134216 01ccce91
+D s-tasinf.ads		20031021134215 c9aa44b6
+D s-tasinf.adb		20031021134215 01ccce91
 X 1 system.ads
 44K9*System 163e11 2|44r9 93r5 3|42r14 44r5
 X 2 s-tasinf.ads

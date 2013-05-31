@@ -1,0 +1,1695 @@
+2010-07-04  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 5.3.
+
+2010-07-04  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, autobuild, configure.ac, doc/autobuild.texi, htmlize: Bump
+	versions.
+
+2010-07-04  Simon Josefsson <simon@josefsson.org>
+
+	* build-aux/gendocs.sh, doc/fdl-1.3.texi, doc/gendocs_template,
+	m4/00gnulib.m4, m4/autobuild.m4, m4/gnulib-cache.m4,
+	m4/gnulib-common.m4, m4/gnulib-comp.m4, m4/gnulib-tool.m4: Update
+	gnulib files.
+
+2010-07-04  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, autobuild: autobuild: Recognize libcheck
+	(http://check.sf.net) output.  Patch from "Jose E. Marchesi" <jemarch@gnu.org>.
+
+2009-09-18  Simon Josefsson <simon@josefsson.org>
+
+	* ChangeLog: Generated.
+
+2009-09-18  Simon Josefsson <simon@josefsson.org>
+
+	* build-aux/gendocs.sh: Chmod.
+
+2009-09-18  Simon Josefsson <simon@josefsson.org>
+
+	* ChangeLog: Generated.
+
+2009-09-18  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Fix release target.
+
+2009-09-18  Simon Josefsson <simon@josefsson.org>
+
+	* ChangeLog: Generated.
+
+2009-09-18  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 5.2.
+
+2009-09-18  Simon Josefsson <simon@josefsson.org>
+
+	* build-aux/gendocs.sh, doc/gendocs_template, m4/00gnulib.m4,
+	m4/gnulib-cache.m4, m4/gnulib-common.m4, m4/gnulib-comp.m4: Update
+	gnulib files.
+
+2009-09-18  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2009-09-18  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Use "lightgrey" instead of "lightgray" for IE.
+	Reported by Yang Tse <yangsita@gmail.com>.
+
+2009-01-21  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, autobuild, configure.ac, htmlize: Bump versions.
+
+2009-01-21  Simon Josefsson <simon@josefsson.org>
+
+	* ChangeLog: Generated.
+
+2009-01-21  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 5.1.
+
+2009-01-21  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Fix ignore files logic.
+
+2009-01-21  Simon Josefsson <simon@josefsson.org>
+
+	* build-aux/gendocs.sh, doc/gendocs_template, m4/gnulib-cache.m4,
+	m4/gnulib-common.m4, m4/gnulib-comp.m4: Update gnulib files.
+
+2009-01-21  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2009-01-21  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Add --ignore-files parameter.
+
+2009-01-18  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2009-01-18  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Support singularis of tests.
+
+2008-11-26  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2008-11-26  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: HTML output now validates.
+
+2008-11-26  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2008-11-26  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Add --inline-html parameter.  Default to generate HTML
+	header/footer.
+
+2008-11-26  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Improve HTML.
+
+2008-11-26  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Swap columns.
+
+2008-11-26  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Fix.
+
+2008-11-26  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Make summary sorted by build type rather than hostname.
+
+2008-11-25  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Fix.
+
+2008-11-25  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, autobuild, configure.ac, htmlize: Bump versions.
+
+2008-11-25  Simon Josefsson <simon@josefsson.org>
+
+	* ChangeLog: Generated.
+
+2008-11-25  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 5.0.
+
+2008-11-25  Simon Josefsson <simon@josefsson.org>
+
+	* README: Sync with manual.
+
+2008-11-25  Simon Josefsson <simon@josefsson.org>
+
+	* doc/autobuild.texi: Drop more.
+
+2008-11-25  Simon Josefsson <simon@josefsson.org>
+
+	* doc/autobuild.texi: Drop abput/abbuild.
+
+2008-11-25  Simon Josefsson <simon@josefsson.org>
+
+	* examples/Makefile.am: Fix.
+
+2008-11-25  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2008-11-25  Simon Josefsson <simon@josefsson.org>
+
+	* htmlize: Add --debug.  Fix --version.  Indent.
+
+2008-11-25  Simon Josefsson <simon@josefsson.org>
+
+	* examples/Makefile.am: Fix rules.
+
+2008-11-25  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, autobuild, configure.ac: Bump version.
+
+2008-11-25  Simon Josefsson <simon@josefsson.org>
+
+	* doc/Makefile.am: Drop abput* and abbuild*.
+
+2008-11-25  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am, NEWS, abbuild, abbuild-sourceforge, abput,
+	abput-sourceforge, abput-testdrive: Remove abput* and abbuild*.
+
+2008-11-25  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, doc/Makefile.am, doc/autobuild.texi, doc/fdl-1.3.texi,
+	doc/fdl.texi: Use GFDLv1.3.
+
+2008-11-25  Simon Josefsson <simon@josefsson.org>
+
+	* tests/tst-autobuild: Fix new location.
+
+2008-11-25  Simon Josefsson <simon@josefsson.org>
+
+	* tests/tst-autobuild: Handle new location.
+
+2008-11-25  Simon Josefsson <simon@josefsson.org>
+
+	* tests/tst-simple: Handle new location.
+
+2008-11-25  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Drop elisp/tests stuff.
+
+2008-11-25  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am, configure.ac, elisp/Makefile.am, elisp/hfy-cmap.el,
+	elisp/hfy-emacs20.el, elisp/htmlfontify.el, hfy-cmap.el,
+	hfy-emacs20.el, htmlfontify.el: Move emacs lisp files to elisp/.
+
+2008-11-25  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am, configure.ac, tests/Makefile.am,
+	tests/tst-autobuild, tests/tst-simple, tst-autobuild, tst-simple: 
+	Move self-tests to tests/.
+
+2008-11-25  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Fix --version.
+
+2008-11-25  Simon Josefsson <simon@josefsson.org>
+
+	* configure.ac: Niceify.
+
+2008-11-25  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2008-11-25  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Always print summary.
+
+2008-11-25  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, configure.ac: Bump versions.
+
+2008-08-22  Simon Josefsson <simon@josefsson.org>
+
+	* configure.ac: Use build-aux/.
+
+2008-08-22  Simon Josefsson <simon@josefsson.org>
+
+	* m4/gnulib-cache.m4: Fix build-aux path.
+
+2008-08-22  Simon Josefsson <simon@josefsson.org>
+
+	* m4/gnulib-cache.m4: No vc files.
+
+2008-08-21  Simon Josefsson <simon@josefsson.org>
+
+	* ChangeLog: Generated.
+
+2008-08-21  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Fix release target.
+
+2008-08-21  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 4.1.
+
+2008-08-21  Simon Josefsson <simon@josefsson.org>
+
+	* doc/autobuild.texi: Make it compile.
+
+2008-08-21  Simon Josefsson <simon@josefsson.org>
+
+	* doc/autobuild.texi: Fix link to fdl.
+
+2008-08-21  Simon Josefsson <simon@josefsson.org>
+
+	* doc/Makefile.am: Fix filenames.
+
+2008-08-21  Simon Josefsson <simon@josefsson.org>
+
+	* doc/autobuild.texi: Mention license.
+
+2008-08-21  Simon Josefsson <simon@josefsson.org>
+
+	* doc/fdl.texi, m4/gnulib-cache.m4, m4/gnulib-comp.m4: Use fdl from
+	gnulib.
+
+2008-08-21  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Unrelease it.
+
+2008-08-21  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 4.1.
+
+2008-08-21  Simon Josefsson <simon@josefsson.org>
+
+	* configure.ac: Use autobuild via gnulib.
+
+2008-08-21  Simon Josefsson <simon@josefsson.org>
+
+	* THANKS: Mention Love.
+
+2008-08-21  Simon Josefsson <simon@josefsson.org>
+
+	* doc/gpl-3.0.texi, doc/gpl.texi, m4/autobuild.m4,
+	m4/gnulib-cache.m4, m4/gnulib-comp.m4: Use GPLv3.0 from gnulib.
+
+2008-08-21  Simon Josefsson <simon@josefsson.org>
+
+	* doc/.cvsignore, examples/.cvsignore: Remove.
+
+2008-08-21  Simon Josefsson <simon@josefsson.org>
+
+	* AUTHORS: Update PGP key.
+
+2008-08-21  Simon Josefsson <simon@josefsson.org>
+
+	* .cvsignore, .cvsusers: Remove.
+
+2008-08-21  Simon Josefsson <simon@josefsson.org>
+
+	* .clcopying, .cvscopying: Improve text.
+
+2008-08-21  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Mention git.
+
+2008-08-21  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Mention savannah.
+
+2008-08-21  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Use git instead of cvs.
+
+2008-08-19  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2008-08-19  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Support dejagnu output.
+
+2008-08-18  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, configure.ac: Bump versions.
+
+2008-08-18  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Use gmtime when printing info.
+
+2008-08-18  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Fix release target.
+
+2008-08-18  Simon Josefsson <simon@josefsson.org>
+
+	* ChangeLog: Generated.
+
+2008-08-18  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 4.0.
+
+2008-08-18  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Fix paths.
+
+2008-08-18  Simon Josefsson <simon@josefsson.org>
+
+	* buildconf.sh: Remove.
+
+2008-08-18  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am, build-aux/gendocs.sh, doc/gendocs.sh,
+	doc/gendocs_template, m4/gnulib-cache.m4, m4/gnulib-comp.m4: Update
+	gendocs.
+
+2008-08-18  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am, gnulib-cache.m4: Fix m4 paths.
+
+2008-08-18  Simon Josefsson <simon@josefsson.org>
+
+	* doc/autobuild.texi: Use GFDL 1.2.
+
+2008-08-18  Simon Josefsson <simon@josefsson.org>
+
+	* COPYING, Makefile.am, abbuild, abbuild-sourceforge, abput,
+	abput-sourceforge, abput-testdrive, autobuild, configure.ac,
+	doc/Makefile.am, examples/Makefile.am, htmlize, tst-autobuild,
+	tst-simple: Use GPLv3.
+
+2008-08-18  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild.m4: Rm.
+
+2008-08-18  Simon Josefsson <simon@josefsson.org>
+
+	* m4/autobuild.m4, m4/gnulib-cache.m4, m4/gnulib-common.m4,
+	m4/gnulib-comp.m4, m4/gnulib-tool.m4: Update gnulib files.
+
+2008-08-18  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2007-04-12  Simon Josefsson <simon@josefsson.org>
+
+	* .cvsignore, autobuild.m4, gnulib-cache.m4: Use gnulib for
+	autobuild.m4.
+
+2007-04-12  Simon Josefsson <simon@josefsson.org>
+
+	* configure.ac: Require autoconf 2.60, for gnulib-tool.
+
+2007-01-08  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Handle IRIX make errors, from Love Hörnquist Åstrand
+	<lha@it.su.se>.
+
+2007-01-08  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Handle AIX make errors, from Love Hörnquist Åstrand
+	<lha@it.su.se>.
+
+2006-12-02  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Don't require that all hosts built the same version,
+	for quick summary.
+
+2006-12-02  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Fix lines for multi-host projects.
+
+2006-12-02  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2006-12-02  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Add build status to quick summary.
+
+2006-12-01  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: fix
+
+2006-12-01  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild.m4: Fix typo.
+
+2006-12-01  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2006-12-01  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild.m4: Support AB_PACKAGE and AB_VERSION, to hard-code the
+	autobuild package/version name.
+
+2006-12-01  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Add built keyword.
+
+2006-12-01  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2006-07-14  Simon Josefsson <simon@josefsson.org>
+
+	* abbuild-sourceforge: fix
+
+2006-07-14  Simon Josefsson <simon@josefsson.org>
+
+	* abbuild-sourceforge: fix
+
+2005-11-15  Simon Josefsson <simon@josefsson.org>
+
+	* configure.ac: Bump version.
+
+2005-11-15  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2005-11-15  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Add abput-testdrive.
+
+2005-11-15  Simon Josefsson <simon@josefsson.org>
+
+	* abput-testdrive: Add, based on abput-sourceforge.
+
+2005-11-15  Simon Josefsson <simon@josefsson.org>
+
+	* abput-sourceforge: Fix copyright years.
+
+2005-09-29  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Don't report "Success" if tests in a sub-sequence
+	directory fails, tiny patch from Jim Meyering <jim@meyering.net>.
+
+2005-09-19  Simon Josefsson <simon@josefsson.org>
+
+	* ChangeLog: Generated.
+
+2005-09-19  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 3.5.
+
+2005-09-19  Simon Josefsson <simon@josefsson.org>
+
+	* abbuild: Fix typo.
+
+2005-09-19  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2005-09-19  Simon Josefsson <simon@josefsson.org>
+
+	* configure.ac: Bump version.
+
+2005-09-19  Simon Josefsson <simon@josefsson.org>
+
+	* abput-sourceforge: Upload to cf-shell.sf.net.
+
+2005-09-19  Simon Josefsson <simon@josefsson.org>
+
+	* doc/autobuild.texi: More specific sf link.
+
+2005-09-19  Simon Josefsson <simon@josefsson.org>
+
+	* abbuild-sourceforge: Need to login through cf-shell.sf.net.
+
+2005-09-19  Simon Josefsson <simon@josefsson.org>
+
+	* abbuild-sourceforge: Fix typo.
+
+2005-09-19  Simon Josefsson <simon@josefsson.org>
+
+	* abbuild-sourceforge: Typo.
+
+2005-09-19  Simon Josefsson <simon@josefsson.org>
+
+	* abbuild-sourceforge: Login to hosts directly (firewall on
+	shell.sf.net?).  Canonicalize hostnames.
+
+2005-09-19  Simon Josefsson <simon@josefsson.org>
+
+	* abbuild-sourceforge: Add verbose flag to inner ssh too.
+
+2005-09-19  Simon Josefsson <simon@josefsson.org>
+
+	* ChangeLog: Generated.
+
+2005-09-19  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 3.4.
+
+2005-09-19  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2005-09-19  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Fix.
+
+2005-09-19  Simon Josefsson <simon@josefsson.org>
+
+	* abbuild-sourceforge: Revert.
+
+2005-09-19  Simon Josefsson <simon@josefsson.org>
+
+	* abbuild-sourceforge: Don't login through shell.cf.net.
+
+2005-09-19  Simon Josefsson <simon@josefsson.org>
+
+	* .cvsignore, examples/.cvsignore: [no log message]
+
+2005-09-13  Simon Josefsson <simon@josefsson.org>
+
+	* abput-sourceforge: Use rsync over ssh by default.
+
+2005-09-13  Simon Josefsson <simon@josefsson.org>
+
+	* doc/autobuild.texi: Fix typo, from Jim.
+
+2005-09-13  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2005-09-13  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, THANKS: Add.
+
+2005-09-13  Simon Josefsson <simon@josefsson.org>
+
+	* abput-sourceforge: Use rsync instead of scp.  Use shell.cf.net
+	instead of cf-shell.cf.net.  From Jim Meyering <jim@meyering.net>.
+
+2005-09-13  Simon Josefsson <simon@josefsson.org>
+
+	* doc/autobuild.texi: Typos, from Jim Meyering <jim@meyering.net>.
+
+2005-08-29  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Add.
+
+2004-10-12  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Fix markup.
+
+2004-10-12  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Make HTML more useful in embedded pages.
+
+2004-10-12  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Improve HTML markup.
+
+2004-10-12  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Improve HTML markup.
+
+2004-10-02  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Typo.
+
+2004-10-02  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Typo.
+
+2004-10-02  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, configure.ac: Bump version.
+
+2004-10-02  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild, doc/autobuild.texi: Add --skip-unknown.
+
+2004-09-20  Simon Josefsson <simon@josefsson.org>
+
+	* doc/autobuild.texi: s/a HTML/an HTML/g, suggested by Linus
+	Nordberg <linus@nordberg.se>.  Markup fixes.
+
+2004-09-20  Simon Josefsson <simon@josefsson.org>
+
+	* THANKS: Fix.
+
+2004-09-20  Simon Josefsson <simon@josefsson.org>
+
+	* THANKS: Add.
+
+2004-09-20  Simon Josefsson <simon@josefsson.org>
+
+	* doc/autobuild.texi: (Build Robot): Fix typo.  (Scripting The Build
+	Robot): Fix typo.
+
+2004-08-26  Simon Josefsson <simon@josefsson.org>
+
+	* ChangeLog: Generated.
+
+2004-08-26  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 3.3.
+
+2004-08-26  Simon Josefsson <simon@josefsson.org>
+
+	* ChangeLog: Generated.
+
+2004-08-26  Simon Josefsson <simon@josefsson.org>
+
+	* tst-autobuild: Use perl in path.
+
+2004-08-26  Simon Josefsson <simon@josefsson.org>
+
+	* configure.ac: Bump version.
+
+2004-08-26  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, doc/autobuild.texi: Add.
+
+2004-08-26  Simon Josefsson <simon@josefsson.org>
+
+	* abbuild-sourceforge, abput-sourceforge: Quote $USER in --help,
+	mostly to fix man page.
+
+2004-08-26  Simon Josefsson <simon@josefsson.org>
+
+	* abbuild-sourceforge: Don't fail on non-zero tar exits (it return
+	non-zero on some time warnings).
+
+2004-08-10  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Fix regexps.
+
+2004-08-10  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Fix decision logic for when to add quick links.
+
+2004-08-10  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2004-08-10  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild.m4: Bump version.
+
+2004-08-10  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild.m4: Use PACKAGE/VERSION if PACKAGE_NAME/PACKAGE_VERSION
+	is empty.
+
+2004-08-09  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Make sure regexp match non-empty values.
+
+2004-08-08  Simon Josefsson <simon@josefsson.org>
+
+	* ChangeLog: Generated.
+
+2004-08-08  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 3.2.
+
+2004-08-08  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2004-08-08  Simon Josefsson <simon@josefsson.org>
+
+	* configure.ac: Bump version.
+
+2004-08-08  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: More guess regexps.
+
+2004-08-08  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Add PWD from set guessing regexp.
+
+2004-08-08  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Fix make regexp.
+
+2004-08-01  Simon Josefsson <simon@josefsson.org>
+
+	* THANKS: Fix.
+
+2004-08-01  Simon Josefsson <simon@josefsson.org>
+
+	* THANKS: Add.
+
+2004-07-31  Simon Josefsson <simon@josefsson.org>
+
+	* ChangeLog: Generated.
+
+2004-07-31  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 3.1.
+
+2004-07-31  Simon Josefsson <simon@josefsson.org>
+
+	* abbuild-sourceforge: Fix.
+
+2004-07-31  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: [no log message]
+
+2004-07-31  Simon Josefsson <simon@josefsson.org>
+
+	* configure.ac: Bump version.
+
+2004-07-31  Simon Josefsson <simon@josefsson.org>
+
+	* abbuild-sourceforge: Fix.
+
+2004-07-31  Simon Josefsson <simon@josefsson.org>
+
+	* abbuild-sourceforge: Don't use env (how to quote $PATH?).
+
+2004-07-31  Simon Josefsson <simon@josefsson.org>
+
+	* abbuild: Don't check if file is there (it isn't).
+
+2004-07-31  Simon Josefsson <simon@josefsson.org>
+
+	* ChangeLog: Generated.
+
+2004-07-31  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 3.0.
+
+2004-07-31  Simon Josefsson <simon@josefsson.org>
+
+	* abbuild-sourceforge: Fix.
+
+2004-07-31  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, abbuild: Fix.
+
+2004-07-31  Simon Josefsson <simon@josefsson.org>
+
+	* abbuild-sourceforge: Fix.
+
+2004-07-31  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, doc/Makefile.am: Add.
+
+2004-07-31  Simon Josefsson <simon@josefsson.org>
+
+	* doc/.cvsignore: [no log message]
+
+2004-07-31  Simon Josefsson <simon@josefsson.org>
+
+	* abbuild-sourceforge: Add.
+
+2004-07-31  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Add.
+
+2004-07-31  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am, abbuild, abput, doc/Makefile.am: Add.
+
+2004-07-31  Simon Josefsson <simon@josefsson.org>
+
+	* abput: Make -s required.
+
+2004-07-31  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, configure.ac: Bump version.
+
+2004-07-31  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2004-07-31  Simon Josefsson <simon@josefsson.org>
+
+	* abput: Remove testdrive, for now.
+
+2004-07-31  Simon Josefsson <simon@josefsson.org>
+
+	* doc/.cvsignore: [no log message]
+
+2004-07-31  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Add abput-sourceforge.
+
+2004-07-31  Simon Josefsson <simon@josefsson.org>
+
+	* abput-sourceforge, doc/Makefile.am: Add.
+
+2004-07-31  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Add abput.
+
+2004-07-31  Simon Josefsson <simon@josefsson.org>
+
+	* doc/Makefile.am: Add abput.1.
+
+2004-07-31  Simon Josefsson <simon@josefsson.org>
+
+	* doc/.cvsignore: [no log message]
+
+2004-07-31  Simon Josefsson <simon@josefsson.org>
+
+	* abput: Fix man page.
+
+2004-07-31  Simon Josefsson <simon@josefsson.org>
+
+	* abput: Add.
+
+2004-07-29  Simon Josefsson <simon@josefsson.org>
+
+	* doc/gendocs_template: Remove FSF stuff.
+
+2004-07-28  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, configure.ac: Bump versions.
+
+2004-07-28  Simon Josefsson <simon@josefsson.org>
+
+	* THANKS: Add.
+
+2004-07-28  Simon Josefsson <simon@josefsson.org>
+
+	* ChangeLog: Generated.
+
+2004-07-28  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 2.2.
+
+2004-07-28  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2004-07-28  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2004-07-28  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Improve *.tar.gz project/revision guessing.
+
+2004-07-16  Simon Josefsson <simon@josefsson.org>
+
+	* configure.ac: Look for perl.
+
+2004-07-16  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Remove.
+
+2004-07-16  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Revert all #! magic, can't get it to work on NetBSD
+	with perl in non-standard location anyway.
+
+2004-07-16  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Fix.
+
+2004-07-16  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Fix #! magic.
+
+2004-07-16  Simon Josefsson <simon@josefsson.org>
+
+	* configure.ac: Bump version.
+
+2004-07-16  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2004-07-16  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Use #! magic.
+
+2004-07-16  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Fix warnings.
+
+2004-07-16  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Fix warnings.
+
+2004-07-16  Simon Josefsson <simon@josefsson.org>
+
+	* configure.ac: Revert.
+
+2004-07-16  Simon Josefsson <simon@josefsson.org>
+
+	* configure.ac: Look for perl.
+
+2004-07-14  Simon Josefsson <simon@josefsson.org>
+
+	* doc/gendocs.sh, doc/gendocs_template: Update.
+
+2004-07-14  Simon Josefsson <simon@josefsson.org>
+
+	* htmlize: Typo.
+
+2004-07-14  Simon Josefsson <simon@josefsson.org>
+
+	* doc/autobuild.texi: Typo.
+
+2004-07-14  Simon Josefsson <simon@josefsson.org>
+
+	* ChangeLog: Generated.
+
+2004-07-14  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 2.1.
+
+2004-07-14  Simon Josefsson <simon@josefsson.org>
+
+	* htmlize: Better debugging.
+
+2004-07-14  Simon Josefsson <simon@josefsson.org>
+
+	* htmlize: Less verbose font-lock.
+
+2004-07-14  Simon Josefsson <simon@josefsson.org>
+
+	* doc/autobuild.texi: Update htmlize doc.
+
+2004-07-14  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2004-07-14  Simon Josefsson <simon@josefsson.org>
+
+	* doc/.cvsignore: [no log message]
+
+2004-07-14  Simon Josefsson <simon@josefsson.org>
+
+	* doc/Makefile.am, doc/htmlfontify.texi: Add htmlfontify.texi.
+
+2004-07-14  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am, hfy-cmap.el, hfy-emacs20.el, htmlfontify.el,
+	htmlize.el: Use htmlfontify.el instead of htmlize.el.
+
+2004-07-14  Simon Josefsson <simon@josefsson.org>
+
+	* htmlize: Doc fix.  Support --emacs.  Check that INFILE exists.
+
+2004-07-14  Simon Josefsson <simon@josefsson.org>
+
+	* htmlize: Support --force, --update and -h.
+
+2004-07-09  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, configure.ac: Bump version.
+
+2004-07-09  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, doc/autobuild.texi: Fix.
+
+2004-07-09  Simon Josefsson <simon@josefsson.org>
+
+	* doc/autobuild.texi: Typo.
+
+2004-07-09  Simon Josefsson <simon@josefsson.org>
+
+	* ChangeLog: Generated.
+
+2004-07-09  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 2.0.
+
+2004-07-09  Simon Josefsson <simon@josefsson.org>
+
+	* htmlize: Typo.
+
+2004-07-09  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Fix --version.
+
+2004-07-09  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild, htmlize: Fix --version.
+
+2004-07-09  Simon Josefsson <simon@josefsson.org>
+
+	* htmlize: Fix --help.
+
+2004-07-09  Simon Josefsson <simon@josefsson.org>
+
+	* doc/autobuild.texi: Add.
+
+2004-07-09  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Cosmetics.
+
+2004-07-09  Simon Josefsson <simon@josefsson.org>
+
+	* doc/.cvsignore: [no log message]
+
+2004-07-09  Simon Josefsson <simon@josefsson.org>
+
+	* htmlize: Fix.
+
+2004-07-09  Simon Josefsson <simon@josefsson.org>
+
+	* doc/Makefile.am: Create htmlize.1.
+
+2004-07-09  Simon Josefsson <simon@josefsson.org>
+
+	* htmlize: Add --help, --version, stolen from Texinfo gendocs.sh.
+
+2004-07-09  Simon Josefsson <simon@josefsson.org>
+
+	* doc/autobuild.texi: Fix.
+
+2004-07-09  Simon Josefsson <simon@josefsson.org>
+
+	* htmlize: Geometry.
+
+2004-07-09  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Handle CRLF again.
+
+2004-07-09  Simon Josefsson <simon@josefsson.org>
+
+	* tst-autobuild: Rewrite.
+
+2004-07-09  Simon Josefsson <simon@josefsson.org>
+
+	* examples/Makefile.am, examples/libidn.expect: Add.
+
+2004-07-09  Simon Josefsson <simon@josefsson.org>
+
+	* doc/autobuild.texi: Rewrite tutorial.
+
+2004-07-09  Simon Josefsson <simon@josefsson.org>
+
+	* configure.ac: Bump version.
+
+2004-07-09  Simon Josefsson <simon@josefsson.org>
+
+	* examples/.cvsignore: [no log message]
+
+2004-07-09  Simon Josefsson <simon@josefsson.org>
+
+	* examples/Makefile.am: Fix.
+
+2004-07-09  Simon Josefsson <simon@josefsson.org>
+
+	* examples/example.html, examples/libidn2.txt: Add.
+
+2004-07-09  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Parse HTML too.
+
+2004-07-09  Simon Josefsson <simon@josefsson.org>
+
+	* tst-simple: Remove abindex.
+
+2004-07-09  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Fix.
+
+2004-07-09  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, htmlize.el: Add.
+
+2004-07-09  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Dist htmlize.el.
+
+2004-07-09  Simon Josefsson <simon@josefsson.org>
+
+	* configure.ac: Add checks for htmlize.el.
+
+2004-07-09  Simon Josefsson <simon@josefsson.org>
+
+	* doc/autobuild.texi: Fix htmlize.
+
+2004-07-09  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Doc fix.
+
+2004-07-09  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Doc fix.
+
+2004-07-09  Simon Josefsson <simon@josefsson.org>
+
+	* doc/Makefile.am: Remove abindex.1.
+
+2004-07-09  Simon Josefsson <simon@josefsson.org>
+
+	* doc/autobuild.texi: Remove abindex.  Add htmlize.
+
+2004-07-09  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Print error on no argument.  Fix --abort info.
+
+2004-07-09  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Fix --abort.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Doc fix.  Bump version.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am, abindex: Remove abindex.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: First attempt at combining both autobuild and abindex
+	(sans --html).
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Dist htmlize.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* htmlize: Add.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* ChangeLog: Generated.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* abindex, autobuild, configure.ac: Bump version.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 1.5.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* doc/autobuild.texi: Abindex usage fix.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* abindex, doc/autobuild.texi: Doc fix.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* abindex: Remove --outdir (not used).  Doc fix.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* abindex: Also accept directories on command line.  Create links to
+	each project if multiple projects.  Minor markup fixes.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* ChangeLog: Generated.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 1.4.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* abindex, autobuild, configure.ac: Bump version.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* logs/autobuild.log: Remove.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: No need for logs/.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* tst-autobuild: Use log from examples/ instead.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* doc/autobuild.texi: Typo.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* configure.ac: Don't use tar-pax (failed on OSF 5.1).
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* examples/Makefile.am,
+	examples/autobuild,project=libidn,revision=0.5.0,mode=default,hostt
+	ype=i686-pc-linux-gnu,buildtype=i686-pc-linux-gnu,hostname=latte,ti
+	mestamp=20040607-0220,status=ok,log.html,
+	examples/autobuild,project=libidn,revision=0.5.0,mode=default,hostt
+	ype=i686-pc-linux-gnu,buildtype=i686-pc-linux-gnu,hostname=unknown,
+	timestamp=unknown,status=ok,log.html,
+	examples/autobuild,project=libidn,revision=0.5.0,mode=default,hostt
+	ype=i686-pc-linux-gnu,buildtype=i686-pc-linux-gnu,hostname=unknown,
+	timestamp=unknown,status=ok,log.txt, examples/example.html,
+	examples/libidn.txt: Remove output, too long filenames.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* doc/autobuild.texi: Fix examples.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* ChangeLog: Generated.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* configure.ac: Use tar-pax (too long filenames in examples/).
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* ChangeLog: Generated.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 1.3.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: (release): Build manual.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* doc/gendocs.sh, doc/gendocs_template: Add.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* abindex, autobuild, configure.ac: Bump version.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* doc/autobuild.texi: Fix.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, doc/autobuild.texi: Add.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* doc/autobuild.texi: Add.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am, configure.ac, examples/Makefile.am,
+	examples/autobuild,project=libidn,revision=0.5.0,mode=default,hostt
+	ype=i686-pc-linux-gnu,buildtype=i686-pc-linux-gnu,hostname=latte,ti
+	mestamp=20040607-0220,status=ok,log.html,
+	examples/autobuild,project=libidn,revision=0.5.0,mode=default,hostt
+	ype=i686-pc-linux-gnu,buildtype=i686-pc-linux-gnu,hostname=unknown,
+	timestamp=unknown,status=ok,log.html,
+	examples/autobuild,project=libidn,revision=0.5.0,mode=default,hostt
+	ype=i686-pc-linux-gnu,buildtype=i686-pc-linux-gnu,hostname=unknown,
+	timestamp=unknown,status=ok,log.txt, examples/example.html: Add
+	examples (from web page).
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* README, doc/autobuild.texi: Fix.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* doc/autobuild.texi, doc/fdl.texi, doc/gpl.texi, doc/texinfo.css: 
+	Add.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* doc/.cvsignore: [no log message]
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* doc/.cvsignore: [no log message]
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am, configure.ac, doc/Makefile.am: Move documentation to
+	doc/.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* ChangeLog: Generated.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 1.2.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Fix last commit.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* tst-autobuild, tst-simple: Fix.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Don't forget command line defaults after first file,
+	when reading multiple filenames on command line.
+
+2004-07-08  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am, tst-autobuild, tst-simple: Add.
+
+2004-07-07  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, abindex, autobuild, configure.ac: Bump version.
+
+2004-07-07  Simon Josefsson <simon@josefsson.org>
+
+	* ChangeLog: Generated.
+
+2004-07-07  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 1.1.
+
+2004-07-07  Simon Josefsson <simon@josefsson.org>
+
+	* ChangeLog: Generated.
+
+2004-07-07  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2004-07-07  Simon Josefsson <simon@josefsson.org>
+
+	* abindex, autobuild, configure.ac: Bump version.
+
+2004-07-07  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Remove.
+
+2004-07-07  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Fix last commit.
+
+2004-07-07  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Fix Revision verbose printing.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* ChangeLog: Generated.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Fix release target.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 1.0.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Clean Status too.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* abindex: Mention number of entries.  Fix final blanks.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Fix last commit.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Accept in _ system triplets.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* abindex: Fix sort orders.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* tst-autobuild: Don't use !.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* tst-autobuild: Use srcdir.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Dist test script.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Fix test rule.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Fix test rule.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Add self test.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* logs/autobuild.log, tst-autobuild: Add.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Clear variables between files.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* .cvsignore: [no log message]
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Handle more than file name on command line.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild.m4: Make sure AC_CANONICAL_* is called.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* configure.ac: Gnits.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* THANKS, buildconf.sh: Add.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Fix ChangeLog.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* ChangeLog: Generated.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild.m4: Add.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Install autobuild.m4.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* ChangeLog: Generated.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* configure.ac: Call autobuild.m4.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Aclocal -I..
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile.am: Clean man pages.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile: Remove.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* .cvscopying, Makefile.am, NEWS, README, configure.ac: Add.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* AUTHORS, configure.ac: Add.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* abindex: Fix HTML.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Add SSH string.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* abindex: Ego boost.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* abindex: Cross compile fixes.  Add hostname tables.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* abindex: Add --abort.  Start hosttype tables.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile: Use help2man --no-info.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* ChangeLog: Generated.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile: Fix.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* ChangeLog: Generated.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* .cvsignore: [no log message]
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* abindex: Add.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile: Add abindex.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Change output filenames.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Remove CRLF.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Detect "almost" --status.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Don't --abort for status.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Add --status.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Add --outdir.  More hostname guessing.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Doc fix.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* ChangeLog: Generated.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Add --abort.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Fix hostname guessing.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Support --dry-run.  Support telnet hostname guessing.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Support text and HTML.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* ChangeLog: Generated.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* .cvsignore, Makefile: Fix.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* ChangeLog: Generated.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Fix --help and --version.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* .cvsignore: [no log message]
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile: Fix.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile: Install man page.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile: Build man page.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* autobuild: Fix CRLF bug.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile: Add.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile: Fix.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* .cvsignore, .cvsusers, COPYING, ChangeLog, Makefile: Add.
+
+2004-07-06  Simon Josefsson <simon@josefsson.org>
+
+	* Add.
+
+	-----
+
+	Copyright (C) 2004, 2005, 2006, 2007, 2008 Simon Josefsson
+
+	Copying and distribution of this file, with or without
+	modification, are permitted provided the copyright notice
+	and this notice are preserved.

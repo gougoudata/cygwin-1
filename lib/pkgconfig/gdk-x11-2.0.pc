@@ -1,12 +1,12 @@
 prefix=/usr
 exec_prefix=/usr
-libdir=/usr/lib
-includedir=/usr/include
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
 target=x11
 
 Name: GDK
-Description: GIMP Drawing Kit (${target} target)
-Version: 2.6.10
-Requires: gdk-pixbuf-2.0 pangoxft pangox
+Description: GTK+ Drawing Kit (${target} target)
+Version: 2.24.18
+Requires: pango pangocairo gio-unix-2.0 fontconfig x11 xext xrender xinerama xi xrandr xcursor xfixes xcomposite xdamage gdk-pixbuf-2.0 cairo-xlib
 Libs: -L${libdir} -lgdk-${target}-2.0 
-Cflags: -I${includedir}/gtk-2.0 -I${libdir}/gtk-2.0/include -DXTHREADS -DXUSE_MTSAFE_API -I/usr/X11R6/include   -DXTHREADS -DXUSE_MTSAFE_API -I/usr/X11R6/include   
+Cflags: -I${includedir}/gtk-2.0 -I${libdir}/gtk-2.0/include 

@@ -20,6 +20,11 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  */
+
+#if !defined (__GLIB_H_INSIDE__) && !defined (GLIB_COMPILATION)
+#error "Only <glib.h> can be included directly."
+#endif
+
 #ifndef __G_DIR_H__
 #define __G_DIR_H__
 
@@ -29,16 +34,18 @@ G_BEGIN_DECLS
 
 typedef struct _GDir GDir;
 
+#ifndef __GTK_DOC_IGNORE__
 #ifdef G_OS_WIN32
 /* For DLL ABI stability, keep old names for old (non-UTF-8) functionality. */
 #define g_dir_open g_dir_open_utf8
 #define g_dir_read_name g_dir_read_name_utf8
 #endif
+#endif
 
 GDir    *                g_dir_open           (const gchar  *path,
 					       guint         flags,
 					       GError      **error);
-G_CONST_RETURN gchar    *g_dir_read_name      (GDir         *dir);
+const gchar *            g_dir_read_name      (GDir         *dir);
 void                     g_dir_rewind         (GDir         *dir);
 void                     g_dir_close          (GDir         *dir);
 

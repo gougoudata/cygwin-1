@@ -1,0 +1,91 @@
+libvorbis, libvorbis-devel, libvorbis0, libvorbisenc2, libvorbisfile3-1.3.3-1
+------------------------------------------
+
+libvorbis runtime requirements (these, or newer)
+  cygwin-1.7.9-1
+  libgcc1-4.5.3-3
+  libogg0-1.3.0-1
+
+libvorbis-devel development requirements (these, or newer)
+  libogg-devel-1.3.0-1
+
+Additional build requirements (these, or newer):
+  autoconf2.5-2.68-1
+  automake1.11-1.11.1-1
+  binutils-2.22.51-1
+  cygport-0.10.7-1
+  gcc4-core-4.5.3-3
+  libogg-devel-1.3.0-1
+  libtool-2.4-1
+  pkg-config-0.23b-10
+
+Canonical homepage:
+  http://www.vorbis.com/
+
+Canonical download:
+  http://www.xiph.org/downloads/
+
+License:
+  Xiph.Org BSD-like license
+
+Language:
+  C
+
+------------------------------------
+
+Build instructions:
+  unpack libvorbis-1.3.3-1-src.tar.bz2
+    if you use setup to install this src package, it will be unpacked under
+    /usr/src automatically
+  cd /usr/src
+  cygport libvorbis-1.3.3-1 all
+
+This will create:
+  /usr/src/libvorbis-1.3.3-1-src.tar.bz2
+  /usr/src/libvorbis-1.3.3-1.tar.bz2
+  /usr/src/libvorbis-devel-1.3.3-1.tar.bz2
+  /usr/src/libvorbis0-1.3.3-1.tar.bz2
+  /usr/src/libvorbisenc2-1.3.3-1.tar.bz2
+  /usr/src/libvorbisfile3-1.3.3-1.tar.bz2
+
+Or use 'cygport libvorbis-1.3.3-1 prep' to get a patched source directory
+
+To find out the files included in the binary distribution, you can
+use "cygcheck -l libvorbis libvorbis-devel libvorbis0 libvorbisenc2
+libvorbisfile3", or browse the listing for the appropriate version
+at <http://cygwin.com/packages/>.
+
+Port Notes:
+
+----------  libvorbis-1.3.3-1 -- 2012-02-03 ---------
+New upstream release.
+
+----------  libvorbis-1.3.2-1 -- 2010-11-23 ---------
+New upstream release.
+
+----------  libvorbis-1.3.1-1 -- 2010-07-05 ---------
+New upstream release.
+Moved development documentation to appropriate packages.
+
+----------  libvorbis-1.2.3-1 -- 2009-09-08 ---------
+New upstream release.
+
+----------  libvorbis-1.2.1-1 -- 2009-06-25 ---------
+New upstream release.
+
+----------  libvorbis-1.2.0-2 -- 2008-05-14 ---------
+Included upstream patches for CVE-2008-1419, CVE-2008-1420,
+CVE-2008-1423. See http://secunia.com/advisories/30234/ for more
+details.
+
+----------  libvorbis-1.2.0-1 -- 2007-07-26 ---------
+New upstream release.
+Switch to cygport framework.
+
+---------------
+
+For more information about this package, see the upstream documentation in
+/usr/share/doc/libvorbis/.
+
+Cygwin port maintained by: David Rothenberger <daveroth@acm.org>.
+Please address all questions to the Cygwin mailing list at <cygwin@cygwin.com>

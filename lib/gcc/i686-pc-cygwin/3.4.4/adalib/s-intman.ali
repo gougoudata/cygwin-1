@@ -18,10 +18,10 @@ W interfaces.c%s	i-c.adb			i-c.ali
 W system%s		system.ads		system.ali
 W system.os_interface%s	s-osinte.ads		s-osinte.ali
 
-D interfac.ads		20031021134210 6e859da6
+D interfac.ads		20031021134209 6e859da6
 D i-c.ads		20031021134208 89099b00
 D system.ads		20031021134222 6af26689
-D s-exctab.ads		20031021134214 6637f07f
+D s-exctab.ads		20031021134213 6637f07f
 D s-intman.ads		20031021134214 db001f8d
 D s-intman.adb		20031021134152 6992eb79
 D s-osinte.ads		20031021134152 fdceb516

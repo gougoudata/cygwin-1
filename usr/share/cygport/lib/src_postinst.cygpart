@@ -1,0 +1,1429 @@
+################################################################################
+#
+# src_postinst.cygpart - cygport source post-installation functions
+#
+# Copyright (C) 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 Yaakov Selkowitz
+# Provided by the Cygwin Ports project <http://sourceware.org/cygwinports/>
+#
+# cygport is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# cygport is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with cygport.  If not, see <http://www.gnu.org/licenses/>.
+#
+################################################################################
+
+#****P* Postinstall/ Fonts
+#  DESCRIPTION
+#  If fonts are installed into the standard font directory under $D, the
+#  following steps will occur automatically:
+#  * PCF fonts are gzip-compressed
+#  * Script(s) will be created to register the fonts with the X11 core font
+#    system and with fontconfig.
+#  NOTE
+#  Packages including fonts must depend on the font-encodings, fontconfig,
+#  mkfontdir, and mkfontscale packages.
+#****
+
+# these are called conditionally by __prepetc
+__prep_fonts_dir() {
+	fontsdir=/usr/share/fonts
+
+	find ${D}${fontsdir} -name '*.pcf' -exec gzip -q '{}' +
+
+	dodir /etc/postinstall
+
+	for d in $(find ${D}${fontsdir}/ -mindepth 1 -type d)
+	do
+		fonttype=${d#${D}${fontsdir}/}
+		fontsubdir=${fontsdir}/${fonttype}
+
+		case ${fonttype} in
+		encodings|encodings/large|util) ;;
+		*)
+			rm -f ${D}${fontsubdir}/encodings.dir ${D}${fontsubdir}/fonts.{dir,scale}
+
+			cat >> ${D}/etc/postinstall/${PN}.sh <<-_EOF
+				/usr/bin/rm -f ${fontsubdir}/encodings.dir ${fontsubdir}/fonts.{dir,scale}
+				/usr/bin/mkfontscale ${fontsubdir} || /usr/bin/rm -f ${fontsubdir}/fonts.scale
+				/usr/bin/mkfontdir -e ${fontsdir}/encodings -e ${fontsdir}/encodings/large ${fontsubdir} || /usr/bin/rm -f ${fontsubdir}/{encodings,fonts}.dir
+				/usr/bin/fc-cache -f ${fontsubdir}
+
+			_EOF
+		;;
+		esac
+	done
+}
+
+#****P* Postinstall/Freedesktop.org MIME
+#  DESCRIPTION
+#  Package postinstall commands will be automatically generated if desktop
+#  menu entries with MimeType declarations, or additional definitions for the
+#  Shared MIME-Info database, are present in the package.
+#  NOTE
+#  Packages including either of these should depend on the desktop-file-utils
+#  and shared-mime-info packages.
+#****
+
+__prep_freedesktop_mime() {
+	local _already_updated_mime_db
+
+	# Freedesktop.org Desktop Menu files with MimeType declarations
+	if [ -d ${D}/usr/share/applications ]
+	then
+		if [ -n "$(grep -lr MimeType ${D}/usr/share/applications)" ]
+		then
+			rm -f ${D}/usr/share/applications/mimeinfo.cache
+			_already_updated_mime_db=1
+			dodir /etc/postinstall
+			cat >> ${D}/etc/postinstall/${PN}.sh <<-_EOF
+				/usr/bin/update-desktop-database
+				/usr/bin/update-mime-database /usr/share/mime
+
+			_EOF
+		fi
+	fi
+
+	# Freedesktop.org Shared Mime types
+	if [ -d ${D}/usr/share/mime ]
+	then
+		# make sure system-generated files aren't clobbered
+		find ${D}/usr/share/mime/ -maxdepth 1 -type f -delete
+
+		if ! defined _already_updated_mime_db
+		then
+			dodir /etc/postinstall
+			cat >> ${D}/etc/postinstall/${PN}.sh <<-_EOF
+				/usr/bin/update-mime-database /usr/share/mime
+
+			_EOF
+		fi
+	fi
+}
+
+#****P* Postinstall/GConf Schemas
+#  DESCRIPTION
+#  Package postinstall and preremove scripts will be automatically generated
+#  to un/register GConf schemas into the system GConf database.
+#  NOTE
+#  Packages providing GConf schemas must require the GConf2 package.
+#  SEE ALSO
+#  RESTRICT
+#****
+
+__prep_gconf_schemas() {
+	dodir /etc/postinstall /etc/preremove
+
+	cat >> ${D}/etc/postinstall/${PN}.sh <<-_EOF
+		export GCONF_CONFIG_SOURCE="$(gconftool-2 --get-default-source)"
+	_EOF
+
+	cat >> ${D}/etc/preremove/${PN}.sh <<-_EOF
+		export GCONF_CONFIG_SOURCE="$(gconftool-2 --get-default-source)"
+	_EOF
+
+	for schema in ${D}/etc/gconf/schemas/*.schemas
+	do
+		cat >> ${D}/etc/postinstall/${PN}.sh <<-_EOF
+			/usr/bin/gconftool-2 --makefile-install-rule /etc/gconf/schemas/${schema##*/} > /dev/null 2>&1
+		_EOF
+
+		cat >> ${D}/etc/preremove/${PN}.sh <<-_EOF
+			/usr/bin/gconftool-2 --makefile-uninstall-rule /etc/gconf/schemas/${schema##*/} > /dev/null 2>&1
+		_EOF
+	done
+
+	echo >> ${D}/etc/postinstall/${PN}.sh
+	echo >> ${D}/etc/preremove/${PN}.sh
+}
+
+#****P* Postinstall/GSettings Schemas
+#  DESCRIPTION
+#  Package postinstall scripts will be automatically generated to register
+#  GSettings schemas with the system GSettings database.
+#  NOTE
+#  Packages using GSettings will always require libglib2.0_0 or one of its
+#  bindings.
+#****
+
+__prep_gsettings_schemas() {
+	dodir /etc/postinstall
+	cat >> ${D}/etc/postinstall/${PN}.sh <<-_EOF
+		/usr/bin/glib-compile-schemas /usr/share/glib-2.0/schemas
+
+	_EOF
+}
+
+#****P* Postinstall/GIO Modules
+#  DESCRIPTION
+#  Package postinstall scripts will be automatically generated to register
+#  GIO modules with the system GIO module cache.
+#  NOTE
+#  Packages providing GIO modules will always require libglib2.0_0.
+#****
+
+__prep_gio_modules() {
+	dodir /etc/postinstall
+	cat >> ${D}/etc/postinstall/${PN}.sh <<-_EOF
+		/usr/bin/gio-querymodules /usr/lib/gio/modules
+
+		_EOF
+}
+
+#****P* Postinstall/GdkPixbuf Loaders
+#  DESCRIPTION
+#  Package postinstall scripts will be automatically generated to register
+#  GdkPixbuf loaders with the system GdkPixbuf loader cache.
+#  NOTE
+#  Packages using GSettings will always require libgdk_pixbuf2.0_0.
+#****
+
+__prep_gdk_pixbuf_modules() {
+	dodir /etc/postinstall
+	cat >> ${D}/etc/postinstall/${PN}.sh <<-_EOF
+		/usr/bin/gdk-pixbuf-query-loaders --update-cache
+
+		_EOF
+}
+
+#****P* Postinstall/GTK+ Input Method Modules
+#  DESCRIPTION
+#  Package postinstall scripts will be automatically generated to register
+#  GTK+ Input Method Modules with the system module cache.
+#  NOTE
+#  Packages providing GTK Input Method Modules will always require either
+#  libgtk2.0_0 or libgtk3_0, depending on which version of GTK+ it supports.
+#****
+
+__prep_gtk2_modules() {
+	# necessary for postinstalling gtk2 itself
+	export PKG_CONFIG_PATH="${B}:${PKG_CONFIG_PATH}"
+	local gtk_api=$(pkg-config --variable=gtk_binary_version gtk+-x11-2.0)
+	local gdkp_moduledir
+
+	# Gdk-Pixbuf loaders in legacy directory
+	if [ -d ${D}/usr/lib/gtk-2.0/${gtk_api}/loaders ]
+	then
+		gdkp_moduledir=/usr/lib/gdk-pixbuf-2.0/$(pkg-config --variable=gdk_pixbuf_binary_version gdk-pixbuf-2.0)/loaders
+		dodir ${gdkp_moduledir}
+		mv ${D}/usr/lib/gtk-2.0/${gtk_api}/loaders/* ${D}${gdkp_moduledir}/
+		__prep_gdk_pixbuf_modules
+	fi
+
+	# GTK Immodules
+	if [ -d ${D}/usr/lib/gtk-2.0/${gtk_api}/immodules ]
+	then
+		dodir /etc/postinstall
+		cat >> ${D}/etc/postinstall/${PN}.sh <<-_EOF
+			/usr/bin/mkdir -p /etc/gtk-2.0
+			/usr/bin/chmod 777 /etc/gtk-2.0
+			/usr/bin/gtk-query-immodules-2.0 > /etc/gtk-2.0/gtk.immodules
+
+		_EOF
+	fi
+}
+
+__prep_gtk3_modules() {
+	# necessary for postinstalling gtk3 itself
+	export PKG_CONFIG_PATH="${B}:${PKG_CONFIG_PATH}"
+	local gtk_api=$(pkg-config --variable=gtk_binary_version gtk+-x11-3.0)
+
+	# GTK Immodules
+	if [ -d ${D}/usr/lib/gtk-3.0/${gtk_api}/immodules ]
+	then
+		dodir /etc/postinstall
+		cat >> ${D}/etc/postinstall/${PN}.sh <<-_EOF
+			/usr/bin/gtk-query-immodules-3.0 --update-cache
+
+			_EOF
+	fi
+}
+
+#****P* Postinstall/Icon Themes
+#  DESCRIPTION
+#  Packages postinstall scripts will be automatically generated for packages
+#  providing an icon theme, or additional icons for a given theme, to update
+#  that icon theme's cache.
+#****
+
+__prep_gtk_icon_theme() {
+	local icondir
+
+	find ${D}/usr/share/icons -mindepth 1 -maxdepth 1 -type d -print0 | \
+	while read -d $'\0' icondir
+	do
+		if [ -f ${icondir}/index.theme -o -f ${icondir#${D}}/index.theme ]
+		then
+			dodir /etc/postinstall
+			cat >> ${D}/etc/postinstall/${PN}.sh <<-_EOF
+				if [ -x /usr/bin/gtk-update-icon-cache.exe ]
+				then
+				    /usr/bin/gtk-update-icon-cache --force ${icondir#${D}}
+				fi
+
+			_EOF
+		fi
+	done
+}
+
+#****P* Postinstall/MATEConf Schemas
+#  DESCRIPTION
+#  Package postinstall and preremove scripts will be automatically generated
+#  to un/register MATEConf schemas into the system MATEConf database.
+#  NOTE
+#  Packages providing MATEConf schemas must require the mate-conf package.
+#  SEE ALSO
+#  RESTRICT
+#****
+
+__prep_mateconf_schemas() {
+	dodir /etc/postinstall /etc/preremove
+
+	cat >> ${D}/etc/postinstall/${PN}.sh <<-_EOF
+		export MATECONF_CONFIG_SOURCE="$(mateconftool-2 --get-default-source)"
+	_EOF
+
+	cat >> ${D}/etc/preremove/${PN}.sh <<-_EOF
+		export MATECONF_CONFIG_SOURCE="$(mateconftool-2 --get-default-source)"
+	_EOF
+
+	for schema in ${D}/etc/mateconf/schemas/*.schemas
+	do
+		cat >> ${D}/etc/postinstall/${PN}.sh <<-_EOF
+			/usr/bin/mateconftool-2 --makefile-install-rule /etc/mateconf/schemas/${schema##*/} > /dev/null 2>&1
+		_EOF
+
+		cat >> ${D}/etc/preremove/${PN}.sh <<-_EOF
+			/usr/bin/mateconftool-2 --makefile-uninstall-rule /etc/mateconf/schemas/${schema##*/} > /dev/null 2>&1
+		_EOF
+	done
+
+	echo >> ${D}/etc/postinstall/${PN}.sh
+	echo >> ${D}/etc/preremove/${PN}.sh
+}
+
+#****P* Postinstall/TeX Live
+#  DESCRIPTION
+#  Package postinstall and preremove scripts will be automatically generated
+#  for packages installing TeX files into the system TEXMF tree, which will
+#  update the ls-R databases, TeX font maps, and TeX format files.
+#  NOTE
+#  Packages providing TeX files must require the texlive-collection-basic
+#  package, and also the fontconfig package if OTF, TTF, or Type1 fonts
+#  are provided.
+#****
+
+__prep_texlive() {
+	local d fmt fmts map maps
+
+	dodir /etc/postinstall /etc/preremove
+
+	cat >> ${D}/etc/postinstall/${PN}.sh <<-_EOF
+		/usr/bin/mktexlsr
+	_EOF
+
+	fmts=$(__config_get texlive_fmts)
+	maps=$(__config_get texlive_maps)
+
+	if [ -n "${maps#0}" ]
+	then
+		for map in $maps
+		do
+			cat >> ${D}/etc/postinstall/${PN}.sh <<-_EOF
+				/usr/bin/updmap-sys --nohash --nomkmap --enable $map
+			_EOF
+			cat >> ${D}/etc/preremove/${PN}.sh <<-_EOF
+				/usr/bin/updmap-sys --nohash --nomkmap --disable ${map#*=}
+			_EOF
+		done
+		cat >> ${D}/etc/postinstall/${PN}.sh <<-_EOF
+			/usr/bin/updmap-sys --nohash --syncwithtrees
+			/usr/bin/updmap-sys --nohash
+			/usr/bin/mktexlsr
+		_EOF
+	fi
+	if [ -n "${fmts#0}" ]
+	then
+		for fmt in $fmts
+		do
+			cat >> ${D}/etc/postinstall/${PN}.sh <<-_EOF
+				/usr/bin/fmtutil-sys --enablefmt $fmt
+				/usr/bin/fmtutil-sys --byfmt $fmt
+			_EOF
+			cat >> ${D}/etc/preremove/${PN}.sh <<-_EOF
+				/usr/bin/fmtutil-sys --disablefmt $fmt
+			_EOF
+		done
+		cat >> ${D}/etc/postinstall/${PN}.sh <<-_EOF
+			/usr/bin/mktexlsr
+		_EOF
+	fi
+
+	for d in /usr/share/texmf{-dist,}/fonts/{opentype,truetype,type1}
+	do
+		if [ -d ${D}${d} ]
+		then
+			cat >> ${D}/etc/postinstall/${PN}.sh <<-_EOF
+				/usr/bin/fc-cache -f $d
+			_EOF
+		fi
+	done
+}
+
+#****P* Postinstall/X Sessions
+#  DESCRIPTION
+#  Package postinstall and preremove scripts will be automatically generated
+#  for packages which provide X sessions to manage Start Menu shortcuts which
+#  will launch the session.
+#  NOTE
+#  Packages providing X sessions must require the cygutils, dbus, run,
+#  and xinit packages.
+#****
+
+__prep_xsessions() {
+	local s Exec Name
+
+	dodir /etc/postinstall /etc/preremove
+
+	cat >> ${D}/etc/postinstall/${PN}.sh <<_EOF
+/usr/bin/mkdir -p "\$(/usr/bin/cygpath \$CYGWINFORALL -P)/Cygwin-X"
+_EOF
+
+	for s in ${D}/usr/share/xsessions/*.desktop
+	do
+		eval `grep ^Name= ${s} | sed -e 's|=\(.*\)|="\1"|;s|/|-|g'`
+		eval `grep ^Exec= ${s} | sed -e 's|=\(.*\)|="\1"|'`
+
+		cat >> ${D}/etc/postinstall/${PN}.sh <<_EOF
+/usr/bin/mkshortcut \$CYGWINFORALL -P -i /usr/bin/XWin.exe -n "Cygwin-X/${Name}" -a "/usr/bin/bash.exe -l -c \"/usr/bin/startx /usr/bin/dbus-launch ${Exec}\"" /usr/bin/run.exe
+_EOF
+
+		cat >> ${D}/etc/preremove/${PN}.sh <<_EOF
+/bin/rm -f "\$(/usr/bin/cygpath \$CYGWINFORALL -P)/Cygwin-X/${Name}.lnk"
+_EOF
+	done
+
+	cat >> ${D}/etc/preremove/${PN}.sh <<_EOF
+/bin/rmdir --ignore-fail-on-non-empty "\$(/usr/bin/cygpath \$CYGWINFORALL -P)/Cygwin-X"
+_EOF
+}
+
+# end of conditional __prepetc helpers
+
+#****P* Postinstall/Documentation Files
+#  DESCRIPTION
+#  Standard documentation files in $S will be automatically installed into
+#  $D/usr/share/doc/PN.  Empty files will be skipped.
+#  SEE ALSO
+#  RESTRICT
+#****
+
+# installs standard docs, html docs, and Cygwin README
+__prepdoc() {
+	local doc;
+	local html;
+	local -i n=0;
+	local pkg_docs_var;
+	local pkg_hint;
+	local default_docs="\
+		ANNOUNCE ANNOUNCEMENTS AUTHOR AUTHORS \
+		BUG-REPORTS BUGS \
+		CHANGES Changes ChangeLog CONTRIBUTORS COPYING COPYING-DOCS COPYING.LIB COPYRIGHT CREDITS \
+		FAQ GPL HACKING HISTORY HOW-TO-CONTRIBUTE KNOWNBUG \
+		LEGAL LICENCE LICENSE MAINTAINERS NEWS NOTES NOTICE \
+		PROGLIST README THANKS TODO WHATSNEW";
+
+	cd ${S};
+
+	if defined _CYGPORT_RESTRICT_postinst_doc_
+	then
+		inform "Skipping package doc installation per request";
+	else
+
+#****v* Documentation Files/DOCS
+#  DESCRIPTION
+#  A list of documentation files, relative to $S, to be installed.  Note
+#  that most standard documentation files are installed automatically and
+#  do not need to specified here.
+#****
+		unset _docinto_dir;
+		dodoc ${default_docs} ${DOCS};
+
+#****v* Documentation Files/HTMLDOCS
+#  DESCRIPTION
+#  A list of HTML documentation files, relative to $S, to be installed in
+#  the html subdirectory of the standard docdir.
+#****
+		for html in ${HTMLDOCS}
+		do
+			docinto html;
+			dodoc ${html};
+		done
+	fi
+
+	if [ -e ${C}/README ]
+	then
+		insinto /usr/share/doc/Cygwin;
+		newins ${C}/README ${PN}.README;
+	fi
+
+	pkg_hint=(${PKG_HINTS})
+
+#****v* Documentation Files/PKG_DOCS
+#  DESCRIPTION
+#  A list of documentation files, relative to $S, to be installed in a
+#  PKG-specific docdir and automatically included in the PKG subpackage.
+#  The PKG_DOCS name is descriptive rather than literal, where "PKG" should
+#  be substituted with the name of the binary package to whose contents the
+#  docs should be added.  When a package contains a character which cannot
+#  be used in a shell variable name (namely '+', '-', and '.'), that character
+#  must be substituted with an underscore ('_'), e.g. libfoo_devel_DOCS for a
+#  libfoo-devel package.
+#  NOTE
+#  When using PKG_DOCS, usr/share/doc/PKG should not be included in the
+#  corresponding PKG_CONTENTS; the specified files will be added to the
+#  package automatically.
+#****
+	while defined pkg_name[${n}]
+	do
+		pkg_docs_var=${pkg_name[${n}]//[-+\.]/_}_DOCS;
+
+		if defined ${pkg_docs_var}
+		then
+			docinto /${pkg_name[${n}]};
+			dodoc ${!pkg_docs_var};
+			unset _docinto_dir;
+		fi
+
+		if [ -f ${C}/${pkg_name[${n}]}.README ]
+		then
+			insinto /usr/share/doc/Cygwin;
+			doins ${C}/${pkg_name[${n}]}.README;
+		elif defined pkg_hint[${n}]
+		then
+			if [ -f ${C}/${pkg_hint[${n}]}.README ]
+			then
+				insinto /usr/share/doc/Cygwin;
+				doins ${C}/${pkg_hint[${n}]}.README
+			fi
+		fi
+
+		n+=1;
+	done
+}
+
+#****P* Postinstall/Emacs Lisp
+#  DESCRIPTION
+#  Emacs Lisp files will be automatically byte-compiled if emacs is present.
+#****
+
+__prepemacs() {
+	local emacssitedir="/usr/share/emacs/site-lisp"
+
+	if test -d ${D}${emacssitedir} && check_prog emacs
+	then
+		emacs --batch --no-site-file --eval '(batch-byte-compile `true)' \
+			$(find ${D}${emacssitedir} -name '*.el') 2>/dev/null || true
+	fi
+}
+
+# creates and installs postinstall, preremove, and profile.d scripts
+__prepetc() {
+	local d;
+	local f;
+	local -i n;
+	local s;
+
+	if inherited cross
+	then
+		# postinst/prerm does not apply to cross-compiles
+		return
+	fi
+
+	for s in postinstall preremove
+	do
+		if [ -f ${C}/${s}.sh -a -f ${C}/${PN}.${s} ]
+		then
+			error "Only one of ${s}.sh and ${PN}.${s} can exist";
+		fi
+
+		for f in ${s}.sh ${PN}.${s}
+		do
+			if [ -f ${C}/${f} ]
+			then
+				dodir /etc/${s};
+				cat >> ${D}/etc/${s}/${PN}.sh < ${C}/${f};
+			fi
+		done
+
+		n=1;
+		while [ -n "${pkg_name[${n}]}" ]
+		do
+			if [ -f ${C}/${pkg_name[${n}]}.${s} ]
+			then
+				dodir /etc/${s};
+				cat >> ${D}/etc/${s}/${pkg_name[${n}]}.sh < ${C}/${pkg_name[${n}]}.${s};
+			fi
+			n+=1
+		done
+	done
+
+	if [ -f ${C}/profile.d.sh ]
+	then
+		exeinto /etc/profile.d;
+		newexe ${C}/profile.d.sh ${PN}.sh;
+	fi
+
+	if [ -f ${C}/profile.d.csh ]
+	then
+		exeinto /etc/profile.d;
+		newexe ${C}/profile.d.csh ${PN}.csh;
+	fi
+
+	# System fonts
+	if [ -d ${D}/usr/share/fonts ]
+	then
+		__prep_fonts_dir || error "Fonts postinstall failed"
+	fi
+
+	# GIO modules
+	if [ -d ${D}/usr/lib/gio/modules ]
+	then
+		__prep_gio_modules || error "GIO modules postinstall failed"
+	fi
+
+	# GdkPixbuf modules
+	if [ -d ${D}/usr/lib/gdk-pixbuf-2.0 ]
+	then
+		__prep_gdk_pixbuf_modules || error "GdkPixbuf modules postinstall failed"
+	fi
+
+	# GTK+ 2.x modules
+	if [ -d ${D}/usr/share/icons ]
+	then
+		__prep_gtk_icon_theme || error "GTK+ icon theme postinstall failed"
+	fi
+
+	# GTK+ 2.x modules
+	if [ -d ${D}/usr/lib/gtk-2.0 ]
+	then
+		__prep_gtk2_modules || error "GTK+ modules postinstall failed"
+	fi
+
+	# GTK+ 3.x modules
+	if [ -d ${D}/usr/lib/gtk-3.0 ]
+	then
+		__prep_gtk3_modules || error "GTK+ modules postinstall failed"
+	fi
+
+	# GConf schemas
+	if [ -d ${D}/etc/gconf/schemas ] && ! defined _CYGPORT_RESTRICT_postinst_gconf_
+	then
+		__prep_gconf_schemas || error "GConf schemas postinstall failed"
+	fi
+
+	# GSettings schemas
+	if [ -d ${D}/usr/share/glib-2.0/schemas ]
+	then
+		__prep_gsettings_schemas || error "GSettings schemas postinstall failed"
+	fi
+
+	# MateConf schemas
+	if [ -d ${D}/etc/mateconf/schemas ] && ! defined _CYGPORT_RESTRICT_postinst_mateconf_
+	then
+		__prep_mateconf_schemas || error "MateConf schemas postinstall failed"
+	fi
+
+	# Freedesktop.org Shared Mime Info
+	if [ -d ${D}/usr/share/applications -o -d ${D}/usr/share/mime ]
+	then
+		__prep_freedesktop_mime || error "Shared Mime Info postinstall failed"
+	fi
+
+	for d in /usr/share/texmf{,-dist}
+	do
+		if [ -d ${D}${d} ]
+		then
+			__prep_texlive
+			break
+		fi
+	done
+
+	if [ -d ${D}/usr/share/xsessions ]
+	then
+		__prep_xsessions || error "X session postinstall failed"
+	fi
+
+	for d in /etc/postinstall /etc/preremove
+	do
+		if [ -d ${D}${d} ]
+		then
+			find ${D}${d} -type f -exec chmod 0755 '{}' +;
+		fi
+	done
+}
+
+#****P* Postinstall/Man Pages
+#  DESCRIPTION
+#  The following cleanup steps will occur if man pages are installed:
+#  * Man page filenames with '::' will be renamed for compatibility with man(1).
+#  * Man pages will be gzip-compressed.
+#  * Man page symlinks will be fixed.
+#****
+
+__prepman() {
+	local man manlink manpage;
+
+	if [ -d ${D}/usr/man ]
+	then
+		inform "Moving /usr/man to /usr/share/man...";
+		dodir /usr/share/man
+		# just in case there is already /usr/share/man, e.g. after doman()
+		cp -r ${D}/usr/man/* ${D}/usr/share/man/
+		rm -fr ${D}/usr/man/
+	fi
+
+	if [ -d ${D}$(__host_prefix)/share/man ]
+	then
+		echo "Compressing man pages:";
+
+		# Since prior to 1.7, files could not ordinarly contain ':', man
+		# and perl were patched to substitute '.' for '::'. However,
+		# sometimes (e.g. gtk2-perl) man pages created with '::', and
+		# with 1.7 it works OOTB, but man is still patched and hence
+		# won't find these.
+		find ${D}$(__host_prefix)/share/man -name '*::*' -print0 | \
+		while read -d $'\0' man
+		do
+			mv "${man}" "${man//::/.}"
+		done
+
+		find ${D}$(__host_prefix)/share/man -type l -print0 | \
+		while read -d $'\0' manlink
+		do
+			manref=$(readlink "${manlink}")
+			manref="${manref##*/}";
+			rm -f "${manlink}";
+			echo ".so ${manref%.gz}" > "${manlink%.gz}";
+		done
+
+		find ${D}$(__host_prefix)/share/man -type f -links 1 ! -name '*.gz' ! -name '*.bz2' ! -name '*.lzma' -print0 | \
+		while read -d $'\0' manpage
+		do
+			echo "        ${manpage##*/}";
+			gzip -q "${manpage}";
+		done
+	fi
+}
+
+#****P* Postinstall/Info Pages
+#  DESCRIPTION
+#  The following cleanup steps will occur if info pages are installed:
+#  * Info pages will be gzip-compressed.
+#  * Errant info/dir files will be deleted.
+#****
+
+__prepinfo() {
+	local infopage;
+
+	if [ -d ${D}/usr/info ]
+	then
+		inform "Moving /usr/info to /usr/share/info...";
+		dodir /usr/share/info
+		# just in case there is already /usr/share/info
+		cp -r ${D}/usr/info/* ${D}/usr/share/info/
+		rm -fr ${D}/usr/info/
+	fi
+
+	if [ -d ${D}$(__host_prefix)/share/info ]
+	then
+		rm -f ${D}$(__host_prefix)/share/info/dir
+
+		echo "Compressing info pages:";
+
+		find ${D}$(__host_prefix)/share/info -type f -name '*.info*' ! -name '*.gz' ! -name '*.bz2' -print0 | \
+		while read -d $'\0' infopage
+		do
+			echo "        ${infopage##*/}";
+			gzip -q "${infopage}";
+		done
+	fi
+}
+
+#****P* Postinstall/Game Data
+#  DESCRIPTION
+#  Game data installed into /var/games will be handled with make_etc_defaults.
+#****
+
+__prepvargames() {
+	local f;
+
+	if inherited cross
+	then
+		# postinst/prerm does not apply to cross-compiles
+		return
+	fi
+
+	if [ -d ${D}/var/games ]
+	then
+		find ${D}/var/games -type f -print0 | \
+		while read -d $'\0' f
+		do
+			make_etc_defaults "${f#${D}}";
+		done
+	fi
+}
+
+#****P* Postinstall/Empty Directories
+#  DESCRIPTION
+#  Empty directories will be removed automatically, unless marked for saving
+#  with keepdir or KEEPDIRS.
+#****
+
+#****v* Empty Directories/KEEPDIRS
+#  SYNOPSIS
+#  KEEPDIRS="DIRECTORY [DIRECTORY...]"
+#  DESCRIPTION
+#  The equivalent of calling keepdir on the given directories.  This variable
+#  can be used for convenience to avoid defining a custom src_install solely
+#  in order to add a keepdir command.
+#****
+
+# remove empty directories in D
+# if empty directory must remain, call keepdir() in src_install()
+__prep_empty_dirs() {
+	local d n;
+
+	if defined KEEPDIRS
+	then
+		keepdir ${KEEPDIRS}
+	fi
+
+	# PTC if you find a package deeper than 20 (even perl mods are < 15)
+	for (( n=20; n >= 1; n-- ))
+	do
+		find ${D} -mindepth ${n} -type d -empty -print0 | \
+		while read -d $'\0' d
+		do
+			inform "Removing empty directory: ${d#${D}}";
+			rmdir "${d}";
+		done
+	done
+}
+
+#****P* Postinstall/Strip Binaries
+#  DESCRIPTION
+#  Debug symbols in executables and shared libraries will be stripped
+#  automatically, except for Mono assemblies and OCaml bytecode which cannot
+#  be stripped.
+#  SEE ALSO
+#  RESTRICT
+#****
+
+__prepstrip() {
+	local dbg;
+	local exe;
+	local all_exes;
+	local lib;
+	local objcopy;
+	local objdump;
+	local lines;
+
+	if defined _CYGPORT_RESTRICT_strip_
+	then
+		inform "Skipping strip step per request.";
+		return 0;
+	fi
+
+	cd ${D};
+
+	> ${T}/.dbgsrc.out
+
+	echo "Stripping executables:";
+
+	# *.so: Apache2 modules, OCaml stublibs, Ruby modules
+	# *.oct: Octave modules
+	# *.cmxs: OCaml natdynlink modules: http://gallium.inria.fr/~frisch/ndl.txt
+	find * -type f ! -name '*.dll.a' ! -name '*.lib' \
+		-a \( -name '*.a' -o -name '*.dll' -o -name '*.exe' -o -name '*.so' -o -name '*.so.*' -o -name '*.oct' -o -name '*.cmxs' \) -print0 \
+		-o -type f -executable ! -name '*.dll' ! -name '*.exe' ! -name '*.so' ! -name '*.so.[0-9]*' ! -name '*.oct' ! -name '*.cmxs' ! -name '*.a' ! -name '*.la' ! -name '*.lib' ! -name '*.exe.manifest' ! -name '*.exe.config' ! -name '*.dll.config' ! -name '*.mdb' ! -name '*-config' ! -name '*.csh' ! -name '*.sh' ! -name '*.pl' ! -name '*.pm' ! -name '*.py' ! -name '*.rb' ! -name '*.tcl' -print0 | \
+	while read -d $'\0' exe
+	do
+		# assure this is actually a binary object
+		if [ "$(head -c 2 "${exe}")" = '#!' ]
+		then
+			# sometimes .exe will be appended where it does not belong
+			case "${exe}" in
+			usr/lib/hevea/*.exe) ;;
+			*.exe)	mv "${exe}" "${exe%.exe}" ;;
+			esac
+			continue
+		fi
+
+		# OCaml bytecode must not be stripped
+		# Magic number is at end of file:
+		# http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=256900#74
+		# http://cygwin.com/ml/cygwin-apps/2010-10/msg00057.html
+		case $(tail -c 12 "${exe}") in
+			Caml1999X0[0-9][0-9])  continue ;;
+		esac
+
+		# Perl Archive (PAR) binaries must not be stripped
+		# https://rt.cpan.org/Public/Bug/Display.html?id=18536
+		# http://cygwin.com/ml/cygwin-apps/2012-07/msg00088.html
+		case $(tail -c 8 "${exe}" | tr '\012' '%') in
+			%PAR\.pm%)  continue ;;
+		esac
+
+		if check_prog ${CTARGET}-objcopy && ${CTARGET}-size -f "${exe}" &>/dev/null
+		then
+			# for cross-compiled libs, cross-GCC target libs,
+			# or non-cross packages built on non-Cygwin systems
+			objcopy="${CTARGET}-objcopy"
+			objdump="${CTARGET}-objdump"
+		elif check_prog ${CHOST}-objcopy && ${CHOST}-size -f "${exe}" &>/dev/null
+		then
+			# for cross-compilers built on non-Cygwin systems
+			objcopy="${CHOST}-objcopy"
+			objdump="${CHOST}-objdump"
+		elif size -f "${exe}" &>/dev/null
+		then
+			objcopy="objcopy"
+			objdump="objdump"
+		else
+			continue
+		fi
+
+		# Static libraries should not be stripped, but we can still
+		# provide split debuginfo
+		case "${exe}" in *.a)
+			${objdump} -dl "${exe}" 2>/dev/null | grep /usr/src/debug | sed -e 's/:[0-9]*$//g' | sort -u >> ${T}/.dbgsrc.out;
+			continue ;;
+		esac
+
+		# Mono assemblies must not be stripped, but remove .mdb debug symbols,
+		# and make them non-executable so they're not launched by MS .NET
+		if ${objdump} -p "${exe}" 2>&1 | grep -q "DLL Name: mscoree.dll"
+		then
+			chmod 0644 "${exe}"
+			rm -f "${exe}.mdb"
+			continue
+		fi
+
+		# check for DLLs with low-address manual ImageBase, either
+		# due to -Wl,--image-base, or BASE directive in .def file;
+		# use CTARGET to avoid false positives from cross-gcc
+		case ${CTARGET} in
+		x86_64-*-cygwin*)
+			case "${exe##*/}" in
+			cygwin1.dll|cyglsa64.dll) ;;
+			*.dll|*.so|*.oct|*.cmxs)
+				if ${objdump} -p "${exe}" | sed -ne '/^ImageBase/s/.*\t/0x/gp' | gawk '{ exit (strtonum($1) <= 0x400000000 ? 0 : 1) }'
+				then
+					warning "${exe} was not linked with -Wl,--enable-auto-image-base"
+				fi
+			esac
+		esac
+
+		# check for .exe from non-automake Makefile which install(1) didn't fix
+		# strip(1) used to take care of this, but not anymore
+		case ${CHOST} in
+		*-*-cygwin*|*-*-mingw*|*-*-msys*)
+			case "${exe##*/}" in
+			*.dll|*.exe|*.sfx|*.so|*.so.[0-9]*|*.oct|*.cmxs) ;;
+			# make sure this isn't some oddly named DLL
+			*)	if ${objdump} -f "${exe}" | grep -q '^start address 0x0*401[0-9a-e][0-9a-e]0'
+				then
+					mv "${exe}" "${exe}.exe"
+					exe+=.exe
+				fi ;;
+			esac
+			;;
+		esac
+
+		echo "        ${exe}";
+		chmod 0755 "${exe}";
+
+		if defined _CYGPORT_RESTRICT_debuginfo_
+		then
+			${objcopy} --strip-all "${exe}";
+		else
+			dbg="/usr/lib/debug/${exe}.dbg";
+
+			lines=$(${objdump} -dl "${exe}" 2>/dev/null | grep /usr/src/debug/${PF}/ | sed -e 's/:[0-9]*$//g' | sort -u | tee -a ${T}/.dbgsrc.out | wc -l);
+
+			if (( lines == 0 ))
+			then
+				${objcopy} --strip-all "${exe}";
+				continue;
+			fi
+
+			# --add-gnu-debuglink will fail if .gnu_debuglink section
+			# already exists, e.g. binutils, which uses hardlinks,
+			# or cygwin which creates a custom .dbg file
+			if ! ${objdump} -h "${exe}" | grep -q '\.gnu_deb'
+			then
+				dodir "${dbg%/*}";
+				${objcopy} --long-section-names enable --add-gnu-debuglink=/dev/null --only-keep-debug "${exe}" "${D}${dbg}";
+				chmod 0644 "${D}${dbg}";
+				${objcopy} --strip-all "${exe}";
+				${objcopy} --long-section-names enable --add-gnu-debuglink="${D}${dbg}" "${exe}" 2>/dev/null;
+			fi
+		fi
+	done
+}
+
+#****P* Postinstall/Split Debugging Information
+#  DESCRIPTION
+#  Debug symbols stripped from executables and libraries are preserved
+#  as split debuginfo files, and sources referenced therein are automatically
+#  installed into a package-specific location.  A PN-debuginfo package will
+#  be automatically created with split debugging symbols and source files when
+#  present; inclusion in PKG_NAMES and PKG_CONTENTS is not necessary.
+#  SEE ALSO
+#  RESTRICT
+#****
+
+__prepdebugsrc() {
+	local dbg;
+	local dbgsrc;
+	local dbgsrcdir="/usr/src/debug/${PF}";
+	local srcf;
+	local -i i=0;
+
+	if defined _CYGPORT_RESTRICT_debuginfo_
+	then
+		return;
+	fi
+
+	printf "Preparing debuginfo source files:\n";
+
+	sort -u ${T}/.dbgsrc.out | \
+	while read dbgsrc
+	do
+		# make sure that paths with '../' don't leave $dbgsrcdir
+		case $(readlink -m -- "${dbgsrc}") in
+			"${dbgsrcdir}"/*) ;;
+			*)  continue ;;
+		esac
+
+		srcf="${dbgsrc#${dbgsrcdir}/}"
+		if [ -f "${B}/${srcf}" ]
+		then
+			install -Dp -m0644 "${B}/${srcf}" "${D}${dbgsrc}"
+			printf "\r\t$((++i)) files"
+		elif [ -f "${S}/${srcf}" ]
+		then
+			install -Dp -m0644 "${S}/${srcf}" "${D}${dbgsrc}"
+			printf "\r\t$((++i)) files"
+		fi
+	done
+	printf '\n'
+}
+
+#****P* Postinstall/Windows UAC
+#  DESCRIPTION
+#  Manifest files will be automatically generated to circumvent UAC for those
+#  32-bit executables whose names normally trigger UAC Installer Detection.
+#****
+
+__prepuac() {
+	local exe exename;
+
+	# UAC Installer Detection only applies to 32-bit executables:
+	# http://technet.microsoft.com/en-us/library/cc709628.aspx
+	case ${CHOST} in
+	i?86-*-cygwin*|i?86-*-mingw*|i?86-*-msys*) ;;
+	*)	return ;;
+	esac
+
+	cd ${D};
+
+	echo "Preparing executables for UAC:";
+
+	find * -type f -executable -a \( -name '*instal*.exe' -o -name '*patch*.exe' -o -name '*setup*.exe' -o -name '*update*.exe' \) -print0 | \
+	while read -d $'\0' exe
+	do
+		echo "        ${exe}";
+		manifestize "${exe}"
+	done
+}
+
+__prep_symlinks() {
+	local l l_src
+
+	echo "Fixing symlinks:"
+
+	find ${D}/ -type l -print0 | \
+	while read -d $'\0' l
+	do
+		l_src=$(readlink "${l}")
+
+		# avoid .exe suffix in symlinks
+		# http://cygwin.com/ml/cygwin-apps/2007-04/msg00065.html
+		case "${CHOST}:${l}" in
+			*-*-cygwin*:*.exe)
+				mv "${l}" "${l%.exe}";
+				l="${l%.exe}";
+				;;
+		esac
+
+		case "${l_src}" in
+			"${l%/*}/${l_src##*/}")
+				echo "        ${l#${D}}";
+				rm -f "${l}";
+				dosym "${l_src##*/}" "${l#${D}}";
+				;;
+			"${D}"/*)
+				echo "        ${l#${D}}";
+				rm -f "${l}";
+				dosym "${l_src#${D}}" "${l#${D}}";
+				;;
+			"${workdir}"/*)
+				echo "        ${l#${D}}";
+				rm -f "${l}";
+				cp -LR "${l_src}" "${l}";
+				;;
+			/*)
+				if [ ! -e "${D}${l_src}" ] && [ ! -e "${l_src}" ]
+				then
+					warning "symlink ${l#${D}} points to nonexistant ${l_src}";
+					continue
+				fi
+
+				# Some systems do not support symlinks
+				case ${CHOST} in
+				*-*-mingw*|*-*-msys*|*-*-msdos*)
+					echo "        ${l#${D}}";
+					rm -f "${l}";
+					cp -LR "${l_src}" "${l}";
+					;;
+				esac
+				;;
+			*)
+				if [ ! -e "${l%/*}/${l_src}" ]
+				then
+					warning "symlink ${l#${D}} points to nonexistant ${l_src}";
+					continue
+				fi
+
+				# Some systems do not support symlinks
+				case ${CHOST} in
+				*-*-mingw*|*-*-msys*|*-*-msdos*)
+					echo "        ${l#${D}}";
+					rm -f "${l}";
+					cp -LR "${l%/*}/${l_src}" "${l}";
+					;;
+				esac
+				;;
+		esac
+	done
+}
+
+#****P* Postinstall/Libtool Libraries
+#  DESCRIPTION
+#  Libtool libraries use .la ("libtool archive") files to represent the
+#  library in a cross-platform way during the build process.  By default,
+#  these are installed alongside the library, in which they serve two
+#  possible purposes: to help lt_dlopen() (or sometimes g_module_open()) find
+#  the DLL, and to determine its dependencies when linking something else
+#  against it.
+#
+#  The following steps will occur automatically when libtool libraries
+#  are included in a package:
+#  * files are checked to assure that all components have been installed
+#  * static and import libraries are removed from modules
+#  * DLLs from non-module libraries will be moved to $D/usr/bin or
+#    $D/$CROSS_BINDIR as appropriate.
+#****
+
+#****v* Libtool Libraries/KEEP_LA_FILES
+#  SYNOPSIS
+#  KEEP_LA_FILES=[all|module|shared|static|none]
+#  DESCRIPTION
+#  Most of the time, libtool library files are not truly necessary,
+#  in which case they end up just slowing down builds and sometimes
+#  even causing a module to be loaded twice.  Therefore, many distributions
+#  have begun removing them from binary packages.
+#
+#  Whether and which .la files are removed during automatic postinstall
+#  is based on the value of this variable, which can be one of:
+#  * none: deletes all .la files (the default behaviour on x86_64)
+#  * module: keep only those .la files for modules meant to be dlopen()ed
+#  * shared: keep only those .la files for non-module shared libraries
+#  * static: keep only those .la files for static-only libraries
+#  * all: keep all of the above (the default behaviour on i686)
+#
+#  Some suggested guidelines:
+#  * If modules are to be loaded via libltdl or GModule, you may (but not
+#    always) need to set this to 'module'.
+#  * If a shared library is meant to be a dlopen()ed module but is linked
+#    without -module, then 'shared' may be necessary in order for the DLL
+#    to be found.
+#  * Some shared libraries imply the use of other libraries (e.g. GTK+ apps
+#    will always use GLib/GObject).  If these libraries are not listed in
+#    the corresponding .pc pkg-config file, then 'shared' will help.
+#  * When static libraries depend on other libraries, 'static' is recommended.
+#    If the static library depends only on libc, there is no need to keep it.
+#
+#  NOTE
+#  Deleting .la files for an import library which other libtool libraries were
+#  linked against will cause build errors when yet another libtool library
+#  tries to link against the second.  In this case, 'shared' is necessary
+#  to avoid breaking other users' installations.
+#****
+
+__prep_libtool_modules() {
+	local ltlibs ltlibdir ltlibname ltversion
+	local dlname origdlname library_names old_library inherited_linker_flags \
+	      dependency_libs weak_library_names current age revision \
+		  installed shouldnotlink dlopen dlpreopen libdir rep_requires
+	local keep
+
+	pushd ${D}
+
+	ltlibs="$(find * -name '*.la')"
+
+	if ! defined ltlibs
+	then
+		# nothing to do
+		return 0
+	fi
+
+	if defined KEEP_LA_FILES
+	then
+		keep=${KEEP_LA_FILES}
+	elif defined ARCH_i686
+	then
+		keep="all"
+	else
+		keep="none"
+	fi
+
+	echo "Fixing libtool modules:"
+
+	ltversion="$(grep '^# libtool (GNU' /usr/bin/libtool | cut -d ' ' -f 2-)"
+
+	for lib_la in ${ltlibs}
+	do
+		# check that the file is actually a libtool library
+		# e.g. xmodmap.la, where 'la' is a language code
+		if ! grep -q "libtool library file" ${lib_la}
+		then
+			continue
+		fi
+
+		source ${lib_la}
+
+		ltlibdir=${lib_la%/*}
+
+		# check that all library members were installed
+		for l in dlname library_names old_library
+		do
+			if defined ${l}
+			then
+				# on ELF platforms, there are multiple library_names
+				for il in ${!l}
+				do
+					if [ ! -f ${ltlibdir}/${il} ]
+					then
+						error "${il} was not installed"
+					fi
+				done
+			fi
+		done
+
+		if [ "x${shouldnotlink}" != "xyes" ]
+		then
+			if [ "x${dlname}" = "x" ]
+			then
+				# static-only library, hopefully for good reason...
+				case ${keep} in
+					all|static) ;;
+					none|shared|module*) rm -f ${lib_la} ;;
+					*) error "KEEP_LA_FILES: unknown value: ${KEEP_LA_FILES}" ;;
+				esac
+				continue
+			fi
+
+			# would otherwise be CHOST, but gcc ships $target libraries
+			case ${CTARGET} in
+			*-*-cygwin*|*-*-mingw*|*-*-msys*)
+				if [ -f ${lib_la%.la}.dll.a ]
+				then
+					# implibs do NOT need to be executable
+					chmod 0644 ${lib_la%.la}.dll.a
+				fi
+				if test ${CTARGET} != ${CHOST} # cross-compiler, use sysroot
+				then
+					dodir /usr/${CTARGET}/sys-root/$(__target_prefix)/bin
+					mv ${ltlibdir}/${dlname} ${D}/usr/${CTARGET}/sys-root/$(__target_prefix)/bin/
+				else
+					origdlname=${dlname}
+
+					while [ $(readlink -f ${ltlibdir}/${dlname%/bin/*}) != ${D}$(__host_prefix) ]
+					do
+						dlname=../${dlname}
+					done
+
+					if [ ${dlname} != ${origdlname} ]
+					then
+						pushd ${ltlibdir}
+						mkdir -p ${dlname%/*}
+						mv ${origdlname} ${dlname}
+						popd
+						echo "        ${lib_la}"
+						sed -i -e "s|^\(dlname=\).*|\1'${dlname}'|" ${lib_la}
+					fi
+				fi
+				;;
+			esac
+
+			case ${keep} in
+				all|shared) ;;
+				none|static|module*) rm -f ${lib_la} ;;
+				*) error "KEEP_LA_FILES: unknown value: ${KEEP_LA_FILES}" ;;
+			esac
+
+			# The rest only applies if shouldnotlink=yes (-module)
+			continue
+		fi
+
+		echo "        ${lib_la}"
+
+		ltlibname=${lib_la##*/}
+		ltlibname=${ltlibname%.la}
+
+		if [ "x${dlname}" = "x" ]
+		then
+			error "${ltlibname}.la dynamic module was not built"
+		fi
+
+		# warn if -avoid-version was not used with -module
+		# 99.9% of time should be, but there are notable exceptions
+		case "${dlname#../bin/}" in
+			cyg${ltlibname#lib}.dll|${ltlibname}.dll)	;;
+			cyg${ltlibname#lib}.so|${ltlibname}.so)		;;
+			*)	warning "${ltlibname}.la appears to be a versioned module." ;;
+		esac
+
+		# static and import libraries are pointless for modules
+		rm -f ${ltlibdir}/${ltlibname}.a ${ltlibdir}/${ltlibname}.dll.a
+
+		case ${keep} in
+			all|module*) ;;
+			none|shared|static) rm -f ${lib_la}; continue ;;
+			*) error "KEEP_LA_FILES: unknown value: ${KEEP_LA_FILES}" ;;
+		esac
+
+		cat > ${lib_la} <<-_EOF
+			# ${ltlibname}.la - a libtool library file
+			# Generated by ${ltversion}
+			# Modified by cygport
+			#
+			# Please DO NOT delete this file!
+			# It is necessary for linking the library.
+
+			# The name that we can dlopen(3).
+			dlname='${dlname}'
+
+			# Names of this library.
+			library_names='${dlname}'
+
+			# The name of the static archive.
+			old_library=''
+
+			# Linker flags that can not go in dependency_libs.
+			inherited_linker_flags='${inherited_linker_flags}'
+
+			# Libraries that this one depends upon.
+			# This is set to empty to speed up lt_dlopen and friends.
+			dependency_libs=''
+
+			# Names of additional weak libraries provided by this library
+			weak_library_names='${weak_library_names}'
+
+			# Version information for ${ltlibname}.
+			current=${current}
+			age=${age}
+			revision=${revision}
+
+			# Is this an already installed library?
+			installed=yes
+
+			# Should we warn about portability when linking against -modules?
+			shouldnotlink=yes
+
+			# Files to dlopen/dlpreopen
+			dlopen='${dlopen}'
+			dlpreopen='${dlpreopen}'
+
+			# Directory that this library needs to be installed in:
+			libdir='${libdir}'
+			_EOF
+
+		if defined rep_requires
+		then
+			cat >> ${lib_la} <<-_EOF
+
+				# Librep module dependencies
+				rep_requires='${rep_requires}'
+				_EOF
+
+			unset rep_requires
+		fi
+	done
+
+	popd
+}
+
+#****v* Postinstall/RESTRICT
+#  DESCRIPTION
+#  List of automatic postinstall or packaging step(s) which should be skipped
+#  for this package.  Supported values are:
+#  * debuginfo: do not create a debuginfo subpackage
+#  * diff: do not generate a .src.patch file of changes made in $S.
+#  * postinst-doc: do not install standard documentation files.
+#  * postinst-gconf: do not create postinstall commands for GConf schemas.
+#  * postinst-mateconf: do not create postinstall commands for MATEConf schemas.
+#  * strip: do not strip binaries.
+#  Of these, "diff" is the only one that should be considered useful, e.g.
+#  with very large data-only packages which will have no useful diff.
+#  "debuginfo" is useful on a temporary, per-build basis to debug a package
+#  in the build tree (e.g. a noinst test package).
+#
+#  If you find yourself using any of the others to work around cygport's
+#  default behaviour, in all likelyhood it is either a bug in cygport or in
+#  the .cygport file.
+#****
+
+__src_postinst() {
+	__prepdoc;
+	__prep_symlinks;
+	__prepemacs;
+	__prepetc;
+	__prepman;
+	__prepinfo;
+	__prepvargames;
+	__prep_libtool_modules;
+	__prepstrip;
+	__prepdebugsrc;
+	__prepuac;
+	__prep_empty_dirs;
+}
+
+readonly -f __prep_fonts_dir __prep_freedesktop_mime __prep_gconf_schemas \
+            __prep_gsettings_schemas __prep_gio_modules __prep_gdk_pixbuf_modules \
+            __prep_gtk2_modules __prep_gtk3_modules __prep_gtk_icon_theme \
+            __prep_mateconf_schemas __prep_texlive __prep_xsessions \
+            __prepdoc __prepemacs __prepetc __prepman __prepinfo \
+            __prepvargames __prep_empty_dirs \
+            __prepstrip __prepdebugsrc __prepuac __prep_symlinks \
+            __prep_libtool_modules __src_postinst

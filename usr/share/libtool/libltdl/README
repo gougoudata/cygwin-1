@@ -8,3 +8,13 @@ It supports the following dlopen interfaces:
 * GNU DLD (emulates dynamic linking for static libraries)
 * dyld (darwin/Mac OS X)
 * libtool's dlpreopen
+-- 
+   Copyright (C) 1999, 2003 Free Software Foundation, Inc.
+   Written by Thomas Tanner, 1999
+
+   This file is part of GNU Libtool.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.  This file is offered as-is,
+without warranty of any kind.

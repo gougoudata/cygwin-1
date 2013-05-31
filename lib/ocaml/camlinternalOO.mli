@@ -11,7 +11,7 @@
 (*                                                                     *)
 (***********************************************************************)
 
-(* $Id: camlinternalOO.mli,v 1.6 2004/05/26 11:10:51 garrigue Exp $ *)
+(* $Id: camlinternalOO.mli 7372 2006-04-05 02:28:13Z garrigue $ *)
 
 (** Run-time support for objects and classes.
     All functions in this module are for system use only, not for the
@@ -29,7 +29,8 @@ type closure
 val public_method_label : string -> tag
 val new_method : table -> label
 val new_variable : table -> string -> int
-val new_variables : table -> string array -> int
+val new_methods_variables :
+    table -> string array -> string array -> label array
 val get_variable : table -> string -> int
 val get_variables : table -> string array -> int array
 val get_method_label : table -> string -> label
@@ -45,13 +46,16 @@ val create_table : string array -> table
 val init_class : table -> unit
 val inherits :
     table -> string array -> string array -> string array ->
-    (t * (table -> obj -> Obj.t) * t * obj) -> bool -> Obj.t
+    (t * (table -> obj -> Obj.t) * t * obj) -> bool -> Obj.t array
 val make_class :
     string array -> (table -> Obj.t -> t) ->
     (t * (table -> Obj.t -> t) * (Obj.t -> t) * Obj.t)
 type init_table
 val make_class_store :
     string array -> (table -> t) -> init_table -> unit
+val dummy_class :
+    string * int * int ->
+    (t * (table -> Obj.t -> t) * (Obj.t -> t) * Obj.t)
 
 (** {6 Objects} *)
 
@@ -74,6 +78,7 @@ val lookup_tables : tables -> closure array -> tables
 
 (** {6 Builtins to reduce code size} *)
 
+(*
 val get_const : t -> closure
 val get_var : int -> closure
 val get_env : int -> int -> closure
@@ -98,6 +103,7 @@ val send_const : tag -> obj -> int -> closure
 val send_var : tag -> int -> int -> closure
 val send_env : tag -> int -> int -> int -> closure
 val send_meth : tag -> label -> int -> closure
+*)
 
 type impl =
     GetConst
@@ -141,7 +147,7 @@ val params : params
 (** {6 Statistics} *)
 
 type stats =
-  { classes : int; 
-    methods : int; 
+  { classes : int;
+    methods : int;
     inst_vars : int }
 val stats : unit -> stats

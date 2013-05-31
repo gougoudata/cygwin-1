@@ -1,0 +1,60 @@
+LibGII README
+=============
+
+LibGII (General Input Interface) is intended to be to input what our LibGGI
+(General Graphics Interface) library is to graphics.
+
+LibGII is based on the concept of input streams, which virtualize access
+to the underlying input drivers. Events from various input devices are
+abstracted into easy-to-use structures. LibGII also allows the application to
+join streams together, receiving input from an arbitrary combination of
+devices. LibGII is a separate component from LibGGI, although LibGGI
+depends on LibGII for input purposes.
+
+The main purpose of this LibGII release is to accompany our LibGGI
+release, but you're still very welcome to use LibGII as a standalone
+library for your non-LibGGI applications. Also you might be interested in
+the mhub utility found in the demos directory. mhub is a mouse event repeater
+and converter. See mhub(1) and the libgii(7) and input-<target>(7) manual pages
+for more info.
+
+
+Requirements
+============
+
+* Linux for linux-kbd inputlib (but not for linux-mouse, despite the name...)
+* VGL library if using display-vgl target.
+* X Window System for x/xwin inputlibs.
+* other libraries for other targets, such as aalib and SVGAlib.
+
+
+How to install and use
+======================
+
+See the files INSTALL and INSTALL.autoconf for installation instructions.
+
+Demos are found in the programs/demos sub directory.  They are built
+automatically.
+
+LibGII's and some of the targets' behaviour can be modified with
+environment variables, please see the file doc/libgii-libraries.txt or
+libgii(7) for a list of those.
+
+The descriptions of inputlibs are found in the man.txt files of the
+input or filter directory (try 'find . -name man.txt') and as manpage.
+View them by 'man input-<targetname>' respectively 'man
+filter-<targetname>' command.
+
+
+The GGI mailing lists
+=====================
+
+There are several mailing lists available for discussion of GGI-related
+topics. Please see http://www.ggi-project.org/contact.html for more info.
+
+
+GGI resources
+=============
+
+Web site: http://www.ggi-project.org/
+FTP site: ftp://ftp.ggi-project.org/pub/ggi

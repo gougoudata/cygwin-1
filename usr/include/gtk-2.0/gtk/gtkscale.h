@@ -21,14 +21,17 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 #ifndef __GTK_SCALE_H__
 #define __GTK_SCALE_H__
 
 
-#include <gdk/gdk.h>
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
 #include <gtk/gtkrange.h>
 
 
@@ -49,9 +52,9 @@ struct _GtkScale
 {
   GtkRange range;
 
-  gint digits;
-  guint draw_value : 1;
-  guint value_pos : 2;
+  gint  GSEAL (digits);
+  guint GSEAL (draw_value) : 1;
+  guint GSEAL (value_pos) : 2;
 };
 
 struct _GtkScaleClass
@@ -59,43 +62,49 @@ struct _GtkScaleClass
   GtkRangeClass parent_class;
 
   gchar* (* format_value) (GtkScale *scale,
-                           gdouble   value);  
-  
+                           gdouble   value);
+
   void (* draw_value) (GtkScale *scale);
 
   void (* get_layout_offsets) (GtkScale *scale,
                                gint     *x,
                                gint     *y);
+
   /* Padding for future expansion */
+  void (*_gtk_reserved1) (void);
   void (*_gtk_reserved2) (void);
   void (*_gtk_reserved3) (void);
-  void (*_gtk_reserved4) (void);
 };
 
-GType           gtk_scale_get_type       (void) G_GNUC_CONST;
+GType             gtk_scale_get_type           (void) G_GNUC_CONST;
+void              gtk_scale_set_digits         (GtkScale        *scale,
+                                                gint             digits);
+gint              gtk_scale_get_digits         (GtkScale        *scale);
+void              gtk_scale_set_draw_value     (GtkScale        *scale,
+                                                gboolean         draw_value);
+gboolean          gtk_scale_get_draw_value     (GtkScale        *scale);
+void              gtk_scale_set_value_pos      (GtkScale        *scale,
+                                                GtkPositionType  pos);
+GtkPositionType   gtk_scale_get_value_pos      (GtkScale        *scale);
 
-void            gtk_scale_set_digits     (GtkScale        *scale,
-                                          gint             digits);
-gint            gtk_scale_get_digits     (GtkScale        *scale);
-void            gtk_scale_set_draw_value (GtkScale        *scale,
-                                          gboolean         draw_value);
-gboolean        gtk_scale_get_draw_value (GtkScale        *scale);
-void            gtk_scale_set_value_pos  (GtkScale        *scale,
-                                          GtkPositionType  pos);
-GtkPositionType gtk_scale_get_value_pos  (GtkScale        *scale);
+PangoLayout     * gtk_scale_get_layout         (GtkScale        *scale);
+void              gtk_scale_get_layout_offsets (GtkScale        *scale,
+                                                gint            *x,
+                                                gint            *y);
 
-PangoLayout     *gtk_scale_get_layout        (GtkScale        *scale);
-void            gtk_scale_get_layout_offsets (GtkScale        *scale,
-					      gint            *x,
-					      gint            *y);
-void    _gtk_scale_clear_layout    (GtkScale        *scale);
+void              gtk_scale_add_mark           (GtkScale        *scale,
+                                                gdouble          value,
+                                                GtkPositionType  position,
+                                                const gchar     *markup);
+void              gtk_scale_clear_marks        (GtkScale        *scale);
 
-void    _gtk_scale_get_value_size  (GtkScale        *scale,
-                                    gint            *width,
-                                    gint            *height);
-gchar  *_gtk_scale_format_value    (GtkScale        *scale,
-                                    gdouble          value);
-
+/* internal API */
+void              _gtk_scale_clear_layout      (GtkScale        *scale);
+void              _gtk_scale_get_value_size    (GtkScale        *scale,
+                                                gint            *width,
+                                                gint            *height);
+gchar           * _gtk_scale_format_value      (GtkScale        *scale,
+                                                gdouble          value);
 
 G_END_DECLS
 

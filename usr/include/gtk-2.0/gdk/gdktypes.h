@@ -21,11 +21,15 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 #ifndef __GDK_TYPES_H__
 #define __GDK_TYPES_H__
+
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GDK_H_INSIDE__) && !defined (GDK_COMPILATION)
+#error "Only <gdk/gdk.h> can be included directly."
+#endif
 
 /* GDK uses "glib". (And so does GTK).
  */
@@ -56,9 +60,7 @@
 
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 
 /* Type definitions for the basic structures.
@@ -79,6 +81,12 @@ typedef struct _GdkAtom            *GdkAtom;
 
 #define GDK_ATOM_TO_POINTER(atom) (atom)
 #define GDK_POINTER_TO_ATOM(ptr)  ((GdkAtom)(ptr))
+
+#ifdef GDK_NATIVE_WINDOW_POINTER
+#define GDK_GPOINTER_TO_NATIVE_WINDOW(p) ((GdkNativeWindow) (p))
+#else
+#define GDK_GPOINTER_TO_NATIVE_WINDOW(p) GPOINTER_TO_UINT(p)
+#endif
 
 #define _GDK_MAKE_ATOM(val) ((GdkAtom)GUINT_TO_POINTER(val))
 #define GDK_NONE            _GDK_MAKE_ATOM (0)
@@ -130,12 +138,18 @@ typedef enum
   GDK_BUTTON3_MASK  = 1 << 10,
   GDK_BUTTON4_MASK  = 1 << 11,
   GDK_BUTTON5_MASK  = 1 << 12,
+
   /* The next few modifiers are used by XKB, so we skip to the end.
-   * Bits 16 - 28 are currently unused, but will eventually
-   * be used for "virtual modifiers". Bit 29 is used internally.
+   * Bits 15 - 25 are currently unused. Bit 29 is used internally.
    */
+  
+  GDK_SUPER_MASK    = 1 << 26,
+  GDK_HYPER_MASK    = 1 << 27,
+  GDK_META_MASK     = 1 << 28,
+  
   GDK_RELEASE_MASK  = 1 << 30,
-  GDK_MODIFIER_MASK = GDK_RELEASE_MASK | 0x1fff
+
+  GDK_MODIFIER_MASK = 0x5c001fff
 } GdkModifierType;
 
 typedef enum
@@ -171,7 +185,11 @@ typedef void (*GdkInputFunction) (gpointer	    data,
 				  gint		    source,
 				  GdkInputCondition condition);
 
+#ifndef GDK_DISABLE_DEPRECATED
+
 typedef void (*GdkDestroyNotify) (gpointer data);
+
+#endif /* GDK_DISABLE_DEPRECATED */
 
 struct _GdkPoint
 {
@@ -202,9 +220,7 @@ struct _GdkSpan
   gint width;
 };
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 
 #endif /* __GDK_TYPES_H__ */

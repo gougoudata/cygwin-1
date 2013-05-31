@@ -11,24 +11,25 @@
 (*                                                                     *)
 (***********************************************************************)
 
-(* $Id: pervasives.mli,v 1.99.2.2 2004/06/22 14:33:37 xleroy Exp $ *)
+(* $Id: pervasives.mli 11048 2011-05-17 13:31:32Z doligez $ *)
 
 (** The initially opened module.
 
    This module provides the basic operations over the built-in types
    (numbers, booleans, strings, exceptions, references, lists, arrays,
-   input-output channels, ...)
+   input-output channels, ...).
 
    This module is automatically opened at the beginning of each compilation.
    All components of this module can therefore be referred by their short
    name, without prefixing them by [Pervasives].
 *)
 
+
 (** {6 Exceptions} *)
 
 external raise : exn -> 'a = "%raise"
 (** Raise the given exception value *)
-        
+
 val invalid_arg : string -> 'a
 (** Raise exception [Invalid_argument] with the given string. *)
 
@@ -42,14 +43,13 @@ exception Exit
 
 (** {6 Comparisons} *)
 
-
 external ( = ) : 'a -> 'a -> bool = "%equal"
 (** [e1 = e2] tests for structural equality of [e1] and [e2].
    Mutable structures (e.g. references and arrays) are equal
    if and only if their current contents are structurally equal,
    even if the two mutable objects are not the same physical object.
    Equality between functional values raises [Invalid_argument].
-   Equality between cyclic data structures does not terminate. *)
+   Equality between cyclic data structures may not terminate. *)
 
 external ( <> ) : 'a -> 'a -> bool = "%notequal"
 (** Negation of {!Pervasives.(=)}. *)
@@ -71,7 +71,7 @@ external ( >= ) : 'a -> 'a -> bool = "%greaterequal"
    The ordering is compatible with [(=)]. As in the case
    of [(=)], mutable structures are compared by contents.
    Comparison between functional values raises [Invalid_argument].
-   Comparison between cyclic structures does not terminate. *)
+   Comparison between cyclic structures may not terminate. *)
 
 external compare : 'a -> 'a -> int = "%compare"
 (** [compare x y] returns [0] if [x] is equal to [y],
@@ -93,17 +93,22 @@ external compare : 'a -> 'a -> int = "%compare"
    the {!List.sort} and {!Array.sort} functions. *)
 
 val min : 'a -> 'a -> 'a
-(** Return the smaller of the two arguments. *)
+(** Return the smaller of the two arguments.
+    The result is unspecified if one of the arguments contains
+    the float value [nan]. *)
 
 val max : 'a -> 'a -> 'a
-(** Return the greater of the two arguments. *)
+(** Return the greater of the two arguments.
+    The result is unspecified if one of the arguments contains
+    the float value [nan]. *)
 
 external ( == ) : 'a -> 'a -> bool = "%eq"
 (** [e1 == e2] tests for physical equality of [e1] and [e2].
-   On integers and characters, physical equality is identical to structural
-   equality. On mutable structures, [e1 == e2] is true if and only if
-   physical modification of [e1] also affects [e2].
-   On non-mutable structures, the behavior of [(==)] is
+   On mutable types such as references, arrays, strings, records with
+   mutable fields and objects with mutable instance variables,
+   [e1 == e2] is true if and only if physical modification of [e1]
+   also affects [e2].
+   On non-mutable types, the behavior of [(==)] is
    implementation-dependent; however, it is guaranteed that
    [e1 == e2] implies [compare e1 e2 = 0]. *)
 
@@ -112,7 +117,6 @@ external ( != ) : 'a -> 'a -> bool = "%noteq"
 
 
 (** {6 Boolean operations} *)
-
 
 external not : bool -> bool = "%boolnot"
 (** The boolean negation. *)
@@ -123,7 +127,7 @@ external ( && ) : bool -> bool -> bool = "%sequand"
    [e2] is not evaluated at all. *)
 
 external ( & ) : bool -> bool -> bool = "%sequand"
-(** @deprecated {!Pervasives.(&&)} should be used instead. *)
+(** @deprecated {!Pervasives.( && )} should be used instead. *)
 
 external ( || ) : bool -> bool -> bool = "%sequor"
 (** The boolean ``or''. Evaluation is sequential, left-to-right:
@@ -131,7 +135,7 @@ external ( || ) : bool -> bool -> bool = "%sequor"
    [e2] is not evaluated at all. *)
 
 external ( or ) : bool -> bool -> bool = "%sequor"
-(** @deprecated {!Pervasives.(||)} should be used instead.*)
+(** @deprecated {!Pervasives.( || )} should be used instead.*)
 
 
 (** {6 Integer arithmetic} *)
@@ -141,13 +145,18 @@ external ( or ) : bool -> bool -> bool = "%sequor"
    They do not fail on overflow. *)
 
 external ( ~- ) : int -> int = "%negint"
-(** Unary negation. You can also write [-e] instead of [~-e]. *)
+(** Unary negation. You can also write [- e] instead of [~- e]. *)
+
+external ( ~+ ) : int -> int = "%identity"
+(** Unary addition. You can also write [+ e] instead of [~+ e].
+    @since 3.12.0
+*)
 
 external succ : int -> int = "%succint"
-(** [succ x] is [x+1]. *)
+(** [succ x] is [x + 1]. *)
 
 external pred : int -> int = "%predint"
-(** [pred x] is [x-1]. *)
+(** [pred x] is [x - 1]. *)
 
 external ( + ) : int -> int -> int = "%addint"
 (** Integer addition. *)
@@ -164,18 +173,20 @@ external ( / ) : int -> int -> int = "%divint"
    Integer division rounds the real quotient of its arguments towards zero.
    More precisely, if [x >= 0] and [y > 0], [x / y] is the greatest integer
    less than or equal to the real quotient of [x] by [y].  Moreover,
-   [(-x) / y = x / (-y) = -(x / y)].  *)
+   [(- x) / y = x / (- y) = - (x / y)].  *)
 
 external ( mod ) : int -> int -> int = "%modint"
 (** Integer remainder.  If [y] is not zero, the result
    of [x mod y] satisfies the following properties:
    [x = (x / y) * y + x mod y] and
-   [abs(x mod y) <= abs(y)-1].
+   [abs(x mod y) <= abs(y) - 1].
    If [y = 0], [x mod y] raises [Division_by_zero].
-   Notice that [x mod y] is negative if and only if [x < 0]. *)
+   Note that [x mod y] is negative only if [x < 0].
+   Raise [Division_by_zero] if [y] is zero. *)
 
 val abs : int -> int
-(** Return the absolute value of the argument. *)
+(** Return the absolute value of the argument.  Note that this may be
+  negative if the argument is [min_int]. *)
 
 val max_int : int
 (** The greatest representable integer. *)
@@ -184,9 +195,7 @@ val min_int : int
 (** The smallest representable integer. *)
 
 
-
 (** {7 Bitwise operations} *)
-
 
 external ( land ) : int -> int -> int = "%andint"
 (** Bitwise logical and. *)
@@ -216,7 +225,7 @@ external ( asr ) : int -> int -> int = "%asrint"
 (** [n asr m] shifts [n] to the right by [m] bits.
    This is an arithmetic shift: the sign bit of [n] is replicated.
    The result is unspecified if [m < 0] or [m >= bitsize]. *)
-    
+
 
 (** {6 Floating-point arithmetic}
 
@@ -228,12 +237,17 @@ external ( asr ) : int -> int -> int = "%asrint"
    [neg_infinity] for [-1.0 /. 0.0], and [nan] (``not a number'')
    for [0.0 /. 0.0].  These special numbers then propagate through
    floating-point computations as expected: for instance,
-   [1.0 /. infinity] is [0.0], and any operation with [nan] as 
-   argument returns [nan] as result. 
+   [1.0 /. infinity] is [0.0], and any arithmetic operation with [nan]
+   as argument returns [nan] as result.
 *)
 
 external ( ~-. ) : float -> float = "%negfloat"
-(** Unary negation. You can also write [-.e] instead of [~-.e]. *)
+(** Unary negation. You can also write [-. e] instead of [~-. e]. *)
+
+external ( ~+. ) : float -> float = "%identity"
+(** Unary addition. You can also write [+. e] instead of [~+. e].
+    @since 3.12.0
+*)
 
 external ( +. ) : float -> float -> float = "%addfloat"
 (** Floating-point addition *)
@@ -248,10 +262,10 @@ external ( /. ) : float -> float -> float = "%divfloat"
 (** Floating-point division. *)
 
 external ( ** ) : float -> float -> float = "caml_power_float" "pow" "float"
-(** Exponentiation *)
+(** Exponentiation. *)
 
 external sqrt : float -> float = "caml_sqrt_float" "sqrt" "float"
-(** Square root *)
+(** Square root. *)
 
 external exp : float -> float = "caml_exp_float" "exp" "float"
 (** Exponential. *)
@@ -262,48 +276,66 @@ external log : float -> float = "caml_log_float" "log" "float"
 external log10 : float -> float = "caml_log10_float" "log10" "float"
 (** Base 10 logarithm. *)
 
+external expm1 : float -> float = "caml_expm1_float" "caml_expm1" "float"
+(** [expm1 x] computes [exp x -. 1.0], giving numerically-accurate results
+    even if [x] is close to [0.0].
+    @since 3.12.0
+*)
+
+external log1p : float -> float = "caml_log1p_float" "caml_log1p" "float"
+(** [log1p x] computes [log(1.0 +. x)] (natural logarithm),
+    giving numerically-accurate results even if [x] is close to [0.0].
+    @since 3.12.0
+*)
+
 external cos : float -> float = "caml_cos_float" "cos" "float"
-(** See {!Pervasives.atan2}. *)
+(** Cosine.  Argument is in radians. *)
 
 external sin : float -> float = "caml_sin_float" "sin" "float"
-(** See {!Pervasives.atan2}. *)
+(** Sine.  Argument is in radians. *)
 
 external tan : float -> float = "caml_tan_float" "tan" "float"
-(** See {!Pervasives.atan2}. *)
+(** Tangent.  Argument is in radians. *)
 
 external acos : float -> float = "caml_acos_float" "acos" "float"
-(** See {!Pervasives.atan2}. *)
+(** Arc cosine.  The argument must fall within the range [[-1.0, 1.0]].
+    Result is in radians and is between [0.0] and [pi]. *)
 
 external asin : float -> float = "caml_asin_float" "asin" "float"
-(** See {!Pervasives.atan2}. *)
+(** Arc sine.  The argument must fall within the range [[-1.0, 1.0]].
+    Result is in radians and is between [-pi/2] and [pi/2]. *)
 
 external atan : float -> float = "caml_atan_float" "atan" "float"
-(** See {!Pervasives.atan2}. *)
+(** Arc tangent.
+    Result is in radians and is between [-pi/2] and [pi/2]. *)
 
 external atan2 : float -> float -> float = "caml_atan2_float" "atan2" "float"
-(** The usual trigonometric functions. *)
+(** [atan2 y x] returns the arc tangent of [y /. x].  The signs of [x]
+    and [y] are used to determine the quadrant of the result.
+    Result is in radians and is between [-pi] and [pi]. *)
 
 external cosh : float -> float = "caml_cosh_float" "cosh" "float"
-(** See {!Pervasives.tanh}. *)
+(** Hyperbolic cosine.  Argument is in radians. *)
 
 external sinh : float -> float = "caml_sinh_float" "sinh" "float"
-(** See {!Pervasives.tanh}. *)
+(** Hyperbolic sine.  Argument is in radians. *)
 
 external tanh : float -> float = "caml_tanh_float" "tanh" "float"
-(** The usual hyperbolic trigonometric functions. *)
+(** Hyperbolic tangent.  Argument is in radians. *)
 
 external ceil : float -> float = "caml_ceil_float" "ceil" "float"
-(** See {!Pervasives.floor}. *)
+(** Round above to an integer value.
+    [ceil f] returns the least integer value greater than or equal to [f].
+    The result is returned as a float. *)
 
 external floor : float -> float = "caml_floor_float" "floor" "float"
-(** Round the given float to an integer value.
-   [floor f] returns the greatest integer value less than or
-   equal to [f].
-   [ceil f] returns the least integer value greater than or
-   equal to [f]. *)
+(** Round below to an integer value.
+    [floor f] returns the greatest integer value less than or
+    equal to [f].
+    The result is returned as a float. *)
 
 external abs_float : float -> float = "%absfloat"
-(** Return the absolute value of the argument. *)
+(** [abs_float f] returns the absolute value of [f]. *)
 
 external mod_float : float -> float -> float = "caml_fmod_float" "fmod" "float"
 (** [mod_float a b] returns the remainder of [a] with respect to
@@ -335,7 +367,7 @@ external truncate : float -> int = "%intoffloat"
 
 external int_of_float : float -> int = "%intoffloat"
 (** Truncate the given floating-point number to an integer.
-   The result is unspecified if it falls outside the
+   The result is unspecified if the argument is [nan] or falls outside the
    range of representable integers. *)
 
 val infinity : float
@@ -359,7 +391,8 @@ val min_float : float
 (** The smallest positive, non-zero, non-denormalized value of type [float]. *)
 
 val epsilon_float : float
-(** The smallest positive float [x] such that [1.0 +. x <> 1.0]. *)
+(** The difference between [1.0] and the smallest exactly representable
+    floating-point number greater than [1.0]. *)
 
 type fpclass =
     FP_normal           (** Normal number, none of the below *)
@@ -439,7 +472,6 @@ external float_of_string : string -> float = "caml_float_of_string"
    if the given string is not a valid representation of a float. *)
 
 
-
 (** {6 Pair operations} *)
 
 external fst : 'a * 'b -> 'a = "%field0"
@@ -451,7 +483,7 @@ external snd : 'a * 'b -> 'b = "%field1"
 
 (** {6 List operations}
 
-   More list operations are provided in module {!List}. 
+   More list operations are provided in module {!List}.
 *)
 
 val ( @ ) : 'a list -> 'a list -> 'a list
@@ -473,7 +505,7 @@ val stdout : out_channel
 (** The standard output for the process. *)
 
 val stderr : out_channel
-(** The standard error ouput for the process. *)
+(** The standard error output for the process. *)
 
 
 (** {7 Output functions on standard output} *)
@@ -541,8 +573,8 @@ val read_float : unit -> float
    The result is unspecified if the line read is not a valid
    representation of a floating-point number. *)
 
-(** {7 General output functions} *)
 
+(** {7 General output functions} *)
 
 type open_flag =
     Open_rdonly      (** open for reading. *)
@@ -550,12 +582,13 @@ type open_flag =
   | Open_append      (** open for appending: always write at end of file. *)
   | Open_creat       (** create the file if it does not exist. *)
   | Open_trunc       (** empty the file if it already exists. *)
-  | Open_excl        (** fail if the file already exists. *)
+  | Open_excl        (** fail if Open_creat and the file already exists. *)
   | Open_binary      (** open in binary mode (no conversion). *)
   | Open_text        (** open in text mode (may perform conversions). *)
   | Open_nonblock    (** open in non-blocking mode. *)
-(** Opening modes for {!Pervasives.open_out_gen} and {!Pervasives.open_in_gen}. *)
-           
+(** Opening modes for {!Pervasives.open_out_gen} and
+  {!Pervasives.open_in_gen}. *)
+
 val open_out : string -> out_channel
 (** Open the named file for writing, and return a new output channel
    on that file, positionned at the beginning of the file. The
@@ -570,14 +603,15 @@ val open_out_bin : string -> out_channel
    mode, this function behaves like {!Pervasives.open_out}. *)
 
 val open_out_gen : open_flag list -> int -> string -> out_channel
-(** Open the named file for writing, as above. The extra argument [mode]
+(** [open_out_gen mode perm filename] opens the named file for writing,
+   as described above. The extra argument [mode]
    specify the opening mode. The extra argument [perm] specifies
    the file permissions, in case the file must be created.
    {!Pervasives.open_out} and {!Pervasives.open_out_bin} are special
    cases of this function. *)
 
 val flush : out_channel -> unit
-(** Flush the buffer associated with the given output channel, 
+(** Flush the buffer associated with the given output channel,
    performing all pending writes on that channel.
    Interactive programs must be careful about flushing standard
    output and standard error at the right time. *)
@@ -670,7 +704,8 @@ val open_in_bin : string -> in_channel
    mode, this function behaves like {!Pervasives.open_in}. *)
 
 val open_in_gen : open_flag list -> int -> string -> in_channel
-(** Open the named file for reading, as above. The extra arguments
+(** [open_in_gen mode perm filename] opens the named file for reading,
+   as described above. The extra arguments
    [mode] and [perm] specify the opening mode and file permissions.
    {!Pervasives.open_in} and {!Pervasives.open_in_bin} are special
    cases of this function. *)
@@ -701,7 +736,7 @@ val input : in_channel -> string -> int -> int -> int
    if desired.  (See also {!Pervasives.really_input} for reading
    exactly [len] characters.)
    Exception [Invalid_argument "input"] is raised if [pos] and [len]
-   do not designate a valid substring of [buf]. *)          
+   do not designate a valid substring of [buf]. *)
 
 val really_input : in_channel -> string -> int -> int -> unit
 (** [really_input ic buf pos len] reads [len] characters from channel [ic],
@@ -765,6 +800,7 @@ val set_binary_mode_in : in_channel -> bool -> unit
    This function has no effect under operating systems that
    do not distinguish between text mode and binary mode. *)
 
+
 (** {7 Operations on large files} *)
 
 module LargeFile :
@@ -782,6 +818,7 @@ module LargeFile :
   positions and sizes by 64-bit integers (type [int64]) instead of
   regular integers (type [int]), these alternate functions allow
   operating on files whose sizes are greater than [max_int]. *)
+
 
 (** {6 References} *)
 
@@ -811,39 +848,51 @@ external decr : int ref -> unit = "%decr"
 
 (** {6 Operations on format strings} *)
 
-(** See modules {!Printf} and {!Scanf} for more operations on 
-    format strings. *)
+(** Format strings are used to read and print data using formatted input
+    functions in module {!Scanf} and formatted output in modules {!Printf} and
+    {!Format}. *)
+
+(** Format strings have a general and highly polymorphic type
+    [('a, 'b, 'c, 'd, 'e, 'f) format6]. Type [format6] is built in.
+    The two simplified types, [format] and [format4] below are
+    included for backward compatibility with earlier releases of Objective
+    Caml.
+    ['a] is the type of the parameters of the format,
+    ['b] is the type of the first argument given to
+         [%a] and [%t] printing functions,
+    ['c] is the type of the argument transmitted to the first argument of
+         "kprintf"-style functions,
+    ['d] is the result type for the "scanf"-style functions,
+    ['e] is the type of the receiver function for the "scanf"-style functions,
+    ['f] is the result type for the "printf"-style function.
+ *)
+type ('a, 'b, 'c, 'd) format4 = ('a, 'b, 'c, 'c, 'c, 'd) format6
 
 type ('a, 'b, 'c) format = ('a, 'b, 'c, 'c) format4
-(** Simplified type for format strings, included for backward compatibility
-    with earlier releases of Objective Caml.
-    ['a] is the type of the parameters of the format,
-    ['c] is the result type for the "printf"-style function,
-    and ['b] is the type of the first argument given to
-    [%a] and [%t] printing functions. *)
 
-val string_of_format : ('a, 'b, 'c, 'd) format4 -> string
+val string_of_format : ('a, 'b, 'c, 'd, 'e, 'f) format6 -> string
 (** Converts a format string into a string. *)
 
 external format_of_string :
-  ('a, 'b, 'c, 'd) format4 -> ('a, 'b, 'c, 'd) format4 = "%identity"
+  ('a, 'b, 'c, 'd, 'e, 'f) format6 ->
+  ('a, 'b, 'c, 'd, 'e, 'f) format6 = "%identity"
 (** [format_of_string s] returns a format string read from the string
     literal [s]. *)
 
 val ( ^^ ) :
-  ('a, 'b, 'c, 'd) format4 -> ('d, 'b, 'c, 'e) format4 ->
-  ('a, 'b, 'c, 'e) format4;;
+      ('a, 'b, 'c, 'd, 'e, 'f) format6 ->
+      ('f, 'b, 'c, 'e, 'g, 'h) format6 ->
+      ('a, 'b, 'c, 'd, 'g, 'h) format6
 (** [f1 ^^ f2] catenates formats [f1] and [f2].  The result is a format
   that accepts arguments from [f1], then arguments from [f2]. *)
 
 
 (** {6 Program termination} *)
 
-
 val exit : int -> 'a
 (** Terminate the process, returning the given status code
    to the operating system: usually 0 to indicate no errors,
-   and a small positive integer to indicate failure. 
+   and a small positive integer to indicate failure.
    All open output channels are flushed with flush_all.
    An implicit [exit 0] is performed each time a program
    terminates normally.  An implicit [exit 2] is performed if the program
@@ -857,8 +906,8 @@ val at_exit : (unit -> unit) -> unit
    The functions are called in ``last in, first out'' order:
    the function most recently added with [at_exit] is called first. *)
 
-
 (**/**)
+
 
 (** {6 For system use only, not for the casual user} *)
 

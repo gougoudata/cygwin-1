@@ -32,6 +32,13 @@ extern "C" {
 #endif
 #endif
 
+/* The interfaces using the module system reserve a certain range of
+   IDs for application use.  These IDs are not valid within Libgcrypt
+   but Libgcrypt makes sure never to allocate such a module ID.  */
+#define GCRY_MODULE_ID_USER      1024 
+#define GCRY_MODULE_ID_USER_LAST 4095
+
+
 /* This type represents a `module'.  */
 typedef struct gcry_module *gcry_module_t;
 
@@ -88,7 +95,7 @@ typedef struct gcry_cipher_spec
 
 /* Register a new cipher module whose specification can be found in
    CIPHER.  On success, a new algorithm ID is stored in ALGORITHM_ID
-   and a pointer representhing this module is stored in MODULE.  */
+   and a pointer representing this module is stored in MODULE.  */
 gcry_error_t gcry_cipher_register (gcry_cipher_spec_t *cipher,
 				   int *algorithm_id,
 				   gcry_module_t *module);

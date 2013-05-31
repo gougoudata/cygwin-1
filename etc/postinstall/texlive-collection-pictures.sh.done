@@ -1,0 +1,7 @@
+/usr/bin/mktexlsr
+/usr/bin/updmap-sys --nohash --nomkmap --enable Map=knitfont.map
+/usr/bin/updmap-sys --nohash --nomkmap --enable MixedMap=xypic.map
+/usr/bin/updmap-sys --nohash --syncwithtrees
+/usr/bin/updmap-sys --nohash
+/usr/bin/mktexlsr
+/usr/bin/fc-cache -f /usr/share/texmf-dist/fonts/type1

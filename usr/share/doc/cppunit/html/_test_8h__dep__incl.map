@@ -1,0 +1,39 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$_test_decorator_8h.html" title="TestDecorator.h" alt="" coords="235,83,357,112"/>
+<area shape="rect" id="node15" href="$_test_composite_8h.html" title="TestComposite.h" alt="" coords="1255,83,1383,112"/>
+<area shape="rect" id="node33" href="$_test_plug_in_interface_8h.html" title="TestPlugInInterface.h" alt="" coords="1439,237,1593,267"/>
+<area shape="rect" id="node46" href="$_test_leaf_8h.html" title="TestLeaf.h" alt="" coords="1553,83,1641,112"/>
+<area shape="rect" id="node67" href="$_brief_test_progress_listener_8cpp.html" title="BriefTestProgressListener.cpp" alt="" coords="1665,83,1879,112"/>
+<area shape="rect" id="node69" href="$_test_8cpp.html" title="Test.cpp" alt="" coords="1903,83,1977,112"/>
+<area shape="rect" id="node71" href="$_test_failure_8cpp.html" title="TestFailure.cpp" alt="" coords="2001,83,2119,112"/>
+<area shape="rect" id="node73" href="$_test_path_8cpp.html" title="TestPath.cpp" alt="" coords="2143,83,2247,112"/>
+<area shape="rect" id="node75" href="$_test_result_8cpp.html" title="TestResult.cpp" alt="" coords="2271,83,2385,112"/>
+<area shape="rect" id="node77" href="$_text_test_result_8cpp.html" title="TextTestResult.cpp" alt="" coords="2409,83,2551,112"/>
+<area shape="rect" id="node79" href="$_xml_outputter_8cpp.html" title="XmlOutputter.cpp" alt="" coords="2575,83,2703,112"/>
+<area shape="rect" id="node5" href="$_repeated_test_8h.html" title="RepeatedTest.h" alt="" coords="168,160,291,189"/>
+<area shape="rect" id="node9" href="$_test_set_up_8h.html" title="TestSetUp.h" alt="" coords="315,160,413,189"/>
+<area shape="rect" id="node13" href="$_test_decorator_8cpp.html" title="TestDecorator.cpp" alt="" coords="5,160,144,189"/>
+<area shape="rect" id="node7" href="$_repeated_test_8cpp.html" title="RepeatedTest.cpp" alt="" coords="144,237,283,267"/>
+<area shape="rect" id="node11" href="$_test_set_up_8cpp.html" title="TestSetUp.cpp" alt="" coords="307,237,421,267"/>
+<area shape="rect" id="node17" href="$_test_suite_8h.html" title="TestSuite.h" alt="" coords="1044,160,1135,189"/>
+<area shape="rect" id="node44" href="$_test_composite_8cpp.html" title="TestComposite.cpp" alt="" coords="1248,160,1389,189"/>
+<area shape="rect" id="node19" href="$_helper_macros_8h.html" title="Macros intended to ease the definition of test suites." alt="" coords="1464,392,1587,421"/>
+<area shape="rect" id="node21" href="$cppunit_2_test_runner_8h.html" title="TestRunner.h" alt="" coords="445,237,552,267"/>
+<area shape="rect" id="node29" href="$_text_test_runner_8cpp.html" title="TextTestRunner.cpp" alt="" coords="495,392,644,421"/>
+<area shape="rect" id="node35" href="$_test_factory_registry_8cpp.html" title="TestFactoryRegistry.cpp" alt="" coords="631,237,804,267"/>
+<area shape="rect" id="node37" href="$_test_plug_in_default_impl_8cpp.html" title="TestPlugInDefaultImpl.cpp" alt="" coords="828,237,1012,267"/>
+<area shape="rect" id="node39" href="$_test_suite_8cpp.html" title="TestSuite.cpp" alt="" coords="1036,237,1143,267"/>
+<area shape="rect" id="node41" href="$_test_suite_builder_context_8cpp.html" title="TestSuiteBuilderContext.cpp" alt="" coords="1167,237,1364,267"/>
+<area shape="rect" id="node23" href="$ui_2text_2_text_test_runner_8h.html" title="TextTestRunner.h" alt="" coords="276,315,409,344"/>
+<area shape="rect" id="node31" href="$_test_runner_8cpp.html" title="TestRunner.cpp" alt="" coords="433,315,556,344"/>
+<area shape="rect" id="node25" href="$_text_test_runner_8h.html" title="TextTestRunner.h" alt="" coords="157,392,291,421"/>
+<area shape="rect" id="node27" href="$cppunit_2ui_2text_2_test_runner_8h.html" title="TestRunner.h" alt="" coords="315,392,421,421"/>
+<area shape="rect" id="node48" href="$_test_case_8h.html" title="TestCase.h" alt="" coords="1641,160,1735,189"/>
+<area shape="rect" id="node64" href="$_test_leaf_8cpp.html" title="TestLeaf.cpp" alt="" coords="1759,160,1863,189"/>
+<area shape="rect" id="node50" href="$_orthodox_8h.html" title="Orthodox.h" alt="" coords="1983,237,2073,267"/>
+<area shape="rect" id="node52" href="$_test_case_decorator_8h.html" title="TestCaseDecorator.h" alt="" coords="1668,237,1825,267"/>
+<area shape="rect" id="node59" href="$_test_caller_8h.html" title="TestCaller.h" alt="" coords="1476,315,1575,344"/>
+<area shape="rect" id="node62" href="$_test_case_8cpp.html" title="TestCase.cpp" alt="" coords="1849,237,1959,267"/>
+<area shape="rect" id="node54" href="$_exception_test_case_decorator_8h.html" title="ExceptionTestCaseDecorator.h" alt="" coords="1599,315,1817,344"/>
+<area shape="rect" id="node57" href="$_test_case_decorator_8cpp.html" title="TestCaseDecorator.cpp" alt="" coords="1841,315,2012,344"/>
+</map>

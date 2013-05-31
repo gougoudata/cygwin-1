@@ -20,13 +20,18 @@
 #ifndef __GTK_TREE_STORE_H__
 #define __GTK_TREE_STORE_H__
 
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
+#include <gdkconfig.h>
 #include <gtk/gtktreemodel.h>
 #include <gtk/gtktreesortable.h>
 #include <stdarg.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+
+G_BEGIN_DECLS
+
 
 #define GTK_TYPE_TREE_STORE			(gtk_tree_store_get_type ())
 #define GTK_TREE_STORE(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), GTK_TYPE_TREE_STORE, GtkTreeStore))
@@ -42,18 +47,18 @@ struct _GtkTreeStore
 {
   GObject parent;
 
-  gint stamp;
-  gpointer root;
-  gpointer last;
-  gint n_columns;
-  gint sort_column_id;
-  GList *sort_list;
-  GtkSortType order;
-  GType *column_headers;
-  GtkTreeIterCompareFunc default_sort_func;
-  gpointer default_sort_data;
-  GtkDestroyNotify default_sort_destroy;
-  guint columns_dirty : 1;
+  gint GSEAL (stamp);
+  gpointer GSEAL (root);
+  gpointer GSEAL (last);
+  gint GSEAL (n_columns);
+  gint GSEAL (sort_column_id);
+  GList *GSEAL (sort_list);
+  GtkSortType GSEAL (order);
+  GType *GSEAL (column_headers);
+  GtkTreeIterCompareFunc GSEAL (default_sort_func);
+  gpointer GSEAL (default_sort_data);
+  GDestroyNotify GSEAL (default_sort_destroy);
+  guint GSEAL (columns_dirty) : 1;
 };
 
 struct _GtkTreeStoreClass
@@ -86,6 +91,11 @@ void          gtk_tree_store_set_value        (GtkTreeStore *tree_store,
 void          gtk_tree_store_set              (GtkTreeStore *tree_store,
 					       GtkTreeIter  *iter,
 					       ...);
+void          gtk_tree_store_set_valuesv      (GtkTreeStore *tree_store,
+					       GtkTreeIter  *iter,
+					       gint         *columns,
+					       GValue       *values,
+					       gint          n_values);
 void          gtk_tree_store_set_valist       (GtkTreeStore *tree_store,
 					       GtkTreeIter  *iter,
 					       va_list       var_args);
@@ -103,6 +113,18 @@ void          gtk_tree_store_insert_after     (GtkTreeStore *tree_store,
 					       GtkTreeIter  *iter,
 					       GtkTreeIter  *parent,
 					       GtkTreeIter  *sibling);
+void          gtk_tree_store_insert_with_values (GtkTreeStore *tree_store,
+						 GtkTreeIter  *iter,
+						 GtkTreeIter  *parent,
+						 gint          position,
+						 ...);
+void          gtk_tree_store_insert_with_valuesv (GtkTreeStore *tree_store,
+						  GtkTreeIter  *iter,
+						  GtkTreeIter  *parent,
+						  gint          position,
+						  gint         *columns,
+						  GValue       *values,
+						  gint          n_values);
 void          gtk_tree_store_prepend          (GtkTreeStore *tree_store,
 					       GtkTreeIter  *iter,
 					       GtkTreeIter  *parent);
@@ -131,9 +153,7 @@ void          gtk_tree_store_move_after       (GtkTreeStore *tree_store,
                                                GtkTreeIter  *position);
 
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 
 #endif /* __GTK_TREE_STORE_H__ */

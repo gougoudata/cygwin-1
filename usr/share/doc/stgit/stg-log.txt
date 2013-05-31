@@ -1,0 +1,50 @@
+stg-log(1)
+==========
+
+NAME
+----
+stg-log - Display the patch changelog
+
+SYNOPSIS
+--------
+[verse]
+'stg' log [options] [--] [<patches>]
+
+DESCRIPTION
+-----------
+
+List the history of the patch stack: the stack log. If one or more
+patch names are given, limit the list to the log entries that touch
+the named patches.
+
+"stg undo" and "stg redo" let you step back and forth in the patch
+stack. "stg reset" lets you go directly to any state.
+
+OPTIONS
+-------
+-b BRANCH::
+--branch BRANCH::
+        Use BRANCH instead of the default one.
+
+-d::
+--diff::
+        Show the refresh diffs.
+
+-n NUMBER::
+--number NUMBER::
+        Limit the output to NUMBER commits.
+
+-f::
+--full::
+        Show the full commit ids.
+
+-g::
+--graphical::
+        Run gitk instead of printing.
+
+--clear::
+        Clear the log history.
+
+StGit
+-----
+Part of the StGit suite - see linkman:stg[1]

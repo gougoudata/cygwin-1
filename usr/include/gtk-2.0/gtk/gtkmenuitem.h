@@ -21,14 +21,17 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 #ifndef __GTK_MENU_ITEM_H__
 #define __GTK_MENU_ITEM_H__
 
 
-#include <gdk/gdk.h>
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
 #include <gtk/gtkitem.h>
 
 
@@ -48,20 +51,21 @@ typedef struct _GtkMenuItemClass  GtkMenuItemClass;
 struct _GtkMenuItem
 {
   GtkItem item;
-  
-  GtkWidget *submenu;
-  GdkWindow *event_window;
-  
-  guint16 toggle_size;
-  guint16 accelerator_width;
-  gchar  *accel_path;
-  
-  guint show_submenu_indicator : 1;
-  guint submenu_placement : 1;
-  guint submenu_direction : 1;
-  guint right_justify: 1;
-  guint timer_from_keypress : 1;
-  guint timer;
+
+  GtkWidget *GSEAL (submenu);
+  GdkWindow *GSEAL (event_window);
+
+  guint16 GSEAL (toggle_size);
+  guint16 GSEAL (accelerator_width);
+  gchar  *GSEAL (accel_path);
+
+  guint GSEAL (show_submenu_indicator) : 1;
+  guint GSEAL (submenu_placement) : 1;
+  guint GSEAL (submenu_direction) : 1;
+  guint GSEAL (right_justify): 1;
+  guint GSEAL (timer_from_keypress) : 1;
+  guint GSEAL (from_menubar) : 1;
+  guint GSEAL (timer);
 };
 
 struct _GtkMenuItemClass
@@ -82,12 +86,13 @@ struct _GtkMenuItemClass
 				 gint        *requisition);
   void (* toggle_size_allocate) (GtkMenuItem *menu_item,
 				 gint         allocation);
+  void (* set_label)            (GtkMenuItem *menu_item,
+				 const gchar *label);
+  const gchar *(* get_label) (GtkMenuItem *menu_item);
 
   /* Padding for future expansion */
   void (*_gtk_reserved1) (void);
   void (*_gtk_reserved2) (void);
-  void (*_gtk_reserved3) (void);
-  void (*_gtk_reserved4) (void);
 };
 
 
@@ -98,7 +103,6 @@ GtkWidget* gtk_menu_item_new_with_mnemonic    (const gchar         *label);
 void       gtk_menu_item_set_submenu          (GtkMenuItem         *menu_item,
 					       GtkWidget           *submenu);
 GtkWidget* gtk_menu_item_get_submenu          (GtkMenuItem         *menu_item);
-void       gtk_menu_item_remove_submenu       (GtkMenuItem         *menu_item);
 void       gtk_menu_item_select               (GtkMenuItem         *menu_item);
 void       gtk_menu_item_deselect             (GtkMenuItem         *menu_item);
 void       gtk_menu_item_activate             (GtkMenuItem         *menu_item);
@@ -111,6 +115,15 @@ void       gtk_menu_item_set_right_justified  (GtkMenuItem         *menu_item,
 gboolean   gtk_menu_item_get_right_justified  (GtkMenuItem         *menu_item);
 void	   gtk_menu_item_set_accel_path	      (GtkMenuItem	   *menu_item,
 					       const gchar	   *accel_path);
+const gchar* gtk_menu_item_get_accel_path     (GtkMenuItem    *menu_item);
+
+void       gtk_menu_item_set_label            (GtkMenuItem         *menu_item,
+ 					       const gchar         *label);
+const gchar *gtk_menu_item_get_label          (GtkMenuItem         *menu_item);
+
+void       gtk_menu_item_set_use_underline    (GtkMenuItem         *menu_item,
+ 					       gboolean             setting);
+gboolean   gtk_menu_item_get_use_underline    (GtkMenuItem         *menu_item);
 
 /* private */
 void	  _gtk_menu_item_refresh_accel_path   (GtkMenuItem	   *menu_item,
@@ -118,9 +131,12 @@ void	  _gtk_menu_item_refresh_accel_path   (GtkMenuItem	   *menu_item,
 					       GtkAccelGroup	   *accel_group,
 					       gboolean		    group_changed);
 gboolean  _gtk_menu_item_is_selectable        (GtkWidget           *menu_item);
-void      _gtk_menu_item_popup_submenu        (GtkWidget           *menu_item);
+void      _gtk_menu_item_popup_submenu        (GtkWidget           *menu_item,
+                                               gboolean             with_delay);
+void      _gtk_menu_item_popdown_submenu      (GtkWidget           *menu_item);
 
 #ifndef GTK_DISABLE_DEPRECATED
+void       gtk_menu_item_remove_submenu       (GtkMenuItem         *menu_item);
 #define gtk_menu_item_right_justify(menu_item) gtk_menu_item_set_right_justified ((menu_item), TRUE)
 #endif /* GTK_DISABLE_DEPRECATED */
 

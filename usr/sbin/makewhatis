@@ -1,4 +1,4 @@
-#
+#!/bin/sh
 # Generated automatically from makewhatis.in by the
 # configure script.
 #
@@ -41,7 +41,7 @@
 #
 # Note for Slackware users: "makewhatis -v -w -c" will work.
 #
-# makewhatis flc 060719 (from man-1.6e)
+# makewhatis flc 060719 (from man-1.6g)
 
 program=`basename $0`
 
@@ -104,7 +104,7 @@ defcatpath=
 if [ -n "$MANSECT" ]; then
 	sections=$MANSECT
 else
-	sections=`$AWK '($1 == "MANSECT") { print $2 }' /usr/share/misc/man.conf`
+	sections=`$AWK '($1 == "MANSECT") { print $2 }' /etc/man.conf`
 	if [ x"$sections" = x ]; then
 		sections="1:1p:8:2:3:3p:4:5:6:7:9:0p:tcl:n:l:p:o:m:8c:mingw"
 	fi
@@ -120,7 +120,7 @@ if [ -n "$setsections" ]; then
 fi
 case $name in
     --version|-V)
-	echo "$program from man-1.6e"
+	echo "$program from man-1.6g"
 	exit 0;;
     -c) topath=catpath
 	defmanpath=
@@ -188,6 +188,34 @@ do
      if [ x$verbose != x ]; then
 	echo "about to enter $mandir" > /dev/stderr
      fi
+
+     # kludge for Slackware's /usr/man/preformat
+     if [ $mandir = /usr/man/preformat ]
+     then
+	mandir1=/usr/man
+     else
+	mandir1=$mandir
+     fi
+
+     # if $mandir is on a readonly partition, and the whatis file
+     # is not a symlink, then let's skip trying to update it
+     if [ ! -L ${mandir1}/whatis ]
+     then
+	if [ -e ${mandir1}/whatis ] && [ ! -w ${mandir1}/whatis ]
+	then
+	   if [ x$verbose != x ]; then
+	      echo skipping $mandir - whatis file is readonly > /dev/stderr
+	   fi
+	   continue
+	elif [ ! -e ${mandir1}/whatis ] && [ ! -w ${mandir1} ]
+	then
+	   if [ x$verbose != x ]; then
+	      echo skipping $mandir - directory is readonly > /dev/stderr
+	   fi
+	   continue
+	fi
+     fi
+
      if [ -s ${mandir}/whatis -a $pages = man -a x$update = x ]; then
 	if [ x$verbose != x ]; then
 	   echo skipping $mandir - we did it already > /dev/stderr
@@ -206,7 +234,7 @@ do
 	    find $mandir/${pages}$i/. -name '*' $findarg0 $findarg -print | $AWK '
 
 	    function readline() {
-	      if (use_zcat || use_bzcat) {
+              if (use_zcat || use_bzcat || use_lzcat) {
 		result = (pipe_cmd | getline);
 		if (result < 0) {
 		  print "Pipe error: " pipe_cmd " " ERRNO > "/dev/stderr";
@@ -221,7 +249,7 @@ do
 	    }
 	    
 	    function closeline() {
-	      if (use_zcat || use_bzcat) {
+              if (use_zcat || use_bzcat || use_lzcat) {
 		return close(pipe_cmd);
 	      } else {
 		return close(filename);
@@ -240,7 +268,9 @@ do
 			 match(filename,"\\.z$") || match(filename,"\\.gz$");
 	      if (!use_zcat)
 		use_bzcat = match(filename,"\\.bz2");
-	      if (use_zcat || use_bzcat) {
+              if(!use_bzcat)
+                use_lzcat = match(filename,"\\.lzma");
+              if (use_zcat || use_bzcat || use_lzcat ) {
 		filename_no_gz = substr(filename, 0, RSTART - 1);
 	      } else {
 		filename_no_gz = filename;
@@ -253,12 +283,14 @@ do
 		actual_section = section;
 	      }
 	      sub(/\..*/, "", progname);
-	      if (use_zcat || use_bzcat) {
+              if (use_zcat || use_bzcat || use_lzcat) {
 		if (use_zcat) {
 		  pipe_cmd = "zcat \"" filename "\"";
-		} else {
+                } else if (use_bzcat) {
 		  pipe_cmd = "bzcat \"" filename "\"";
-		}
+                } else {
+                  pipe_cmd = "lzcat \"" filename "\"";
+                }
 		# try to avoid suspicious stuff
 		if (filename ~ /[;&|`$(]/) {
 		  print "ignored strange file name " filename " in " curdir > "/dev/stderr";
@@ -410,14 +442,6 @@ do
        done > $TMPFILE
 
        cd "$here"
-
-       # kludge for Slackware's /usr/man/preformat
-       if [ $mandir = /usr/man/preformat ]
-       then
-	 mandir1=/usr/man
-       else
-	 mandir1=$mandir
-       fi
 
        if [ -f ${mandir1}/whatis ]
        then

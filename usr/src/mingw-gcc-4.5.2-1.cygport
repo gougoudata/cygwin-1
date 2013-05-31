@@ -1,0 +1,78 @@
+TOOLCHAIN_TARGET="i686-pc-mingw32"
+inherit toolchain
+
+DESCRIPTION="GCC for MinGW.org Win32 toolchain"
+HOMEPAGE="http://mingw.org/"
+
+case ${#PV[3]} in
+8)	snapshot_v="${PV[1]}.${PV[2]}-${PV[3]}"
+	SRC_URI="mirror://gcc/snapshots/${snapshot_v}/gcc-core-${snapshot_v}.tar.bz2
+		mirror://gcc/snapshots/${snapshot_v}/gcc-fortran-${snapshot_v}.tar.bz2
+		mirror://gcc/snapshots/${snapshot_v}/gcc-g++-${snapshot_v}.tar.bz2
+		mirror://gcc/snapshots/${snapshot_v}/gcc-objc-${snapshot_v}.tar.bz2"
+	SRC_DIR="gcc-${snapshot_v}"
+	;;
+*)	SRC_URI="mirror://gnu/gcc/gcc-${PV}/gcc-core-${PV}.tar.bz2
+		mirror://gnu/gcc/gcc-${PV}/gcc-fortran-${PV}.tar.bz2
+		mirror://gnu/gcc/gcc-${PV}/gcc-g++-${PV}.tar.bz2
+		mirror://gnu/gcc/gcc-${PV}/gcc-objc-${PV}.tar.bz2"
+	SRC_DIR="gcc-${PV}"
+	;;
+esac
+
+PATCH_URI="config-rpath.patch"
+
+PKG_NAMES="${PN} ${PN}-core ${PN}-g++ ${PN}-fortran ${PN}-objc"
+PKG_HINTS="setup core g++ gfortran objc"
+
+CYGCONF_ARGS="
+	--disable-multilib
+	--disable-win32-registry
+	--enable-languages=c,c++,fortran,objc,obj-c++
+	--enable-libgomp
+	--disable-sjlj-exceptions
+	--enable-libstdcxx-debug
+	--enable-version-specific-runtime-libs
+	--with-dwarf2
+	--disable-werror 
+	--enable-lto
+"
+
+src_compile() {
+	cd ${B}
+
+	# toolchain_compile
+	local sysroot
+
+	if test ${CTARGET} != ${CHOST}
+	then
+		sysroot="--with-sysroot=${TOOLCHAIN_SYSROOT} --with-build-sysroot=${TOOLCHAIN_SYSROOT}"
+	fi
+
+	cygconf ${sysroot} ${@}
+	cygmake \
+		'MAKEFLAGS=TARGET-target-libobjc=all\ LDFLAGS=-Wl,--export-all-symbols'
+}
+
+src_install() {
+	cd ${B}
+	# libgcc is installed here but directory not created first
+#	dodir /usr/bin
+
+	cyginstall -j1
+
+	# make sure C++ dlls are correctly installed
+	exeinto /usr/lib/gcc/${TOOLCHAIN_TARGET}/${PV}/debug
+	doexe ${TOOLCHAIN_TARGET}/libstdc++-v3/src/debug/.libs/libstdc++-6.dll
+	exeinto /usr/${TOOLCHAIN_TARGET}/sys-root/mingw/bin
+	doexe ${TOOLCHAIN_TARGET}/libstdc++-v3/src/.libs/libstdc++-6.dll
+
+	# Remove Cygwin-host libiberty.a
+	rm -f ${D}/usr/lib/libiberty.a
+
+	dodir /usr/${TOOLCHAIN_TARGET}/sys-root/mingw/bin
+	mv $(find ${D}/ -name 'libgcc_s*.dll') ${D}/usr/${TOOLCHAIN_TARGET}/sys-root/mingw/bin
+
+	# conflicts with native gcc
+	rm -fr ${D}/usr/share/{gcc-*,info,locale,man/man7}
+}

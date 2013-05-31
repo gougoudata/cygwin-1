@@ -1,0 +1,497 @@
+Change log for Logiweb
+Klaus Grue, 2010
+
+
+
+* Sat May 29 2010 Klaus Grue <grue@diku.dk>
+0.2.11-1: Release candiate
+Release date: GRD-2010-05-29
+Internal version number: unit29
+Cygwin updates thanks to Dr. Volker Zell:
+Dropped -<version> in /usr/share/doc/logiweb-<version>/CHANGELOG
+Dropped -<version> in /usr/share/doc/Cygwin/logiweb-<version>.README
+Updated src/dist/cygwin/README accordingly
+
+* Wed May 26 2010 Klaus Grue <grue@diku.dk>
+0.2.10-1: Release candiate
+Release date: GRD-2010-05-26
+Internal version number: unit27
+Cygwin updates thanks to Corinna Vinschen:
+In src/dist/cygwin/setup.hint: Corrected 'requires' section
+In makefile: Cygwin binary package now has lgc and lgwam.exe in /usr/bin
+src/dist/cygwin/README lists lgc and lgwam.exe to be in /usr/bin
+
+* Mon May 12 2010 Klaus Grue <grue@diku.dk>
+0.2.9-2: Release candiate
+Release date: GRD-2010-05-12
+Internal version number: unit25
+Made the following Debian related changes:
+In rules/build-stamp: Added 'rm -f src/pages.c'
+In rules/build-stamp: Added 'ulimit -s unlimited'
+In control/Architecture: Added i386
+In control/Build-Depends: Added clisp, texlive, and vim-common
+In control/Depends: Added gcc
+In makefile: Merged debtest2a and debtest2b to debtest2
+In makefile/debtest*: Added "universe" for the sake of clisp
+In makefile/debtest*: Used pbuilderrc from wiki.ubuntu.com/PbuilderHowto
+Bumped Standards-Version to 3.8.3 without changes because of that
+
+* Mon May 10 2010 Klaus Grue <grue@diku.dk>
+0.2.9-1: Release candiate
+Release date: GRD-2010-05-10
+Internal version number: unit22
+Copied changelog in src/dist/yum/rpmspec to present CHANGELOG
+Also copied changelog to src/dist/deb/debian/changelog
+Updated src/dist/cygwin/README to reflect changes
+Added conditional call to editbin in makefile for the sake of Cygwin
+In src/base.lgs added fchdir() to restore current directory
+Also added fchdir() to src/boot/lgc/base.lgs
+Added make maintainerclean target which deletes src/pages.c
+
+* Fri Apr 23 2010 Klaus Grue <grue@diku.dk>
+0.2.8-11: Release candiate
+Release date: GRD-2010-04-23
+Internal version number: unit18
+In present rpmspec: Added gcc to Requires
+In lgwam.c: changed execl() error message to execl(/usr/bin/gcc)
+
+* Thu Mar 25 2010 Klaus Grue <grue@diku.dk>
+0.2.8-10: Release candiate
+Release date: GRD-2010-03-25
+Internal version number: unit17
+In present rpmspec: Changed to tex(latex) in Requires and BuildRequires
+
+* Fri Mar 19 2010 Klaus Grue <grue@diku.dk>
+0.2.8-9: Release candiate
+Release date: GRD-2010-03-19
+Internal version number: unit16
+In present rpmspec: Added "ExcludeArch: ppc64"
+In present rpmspec: Claimed ownership of %%{_docdir}/%%{name}/
+Removed execute permission for src/testsuite/pages/compile.sh
+Changed to '/bin/bash compile.sh' in src/testsuite/pages/makefile
+
+* Mon Mar 15 2010 Klaus Grue <grue@diku.dk>
+0.2.8-8: Release candiate
+Release date: GRD-2010-03-15
+Internal version number: unit15
+In makefile: Removed 'ulimit -s unlimited'
+In src/boot/lgc/makefile: Removed 'ulimit -s unlimited'
+In present rpmspec: Added 'ulimit -s unlimited' to %%build
+Recognize optimized constructs by name when fingerprints are absent:
+In src/boot/lgc/optimize.lisp: Let *opti* default to :undefined
+In src/boot/lgc/codify.lisp: Use *opti2* when *opti* equals :undefined
+Replace src/boot/lgc/fingerprint.lisp by empty file
+
+* Fri Mar 12 2010 Klaus Grue <grue@diku.dk>
+0.2.8-7: Release candiate
+Release date: GRD-2010-03-12
+Internal version number: unit13-7
+Undid changes back to 0.2.8-4
+In makefile: Added 'ulimit -s unlimited' two places
+In makefile: Added rpmtest4 target for testing i386 build
+In lgwam.c:  PRINTGC in lgwam.c set back to FALSE
+In lgwam.c:  Printing pointer sized when PRINTGC is TRUE (c.f. 0.2.8-5)
+
+* Mon Feb 22 2010 Klaus Grue <grue@diku.dk>
+0.2.8-6: Release candiate
+Release date: GRD-2010-02-22
+Internal version number: unit13-6
+Now it is configurable whether normal output goes to stdout or stderr
+Increased verbosity of lgc to '-v 4' in SELFARG in makefile
+
+* Sun Feb 21 2010 Klaus Grue <grue@diku.dk>
+0.2.8-5: Release candiate
+Release date: GRD-2010-02-21
+Internal version number: unit13-5
+Now printing pointer sized when PRINTGC is TRUE
+Now all output PRINTGC output goes to stderr
+
+* Sat Feb 20 2010 Klaus Grue <grue@diku.dk>
+0.2.8-4: Release candiate
+Release date: GRD-2010-02-20
+Internal version number: unit13-4
+Computation of amount of physical RAM has been corrected
+Changed 'Heap too small' message to 'Ran out of physical RAM'
+
+* Thu Feb 18 2010 Klaus Grue <grue@diku.dk>
+0.2.8-3: Release candiate
+Release date: GRD-2010-02-18
+Internal version number: unit13-3
+Rebuild of 0.2.8-2 to get ulimit right
+PRINTGC in lgwam.c has be set to TRUE to get debugging information
+
+* Wed Feb 17 2010 Klaus Grue <grue@diku.dk>
+0.2.8-2: Release candiate
+Release date: GRD-2010-02-17
+Internal version number: unit13-2
+Thanks to Mamoru Tasaka, Fedora, for patience and help building on Koji
+In src/boot/lgc/makefile: Set ulimit
+Present rpmspec now BuildRequires vim-common, texlive-latex, and dvipdfm
+
+* Mon Feb 08 2010 Klaus Grue <grue@diku.dk>
+0.2.8-1: Release candiate
+Release date: GRD-2010-02-08
+Internal version number: unit13
+To allow Fedora build, main.lisp no longer configures *terminal-io*
+
+* Mon Feb 08 2010 Klaus Grue <grue@diku.dk>
+0.1.12: Beta-release: backport of 0.2.8
+Release date: GRD-2010-02-08
+Internal version number: unit13
+To allow stdout redirection, main.lisp no longer configures *terminal-io*
+
+* Fri Feb 05 2010 Klaus Grue <grue@diku.dk>
+0.2.7: Release candiate
+Release date: GRD-2010-02-05
+Internal version number: unit12
+Updated src/dist/cygwin/README
+Updated src/dist/cygwin/setup.exe
+Removed obsolete documentation in lgc/src/dist/
+Removed handling of obsolete documentation in lgc/makefile
+Changed year 2009 to 2010 in copyright notice in lgc/src/lgc.lgs
+Added info on DESTDIR in README and makefile
+Added src/boot/ for generating pages.c from scratch
+Added 'BuildRequires: clisp' to src/dist/yum/rpmspec
+Changed 'make %{?_smp_mflags}' to 'make' in src/dist/yum/rpmspec
+Added 'rm -f src/pages.c' to %build in src/dist/yum/rpmspec
+Removed '---' in 'Cannot parse beyond this point' error message
+
+* Fri Feb 05 2010 Klaus Grue <grue@diku.dk>
+0.1.11: Beta-release: backport of 0.2.7
+Release date: GRD-2010-02-05
+Internal version number: unit12
+Now both NIL and 0 from run-program indicates success in backend.lisp
+
+* Tue Jan 05 2010 Klaus Grue <grue@diku.dk>
+0.2.6: Release candiate
+Release date: GRD-2010-01-05
+Internal version number: unit03
+Repaired date of changelog entry 0.2.5
+Did backport. Version 0.1.10 is a backport of Version 0.2.6
+In base.lgs: Made header charge monotonic to allow backport
+In lgc.lgs:  Changed eager to late define to avoid warning in backport
+In man.5:    Corrected two urls
+In makefile: Changed '--exclude dist' to '--exclude ${DIR}/dist' two places
+
+* Tue Jan 05 2010 Klaus Grue <grue@diku.dk>
+0.1.10: Beta-release: backport of 0.2.6
+Release date: GRD-2010-01-05
+Internal version number: unit03
+Streamlined I/O of Logiweb machine
+Used Logiweb machine expressed in C instead of Lisp
+Changed 'cache' hook to 'cluster' hook
+Changed 'tex' to 'use' aspect
+Changed 'texname' to 'show' aspect
+Changed 'pyk' to 'name' aspect
+Changed 'Pyk' source text keyword to 'Name'
+Changed 'pyk' command (pyk compiler) to 'lgc' command (Logiweb compiler)
+Changed 'pyk source' to 'Logiweb source'
+Changed '.pyk' extension to '.lgs' extension
+Changed 'varpyk' parameter to 'varlgc'
+Removed the word 'pyk' from all documentation
+Added maptag to diagnose hook
+Added optimized fixed point operator
+Corrected return values of spy, trace, and print functions
+Corrected yet another instance of ":does-not-exist is no list" error message
+In c-codify-iterate added expansion at each iteration to get page symbol right
+Added optimized compile function
+Changed use aspect to default to the show aspect rather than vice versa
+Added length field to references in bibliographies in vectors
+Added optional "";; header to source files
+Long comments starting with ""{ now ends with ""} rather than just }
+If moving from 0.1.9 to 0.1.10, do the following to /etc/logiweb/logiweb.conf:
+REMOVE   varpyk=/usr/local/bin/pyk
+ADD      varlgc=/usr/local/bin/lgc
+ADD      varlgwam=/usr/bin/lgwam
+
+* Sat Dec 05 2009 Klaus Grue <grue@diku.dk>
+0.2.5: Release candidate
+Release date: GRD-2009-12-05
+Internal version number: lgc54
+Moved some standard constructs from lgc.lgs to base.lgs
+Added makefile to /usr/share/doc/logiweb/examples/
+In lgwam.c:  Introduced reduced size default testsuite
+In lgc.lgs:  ""D may now occur in body (but still not in string)
+In lgc.lgs:  Removed redundant 'fetch' messages at verbosity level 3
+In lgc.lgs:  Changed 'unpack' to 'trisect' and 'structure' to'unpack'
+In lgc.lgs:  Bugfix: Verifier now accepts pages with no definitions
+In base.lgs: page...end page no longer macro expands charge definitions
+In check.lgs:Corrected Curry and uncurry unitacs
+
+* Sun Oct 04 2009 Klaus Grue <grue@diku.dk>
+0.2.4: Release candidate
+Release date: GRD-2009-10-04
+Internal version number: lgc46
+In makefile: rpm target now copies logiweb.spec to dist/yum
+In lgc.lgs:  corrected chargedef generation in page ( " , " ) ... end page
+In base.lgs: enhanced error message layout
+
+* Sun Sep 20 2009 Klaus Grue <grue@diku.dk>
+0.2.3: Release candidate
+Release date: GRD-2009-09-20
+Internal version number: lgc42
+Thanks to    Fabian Affolter, Fedora
+In rpmspec:  Added %%{?dist} macro to Release field
+In rpmspec:  Changed License field from GPLv2 to GPLv2+
+In rpmspec:  Corrected value of Source field
+In rpmspec:  Renamed Source field to Source0
+In rpmspec:  Changed BuildRoot field to recommended value
+In rpmspec:  Added %%{?_smp_mflags} macro in build section
+In makefile: Added CFLAGS variable
+In rpmspec:  Transferred %%{optflags} to CFLAGS in build section
+In lgwam.c:  Got rid of 140 warnings from -Wall in %%{optflags}
+In rpmspec:  Used macros in file section
+In rpmspec:  Changed examples/* to examples/ in file section
+In rpmspec:  Changed $${RPM_BUILD_ROOT} to %%{buildroot}
+In rpmspec:  Changed defattr(-,root,root) to defattr(-,root,root,-)
+In makefile: Made install target preserve timestamps
+In rpmspec:  Transferred values to BINDIR, MANDIR, and DOCDIR
+In makefile: Install now copies logiweb.* and version to /usr/share/...
+In makefile: Changed $${RPMRELEASE} to $${RPMRELEASE}* to cope with %%{?dist}
+In makefile: Added /usr/share/doc/logiweb/examples to cygwin package
+In makefile: Added rpmtest3 target which exercises mock
+
+* Tue Sep 15 2009 Klaus Grue <grue@diku.dk>
+0.2.2: Release candidate
+Release date: GRD-2009-09-14
+Internal version number: lgc35
+Added rpmtest1 and rpmtest2 make targets
+Updated RPM generation code
+Added SIGSEGV handling
+
+* Wed Sep 2 2009 Klaus Grue <grue@diku.dk>
+0.2.1: Release candidate
+Release date: GRD-2009-09-02
+Internal version number: lgc26
+Thanks to Debian developer Jens Peter Secher
+Added a Homepage field
+Cleaned up debian.rules
+- But changed dh_prep back to dh_clean -k for the sake of Ubuntu
+Used debhelper 7
+- But went back to debhelper 6 for the sake of Ubuntu
+Bumped Standards-Version to 3.8.3, no changes
+- But went back to 3.7.3 for the sake of Ubuntu
+Changed architecture from any to amd64
+Added 'make check' as synonym for 'make test'
+Added description of .lgp to lgc(1)
+Mentioned /usr/share/doc/logiweb/examples in lgc(1)
+
+* Wed Aug 26 2009 Klaus Grue <grue@diku.dk>
+0.2.0: Release candidate
+Release date: GRD-2009-08-26
+Internal version number: lgc25
+Ported from clisp to C
+Modified Logiweb source language
+20090502: Logiweb compiler compiled itself first time.
+
+* Wed Oct 24 2007 Klaus Grue <grue@diku.dk>
+0.1.9: Beta-release
+Release date: GRD-2007-10-24
+Internal version number: 610
+Added documentation of binary and bs filter options
+Optimized binary filter convertion to handle large files
+Added httphost option
+Removed home option and added localhome option
+Removed relay option and added localrelay option
+Now the udphost and tcphost options default to the value of httphost
+Installation simplified: now just do "make" and "make install"
+Removed "make site" and "make enhancement"
+
+When upgrading, do the following to /etc/logiweb/logiweb.conf:
+ADD      httphost  = www.my.domain
+REMOVE   home      = http://www.my.domain/logiweb
+REMOVE   relay     = http://www.my.domain/logiweb/server/relay
+REMOVE   udphost   = www.my.domain
+REMOVE   tcphost   = 127.0.0.1
+
+* Thu Jul 12 2007 Klaus Grue <grue@diku.dk>
+0.1.8: Beta-release
+Release date: GRD-2007-07-12
+Internal version number: 594
+Obtained 43% proofcheck speedup by parallel instantiation at object level
+Added a 'renderers' option
+
+* Sun Jun 24 2007 Klaus Grue <grue@diku.dk>
+0.1.7: Beta-release
+Release date: GRD-2007-06-24
+Internal version number: 589
+Added postinstall information to README
+Corrected case sensitivity bug in html-dir0 in pyk/html.lisp
+Corrected f-symbol2associativity bug in pyk/frontend.lisp
+Constructs for autogenerated pyk/prio tables now recognized by name
+Bugfix: lgwping now exits when a response is received
+Corrected error in code for header=suggest
+Splitted the monolitic tutorial into several tutorials
+Added new tutorials
+Bugfix: spydepth and spylength now controls trace output
+Added period to the list ,[]()<> of characters that can appear after strings
+Allowed period as separator in bibliographies
+Allowed separator after last entry in bibliographies
+Pyk no longer crashes when src option points to non-existing file
+Now math definitions (c.f. Peano.pyk) are soundness checked once only
+Added optidump option and corrected fingerprint generation code
+Added 'print' optimized function
+Changed definition of 'spy' and 'trace' optimized functions
+Obtained factor 3 proofcheck speedup by parallel instantiation
+Added XML rendering
+Added Mizar interface
+
+* Wed Apr 25 2007 Klaus Grue <grue@diku.dk>
+0.1.6: Beta-release
+Release date: GRD-2007-04-25
+Internal version number: 553
+Added level=parse option
+Changed notation in base.pyk and check.pyk (e.g. 'var x' to 'x')
+Added Peano.pyk
+
+* Tue Feb 13 2007 Klaus Grue <grue@diku.dk>
+0.1.5: Beta-release
+Release date: GRD-2007-02-13
+Internal version number: 546
+Rare error corrected in server/html. Tracking code kept until further.
+
+* Thu Feb 08 2007 Klaus Grue <grue@diku.dk>
+0.1.4: Beta-release
+Release date: GRD-2007-02-08
+Internal version number: 543
+Changed relative references like "http:../index.html" to "../index.html"
+Added code to track rare error in server. Waiting for error to occur
+
+* Tue Jan 30 2007 Klaus Grue <grue@diku.dk>
+0.1.3: Beta-release
+Release date: GRD-2007-01-30
+Internal version number: 541
+Pyk now sets terminal encoding to UTF-8
+Added support for all clisp encodings except BASE64
+Added test for ISO-2022-JP encoding
+logiweb.conf now suggests port 65535 og logiweb.eu as starter
+Favicon added
+'make site' now uses cache to speed up page translation
+'make site' now dumps pyk1 which contains base and check
+
+* Sat Dec 30 2006 Klaus Grue <grue@diku.dk>
+0.1.2: Beta-release
+Release date: GRD-2006-12-30
+Internal version number: 538
+Added 'starters' option to the logiweb.conf that comes with the distribution.
+Bugfix: Added (setq *conf* (option "varconf")) to make-pyk and make-logiweb
+
+* Wed Dec 27 2006 Klaus Grue <grue@diku.dk>
+0.1.1: First beta-release
+Release date: GRD-2006-12-27
+Internal version number: 536
+Changed conf.lisp to logiweb.conf and defined configuration file format.
+Modified install: install parameters are in site config for easy reinstall.
+Modified uninstall: uses parameters in site config.
+Added uninstall option to pyk: allows uninstall without having sources
+Added external test suite (available as 'make test')
+Tcphost and udphost options allow Logiweb and Apache to run on different hosts
+Renamed udp and tcp options to udpport and tcpport
+Install script checks that needed parameters (roots, relay, home, etc) are set
+Added pyk mirror option for mirroring of transitively referenced pages
+Added binary include in pyk language: allows to include arbitrary binary files
+Added support for custom unpacking
+Added support for custom rendering
+Developed code for running TeX et al in a chroot jail (not yet utilized)
+In check page: a theory is now simply a sum of rules
+Updated online documentation
+Added info on Logiweb machines in base page and online documentation
+Added test cases for testing Logiweb machines
+Added small tutorial
+New optimized functions: div, mod, text manipulation
+Added pyk gc option for garbage collection of Logiweb pages
+Pre/postassociativity constructs are no longer proclaimed
+Added pyk grammar option for locating inefficient grammatical constructs
+Bugfixed introduction of if-then-else construct
+In check page: added code for locating errors in proofs
+Changed level=test to level=diagnose to avoid confusion with test=no
+Tested Lisp shared write for writing caches: takes too long in clisp
+Relay code is generated from parameters rather than statically copyed
+Added pyk link option for constrol over links to generated pages
+String escape sequences allowed to start with an arbitrary number of quotes
+Made the 'header' entry of the crossbrowser main menu more useful
+Added a pyk header option which is even more useful than the 'header' entry
+In pyk language: allowed parameters not surrounded by spaces
+Used above to treat "," and "["]" as ordinary, user defined constructs
+Uses above to support decimal numerals of arbitrary size
+Added 'make newsite' for recompiling .pyk rather than using .lgw
+Added test cases for checking the pyk dump parameter
+Added pyk optionstr and optionval options for printing individual options
+
+* Tue Aug 29 2006 Klaus Grue <grue@diku.dk>
+0.grue.20060829: Alpha 11 (internal version number: 451)
+New format of tex and tex name aspects.
+Unicode support.
+New lgw-format which permits to include strings.
+New, cleaned up base page.
+Added facility for rendering pages as a Lisp S-expression.
+
+* Wed Jul 20 2005 Klaus Grue <grue@diku.dk>
+0.grue.20060417: Alpha 10 (Internal version number: 373)
+Use of executable clisp memory dumps.
+Implementation of Logiweb machine.
+New option handling.
+Enhanced support for running pyk, server, and httpd on distinct machines.
+Support for pure functional input/output.
+Cooperating servers.
+Man pages.
+
+* Wed Jul 20 2005 Klaus Grue <grue@diku.dk>
+0.grue.20050720: Alpha 9
+Bug fixes. Added several options for enhanced control.
+Added Logiwikiweb facilities.
+
+* Mon May 02 2005 Klaus Grue <grue@diku.dk>
+0.grue.20050502: Alpha 8
+Ported to clisp. Engine and Macro pages included in base page.
+Added Logiweb sequent calculus and associated proof checker.
+Efficiency improved.
+
+* Mon Jan 17 2005 Klaus Grue <grue@diku.dk>
+0.grue.20050117: Alpha 7
+Ground page removed. Engine and Macro pages added.
+Many tests conducted. Efficiency improved.
+
+* Tue Nov 23 2004 Klaus Grue <grue@diku.dk>
+0.grue.20041123: Alpha 6
+Introduction mechanism enhanced by simple strictness analysis.
+"[...]" and related syntax added to compiler.
+Support for MathML removed.
+PDF with hyperlinks supported.
+Logo defined and added.
+Layout and contents of example pages (base and ground) enhanced.
+
+* Thu Aug 26 2004 Klaus Grue <grue@diku.dk>
+0.grue.20040826: Alpha 5
+Macro expansion implemented
+Extension .lgs (LoGiweb Script or LoGiweb Source) changed to .pyk
+Extension .lgh (LoGiweb Header) removed from Apache configuration
+'make pages' simplified and added to installation procedure
+  ('make pages' is a follow up on alpha 3 bugfix)
+
+* Wed Aug 11 2004 Klaus Grue <grue@diku.dk>
+0.grue.20040811: Alpha 4
+Many changes, such as:
+Added documentation
+Added TeX (including Dvi and Pdf) and MathML rendering
+Added rendering of cache, syntax tree, and error
+
+* Tue Jun 15 2004 Klaus Grue <grue@diku.dk>
+0.grue.20040615: Alpha 3
+Bugfix: Bibliographies may not contain urls instead of references.
+For that reason, the release now comes with two precompiled pages,
+base and ground.
+
+* Mon Jun 14 2004 Klaus Grue <grue@diku.dk>
+0.grue.20040614: Alpha 2
+Many changes, such as:
+Changed from Lisp get-universal-time to LGT (MJD/TAI).
+Introduced control of verbosity of logging.
+Reimplemented pyk compiler almost from scratch.
+Corrected bug that made first release crash after a while.
+
+* Wed Apr 28 2004 Klaus Grue <grue@diku.dk>
+0.grue.20040428: First public alpha release.
+
+20040305: Logiweb ping available on the network.
+

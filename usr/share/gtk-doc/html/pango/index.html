@@ -1,32 +1,144 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Pango Reference Manual</title><meta name="generator" content="DocBook XSL Stylesheets V1.65.1"><link rel="home" href="index.html" title="Pango Reference Manual"><link rel="next" href="pango.html" title="Basic Pango Interfaces"><meta name="generator" content="GTK-Doc V1.2 (XML mode)"><style type="text/css">
-        .synopsis, .classsynopsis {
-            background: #eeeeee;
-            border: solid 1px #aaaaaa;
-            padding: 0.5em;
-        }
-        .programlisting {
-            background: #eeeeff;
-            border: solid 1px #aaaaff;
-            padding: 0.5em;
-        }
-        .variablelist {
-            padding: 4px;
-            margin-left: 3em;
-        }
-        .navigation {
-            background: #ffeeee;
-            border: solid 1px #ffaaaa;
-            margin-top: 0.5em;
-            margin-bottom: 0.5em;
-        }
-        .navigation a {
-            color: #770000;
-        }
-        .navigation a:visited {
-            color: #550000;
-        }
-        .navigation .title {
-            font-size: 200%;
-        }
-      </style></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="book" lang="en"><div class="titlepage"><div><div><table class="navigation" width="100%" cellpadding="2" cellspacing="0"><tr><th valign="middle"><p class="title">Pango Reference Manual</p></th></tr></table></div><div><p class="releaseinfo">for Pango 1.8.1
-</p></div></div><div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="chapter"><a href="pango.html">Basic Pango Interfaces</a></span></dt><dt><span class="chapter"><a href="rendering.html">Rendering with Pango</a></span></dt><dt><span class="chapter"><a href="lowlevel.html">Low Level Functionality</a></span></dt><dt><span class="chapter"><a href="tools.html">Pango Tools</a></span></dt><dt><span class="index"><a href="ix01.html">Index</a></span></dt></dl></div><div class="list-of-figures"><p><b>List of Figures</b></p><dl><dt>1. <a href="pango-Layout-Objects.html#parameters">Adjustable parameters for a PangoLayout</a></dt></dl></div></div><table class="navigation" width="100%" summary="Navigation footer" cellpadding="2" cellspacing="0"><tr valign="middle"><td align="left"></td><td align="right"><a accesskey="n" href="pango.html"><b>Basic Pango Interfaces�&gt;&gt;</b></a></td></tr></table></body></html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Pango Reference Manual</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.77.1">
+<link rel="home" href="index.html" title="Pango Reference Manual">
+<link rel="next" href="pango.html" title="Basic Pango Interfaces">
+<meta name="generator" content="GTK-Doc V1.18 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="book">
+<div class="titlepage">
+<div>
+<div><table class="navigation" id="top" width="100%" cellpadding="2" cellspacing="0"><tr><th valign="middle"><p class="title">Pango Reference Manual</p></th></tr></table></div>
+<div><p class="releaseinfo">for Pango 1.32.5
+</p></div>
+</div>
+<hr>
+</div>
+<div class="toc"><dl>
+<dt><span class="chapter"><a href="pango.html">Basic Pango Interfaces</a></span></dt>
+<dd><dl>
+<dt>
+<span class="refentrytitle"><a href="pango-Text-Processing.html">Text Processing</a></span><span class="refpurpose"></span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="pango-Glyph-Storage.html">Glyph Storage</a></span><span class="refpurpose"></span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="pango-Fonts.html">Fonts</a></span><span class="refpurpose"></span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="pango-Text-Attributes.html">Text Attributes</a></span><span class="refpurpose"></span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="pango-Tab-Stops.html">Tab Stops</a></span><span class="refpurpose"></span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="PangoMarkupFormat.html">Text Attribute Markup</a></span><span class="refpurpose"> — Simple
+markup language to encode text with attributes</span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="pango-Layout-Objects.html">Layout Objects</a></span><span class="refpurpose"></span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="pango-Scripts-and-Languages.html">Scripts and Languages</a></span><span class="refpurpose"></span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="pango-Bidirectional-Text.html">Bidirectional Text</a></span><span class="refpurpose"></span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="pango-Vertical-Text.html">Vertical Text</a></span><span class="refpurpose"></span>
+</dt>
+</dl></dd>
+<dt><span class="chapter"><a href="rendering.html">Rendering with Pango</a></span></dt>
+<dd><dl>
+<dt>
+<span class="refentrytitle"><a href="pango-Win32-Fonts-and-Rendering.html">Win32 Fonts and Rendering</a></span><span class="refpurpose"></span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="pango-FreeType-Fonts-and-Rendering.html">FreeType Fonts and Rendering</a></span><span class="refpurpose"></span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="pango-Xft-Fonts-and-Rendering.html">Xft Fonts and Rendering</a></span><span class="refpurpose"></span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="pango-Cairo-Rendering.html">Cairo Rendering</a></span><span class="refpurpose"></span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="pango-CoreText-Fonts.html">CoreText Fonts</a></span><span class="refpurpose"></span>
+</dt>
+</dl></dd>
+<dt><span class="chapter"><a href="lowlevel.html">Low Level Functionality</a></span></dt>
+<dd><dl>
+<dt>
+<span class="refentrytitle"><a href="pango-pango-renderer.html">PangoRenderer</a></span><span class="refpurpose"></span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="PangoFcFontMap.html">PangoFcFontMap</a></span><span class="refpurpose"></span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="PangoFcFont.html">PangoFcFont</a></span><span class="refpurpose"></span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="PangoFcDecoder.html">PangoFcDecoder</a></span><span class="refpurpose"></span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="pango-OpenType-Font-Handling.html">OpenType Font Handling</a></span><span class="refpurpose"></span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="pango-Coverage-Maps.html">Coverage Maps</a></span><span class="refpurpose"></span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="pango-Engines.html">Engines</a></span><span class="refpurpose"></span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="PangoEngineLang.html">PangoEngineLang</a></span><span class="refpurpose"></span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="PangoEngineShape.html">PangoEngineShape</a></span><span class="refpurpose"></span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="pango-Modules.html">Modules</a></span><span class="refpurpose"></span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="pango-Miscellaneous-Utilities.html">Miscellaneous Utilities</a></span><span class="refpurpose"></span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="pango-Version-Checking.html">Version Checking</a></span><span class="refpurpose"></span>
+</dt>
+</dl></dd>
+<dt><span class="chapter"><a href="tools.html">Pango Tools</a></span></dt>
+<dd><dl><dt>
+<span class="refentrytitle"><a href="pango-querymodules.html">pango-querymodules</a></span><span class="refpurpose"> — Module registration utility</span>
+</dt></dl></dd>
+<dt><span class="chapter"><a href="pango-hierarchy.html">Object Hierarchy</a></span></dt>
+<dt><span class="glossary"><a href="annotation-glossary.html">Annotation Glossary</a></span></dt>
+<dt><span class="index"><a href="api-index-full.html">Index of all symbols</a></span></dt>
+<dt><span class="index"><a href="api-index-deprecated.html">Index of deprecated symbols</a></span></dt>
+<dt><span class="index"><a href="api-index-1-2.html">Index of new symbols in 1.2</a></span></dt>
+<dt><span class="index"><a href="api-index-1-4.html">Index of new symbols in 1.4</a></span></dt>
+<dt><span class="index"><a href="api-index-1-6.html">Index of new symbols in 1.6</a></span></dt>
+<dt><span class="index"><a href="api-index-1-8.html">Index of new symbols in 1.8</a></span></dt>
+<dt><span class="index"><a href="api-index-1-10.html">Index of new symbols in 1.10</a></span></dt>
+<dt><span class="index"><a href="api-index-1-12.html">Index of new symbols in 1.12</a></span></dt>
+<dt><span class="index"><a href="api-index-1-14.html">Index of new symbols in 1.14</a></span></dt>
+<dt><span class="index"><a href="api-index-1-16.html">Index of new symbols in 1.16</a></span></dt>
+<dt><span class="index"><a href="api-index-1-18.html">Index of new symbols in 1.18</a></span></dt>
+<dt><span class="index"><a href="api-index-1-20.html">Index of new symbols in 1.20</a></span></dt>
+<dt><span class="index"><a href="api-index-1-22.html">Index of new symbols in 1.22</a></span></dt>
+<dt><span class="index"><a href="api-index-1-24.html">Index of new symbols in 1.24</a></span></dt>
+<dt><span class="index"><a href="api-index-1-26.html">Index of new symbols in 1.26</a></span></dt>
+<dt><span class="index"><a href="api-index-1-28.html">Index of new symbols in 1.28</a></span></dt>
+<dt><span class="index"><a href="api-index-1-30.html">Index of new symbols in 1.30</a></span></dt>
+<dt><span class="index"><a href="api-index-1-32.html">Index of new symbols in 1.32</a></span></dt>
+</dl></div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.18</div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+prefix=/usr/x86_64-pc-cygwin/sys-root/usr
+exec_prefix=/usr/x86_64-pc-cygwin/sys-root/usr
+libdir=/usr/x86_64-pc-cygwin/sys-root/usr/lib
+includedir=${prefix}/include
+datarootdir=/usr/x86_64-pc-cygwin/sys-root/usr/share
+datadir=/usr/x86_64-pc-cygwin/sys-root/usr/share
+pkgdatadir=/usr/x86_64-pc-cygwin/sys-root/usr/share/p11-kit
+sysconfdir=/usr/x86_64-pc-cygwin/sys-root/etc
+p11_module_configs=${pkgdatadir}/modules
+p11_module_path=/usr/x86_64-pc-cygwin/sys-root/usr/lib/pkcs11
+proxy_module=/usr/x86_64-pc-cygwin/sys-root/usr/lib/p11-kit-proxy.so
+
+# This is for compatibility. Other packages were using this to determine
+# the directory they should install their module configs to, so override
+# this and redirect them to the new location
+p11_system_config_modules=${pkgdatadir}/modules
+
+Name: p11-kit
+Description: Library and proxy module for properly loading and sharing PKCS#11 modules.
+Version: 0.19.1
+Libs: -L${libdir} -lp11-kit
+Cflags: -I${includedir}/p11-kit-1

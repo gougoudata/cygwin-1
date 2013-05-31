@@ -1,0 +1,32 @@
+James Clark:
+Author of Jade, upon which OpenJade is based.
+
+Cees A. de Groot:
+Autoconf support for Jade.
+
+Matthias Clasen:
+Pthreads support, automake setup, scheme builtins, declaration
+element type forms parsing, character properties, language-dependent 
+stuff.
+
+Avi Kivity:
+Text backend.
+
+Didier PH Martin:
+OpenJade documentation and PR.
+
+Peter Nilsson:
+FOT validation, character properties, part of query rule, char-map:
+characteristic, uri-ref-address extension procedure.
+
+David Megginson:
+TeX backend.
+
+Sebastian Rahtz:
+Jadetex macros, TeX backend.
+
+Kathleen Marzalek:
+MIF backend, table support in the TeX backend.
+
+Paul Prescod:
+MIF backend.

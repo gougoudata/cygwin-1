@@ -1,0 +1,14 @@
+auto
+/usr/bin/gdc.exe
+i686-pc-cygwin-gdc
+/usr/bin/i686-pc-cygwin-gdc.exe
+gdc.1.gz
+/usr/share/man/man1/gdc.1.gz
+gdmd.1.gz
+/usr/share/man/man1/gdmd.1.gz
+
+/usr/bin/gdc-3.exe
+30
+/usr/bin/i686-pc-cygwin-gdc-3.exe
+/usr/share/man/man1/gdc-3.1.gz
+/usr/share/man/man1/gdmd-3.1.gz

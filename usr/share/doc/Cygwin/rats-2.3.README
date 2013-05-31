@@ -1,0 +1,80 @@
+rats
+------------------------------------------
+Rough Auditing Tool for Security
+
+The Rough Auditing Tool for Security, is a security auditing
+utility for C, C++, php, perl, and python code. RATS scans source
+code, finding potentially dangerous function calls. The goal of rats
+is not to definitively find bugs (yet), but to provide a reasonable
+starting point for performing manual security audits. The initial
+vulnerability database is taken directly from things that could be
+easily found when starting with the book, 'Building Secure Software'
+by Viega and McGraw.
+
+Runtime requirements:
+  cygwin
+  libgcc1
+  libexpat1
+
+Build requirements:
+  cygwin
+  gcc4
+  libexpat1-devel
+
+Canonical homepage:
+  http://packages.debian.org/rats
+  http://www.fortifysoftware.com/security-resources/rats.jsp
+
+Canonical download:
+  See above
+
+Version control repository:
+
+Mailing list:
+
+Forum / Wiki:
+
+IRC channel:
+
+Upstream contact:
+  Author: <rats@fortify.com>
+  Bugs: <rats@fortify.com>
+
+License:
+  GPL
+
+Language:
+  C
+
+------------------------------------
+
+Build instructions:
+  unpack rats-2.3-1-src.tar.bz2
+    if you use setup to install this src package, it will be
+    unpacked under /usr/src automatically
+  cd /usr/src
+  ./rats*.sh all
+
+This will create:
+  rats-2.3-1.tar.bz2
+  rats-2.3-1-src.tar.bz2
+
+-------------------------------------------
+
+Files included in the binary distro:
+  See Cygwin package archive
+
+------------------
+
+Port Notes:
+
+----- version 2.3-1 -----
+- New upstream release 2010-06-28 Jari Aalto
+
+----- version 2.1-1 -----
+- Initial release 2007-10-26 Jari Aalto
+- This port is based on Debian source; rats_2.1-7.diff.gz diff applied.
+- Makefile: target [install]: Added DESTDIR
+
+Cygwin port maintained by: Jari Aalto <jari.aalto@cante.net>
+Copyright (C) 2007-2010 Jari Aalto; Licenced under GPL v2 or later

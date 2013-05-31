@@ -1,0 +1,33 @@
+To compile sources in /usr/share/doc/logiweb/examples:
+
+> mkdir foo
+> cp /usr/share/doc/logiweb/examples/* foo
+> cd foo
+> gunzip *.gz    # if needed
+> lgc base.lgs
+
+If you get a segfault or a message about overflow of the C stack,
+try this if you run bash or similar: ulimit -s unlimited
+try this if you run  csh or similar: unlimit stacksize
+try this if you run Cygwin:          Add more RAM
+'lgc base' is known to work with 2 GB RAM
+
+Have a look at the result of 'lgc base.lgs':
+> firefox base/index.html &
+
+Then compile whatever other pages you like.
+
+Dependencies are:
+
+base -> lgc
+base -> combinations
+base -> check
+check -> test
+check -> Peano
+Peano -> multzero
+test, Peano -> testmachine
+
+In other words, you cannot do 'lgc Peano.lgs' before you do 'lgc check.lgs'.
+In turn, you cannot do 'lgc check.lgs' before you do 'lgc base.lgs'.
+
+To compile everything under /tmp, just type 'make'.

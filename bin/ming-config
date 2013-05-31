@@ -27,13 +27,13 @@ while test $# -gt 0; do
 		usage 0
 		;;
 	    --version)
-		echo "0.4.0.beta5"
+		echo "0.4.4"
 		;;
 	    --cflags)
 		echo -I${prefix}/include
 		;;
 	    --libs)
-		echo -L${exec_prefix}/lib -lz  -lungif -lpng -lming
+		echo -L${exec_prefix}/lib -lz  -lgif -lpng -lming
 		;;
 	    --bindir)
 		echo /usr/bin

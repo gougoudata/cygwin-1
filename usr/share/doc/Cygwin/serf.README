@@ -1,0 +1,99 @@
+serf, libserf0-devel, libserf0_1
+------------------------------------------
+
+The serf library is a C-based HTTP client library built upon the
+Apache Portable Runtime (APR) library. It multiplexes connections,
+running the read/write communication asynchronously. Memory copies
+and transformations are kept to a minimum to provide high
+performance operation.
+
+libserf0_1 runtime requirements (these, or newer)
+  cygwin-1.7.11-1
+  libapr1-1.4.6-1
+  libaprutil1-1.4.1-1
+  libopenssl100-1.0.1-1
+  zlib0-1.2.5-1
+
+libserf0-devel development requirements (these, or newer)
+  cygwin-1.7.11-1
+  libapr1-devel-1.4.6-1
+  libaprutil1-devel-1.4.1-1
+  openssl-devel-1.0.1-1
+  zlib-devel-1.2.5-1
+
+Additional build requirements (these, or newer):
+  binutils-2.22.51-1
+  cygport-0.10.9-1
+  gcc4-core-4.5.3-3
+  libtool-2.4-1
+
+Canonical homepage:
+  http://code.google.com/p/serf/
+
+Canonical download:
+  http://serf.googlecode.com/files
+
+License:
+  Apache License 2.0
+
+Language:
+  C
+
+------------------------------------
+
+Build instructions:
+  unpack serf-0.7.1-2-src.tar.bz2
+    if you use setup to install this src package, it will be unpacked under
+    /usr/src automatically
+  cd /usr/src
+  cygport serf-0.7.1-2 all
+
+This will create:
+  serf-0.7.1-2-src.tar.bz2
+  serf-0.7.1-2.tar.bz2
+  libserf0-devel-0.7.1-2.tar.bz2
+  libserf0_1-0.7.1-2.tar.bz2
+
+Or use 'cygport serf-0.7.1-2 prep' to get a patched source directory
+
+To find out the files included in the binary distribution, you can
+use "cygcheck -l serf libserf0-devel libserf0_1", or browse the
+listing for the appropriate version at
+<http://cygwin.com/packages/>.
+
+Port Notes:
+
+----------  serf-0.7.1-2 -- 2012-03-15 ---------
+Recompile against openssl-1.0.1-1.
+
+----------  serf-0.7.1-1 -- 2011-03-04 ---------
+New upstream release.
+
+----------  serf-0.7.0-1 -- 2010-10-04 ---------
+New upstream release.
+ + Increased the library version. This wasn't done upstream, but is
+   required since applications linked against the previous 0.3.1
+   version will not run with 0.7.0 and vice versa.
+
+----------  serf-0.3.1-1 -- 2010-02-15 ---------
+New upstream release.
+
+----------  serf-0.3.0-2 -- 2009-02-06 ---------
+Rebuilt for Cygwin 1.7.
+
+----------  serf-0.3.0-1 -- 2009-02-02 ---------
+New upstream release.
+
+----------  serf-0.2.0-1 -- 2008-12-31 ---------
+Rebuilt for Cygwin 1.7.
+
+----------  serf-0.2.0-1 -- 2008-06-06 ---------
+Initial release.
+
+---------------
+
+For more information about this package, see the upstream documentation in
+/usr/share/doc/serf/.
+
+Cygwin port maintained by: David Rothenberger <daveroth@acm.org>.
+Please address all questions to the Cygwin mailing list at <cygwin@cygwin.com>

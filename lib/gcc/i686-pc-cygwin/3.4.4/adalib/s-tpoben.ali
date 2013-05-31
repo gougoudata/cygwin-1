@@ -34,15 +34,15 @@ W system.tasking%s	s-taskin.adb		s-taskin.ali
 W system.tasking.protected_objects%s  s-taprob.adb  s-taprob.ali
 W unchecked_conversion%s
 
-D ada.ads		20030424175358 a0108083
-D a-except.ads		20031021134154 a1717b33
-D a-finali.ads		20030424175354 d4be2e87
-D a-filico.ads		20030424175354 83058640
+D ada.ads		20030424175357 a0108083
+D a-except.ads		20031021134153 a1717b33
+D a-finali.ads		20030424175353 d4be2e87
+D a-filico.ads		20030424175353 83058640
 D a-stream.ads		20030424175354 dbe6acb4
 D a-tags.ads		20031021134154 8f0cfa9c
 D a-tags.adb		20031021134154 547ae7e1
 D system.ads		20031021134222 6af26689
-D s-exctab.ads		20031021134214 6637f07f
+D s-exctab.ads		20031021134213 6637f07f
 D s-finimp.ads		20031021134214 ef65ab1e
 D s-finroo.ads		20031021134214 7e5e077b
 D s-htable.ads		20031021134214 af1a22d4
@@ -52,15 +52,15 @@ D s-secsta.ads		20040105152046 7804722c
 D s-soflin.ads		20031021134214 14059e84
 D s-stache.ads		20031021134214 6135f334
 D s-stalib.ads		20031021134214 e7ad2af0
-D s-stoele.ads		20050603190336 5a73170b
-D s-stoele.adb		20030424175414 792079f8
+D s-stoele.ads		20050603200336 5a73170b
+D s-stoele.adb		20030424175413 792079f8
 D s-stratt.ads		20031021134214 c1077a4d
-D s-tasinf.ads		20031021134216 c9aa44b6
+D s-tasinf.ads		20031021134215 c9aa44b6
 D s-taspri.ads		20031021134152 1975c70c
-D s-taprop.ads		20031021134216 69202ccf
-D s-taskin.ads		20031021134216 5af97c3f
-D s-tasini.ads		20031021134216 52595995
-D s-taprob.ads		20031021134216 8ca813ed
+D s-taprop.ads		20031021134215 69202ccf
+D s-taskin.ads		20031021134215 5af97c3f
+D s-tasini.ads		20031021134215 52595995
+D s-taprob.ads		20031021134215 8ca813ed
 D s-tpoben.ads		20031021134218 aa8268bf
 D s-tpoben.adb		20031021134218 5d32416d
 D s-traent.ads		20031021134218 e81a0978

@@ -14,11 +14,11 @@ W interfaces%s		interfac.ads		interfac.ali
 W interfaces.c%s	i-c.adb			i-c.ali
 W system%s		system.ads		system.ali
 
-D interfac.ads		20031021134210 6e859da6
+D interfac.ads		20031021134209 6e859da6
 D i-c.ads		20031021134208 89099b00
-D i-cexten.ads		20030424175406 58b6bac0
+D i-cexten.ads		20030424175405 58b6bac0
 D system.ads		20031021134222 6af26689
-D s-exctab.ads		20031021134214 6637f07f
+D s-exctab.ads		20031021134213 6637f07f
 D s-parame.ads		20031021134214 8479efe6
 D s-stalib.ads		20031021134214 e7ad2af0
 D unchconv.ads		20030424175420 1b7a14c5

@@ -5,6 +5,6 @@ includedir=${prefix}/include
 
 Name: ming
 Description: Ming - a SWF output library
-Version: 0.4.0.beta5
+Version: 0.4.4
 Libs: -L${libdir} -lming
 Cflags: -I${includedir}

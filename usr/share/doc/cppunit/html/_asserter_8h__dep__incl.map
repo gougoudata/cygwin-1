@@ -1,0 +1,13 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$_test_assert_8h.html" title="TestAssert.h" alt="" coords="404,83,505,112"/>
+<area shape="rect" id="node24" href="$_asserter_8cpp.html" title="Asserter.cpp" alt="" coords="529,83,631,112"/>
+<area shape="rect" id="node5" href="$_test_case_8h.html" title="TestCase.h" alt="" coords="344,160,437,189"/>
+<area shape="rect" id="node22" href="$_test_assert_8cpp.html" title="TestAssert.cpp" alt="" coords="461,160,576,189"/>
+<area shape="rect" id="node7" href="$_orthodox_8h.html" title="Orthodox.h" alt="" coords="140,237,231,267"/>
+<area shape="rect" id="node9" href="$_test_case_decorator_8h.html" title="TestCaseDecorator.h" alt="" coords="255,237,412,267"/>
+<area shape="rect" id="node17" href="$_test_caller_8h.html" title="TestCaller.h" alt="" coords="443,315,541,344"/>
+<area shape="rect" id="node20" href="$_test_case_8cpp.html" title="TestCase.cpp" alt="" coords="487,237,596,267"/>
+<area shape="rect" id="node11" href="$_exception_test_case_decorator_8h.html" title="ExceptionTestCaseDecorator.h" alt="" coords="5,315,224,344"/>
+<area shape="rect" id="node15" href="$_test_case_decorator_8cpp.html" title="TestCaseDecorator.cpp" alt="" coords="248,315,419,344"/>
+<area shape="rect" id="node13" href="$_helper_macros_8h.html" title="Macros intended to ease the definition of test suites." alt="" coords="241,392,364,421"/>
+</map>

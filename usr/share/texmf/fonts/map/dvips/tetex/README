@@ -1,0 +1,14 @@
+Copyright 2011 Karl Berry
+You may freely use, modify, and/or distribute this file, without limitation.
+
+The idea behind these files is to define map entries for the 35 standard
+PostScript fonts, in the 8r and 8y encodings.  Different applications
+need slightly different files.
+
+We support both encodings here, instead of using the .map files from the
+ly1 package, because updmap supports various options to transform names
+between Adobe-style and URW-style, in order to support downloadable
+vs. assuming built-in fonts in the output from dvips, pdftex, etc.
+Those options apply to these *35.map files only, so anything about them
+should be included here for best results.
+

@@ -19,7 +19,7 @@
 # parameters.
 
 APR_MAJOR_VERSION="1"
-APR_DOTTED_VERSION="1.3.3"
+APR_DOTTED_VERSION="1.4.6"
 
 prefix="/usr"
 exec_prefix="/usr"
@@ -36,11 +36,11 @@ SHELL="/bin/sh"
 CPPFLAGS="-DCYGWIN"
 CFLAGS=""
 LDFLAGS=""
-LIBS="-lcrypt "
+LIBS="-luuid -lcrypt "
 EXTRA_INCLUDES=""
 SHLIBPATH_VAR="PATH"
-APR_SOURCE_DIR="/usr/src/libapr1/libapr1-1.3.3-1/src/apr-1.3.3"
-APR_BUILD_DIR="/usr/src/libapr1/libapr1-1.3.3-1/build"
+APR_SOURCE_DIR="/usr/src/libapr1/libapr1-1.4.6-1/src/apr-1.4.6"
+APR_BUILD_DIR="/usr/src/libapr1/libapr1-1.4.6-1/build"
 APR_SO_EXT="lo"
 APR_LIB_TARGET="-rpath \$(libdir) \$(OBJECTS)"
 APR_LIBNAME="apr-${APR_MAJOR_VERSION}"

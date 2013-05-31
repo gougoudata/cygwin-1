@@ -27,6 +27,10 @@
 #ifndef __GTK_TEXT_BUFFER_H__
 #define __GTK_TEXT_BUFFER_H__
 
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
 #include <gtk/gtkwidget.h>
 #include <gtk/gtkclipboard.h>
 #include <gtk/gtktexttagtable.h>
@@ -40,6 +44,19 @@ G_BEGIN_DECLS
  * This is the PUBLIC representation of a text buffer.
  * GtkTextBTree is the PRIVATE internal representation of it.
  */
+
+/* these values are used as "info" for the targets contained in the
+ * lists returned by gtk_text_buffer_get_copy,paste_target_list()
+ *
+ * the enum counts down from G_MAXUINT to avoid clashes with application
+ * added drag destinations which usually start at 0.
+ */
+typedef enum
+{
+  GTK_TEXT_BUFFER_TARGET_INFO_BUFFER_CONTENTS = - 1,
+  GTK_TEXT_BUFFER_TARGET_INFO_RICH_TEXT       = - 2,
+  GTK_TEXT_BUFFER_TARGET_INFO_TEXT            = - 3
+} GtkTextBufferTargetInfo;
 
 typedef struct _GtkTextBTree GtkTextBTree;
 
@@ -58,18 +75,20 @@ struct _GtkTextBuffer
 {
   GObject parent_instance;
 
-  GtkTextTagTable *tag_table;
-  GtkTextBTree *btree;
+  GtkTextTagTable *GSEAL (tag_table);
+  GtkTextBTree *GSEAL (btree);
 
-  GSList *clipboard_contents_buffers;
-  GSList *selection_clipboards;
+  GSList *GSEAL (clipboard_contents_buffers);
+  GSList *GSEAL (selection_clipboards);
 
-  GtkTextLogAttrCache *log_attr_cache;
+  GtkTextLogAttrCache *GSEAL (log_attr_cache);
 
-  guint user_action_count;
-  
+  guint GSEAL (user_action_count);
+
   /* Whether the buffer has been modified since last save */
-  guint modified : 1;
+  guint GSEAL (modified) : 1;
+
+  guint GSEAL (has_selection) : 1;
 };
 
 struct _GtkTextBufferClass
@@ -88,7 +107,7 @@ struct _GtkTextBufferClass
   void (* insert_child_anchor)   (GtkTextBuffer      *buffer,
                                   GtkTextIter        *pos,
                                   GtkTextChildAnchor *anchor);
-  
+
   void (* delete_range)     (GtkTextBuffer *buffer,
                              GtkTextIter   *start,
                              GtkTextIter   *end);
@@ -124,13 +143,15 @@ struct _GtkTextBufferClass
   void (* begin_user_action)  (GtkTextBuffer *buffer);
   void (* end_user_action)    (GtkTextBuffer *buffer);
 
+  void (* paste_done)         (GtkTextBuffer *buffer,
+                               GtkClipboard  *clipboard);
+
   /* Padding for future expansion */
   void (*_gtk_reserved1) (void);
   void (*_gtk_reserved2) (void);
   void (*_gtk_reserved3) (void);
   void (*_gtk_reserved4) (void);
   void (*_gtk_reserved5) (void);
-  void (*_gtk_reserved6) (void);
 };
 
 GType        gtk_text_buffer_get_type       (void) G_GNUC_CONST;
@@ -184,14 +205,14 @@ void    gtk_text_buffer_insert_with_tags          (GtkTextBuffer     *buffer,
                                                    const gchar       *text,
                                                    gint               len,
                                                    GtkTextTag        *first_tag,
-                                                   ...);
+                                                   ...) G_GNUC_NULL_TERMINATED;
 
 void    gtk_text_buffer_insert_with_tags_by_name  (GtkTextBuffer     *buffer,
                                                    GtkTextIter       *iter,
                                                    const gchar       *text,
                                                    gint               len,
                                                    const gchar       *first_tag_name,
-                                                   ...);
+                                                   ...) G_GNUC_NULL_TERMINATED;
 
 /* Delete from the buffer */
 void     gtk_text_buffer_delete             (GtkTextBuffer *buffer,
@@ -232,6 +253,9 @@ GtkTextChildAnchor *gtk_text_buffer_create_child_anchor (GtkTextBuffer *buffer,
                                                          GtkTextIter   *iter);
 
 /* Mark manipulation */
+void           gtk_text_buffer_add_mark    (GtkTextBuffer     *buffer,
+                                            GtkTextMark       *mark,
+                                            const GtkTextIter *where);
 GtkTextMark   *gtk_text_buffer_create_mark (GtkTextBuffer     *buffer,
                                             const gchar       *mark_name,
                                             const GtkTextIter *where,
@@ -337,6 +361,8 @@ gboolean        gtk_text_buffer_get_modified            (GtkTextBuffer *buffer);
 void            gtk_text_buffer_set_modified            (GtkTextBuffer *buffer,
                                                          gboolean       setting);
 
+gboolean        gtk_text_buffer_get_has_selection       (GtkTextBuffer *buffer);
+
 void gtk_text_buffer_add_selection_clipboard    (GtkTextBuffer     *buffer,
 						 GtkClipboard      *clipboard);
 void gtk_text_buffer_remove_selection_clipboard (GtkTextBuffer     *buffer,
@@ -357,11 +383,14 @@ gboolean        gtk_text_buffer_get_selection_bounds    (GtkTextBuffer *buffer,
                                                          GtkTextIter   *end);
 gboolean        gtk_text_buffer_delete_selection        (GtkTextBuffer *buffer,
                                                          gboolean       interactive,
-                                                         gboolean       default_editable);                                                    
+                                                         gboolean       default_editable);
 
 /* Called to specify atomic user actions, used to implement undo */
 void            gtk_text_buffer_begin_user_action       (GtkTextBuffer *buffer);
 void            gtk_text_buffer_end_user_action         (GtkTextBuffer *buffer);
+
+GtkTargetList * gtk_text_buffer_get_copy_target_list    (GtkTextBuffer *buffer);
+GtkTargetList * gtk_text_buffer_get_paste_target_list   (GtkTextBuffer *buffer);
 
 /* INTERNAL private stuff */
 void            _gtk_text_buffer_spew                  (GtkTextBuffer      *buffer);

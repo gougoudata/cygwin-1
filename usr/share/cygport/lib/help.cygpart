@@ -1,0 +1,78 @@
+################################################################################
+#
+# help.cygpart - cygport command-line help functions
+#
+# Copyright (C) 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 Yaakov Selkowitz
+# Provided by the Cygwin Ports project <http://sourceware.org/cygwinports/>
+#
+# cygport is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# cygport is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with cygport.  If not, see <http://www.gnu.org/licenses/>.
+#
+################################################################################
+
+__show_help() {
+	cat <<-_EOF
+		cygport is a utility for creating and building Cygwin software packages.
+
+		Usage: cygport [OPTIONS] CYGPORT_FILE COMMAND [COMMAND2 ...]
+
+		OPTIONS may include the following:
+
+		  --32, -4     build package for i686 Cygwin
+		  --64, -8     build package for x86_64 Cygwin
+		  --debug      enable debugging messages
+
+		The --32 and --64 options are mutually exclusive.
+
+		On Cygwin, if neither the --32 nor --64 options are enabled,
+		the package will be built for the architecture on which cygport
+		is run.  On other systems, one of those options is required.
+
+		COMMAND may be one or more of the following:
+
+		  download     download upstream sources from Internet
+		  prep         create working directory, unpack sources and apply patches
+		  compile      run all compilation steps
+		  test         run the package's test suite, if one exists
+		  install      install into a DESTDIR, and run post-installation steps
+		  package      create binary and source packages
+		  finish       delete the working directory
+		  almostall    run all of the above, excluding finish
+		  all          run all of the above, including finish
+
+		See the included README file for further documentation.
+
+		Report bugs to <cygwin-ports-general@lists.sourceforge.net>.
+		_EOF
+}
+
+__show_version() {
+	cat <<-_EOF
+		cygport ${_version}
+		Copyright (C) 2013 Yaakov Selkowitz
+
+		This program comes with NO WARRANTY, to the extent permitted by law.
+
+		You may redistribute copies of this program under the terms of
+		the GNU General Public License as published by the Free Software
+		Foundation, either version 3 of the License, or (at your option) any
+		later version.
+
+		For more information about these matters, see the file named COPYING.
+
+		Written by Yaakov Selkowitz for the Cygwin Ports project
+		<http://sourceware.org/cygwinports/>.
+		_EOF
+}
+
+readonly -f __show_help __show_version

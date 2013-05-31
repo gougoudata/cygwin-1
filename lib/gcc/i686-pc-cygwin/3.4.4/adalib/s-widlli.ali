@@ -16,8 +16,8 @@ U system.wid_lli%s	s-widlli.ads		7393a628 NE PU PK
 W system%s		system.ads		system.ali
 
 D system.ads		20031021134222 6af26689
-D s-widlli.ads		20030424175416 1961c0a1
-D s-widlli.adb		20030424175416 90370f61
+D s-widlli.ads		20030424175415 1961c0a1
+D s-widlli.adb		20030424175415 90370f61
 X 1 system.ads
 44K9*System 163e11 2|38r9 47r5 3|34r14 75r5
 X 2 s-widlli.ads

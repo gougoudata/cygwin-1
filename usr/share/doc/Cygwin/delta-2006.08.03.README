@@ -1,0 +1,71 @@
+delta
+------------------------------------------
+
+Heuristic minimizer of interesting files
+
+Delta assists you in minimizing interesting files subject to a test
+of their interestingness. A common such situation is when attempting
+to isolate a small failure-inducing substring of a large input that
+causes your program to exhibit a bug.
+
+Install Perl dependencies with (included in Perl 5.15.4):
+
+  cpan
+  force install FindBin
+
+Runtime requirements:
+  cygwin
+  perl
+
+Build requirements:
+  cygwin
+  quilt
+
+Canonical homepage:
+  http://delta.tigris.org
+  http://packages.debian.org/delta
+
+Canonical download:
+  See above
+
+Version control repository:
+
+Mailing list:
+
+Forum / Wiki:
+
+IRC channel:
+
+Upstream contact:
+  Maintainer:
+  Bugs:
+
+License:
+  BSD
+
+Language:
+  Perl
+
+------------------------------------------
+
+Build instructions:
+  unpack delta-*-src.tar.bz2
+    if you use setup to install this source package, it will be
+    unpacked under /usr/src automatically
+  cd /usr/src
+  ./delta*.sh all
+
+------------------------------------------
+
+Files included in the binary distribution:
+  See Cygwin package archive
+
+------------------------------------------
+
+Port Notes:
+
+----- version 2006.08.03-1 -----
+- Initial release 2012-02-18 Jari Aalto
+
+Cygwin port maintained by: Jari Aalto <jari.aalto@cante.net>
+Copyright (C) 2012 Jari Aalto; Licensed under GPL v2 or later

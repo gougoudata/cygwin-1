@@ -1,0 +1,14 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$_helper_macros_8h.html" title="Macros intended to ease the definition of test suites." alt="" coords="147,83,269,112"/>
+<area shape="rect" id="node5" href="$cppunit_2_test_runner_8h.html" title="TestRunner.h" alt="" coords="293,83,400,112"/>
+<area shape="rect" id="node13" href="$_text_test_runner_8cpp.html" title="TextTestRunner.cpp" alt="" coords="317,237,467,267"/>
+<area shape="rect" id="node17" href="$_test_plug_in_interface_8h.html" title="TestPlugInInterface.h" alt="" coords="479,83,633,112"/>
+<area shape="rect" id="node19" href="$_test_factory_registry_8cpp.html" title="TestFactoryRegistry.cpp" alt="" coords="657,83,831,112"/>
+<area shape="rect" id="node21" href="$_test_plug_in_default_impl_8cpp.html" title="TestPlugInDefaultImpl.cpp" alt="" coords="855,83,1039,112"/>
+<area shape="rect" id="node23" href="$_test_suite_8cpp.html" title="TestSuite.cpp" alt="" coords="1063,83,1169,112"/>
+<area shape="rect" id="node25" href="$_test_suite_builder_context_8cpp.html" title="TestSuiteBuilderContext.cpp" alt="" coords="1193,83,1391,112"/>
+<area shape="rect" id="node7" href="$ui_2text_2_text_test_runner_8h.html" title="TextTestRunner.h" alt="" coords="124,160,257,189"/>
+<area shape="rect" id="node15" href="$_test_runner_8cpp.html" title="TestRunner.cpp" alt="" coords="281,160,404,189"/>
+<area shape="rect" id="node9" href="$_text_test_runner_8h.html" title="TextTestRunner.h" alt="" coords="5,237,139,267"/>
+<area shape="rect" id="node11" href="$cppunit_2ui_2text_2_test_runner_8h.html" title="TestRunner.h" alt="" coords="163,237,269,267"/>
+</map>

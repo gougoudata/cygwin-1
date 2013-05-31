@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /usr/bin/bash
 
 #  This script is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License version 2 as
@@ -114,11 +114,11 @@ fi
 # may pass a single filename to grep and cause it to omit the file name.
 [ -z "$opt_h" ] && opt_H=-H
 
-find "${myargs[@]}" \( \
+find "${myargs[@]:-.}" \( \
 	-path "./$QUILT_PATCHES/*" -o \
 	-path "./$QUILT_PC/*" \) -prune -o \
-	-type f -print \
-| xargs grep $opt_H "${args[@]}" \
+	-type f -print0 \
+| xargs -0 grep $opt_H "${args[@]}" \
 | if [ ${#myargs[@]} -eq 0 ]; then
 	sed -e 's,^./,,'
 else

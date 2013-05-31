@@ -26,6 +26,10 @@
 
 
 SCM_API SCM scm_parse_path (SCM path, SCM tail);
+#if ARGV0_RELOCATION
+SCM_API void scm_c_argv0_relocation (char const *argv0);
+SCM_API SCM scm_init_argv0_relocation (char const* argv0);
+#endif
 SCM_API void scm_init_load_path (void);
 SCM_API SCM scm_primitive_load (SCM filename);
 SCM_API SCM scm_c_primitive_load (const char *filename);

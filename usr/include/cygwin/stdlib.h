@@ -1,6 +1,6 @@
 /* stdlib.h
 
-   Copyright 2005, 2006 Red Hat Inc.
+   Copyright 2005, 2006, 2007, 2008, 2009, 2011 Red Hat Inc.
 
 This file is part of Cygwin.
 
@@ -23,18 +23,29 @@ void	setprogname (const char *);
 
 #ifndef __STRICT_ANSI__
 char *realpath (const char *, char *);
+char *canonicalize_file_name (const char *);
 int unsetenv (const char *);
-int random (void);
-long srandom (unsigned);
+char *initstate (unsigned seed, char *state, size_t size);
+long random (void);
+char *setstate (const char *state);
+void srandom (unsigned);
 char *ptsname (int);
+int ptsname_r(int, char *, size_t);
+int getpt (void);
 int grantpt (int);
 int unlockpt (int);
 #endif /*__STRICT_ANSI__*/
+
+int posix_openpt (int);
+int posix_memalign (void **, size_t, size_t);
 
 #ifdef _COMPILING_NEWLIB
 #define unsetenv UNUSED_unsetenv
 #define _unsetenv_r UNUSED__unsetenv_r
 #endif
+
+extern _PTR memalign _PARAMS ((size_t, size_t));
+extern _PTR valloc _PARAMS ((size_t));
 
 #undef _malloc_r
 #define _malloc_r(r, s) malloc (s)

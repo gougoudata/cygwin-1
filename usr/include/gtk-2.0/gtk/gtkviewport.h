@@ -21,21 +21,22 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 #ifndef __GTK_VIEWPORT_H__
 #define __GTK_VIEWPORT_H__
 
 
-#include <gdk/gdk.h>
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
 #include <gtk/gtkadjustment.h>
 #include <gtk/gtkbin.h>
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 
 #define GTK_TYPE_VIEWPORT            (gtk_viewport_get_type ())
@@ -53,11 +54,11 @@ struct _GtkViewport
 {
   GtkBin bin;
 
-  GtkShadowType shadow_type;
-  GdkWindow *view_window;
-  GdkWindow *bin_window;
-  GtkAdjustment *hadjustment;
-  GtkAdjustment *vadjustment;
+  GtkShadowType GSEAL (shadow_type);
+  GdkWindow *GSEAL (view_window);
+  GdkWindow *GSEAL (bin_window);
+  GtkAdjustment *GSEAL (hadjustment);
+  GtkAdjustment *GSEAL (vadjustment);
 };
 
 struct _GtkViewportClass
@@ -82,11 +83,11 @@ void           gtk_viewport_set_vadjustment (GtkViewport   *viewport,
 void           gtk_viewport_set_shadow_type (GtkViewport   *viewport,
 					     GtkShadowType  type);
 GtkShadowType  gtk_viewport_get_shadow_type (GtkViewport   *viewport);
+GdkWindow*     gtk_viewport_get_bin_window  (GtkViewport   *viewport);
+GdkWindow*     gtk_viewport_get_view_window (GtkViewport   *viewport);
 
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 
 #endif /* __GTK_VIEWPORT_H__ */

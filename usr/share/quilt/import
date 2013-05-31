@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /usr/bin/bash
 
 #  This script is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License version 2 as
@@ -19,7 +19,7 @@ fi
 
 usage()
 {
-	printf $"Usage: quilt import [-p num] [-P patch] [-f] [-d {o|a|n}] patchfile ...\n"
+	printf $"Usage: quilt import [-p num] [-R] [-P patch] [-f] [-d {o|a|n}] patchfile ...\n"
 	if [ x$1 = x-h ]
 	then
 		printf $"
@@ -29,11 +29,14 @@ current top patch, and must be pushed after import to apply them.
 -p num
 	Number of directory levels to strip when applying (default=1)
 
+-R
+	Apply patch in reverse.
+
 -P patch
 	Patch filename to use inside quilt. This option can only be
 	used when importing a single patch.
 
--f	Overwite/update existing patches.
+-f	Overwrite/update existing patches.
 
 -d {o|a|n}
 	When overwriting in existing patch, keep the old (o), all (a), or
@@ -93,7 +96,7 @@ die()
 	exit $status
 }
 
-options=`getopt -o P:d:fp:h -- "$@"`
+options=`getopt -o P:d:fp:Rh -- "$@"`
 
 if [ $? -ne 0 ]
 then
@@ -111,6 +114,9 @@ do
 	-p)
 		opt_strip=$2
 		shift 2 ;;
+	-R)
+		opt_reverse=1
+		shift ;;
 	-d)
 		case "$2" in
 			o|n|a) opt_desc=$2 ;;
@@ -135,17 +141,27 @@ then
 fi
 
 [ -n "$opt_strip" ] && patch_args="-p$opt_strip"
+if [ -n "$opt_reverse" ]
+then
+	if [ -n "$patch_args" ]
+	then
+		patch_args="$patch_args -R"
+	else
+		patch_args="-R"
+	fi
+fi
 
-for patch_file in "$@"
+before=$(patch_after "$(top_patch)")
+for orig_patch_file in "$@"
 do
 	if [ -n "$opt_patch" ]
 	then
 		patch=$opt_patch
 	else
-		patch=${patch_file##*/}
+		patch=${orig_patch_file##*/}
 	fi
 
-	patch_file=$(find_patch_file "$patch_file") || exit 1
+	patch_file=$(find_patch_file "$orig_patch_file") || exit 1
 	merged_patch_file="$patch_file"
 
 	if is_applied $patch
@@ -183,7 +199,7 @@ do
 		printf $"Importing patch %s\n" "$(print_patch $patch)"
 	else
 		printf $"Importing patch %s (stored as %s)\n" \
-		       "$patch_file" \
+		       "$orig_patch_file" \
 		       "$(print_patch $patch)"
 
 		mkdir -p "${dest%/*}"
@@ -202,7 +218,7 @@ do
 	[ "$merged_patch_file" != "$patch_file" ] && rm -f "$merged_patch_file"
 
 	if ! patch_in_series $patch &&
-	   ! insert_in_series $patch "$patch_args"
+	   ! insert_in_series $patch "$patch_args" "$before"
 	then
 		printf $"Failed to insert patch %s into file series\n" \
 		       "$(print_patch $patch)" >&2

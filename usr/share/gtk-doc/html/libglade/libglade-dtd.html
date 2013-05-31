@@ -1,7 +1,36 @@
-<html xmlns:cf="http://docbook.sourceforge.net/xmlns/chunkfast/1.0"><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Glade 2.0 File Format</title><meta name="generator" content="DocBook XSL Stylesheets V1.69.0"><link rel="start" href="index.html" title="Libglade Reference Manual"><link rel="up" href="index.html" title="Libglade Reference Manual"><link rel="prev" href="libglade-embedding.html" title="Embedding Libglade Interfaces"><link rel="next" href="libglade-dtd-exceptions.html" title="Exceptions"><meta name="generator" content="GTK-Doc V1.3 (XML mode)"><link rel="stylesheet" href="style.css" type="text/css"><link rel="chapter" href="libglade-notes.html" title="Libglade Programming Notes"><link rel="chapter" href="libglade-dtd.html" title="Glade 2.0 File Format"><link rel="part" href="libglade-lib.html" title="Part 1. Libglade Library Reference"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><table class="navigation" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2"><tr valign="middle"><td><a accesskey="p" href="libglade-embedding.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td><td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td><th width="100%" align="center">Libglade Reference Manual</th><td><a accesskey="n" href="libglade-dtd-exceptions.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td></tr></table><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="libglade-dtd"></a>Glade 2.0 File Format</h2></div></div></div><div class="toc"><dl><dt><span class="sect1"><a href="libglade-dtd.html#property-representations">Property Representations</a></span></dt><dt><span class="sect1"><a href="libglade-dtd-exceptions.html">Exceptions</a></span></dt></dl></div><p>Libglade 2.0 introduces a new file format for storing the
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Glade 2.0 File Format</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.77.1">
+<link rel="home" href="index.html" title="Libglade - Graphical Interface Description Loader API">
+<link rel="up" href="index.html" title="Libglade - Graphical Interface Description Loader API">
+<link rel="prev" href="libglade-embedding.html" title="Embedding Libglade Interfaces">
+<link rel="next" href="libglade-dtd-exceptions.html" title="Exceptions">
+<meta name="generator" content="GTK-Doc V1.18 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2"><tr valign="middle">
+<td><a accesskey="p" href="libglade-embedding.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td>Â </td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Libglade - Graphical Interface Description Loader API</th>
+<td><a accesskey="n" href="libglade-dtd-exceptions.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr></table>
+<div class="chapter">
+<div class="titlepage"><div><div><h1 class="title">
+<a name="libglade-dtd"></a>Glade 2.0 File Format</h1></div></div></div>
+<div class="toc"><dl>
+<dt><span class="sect1"><a href="libglade-dtd.html#property-representations">Property Representations</a></span></dt>
+<dt><span class="sect1"><a href="libglade-dtd-exceptions.html">Exceptions</a></span></dt>
+</dl></div>
+<p>Libglade 2.0 introduces a new file format for storing the
     user interface.  Unlike the previous format, this one does not
     introduce a new element for each new property.  This was done so
-    that the format could be described with a fairly small DTD:</p><pre class="programlisting">&lt;!-- proposed DTD for new glade format --&gt;
+    that the format could be described with a fairly small DTD:</p>
+<pre class="programlisting">&lt;!-- proposed DTD for new glade format --&gt;
 
 &lt;!ELEMENT glade-interface (requires*, widget*) &gt;
 &lt;!ATTLIST glade-interface
@@ -77,28 +106,44 @@
 &lt;!ELEMENT packing (property+) &gt;
 
 &lt;!ELEMENT placeholder EMPTY &gt;
-</pre><p>The <code class="sgmltag-element">&lt;widget&gt;</code> elements contain
+</pre>
+<p>The <code class="sgmltag-element">&lt;widget&gt;</code> elements contain
     <code class="sgmltag-element">&lt;property&gt;</code> elements which define widget
     properties.  In general these map to
-    <code class="classname">GObject</code> properties.</p><p>The <code class="sgmltag-element">&lt;signal&gt;</code> and
+    <code class="classname">GObject</code> properties.</p>
+<p>The <code class="sgmltag-element">&lt;signal&gt;</code> and
     <code class="sgmltag-element">&lt;accelerator&gt;</code> elements are used to define
-    signals and accelerators on the widget.</p><p>The <code class="sgmltag-element">&lt;widget&gt;</code> element may also
+    signals and accelerators on the widget.</p>
+<p>The <code class="sgmltag-element">&lt;widget&gt;</code> element may also
     contain an <code class="sgmltag-element">&lt;accessibility&gt;</code> element, which
     contains accessibility related properties.  These set various ATK
-    options (such as ATK properties, relations and actions).</p><p>For each child of the widget, there is an
+    options (such as ATK properties, relations and actions).</p>
+<p>For each child of the widget, there is an
     <code class="sgmltag-element">&lt;child&gt;</code> element.  The
     <em class="parameter"><code>internal-child</code></em> attribute is used to mark
     "internal children of the parent.  These children are widgets that
     are created when the parent is constructed, such as the
     <code class="classname">GtkVBox</code> and
     <code class="classname">GtkHButtonBox</code> in a
-    <code class="classname">GtkDialog</code>.</p><p>The <code class="sgmltag-element">&lt;child&gt;</code> element contains either
+    <code class="classname">GtkDialog</code>.</p>
+<p>The <code class="sgmltag-element">&lt;child&gt;</code> element contains either
     a <code class="sgmltag-element">&lt;widget&gt;</code> element representing the child
     widget, or a <code class="sgmltag-element">&lt;placeholder&gt;</code> element, which
     is ignored when building the interface.  It may also contain a
     <code class="sgmltag-element">&lt;packing&gt;</code> element, which contains
     <code class="sgmltag-element">&lt;property&gt;</code> elements defining packing
     properties.  These map to GtkContainer child packing
-    properties.</p><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="property-representations"></a>Property Representations</h2></div></div></div><p>Properties are represented as straight content data in the
+    properties.</p>
+<div class="sect1">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="property-representations"></a>Property Representations</h2></div></div></div>
+<p>Properties are represented as straight content data in the
       glade file.  All programs working with glade files must
-      represent the various types in the same way.</p></div></div><table class="navigation" width="100%" summary="Navigation footer" cellpadding="2" cellspacing="0"><tr valign="middle"><td align="left"><a accesskey="p" href="libglade-embedding.html"><b>&lt;&lt; Embedding Libglade Interfaces</b></a></td><td align="right"><a accesskey="n" href="libglade-dtd-exceptions.html"><b>Exceptions &gt;&gt;</b></a></td></tr></table></body></html>
+      represent the various types in the same way.</p>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.18</div>
+</body>
+</html>

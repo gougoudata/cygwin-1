@@ -20,17 +20,17 @@ W ada.io_exceptions%s	a-ioexce.ads		a-ioexce.ali
 W system%s		system.ads		system.ali
 W system.storage_elements%s  s-stoele.adb	s-stoele.ali
 
-D ada.ads		20030424175358 a0108083
-D a-ioexce.ads		20030424175354 d52e128a
+D ada.ads		20030424175357 a0108083
+D a-ioexce.ads		20030424175353 d52e128a
 D a-storio.ads		20030424175354 ac3779cd
 D a-storio.adb		20030424175354 06a3d605
 D system.ads		20031021134222 6af26689
-D s-atacco.ads		20031021134214 77cbd386
-D s-atacco.adb		20031021134214 e2710e0a
-D s-exctab.ads		20031021134214 6637f07f
+D s-atacco.ads		20031021134213 77cbd386
+D s-atacco.adb		20031021134213 e2710e0a
+D s-exctab.ads		20031021134213 6637f07f
 D s-stalib.ads		20031021134214 e7ad2af0
-D s-stoele.ads		20050603190336 5a73170b
-D s-stoele.adb		20030424175414 792079f8
+D s-stoele.ads		20050603200336 5a73170b
+D s-stoele.adb		20030424175413 792079f8
 D unchconv.ads		20030424175420 1b7a14c5
 X 1 ada.ads
 16K9*Ada 19e8 3|16r6 22r9 47r5 4|36r14 62r5

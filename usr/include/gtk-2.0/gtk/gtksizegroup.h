@@ -1,5 +1,5 @@
 /* GTK - The GIMP Toolkit
- * gtksizegroup.h: 
+ * gtksizegroup.h:
  * Copyright (C) 2000 Red Hat Software
  *
  * This library is free software; you can redistribute it and/or
@@ -21,6 +21,10 @@
 #ifndef __GTK_SIZE_GROUP_H__
 #define __GTK_SIZE_GROUP_H__
 
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
 #include <gtk/gtkwidget.h>
 
 G_BEGIN_DECLS
@@ -40,14 +44,16 @@ struct _GtkSizeGroup
 {
   GObject parent_instance;
 
-  GSList *widgets;
+  /* <private> */
+  GSList *GSEAL (widgets);
 
-  guint8 mode;
-  
-  guint have_width : 1;
-  guint have_height : 1;
+  guint8 GSEAL (mode);
 
-  GtkRequisition requisition;
+  guint GSEAL (have_width) : 1;
+  guint GSEAL (have_height) : 1;
+  guint GSEAL (ignore_hidden) : 1;
+
+  GtkRequisition GSEAL (requisition);
 };
 
 struct _GtkSizeGroupClass
@@ -63,13 +69,13 @@ struct _GtkSizeGroupClass
 
 /**
  * GtkSizeGroupMode:
- * @GTK_SIZE_GROUP_NONE: group has no effect  
- * @GTK_SIZE_GROUP_HORIZONTAL: group effects horizontal requisition
- * @GTK_SIZE_GROUP_VERTICAL: group effects vertical requisition
- * @GTK_SIZE_GROUP_BOTH: group effects both horizontal and vertical requisition
- * 
+ * @GTK_SIZE_GROUP_NONE: group has no effect
+ * @GTK_SIZE_GROUP_HORIZONTAL: group affects horizontal requisition
+ * @GTK_SIZE_GROUP_VERTICAL: group affects vertical requisition
+ * @GTK_SIZE_GROUP_BOTH: group affects both horizontal and vertical requisition
+ *
  * The mode of the size group determines the directions in which the size
- * group effects the requested sizes of its component widgets.
+ * group affects the requested sizes of its component widgets.
  **/
 typedef enum {
   GTK_SIZE_GROUP_NONE,
@@ -84,10 +90,14 @@ GtkSizeGroup *   gtk_size_group_new           (GtkSizeGroupMode  mode);
 void             gtk_size_group_set_mode      (GtkSizeGroup     *size_group,
 					       GtkSizeGroupMode  mode);
 GtkSizeGroupMode gtk_size_group_get_mode      (GtkSizeGroup     *size_group);
+void             gtk_size_group_set_ignore_hidden (GtkSizeGroup *size_group,
+						   gboolean      ignore_hidden);
+gboolean         gtk_size_group_get_ignore_hidden (GtkSizeGroup *size_group);
 void             gtk_size_group_add_widget    (GtkSizeGroup     *size_group,
 					       GtkWidget        *widget);
 void             gtk_size_group_remove_widget (GtkSizeGroup     *size_group,
 					       GtkWidget        *widget);
+GSList *         gtk_size_group_get_widgets   (GtkSizeGroup     *size_group);
 
 
 void _gtk_size_group_get_child_requisition (GtkWidget      *widget,

@@ -1,0 +1,174 @@
+logiweb
+A system for electronic distribution of mathematics
+
+-------------------------------------------
+
+REQUIREMENTS
+
+Runtime requirements:
+
+  Category  Version    Package
+
+  Base      1.7.1-1    cygwin: the UNIX emulation engine
+  Devel     3.4.4-999  gcc: C compiler upgrade helper
+  Text      3.0.0-3    tetex: The TeX ... system (install helper)
+  Text      3.0.0-3    tetex-base: The TeX ... system (basic libraries)
+  Text      3.0.0-3    tetex-extra: The Tex ... system (extra libraries)
+
+Build requirements:
+
+  Category  Version    Package
+
+  Devel     3.4.4-999  gcc: C compiler upgrade helper
+  Devel     3.81-2     make: The GNU version of the 'make' utility
+  Editors   7.2.264-1  vim: Vi IMproved - enhanced vi editor
+  Perl      5.10.1-2   perl: Larry Wall's Practical Extracting and ...
+  Utils     1.0.5-10   bzip2: A high-quality block-sorting file compressor
+  Utils     2.8.7-2    diffutils: A GNU collection of diff utilities
+
+  Note: The vim package is needed only for the sake of the xxd utility.
+
+Suggested:
+
+  Category  Version    Package
+
+  Doc       1.6e-1     man: Man, apropos and whatis
+  Utils     2.20-2     which: Prints out full path of executables
+
+Extra build requirements when building from scratch:
+
+  Category  Version    Package
+
+  Devel     2.48-3     clisp: An ANSI Common Lisp implementation
+  Non-Cygwin           editbin
+
+-------------------------------------------
+
+WEBSITE
+
+Canonical website:
+  http://logiweb.eu/
+
+Canonical download:
+  http://logiweb.eu/0.2/index.html
+
+Mirrors:
+  http://logiweb.imm.dtu.dk/
+  http://topps.diku.dk/logiweb/
+
+-------------------------------------------
+
+MANUAL INSTALL INSTRUCTIONS:
+
+- start Cygwin
+- download logiweb-VERSION.tar.gz
+- tar zxf logiweb-VERSION.tar.gz
+- cd logiweb-VERSION
+- make
+- make test (optional, time consuming)
+- make install
+
+-------------------------------------------
+
+INSTALL INSTRUCTIONS WHEN BUILDING FROM SCRATCH
+
+The Logiweb compiler (lgc) is expressed in its
+own language. That language is named the Logiweb
+Source language (lgs).
+
+Thus, to compile the Logiweb compiler, you need
+the Logiweb compiler. That creates a chicken and
+egg problem.
+
+To overcome the chicken and egg problem, the
+source package contains a compiled, binary
+version of lgc. The binary version is stored in
+the file src/pages.c. That file is a C source
+file, but if you view it in a text editor you
+will see that it is a binary file in disguise.
+
+If you *really* want to build from source, i.e.
+if you want to rebuild src/pages.c, you may
+proceed thus:
+
+- Install clisp under Cygwin (using setup.exe)
+- Install editbin under Windows
+- start Cygwin
+- Ensure editbin is in PATH (use 'which editbin' in Cygwin to confirm)
+- download logiweb-VERSION.tar.gz
+- tar zxf logiweb-VERSION.tar.gz
+- cd logiweb-VERSION
+- make maintainerclean
+- make
+- make test (optional, time consuming)
+- make install
+
+If you get a 'fatal error - unable to remap' during 'make' then:
+- Install the rebase package using setup.exe
+- Close all cygwin processes
+- Type 'ash' from the start / run menu
+- Type 'rebaseall' in the ash window
+- Try 'make' again
+
+-------------------------------------------
+
+BUILD INSTRUCTIONS
+
+- start Cygwin
+- download logiweb-VERSION.tar.gz
+- tar zxf logiweb-VERSION.tar.gz
+- cd logiweb-VERSION
+- make cyg (this will create logiweb-VERSION/dist/cygwin)
+- make gz  (this will create logiweb-VERSION/dist/gz)
+- make bz2 (this will create logiweb-VERSION/dist/bz2)
+
+-------------------------------------------
+
+FILES INCLUDED IN THE BINARY PACKAGE
+
+  usr/bin/lgc
+  usr/bin/lgwam.exe
+  usr/share/doc/Cygwin/logiweb.README
+  usr/share/doc/logiweb/examples/base.lgs
+  usr/share/doc/logiweb/examples/check.lgs
+  usr/share/doc/logiweb/examples/combinations.lgs
+  usr/share/doc/logiweb/examples/compile.sh
+  usr/share/doc/logiweb/examples/hello.lgs
+  usr/share/doc/logiweb/examples/lgc.lgs
+  usr/share/doc/logiweb/examples/logiweb.eps
+  usr/share/doc/logiweb/examples/logiweb.ico
+  usr/share/doc/logiweb/examples/logiweb.png
+  usr/share/doc/logiweb/examples/makefile
+  usr/share/doc/logiweb/examples/multzero.lgs
+  usr/share/doc/logiweb/examples/Peano.lgs
+  usr/share/doc/logiweb/examples/README
+  usr/share/doc/logiweb/examples/test.lgs
+  usr/share/doc/logiweb/examples/testmachine.lgs
+  usr/share/doc/logiweb/examples/version
+  usr/share/doc/logiweb/CHANGELOG
+  usr/share/man/man1/lgc.1
+  usr/share/man/man1/lgwam.1
+  usr/share/man/man5/lgc.5
+  usr/share/man/man5/lgc.conf.5
+  usr/share/man/man5/logiweb.5
+  usr/share/man/man7/logiweb.7
+
+-------------------------------------------
+
+PORT NOTES
+
+The makefile for logiweb contains a target for
+producing a Cygwin package.
+
+To port logiweb to Cygwin, do thus:
+- start Cygwin
+- download logiweb-VERSION.tar.gz
+- tar zxf logiweb-VERSION.tar.gz
+- cd logiweb-VERSION
+- make cyg
+The resulting cygwin package ends up in
+logiweb-VERSION/dist/cygwin
+
+
+Cygwin port maintained by: Klaus Grue <grue@diku.dk>
+Copyright (C) 2010 Klaus Grue; Licensed under GPL v2 or later

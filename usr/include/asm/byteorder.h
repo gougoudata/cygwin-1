@@ -1,6 +1,6 @@
 /* asm/byteorder.h
 
-   Copyright 1996, 1998, 2001, 2006 Red Hat, Inc.
+   Copyright 1996, 1998, 2000, 2001, 2006, 2009, 2011 Red Hat, Inc.
 
 This file is part of Cygwin.
 
@@ -11,14 +11,12 @@ details. */
 #ifndef _I386_BYTEORDER_H
 #define _I386_BYTEORDER_H
 
+#include <_ansi.h>
 #include <stdint.h>
+#include <bits/endian.h>
 
 #ifdef __cplusplus
 extern "C" {
-#endif
-
-#ifndef __LITTLE_ENDIAN
-#define __LITTLE_ENDIAN 1234
 #endif
 
 #ifndef __LITTLE_ENDIAN_BITFIELD
@@ -30,12 +28,10 @@ extern uint16_t	ntohs(uint16_t);
 extern uint32_t	htonl(uint32_t);
 extern uint16_t	htons(uint16_t);
 
-extern __inline__ uint32_t	__ntohl(uint32_t);
-extern __inline__ uint16_t	__ntohs(uint16_t);
-extern __inline__ uint32_t	__constant_ntohl(uint32_t);
-extern __inline__ uint16_t	__constant_ntohs(uint16_t);
+_ELIDABLE_INLINE uint32_t __ntohl(uint32_t);
+_ELIDABLE_INLINE uint16_t __ntohs(uint16_t);
 
-extern __inline__ uint32_t
+_ELIDABLE_INLINE uint32_t
 __ntohl(uint32_t x)
 {
 	__asm__("xchgb %b0,%h0\n\t"	/* swap lower bytes	*/
@@ -52,7 +48,7 @@ __ntohl(uint32_t x)
 		   (((uint32_t)(x) & 0x00ff0000U) >>  8) | \
 		   (((uint32_t)(x) & 0xff000000U) >> 24)))
 
-extern __inline__ uint16_t
+_ELIDABLE_INLINE uint16_t
 __ntohs(uint16_t x)
 {
 	__asm__("xchgb %b0,%h0"		/* swap bytes		*/

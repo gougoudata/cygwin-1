@@ -1,0 +1,69 @@
+cccc
+------------------------------------------
+
+C and C++ Code Counter, a software metrics tool
+
+Analyse and report measurements of source code in C, C++, and
+Java. This tool was developed to augment programmers'
+instinctive application of numeric rules of thumb about what
+constitutes high or low quality products with an automated
+analysis tool.
+
+Runtime requirements:
+  libgcc1
+  libstdc++6
+
+Build requirements:
+  libstdc++6-devel
+
+Canonical homepage:
+  http://freecode.com/projects/cccc
+  http://sourceforge.net/projects/cccc
+  http://packages.debian.org/cccc
+
+Canonical download:
+  See above
+
+Version control repository:
+  svn co https://cccc.svn.sourceforge.net/svnroot/cccc
+
+Mailing list:
+  http://sourceforge.net/projects/cccc/support
+
+Forum / Wiki:
+
+IRC channel:
+
+Upstream contact:
+  Maintainer: Tim Littlefair <tim_littlefair@hotmail.com>
+  Bugs: http://sourceforge.net/tracker/?group_id=7763
+
+License:
+  GPL-2+
+
+Language:
+  C++
+
+------------------------------------------
+
+Build instructions:
+  unpack cccc-*-src.tar.bz2
+    if you use setup to install this source package, it will be
+    unpacked under /usr/src automatically
+  cd /usr/src
+  ./cccc*.sh all
+
+------------------------------------------
+
+Files included in the binary distribution:
+  See Cygwin package archive
+
+------------------------------------------
+
+Port Notes:
+
+----- version 3.1.4-1 -----
+- Initial release 2012-09-25 Jari Aalto
+
+Cygwin port maintained by: Jari Aalto <jari.aalto@cante.net>
+Copyright (C) 2012 Jari Aalto; Licensed under GPL v2 or later

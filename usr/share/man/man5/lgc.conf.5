@@ -1,0 +1,20 @@
+.TH LGC.CONF 5 "JULY 2009" Logiweb "File Formats"
+.SH NAME
+lgc.conf \- configuration file for the Logiweb compiler (lgc)
+.SH DESCRIPTION
+Logiweb compiler configuration files are used by the Logiweb compiler, c.f. lgc(1). 
+.P
+Blank lines and lines starting with a hash mark (#) are ignored. Lines may be ended by arbitrary sequences of CR and LF characters.
+.P
+All other lines must have form option=value, option+value, option++value, or option, c.f. lgc(1).
+.P
+Non-existent files are treated as empty files.
+.SH DEFAULT FILE LOCATIONS
+.nf
+Site configuration file:  /etc/logiweb/lgc.conf
+User configuration file:  $HOME/.logiweb/lgc.conf
+.fi
+.SH AUTHOR
+Klaus Grue, http://logiweb.eu/
+.SH SEE ALSO
+lgc(1)

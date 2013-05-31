@@ -10,10 +10,10 @@
  * guarantee that there can only be one matching row for a key combination.
  *
  *
- * Portions Copyright (c) 1996-2006, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2012, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
- * $PostgreSQL: pgsql/src/include/utils/catcache.h,v 1.63 2006/10/06 18:23:35 tgl Exp $
+ * src/include/utils/catcache.h
  *
  *-------------------------------------------------------------------------
  */
@@ -23,7 +23,7 @@
 #include "access/htup.h"
 #include "access/skey.h"
 #include "lib/dllist.h"
-#include "utils/rel.h"
+#include "utils/relcache.h"
 
 /*
  *		struct catctup:			individual tuple in the cache.
@@ -31,6 +31,8 @@
  *		struct catcache:		information for managing a cache.
  *		struct catcacheheader:	information for managing all the caches.
  */
+
+#define CATCACHE_MAXKEYS		4
 
 typedef struct catcache
 {
@@ -41,14 +43,14 @@ typedef struct catcache
 	Oid			cc_indexoid;	/* OID of index matching cache keys */
 	bool		cc_relisshared; /* is relation shared across databases? */
 	TupleDesc	cc_tupdesc;		/* tuple descriptor (copied from reldesc) */
-	int			cc_reloidattr;	/* AttrNumber of relation OID attr, or 0 */
 	int			cc_ntup;		/* # of tuples currently in this cache */
 	int			cc_nbuckets;	/* # of hash buckets in this cache */
-	int			cc_nkeys;		/* # of keys (1..4) */
-	int			cc_key[4];		/* AttrNumber of each key */
-	PGFunction	cc_hashfunc[4]; /* hash function to use for each key */
-	ScanKeyData cc_skey[4];		/* precomputed key info for heap scans */
-	bool		cc_isname[4];	/* flag key columns that are NAMEs */
+	int			cc_nkeys;		/* # of keys (1..CATCACHE_MAXKEYS) */
+	int			cc_key[CATCACHE_MAXKEYS];		/* AttrNumber of each key */
+	PGFunction	cc_hashfunc[CATCACHE_MAXKEYS];	/* hash function for each key */
+	ScanKeyData cc_skey[CATCACHE_MAXKEYS];		/* precomputed key info for
+												 * heap scans */
+	bool		cc_isname[CATCACHE_MAXKEYS];	/* flag "name" key columns */
 	Dllist		cc_lists;		/* list of CatCList structs */
 #ifdef CATCACHE_STATS
 	long		cc_searches;	/* total # searches against this cache */
@@ -157,13 +159,12 @@ typedef struct catcacheheader
 
 
 /* this extern duplicates utils/memutils.h... */
-extern DLLIMPORT MemoryContext CacheMemoryContext;
+extern PGDLLIMPORT MemoryContext CacheMemoryContext;
 
 extern void CreateCacheMemoryContext(void);
 extern void AtEOXact_CatCache(bool isCommit);
 
 extern CatCache *InitCatCache(int id, Oid reloid, Oid indexoid,
-			 int reloidattr,
 			 int nkeys, const int *key,
 			 int nbuckets);
 extern void InitCatCachePhase2(CatCache *cache, bool touch_index);
@@ -173,18 +174,22 @@ extern HeapTuple SearchCatCache(CatCache *cache,
 			   Datum v3, Datum v4);
 extern void ReleaseCatCache(HeapTuple tuple);
 
+extern uint32 GetCatCacheHashValue(CatCache *cache,
+					 Datum v1, Datum v2,
+					 Datum v3, Datum v4);
+
 extern CatCList *SearchCatCacheList(CatCache *cache, int nkeys,
 				   Datum v1, Datum v2,
 				   Datum v3, Datum v4);
 extern void ReleaseCatCacheList(CatCList *list);
 
 extern void ResetCatalogCaches(void);
-extern void CatalogCacheFlushRelation(Oid relId);
-extern void CatalogCacheIdInvalidate(int cacheId, uint32 hashValue,
-						 ItemPointer pointer);
+extern void CatalogCacheFlushCatalog(Oid catId);
+extern void CatalogCacheIdInvalidate(int cacheId, uint32 hashValue);
 extern void PrepareToInvalidateCacheTuple(Relation relation,
 							  HeapTuple tuple,
-						   void (*function) (int, uint32, ItemPointer, Oid));
+							  HeapTuple newtuple,
+							  void (*function) (int, uint32, Oid));
 
 extern void PrintCatCacheLeakWarning(HeapTuple tuple);
 extern void PrintCatCacheListLeakWarning(CatCList *list);

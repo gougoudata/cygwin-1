@@ -32,7 +32,7 @@
 ## Release information
 my $PROGRAM      = "intltool-extract";
 my $PACKAGE      = "intltool";
-my $VERSION      = "0.40.3";
+my $VERSION      = "0.50.2";
 
 ## Loaded modules
 use strict; 
@@ -55,6 +55,7 @@ my $OUTFILE;
 my $gettext_type = "";
 my $input;
 my %messages = ();
+my @messages_sorted = ();
 my %loc = ();
 my %count = ();
 my %comments = ();
@@ -77,7 +78,7 @@ GetOptions (
             "update"     => \$UPDATE_ARG,
 	    "quiet|q"    => \$QUIET_ARG,
 	    "srcdir=s"	 => \$SRCDIR_ARG,
-	    "nomsgctxt"  => \$NOMSGCTXT_ARG,            
+	    "nomsgctxt"  => \$NOMSGCTXT_ARG,
             ) or &error;
 
 &split_on_argument;
@@ -163,19 +164,18 @@ XML files. Read manpage (man ${PROGRAM}) for more info.
       --type=TYPE   Specify the file type of FILENAME. Currently supports:
                     "gettext/glade", "gettext/ini", "gettext/keys"
                     "gettext/rfc822deb", "gettext/schemas",
-                    "gettext/scheme", "gettext/xml", "gettext/quoted",
-                    "gettext/quotedxml"
+                    "gettext/gsettings", "gettext/xml", "gettext/quoted",
+                    "gettext/quotedxml", "gettext/tlk"
   -l, --local       Writes output into current working directory
                     (conflicts with --update)
-      --update      Writes output into the same directory the source file 
+      --update      Writes output into the same directory the source file
                     reside (conflicts with --local)
       --srcdir      Root of the source tree
   -v, --version     Output version information and exit
   -h, --help        Display this help and exit
   -q, --quiet       Quiet mode
 
-Report bugs to http://bugzilla.gnome.org/ (product name "$PACKAGE")
-or send email to <xml-i18n-tools\@gnome.org>.
+Report bugs to http://bugs.launchpad.net/intltool
 _EOF_
     exit;
 }
@@ -210,18 +210,21 @@ sub convert {
 	local (*IN);
 	local $/; #slurp mode
 	open (IN, "<$SRCDIR_ARG/$FILE") || die "can't open $SRCDIR_ARG/$FILE: $!";
-	$input = <IN>;
+        binmode (IN);
+        $input = <IN>;
+        close IN;
     }
 
     &type_ini if $gettext_type eq "ini";
     &type_keys if $gettext_type eq "keys";
     &type_xml if $gettext_type eq "xml";
     &type_glade if $gettext_type eq "glade";
-    &type_scheme if $gettext_type eq "scheme";
+    &type_gsettings  if $gettext_type eq "gsettings";
     &type_schemas  if $gettext_type eq "schemas";
     &type_rfc822deb  if $gettext_type eq "rfc822deb";
     &type_quoted if $gettext_type eq "quoted";
     &type_quotedxml if $gettext_type eq "quotedxml";
+    &type_tlk if $gettext_type eq "tlk";
 }
 
 sub entity_decode_minimal
@@ -263,20 +266,27 @@ sub escape
     return join "", map &escape_char, split //, $string;
 }
 
+sub add_message
+{
+    my ($string) = @_;
+    push @messages_sorted, $string if !defined $messages{$string};
+    $messages{$string} = [];
+}
+
 sub type_ini {
     ### For generic translatable desktop files ###
     while ($input =~ /^(#(.+)\n)?^_.*=(.*)$/mg) {
         if (defined($2))  {
             $comments{$3} = $2;
         }
-        $messages{$3} = [];
+        add_message($3);
     }
 }
 
 sub type_keys {
     ### For generic translatable mime/keys files ###
     while ($input =~ /^\s*_\w+=(.*)$/mg) {
-        $messages{$1} = [];
+        add_message($1);
     }
 }
 
@@ -338,7 +348,7 @@ sub getAttributeString
         ## differences from intltool-merge.in.in
 	if ($key =~ /^_/) {
             $comments{entity_decode($string)} = $XMLCOMMENT if $XMLCOMMENT;
-            $messages{entity_decode($string)} = [];
+            add_message(entity_decode($string));
             $$translate = 2;
 	}
         ## differences end here from intltool-merge.in.in
@@ -455,7 +465,7 @@ sub traverse
 
 	    if ($lookup && $translate != 2) {
                 $comments{$lookup} = $XMLCOMMENT if $XMLCOMMENT;
-                $messages{$lookup} = [];
+                add_message($lookup);
             } elsif ($translate == 2) {
                 translate_subnodes($fh, \@all, $language, 1, $spacepreserve);
 	    }
@@ -617,7 +627,6 @@ sub readXml
     ## differences end here from intltool-merge.in.in
 
     my $tree = $xp->parse($xmldoc);
-    #print_var($tree);
 
 # <foo><!-- comment --><head id="a">Hello <em>there</em></head><bar>Howdy<ref/></bar>do</foo>
 # would be:
@@ -629,7 +638,7 @@ sub readXml
 
 sub type_schemas {
     ### For schemas XML files ###
-         
+
     # FIXME: We should handle escaped < (less than)
     while ($input =~ /
                       <locale\ name="C">\s*
@@ -644,10 +653,77 @@ sub type_schemas {
             my $currentcomment = shift @eachcomment;
             next if !$_;
             s/\s+/ /g;
-            $messages{entity_decode_minimal($_)} = [];
+            add_message(entity_decode_minimal($_));
             $comments{entity_decode_minimal($_)} = $currentcomment if (defined($currentcomment));
         }
     }
+}
+
+# Parse the tree as returned by readXml() for gschema.xml files.
+sub traverse_gsettings {
+    sub cleanup {
+        s/^\s+//;
+        s/\s+$//;
+        s/\s+/ /g;
+        return $_;
+    }
+
+    my $nodename = shift;
+    my $content = shift;
+    my $comment = shift || 0;
+    my @list = @{ $content };
+    my $attrs_ref = shift @list;
+    my %attrs = %{ $attrs_ref };
+    if (($nodename eq 'default' and $attrs{'l10n'}) or
+        ($nodename eq 'summary') or ($nodename eq 'description')) {
+        # preserve whitespace.  deal with it ourselves, below.
+        my $message = getXMLstring($content, 1);
+
+        if ($nodename eq 'default') {
+            # for <default> we strip leading and trailing whitespace but
+            # preserve (possibly quoted) whitespace within
+            $message =~ s/^\s+//;
+            $message =~ s/\s+$//;
+        } else {
+            # for <summary> and <description>, we normalise all
+            # whitespace while preserving paragraph boundaries
+            $message = join "\n\n", map &cleanup, split/\n\s*\n+/, $message;
+        }
+
+        my $context = $attrs{'context'};
+        $context =~ s/^["'](.*)["']/$1/ if $context;
+        $message = $context . "\004" . $message if $context;
+        add_message($message);
+        $comments{$message} = $comment if $comment;
+    } else {
+        my $index = 0;
+        my $comment;
+        while (scalar(@list) > 1) {
+            my $type = shift @list;
+            my $content = shift @list;
+            if (!$type || "$type" eq "1") {
+                if ($type == 1) {
+                    $comment = $content;
+                }
+                next;
+            } else {
+                traverse_gsettings($type, $content, $comment);
+                $comment = 0;
+            }
+        }
+    }
+}
+
+sub type_gsettings {
+    my $tree = readXml($input);
+    my @tree_nodes = @{ $tree };
+    my $node = shift @tree_nodes;
+    while (!$node || "$node" eq "1") {
+        shift @tree_nodes;
+        $node = shift @tree_nodes;
+    }
+    my $content = shift @tree_nodes;
+    traverse_gsettings($node, $content);
 }
 
 sub type_rfc822deb {
@@ -667,7 +743,7 @@ sub type_rfc822deb {
         for my $str (@str_list)
         {
             $strcount++;
-            $messages{$str} = [];
+            add_message($str);
             $loc{$str} = $lineno;
             $count{$str} = $strcount;
             my $usercomment = '';
@@ -735,7 +811,7 @@ sub type_quoted {
         my $before = $`;
         $message =~ s/\\\"/\"/g;
         $before =~ s/[^\n]//g;
-        $messages{$message} = [];
+        add_message($message);
         $loc{$message} = length ($before) + 2;
     }
 }
@@ -747,7 +823,7 @@ sub type_quotedxml {
         $message =~ s/\\\"/\"/g;
         $message = entity_decode($message);
         $before =~ s/[^\n]//g;
-        $messages{$message} = [];
+        add_message($message);
         $loc{$message} = length ($before) + 2;
     }
 }
@@ -761,69 +837,128 @@ sub type_glade {
 	# Glade sometimes uses tags that normally mark translatable things for
         # little bits of non-translatable content. We work around this by not
         # translating strings that only includes something like label4 or window1.
-	$messages{entity_decode($2)} = [] unless $2 =~ /^(window|label|dialog)[0-9]+$/;
+	add_message(entity_decode($2)) unless $2 =~ /^(window|label|dialog)[0-9]+$/;
     }
-    
+
     while ($input =~ /<items>(..[^<]*)<\/items>/sg) {
 	for my $item (split (/\n/, $1)) {
-	    $messages{entity_decode($item)} = [];
+            add_message(entity_decode($item));
 	}
     }
 
     ## handle new glade files
-    while ($input =~ /<(property|atkproperty|col)\s+[^>]*translatable\s*=\s*"yes"(?:\s+[^>]*comments\s*=\s*"([^"]*)")?[^>]*>([^<]+)<\/\1>/sg) {
-	$messages{entity_decode($3)} = [] unless $3 =~ /^(window|label)[0-9]+$/;
-        if (defined($2) and !($3 =~ /^(window|label)[0-9]+$/)) {
-	   $comments{entity_decode($3)} = entity_decode($2) ;
+    while ($input =~ /<(\w+)\s+[^>]*translatable\s*=\s*"yes"(?:\s+[^>]*context\s*=\s*"([^"]*)")?(?:\s+[^>]*comments\s*=\s*"([^"]*)")?[^>]*>([^<]+)<\/\1>/sg) {
+        if (!($4 =~ /^(window|label)[0-9]+$/)) {
+            my $message = entity_decode($4);
+            if (defined($2)) {
+                $message = entity_decode($2) . "\004" . $message;
+            }
+            add_message($message);
+            if (defined($3)) {
+                $comments{$message} = entity_decode($3) ;
+            }
         }
     }
     while ($input =~ /<atkaction\s+action_name="([^>]*)"\s+description="([^>]+)"\/>/sg) {
-        $messages{entity_decode_minimal($2)} = [];
+        add_message(entity_decode_minimal($2));
     }
 }
 
-sub type_scheme {
-    my ($line, $i, $state, $str, $trcomment, $char);
-    for $line (split(/\n/, $input)) {
-        $i = 0;
-        $state = 0; # 0 - nothing, 1 - string, 2 - translatable string
-        while ($i < length($line)) {
-            if (substr($line,$i,1) eq "\"") {
-                if ($state == 2) {
-                    $comments{$str} = $trcomment if ($trcomment);
-                    $messages{$str} = [];
-                    $str = '';
-                    $state = 0; $trcomment = "";
-                } elsif ($state == 1) {
-                    $str = '';
-                    $state = 0; $trcomment = "";
-                } else {
-                    $state = 1;
-                    $str = '';
-                    if ($i>0 && substr($line,$i-1,1) eq '_') {
-                        $state = 2;
-                    }
-                }
-            } elsif (!$state) {
-                if (substr($line,$i,1) eq ";") {
-                    $trcomment = substr($line,$i+1);
-                    $trcomment =~ s/^;*\s*//;
-                    $i = length($line);
-                } elsif ($trcomment && substr($line,$i,1) !~ /\s|\(|\)|_/) {
-                    $trcomment = "";
+sub type_tlk {
+    my ($ftype, $fvers, $langid, $strcount, $stroff);
+    my $count = 0;
+    my $pos = 0;
+    my @inputa = split (//, $input, 21);
+    my $foo;
+    my $strdata;
+
+    $ftype = substr ($input, 0, 3);
+    $fvers = substr ($input, 4, 7);
+    $langid = unpack ("L", $inputa[8] . $inputa[9] .
+                      $inputa[10] . $inputa[11]);
+    $strcount = unpack ("L", $inputa[12] . $inputa[13] .
+                        $inputa[14] . $inputa[15]);
+    $stroff = unpack ("L", $inputa[16] . $inputa[17] .
+                      $inputa[18] . $inputa[19]);
+
+    use bytes;
+    $strdata = bytes::substr ($input, $stroff);
+
+    my $sinpos = 20;
+
+    $foo = $inputa[$sinpos];
+    $sinpos = 40 * 2000;
+    @inputa = split (//, $foo, $sinpos + 1);
+
+    $pos = 0;
+    while ($count < $strcount) {
+        my ($flags, $soundref, $volvar, $pitch, $offset, $strsize, $sndlen) = 0;
+
+        if ($count > 0 && $count % 2000 == 0) {
+            $foo = $inputa[$sinpos];
+            my $numleft = ($strcount - $count);
+            if ($numleft > 2000) {
+                $sinpos = 40 * 2000;
+            } else {
+                $sinpos = 40 * $numleft;
+            }
+            @inputa = split (//, $foo, $sinpos + 1);
+            my $numbytes = @inputa;
+            $pos = 0;
+        }
+
+
+        $flags = unpack ("L", $inputa[$pos] . $inputa[$pos + 1] .
+                         $inputa[$pos + 2] . $inputa[$pos + 3]);
+        $pos += 4;
+        if ($flags & 0x0002) {
+            $soundref = join ('', @inputa[$pos..$pos + 15]);
+            $soundref =~ s/\0//g;
+        }
+        $pos += 16;
+# According to the Bioware Aurora Talk Table Format documentation
+# the VolumeVariance and PitchVariance DWORDs are not used
+# We increment the pos counter, but do not read the data, here
+#        $volvar = unpack ("L", $inputa[$pos] . $inputa[$pos + 1] .
+#                          $inputa[$pos + 2] . $inputa[$pos + 3]);
+        $pos += 4;
+#        $pitch = unpack ("L", $inputa[$pos] . $inputa[$pos + 1] .
+#                         $inputa[$pos + 2] . $inputa[$pos + 3]);
+        $pos += 4;
+        $offset = unpack ("L", $inputa[$pos] . $inputa[$pos + 1] .
+                          $inputa[$pos + 2] . $inputa[$pos + 3])
+            if ($flags & 0x0001);
+        $pos += 4;
+        $strsize = unpack ("L", $inputa[$pos] . $inputa[$pos + 1] .
+                           $inputa[$pos + 2] . $inputa[$pos + 3])
+            if ($flags & 0x0001);
+        $pos += 4;
+        $sndlen = unpack ("d", $inputa[$pos] . $inputa[$pos + 1] .
+                          $inputa[$pos + 2] . $inputa[$pos + 3])
+            if ($flags & 0x0004);
+        $pos += 4;
+
+        if (defined $strsize && $strsize > 0) {
+            my $message = substr ($strdata, $offset, $strsize);
+            if (defined $message) {
+                use Encode;
+                Encode::from_to ($message, "iso-8859-1", "UTF-8");
+                add_message($message);
+                if ($message =~ /^Bad Strref$/ ) {
+                    $comments{$message} = "DO NOT Translate this Entry.";
+                    $comments{$message} .= "\nTLK:position=$count";
+               } else {
+                    $comments{$message} = "TLK:position=$count";
+                    $comments{$message} .= "; TLK:sndresref=$soundref"
+                        if (defined $soundref && $soundref ne "");
+                    $comments{$message} .= "; TLK:sndlen=$sndlen"
+                        if (defined $sndlen && $sndlen != 0);
                 }
             } else {
-                if (substr($line,$i,1) eq "\\") {
-                    $char = substr($line,$i+1,1);
-                    if ($char ne "\"" && $char ne "\\") {
-                       $str = $str . "\\";
-                    }
-                    $i++;
-                }
-                $str = $str . substr($line,$i,1);
+                print STDERR "Missing message? ID: $count\n";
             }
-            $i++;
         }
+        $count++;
     }
 }
 
@@ -835,7 +970,7 @@ sub msg_write {
     }
     else
     {
-        @msgids = sort keys %messages;
+        @msgids = @messages_sorted;
     }
     for my $message (@msgids)
     {
@@ -854,8 +989,8 @@ sub msg_write {
    	print OUT "/* ".$comments{$message}." */\n"
                 if defined $comments{$message};
    	print OUT "/* xgettext:no-c-format */\n" if $message =~ /%/;
-        
-    	if ($message =~ /(.*)\004(.*)/) {
+
+    	if ($message =~ /(.*)\004(.*)/s) {
     	    $context = $1;
     	    $message = $2;
     	}

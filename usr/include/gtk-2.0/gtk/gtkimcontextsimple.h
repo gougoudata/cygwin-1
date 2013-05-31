@@ -20,11 +20,14 @@
 #ifndef __GTK_IM_CONTEXT_SIMPLE_H__
 #define __GTK_IM_CONTEXT_SIMPLE_H__
 
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
 #include <gtk/gtkimcontext.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+
+G_BEGIN_DECLS
 
 
 #define GTK_TYPE_IM_CONTEXT_SIMPLE              (gtk_im_context_simple_get_type ())
@@ -39,18 +42,19 @@ typedef struct _GtkIMContextSimple       GtkIMContextSimple;
 typedef struct _GtkIMContextSimpleClass  GtkIMContextSimpleClass;
 
 #define GTK_MAX_COMPOSE_LEN 7
-  
+
 struct _GtkIMContextSimple
 {
   GtkIMContext object;
 
-  GSList *tables;
-  
-  guint compose_buffer[GTK_MAX_COMPOSE_LEN + 1];
-  gunichar tentative_match;
-  gint tentative_match_len;
+  GSList *GSEAL (tables);
 
-  guint in_hex_sequence : 1;
+  guint GSEAL (compose_buffer[GTK_MAX_COMPOSE_LEN + 1]);
+  gunichar GSEAL (tentative_match);
+  gint GSEAL (tentative_match_len);
+
+  guint GSEAL (in_hex_sequence) : 1;
+  guint GSEAL (modifiers_dropped) : 1;
 };
 
 struct _GtkIMContextSimpleClass
@@ -65,9 +69,9 @@ void          gtk_im_context_simple_add_table (GtkIMContextSimple *context_simpl
 					       guint16            *data,
 					       gint                max_seq_len,
 					       gint                n_seqs);
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+
+
+G_END_DECLS
 
 
 #endif /* __GTK_IM_CONTEXT_SIMPLE_H__ */

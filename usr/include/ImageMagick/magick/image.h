@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2008 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999-2012 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.
@@ -25,15 +25,23 @@ extern "C" {
 #include <magick/color.h>
 
 #define OpaqueOpacity  ((Quantum) 0UL)
-#define TransparentOpacity  (QuantumRange)
+#define TransparentOpacity  ((Quantum) QuantumRange)
 
 typedef enum
 {
   UndefinedAlphaChannel,
   ActivateAlphaChannel,
+  BackgroundAlphaChannel,
+  CopyAlphaChannel,
   DeactivateAlphaChannel,
-  ResetAlphaChannel,
-  SetAlphaChannel
+  ExtractAlphaChannel,
+  OpaqueAlphaChannel,
+  ResetAlphaChannel,  /* deprecated */
+  SetAlphaChannel,
+  ShapeAlphaChannel,
+  TransparentAlphaChannel,
+  FlattenAlphaChannel,
+  RemoveAlphaChannel
 } AlphaChannelType;
 
 typedef enum
@@ -128,6 +136,7 @@ typedef struct _ChromaticityInfo
 #include "magick/effect.h"
 #include "magick/geometry.h"
 #include "magick/layer.h"
+#include "magick/locale_.h"
 #include "magick/monitor.h"
 #include "magick/pixel.h"
 #include "magick/profile.h"
@@ -144,32 +153,32 @@ struct _Image
     storage_class;
 
   ColorspaceType
-    colorspace;
+    colorspace;      /* colorspace of image data */
 
   CompressionType
-    compression;
+    compression;     /* compression of image when read/write */
 
-  unsigned long
-    quality;
+  size_t
+    quality;         /* compression quality setting, meaning varies */
 
   OrientationType
-    orientation;
+    orientation;     /* photo orientation of image */
 
   MagickBooleanType
-    taint,
-    matte;
+    taint,           /* has image been modified since reading */
+    matte;           /* is transparency channel defined and active */
 
-  unsigned long
-    columns,
+  size_t
+    columns,         /* physical size of image */
     rows,
-    depth,
-    colors;
+    depth,           /* depth of image on read/write */
+    colors;          /* size of color table on read */
 
   PixelPacket
     *colormap,
-    background_color,
-    border_color,
-    matte_color;
+    background_color, /* current background color attribute */
+    border_color,     /* current bordercolor attribute */
+    matte_color;      /* current mattecolor attribute */
 
   double
     gamma;
@@ -184,63 +193,63 @@ struct _Image
     *profiles;
 
   ResolutionType
-    units;
+    units;          /* resolution/density  ppi or ppc */
 
   char
     *montage,
     *directory,
     *geometry;
 
-  long
+  ssize_t
     offset;
 
   double
-    x_resolution,
+    x_resolution,   /* image resolution/density */
     y_resolution;
 
   RectangleInfo
-    page,
+    page,           /* virtual canvas size and offset of image */
     extract_info,
-    tile_info;  /* deprecated */
+    tile_info;      /* deprecated */
 
   double
     bias,
-    blur,  /* deprecated */
-    fuzz;
+    blur,           /* deprecated */
+    fuzz;           /* current color fuzz attribute */
 
   FilterTypes
-    filter;
+    filter;         /* resize/distort filter to apply */
 
   InterlaceType
     interlace;
 
   EndianType
-    endian;
+    endian;         /* raw data integer ordering on read/write */
 
   GravityType
-    gravity;
+    gravity;        /* Gravity attribute for positioning in image */
 
   CompositeOperator
-    compose;
+    compose;        /* alpha composition method for layered images */
 
   DisposeType
-    dispose;
+    dispose;        /* GIF animation disposal method */
 
   struct _Image
     *clip_mask;
 
-  unsigned long
-    scene,
-    delay;
+  size_t
+    scene,          /* index of image in multi-image file */
+    delay;          /* Animation delay time */
 
-  long
-    ticks_per_second;
+  ssize_t
+    ticks_per_second;  /* units for delay time, default 100 for GIF */
 
-  unsigned long
+  size_t
     iterations,
     total_colors;
 
-  long
+  ssize_t
     start_loop;
 
   ErrorInfo
@@ -255,7 +264,7 @@ struct _Image
   void
     *client_data,
     *cache,
-    *attributes;  /* deprecated */
+    *attributes;      /* deprecated */
 
   Ascii85Info
     *ascii85;
@@ -264,21 +273,21 @@ struct _Image
     *blob;
 
   char
-    filename[MaxTextExtent],
+    filename[MaxTextExtent],   /* images input filename */
     magick_filename[MaxTextExtent],
     magick[MaxTextExtent];
 
-  unsigned long
+  size_t
     magick_columns,
     magick_rows;
 
   ExceptionInfo
-    exception;
+    exception;        /* Error handling report */
 
   MagickBooleanType
-    debug;
+    debug;            /* debug output attribute */
 
-  long
+  volatile ssize_t
     reference_count;
 
   SemaphoreInfo
@@ -289,25 +298,25 @@ struct _Image
     iptc_profile,
     *generic_profile;
 
-  unsigned long
+  size_t
     generic_profiles;  /* this & ProfileInfo is deprecated */
 
-  unsigned long
+  size_t
     signature;
 
   struct _Image
-    *previous,
+    *previous,         /* Image sequence list links */
     *list,
     *next;
 
   InterpolatePixelMethod
-    interpolate;
+    interpolate;       /* Interpolation of color for between pixel lookups */
 
   MagickBooleanType
     black_point_compensation;
 
   PixelPacket
-    transparent_color;
+    transparent_color; /* color for 'transparent' color index in GIF */
 
   struct _Image
     *mask;
@@ -316,8 +325,23 @@ struct _Image
     tile_offset;
 
   void
-    *properties,
-    *artifacts;
+    *properties,       /* per image properities */
+    *artifacts;        /* per image sequence image artifacts */
+
+  ImageType
+    type;
+
+  MagickBooleanType
+    dither;            /* dithering method during color reduction */
+
+  MagickSizeType
+    extent;
+
+  MagickBooleanType
+    ping;
+
+  size_t
+    channels;
 };
 
 struct _ImageInfo
@@ -340,7 +364,7 @@ struct _ImageInfo
     *page,
     *scenes;
 
-  unsigned long
+  size_t
     scene,
     number_scenes,
     depth;
@@ -354,7 +378,7 @@ struct _ImageInfo
   ResolutionType
     units;
 
-  unsigned long
+  size_t
     quality;
 
   char
@@ -377,7 +401,7 @@ struct _ImageInfo
     dither,
     monochrome;
 
-  unsigned long
+  size_t
     colors;
 
   ColorspaceType
@@ -389,7 +413,7 @@ struct _ImageInfo
   PreviewType
     preview_type;
 
-  long
+  ssize_t
     group;
 
   MagickBooleanType
@@ -440,14 +464,14 @@ struct _ImageInfo
   char
     *tile;  /* deprecated */
 
-  unsigned long
+  size_t
     subimage,  /* deprecated */
     subrange;  /* deprecated */
 
   PixelPacket
     pen;  /* deprecated */
 
-  unsigned long
+  size_t
     signature;
 
   VirtualPixelMethod
@@ -458,98 +482,81 @@ struct _ImageInfo
 
   void
     *profile;
+
+  MagickBooleanType
+    synchronize;
 };
-
-extern MagickExport const IndexPacket
-  *AcquireIndexes(const Image *);
-
-extern MagickExport const PixelPacket
-  *AcquireImagePixels(const Image *,const long,const long,const unsigned long,
-    const unsigned long,ExceptionInfo *);
 
 extern MagickExport ExceptionType
   CatchImageException(Image *);
 
+extern MagickExport FILE
+  *GetImageInfoFile(const ImageInfo *);
+
 extern MagickExport Image
-  *AllocateImage(const ImageInfo *),
+  *AcquireImage(const ImageInfo *),
   *AppendImages(const Image *,const MagickBooleanType,ExceptionInfo *),
-  *AverageImages(const Image *,ExceptionInfo *),
-  *CloneImage(const Image *,const unsigned long,const unsigned long,
-    const MagickBooleanType,ExceptionInfo *),
+  *CloneImage(const Image *,const size_t,const size_t,const MagickBooleanType,
+    ExceptionInfo *),
   *CombineImages(const Image *,const ChannelType,ExceptionInfo *),
   *DestroyImage(Image *),
   *GetImageClipMask(const Image *,ExceptionInfo *),
   *GetImageMask(const Image *,ExceptionInfo *),
-  *NewMagickImage(const ImageInfo *,const unsigned long,const unsigned long,
+  *NewMagickImage(const ImageInfo *,const size_t,const size_t,
     const MagickPixelPacket *),
   *ReferenceImage(Image *),
-  *SeparateImages(const Image *,const ChannelType,ExceptionInfo *);
+  *SeparateImages(const Image *,const ChannelType,ExceptionInfo *),
+  *SmushImages(const Image *,const MagickBooleanType,const ssize_t,
+    ExceptionInfo *);
 
 extern MagickExport ImageInfo
   *AcquireImageInfo(void),
   *CloneImageInfo(const ImageInfo *),
   *DestroyImageInfo(ImageInfo *);
 
-extern MagickExport ImageType
-  GetImageType(const Image *,ExceptionInfo *);
-
-extern MagickExport IndexPacket
-  *GetIndexes(const Image *);
-
-extern MagickExport long
-  InterpretImageFilename(char *,const size_t,const char *,int);
-
 extern MagickExport MagickBooleanType
-  AllocateImageColormap(Image *,const unsigned long),
   ClipImage(Image *),
   ClipImagePath(Image *,const char *,const MagickBooleanType),
-  CycleColormapImage(Image *,const long),
   GetImageAlphaChannel(const Image *),
-  GradientImage(Image *,const PixelPacket *,const PixelPacket *),
   IsTaintImage(const Image *),
   IsMagickConflict(const char *),
   IsHighDynamicRangeImage(const Image *,ExceptionInfo *),
   IsImageObject(const Image *),
   ListMagickInfo(FILE *,ExceptionInfo *),
   ModifyImage(Image **,ExceptionInfo *),
-  PlasmaImage(Image *,const SegmentInfo *,unsigned long,unsigned long),
   ResetImagePage(Image *,const char *),
   SeparateImageChannel(Image *,const ChannelType),
   SetImageAlphaChannel(Image *,const AlphaChannelType),
   SetImageBackgroundColor(Image *),
   SetImageClipMask(Image *,const Image *),
-  SetImageExtent(Image *,const unsigned long,const unsigned long),
-  SetImageInfo(ImageInfo *,const MagickBooleanType,ExceptionInfo *),
+  SetImageColor(Image *,const MagickPixelPacket *),
+  SetImageExtent(Image *,const size_t,const size_t),
+  SetImageInfo(ImageInfo *,const unsigned int,ExceptionInfo *),
   SetImageMask(Image *,const Image *),
   SetImageOpacity(Image *,const Quantum),
+  SetImageChannels(Image *,const size_t),
   SetImageStorageClass(Image *,const ClassType),
   SetImageType(Image *,const ImageType),
-  SortColormapByIntensity(Image *),
   StripImage(Image *),
   SyncImage(Image *),
-  SyncImagePixels(Image *),
-  TextureImage(Image *,const Image *);
+  SyncImageSettings(const ImageInfo *,Image *),
+  SyncImagesSettings(ImageInfo *,Image *);
 
-extern MagickExport MagickPixelPacket
-  AcquireOneMagickPixel(const Image *,const long,const long,ExceptionInfo *);
+extern MagickExport size_t
+  InterpretImageFilename(const ImageInfo *,Image *,const char *,int,char *);
 
-extern MagickExport PixelPacket
-  AcquireOnePixel(const Image *,const long,const long,ExceptionInfo *),
-  AcquireOneVirtualPixel(const Image *,const VirtualPixelMethod,const long,
-    const long,ExceptionInfo *),
-  *GetImagePixels(Image *,const long,const long,const unsigned long,
-    const unsigned long),
-  GetOnePixel(Image *,const long,const long),
-  *GetPixels(const Image *),
-  *SetImagePixels(Image *,const long,const long,const unsigned long,
-    const unsigned long);
+extern MagickExport ssize_t
+  GetImageReferenceCount(Image *);
+
+extern MagickExport size_t
+  GetImageChannels(Image *);
 
 extern MagickExport VirtualPixelMethod
   GetImageVirtualPixelMethod(const Image *),
   SetImageVirtualPixelMethod(const Image *,const VirtualPixelMethod);
 
 extern MagickExport void
-  AllocateNextImage(const ImageInfo *,Image *),
+  AcquireNextImage(const ImageInfo *,Image *),
   DestroyImagePixels(Image *),
   DisassociateImageStream(Image *),
   GetImageException(Image *,ExceptionInfo *),

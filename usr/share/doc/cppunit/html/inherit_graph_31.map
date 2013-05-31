@@ -1,0 +1,10 @@
+<map id="G" name="G">
+<area shape="rect" id="node1" href="$class_synchronized_object.html" title="Base class for synchronized object." alt="" coords="7,32,153,61"/>
+<area shape="rect" id="node3" href="$class_test_result.html" title="Manages TestListener.A single instance of this class is used when running the test. It is usually created by the test runner (TestRunner)." alt="" coords="467,5,555,35"/>
+<area shape="rect" id="node7" href="$class_test_success_listener.html" title="TestListener that checks if any test case failed." alt="" coords="220,57,372,87"/>
+<area shape="rect" id="node5" href="$class_text_test_result.html" title="Holds printable test result (DEPRECATED).deprecated Use class TextTestProgressListener and TextOutput..." alt="" coords="632,32,749,61"/>
+<area shape="rect" id="node9" href="$class_test_result_collector.html" title="Collects test result.A TestResultCollector is a TestListener which collects the results of executing ..." alt="" coords="439,59,583,88"/>
+<area shape="rect" id="node11" href="$class_test_listener.html" title="Listener for test progress and result.Implementing the Observer pattern a TestListener may be registe..." alt="" coords="29,111,131,140"/>
+<area shape="rect" id="node13" href="$class_brief_test_progress_listener.html" title="TestListener that prints the name of each test before running it." alt="" coords="203,111,389,140"/>
+<area shape="rect" id="node16" href="$class_text_test_progress_listener.html" title="TestListener that show the status of each TestCase test result." alt="" coords="203,164,389,193"/>
+</map>

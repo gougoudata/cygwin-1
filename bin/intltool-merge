@@ -35,13 +35,14 @@
 ## Release information
 my $PROGRAM = "intltool-merge";
 my $PACKAGE = "intltool";
-my $VERSION = "0.40.3";
+my $VERSION = "0.50.2";
 
 ## Loaded modules
 use strict; 
 use Getopt::Long;
 use Text::Wrap;
 use File::Basename;
+use Encode;
 
 my $must_end_tag      = -1;
 my $last_depth        = -1;
@@ -66,6 +67,7 @@ my $QUIET_ARG = 0;
 my $PASS_THROUGH_ARG = 0;
 my $UTF8_ARG = 0;
 my $MULTIPLE_OUTPUT = 0;
+my $NO_TRANSLATIONS_ARG = 0;
 my $cache_file;
 
 ## Handle options
@@ -86,6 +88,7 @@ GetOptions
  "pass-through|p" => \$PASS_THROUGH_ARG,
  "utf8|u" => \$UTF8_ARG,
  "multiple-output|m" => \$MULTIPLE_OUTPUT,
+ "no-translations" => \$NO_TRANSLATIONS_ARG,
  "cache|c=s" => \$cache_file
  ) or &error;
 
@@ -95,23 +98,6 @@ my $OUTFILE;
 
 my %po_files_by_lang = ();
 my %translations = ();
-my $iconv = $ENV{"ICONV"} || "iconv";
-my $devnull = ($^O eq 'MSWin32' ? 'NUL:' : '/dev/null');
-
-sub isProgramInPath
-{
-    my ($file) = @_;
-    # If either a file exists, or when run it returns 0 exit status
-    return 1 if ((-x $file) or (system("$file -l >$devnull") == 0));
-    return 0;
-}
-
-if (! isProgramInPath ("$iconv"))
-{
-	print STDERR " *** iconv is not found on this system!\n".
-		     " *** Without it, intltool-merge can not convert encodings.\n";
-	exit;
-}
 
 # Use this instead of \w for XML files to handle more possible characters.
 my $w = "[-A-Za-z0-9._:]";
@@ -137,7 +123,7 @@ elsif ($BA_STYLE_ARG && @ARGV > 2)
 	&ba_merge_translations;
 	&finalize;
 } 
-elsif ($XML_STYLE_ARG && @ARGV > 2) 
+elsif ($XML_STYLE_ARG && (@ARGV > 2 || ($NO_TRANSLATIONS_ARG && @ARGV > 1))) 
 {
 	&utf8_sanity_check;
 	&preparation;
@@ -230,14 +216,16 @@ Other options:
   -p, --pass-through     deprecated, does nothing and issues a warning
   -m, --multiple-output  output one localized file per locale, instead of 
 	                 a single file containing all localized elements
+      --no-translations  do not merge any translations: only generates the
+                         unlocalised (English) version -- applies only
+                         to XML merging
   -c, --cache=FILE       specify cache file name
                          (usually \$top_builddir/po/.intltool-merge-cache)
   -q, --quiet            suppress most messages
       --help             display this help and exit
       --version          output version information and exit
 
-Report bugs to http://bugzilla.gnome.org/ (product name "$PACKAGE")
-or send email to <xml-i18n-tools\@gnome.org>.
+Report bugs to http://bugs.launchpad.net/intltool
 _EOF_
     exit;
 }
@@ -259,12 +247,17 @@ sub print_message
 
 sub preparation 
 {
-    $PO_DIR = $ARGV[0];
-    $FILE = $ARGV[1];
-    $OUTFILE = $ARGV[2];
+    if (!$XML_STYLE_ARG || !$NO_TRANSLATIONS_ARG) {
+        $PO_DIR = $ARGV[0];
+        $FILE = $ARGV[1];
+        $OUTFILE = $ARGV[2];
 
-    &gather_po_files;
-    &get_translation_database;
+        &gather_po_files;
+        &get_translation_database;
+    } else {
+        $FILE = $ARGV[0];
+        $OUTFILE = $ARGV[1];
+    }
 }
 
 # General-purpose code for looking up translations in .po files
@@ -316,29 +309,6 @@ sub gather_po_files
     }
 }
 
-sub get_local_charset
-{
-    my ($encoding) = @_;
-    my $alias_file = $ENV{"G_CHARSET_ALIAS"} || "/usr/lib/charset.alias";
-
-    # seek character encoding aliases in charset.alias (glib)
-
-    if (open CHARSET_ALIAS, $alias_file) 
-    {
-	while (<CHARSET_ALIAS>) 
-        {
-            next if /^\#/;
-            return $1 if (/^\s*([-._a-zA-Z0-9]+)\s+$encoding\b/i)
-        }
-
-        close CHARSET_ALIAS;
-    }
-
-    # if not found, return input string
-
-    return $encoding;
-}
-
 sub get_po_encoding
 {
     my ($in_po_file) = @_;
@@ -360,11 +330,6 @@ sub get_po_encoding
     {
         print STDERR "Warning: no encoding found in $in_po_file. Assuming ISO-8859-1\n" unless $QUIET_ARG;
         $encoding = "ISO-8859-1";
-    }
-
-    system ("$iconv -f $encoding -t UTF-8 <$devnull 2>$devnull");
-    if ($?) {
-	$encoding = get_local_charset($encoding);
     }
 
     return $encoding
@@ -443,12 +408,16 @@ sub get_cached_translation_database
 
 sub add_translation
 {
-    my ($lang, $msgctxt, $msgid, $msgstr) = @_;
+    my ($lang, $encoding, $msgctxt, $msgid, $msgstr) = @_;
 
     return if !($msgid && $msgstr);
 
     if ($msgctxt) {
 	$msgid = "$msgctxt\004$msgid";
+    }
+    if (uc $encoding ne "UTF-8") {
+        Encode::from_to ($msgid, $encoding, "UTF-8");
+        Encode::from_to ($msgstr, $encoding, "UTF-8");
     }
     $translations{$lang, $msgid} = $msgstr;
 }
@@ -458,26 +427,16 @@ sub create_translation_database
     for my $lang (keys %po_files_by_lang) 
     {
     	my $po_file = $po_files_by_lang{$lang};
+        my $encoding = "UTF-8";
 
         if ($UTF8_ARG) 
         {
-            my $encoding = get_po_encoding ($po_file);
-
-            if (lc $encoding eq "utf-8") 
-            {
-                open PO_FILE, "<$po_file";	
-            } 
-            else 
-            {
-		print "NOTICE: $po_file is not in UTF-8 but $encoding, converting...\n" unless $QUIET_ARG;;
-
-                open PO_FILE, "$iconv -f $encoding -t UTF-8 $po_file|";	
+            $encoding = get_po_encoding ($po_file);
+            if (uc $encoding ne "UTF-8") {
+                print "NOTICE: $po_file is not in UTF-8 but $encoding, converting...\n" unless $QUIET_ARG;;
             }
-        } 
-        else 
-        {
-            open PO_FILE, "<$po_file";	
         }
+        open PO_FILE, "<$po_file";	
 
 	my $nextfuzzy = 0;
 	my $inmsgctxt = 0;
@@ -494,7 +453,8 @@ sub create_translation_database
 	    if (/^msgctxt "((\\.|[^\\]+)*)"/ ) 
             {
 		if ($inmsgstr) {
-		    add_translation ($lang, $msgctxt, $msgid, $msgstr);
+		    add_translation ($lang, $encoding,
+                                     $msgctxt, $msgid, $msgstr);
 		    $msgctxt = "";
 		    $msgid = "";
 		    $msgstr = "";
@@ -509,7 +469,8 @@ sub create_translation_database
 	    if (/^msgid "((\\.|[^\\]+)*)"/ ) 
             {
 		if ($inmsgstr) {
-		    add_translation ($lang, $msgctxt, $msgid, $msgstr);
+                    add_translation ($lang, $encoding,
+                                     $msgctxt, $msgid, $msgstr);
 		    $msgctxt = "";
 		    $msgid = "";
 		    $msgstr = "";
@@ -541,7 +502,8 @@ sub create_translation_database
 	        $msgstr .= unescape_po_string($1) if $inmsgstr;
 	    }
 	}
-	$translations{$lang, $msgid} = $msgstr if $inmsgstr && $msgid && $msgstr;
+        add_translation ($lang, $encoding, $msgctxt, $msgid, $msgstr)
+            if ($inmsgstr);
     }
 }
 
@@ -1224,7 +1186,7 @@ sub desktop_merge_translations
 
     while (<INPUT>) 
     {
-        if (s/^(\s*)_(\w+=(.*))/$1$2/)  
+        if (s/^(\s*)_([A-Za-z0-9\-]+=(.*))/$1$2/)  
         {
 	    my $string = $3;
 

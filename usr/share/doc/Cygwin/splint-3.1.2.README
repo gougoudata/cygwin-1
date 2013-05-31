@@ -1,0 +1,84 @@
+splint
+------------------------------------------
+
+Check C code for security vulnerabilities and programming 
+mistakes.
+
+Program does many of the traditional lint checks including unused
+declarations, type inconsistencies, use before definition, unreachable
+code, ignored return values, execution paths with no return, likely
+infinite loops, and fall through cases.
+
+More powerful checks are made possible by additional information given
+in source code annotations. Annotations are stylized comments that
+document assumptions about functions, variables, parameters and
+types. In addition to the checks specifically enabled by annotations,
+many of the traditional lint checks are improved by exploiting this
+additional information.
+
+Runtime requirements:
+  cygwin
+
+Build requirements:
+  cygwin
+
+Canonical homepage:
+  http://www.splint.org/
+  https://sourceforge.net/projects/splint
+
+Canonical download:
+  See above
+
+Version control repository:
+  https://sourceforge.net/cvs/?group_id=34302
+
+Mailing list:
+
+IRC channel:
+
+Upstream contact:
+  Author: <info@splint.org>
+  Bugs: <splint-bug@splint.org> and https://sourceforge.net/tracker/?atid=459911&group_id=34302&func=browsex
+
+License:
+  GPL
+
+Language:
+  C
+
+------------------------------------
+
+Build instructions:
+  You may need cygbuild.sourceforge.net to build *src.tar.bz2 archive
+  unpack splint-3.1.2-1-src.tar.bz2
+    if you use setup to install this src package, it will be
+    unpacked under /usr/src automatically
+  cd /usr/src
+  ./splint*.sh all
+
+This will create:
+  splint-3.1.2-1.tar.bz2
+  splint-3.1.2-1-src.tar.bz2
+
+-------------------------------------------
+
+Files included in the binary distro:
+  See Cygwin package archive
+
+------------------
+
+Port Notes:
+
+- Takes oodles of time to compile and run all checks.
+
+----- version 3.1.2-1 -----
+- New upstream release 2012-09-15 Jari Aalto
+
+----- version 3.1.1-2 -----
+- New maintainer, 2007-08-08 Jari Aalto
+- splint.README updated
+
+----- version 3.1.1-1 -----
+- Initial release, Elfyn McBratney <elfyn at exposure dot org dot uk>
+
+Cygwin port maintained by: Jari Aalto <jari.aalto@cante.net>

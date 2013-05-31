@@ -1,0 +1,111 @@
+xemacs-emacs-common
+-------------------------------------------------------------------------------
+Programs in common with the emacs package
+
+Runtime requirements:
+  cygwin-1.5.25-15
+
+
+Build requirements:
+  see xemacs package
+
+  
+Canonical homepage:
+  http://xemacs.org/
+
+Canonical download:
+  http://ftp.us.xemacs.org/ftp/pub/
+
+License:
+  GPL
+
+Language:
+  C
+
+-------------------------------------------------------------------------------
+
+Build instructions:
+  unpack xemacs-<Pack-Ver>-<Cyg-Rel>-src.tar.bz2
+    if you use setup to install this src package, it will be
+	 unpacked under /usr/src automatically
+  cd /usr/src
+  cygport ./xemacs-<Pack-Ver>-<Cyg-Rel>.cygport all
+
+This will create:
+  /usr/src/xemacs-<Pack-Ver>-<Cyg-Rel>-src.tar.bz2
+  /usr/src/xemacs-<Pack-Ver>-<Cyg-Rel>.tar.bz2
+  /usr/src/xemacs-emacs-common-<Pack-Ver>-<Cyg-Rel>.tar.bz2
+  /usr/src/xemacs-tags-<Pack-Ver>-<Cyg-Rel>.tar.bz2
+
+Or use 'cygport ./xemacs-<Pack-Ver>-<Cyg-Rel>.cygport prep' to get a patched
+source directory
+  
+To find out the files included in the binary distribution, you can
+use "cygcheck -l xemacs-emacs-common", or browse the listing for the appropriate version
+at <http://cygwin.com/packages/>.
+
+-------------------------------------------------------------------------------
+
+Port Notes:
+
+----- version xemacs-emacs-common-21.4.22-1 ----- Sat 31 Jan 13:49:48 2009
+
+* Routine update
+
+----- version xemacs-emacs-common-21.4.21-1 ----- Tue 04 Dec 22:31:10 2007
+
+* Routine update
+
+----- version xemacs-emacs-common-21.4.20-2 -----
+
+* Routine update
+
+----- version xemacs-emacs-common-21.4.20-1 -----
+
+* Routine update
+
+----- version xemacs-emacs-common-21.4.19-3 -----
+
+* Routine update
+
+----- version xemacs-emacs-common-21.4.19-2 -----
+
+* Routine update
+* Switched to cygport build framework
+
+----- version xemacs-emacs-common-21.4.19-1 -----
+
+* Routine update
+
+----- version xemacs-emacs-common-21.4.18-2 -----
+
+* Routine update
+
+----- version xemacs-emacs-common-21.4.18-1 -----
+
+* Routine update
+
+----- version xemacs-emacs-common-21.4.17-2 -----
+
+* Routine update
+
+----- version xemacs-emacs-common-21.4.17-1 -----
+
+* Routine update
+
+----- version xemacs-emacs-common-21.4.15-1 -----
+
+* Routine update
+
+----- version xemacs-emacs-common-21.4.14-2 -----
+
+* Build with cygwin-1.5.7
+* Removed cygipc from build dependencies in xemacs-tags.README
+
+----- version xemacs-emacs-common-21.4.14-1 -----
+
+Initial release
+
+
+  
+Cygwin port maintained by: Dr. Volker Zell  <dr.volker.zell@oracle.com>

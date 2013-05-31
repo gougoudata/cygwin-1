@@ -21,25 +21,17 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
-/*
- * NOTE this widget is considered too specialized/little-used for
- * GTK+, and will in the future be moved to some other package.  If
- * your application needs this widget, feel free to use it, as the
- * widget does work and is useful in some applications; it's just not
- * of general interest. However, we are not accepting new features for
- * the widget, and it will eventually move out of the GTK+
- * distribution.
- */
+#ifndef GTK_DISABLE_DEPRECATED
 
 #ifndef __GTK_CURVE_H__
 #define __GTK_CURVE_H__
 
 
-#include <gdk/gdk.h>
 #include <gtk/gtkdrawingarea.h>
+
 
 G_BEGIN_DECLS
 
@@ -110,3 +102,5 @@ void		gtk_curve_set_curve_type (GtkCurve *curve, GtkCurveType type);
 G_END_DECLS
 
 #endif /* __GTK_CURVE_H__ */
+
+#endif /* GTK_DISABLE_DEPRECATED */

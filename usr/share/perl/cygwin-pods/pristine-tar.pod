@@ -1,0 +1,22 @@
+=head2 Tue Sep 18 07:14:52 2012: C<Module> L<Pristine|Pristine>
+
+=over 4
+
+=item *
+
+C<installed into: /usr/lib/perl5/vendor_perl/5.14>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: >
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+

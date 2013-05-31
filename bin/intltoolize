@@ -33,7 +33,7 @@ progname=`echo "$0" | sed 's%^.*/%%'`
 # Constants.
 PROGRAM=intltoolize
 PACKAGE=intltool
-VERSION=0.40.3
+VERSION=0.50.2
 
 # Directory names.
 prefix=/usr
@@ -213,8 +213,11 @@ for file in $files; do
   fi
 # Touch script names for backward compatibility
   for script in intltool-extract.in intltool-merge.in intltool-update.in; do
-      if test -h $script; then rm -f $script; fi
-      touch $script
+      # Always remove the script files now
+      rm -f $script
+      if egrep $script Makefile.am >/dev/null 2>&1; then
+	  touch $script
+      fi
   done
 done
 

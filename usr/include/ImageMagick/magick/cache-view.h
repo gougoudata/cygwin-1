@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2008 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999-2012 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.
@@ -38,49 +38,66 @@ typedef enum
   MaskVirtualPixelMethod,
   BlackVirtualPixelMethod,
   GrayVirtualPixelMethod,
-  WhiteVirtualPixelMethod
+  WhiteVirtualPixelMethod,
+  HorizontalTileVirtualPixelMethod,
+  VerticalTileVirtualPixelMethod,
+  HorizontalTileEdgeVirtualPixelMethod,
+  VerticalTileEdgeVirtualPixelMethod,
+  CheckerTileVirtualPixelMethod
 } VirtualPixelMethod;
 
-typedef struct _ViewInfo
-  ViewInfo;
+typedef struct _CacheView
+  CacheView;
 
-extern MagickExport const PixelPacket
-  *AcquireCacheViewPixels(const ViewInfo *,const long,const long,
-    const unsigned long,const unsigned long,ExceptionInfo *);
+extern MagickExport CacheView
+  *AcquireCacheView(const Image *),
+  *CloneCacheView(const CacheView *),
+  *DestroyCacheView(CacheView *);
 
 extern MagickExport ClassType
-  GetCacheViewStorageClass(const ViewInfo *);
+  GetCacheViewStorageClass(const CacheView *);
 
 extern MagickExport ColorspaceType
-  GetCacheViewColorspace(const ViewInfo *);
+  GetCacheViewColorspace(const CacheView *);
 
 extern MagickExport const IndexPacket
-  *AcquireCacheViewIndexes(const ViewInfo *);
+  *GetCacheViewVirtualIndexQueue(const CacheView *);
+
+extern MagickExport const PixelPacket
+  *GetCacheViewVirtualPixels(const CacheView *,const ssize_t,const ssize_t,
+    const size_t,const size_t,ExceptionInfo *) magick_hot_spot,
+  *GetCacheViewVirtualPixelQueue(const CacheView *) magick_hot_spot;
 
 extern MagickExport ExceptionInfo
-  *GetCacheViewException(const ViewInfo *);
+  *GetCacheViewException(const CacheView *);
 
 extern MagickExport IndexPacket
-  *GetCacheViewIndexes(const ViewInfo *);
+  *GetCacheViewAuthenticIndexQueue(CacheView *);
 
 extern MagickExport MagickBooleanType
-  SetCacheViewStorageClass(ViewInfo *,const ClassType),
-  SetCacheViewVirtualPixelMethod(ViewInfo *,const VirtualPixelMethod),
-  SyncCacheView(ViewInfo *);
+  GetOneCacheViewVirtualPixel(const CacheView *,const ssize_t,const ssize_t,
+    PixelPacket *,ExceptionInfo *),
+  GetOneCacheViewVirtualMethodPixel(const CacheView *,
+    const VirtualPixelMethod,const ssize_t,const ssize_t,PixelPacket *,
+    ExceptionInfo *),
+  GetOneCacheViewAuthenticPixel(const CacheView *,const ssize_t,const ssize_t,
+    PixelPacket *,ExceptionInfo *),
+  SetCacheViewStorageClass(CacheView *,const ClassType),
+  SetCacheViewVirtualPixelMethod(CacheView *,const VirtualPixelMethod),
+  SyncCacheViewAuthenticPixels(CacheView *,ExceptionInfo *) magick_hot_spot;
+
+extern MagickExport MagickSizeType
+  GetCacheViewExtent(const CacheView *);
+
+extern MagickExport size_t
+  GetCacheViewChannels(const CacheView *);
 
 extern MagickExport PixelPacket
-  AcquireOneCacheViewPixel(const ViewInfo *,const long,const long,
-    ExceptionInfo *),
-  *GetCacheViewPixels(ViewInfo *,const long,const long,const unsigned long,
-    const unsigned long),
-  GetOneCacheViewPixel(const ViewInfo *,const long,const long),
-  *SetCacheView(ViewInfo *,const long,const long,const unsigned long,
-    const unsigned long);
-
-extern MagickExport ViewInfo
-  *CloseCacheView(ViewInfo *),
-  *CloneCacheView(const ViewInfo *),
-  *OpenCacheView(const Image *);
+  *GetCacheViewAuthenticPixelQueue(CacheView *) magick_hot_spot,
+  *GetCacheViewAuthenticPixels(CacheView *,const ssize_t,const ssize_t,
+    const size_t,const size_t,ExceptionInfo *) magick_hot_spot,
+  *QueueCacheViewAuthenticPixels(CacheView *,const ssize_t,const ssize_t,
+    const size_t,const size_t,ExceptionInfo *) magick_hot_spot;
 
 #if defined(__cplusplus) || defined(c_plusplus)
 }

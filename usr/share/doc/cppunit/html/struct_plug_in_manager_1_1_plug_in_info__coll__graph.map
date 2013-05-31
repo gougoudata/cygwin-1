@@ -1,0 +1,4 @@
+<map id="G" name="G">
+<area shape="rect" id="node2" href="$struct_cpp_unit_test_plug_in.html" title="Test plug&#45;in interface.This class define the interface implemented by test plug&#45;in. A pointer to that interface is returned by the function exported by the test plug&#45;in." alt="" coords="5,5,144,35"/>
+<area shape="rect" id="node4" href="$class_dynamic_library_manager.html" title="Manages dynamic libraries." alt="" coords="168,5,344,35"/>
+</map>

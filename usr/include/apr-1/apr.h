@@ -63,10 +63,10 @@
 #define __attribute__(__x)
 #endif
 #define APR_INLINE
-#define APR_HAS_INLINE		0
+#define APR_HAS_INLINE           0
 #else
 #define APR_INLINE __inline__
-#define APR_HAS_INLINE		1
+#define APR_HAS_INLINE           1
 #endif
 
 #define APR_HAVE_ARPA_INET_H     1
@@ -83,6 +83,7 @@
 #define APR_HAVE_NETINET_SCTP_H  0
 #define APR_HAVE_NETINET_SCTP_UIO_H 0
 #define APR_HAVE_NETINET_TCP_H   1
+#define APR_HAVE_PROCESS_H       1
 #define APR_HAVE_PTHREAD_H       0
 #define APR_HAVE_SEMAPHORE_H     1
 #define APR_HAVE_SIGNAL_H        1
@@ -97,7 +98,7 @@
 #define APR_HAVE_SYS_SIGNAL_H    1
 #define APR_HAVE_SYS_SOCKET_H    1
 #define APR_HAVE_SYS_SOCKIO_H    0
-#define APR_HAVE_SYS_SYSLIMITS_H 1
+#define APR_HAVE_SYS_SYSLIMITS_H 0
 #define APR_HAVE_SYS_TIME_H      1
 #define APR_HAVE_SYS_TYPES_H     1
 #define APR_HAVE_SYS_UIO_H       1
@@ -116,12 +117,48 @@
  */
 
 #if APR_HAVE_WINDOWS_H
-#include <windows.h>
+/* If windows.h was already included, our preferences don't matter.
+ * If not, include a restricted set of windows headers to our tastes.
+ */
+#ifndef _WINDOWS_
+
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
 #endif
 
-#if APR_HAVE_WINSOCK2_H
-#include <winsock2.h>
+#ifndef _WIN32_WINNT
+/* Restrict the server to a subset of Windows XP header files by default
+ */
+#define _WIN32_WINNT 0x0501
 #endif
+
+#ifndef NOUSER
+#define NOUSER
+#endif
+#ifndef NOMCX
+#define NOMCX
+#endif
+#ifndef NOIME
+#define NOIME
+#endif
+
+#include <windows.h>
+/* 
+ * Add a _very_few_ declarations missing from the restricted set of headers
+ * (If this list becomes extensive, re-enable the required headers above!)
+ * winsock headers were excluded by WIN32_LEAN_AND_MEAN, so include them now
+ */
+#define SW_HIDE             0
+#ifndef _WIN32_WCE
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#include <mswsock.h>
+#else
+#include <winsock.h>
+#endif
+
+#endif /* ndef _WINDOWS_ */
+#endif /* APR_HAVE_WINDOWS_H */
 
 #if APR_HAVE_SYS_TYPES_H
 #include <sys/types.h>
@@ -172,7 +209,7 @@ extern "C" {
  */
 
 #define APR_HAVE_SHMEM_MMAP_TMP     1
-#define APR_HAVE_SHMEM_MMAP_SHM     0
+#define APR_HAVE_SHMEM_MMAP_SHM     1
 #define APR_HAVE_SHMEM_MMAP_ZERO    1
 #define APR_HAVE_SHMEM_SHMGET_ANON  1
 #define APR_HAVE_SHMEM_SHMGET       1
@@ -196,18 +233,18 @@ extern "C" {
 
 #define APR_HAS_FLOCK_SERIALIZE           1
 #define APR_HAS_SYSVSEM_SERIALIZE         1
-#define APR_HAS_POSIXSEM_SERIALIZE        0
+#define APR_HAS_POSIXSEM_SERIALIZE        1
 #define APR_HAS_FCNTL_SERIALIZE           1
 #define APR_HAS_PROC_PTHREAD_SERIALIZE    0
 
 #define APR_PROCESS_LOCK_IS_GLOBAL        0
 
-#define APR_HAVE_CORKABLE_TCP   1 
+#define APR_HAVE_CORKABLE_TCP   0 
 #define APR_HAVE_GETRLIMIT      1
 #define APR_HAVE_IN_ADDR        1
 #define APR_HAVE_INET_ADDR      1
 #define APR_HAVE_INET_NETWORK   1
-#define APR_HAVE_IPV6           0
+#define APR_HAVE_IPV6           1
 #define APR_HAVE_MEMMOVE        1
 #define APR_HAVE_SETRLIMIT      1
 #define APR_HAVE_SIGACTION      1
@@ -241,7 +278,7 @@ extern "C" {
 #define APR_HAS_USER              1
 #define APR_HAS_LARGE_FILES       1
 #define APR_HAS_XTHREAD_FILES     0
-#define APR_HAS_OS_UUID           0
+#define APR_HAS_OS_UUID           1
 
 #define APR_PROCATTR_USER_SET_REQUIRES_PASSWORD 0
 
@@ -257,7 +294,7 @@ extern "C" {
 /* If we have a TCP implementation that can be "corked", what flag
  * do we use?
  */
-#define APR_TCP_NOPUSH_FLAG       TCP_NOPUSH
+#define APR_TCP_NOPUSH_FLAG       0
 
 /* Is the TCP_NODELAY socket option inherited from listening sockets?
 */
@@ -277,16 +314,50 @@ typedef  unsigned short  apr_uint16_t;
 typedef  int             apr_int32_t;
 typedef  unsigned int    apr_uint32_t;
 
-typedef  long long            apr_int64_t;
-typedef  unsigned long long   apr_uint64_t;
+#define APR_SIZEOF_VOIDP 4
+
+/*
+ * Darwin 10's default compiler (gcc42) builds for both 64 and
+ * 32 bit architectures unless specifically told not to.
+ * In those cases, we need to override types depending on how
+ * we're being built at compile time.
+ * NOTE: This is an ugly work-around for Darwin's
+ * concept of universal binaries, a single package
+ * (executable, lib, etc...) which contains both 32
+ * and 64 bit versions. The issue is that if APR is
+ * built universally, if something else is compiled
+ * against it, some bit sizes will depend on whether
+ * it is 32 or 64 bit. This is determined by the __LP64__
+ * flag. Since we need to support both, we have to
+ * handle OS X unqiuely.
+ */
+#ifdef DARWIN_10
+#undef APR_SIZEOF_VOIDP
+#undef INT64_C
+#undef UINT64_C
+#ifdef __LP64__
+ typedef  long            apr_int64_t;
+ typedef  unsigned long   apr_uint64_t;
+ #define APR_SIZEOF_VOIDP     8
+ #define INT64_C(v)   (v ## L)
+ #define UINT64_C(v)  (v ## UL)
+#else
+ typedef  long long            apr_int64_t;
+ typedef  unsigned long long   apr_uint64_t;
+ #define APR_SIZEOF_VOIDP     4
+ #define INT64_C(v)   (v ## LL)
+ #define UINT64_C(v)  (v ## ULL)
+#endif
+#else
+ typedef  long long            apr_int64_t;
+ typedef  unsigned long long   apr_uint64_t;
+#endif
 
 typedef  size_t          apr_size_t;
 typedef  ssize_t         apr_ssize_t;
 typedef  off_t           apr_off_t;
 typedef  socklen_t       apr_socklen_t;
 typedef  ino_t           apr_ino_t;
-
-#define APR_SIZEOF_VOIDP 4
 
 #if APR_SIZEOF_VOIDP == 8
 typedef  apr_uint64_t            apr_uintptr_t;
@@ -380,7 +451,7 @@ typedef  apr_uint32_t            apr_uintptr_t;
  *
  * </PRE>
  */
-#define APR_THREAD_FUNC
+#define APR_THREAD_FUNC       
 
 /**
  * The public APR functions are declared with APR_DECLARE(), so they may
@@ -442,6 +513,7 @@ typedef  apr_uint32_t            apr_uintptr_t;
  * to find the logic for this definition search for "ssize_t_fmt" in
  * configure.in.
  */
+
 #define APR_SSIZE_T_FMT "d"
 
 /* And APR_SIZE_T_FMT */
@@ -461,6 +533,43 @@ typedef  apr_uint32_t            apr_uintptr_t;
 
 /* And APR_UINT64_T_HEX_FMT */
 #define APR_UINT64_T_HEX_FMT "llx"
+
+/*
+ * Ensure we work with universal binaries on Darwin
+ */
+#ifdef DARWIN_10
+
+#undef APR_HAS_LARGE_FILES
+#undef APR_SIZEOF_VOIDP
+#undef APR_INT64_T_FMT
+#undef APR_UINT64_T_FMT
+#undef APR_UINT64_T_HEX_FMT
+
+#ifdef __LP64__
+ #define APR_HAS_LARGE_FILES  0
+ #define APR_SIZEOF_VOIDP     8
+ #define APR_INT64_T_FMT      "ld"
+ #define APR_UINT64_T_FMT     "lu"
+ #define APR_UINT64_T_HEX_FMT "lx"
+#else
+ #define APR_HAS_LARGE_FILES  1
+ #define APR_SIZEOF_VOIDP     4
+ #define APR_INT64_T_FMT      "lld"
+ #define APR_UINT64_T_FMT     "llu"
+ #define APR_UINT64_T_HEX_FMT "llx"
+#endif
+
+#undef APR_IS_BIGENDIAN
+#ifdef __BIG_ENDIAN__
+ #define APR_IS_BIGENDIAN	1
+#else
+ #define APR_IS_BIGENDIAN	0
+#endif
+
+#undef APR_OFF_T_FMT
+#define APR_OFF_T_FMT "lld"
+
+#endif /* DARWIN_10 */
 
 /* Does the proc mutex lock threads too */
 #define APR_PROC_MUTEX_IS_GLOBAL      0

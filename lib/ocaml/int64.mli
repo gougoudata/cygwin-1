@@ -11,7 +11,7 @@
 (*                                                                     *)
 (***********************************************************************)
 
-(* $Id: int64.mli,v 1.17 2004/01/01 16:42:40 doligez Exp $ *)
+(* $Id: int64.mli 8768 2008-01-11 16:13:18Z doligez $ *)
 
 (** 64-bit integers.
 
@@ -19,12 +19,12 @@
    signed 64-bit integers.  Unlike the built-in [int] type,
    the type [int64] is guaranteed to be exactly 64-bit wide on all
    platforms.  All arithmetic operations over [int64] are taken
-   modulo 2{^64} 
+   modulo 2{^64}
 
    Performance notice: values of type [int64] occupy more memory
    space than values of type [int], and arithmetic operations on
    [int64] are generally slower than those on [int].  Use [int64]
-   only when the application requires exact 64-bit arithmetic. 
+   only when the application requires exact 64-bit arithmetic.
 *)
 
 val zero : int64
@@ -49,14 +49,13 @@ external mul : int64 -> int64 -> int64 = "%int64_mul"
 (** Multiplication. *)
 
 external div : int64 -> int64 -> int64 = "%int64_div"
-(** Integer division.  Raise [Division_by_zero] if the second 
+(** Integer division.  Raise [Division_by_zero] if the second
    argument is zero.  This division rounds the real quotient of
    its arguments towards zero, as specified for {!Pervasives.(/)}. *)
 
 external rem : int64 -> int64 -> int64 = "%int64_mod"
 (** Integer remainder.  If [y] is not zero, the result
-   of [Int64.rem x y] satisfies the following properties:
-   [Int64.zero <= Int64.rem x y < Int64.abs y] and
+   of [Int64.rem x y] satisfies the following property:
    [x = Int64.add (Int64.mul (Int64.div x y) y) (Int64.rem x y)].
    If [y = 0], [Int64.rem x y] raises [Division_by_zero]. *)
 
@@ -104,7 +103,8 @@ external shift_right_logical : int64 -> int -> int64 = "%int64_lsr"
    The result is unspecified if [y < 0] or [y >= 64]. *)
 
 external of_int : int -> int64 = "%int64_of_int"
-(** Convert the given integer (type [int]) to a 64-bit integer (type [int64]). *)
+(** Convert the given integer (type [int]) to a 64-bit integer
+    (type [int64]). *)
 
 external to_int : int64 -> int = "%int64_to_int"
 (** Convert the given 64-bit integer (type [int64]) to an
@@ -182,10 +182,5 @@ val compare: t -> t -> int
 (** {6 Deprecated functions} *)
 
 external format : string -> int64 -> string = "caml_int64_format"
-(** [Int64.format fmt n] return the string representation of the
-   64-bit integer [n] in the format specified by [fmt].
-   [fmt] is a {!Printf}-style format consisting of exactly one
-   [%d], [%i], [%u], [%x], [%X] or [%o] conversion specification.
-   This function is deprecated; use {!Printf.sprintf} with a [%Lx] format
-   instead. *)
-
+(** Do not use this deprecated function.  Instead,
+   used {!Printf.sprintf} with a [%L...] format. *)

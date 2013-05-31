@@ -7,10 +7,10 @@
  *	  and join trees.
  *
  *
- * Portions Copyright (c) 1996-2006, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2012, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
- * $PostgreSQL: pgsql/src/include/nodes/primnodes.h,v 1.117 2006/10/04 00:30:09 momjian Exp $
+ * src/include/nodes/primnodes.h
  *
  *-------------------------------------------------------------------------
  */
@@ -49,6 +49,15 @@ typedef enum InhOption
 	INH_DEFAULT					/* Use current SQL_inheritance option */
 } InhOption;
 
+/* What to do at commit time for temporary relations */
+typedef enum OnCommitAction
+{
+	ONCOMMIT_NOOP,				/* No ON COMMIT clause (do nothing) */
+	ONCOMMIT_PRESERVE_ROWS,		/* ON COMMIT PRESERVE ROWS (do nothing) */
+	ONCOMMIT_DELETE_ROWS,		/* ON COMMIT DELETE ROWS */
+	ONCOMMIT_DROP				/* ON COMMIT DROP */
+} OnCommitAction;
+
 /*
  * RangeVar - range variable, used in FROM clauses
  *
@@ -65,9 +74,25 @@ typedef struct RangeVar
 	char	   *relname;		/* the relation/sequence name */
 	InhOption	inhOpt;			/* expand rel by inheritance? recursively act
 								 * on children? */
-	bool		istemp;			/* is this a temp relation/sequence? */
+	char		relpersistence; /* see RELPERSISTENCE_* in pg_class.h */
 	Alias	   *alias;			/* table alias & optional column aliases */
+	int			location;		/* token location, or -1 if unknown */
 } RangeVar;
+
+/*
+ * IntoClause - target information for SELECT INTO and CREATE TABLE AS
+ */
+typedef struct IntoClause
+{
+	NodeTag		type;
+
+	RangeVar   *rel;			/* target relation name */
+	List	   *colNames;		/* column names to assign, or NIL */
+	List	   *options;		/* options from WITH clause */
+	OnCommitAction onCommit;	/* what do we do at COMMIT? */
+	char	   *tableSpaceName; /* table space to use, or NULL */
+	bool		skipData;		/* true for WITH NO DATA */
+} IntoClause;
 
 
 /* ----------------------------------------------------------------
@@ -94,15 +119,19 @@ typedef struct Expr
  * Note: during parsing/planning, varnoold/varoattno are always just copies
  * of varno/varattno.  At the tail end of planning, Var nodes appearing in
  * upper-level plan nodes are reassigned to point to the outputs of their
- * subplans; for example, in a join node varno becomes INNER or OUTER and
- * varattno becomes the index of the proper element of that subplan's target
- * list.  But varnoold/varoattno continue to hold the original values.
+ * subplans; for example, in a join node varno becomes INNER_VAR or OUTER_VAR
+ * and varattno becomes the index of the proper element of that subplan's
+ * target list.  But varnoold/varoattno continue to hold the original values.
  * The code doesn't really need varnoold/varoattno, but they are very useful
  * for debugging and interpreting completed plans, so we keep them around.
  */
-#define    INNER		65000
-#define    OUTER		65001
+#define    INNER_VAR		65000		/* reference to inner subplan */
+#define    OUTER_VAR		65001		/* reference to outer subplan */
+#define    INDEX_VAR		65002		/* reference to index column */
 
+#define IS_SPECIAL_VARNO(varno)		((varno) >= INNER_VAR)
+
+/* Symbols for the indexes of the special RTE entries in rules */
 #define    PRS2_OLD_VARNO			1
 #define    PRS2_NEW_VARNO			2
 
@@ -110,19 +139,18 @@ typedef struct Var
 {
 	Expr		xpr;
 	Index		varno;			/* index of this var's relation in the range
-								 * table (could also be INNER or OUTER) */
+								 * table, or INNER_VAR/OUTER_VAR/INDEX_VAR */
 	AttrNumber	varattno;		/* attribute number of this var, or zero for
 								 * all */
-	Oid			vartype;		/* pg_type tuple OID for the type of this var */
+	Oid			vartype;		/* pg_type OID for the type of this var */
 	int32		vartypmod;		/* pg_attribute typmod value */
-	Index		varlevelsup;
-
-	/*
-	 * for subquery variables referencing outer relations; 0 in a normal var,
-	 * >0 means N levels up
-	 */
+	Oid			varcollid;		/* OID of collation, or InvalidOid if none */
+	Index		varlevelsup;	/* for subquery variables referencing outer
+								 * relations; 0 in a normal var, >0 means N
+								 * levels up */
 	Index		varnoold;		/* original value of varno, for debugging */
 	AttrNumber	varoattno;		/* original value of varattno */
+	int			location;		/* token location, or -1 if unknown */
 } Var;
 
 /*
@@ -131,7 +159,9 @@ typedef struct Var
 typedef struct Const
 {
 	Expr		xpr;
-	Oid			consttype;		/* PG_TYPE OID of the constant's datatype */
+	Oid			consttype;		/* pg_type OID of the constant's datatype */
+	int32		consttypmod;	/* typmod value, if any */
+	Oid			constcollid;	/* OID of collation, or InvalidOid if none */
 	int			constlen;		/* typlen of the constant's datatype */
 	Datum		constvalue;		/* the constant's value */
 	bool		constisnull;	/* whether the constant is null (if true,
@@ -140,6 +170,7 @@ typedef struct Const
 								 * If true, then all the information is stored
 								 * in the Datum. If false, then the Datum
 								 * contains a pointer to the information. */
+	int			location;		/* token location, or -1 if unknown */
 } Const;
 
 /* ----------------
@@ -151,7 +182,8 @@ typedef struct Const
  *				Such parameters are numbered from 1 to n.
  *
  *		PARAM_EXEC:  The parameter is an internal executor parameter, used
- *				for passing values into and out of sub-queries.
+ *				for passing values into and out of sub-queries or from
+ *				nestloop joins to their inner scans.
  *				For historical reasons, such parameters are numbered from 0.
  *				These numbers are independent of PARAM_EXTERN numbers.
  *
@@ -159,6 +191,11 @@ typedef struct Const
  *				node's sub-select.  The column number is contained in the
  *				`paramid' field.  (This type of Param is converted to
  *				PARAM_EXEC during planning.)
+ *
+ * Note: currently, paramtypmod is valid for PARAM_SUBLINK Params, and for
+ * PARAM_EXEC Params generated from them; it is always -1 for PARAM_EXTERN
+ * params, since the APIs that supply values for such parameters don't carry
+ * any typmod info.
  * ----------------
  */
 typedef enum ParamKind
@@ -173,22 +210,58 @@ typedef struct Param
 	Expr		xpr;
 	ParamKind	paramkind;		/* kind of parameter. See above */
 	int			paramid;		/* numeric ID for parameter */
-	Oid			paramtype;		/* PG_TYPE OID of parameter's datatype */
+	Oid			paramtype;		/* pg_type OID of parameter's datatype */
+	int32		paramtypmod;	/* typmod value, if known */
+	Oid			paramcollid;	/* OID of collation, or InvalidOid if none */
+	int			location;		/* token location, or -1 if unknown */
 } Param;
 
 /*
  * Aggref
+ *
+ * The aggregate's args list is a targetlist, ie, a list of TargetEntry nodes
+ * (before Postgres 9.0 it was just bare expressions).	The non-resjunk TLEs
+ * represent the aggregate's regular arguments (if any) and resjunk TLEs can
+ * be added at the end to represent ORDER BY expressions that are not also
+ * arguments.  As in a top-level Query, the TLEs can be marked with
+ * ressortgroupref indexes to let them be referenced by SortGroupClause
+ * entries in the aggorder and/or aggdistinct lists.  This represents ORDER BY
+ * and DISTINCT operations to be applied to the aggregate input rows before
+ * they are passed to the transition function.	The grammar only allows a
+ * simple "DISTINCT" specifier for the arguments, but we use the full
+ * query-level representation to allow more code sharing.
  */
 typedef struct Aggref
 {
 	Expr		xpr;
 	Oid			aggfnoid;		/* pg_proc Oid of the aggregate */
 	Oid			aggtype;		/* type Oid of result of the aggregate */
-	List	   *args;			/* arguments to the aggregate */
-	Index		agglevelsup;	/* > 0 if agg belongs to outer query */
+	Oid			aggcollid;		/* OID of collation of result */
+	Oid			inputcollid;	/* OID of collation that function should use */
+	List	   *args;			/* arguments and sort expressions */
+	List	   *aggorder;		/* ORDER BY (list of SortGroupClause) */
+	List	   *aggdistinct;	/* DISTINCT (list of SortGroupClause) */
 	bool		aggstar;		/* TRUE if argument list was really '*' */
-	bool		aggdistinct;	/* TRUE if it's agg(DISTINCT ...) */
+	Index		agglevelsup;	/* > 0 if agg belongs to outer query */
+	int			location;		/* token location, or -1 if unknown */
 } Aggref;
+
+/*
+ * WindowFunc
+ */
+typedef struct WindowFunc
+{
+	Expr		xpr;
+	Oid			winfnoid;		/* pg_proc Oid of the function */
+	Oid			wintype;		/* type Oid of result of the window function */
+	Oid			wincollid;		/* OID of collation of result */
+	Oid			inputcollid;	/* OID of collation that function should use */
+	List	   *args;			/* arguments to the window function */
+	Index		winref;			/* index of associated WindowClause */
+	bool		winstar;		/* TRUE if argument list was really '*' */
+	bool		winagg;			/* is function a simple aggregate? */
+	int			location;		/* token location, or -1 if unknown */
+} WindowFunc;
 
 /* ----------------
  *	ArrayRef: describes an array subscripting operation
@@ -207,17 +280,18 @@ typedef struct Aggref
  * reflowerindexpr must be the same length as refupperindexpr when it
  * is not NIL.
  *
- * Note: refrestype is NOT the element type, but the array type,
- * when doing subarray fetch or either type of store.
+ * Note: the result datatype is the element type when fetching a single
+ * element; but it is the array type when doing subarray fetch or either
+ * type of store.
  * ----------------
  */
 typedef struct ArrayRef
 {
 	Expr		xpr;
-	Oid			refrestype;		/* type of the result of the ArrayRef
-								 * operation */
 	Oid			refarraytype;	/* type of the array proper */
 	Oid			refelemtype;	/* type of the array elements */
+	int32		reftypmod;		/* typmod of the array (and elements too) */
+	Oid			refcollid;		/* OID of collation, or InvalidOid if none */
 	List	   *refupperindexpr;/* expressions that evaluate to upper array
 								 * indexes */
 	List	   *reflowerindexpr;/* expressions that evaluate to lower array
@@ -243,6 +317,12 @@ typedef enum CoercionContext
 
 /*
  * CoercionForm - information showing how to display a function-call node
+ *
+ * NB: equal() ignores CoercionForm fields, therefore this *must* not carry
+ * any semantically significant information.  We need that behavior so that
+ * the planner will consider equivalent implicit and explicit casts to be
+ * equivalent.  In cases where those actually behave differently, the coercion
+ * function's arguments will be different.
  */
 typedef enum CoercionForm
 {
@@ -262,8 +342,34 @@ typedef struct FuncExpr
 	Oid			funcresulttype; /* PG_TYPE OID of result value */
 	bool		funcretset;		/* true if function returns set */
 	CoercionForm funcformat;	/* how to display this function call */
+	Oid			funccollid;		/* OID of collation of result */
+	Oid			inputcollid;	/* OID of collation that function should use */
 	List	   *args;			/* arguments to the function */
+	int			location;		/* token location, or -1 if unknown */
 } FuncExpr;
+
+/*
+ * NamedArgExpr - a named argument of a function
+ *
+ * This node type can only appear in the args list of a FuncCall or FuncExpr
+ * node.  We support pure positional call notation (no named arguments),
+ * named notation (all arguments are named), and mixed notation (unnamed
+ * arguments followed by named ones).
+ *
+ * Parse analysis sets argnumber to the positional index of the argument,
+ * but doesn't rearrange the argument list.
+ *
+ * The planner will convert argument lists to pure positional notation
+ * during expression preprocessing, so execution never sees a NamedArgExpr.
+ */
+typedef struct NamedArgExpr
+{
+	Expr		xpr;
+	Expr	   *arg;			/* the argument expression */
+	char	   *name;			/* the name */
+	int			argnumber;		/* argument's number in positional notation */
+	int			location;		/* argument name location, or -1 if unknown */
+} NamedArgExpr;
 
 /*
  * OpExpr - expression node for an operator invocation
@@ -272,7 +378,7 @@ typedef struct FuncExpr
  *
  * Note that opfuncid is not necessarily filled in immediately on creation
  * of the node.  The planner makes sure it is valid before passing the node
- * tree to the executor, but during parsing/planning opfuncid is typically 0.
+ * tree to the executor, but during parsing/planning opfuncid can be 0.
  */
 typedef struct OpExpr
 {
@@ -281,7 +387,10 @@ typedef struct OpExpr
 	Oid			opfuncid;		/* PG_PROC OID of underlying function */
 	Oid			opresulttype;	/* PG_TYPE OID of result value */
 	bool		opretset;		/* true if operator returns set */
+	Oid			opcollid;		/* OID of collation of result */
+	Oid			inputcollid;	/* OID of collation that operator should use */
 	List	   *args;			/* arguments to the operator (1 or 2) */
+	int			location;		/* token location, or -1 if unknown */
 } OpExpr;
 
 /*
@@ -297,6 +406,14 @@ typedef struct OpExpr
 typedef OpExpr DistinctExpr;
 
 /*
+ * NullIfExpr - a NULLIF expression
+ *
+ * Like DistinctExpr, this is represented the same as an OpExpr referencing
+ * the "=" operator for x and y.
+ */
+typedef OpExpr NullIfExpr;
+
+/*
  * ScalarArrayOpExpr - expression node for "scalar op ANY/ALL (array)"
  *
  * The operator must yield boolean.  It is applied to the left operand
@@ -304,7 +421,7 @@ typedef OpExpr DistinctExpr;
  * with OR or AND (for ANY or ALL respectively).  The node representation
  * is almost the same as for the underlying operator, but we need a useOr
  * flag to remember whether it's ANY or ALL, and we don't have to store
- * the result type because it must be boolean.
+ * the result type (or the collation) because it must be boolean.
  */
 typedef struct ScalarArrayOpExpr
 {
@@ -312,7 +429,9 @@ typedef struct ScalarArrayOpExpr
 	Oid			opno;			/* PG_OPERATOR OID of the operator */
 	Oid			opfuncid;		/* PG_PROC OID of underlying function */
 	bool		useOr;			/* true for ANY, false for ALL */
+	Oid			inputcollid;	/* OID of collation that operator should use */
 	List	   *args;			/* the scalar and array operands */
+	int			location;		/* token location, or -1 if unknown */
 } ScalarArrayOpExpr;
 
 /*
@@ -320,9 +439,11 @@ typedef struct ScalarArrayOpExpr
  *
  * Notice the arguments are given as a List.  For NOT, of course the list
  * must always have exactly one element.  For AND and OR, the executor can
- * handle any number of arguments.	The parser treats AND and OR as binary
- * and so it only produces two-element lists, but the optimizer will flatten
- * trees of AND and OR nodes to produce longer lists when possible.
+ * handle any number of arguments.	The parser generally treats AND and OR
+ * as binary and so it typically only produces two-element lists, but the
+ * optimizer will flatten trees of AND and OR nodes to produce longer lists
+ * when possible.  There are also a few special cases where more arguments
+ * can appear before optimization.
  */
 typedef enum BoolExprType
 {
@@ -334,6 +455,7 @@ typedef struct BoolExpr
 	Expr		xpr;
 	BoolExprType boolop;
 	List	   *args;			/* arguments to this expression */
+	int			location;		/* token location, or -1 if unknown */
 } BoolExpr;
 
 /*
@@ -348,6 +470,7 @@ typedef struct BoolExpr
  *	ROWCOMPARE_SUBLINK	(lefthand) op (SELECT ...)
  *	EXPR_SUBLINK		(SELECT with single targetlist item ...)
  *	ARRAY_SUBLINK		ARRAY(SELECT with single targetlist item ...)
+ *	CTE_SUBLINK			WITH query (never actually part of an expression)
  * For ALL, ANY, and ROWCOMPARE, the lefthand is a list of expressions of the
  * same length as the subselect's targetlist.  ROWCOMPARE will *always* have
  * a list with more than one entry; if the subselect has just one target
@@ -358,7 +481,7 @@ typedef struct BoolExpr
  * results.  ALL and ANY combine the per-row results using AND and OR
  * semantics respectively.
  * ARRAY requires just one target column, and creates an array of the target
- * column's type using one or more rows resulting from the subselect.
+ * column's type using any number of rows resulting from the subselect.
  *
  * SubLink is classed as an Expr node, but it is not actually executable;
  * it must be replaced in the expression tree by a SubPlan node during
@@ -374,6 +497,9 @@ typedef struct BoolExpr
  *
  * In EXISTS, EXPR, and ARRAY SubLinks, testexpr and operName are unused and
  * are always null.
+ *
+ * The CTE_SUBLINK case never occurs in actual SubLink nodes, but it is used
+ * in SubPlans generated for WITH subqueries.
  */
 typedef enum SubLinkType
 {
@@ -382,7 +508,8 @@ typedef enum SubLinkType
 	ANY_SUBLINK,
 	ROWCOMPARE_SUBLINK,
 	EXPR_SUBLINK,
-	ARRAY_SUBLINK
+	ARRAY_SUBLINK,
+	CTE_SUBLINK					/* for SubPlans only */
 } SubLinkType;
 
 
@@ -393,14 +520,17 @@ typedef struct SubLink
 	Node	   *testexpr;		/* outer-query test for ALL/ANY/ROWCOMPARE */
 	List	   *operName;		/* originally specified operator name */
 	Node	   *subselect;		/* subselect as Query* or parsetree */
+	int			location;		/* token location, or -1 if unknown */
 } SubLink;
 
 /*
  * SubPlan - executable expression node for a subplan (sub-SELECT)
  *
  * The planner replaces SubLink nodes in expression trees with SubPlan
- * nodes after it has finished planning the subquery.  SubPlan contains
- * a sub-plantree and rtable instead of a sub-Query.
+ * nodes after it has finished planning the subquery.  SubPlan references
+ * a sub-plantree stored in the subplans list of the toplevel PlannedStmt.
+ * (We avoid a direct link to make it easier to copy expression trees
+ * without causing multiple processing of the subplan.)
  *
  * In an ordinary subplan, testexpr points to an executable expression
  * (OpExpr, an AND/OR tree of OpExprs, or RowCompareExpr) for the combining
@@ -413,7 +543,8 @@ typedef struct SubLink
  *
  * If the sub-select becomes an initplan rather than a subplan, the executable
  * expression is part of the outer plan's expression tree (and the SubPlan
- * node itself is not).  In this case testexpr is NULL to avoid duplication.
+ * node itself is not, but rather is found in the outer plan's initPlan
+ * list).  In this case testexpr is NULL to avoid duplication.
  *
  * The planner also derives lists of the values that need to be passed into
  * and out of the subplan.	Input values are represented as a list "args" of
@@ -425,6 +556,10 @@ typedef struct SubLink
  * is an initplan; they are listed in order by sub-select output column
  * position.  (parParam and setParam are integer Lists, not Bitmapsets,
  * because their ordering is significant.)
+ *
+ * Also, the planner computes startup and per-call costs for use of the
+ * SubPlan.  Note that these include the cost of the subquery proper,
+ * evaluation of the testexpr if any, and any hashtable management overhead.
  */
 typedef struct SubPlan
 {
@@ -434,13 +569,15 @@ typedef struct SubPlan
 	/* The combining operators, transformed to an executable expression: */
 	Node	   *testexpr;		/* OpExpr or RowCompareExpr expression tree */
 	List	   *paramIds;		/* IDs of Params embedded in the above */
-	/* The subselect, transformed to a Plan: */
-	struct Plan *plan;			/* subselect plan itself */
-	int			plan_id;		/* dummy thing because of we haven't equal
-								 * funcs for plan nodes... actually, we could
-								 * put *plan itself somewhere else (TopPlan
-								 * node ?)... */
-	List	   *rtable;			/* range table for subselect */
+	/* Identification of the Plan tree to use: */
+	int			plan_id;		/* Index (from 1) in PlannedStmt.subplans */
+	/* Identification of the SubPlan for EXPLAIN and debugging purposes: */
+	char	   *plan_name;		/* A name assigned during planning */
+	/* Extra data useful for determining subplan's output type: */
+	Oid			firstColType;	/* Type of first column of subplan result */
+	int32		firstColTypmod; /* Typmod of first column of subplan result */
+	Oid			firstColCollation;		/* Collation of first column of
+										 * subplan result */
 	/* Information about execution strategy: */
 	bool		useHashTable;	/* TRUE to store subselect output in a hash
 								 * table (implies we are doing "IN") */
@@ -453,7 +590,24 @@ typedef struct SubPlan
 								 * Params for parent plan */
 	List	   *parParam;		/* indices of input Params from parent plan */
 	List	   *args;			/* exprs to pass as parParam values */
+	/* Estimated execution costs: */
+	Cost		startup_cost;	/* one-time setup cost */
+	Cost		per_call_cost;	/* cost for each subplan evaluation */
 } SubPlan;
+
+/*
+ * AlternativeSubPlan - expression node for a choice among SubPlans
+ *
+ * The subplans are given as a List so that the node definition need not
+ * change if there's ever more than two alternatives.  For the moment,
+ * though, there are always exactly two; and the first one is the fast-start
+ * plan.
+ */
+typedef struct AlternativeSubPlan
+{
+	Expr		xpr;
+	List	   *subplans;		/* SubPlan(s) with equivalent results */
+} AlternativeSubPlan;
 
 /* ----------------
  * FieldSelect
@@ -472,6 +626,7 @@ typedef struct FieldSelect
 	Oid			resulttype;		/* type of the field (result type of this
 								 * node) */
 	int32		resulttypmod;	/* output typmod (usually -1) */
+	Oid			resultcollid;	/* OID of collation of the field */
 } FieldSelect;
 
 /* ----------------
@@ -496,7 +651,7 @@ typedef struct FieldStore
 	List	   *newvals;		/* new value(s) for field(s) */
 	List	   *fieldnums;		/* integer list of field attnums */
 	Oid			resulttype;		/* type of result (same as type of arg) */
-	/* Like RowExpr, we deliberately omit a typmod here */
+	/* Like RowExpr, we deliberately omit a typmod and collation here */
 } FieldStore;
 
 /* ----------------
@@ -518,8 +673,55 @@ typedef struct RelabelType
 	Expr	   *arg;			/* input expression */
 	Oid			resulttype;		/* output type of coercion expression */
 	int32		resulttypmod;	/* output typmod (usually -1) */
+	Oid			resultcollid;	/* OID of collation, or InvalidOid if none */
 	CoercionForm relabelformat; /* how to display this node */
+	int			location;		/* token location, or -1 if unknown */
 } RelabelType;
+
+/* ----------------
+ * CoerceViaIO
+ *
+ * CoerceViaIO represents a type coercion between two types whose textual
+ * representations are compatible, implemented by invoking the source type's
+ * typoutput function then the destination type's typinput function.
+ * ----------------
+ */
+
+typedef struct CoerceViaIO
+{
+	Expr		xpr;
+	Expr	   *arg;			/* input expression */
+	Oid			resulttype;		/* output type of coercion */
+	/* output typmod is not stored, but is presumed -1 */
+	Oid			resultcollid;	/* OID of collation, or InvalidOid if none */
+	CoercionForm coerceformat;	/* how to display this node */
+	int			location;		/* token location, or -1 if unknown */
+} CoerceViaIO;
+
+/* ----------------
+ * ArrayCoerceExpr
+ *
+ * ArrayCoerceExpr represents a type coercion from one array type to another,
+ * which is implemented by applying the indicated element-type coercion
+ * function to each element of the source array.  If elemfuncid is InvalidOid
+ * then the element types are binary-compatible, but the coercion still
+ * requires some effort (we have to fix the element type ID stored in the
+ * array header).
+ * ----------------
+ */
+
+typedef struct ArrayCoerceExpr
+{
+	Expr		xpr;
+	Expr	   *arg;			/* input expression (yields an array) */
+	Oid			elemfuncid;		/* OID of element coercion function, or 0 */
+	Oid			resulttype;		/* output type of coercion (an array type) */
+	int32		resulttypmod;	/* output typmod (also element typmod) */
+	Oid			resultcollid;	/* OID of collation, or InvalidOid if none */
+	bool		isExplicit;		/* conversion semantics flag to pass to func */
+	CoercionForm coerceformat;	/* how to display this node */
+	int			location;		/* token location, or -1 if unknown */
+} ArrayCoerceExpr;
 
 /* ----------------
  * ConvertRowtypeExpr
@@ -538,9 +740,25 @@ typedef struct ConvertRowtypeExpr
 	Expr		xpr;
 	Expr	   *arg;			/* input expression */
 	Oid			resulttype;		/* output type (always a composite type) */
-	/* result typmod is not stored, but must be -1; see RowExpr comments */
+	/* Like RowExpr, we deliberately omit a typmod and collation here */
 	CoercionForm convertformat; /* how to display this node */
+	int			location;		/* token location, or -1 if unknown */
 } ConvertRowtypeExpr;
+
+/*----------
+ * CollateExpr - COLLATE
+ *
+ * The planner replaces CollateExpr with RelabelType during expression
+ * preprocessing, so execution never sees a CollateExpr.
+ *----------
+ */
+typedef struct CollateExpr
+{
+	Expr		xpr;
+	Expr	   *arg;			/* input expression */
+	Oid			collOid;		/* collation's OID */
+	int			location;		/* token location, or -1 if unknown */
+} CollateExpr;
 
 /*----------
  * CaseExpr - a CASE expression
@@ -568,9 +786,11 @@ typedef struct CaseExpr
 {
 	Expr		xpr;
 	Oid			casetype;		/* type of expression result */
+	Oid			casecollid;		/* OID of collation, or InvalidOid if none */
 	Expr	   *arg;			/* implicit equality comparison argument */
 	List	   *args;			/* the arguments (list of WHEN clauses) */
 	Expr	   *defresult;		/* the default result (ELSE clause) */
+	int			location;		/* token location, or -1 if unknown */
 } CaseExpr;
 
 /*
@@ -581,6 +801,7 @@ typedef struct CaseWhen
 	Expr		xpr;
 	Expr	   *expr;			/* condition expression */
 	Expr	   *result;			/* substitution result */
+	int			location;		/* token location, or -1 if unknown */
 } CaseWhen;
 
 /*
@@ -596,6 +817,7 @@ typedef struct CaseTestExpr
 	Expr		xpr;
 	Oid			typeId;			/* type for substituted value */
 	int32		typeMod;		/* typemod for substituted value */
+	Oid			collation;		/* collation for the substituted value */
 } CaseTestExpr;
 
 /*
@@ -610,9 +832,11 @@ typedef struct ArrayExpr
 {
 	Expr		xpr;
 	Oid			array_typeid;	/* type of expression result */
+	Oid			array_collid;	/* OID of collation, or InvalidOid if none */
 	Oid			element_typeid; /* common type of array elements */
 	List	   *elements;		/* the array elements or sub-arrays */
 	bool		multidims;		/* true if elements are sub-arrays */
+	int			location;		/* token location, or -1 if unknown */
 } ArrayExpr;
 
 /*
@@ -627,6 +851,16 @@ typedef struct ArrayExpr
  * not RECORD types, since those are built from the RowExpr itself rather
  * than vice versa.)  It is important not to assume that length(args) is
  * the same as the number of columns logically present in the rowtype.
+ *
+ * colnames provides field names in cases where the names can't easily be
+ * obtained otherwise.	Names *must* be provided if row_typeid is RECORDOID.
+ * If row_typeid identifies a known composite type, colnames can be NIL to
+ * indicate the type's cataloged field names apply.  Note that colnames can
+ * be non-NIL even for a composite type, and typically is when the RowExpr
+ * was created by expanding a whole-row Var.  This is so that we can retain
+ * the column alias names of the RTE that the Var referenced (which would
+ * otherwise be very difficult to extract from the parsetree).	Like the
+ * args list, colnames is one-for-one with physical fields of the rowtype.
  */
 typedef struct RowExpr
 {
@@ -639,8 +873,13 @@ typedef struct RowExpr
 	 * associated with specific RECORD types at runtime, it will differ for
 	 * different backends, and so cannot safely be stored in stored
 	 * parsetrees.	We must assume typmod -1 for a RowExpr node.
+	 *
+	 * We don't need to store a collation either.  The result type is
+	 * necessarily composite, and composite types never have a collation.
 	 */
 	CoercionForm row_format;	/* how to display this node */
+	List	   *colnames;		/* list of String, or NIL */
+	int			location;		/* token location, or -1 if unknown */
 } RowExpr;
 
 /*
@@ -648,7 +887,7 @@ typedef struct RowExpr
  *
  * We support row comparison for any operator that can be determined to
  * act like =, <>, <, <=, >, or >= (we determine this by looking for the
- * operator in btree opclasses).  Note that the same operator name might
+ * operator in btree opfamilies).  Note that the same operator name might
  * map to a different operator for each pair of row elements, since the
  * element datatypes can vary.
  *
@@ -673,7 +912,8 @@ typedef struct RowCompareExpr
 	Expr		xpr;
 	RowCompareType rctype;		/* LT LE GE or GT, never EQ or NE */
 	List	   *opnos;			/* OID list of pairwise comparison ops */
-	List	   *opclasses;		/* OID list of containing operator classes */
+	List	   *opfamilies;		/* OID list of containing operator families */
+	List	   *inputcollids;	/* OID list of collations for comparisons */
 	List	   *largs;			/* the left-hand input arguments */
 	List	   *rargs;			/* the right-hand input arguments */
 } RowCompareExpr;
@@ -685,7 +925,9 @@ typedef struct CoalesceExpr
 {
 	Expr		xpr;
 	Oid			coalescetype;	/* type of expression result */
+	Oid			coalescecollid; /* OID of collation, or InvalidOid if none */
 	List	   *args;			/* the arguments */
+	int			location;		/* token location, or -1 if unknown */
 } CoalesceExpr;
 
 /*
@@ -701,17 +943,56 @@ typedef struct MinMaxExpr
 {
 	Expr		xpr;
 	Oid			minmaxtype;		/* common type of arguments and result */
+	Oid			minmaxcollid;	/* OID of collation of result */
+	Oid			inputcollid;	/* OID of collation that function should use */
 	MinMaxOp	op;				/* function to execute */
 	List	   *args;			/* the arguments */
+	int			location;		/* token location, or -1 if unknown */
 } MinMaxExpr;
 
 /*
- * NullIfExpr - a NULLIF expression
+ * XmlExpr - various SQL/XML functions requiring special grammar productions
  *
- * Like DistinctExpr, this is represented the same as an OpExpr referencing
- * the "=" operator for x and y.
+ * 'name' carries the "NAME foo" argument (already XML-escaped).
+ * 'named_args' and 'arg_names' represent an xml_attribute list.
+ * 'args' carries all other arguments.
+ *
+ * Note: result type/typmod/collation are not stored, but can be deduced
+ * from the XmlExprOp.	The type/typmod fields are just used for display
+ * purposes, and are NOT necessarily the true result type of the node.
+ * (We also use type == InvalidOid to mark a not-yet-parse-analyzed XmlExpr.)
  */
-typedef OpExpr NullIfExpr;
+typedef enum XmlExprOp
+{
+	IS_XMLCONCAT,				/* XMLCONCAT(args) */
+	IS_XMLELEMENT,				/* XMLELEMENT(name, xml_attributes, args) */
+	IS_XMLFOREST,				/* XMLFOREST(xml_attributes) */
+	IS_XMLPARSE,				/* XMLPARSE(text, is_doc, preserve_ws) */
+	IS_XMLPI,					/* XMLPI(name [, args]) */
+	IS_XMLROOT,					/* XMLROOT(xml, version, standalone) */
+	IS_XMLSERIALIZE,			/* XMLSERIALIZE(is_document, xmlval) */
+	IS_DOCUMENT					/* xmlval IS DOCUMENT */
+} XmlExprOp;
+
+typedef enum
+{
+	XMLOPTION_DOCUMENT,
+	XMLOPTION_CONTENT
+} XmlOptionType;
+
+typedef struct XmlExpr
+{
+	Expr		xpr;
+	XmlExprOp	op;				/* xml function ID */
+	char	   *name;			/* name in xml(NAME foo ...) syntaxes */
+	List	   *named_args;		/* non-XML expressions for xml_attributes */
+	List	   *arg_names;		/* parallel list of Value strings */
+	List	   *args;			/* list of expressions */
+	XmlOptionType xmloption;	/* DOCUMENT or CONTENT */
+	Oid			type;			/* target type/typmod for XMLSERIALIZE */
+	int32		typmod;
+	int			location;		/* token location, or -1 if unknown */
+} XmlExpr;
 
 /* ----------------
  * NullTest
@@ -720,9 +1001,7 @@ typedef OpExpr NullIfExpr;
  * The appropriate test is performed and returned as a boolean Datum.
  *
  * NOTE: the semantics of this for rowtype inputs are noticeably different
- * from the scalar case.  It would probably be a good idea to include an
- * "argisrow" flag in the struct to reflect that, but for the moment,
- * we do not do so to avoid forcing an initdb during 8.2beta.
+ * from the scalar case.  We provide an "argisrow" flag to reflect that.
  * ----------------
  */
 
@@ -736,6 +1015,7 @@ typedef struct NullTest
 	Expr		xpr;
 	Expr	   *arg;			/* input expression */
 	NullTestType nulltesttype;	/* IS NULL, IS NOT NULL */
+	bool		argisrow;		/* T if input is of a composite type */
 } NullTest;
 
 /*
@@ -774,7 +1054,9 @@ typedef struct CoerceToDomain
 	Expr	   *arg;			/* input expression */
 	Oid			resulttype;		/* domain type ID (result type) */
 	int32		resulttypmod;	/* output typmod (currently always -1) */
+	Oid			resultcollid;	/* OID of collation, or InvalidOid if none */
 	CoercionForm coercionformat;	/* how to display this node */
+	int			location;		/* token location, or -1 if unknown */
 } CoerceToDomain;
 
 /*
@@ -782,15 +1064,17 @@ typedef struct CoerceToDomain
  * constraint.	This is effectively like a Param, but can be implemented more
  * simply since we need only one replacement value at a time.
  *
- * Note: the typeId/typeMod will be set from the domain's base type, not
- * the domain itself.  This is because we shouldn't consider the value to
- * be a member of the domain if we haven't yet checked its constraints.
+ * Note: the typeId/typeMod/collation will be set from the domain's base type,
+ * not the domain itself.  This is because we shouldn't consider the value
+ * to be a member of the domain if we haven't yet checked its constraints.
  */
 typedef struct CoerceToDomainValue
 {
 	Expr		xpr;
 	Oid			typeId;			/* type for substituted value */
 	int32		typeMod;		/* typemod for substituted value */
+	Oid			collation;		/* collation for the substituted value */
+	int			location;		/* token location, or -1 if unknown */
 } CoerceToDomainValue;
 
 /*
@@ -805,7 +1089,29 @@ typedef struct SetToDefault
 	Expr		xpr;
 	Oid			typeId;			/* type for substituted value */
 	int32		typeMod;		/* typemod for substituted value */
+	Oid			collation;		/* collation for the substituted value */
+	int			location;		/* token location, or -1 if unknown */
 } SetToDefault;
+
+/*
+ * Node representing [WHERE] CURRENT OF cursor_name
+ *
+ * CURRENT OF is a bit like a Var, in that it carries the rangetable index
+ * of the target relation being constrained; this aids placing the expression
+ * correctly during planning.  We can assume however that its "levelsup" is
+ * always zero, due to the syntactic constraints on where it can appear.
+ *
+ * The referenced cursor can be represented either as a hardwired string
+ * or as a reference to a run-time parameter of type REFCURSOR.  The latter
+ * case is for the convenience of plpgsql.
+ */
+typedef struct CurrentOfExpr
+{
+	Expr		xpr;
+	Index		cvarno;			/* RT index of target relation */
+	char	   *cursor_name;	/* name of referenced cursor, or NULL */
+	int			cursor_param;	/* refcursor parameter number, or 0 */
+} CurrentOfExpr;
 
 /*--------------------
  * TargetEntry -
@@ -841,14 +1147,14 @@ typedef struct SetToDefault
  * a specific system-generated name (such as "ctid") or NULL; anything else
  * risks confusing ExecGetJunkAttribute!
  *
- * ressortgroupref is used in the representation of ORDER BY and
- * GROUP BY items.	Targetlist entries with ressortgroupref=0 are not
- * sort/group items.  If ressortgroupref>0, then this item is an ORDER BY or
- * GROUP BY value.	No two entries in a targetlist may have the same nonzero
- * ressortgroupref --- but there is no particular meaning to the nonzero
- * values, except as tags.	(For example, one must not assume that lower
- * ressortgroupref means a more significant sort key.)	The order of the
- * associated SortClause or GroupClause lists determine the semantics.
+ * ressortgroupref is used in the representation of ORDER BY, GROUP BY, and
+ * DISTINCT items.	Targetlist entries with ressortgroupref=0 are not
+ * sort/group items.  If ressortgroupref>0, then this item is an ORDER BY,
+ * GROUP BY, and/or DISTINCT target value.	No two entries in a targetlist
+ * may have the same nonzero ressortgroupref --- but there is no particular
+ * meaning to the nonzero values, except as tags.  (For example, one must
+ * not assume that lower ressortgroupref means a more significant sort key.)
+ * The order of the associated SortGroupClause lists determine the semantics.
  *
  * resorigtbl/resorigcol identify the source of the column, if it is a
  * simple reference to a column of a base table (or view).	If it is not
@@ -922,8 +1228,8 @@ typedef struct RangeTblRef
 /*----------
  * JoinExpr - for SQL JOIN expressions
  *
- * isNatural, using, and quals are interdependent.	The user can write only
- * one of NATURAL, USING(), or ON() (this is enforced by the grammar).
+ * isNatural, usingClause, and quals are interdependent.  The user can write
+ * only one of NATURAL, USING(), or ON() (this is enforced by the grammar).
  * If he writes NATURAL then parse analysis generates the equivalent USING()
  * list, and from that fills in "quals" with the right equality comparisons.
  * If he writes USING() then "quals" is filled with equality comparisons.
@@ -937,7 +1243,9 @@ typedef struct RangeTblRef
  *
  * During parse analysis, an RTE is created for the Join, and its index
  * is filled into rtindex.	This RTE is present mainly so that Vars can
- * be created that refer to the outputs of the join.
+ * be created that refer to the outputs of the join.  The planner sometimes
+ * generates JoinExprs internally; these can have rtindex = 0 if there are
+ * no join alias variables referencing such joins.
  *----------
  */
 typedef struct JoinExpr
@@ -947,10 +1255,10 @@ typedef struct JoinExpr
 	bool		isNatural;		/* Natural join? Will need to shape table */
 	Node	   *larg;			/* left subtree */
 	Node	   *rarg;			/* right subtree */
-	List	   *using;			/* USING clause, if any (list of String) */
+	List	   *usingClause;	/* USING clause, if any (list of String) */
 	Node	   *quals;			/* qualifiers on join, if any */
 	Alias	   *alias;			/* user-written alias clause, if any */
-	int			rtindex;		/* RT index assigned for join */
+	int			rtindex;		/* RT index assigned for join, or 0 */
 } JoinExpr;
 
 /*----------

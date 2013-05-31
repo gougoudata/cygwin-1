@@ -1,17 +1,22 @@
 /**
  * @copyright
  * ====================================================================
- * Copyright (c) 2000-2004 CollabNet.  All rights reserved.
+ *    Licensed to the Apache Software Foundation (ASF) under one
+ *    or more contributor license agreements.  See the NOTICE file
+ *    distributed with this work for additional information
+ *    regarding copyright ownership.  The ASF licenses this file
+ *    to you under the Apache License, Version 2.0 (the
+ *    "License"); you may not use this file except in compliance
+ *    with the License.  You may obtain a copy of the License at
  *
- * This software is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at http://subversion.tigris.org/license-1.html.
- * If newer versions of this license are posted there, you may use a
- * newer version instead, at your option.
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * This software consists of voluntary contributions made by many
- * individuals.  For exact contribution history, see the revision
- * history and logs, available at http://subversion.tigris.org/.
+ *    Unless required by applicable law or agreed to in writing,
+ *    software distributed under the License is distributed on an
+ *    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ *    KIND, either express or implied.  See the License for the
+ *    specific language governing permissions and limitations
+ *    under the License.
  * ====================================================================
  * @endcopyright
  *
@@ -57,7 +62,7 @@ extern "C" {
  * Modify when new functionality is added or new interfaces are
  * defined, but all changes are backward compatible.
  */
-#define SVN_VER_MINOR      5
+#define SVN_VER_MINOR      7
 
 /**
  * Patch number.
@@ -66,7 +71,7 @@ extern "C" {
  *
  * @since New in 1.1.
  */
-#define SVN_VER_PATCH      2
+#define SVN_VER_PATCH      9
 
 
 /** @deprecated Provided for backward compatibility with the 1.0 API. */
@@ -89,7 +94,7 @@ extern "C" {
  *
  * Always change this at the same time as SVN_VER_NUMTAG.
  */
-#define SVN_VER_TAG        " (r32768)"
+#define SVN_VER_TAG        " (r1462340)"
 
 
 /** Number tag: a string describing the version.
@@ -115,7 +120,7 @@ extern "C" {
  * When rolling a tarball, we automatically replace it with what we
  * guess to be the correct revision number.
  */
-#define SVN_VER_REVISION   32768
+#define SVN_VER_REVISION   1462340
 
 
 /* Version strings composed from the above definitions. */
@@ -129,7 +134,7 @@ extern "C" {
 #define SVN_VER_NUMBER     SVN_VER_NUM SVN_VER_NUMTAG
 
 /** Complete version string */
-#define SVN_VERSION        SVN_VER_NUM SVN_VER_TAG
+#define SVN_VERSION        SVN_VER_NUMBER SVN_VER_TAG
 
 
 
@@ -142,18 +147,18 @@ extern "C" {
  *
  * @since New in 1.1.
  */
-typedef struct svn_version_t
+struct svn_version_t
 {
   int major;                    /**< Major version number */
   int minor;                    /**< Minor version number */
   int patch;                    /**< Patch number */
 
   /**
-   * The version tag (#SVN_VER_NUMTAG).\ Must always point to a
+   * The version tag (#SVN_VER_NUMTAG). Must always point to a
    * statically allocated string.
    */
   const char *tag;
-} svn_version_t;
+};
 
 /**
  * Define a static svn_version_t object.
@@ -190,16 +195,18 @@ typedef struct svn_version_t
  *
  * @since New in 1.1.
  */
-svn_boolean_t svn_ver_compatible(const svn_version_t *my_version,
-                                 const svn_version_t *lib_version);
+svn_boolean_t
+svn_ver_compatible(const svn_version_t *my_version,
+                   const svn_version_t *lib_version);
 
 /**
  * Check if @a my_version and @a lib_version encode the same version number.
  *
  * @since New in 1.2.
  */
-svn_boolean_t svn_ver_equal(const svn_version_t *my_version,
-                            const svn_version_t *lib_version);
+svn_boolean_t
+svn_ver_equal(const svn_version_t *my_version,
+              const svn_version_t *lib_version);
 
 
 /**
@@ -226,8 +233,17 @@ typedef struct svn_version_checklist_t
  *
  * @since New in 1.1.
  */
-svn_error_t *svn_ver_check_list(const svn_version_t *my_version,
-                                const svn_version_checklist_t *checklist);
+svn_error_t *
+svn_ver_check_list(const svn_version_t *my_version,
+                   const svn_version_checklist_t *checklist);
+
+
+/**
+ * Type of function returning library version.
+ *
+ * @since New in 1.6.
+ */
+typedef const svn_version_t *(*svn_version_func_t)(void);
 
 
 /* libsvn_subr doesn't have an svn_subr header, so put the prototype here. */
@@ -236,7 +252,8 @@ svn_error_t *svn_ver_check_list(const svn_version_t *my_version,
  *
  * @since New in 1.1.
  */
-const svn_version_t *svn_subr_version(void);
+const svn_version_t *
+svn_subr_version(void);
 
 
 #ifdef __cplusplus

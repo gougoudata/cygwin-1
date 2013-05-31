@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node5" href="$class_test_suite.html" title="A Composite of Tests.It runs a collection of test cases. Here is an example." alt="" coords="63,160,143,189"/>
+<area shape="rect" id="node2" href="$class_test.html" title="Base class for all test objects.All test objects should be a subclass of Test. Some test objects..." alt="" coords="77,5,128,35"/>
+<area shape="rect" id="node7" href="$class_test_runner_1_1_wrapping_suite.html" title="(INTERNAL) Mutating test suite." alt="" coords="5,237,200,267"/>
+</map>

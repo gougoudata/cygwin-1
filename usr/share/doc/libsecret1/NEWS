@@ -1,0 +1,85 @@
+0.12
+ * When storing a secret, create default keyring if necessary
+ * Share the memory pool with the gcr or libgnome-keyring library.
+ * Testing and other fixes
+ * Build fixes
+
+0.11
+ * Better critical preconditions for invalid attributes
+
+0.10
+ * Updated translations
+
+0.9
+ * Add a manual page for secret-tool
+ * Fix up libsecret licensing
+ * Build and testing fixes
+
+0.8
+ * Fix up libsecret licensing
+ * Initialize gettext correctly
+ * Fix crash in secret-tool
+ * Build and testing fixes
+
+0.7
+ * Match schema names for notes and network passwords
+ * Add flags argument to secret_collection_for_alias()
+ * Correct flags behavior for SecretCollection
+ * Build fixes
+
+0.6
+ * Rename secret_password_remove() to secret_password_clear()
+   and similar names for related functions.
+ * The secret_attribute_build() functions are stable
+ * The predefined secret schemas are stable
+ * Build fixes
+
+0.5
+ * secret_service_remove() removes all unlocked matching items
+ * Make sure that we have some attributes when searching
+ * Add flags for item and collection creation
+ * Add way to get schema name from a SecretItem
+ * Rename secret_service_read_alias() to
+   secret_collection_for_alias()
+ * Split the stable and unstable APIs into separate 
+   pkg-config files, girs and vapis
+ * Bump the library major version number to 1
+ * Document how to migrate from libgnome-keyring
+ * Document how to use libsecret from C, js, python, vala
+ * Documentation fixes
+
+0.4
+ * Implement per collection search
+ * Register secret service errors as GDBus errors
+ * Cache default SecretService object, and provide a way to
+   'disconnect' it. Also 'disconnect' if service goes away.
+ * Better use of aliases when storing passwords
+ * Rename functions that operate on a dbus object path
+ * Accept NULL as a SecretService parameter for many methods
+ * Make loading items for a collection optional
+ * More consistent use of schemas
+ * Able to unlock and load secrets while searching for items
+ * Cache the secret value on SecretItem
+ * Add vala bindings and tests
+ * Remove most varargs other than the simple password functions
+ * Add SECRET_SCHEMA_NOTE schema
+ * Lots of bug fixes
+ * Documentation fixes
+ * Testing fixes
+ * Build fixes
+
+0.3
+ * Add methods to get services from collections, items
+ * Add methods to read and set aliases
+ * Add methods which handle prompts for a DBus object path
+ * Header path fix
+ * Documentation fixes
+
+0.2
+ * Fix header copyright issues
+ * Build fixes
+ * Add missing 'authtype' attribute to the 'network' schema
+ * Add secret-schemas.h to the 'stable' API
+
+0.1
+ * Initial release, not yet stable

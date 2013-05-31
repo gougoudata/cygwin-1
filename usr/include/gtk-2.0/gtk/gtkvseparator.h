@@ -21,20 +21,21 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 #ifndef __GTK_VSEPARATOR_H__
 #define __GTK_VSEPARATOR_H__
 
 
-#include <gdk/gdk.h>
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
 #include <gtk/gtkseparator.h>
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 
 #define GTK_TYPE_VSEPARATOR                  (gtk_vseparator_get_type ())
@@ -48,6 +49,12 @@ extern "C" {
 typedef struct _GtkVSeparator       GtkVSeparator;
 typedef struct _GtkVSeparatorClass  GtkVSeparatorClass;
 
+/**
+ * GtkVSeparator:
+ *
+ * The #GtkVSeparator struct contains private data only, and
+ * should be accessed using the functions below.
+ */
 struct _GtkVSeparator
 {
   GtkSeparator separator;
@@ -63,9 +70,7 @@ GType      gtk_vseparator_get_type (void) G_GNUC_CONST;
 GtkWidget* gtk_vseparator_new      (void);
 
 
+G_END_DECLS
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
 
 #endif /* __GTK_SEPARATOR_H__ */

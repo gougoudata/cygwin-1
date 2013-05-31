@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2008 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999-2012 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.
@@ -33,14 +33,24 @@ typedef enum
   MeanSquaredErrorMetric,
   PeakAbsoluteErrorMetric,
   PeakSignalToNoiseRatioMetric,
-  RootMeanSquaredErrorMetric
+  RootMeanSquaredErrorMetric,
+  NormalizedCrossCorrelationErrorMetric,
+  FuzzErrorMetric
 } MetricType;
+
+extern MagickExport double
+  *GetImageChannelDistortions(Image *,const Image *,const MetricType,
+    ExceptionInfo *);
 
 extern MagickExport Image
   *CompareImageChannels(Image *,const Image *,const ChannelType,
     const MetricType,double *,ExceptionInfo *),
   *CompareImages(Image *,const Image *,const MetricType,double *,
-    ExceptionInfo *);
+    ExceptionInfo *),
+  *SimilarityImage(Image *,const Image *,RectangleInfo *,double *,
+    ExceptionInfo *),
+  *SimilarityMetricImage(Image *,const Image *,const MetricType,
+    RectangleInfo *,double *,ExceptionInfo *);
 
 extern MagickExport MagickBooleanType
   GetImageChannelDistortion(Image *,const Image *,const ChannelType,

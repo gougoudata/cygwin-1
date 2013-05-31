@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /usr/bin/bash
 
 #  This script is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License version 2 as
@@ -146,7 +146,7 @@ fi
 
 template=$(gen_tempfile)
 
-trap "rm -f $template" EXIT
+add_exit_handler "rm -f $template"
 
 # The annotated listing is generated as follows: A file of annotations
 # is created based on a file that contains the same number of lines as
@@ -160,6 +160,8 @@ trap "rm -f $template" EXIT
 #
 # Finally, the annotations listing is merged with the source file line
 # by line.
+
+setup_pager
 
 empty_file ${files[0]} > $template
 for ((n = 0; n < ${#patches[@]}; n++))

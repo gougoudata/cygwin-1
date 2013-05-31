@@ -25,7 +25,7 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * $PostgreSQL: pgsql/src/include/regex/regcustom.h,v 1.5 2005/10/15 02:49:46 momjian Exp $
+ * src/include/regex/regcustom.h
  */
 
 /* headers if any */
@@ -34,6 +34,17 @@
 #include <ctype.h>
 #include <limits.h>
 
+/*
+ * towlower() and friends should be in <wctype.h>, but some pre-C99 systems
+ * declare them in <wchar.h>.
+ */
+#ifdef HAVE_WCHAR_H
+#include <wchar.h>
+#endif
+#ifdef HAVE_WCTYPE_H
+#include <wctype.h>
+#endif
+
 #include "mb/pg_wchar.h"
 
 
@@ -41,14 +52,15 @@
 #define FUNCPTR(name, args) (*name) args
 #define MALLOC(n)		malloc(n)
 #define FREE(p)			free(VS(p))
-#define REALLOC(p,n)		realloc(VS(p),n)
+#define REALLOC(p,n)	realloc(VS(p),n)
+#define assert(x)		Assert(x)
 
 /* internal character type and related */
 typedef pg_wchar chr;			/* the type itself */
 typedef unsigned uchr;			/* unsigned type that will hold a chr */
-typedef int celt;				/* type to hold chr, MCCE number, or NOCELT */
+typedef int celt;				/* type to hold chr, or NOCELT */
 
-#define NOCELT	(-1)			/* celt value which is not valid chr or MCCE */
+#define NOCELT	(-1)			/* celt value which is not valid chr */
 #define CHR(c)	((unsigned char) (c))	/* turn char literal into chr literal */
 #define DIGITVAL(c) ((c)-'0')	/* turn chr digit into its value */
 #define CHRBITS 32				/* bits in a chr; must not use sizeof */

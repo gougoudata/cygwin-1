@@ -25,13 +25,13 @@ U gnat.directory_operations.iteration%s  g-diopit.ads  8637e37c BN EE NE PK
 W gnat%s		gnat.ads		gnat.ali
 W gnat.directory_operations%s  g-dirope.adb	g-dirope.ali
 
-D ada.ads		20030424175358 a0108083
-D a-charac.ads		20031021134154 a61fb5a9
+D ada.ads		20030424175357 a0108083
+D a-charac.ads		20031021134153 a61fb5a9
 D a-chahan.ads		20030424175352 e0cd8545
 D a-chlat1.ads		20030424175352 06a18501
-D a-except.ads		20031021134154 a1717b33
-D a-finali.ads		20030424175354 d4be2e87
-D a-filico.ads		20030424175354 83058640
+D a-except.ads		20031021134153 a1717b33
+D a-finali.ads		20030424175353 d4be2e87
+D a-filico.ads		20030424175353 83058640
 D a-stream.ads		20030424175354 dbe6acb4
 D a-string.ads		20030424175354 6440c304
 D a-strfix.ads		20030424175354 2228ddca
@@ -43,10 +43,10 @@ D g-dirope.ads		20040105152044 793c921d
 D g-diopit.ads		20031021134200 ff0b7161
 D g-diopit.adb		20031021134200 1c6ee349
 D g-os_lib.ads		20031215115100 9d16eff3
-D g-regexp.ads		20031021134206 d7f5059c
-D g-string.ads		20031021134206 8a142a61
+D g-regexp.ads		20031021134205 d7f5059c
+D g-string.ads		20031021134205 8a142a61
 D system.ads		20031021134222 6af26689
-D s-exctab.ads		20031021134214 6637f07f
+D s-exctab.ads		20031021134213 6637f07f
 D s-finimp.ads		20031021134214 ef65ab1e
 D s-finroo.ads		20031021134214 7e5e077b
 D s-htable.ads		20031021134214 af1a22d4
@@ -55,8 +55,8 @@ D s-secsta.ads		20040105152046 7804722c
 D s-soflin.ads		20031021134214 14059e84
 D s-stache.ads		20031021134214 6135f334
 D s-stalib.ads		20031021134214 e7ad2af0
-D s-stoele.ads		20050603190336 5a73170b
-D s-stoele.adb		20030424175414 792079f8
+D s-stoele.ads		20050603200336 5a73170b
+D s-stoele.adb		20030424175413 792079f8
 D s-stratt.ads		20031021134214 c1077a4d
 D s-traent.ads		20031021134218 e81a0978
 D s-unstyp.ads		20031021134218 0d291e44

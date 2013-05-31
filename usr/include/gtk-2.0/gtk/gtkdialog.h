@@ -21,14 +21,17 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 #ifndef __GTK_DIALOG_H__
 #define __GTK_DIALOG_H__
 
 
-#include <gdk/gdk.h>
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
 #include <gtk/gtkwindow.h>
 
 
@@ -96,11 +99,11 @@ struct _GtkDialog
   GtkWindow window;
 
   /*< public >*/
-  GtkWidget *vbox;
-  GtkWidget *action_area;
+  GtkWidget *GSEAL (vbox);
+  GtkWidget *GSEAL (action_area);
 
   /*< private >*/
-  GtkWidget *separator;
+  GtkWidget *GSEAL (separator);
 };
 
 struct _GtkDialogClass
@@ -138,17 +141,23 @@ GtkWidget* gtk_dialog_add_button        (GtkDialog   *dialog,
                                          gint         response_id);
 void       gtk_dialog_add_buttons       (GtkDialog   *dialog,
                                          const gchar *first_button_text,
-                                         ...);
+                                         ...) G_GNUC_NULL_TERMINATED;
 
 void gtk_dialog_set_response_sensitive (GtkDialog *dialog,
                                         gint       response_id,
                                         gboolean   setting);
 void gtk_dialog_set_default_response   (GtkDialog *dialog,
                                         gint       response_id);
+GtkWidget* gtk_dialog_get_widget_for_response (GtkDialog *dialog,
+                                               gint       response_id);
+gint gtk_dialog_get_response_for_widget (GtkDialog *dialog,
+					 GtkWidget *widget);
 
+#if !defined (GTK_DISABLE_DEPRECATED) || defined (GTK_COMPILATION)
 void     gtk_dialog_set_has_separator (GtkDialog *dialog,
                                        gboolean   setting);
 gboolean gtk_dialog_get_has_separator (GtkDialog *dialog);
+#endif
 
 gboolean gtk_alternative_dialog_button_order (GdkScreen *screen);
 void     gtk_dialog_set_alternative_button_order (GtkDialog *dialog,
@@ -165,12 +174,12 @@ void gtk_dialog_response           (GtkDialog *dialog,
 /* Returns response_id */
 gint gtk_dialog_run                (GtkDialog *dialog);
 
+GtkWidget * gtk_dialog_get_action_area  (GtkDialog *dialog);
+GtkWidget * gtk_dialog_get_content_area (GtkDialog *dialog);
 
 /* For private use only */
 void _gtk_dialog_set_ignore_separator (GtkDialog *dialog,
 				       gboolean   ignore_separator);
-gint _gtk_dialog_get_response_for_widget (GtkDialog *dialog,
-					  GtkWidget *widget);
 
 G_END_DECLS
 

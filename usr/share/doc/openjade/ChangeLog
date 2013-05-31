@@ -1,0 +1,2877 @@
+
+   OpenJade ChangeLog
+
+   Generated automatically by cvs2cl.pl; see
+     <URL:http://www.red-bean.com/~kfogel/cvs2cl.shtml>
+   for more detail.
+
+2000-03-28 16:10  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* AUTHORS, Makefile.am, NEWS, acconfig.h, configure.in, spec.in,
+	develdoc/TODO, develdoc/missing, dsssl/builtins.dsl,
+	grove/Node.cxx, grove/Node.h, jade/Makefile.am, po/Makefile.in.in,
+	spgrove/GroveBuilder.cxx, style/Collector.cxx,
+	style/DssslSpecEventHandler.cxx, style/DssslSpecEventHandler.h,
+	style/ELObj.cxx, style/ELObj.h, style/Interpreter.cxx,
+	style/Interpreter.h, style/InterpreterMessages.msg,
+	style/Pattern.cxx, style/Pattern.h, style/ProcessContext.cxx,
+	style/ProcessingMode.cxx, style/ProcessingMode.h,
+	style/SchemeParser.cxx, style/SchemeParser.h,
+	style/StyleEngine.cxx, style/primitive.cxx, style/primitive.h,
+	testsuite/Makefile, testsuite/contains.dsl,
+	testsuite/contains.expected, testsuite/contains.sgml,
+	testsuite/query-root.dsl, testsuite/query-root.expected,
+	testsuite/query-root.sgml, testsuite/query-root2.sgml,
+	testsuite/specificity.dsl, testsuite/specificity.expected,
+	testsuite/specificity.sgml: Merged the query branch and added a rpm
+	spec file.
+
+2000-03-27 16:00  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/Pattern.cxx, grove/Node.h, spgrove/GroveBuilder.cxx,
+	style/DssslSpecEventHandler.cxx, style/DssslSpecEventHandler.h,
+	style/ELObj.cxx, style/Pattern.h, style/ProcessContext.cxx,
+	style/ProcessingMode.cxx, style/ProcessingMode.h,
+	testsuite/specificity.dsl (query_branch): First version of query
+	that passes testsuite/grove-root.dsl and testsuite/specificity.dsl.
+	Changes to build openjade on top of opensp-1.5.
+
+2000-03-22 09:34  Peter Nilsson <pnidv96@student.vxu.se>
+
+	* style/DssslApp.h: (StyleEngine.h): Don't include.  (StyleEngine):
+	Forward declare class.
+
+2000-03-20 10:40  Peter Nilsson <pnidv96@student.vxu.se>
+
+	* po/sv.po: Some more translations.
+
+2000-03-14 23:45  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* develdoc/TODO: Updates.
+
+2000-03-06 21:23  Peter Nilsson <pnidv96@student.vxu.se>
+
+	* jade/RtfFOTBuilder.cxx: (RtfFOTBuilder::~RtfFOTBuilder): Add
+	forgotten \ before " in string constant.
+
+2000-03-03 12:58  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* develdoc/TODO: Updates.
+
+2000-03-03 12:51  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* jadedoc/autoconf.htm: Include information about compiling on
+	Digital Unix.
+
+2000-03-03 12:45  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* jade/RtfFOTBuilder.cxx: Add missing default style specification.
+
+2000-03-03 11:46  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* msggen.pl.in, style/InterpreterMessages.msg: Add relevant clauses
+	information.
+
+2000-02-21 20:08  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/Interpreter.cxx: Use XcharMap::setRange instead of a
+	setChar loop.
+
+2000-02-18 22:43  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/Interpreter.cxx, style/Interpreter.h,
+	style/ProcessingMode.cxx, style/ProcessingMode.h,
+	style/StyleEngine.cxx (query_branch): Fixes to make
+	testsuite/grove-root pass.
+
+2000-02-18 22:26  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/ELObj.cxx, style/ELObj.h (query_branch): Add a method to
+	ask if a NodeListObj contains a node of a certain class.
+
+2000-02-18 21:51  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/SchemeParser.cxx: Don't accept invalid
+	language-definitions.
+
+	* spgrove/GroveBuilder.cxx: Fix breakage introduced in the last two
+	commits, add support for multiple dtds in doctypes-and-linktypes.
+
+	* style/DocumentGenerator.cxx: Suppress excess spaces in the
+	generated document.
+
+2000-02-18 21:15  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* NEWS: Test new repository.
+
+2000-02-14 14:09  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* spgrove/GroveBuilder.cxx: Add a generic
+	BaseNode::nextChunkSibling implemented in terms of getOrigin and
+	getOriginToSubnodeRelPropertyName.
+
+2000-02-14 14:05  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* spgrove/GroveBuilder.cxx: Fix getOrigin for nodes of class
+	attribute-def.
+
+2000-02-11 22:17  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/ELObj.cxx, style/ELObj.h (query_branch): Added
+	PairNodeListObj::contains().
+
+2000-02-11 19:08  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* testsuite/query-root.expected: file query-root.expected was
+	initially added on branch query_branch.
+
+	* testsuite/query-root.dsl: file query-root.dsl was initially added
+	on branch query_branch.
+
+	* testsuite/query-root.sgml: file query-root.sgml was initially
+	added on branch query_branch.
+
+	* testsuite/query-root2.sgml: file query-root2.sgml was initially
+	added on branch query_branch.
+
+	* testsuite/Makefile, testsuite/query-root.dsl,
+	testsuite/query-root.expected, testsuite/query-root.sgml,
+	testsuite/query-root2.sgml, testsuite/specificity.dsl,
+	testsuite/specificity.expected, testsuite/specificity.sgml
+	(query_branch): Adding some tests for query features which don't
+	work yet.
+
+	* testsuite/specificity.expected: file specificity.expected was
+	initially added on branch query_branch.
+
+	* testsuite/specificity.dsl: file specificity.dsl was initially
+	added on branch query_branch.
+
+	* testsuite/specificity.sgml: file specificity.sgml was initially
+	added on branch query_branch.
+
+2000-02-07 17:11  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* develdoc/TODO (query_branch): Updates.
+
+2000-02-07 17:07  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/Pattern.cxx, develdoc/TODO, style/Pattern.h,
+	style/ProcessingMode.cxx, style/ProcessingMode.h (query_branch):
+	Next round of query cleanup. Move query rule implementation to
+	ProcessingMode.cxx. Pattern.cxx is now in sync with the trunk
+	again.	This is completely unoptimized.
+
+2000-02-04 15:57  pn
+
+	* style/primitive.cxx: (StringToList): Merge fix from
+	jade_1_3_branch.
+
+2000-02-04 15:27  pn
+
+	* style/primitive.cxx (jade_1_3_branch): (StringToList): Corrected
+	allocation (hopefully this time).
+
+	* testsuite/contains.actual (query_branch): Removed.
+
+2000-02-03 21:57  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/Pattern.cxx, style/Pattern.h, style/ProcessingMode.cxx,
+	style/ProcessingMode.h, style/SchemeParser.cxx,
+	style/SchemeParser.h (query_branch): First pass at a cleanup of the
+	query implementation: Remove knowledge about implementation details
+	from SchemeParser.cxx to ProcessingMode.cxx, split
+	ProcessingMode::addRule() into addElementRule(), addRootRule() and
+	(new) addQueryRule(). Remove ProcessingMode::setQuery(). Allow
+	style query rules, but only without priority.
+
+2000-02-03 20:47  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* spgrove/GroveBuilder.cxx: Remove unused (declared, but undefined)
+	ModelGroupNodeList.
+
+2000-02-02 21:50  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* testsuite/contains.actual: file contains.actual was initially
+	added on branch query_branch.
+
+	* testsuite/contains.expected: file contains.expected was initially
+	added on branch query_branch.
+
+	* testsuite/contains.dsl: file contains.dsl was initially added on
+	branch query_branch.
+
+	* testsuite/contains.sgml: file contains.sgml was initially added
+	on branch query_branch.
+
+	* testsuite/Makefile, testsuite/contains.actual,
+	testsuite/contains.dsl, testsuite/contains.expected,
+	testsuite/contains.sgml (query_branch): Add a test for
+	SubtreeNodeListObj::contains().
+
+2000-02-02 20:58  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* develdoc/TODO (query_branch): Updates.
+
+2000-01-25 09:51  pn
+
+	* develdoc/TODO: Updated.
+
+2000-01-25 09:23  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/primitive.cxx: Fix typos.
+
+2000-01-24 22:48  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/primitive.cxx: More optimizations in
+	SiblingNodeListObj::contains(), (hopefully) corrected versions of
+	Sub{tree,grove}NodeListObj::contains().
+
+2000-01-24 17:16  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/ELObj.cxx (query_branch): Add chunk optimization to
+	NodeListObj::contains().
+
+2000-01-24 15:59  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/ELObj.cxx (query_branch): Further extended debug for
+	node-lists.
+
+2000-01-24 15:28  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* develdoc/TODO, develdoc/missing: Updates.
+
+2000-01-24 10:48  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* grove/Node.cxx: Minor cleanups, add intrinsic properties to class
+	sgml-constants.
+
+2000-01-24 09:47  pn
+
+	* style/primitive.cxx: (SubtreeNodeListObj::contains()): New
+	method.
+
+2000-01-24 09:03  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/primitive.cxx: Optimize SiblingNodeListObj::contains(),
+	make FilterNodeListObj a subclass of MapNodeListObj and use
+	context_.
+
+2000-01-22 21:47  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/primitive.cxx: Protect obj in
+	TreeNodeListObj::nodeListChunkRest.
+
+	* grove/Node.cxx (query_branch): Minor cleanups: replace
+	subnodeProps_elementToken and subnodeProps_pcdataToken by noProps.
+
+2000-01-22 20:57  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/primitive.cxx (query_branch): Improve the copy() methods of
+	TreeNodeListObj subclasses (C++ allows to restrict the return type
+	when overwriting).
+
+2000-01-22 19:13  pn
+
+	* style/ELObj.cxx, style/ELObj.h (query_branch):
+	(OutputPropertyValue): New class.  (NodeListObj::print): New
+	method.
+
+	* style/primitive.cxx (query_branch):
+	(TreeNodeListObj::nodeListRest): Protect object with a dynamic
+	root.
+
+2000-01-20 21:06  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* dsssl/builtins.dsl, style/primitive.cxx, style/primitive.h
+	(query_branch): New C++ primitives for subtree, subgrove and
+	node-list-filter, together with the corresponding NodeListObj
+	subclasses.
+
+2000-01-20 18:19  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* Makefile.am: Don't rely on the automake-generated dist-zip
+	target, provide our own which takes care of converting to crlf line
+	ends.
+
+	* NEWS, dsssl/builtins.dsl, style/primitive.cxx, style/primitive.h
+	(query_branch): Implement subtree in C++.
+
+2000-01-20 17:28  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/primitive.cxx (query_branch): Add efficient contains() for
+	DescendantsNodeListObj and SelectElementsNodeListObj,
+	DescendantsNodeListObj changes to prepare for SubtreeNodeListObj.
+
+2000-01-19 19:55  pn
+
+	* AUTHORS (query_branch): Modified my entry.
+
+2000-01-19 14:19  pn
+
+	* style/primitive.cxx, style/primitive.h (query_branch):
+	(IsNodeListContains): Renamed from NodeListContains.
+
+2000-01-19 14:12  pn
+
+	* style/primitive.cxx (query_branch): (NodeListContains): Fix
+	invocation of NodeListObj::contains(). 
+	(SelectByClassNodeListObj::contains()): New member function.
+
+2000-01-19 14:07  pn
+
+	* style/Pattern.cxx: (Pattern::NodeQualifier::satisfies()): Fix
+	invocation of NodeListObj::contains.
+
+2000-01-19 14:04  pn
+
+	* style/ELObj.cxx (query_branch): (ReverseNodeListObj::contains()):
+	New member function.
+	
+	(NodeListObj::contains()): Cosmetic changes and a note added on
+	chunks.
+
+2000-01-19 09:32  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* dsssl/builtins.dsl, style/primitive.cxx, style/primitive.h
+	(query_branch): Implement node-list-contains? in C++ using
+	NodeListObj::contains(). This is untested.
+
+2000-01-19 09:22  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/Pattern.cxx (query_branch): Use NodeListObj::contains() in
+	Pattern::NodeQualifier::satisfies().
+
+2000-01-19 09:16  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/InterpreterMessages.msg, style/Pattern.cxx, style/Pattern.h
+	(query_branch): Add error messages for query-rules.
+
+	* style/ELObj.cxx, style/ELObj.h (query_branch): Add a generic bool
+	NodeListObj::contains(NodePtr &).
+
+2000-01-18 09:53  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/Pattern.cxx, style/Pattern.h, style/SchemeParser.cxx,
+	style/InterpreterMessages.msg (query_branch): Restrict
+	priority-expressions to integral values again, add error messages
+	for errors in query rules.
+
+2000-01-17 09:38  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/Pattern.cxx, style/Pattern.h, style/SchemeParser.cxx
+	(query_branch): Allow non-integral numbers as priorities (but with
+	limited precision), evaluate the priority-expression late.
+
+2000-01-17 08:05  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/DssslApp.cxx, style/DssslApp.h: Use plain pointers for
+	fotb_ and se_ and delete them early to avoid problems in the
+	destructor of DssslApp.
+
+2000-01-16 23:31  pn
+
+	* style/Pattern.cxx (query_branch): Topy (sorry, typo) fix
+
+2000-01-16 23:23  pn
+
+	* style/Pattern.cxx, style/Pattern.h (query_branch):
+	(Pattern::NodeQualifier): Inherit from Collector::DynamicRoot
+	instead of making nl_ permanent. nl_ "remembers" the node list
+	between calls of satisfies.
+
+2000-01-15 10:15  pn
+
+	* configure.in: Define all conditional preprocessor symbols to 1.
+
+2000-01-14 20:32  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* spgrove/GroveBuilder.cxx: Make rankabs support work, replace
+	assert by ASSERT throughout.
+
+2000-01-13 20:36  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* configure.in: Fix a typo
+
+2000-01-13 20:31  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* acinclude.m4: Add AC_CXX_MUTABLE.
+
+2000-01-13 19:56  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* configure.in: Use AC_LANG_CPLUSPLUS throughout, don't switch back
+	and forth; don't check for const and inline; add comments to all
+	AC_DEFINEs
+
+2000-01-12 20:58  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* grove/Node.cxx, grove/Node.h, spgrove/GroveBuilder.cxx: Support
+	for fpiabs and rankabs.
+
+	* jade/TeXMessages.msg: Removed unneeded message.
+
+2000-01-09 21:43  pn
+
+	* style/FOTBuilder.cxx, style/FOTBuilder.h:
+	(structFOTBuilder::CharacterNIC): Remove unused valid flag.
+
+2000-01-08 18:16  pn
+
+	* style/FOTBuilder.cxx: (FOTBuilder::character): Check if char is
+	specified instead of valid flag.
+
+2000-01-08 15:17  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* jade/Makefile.am, style/Makefile.am: Fix building with builddir
+	!= srcdir.
+
+2000-01-08 14:31  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* dsssl/builtins.dsl: Fix subgrove for subnode properties with null
+	values.
+
+2000-01-05 22:12  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* jadedoc/autoconf.htm, jadedoc/contributors.htm,
+	jadedoc/index.htm: Documentation update for 1.4.
+
+2000-01-05 11:43  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* NEWS, jade/TeXFOTBuilder.cxx: Implement URI addresses in the tex
+	backend (needs jadetex support).
+
+2000-01-05 10:22  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* po/Makefile.in.in: Remove references to ChangeLog.
+
+2000-01-05 10:06  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* intl/Makefile.in: Port the fixes done by Peter to the sp version
+	of this file to make make dist work again.
+
+2000-01-05 09:58  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* Makefile.am, NEWS, configure.in: make dist updates the ChangeLog
+	now.
+
+2000-01-03 21:31  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* Makefile.am, acconfig.h, configure.in, msggen.pl,
+	jade/Makefile.am, jade/jade.cxx, spgrove/GroveBuilder.cxx,
+	spgrove/Makefile.am, spgrove/grove_inst.m4, style/Collector.cxx,
+	style/DssslApp.cxx, style/FOTBuilder.cxx, style/Makefile.am,
+	style/Pattern.cxx, style/ProcessContext.cxx,
+	style/ProcessingMode.cxx, style/primitive.cxx, style/style_inst.m4
+	(query_branch): First working version of query.
+
+2000-01-03 08:00  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* jade/TextFOTBuilder.cxx, jade/jade.cxx: Put the text backend in
+	#ifdef JADE_TEXT.
+
+2000-01-01 13:02  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* Makefile.am, jadedoc/index.htm: Fix the NEWS link.
+
+1999-12-31 23:42  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* NEWS, develdoc/TODO: Updates.
+
+1999-12-30 17:44  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/style_inst.m4: Add many instantiations to make manual
+	template instantiation work again.
+
+1999-12-30 16:40  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/style_inst.m4: Fix includes.
+
+1999-12-30 16:23  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* jade/Makefile.am, spgrove/Makefile.am, style/Makefile.am: Don't
+	try to compile _inst.cxx files which are supposed to be included.
+
+1999-12-30 16:00  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/DssslApp.cxx: Implement persistant/preferred/alternate
+	semantics for stylesheet PIs.
+
+1999-12-30 15:37  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* spgrove/grove_inst.m4: Fix includes of OpenSP headers.
+
+1999-12-30 13:50  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* grove/Makefile.am, spgrove/Makefile.am, style/Makefile.am: Use
+	-version-info instead of --version-info.
+
+1999-12-29 21:53  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* develdoc/TODO: Updates.
+
+1999-12-29 12:10  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* develdoc/TODO: Updates.
+
+1999-12-29 11:35  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/DssslApp.cxx, style/DssslApp.h: Move spec parsing before
+	grove building.
+
+1999-12-27 16:54  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/DssslApp.cxx, style/DssslApp.h, style/DssslAppMessages.msg:
+	Add an error message listing available PI titles if -T is used and
+	no PI matches.
+
+1999-12-27 16:46  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* develdoc/TODO: Updates.
+
+1999-12-27 14:15  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* configure.in, po/Makefile.in.in, style/DssslApp.cxx: New config
+	variable OPENJADE_MESSAGE_DOMAIN.
+
+1999-12-27 14:07  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* msggen.pl.in: Port Win32 build fix from opensp.
+
+	* spgrove/threads.h: Use mutable where appropriate, if available.
+
+1999-12-27 13:58  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/FOTBuilder.h: Add some comments to FOTBuilder::Description
+	declaration.
+
+1999-12-26 22:40  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* NEWS, jade/HtmlFOTBuilder.cxx, jade/MifFOTBuilder.cxx,
+	jade/RtfFOTBuilder.cxx, jade/SgmlFOTBuilder.cxx,
+	jade/TeXFOTBuilder.cxx, jadedoc/index.htm, style/DssslApp.cxx,
+	style/DssslApp.h, style/DssslAppMessages.msg, style/FOTBuilder.h:
+	Implement media and title attributes in stylesheet PIs. The media
+	attribute parsing needs more testing, but simple cases seem to
+	work.
+
+1999-12-24 22:17  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* jade/jade.cxx, style/DssslApp.cxx, style/DssslApp.h: Remove
+	support for media attribute again, since the semantics seem to be
+	wrong.
+
+1999-12-23 23:24  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* jade/jade.cxx, style/DssslApp.cxx, style/DssslApp.h: Handle the
+	media attribute in pis. Don't extract the pi's from the grove, but
+	do a special parse.
+
+1999-12-22 08:15  debian
+
+	* debian/README.Debian (opensp_1_4_branch): re-add Debian README
+	file
+
+1999-12-22 08:10  debian
+
+	* debian/changelog, debian/control (opensp_1_4_branch): re-add
+	debian control files
+
+1999-12-22 08:05  debian
+
+	* debian/opensp.postinst: file opensp.postinst was initially added
+	on branch opensp_1_4_branch.
+
+	* debian/changelog, debian/control, debian/rules,
+	debian/opensp.doc-base, debian/opensp.postinst, debian/opensp.prerm
+	(opensp_1_4_branch): first cut on 1.4 branch
+
+	* debian/opensp.prerm: file opensp.prerm was initially added on
+	branch opensp_1_4_branch.
+
+1999-12-21 20:21  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/DssslApp.cxx: Revert to use a hardcoded message domain of
+	"jade".
+
+1999-12-16 23:06  pn
+
+	* msggen.pl.in: Correct .po file header.
+
+	* Makefile.am: EXTRA_DIST: Add msggen.pl.
+
+1999-12-16 11:26  pn
+
+	* develdoc/TODO: Entry added.
+
+1999-12-15 06:27  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* msggen.pl: Remove msggen.pl, since it is now a generated file.
+
+1999-12-14 18:17  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* jadedoc/index.htm: Document the long options and mention some
+	more options (-C, -2, -h, -v).
+
+1999-12-11 14:13  pn
+
+	* develdoc/TODO: Remove some items that are done. Other small mods.
+
+1999-12-11 14:08  pn
+
+	* jade/HtmlFOTBuilder.cxx: Support html links (uri-refs).
+
+	* NEWS: Mention uri-ref support in HTML/CSS backend.
+
+1999-12-11 00:38  pn
+
+	* NEWS, develdoc/TODO: Updated.
+
+1999-12-11 00:32  pn
+
+	* style/primitive.cxx, style/primitive.h: UriRefAddress: New
+	primitive.
+
+	* Makefile.am, configure.in: Generate msggen.pl from msggen.pl.in.
+
+	* msggen.pl.in: Generate msggen.pl from this file.
+
+1999-12-10 08:28  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* develdoc/TODO: Updates.
+
+1999-12-09 18:42  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* NEWS: Mention cmdline option changes.
+
+	* develdoc/TODO, style/DssslAppMessages.msg: Adjust to the latest
+	interface change in OpenSP.
+
+1999-12-09 15:59  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* intl/VERSION: Add the VERSION file, so we know which version of
+	GNU gettext we use.
+
+1999-12-09 08:50  pn
+
+	* develdoc/NOTES: New file. Moved the TeX indirect sosofo notes
+	here.
+
+	* jade/MifMessages.msg: Remove MIF: prefix from messages.
+
+	* develdoc/TODO: Updated.
+
+1999-12-07 09:32  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* po/de.po: Add German translations.
+
+1999-12-06 16:10  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* acinclude.m4, configure.in, jade/JadeMessages.msg, jade/jade.cxx,
+	style/DssslApp.cxx, style/DssslApp.h, style/DssslAppMessages.msg,
+	style/InterpreterMessages.msg: Long option improvements.
+
+1999-12-04 13:04  pn
+
+	* Makefile.am, grove/Makefile.am, spgrove/Makefile.am,
+	style/Makefile.am: Install include files needed by programs using
+	the ostyle library.
+
+1999-12-04 00:42  pn
+
+	* po/sv.po: New file.
+
+	* configure.in: ALL_LINGUAS: Swedish translation added.
+
+1999-12-03 17:25  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* msggen.pl, jade/Makefile.am, po/Makefile.in.in, po/POTFILES.in,
+	style/Makefile.am: Improve the build process for i18n.
+
+1999-12-02 22:08  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* jade/jade.cxx, style/DssslApp.cxx: Long options for openjade.
+
+1999-12-01 19:18  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* develdoc/TODO: Long options stuff
+
+1999-11-30 18:53  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* msggen.pl, jade/Makefile.am, spgrove/Makefile.am,
+	style/Makefile.am: Generate .po files via msggen, add rules for .po
+	and .rc files.
+
+1999-11-30 18:21  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* ABOUT-NLS, Makefile.am, acconfig.h, configure.in,
+	intl/Makefile.in, intl/bindtextdom.c, intl/cat-compat.c,
+	intl/dcgettext.c, intl/dgettext.c, intl/finddomain.c,
+	intl/gettext.c, intl/gettext.h, intl/gettextP.h,
+	intl/hash-string.h, intl/intl-compat.c, intl/libgettext.h,
+	intl/linux-msg.sed, intl/loadmsgcat.c, intl/localealias.c,
+	intl/po2tbl.sed.in, intl/textdomain.c, intl/xopen-msg.sed,
+	po/Makefile.in.in, po/POTFILES.in: First cut at I18N for OpenJade
+
+	* style/DssslApp.cxx: Adjust to changed interface of MessageTable.
+
+1999-11-29 15:06  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/Pattern.cxx, style/ProcessContext.cxx,
+	style/ProcessingMode.cxx (query_branch): Fix a buglet wrt to the
+	interaction of root and query rules.
+
+1999-11-28 22:50  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* develdoc/TODO (query_branch): Updates.
+
+1999-11-27 01:08  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* develdoc/TODO (query_branch): I18N tasks.
+
+1999-11-26 22:31  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* develdoc/TODO (query_branch): Updates.
+
+1999-11-24 17:46  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/Pattern.cxx, style/Pattern.h, style/ProcessContext.cxx,
+	style/ProcessingMode.cxx, style/ProcessingMode.h,
+	style/SchemeParser.cxx, style/SchemeParser.h (query_branch): query
+	rules (not working yet).
+
+1999-11-24 16:41  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* contrib/jadetex/unicode.sty, dsssl/Makefile.am,
+	dsssl/unicode.sty: Move one forgotten jadetex file, fix make
+	install bug (forgot dsssl.dtd).
+
+1999-11-23 23:04  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* develdoc/TODO: Add general-indirect stuff.
+
+1999-11-23 08:50  pn
+
+	* develdoc/TODO: Updated.
+
+1999-11-22 22:57  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* jade/TeXFOTBuilder.cxx: Fix stupid bugs.
+
+1999-11-22 22:41  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* AUTHORS, NEWS, README, develdoc/jadedoc.sgml: Cleanups.
+
+1999-11-22 17:21  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* develdoc/TODO: Updates.
+
+1999-11-22 17:10  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* contrib/README, contrib/jadetex/ChangeLog,
+	contrib/jadetex/Makefile.jadetex, contrib/jadetex/jadetex.dtx,
+	contrib/jadetex/jadetex.ini, contrib/jadetex/jadetex.ins,
+	contrib/jadetex/pdfjadetex.ini, dsssl/ChangeLog,
+	dsssl/Makefile.jadetex, dsssl/jadetex.dtx, dsssl/jadetex.ini,
+	dsssl/jadetex.ins, dsssl/pdfjadetex.ini: Move jadetex from dsssl/
+	to contrib/jadetex.
+
+	* dsssl/Makefile.am: Forgotten Makefile adjustment.
+
+1999-11-22 16:57  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* msggen.pl: Emit proper include statements.
+
+	* style/DssslApp.cxx: Forgotten include.
+
+1999-11-22 16:45  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* develdoc/TODO: Update.
+
+1999-11-22 16:38  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* jade-generate.mak: Try to adapt win build. (in a desparate voice)
+	Win users, test this !!!
+
+1999-11-22 16:32  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* msggen.pl: Remove test stuff.
+
+	* configure.in, msggen.pl, jade/Makefile.am, spgrove/Makefile.am,
+	style/DssslApp.cxx, style/Makefile.am: I18n preparations: use
+	separate module for messages, use message domain OpenJade.
+
+1999-11-22 16:28  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* jade/TeXFOTBuilder.cxx: Break ligatures with -<>.
+
+1999-11-21 01:05  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* develdoc/TODO: One more addition
+
+	* develdoc/TODO: tiny additions.
+
+1999-11-20 13:16  pn
+
+	* jade/TeXFOTBuilder.cxx: makeTeXFOTBuilder: Declare partial
+	support of the online feature.
+
+1999-11-20 00:51  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* develdoc/TODO, develdoc/jadedoc.sgml, develdoc/missing: First
+	round of internal doc updates.
+
+1999-11-19 22:44  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* develdoc/TODO: Remove things that have been done.
+
+1999-11-19 12:50  pn
+
+	* spgrove/Makefile.am, jade/Makefile.am, style/Makefile.am: Remove
+	unnecessary dependencies.
+
+1999-11-19 12:46  pn
+
+	* jade/RtfFOTBuilder.cxx: (makeRtfFOTBuilder): Declare partial
+	support for the online feature.
+
+1999-11-16 15:44  pn
+
+	* jade/Makefile.am: openjade_SOURCES: List TmpOutputByteStream.h
+
+	* dsssl/Makefile.am: EXTRA_DIST: List all files that should be
+	distributed.
+
+1999-11-16 11:29  pn
+
+	* configure.in, style/DssslApp.cxx: Changed PACKAGE and VERSION to
+	OPENJADE_PACKAGE and OPENJADE_VERSION, respectively, to avoid
+	possible future conflicts.
+
+	* acconfig.h: Include OpenSP config.h. Moved @TOP@ to adequate
+	place and removed funny  #error lines.
+
+1999-11-15 19:29  pn
+
+	* msggen.pl, grove/LocNode.h, grove/Node.cxx, grove/Node.h,
+	jade/HtmlFOTBuilder.cxx, jade/HtmlFOTBuilder.h,
+	jade/HtmlFOTBuilder_inst.m4, jade/MifFOTBuilder.cxx,
+	jade/MifFOTBuilder.h, jade/MifFOTBuilder_inst.m4,
+	jade/RtfFOTBuilder.cxx, jade/RtfFOTBuilder.h,
+	jade/RtfFOTBuilder_inst.m4, jade/SgmlFOTBuilder.cxx,
+	jade/SgmlFOTBuilder.h, jade/TeXFOTBuilder.cxx,
+	jade/TeXFOTBuilder.h, jade/TeXFOTBuilder_inst.m4,
+	jade/TextFOTBuilder.cxx, jade/TextFOTBuilder.h,
+	jade/TmpOutputByteStream.h, jade/TransformFOTBuilder.cxx,
+	jade/TransformFOTBuilder.h, jade/TransformFOTBuilder_inst.m4,
+	jade/jade.cxx, spgrove/GroveApp.h, spgrove/GroveBuilder.cxx,
+	spgrove/GroveBuilder.h, spgrove/Makefile.am, spgrove/SdNode.h,
+	style/Collector.cxx, style/Collector.h,
+	style/DocumentGenerator.cxx, style/DocumentGenerator.h,
+	style/DssslApp.cxx, style/DssslSpecEventHandler.cxx,
+	style/DssslSpecEventHandler.h, style/ELObj.cxx, style/ELObj.h,
+	style/ELObjMessageArg.cxx, style/ELObjMessageArg.h,
+	style/EvalContext.h, style/Expression.cxx, style/Expression.h,
+	style/FOTBuilder.cxx, style/FOTBuilder.h, style/FlowObj.cxx,
+	style/FlowObj_inst.m4, style/GroveManager.h, style/InheritedC.cxx,
+	style/Insn.cxx, style/Insn.h, style/Interpreter.cxx,
+	style/Interpreter.h, style/LangObj.cxx, style/MacroFlowObj.cxx,
+	style/MacroFlowObj.h, style/Makefile.am, style/NumberCache.cxx,
+	style/NumberCache.h, style/Pattern.cxx, style/Pattern.h,
+	style/ProcessContext.cxx, style/ProcessContext.h,
+	style/ProcessingMode.cxx, style/ProcessingMode.h,
+	style/SchemeParser.cxx, style/SchemeParser.h, style/SosofoObj.h,
+	style/Style.cxx, style/Style.h, style/StyleEngine.cxx,
+	style/StyleEngine.h, style/TransformationMode.h, style/VM.h,
+	style/common_inst.m4, style/primitive.cxx, style/primitive_inst.m4,
+	style/style_inst.m4: Replace #include "foo.h" with #include
+	<OpenSP/foo.h> where appropriate.
+
+1999-11-14 15:14  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* grove/Makefile.am, spgrove/Makefile.am, style/Makefile.am:
+	Reenable inter-library dependencies. I must have been asleep.
+
+1999-11-14 15:02  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* Makefile.am, grove/Makefile.am, jade/Makefile.am,
+	spgrove/Makefile.am, style/Makefile.am: Disable inter-library
+	dependencies, since they cause trouble.
+
+1999-11-14 14:04  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* acconfig.h, configure.in, spgrove/Makefile.am, style/Makefile.am,
+	style/StyleEngine.h: automake fixes.
+
+1999-11-14 12:30  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* Makefile.am: Remove groveoa from SUBDIRS.
+
+1999-11-14 00:41  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* Makefile.am: Remove unneeded EXTRA_DIST.
+
+	* develdoc/TODO: Updates.
+
+1999-11-14 00:03  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* configure.in: Add checks for headers new and cassert.
+
+1999-11-13 23:54  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* grove/Node.h: Previous commit was based on a misunderstanding,
+	revert it.
+
+1999-11-13 23:33  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* grove/Node.h: Make sure we include config.h in Node.h.
+
+1999-11-13 23:02  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* develdoc/TODO: Updated.
+
+1999-11-13 22:52  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* Makefile.am, acconfig.h, acinclude.m4, configure.in,
+	develdoc/TODO, dsssl/Makefile.am, grove/Makefile.am,
+	jade/Makefile.am, jadedoc/Makefile.am, jadedoc/images/Makefile.am,
+	spgrove/Makefile.am, style/Makefile.am: Add more C++ autoconf
+	tests, try to make make dist work.
+
+	* Makefile.am, groveoa/Makefile.am: Have to include groveao stuff
+	for a windows distribution.
+
+1999-11-12 21:52  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* acconfig.h, acinclude.m4, configure.in: Add check for placement
+	operator delete.
+
+1999-11-12 21:40  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* develdoc/TODO: Add more work items.
+
+1999-11-12 21:08  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* configure.in: Add test for `fancy' new_handler.
+
+1999-11-12 20:54  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* jade/Makefile.am: Add TextFOTBuilder.
+
+1999-11-12 18:57  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* develdoc/TODO: Add one more item.
+
+1999-11-12 18:51  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* jade/HtmlFOTBuilder.cxx, jade/MifFOTBuilder.cxx,
+	jade/RtfFOTBuilder.cxx, jade/SgmlFOTBuilder.cxx,
+	jade/TeXFOTBuilder.cxx, jade/TextFOTBuilder.cxx,
+	jade/TransformFOTBuilder.cxx, jade/jade.cxx: include dsssl_ns.h in
+	all files which live in DSSSL_NAMESPACE, otherwise we are missing
+	the needed `using' directives.
+
+1999-11-12 18:47  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* configure.in: Add forgotten size checks - otherwise we end up
+	with Char = wchar_t.
+
+1999-11-12 18:33  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* develdoc/DEVELOPERS, develdoc/TODO: Add some useful developer
+	information (shamelessly stolen from a similar file in fvwm2) and a
+	list of ideas for what to do.
+
+1999-11-12 17:02  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* acconfig.h, configure.in, dsssl/Makefile.am, jade/Makefile.am,
+	spgrove/Makefile.am, style/Makefile.am: Typo fixes.
+
+1999-11-11 21:48  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* configure, config/config.guess, config/config.sub,
+	config/install-sh, config/ltconfig, config/ltmain.sh,
+	grove/Makefile.sub, jade/Makefile.sub, spgrove/Makefile.sub,
+	style/Makefile.sub, style/mkversion.pl: Remove generated and
+	unneeded files.
+
+1999-11-11 19:09  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* README, VERSION: Remove version number redundancy.
+
+1999-11-11 18:59  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* AUTHORS, Makefile, Makefile.am, Makefile.comm, Makefile.comm.in,
+	Makefile.in, Makefile.lib, Makefile.lib.CC, Makefile.lib.in,
+	Makefile.lib.sun, Makefile.prog, Makefile.prog.in, Makefile.wat,
+	acconfig.h, acinclude.m4, configure, configure.in,
+	dsssl/Makefile.am, grove/Makefile.am, jade/Makefile.am,
+	jadedoc/Makefile.am, jadedoc/images/Makefile.am,
+	spgrove/Makefile.am, spgrove/threads.h, style/DssslApp.cxx,
+	style/DssslAppMessages.msg, style/Makefile.am: First cut at
+	automakifying OpenJade. Don't expect it to work.
+
+1999-11-11 18:36  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* instmac.pl: Need the perl scripts here too.
+
+1999-11-06 15:06  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* Makefile, Makefile.comm, Makefile.comm.in, Makefile.lib,
+	Makefile.prog, SP.dsw, SP.mak, build-win32.bat, configure,
+	japan.sgmldecl, sp-generate.mak, sunfix.sh, all/README,
+	all/all.dsp, doc/Makefile, doc/archform.htm, doc/build.htm,
+	doc/catalog, doc/catalog.htm, doc/charset.htm, doc/features.htm,
+	doc/generic.htm, doc/ideas.htm, doc/index.htm, doc/new.htm,
+	doc/nsgmls.htm, doc/sgmldecl.htm, doc/sgmlnorm.htm,
+	doc/sgmlsout.htm, doc/spam.htm, doc/spcat.htm, doc/spent.htm,
+	doc/sx.htm, doc/sysdecl.htm, doc/sysid.htm, doc/xml.htm,
+	generic/EventGenerator.h, generic/ParserEventGeneratorKit.h,
+	generic/SGMLApplication.h, include/Allocator.h,
+	include/ArcEngine.h, include/Attribute.h, include/Attributed.h,
+	include/Big5CodingSystem.h, include/Boolean.h, include/CharMap.cxx,
+	include/CharMap.h, include/CharsetDecl.h, include/CharsetInfo.h,
+	include/CharsetRegistry.h, include/CmdLineApp.h,
+	include/CodingSystem.h, include/CodingSystemKit.h,
+	include/ConsoleOutput.h, include/ContentState.h,
+	include/ContentToken.h, include/CopyOwner.cxx, include/CopyOwner.h,
+	include/DescriptorManager.h, include/Dtd.h,
+	include/EUCJPCodingSystem.h, include/ElementType.h,
+	include/Entity.h, include/EntityApp.h, include/EntityCatalog.h,
+	include/EntityDecl.h, include/EntityManager.h,
+	include/ErrnoMessageArg.h, include/ErrorCountEventHandler.h,
+	include/Event.h, include/EventsWanted.h,
+	include/ExtendEntityManager.h, include/ExternalId.h,
+	include/Fixed2CodingSystem.h, include/GenericEventHandler.h,
+	include/Hash.h, include/HashTable.cxx, include/HashTable.h,
+	include/HashTableItemBase.cxx, include/HashTableItemBase.h,
+	include/IList.h, include/IListBase.h, include/IListIter.h,
+	include/IListIterBase.h, include/IQueue.cxx, include/IQueue.h,
+	include/ISet.cxx, include/ISet.h, include/ISetIter.h,
+	include/IdentityCodingSystem.h, include/InputSource.h,
+	include/InternalInputSource.h, include/Link.h,
+	include/LinkProcess.h, include/List.cxx, include/List.h,
+	include/ListIter.h, include/LiteralStorage.h, include/Location.h,
+	include/Lpd.h, include/Markup.h, include/Message.h,
+	include/MessageArg.h, include/MessageBuilder.h,
+	include/MessageEventHandler.h, include/MessageFormatter.h,
+	include/MessageReporter.h, include/MessageTable.h, include/Mode.h,
+	include/NCVector.h, include/NCVector.sed, include/Named.h,
+	include/NamedResource.h, include/NamedResourceTable.h,
+	include/NamedTable.h, include/Notation.h,
+	include/NotationStorage.h, include/OpenElement.h,
+	include/Options.cxx, include/Options.h, include/OutputByteStream.h,
+	include/OutputCharStream.h, include/Owner.cxx, include/Owner.h,
+	include/OwnerTable.cxx, include/OwnerTable.h, include/ParserApp.h,
+	include/ParserOptions.h, include/PointerTable.cxx,
+	include/PointerTable.h, include/PosixStorage.h, include/Ptr.cxx,
+	include/Ptr.h, include/RangeMap.cxx, include/RangeMap.h,
+	include/Resource.h, include/RewindStorageObject.h,
+	include/SJISCodingSystem.h, include/SOEntityCatalog.h,
+	include/Sd.h, include/SdText.h, include/SearchResultMessageArg.h,
+	include/SgmlParser.h, include/ShortReferenceMap.h,
+	include/StdioStorage.h, include/StorageManager.h,
+	include/StringC.h, include/StringOf.cxx, include/StringOf.h,
+	include/StringResource.h, include/SubstTable.cxx,
+	include/SubstTable.h, include/Syntax.h, include/Text.h,
+	include/TranslateCodingSystem.h, include/TypeId.h,
+	include/URLStorage.h, include/UTF8CodingSystem.h,
+	include/UnicodeCodingSystem.h, include/UnivCharsetDesc.h,
+	include/Vector.cxx, include/Vector.h, include/Win32CodingSystem.h,
+	include/WinApp.h, include/WinInetStorage.h,
+	include/XMLCodingSystem.h, include/XcharMap.cxx,
+	include/XcharMap.h, include/config.h, include/constant.h,
+	include/macros.h, include/rtti.h, include/sptchar.h,
+	include/types.h, include/xnew.h, lib/Allocator.cxx,
+	lib/ArcEngine.cxx, lib/ArcEngineMessages.msg, lib/ArcProcessor.h,
+	lib/Attribute.cxx, lib/Big5CodingSystem.cxx, lib/CatalogEntry.h,
+	lib/CatalogMessages.msg, lib/CharsetDecl.cxx, lib/CharsetInfo.cxx,
+	lib/CharsetRegistry.cxx, lib/CmdLineApp.cxx,
+	lib/CmdLineAppMessages.msg, lib/CodingSystem.cxx,
+	lib/CodingSystemKit.cxx, lib/ConsoleOutput.cxx,
+	lib/ContentState.cxx, lib/ContentToken.cxx,
+	lib/DescriptorManager.cxx, lib/Dtd.cxx,
+	lib/DtdDeclEventHandler.cxx, lib/DtdDeclEventHandler.h,
+	lib/EUCJPCodingSystem.cxx, lib/ElementType.cxx, lib/Entity.cxx,
+	lib/EntityApp.cxx, lib/EntityCatalog.cxx, lib/EntityDecl.cxx,
+	lib/EntityManager.cxx, lib/EntityManagerMessages.msg,
+	lib/EquivClass.h, lib/ErrnoMessageArg.cxx,
+	lib/ErrorCountEventHandler.cxx, lib/Event.cxx,
+	lib/EventGenerator.cxx, lib/EventQueue.h,
+	lib/ExtendEntityManager.cxx, lib/ExternalId.cxx,
+	lib/Fixed2CodingSystem.cxx, lib/GenericEventHandler.cxx,
+	lib/Group.cxx, lib/Group.h, lib/Hash.cxx, lib/IListBase.cxx,
+	lib/Id.cxx, lib/Id.h, lib/IdentityCodingSystem.cxx,
+	lib/InputSource.cxx, lib/InternalInputSource.cxx, lib/Link.cxx,
+	lib/LinkProcess.cxx, lib/LiteralStorage.cxx, lib/Location.cxx,
+	lib/Lpd.cxx, lib/LpdEntityRef.h, lib/Makefile.sub, lib/Markup.cxx,
+	lib/MarkupScan.h, lib/Message.cxx, lib/MessageArg.cxx,
+	lib/MessageEventHandler.cxx, lib/MessageFormatter.cxx,
+	lib/MessageFormatterMessages.msg, lib/MessageReporter.cxx,
+	lib/MessageReporterMessages.msg, lib/MessageTable.cxx,
+	lib/ModeInfo.cxx, lib/ModeInfo.h, lib/Mutex.h, lib/NameToken.h,
+	lib/Notation.cxx, lib/NotationStorage.cxx,
+	lib/NumericCharRefOrigin.cxx, lib/NumericCharRefOrigin.h,
+	lib/OffsetOrderedList.cxx, lib/OffsetOrderedList.h,
+	lib/OpenElement.cxx, lib/OutputByteStream.cxx,
+	lib/OutputCharStream.cxx, lib/OutputState.cxx, lib/OutputState.h,
+	lib/Param.cxx, lib/Param.h, lib/Parser.cxx, lib/Parser.h,
+	lib/ParserApp.cxx, lib/ParserAppMessages.msg,
+	lib/ParserEventGeneratorKit.cxx, lib/ParserMessages.msg,
+	lib/ParserOptions.cxx, lib/ParserState.cxx, lib/ParserState.h,
+	lib/Partition.cxx, lib/Partition.h, lib/PosixStorage.cxx,
+	lib/PosixStorageMessages.msg, lib/Priority.h, lib/Recognizer.cxx,
+	lib/Recognizer.h, lib/RewindStorageObject.cxx,
+	lib/SGMLApplication.cxx, lib/SJISCodingSystem.cxx,
+	lib/SOEntityCatalog.cxx, lib/Sd.cxx, lib/SdFormalError.h,
+	lib/SdText.cxx, lib/SearchResultMessageArg.cxx, lib/SgmlParser.cxx,
+	lib/ShortReferenceMap.cxx, lib/SrInfo.h, lib/StdioStorage.cxx,
+	lib/StdioStorageMessages.msg, lib/StorageManager.cxx,
+	lib/StorageObjectPosition.h, lib/StringVectorMessageArg.cxx,
+	lib/StringVectorMessageArg.h, lib/Syntax.cxx, lib/Text.cxx,
+	lib/TokenMessageArg.cxx, lib/TokenMessageArg.h,
+	lib/TranslateCodingSystem.cxx, lib/Trie.h, lib/TrieBuilder.cxx,
+	lib/TrieBuilder.h, lib/TypeId.cxx, lib/URLStorage.cxx,
+	lib/URLStorageMessages.msg, lib/UTF8CodingSystem.cxx, lib/Undo.cxx,
+	lib/Undo.h, lib/UnicodeCodingSystem.cxx, lib/UnivCharsetDesc.cxx,
+	lib/Win32CodingSystem.cxx, lib/WinApp.cxx, lib/WinInetStorage.cxx,
+	lib/WinInetStorageMessages.msg, lib/XMLCodingSystem.cxx,
+	lib/app_inst.m4, lib/arc_inst.m4, lib/assert.cxx, lib/big5.h,
+	lib/entmgr_inst.m4, lib/events.h, lib/gb2312.h, lib/instmac.pl,
+	lib/iso646-jis.h, lib/iso8859-2.h, lib/iso8859-3.h,
+	lib/iso8859-4.h, lib/iso8859-5.h, lib/iso8859-6.h, lib/iso8859-7.h,
+	lib/iso8859-8.h, lib/iso8859-9.h, lib/jis0201.h, lib/jis0208.h,
+	lib/jis0212.h, lib/ksc5601.h, lib/lib.dsp, lib/lib.rc,
+	lib/memmove.c, lib/mkversion.pl, lib/parseAttribute.cxx,
+	lib/parseCommon.cxx, lib/parseDecl.cxx, lib/parseInstance.cxx,
+	lib/parseMode.cxx, lib/parseParam.cxx, lib/parseSd.cxx,
+	lib/parser_inst.m4, lib/splib.cxx, lib/splib.h, lib/splibpch.h,
+	lib/strerror.c, lib/token.h, lib/xentmgr_inst.m4,
+	nsgmls/Makefile.sub, nsgmls/NsgmlsMessages.msg,
+	nsgmls/RastEventHandler.cxx, nsgmls/RastEventHandler.h,
+	nsgmls/RastEventHandlerMessages.msg, nsgmls/SgmlsEventHandler.cxx,
+	nsgmls/SgmlsEventHandler.h, nsgmls/StringSet.cxx,
+	nsgmls/StringSet.h, nsgmls/nsgmls.cxx, nsgmls/nsgmls.dsp,
+	nsgmls/nsgmls.rc, nsgmls/nsgmls_inst.m4, pubtext/HTML32.dcl,
+	pubtext/HTML32.dtd, pubtext/HTML32.soc, pubtext/HTML4-f.dtd,
+	pubtext/HTML4-s.dtd, pubtext/HTML4.dcl, pubtext/HTML4.dtd,
+	pubtext/HTML4.soc, pubtext/HTMLlat1.ent, pubtext/HTMLspec.ent,
+	pubtext/HTMLsym.ent, pubtext/ISOlat1.ent, pubtext/ISOlat1.sgm,
+	pubtext/html-1.dtd, pubtext/html-1s.dtd, pubtext/html-s.dtd,
+	pubtext/html.dcl, pubtext/html.dtd, pubtext/html.soc,
+	pubtext/xml.dcl, pubtext/xml.soc, sgmlnorm/Makefile.sub,
+	sgmlnorm/SGMLGenerator.cxx, sgmlnorm/SGMLGenerator.h,
+	sgmlnorm/sgmlnorm.cxx, sgmlnorm/sgmlnorm.dsp,
+	spam/CopyEventHandler.cxx, spam/CopyEventHandler.h,
+	spam/Makefile.sub, spam/MarkupEventHandler.cxx,
+	spam/MarkupEventHandler.h, spam/SpamMessages.msg, spam/spam.cxx,
+	spam/spam.dsp, spam/spam.rc, spam/spam_inst.m4, spcat/Makefile.sub,
+	spcat/spcat.cxx, spcat/spcat.dsp, spcat/spcat_inst.m4,
+	spent/Makefile.sub, spent/spent.cxx, spent/spent.dsp,
+	style/DocumentGenerator.h, sx/Makefile.sub, sx/SxMessages.msg,
+	sx/XmlOutputEventHandler.cxx, sx/XmlOutputEventHandler.h,
+	sx/XmlOutputMessages.msg, sx/sx.cxx, sx/sx.dsp, sx/sx.rc,
+	sx/sx_inst.m4: Remove OpenSP stuff.
+
+	* FILES: [no log message]
+
+1999-11-06 14:59  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* Makefile.in, Makefile.prog.in, acinclude.m4, configure.in,
+	config/aclocal.m4, jade/Makefile.sub, sgmlnorm/Makefile.sub,
+	spgrove/Makefile.sub, style/Makefile.sub, config/configure.in: Move
+	configure.in, acinclude.m4 to toplevel, add --with-OpenSP-library
+	and --with-OpenSP-includes options to configure, change Makefiles
+	to use the OpenSP stuff determined by these options instead of
+	building libosp.
+
+1999-11-04 22:33  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* Makefile.comm.in, config/configure.in: Define top_builddir in
+	Makefile.comm.in, protect AC_REVISION argument in configure.in.
+
+1999-11-04 07:48  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* include/Dtd.h, include/Entity.h, lib/Entity.cxx,
+	lib/ParserMessages.msg, lib/ParserState.h, lib/parseDecl.cxx,
+	doc/xml.htm, spcat/spcat.cxx: More annex K stuff: DTD data entities
+	and notations in doctype declarations.
+
+1999-11-03 07:00  debian
+
+	* debian/README.Debian, debian/README.opensp-dev,
+	debian/TODO.Debian, debian/changelog, debian/control,
+	debian/copyright.Debian, debian/openjade.doc-base,
+	debian/opensp.doc-base, debian/postinst.openjade,
+	debian/postinst.opensp, debian/prerm.openjade, debian/prerm.opensp,
+	debian/rules, debian/sp_implied.decl: first cut Debian materials
+
+1999-11-03 06:54  debian
+
+	* config/config.guess, config/config.sub, config/ltconfig,
+	config/ltmain.sh: update from libtool 1.3.3
+
+	* include/config.h: for GNUC, eliminate handling SP_MANUAL_INST,
+	SP_DEFINE_TEMPLATES, SP_ANSI_CLASS_INST, SP_HAVE_BOOL, since that's
+	handled by autoconf now
+
+	* configure: regenerate from configure.in 1.15
+
+1999-11-03 06:47  debian
+
+	* jade/Makefile.sub, nsgmls/Makefile.sub, spam/Makefile.sub,
+	style/Makefile.sub, sx/Makefile.sub, lib/Makefile.sub: hygenics --
+	mostly, just change GENSRCS
+
+	* config/configure.in: automate the test for automated template
+	instantiation in GNU C++, based on use of a version > 2.8; remove
+	the code to backup the original Makefiles
+
+1999-10-31 21:08  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* doc/xml.htm, include/Dtd.h, include/ExternalId.h, include/Sd.h,
+	lib/ContentState.cxx, lib/ExternalId.cxx, lib/ParserMessages.msg,
+	lib/parseDecl.cxx, lib/parseSd.cxx: More annex K stuff: URN
+	parsing, fixing #implicit and #all attributes for element types.
+
+1999-10-28 06:20  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* lib/Parser.cxx:  also override IMPLYDEF ENTITY and
+	Also override IMPLYDEF ENTITY and IMPLYDEF NOTATION for
+	-w(no-)valid.
+
+	* include/ParserOptions.h, lib/ParserApp.cxx,
+	lib/ParserMessages.msg, lib/ParserOptions.cxx,
+	lib/parseInstance.cxx: Implement -wimmediate-recursion,
+	-wfully-declared, -wfully-tagged, -wamply-tagged-recursive,
+	-wamply-tagged, -wtype-valid, -wentity-ref, -wexternal-entity-ref,
+	-wintegral (these are all suggested by Annex K).
+
+	* lib/parseSd.cxx: Allow `naked' CAPACITY SGMLREF in www mode (this
+	fixes a bug in jade-1.2.1), implement one of the `ideas for
+	improving SP'.
+
+	* include/Entity.h, lib/Entity.cxx, lib/parseCommon.cxx: Move check
+	for ENTITIES REF constraints to Entity classes.
+
+	* doc/archform.htm, doc/catalog.htm, doc/charset.htm,
+	doc/features.htm, doc/generic.htm, doc/index.htm, doc/new.htm,
+	doc/nsgmls.htm, doc/sgmldecl.htm, doc/sgmlnorm.htm,
+	doc/sgmlsout.htm, doc/spam.htm, doc/spcat.htm, doc/spent.htm,
+	doc/sx.htm, doc/sysdecl.htm, doc/sysid.htm, doc/xml.htm: Some
+	updates wrt. OpenJade changes. More work needed.
+
+	* nsgmls/SgmlsEventHandler.cxx, nsgmls/SgmlsEventHandler.h,
+	nsgmls/nsgmls.cxx: Add -odata-attribute option to onsgmls.
+
+	* include/Attribute.h, lib/Attribute.cxx: Reduce code duplication.
+
+1999-10-24 19:25  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* Makefile.in, README: Apply patches proposed by Karl Eichwalder.
+
+1999-10-24 19:19  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* Makefile.in, README (jade_1_3_branch): Apply fixes proposed by
+	Karl Eichwalder.
+
+1999-10-22 21:44  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* lib/ParserMessages.msg: Add some references to error messages.
+
+1999-10-22 21:39  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* include/Attribute.h, lib/Attribute.cxx, lib/Param.cxx,
+	lib/Param.h, lib/parseDecl.cxx, lib/parseParam.cxx: More annex K
+	stuff: DATA declared values.
+
+1999-10-21 22:39  Brandon Ibach <bibach@infomansol.com>
+
+	* spcat/Makefile.sub, spcat/spcat_inst.m4: Added spcat_inst.m4 for
+	manual template instantiations
+
+1999-10-21 21:33  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/Makefile.sub: Fix missing dependency by reordering OBJS.
+
+1999-10-19 20:44  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* jade/TextFOTBuilder.cxx, jade/TextFOTBuilder.h: Adapt to
+	FOTBuilder::Description and mark simple-page-sequence feature as
+	supported.
+
+	* jade/jade.cxx: Fix -? output for -t option.
+
+	* jade/SgmlFOTBuilder.cxx: Mark online feature as supported.
+
+1999-10-18 20:41  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* lib/Parser.cxx, lib/Parser.h, lib/parseSd.cxx,
+	include/EntityCatalog.h, lib/DtdDeclEventHandler.cxx,
+	lib/DtdDeclEventHandler.h, lib/EntityCatalog.cxx, lib/Makefile.sub,
+	lib/SOEntityCatalog.cxx, spcat/spcat.cxx: DTDDECL support. This
+	needs testing!
+
+1999-10-15 21:22  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* include/CharMap.cxx, lib/Attribute.cxx, lib/SOEntityCatalog.cxx,
+	lib/WinApp.cxx, lib/XMLCodingSystem.cxx: Include the relevant
+	patches from sp-1.3.4
+
+1999-10-15 21:19  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* include/CharMap.cxx, lib/Attribute.cxx, lib/SOEntityCatalog.cxx,
+	lib/WinApp.cxx, lib/XMLCodingSystem.cxx (jade_1_3_branch): Include
+	the relevant patches from sp-1.3.4 (ignoring fixes to template
+	instantiation with gcc-2.95 and an sx patch which we already had).
+
+1999-10-15 21:10  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* NEWS, jade/TransformFOTBuilder.cxx, jade/TransformFOTBuilder.h,
+	jade/jade.cxx, jadedoc/index.htm: 
+	Add sgml-raw, xml-raw backends (patch by Brandon Ibach).
+
+1999-10-15 21:01  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* NEWS, jade/TransformFOTBuilder.cxx, jade/TransformFOTBuilder.h,
+	jade/jade.cxx, jadedoc/index.htm (jade_1_3_branch): Add the
+	sgml-raw, xml-raw backends (patch by Brandon Ibach).
+
+1999-10-15 20:44  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* spgrove/GroveBuilder.cxx (jade_1_3_branch): Fix a crash with
+	empty CDATA attributes.
+
+1999-10-15 20:40  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* spgrove/GroveBuilder.cxx: Fix crash with empty CDATA attributes.
+
+1999-10-15 07:56  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* doc/nsgmls.htm, include/ParserApp.h, include/SgmlParser.h,
+	lib/Parser.h, lib/ParserApp.cxx, lib/ParserState.cxx,
+	lib/ParserState.h, lib/SgmlParser.cxx: Remove -x option again,
+	active doctypes are now handled via the -a option and
+	SgmlParser::activateLinkType(), rendering the function name
+	inaccurate but making the active: key to sgml-parse work in dsssl.
+
+1999-10-13 18:40  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* lib/Parser.h, lib/ParserMessages.msg, lib/parseInstance.cxx,
+	lib/parseParam.cxx: Catch some more CONCUR-related errors.
+
+1999-10-13 12:17  pn
+
+	* NEWS: Note about fo validation.
+
+1999-10-12 21:34  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* lib/ParserState.cxx, lib/parseParam.cxx: Report error for too
+	many concurrent document instances only once.
+
+1999-10-12 11:07  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* VERSION, include/Dtd.h, include/ParserApp.h,
+	include/SgmlParser.h, lib/Dtd.cxx, lib/Parser.h, lib/ParserApp.cxx,
+	doc/new.htm, doc/nsgmls.htm, doc/sysdecl.htm,
+	lib/ParserMessages.msg, lib/ParserState.cxx, lib/ParserState.h,
+	lib/SgmlParser.cxx, lib/parseInstance.cxx, lib/parseParam.cxx,
+	lib/parseSd.cxx: Implement limited CONCUR support, update SP
+	documentation, move OpenSP news to doc/new.htm, bump OpenSP version
+	number to 1.4devel, fix a small, old bug in Annex K support.
+
+1999-10-11 19:12  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* include/ContentState.h, include/ElementType.h, include/Entity.h,
+	include/OpenElement.h, include/Sd.h, include/config.h,
+	lib/ContentState.cxx, lib/ElementType.cxx, lib/Parser.cxx,
+	lib/ParserMessages.msg, lib/ParserState.cxx, lib/ParserState.h,
+	lib/Sd.cxx, lib/parseCommon.cxx, lib/parseDecl.cxx,
+	lib/parseInstance.cxx, lib/parseSd.cxx: More of annex K
+	implemented: IMPLYDEF, declarations on subdocs, entity reference
+	constraints, predefined entities.
+
+1999-10-07 07:19  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* grove/grove.dsp, lib/lib.dsp, spgrove/spgrove.dsp,
+	style/style.dsp (jade_1_3_branch): Correct dll names. Untested.
+	Windows hackers, test this!!!
+
+1999-10-07 07:12  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/primitive.cxx (jade_1_3_branch): Apply the fix for
+	duplicate property rcsname `tokens' already in main branch.
+
+1999-10-06 09:13  pn
+
+	* style/primitive.cxx: (StrintToList): Merged with chane of 1.3
+	branch.
+
+1999-10-06 08:59  pn
+
+	* style/primitive.cxx (jade_1_3_branch): StringToList: Protect the
+	list while it is built with a ELObjDynamicRoot.  (important bug
+	fix).
+
+1999-09-30 06:55  pn
+
+	* jadedoc/index.htm: Changes to "Current OpenJade Limitations":
+	added info on FOT validation etc.
+
+1999-09-30 06:51  pn
+
+	* include/macros.h, lib/assert.cxx: ASSERT(): Use the assert macro
+	from the C/C++ library on the system if that is available.
+
+1999-09-29 08:05  pn
+
+	* develdoc/jadedoc.sgml: Merged changes from valid_fo_branch.
+
+1999-09-29 07:34  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/style_inst.m4 (jade_1_3_branch): Make manual inst work with
+	gcc-2.95.
+
+1999-09-29 07:22  pn
+
+	* style/Expression.cxx, style/FlowObj.cxx, style/Insn.cxx,
+	style/Insn2.h, style/Interpreter.cxx,
+	style/InterpreterMessages.msg, style/MacroFlowObj.cxx,
+	style/MacroFlowObj.h, style/ProcessContext.cxx,
+	style/ProcessContext.h, style/SosofoObj.h, style/primitive.cxx,
+	style/style_inst.m4: Merged valid_fo_branch into main trunk.
+
+1999-09-29 07:12  pn
+
+	* style/DocumentGenerator.h: DocumentGenerator: Added missing emit
+	method.
+
+1999-09-28 20:27  pn
+
+	* style/FlowObj.cxx (valid_fo_branch):
+	CompoundExtensionFlowObj::processInner(): push/pop principal port
+	if fo has no named fos.
+
+1999-09-28 18:25  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* jadedist/files.txt, jadedist/bin-files.txt: One more forgotten
+	file.
+
+1999-09-28 17:37  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* FILES, jadedist/bin-files.txt, jadedist/files.txt: Bring the file
+	lists up-to-date.
+
+1999-09-27 17:31  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/primitive.cxx: Add a quick fix for the rcsname clash
+	between model-group/content-tokens and attribute-def/tokens.
+
+1999-09-27 17:28  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* Makefile.in, Makefile.comm.in, lib/Makefile.sub,
+	style/Makefile.sub, style/style_inst.m4: Apply two patches by Adam
+	di Carlo.
+
+1999-09-27 17:14  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* spgrove/GroveBuilder.cxx: Return the default value for attributes
+	declarations on notations.
+
+1999-09-27 17:10  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/DocumentGenerator.cxx: Emit the complete doctype (minus
+	parameter entities)
+
+1999-09-25 21:23  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* doc/index.htm, doc/nsgmls.htm, doc/sgmlnorm.htm, doc/spam.htm,
+	doc/sx.htm, doc/sysdecl.htm: Document all -w options, add
+	identification text for AFDR conformance.
+
+1999-09-24 12:00  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/DocumentGenerator.cxx: Emit the dtd (unfinished).
+
+1999-09-23 09:45  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/DocumentGenerator.cxx, style/InterpreterMessages.msg,
+	style/Makefile.sub, style/TransformationMode.cxx: Document
+	generator handles most entity references and pis,
+	TransformationMode issues proper error messages.
+
+1999-09-22 21:45  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/DocumentGenerator.cxx, style/DocumentGenerator.h,
+	style/DssslApp.cxx, style/StyleEngine.cxx, style/StyleEngine.h:
+	More TL framework: The beginnings of an SGML document generator.
+	Some debugging/test code left in the TL path. If you use a TL spec,
+	you will get a file jade-grove.out which is an SGML document
+	created from the grove of your input file.
+
+1999-09-20 12:10  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* dsssl/catalog, dsssl/spec.dtd, dsssl/style-sheet.dtd: Reverted
+	style-sheet.dtd to James' version in order to be completely
+	compatible. Add a new spec.dtd containing the full DSSSL
+	architecture, available via public identifier -//OpenJade//DTD
+	DSSSL Specification//EN.
+
+1999-09-20 11:58  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* Makefile, Makefile.comm, Makefile.lib, Makefile.prog,
+	dsssl/demo.dsl, dsssl/style-sheet.dtd, style/DssslApp.cxx,
+	style/DssslSpecEventHandler.cxx, style/DssslSpecEventHandler.h,
+	style/ELObj.cxx, style/ELObj.h, style/Interpreter.cxx,
+	style/Interpreter.h, style/InterpreterMessages.msg,
+	style/Makefile.sub, style/SchemeParser.cxx, style/SchemeParser.h,
+	style/StyleEngine.cxx, style/StyleEngine.h,
+	style/TransformationMode.cxx, style/TransformationMode.h,
+	style/primitive.cxx, style/primitive.h: Merge the tl_branch.
+
+1999-09-17 10:07  pn
+
+	* develdoc/jadedoc.sgml (valid_fo_branch): Added info about FlowObj
+	space limits and some info on validation. Fixed some small sypos as
+	well.
+
+1999-09-16 22:02  pn
+
+	* style/SosofoObj.h (valid_fo_branch): FlowObj: Fix copy
+	constructor to also call SosofoObj copy constructor.
+
+	* style/FlowObj.cxx (valid_fo_branch):
+	Paragraph::Validator_::isValid(): Allow objects with afAlways flag
+	set.
+
+1999-09-16 20:24  pn
+
+	* style/Expression.cxx, style/FlowObj.cxx, style/Insn.cxx,
+	style/Insn2.h, style/Interpreter.cxx,
+	style/InterpreterMessages.msg, style/MacroFlowObj.cxx,
+	style/MacroFlowObj.h, style/ProcessContext.cxx,
+	style/ProcessContext.h, style/SosofoObj.h, style/primitive.cxx,
+	style/style_inst.m4 (valid_fo_branch): Most of validation finished.
+
+1999-09-15 17:28  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* NEWS, style/InterpreterMessages.msg, style/SchemeParser.cxx,
+	style/SchemeParser.h: Cleanup internal defines and SchemeParser
+	messages. Detect duplicate vars in bindings.
+
+1999-09-13 11:24  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/SchemeParser.cxx, style/SchemeParser.h: Implement interal
+	defines (ie defines at the begin of bodies).
+
+1999-09-13 11:17  pn
+
+	* style/FlowObj.cxx: FlowObj::fixCharNICs(): Fixed a stupid bug
+	that made OJ crash if char-map was anything but a procedure.
+
+1999-09-13 11:12  pn
+
+	* style/FlowObj.cxx, style/ProcessContext.cxx,
+	style/ProcessContext.h (valid_fo_branch): First cut at FOT
+	validation. Doesn't work yet.
+
+1999-09-10 11:58  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* jadedoc/index.htm (jade_1_3_branch): Document internal
+	definitions as missing.
+
+1999-09-10 11:47  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/TransformationMode.cxx: file TransformationMode.cxx was
+	initially added on branch tl_branch.
+
+	* style/Interpreter.cxx, style/Interpreter.h, style/Makefile.sub,
+	style/SchemeParser.cxx, style/StyleEngine.cxx,
+	style/TransformationMode.cxx, style/TransformationMode.h
+	(tl_branch): Add a new class (somewhat inappropriately) named
+	TransformationMode, which collects the parsed associations,
+	compiles them and sorts them by priority. Now the fun can begin.
+	NOTE: some debugging printfs left in the code for now.
+
+	* style/TransformationMode.h: file TransformationMode.h was
+	initially added on branch tl_branch.
+
+1999-09-09 16:18  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* jadedoc/index.htm: One forgotten item.
+
+1999-09-09 16:14  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* jadedoc/autoconf.htm, jadedoc/dsssl2.htm, jadedoc/index.htm,
+	jadedoc/mif.htm, jadedoc/rtf.htm, jadedoc/tex.htm,
+	jadedoc/transform.htm, jadedoc/xmlfo.htm: Merge doc fixes.
+
+1999-09-09 15:28  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* jadedoc/autoconf.htm, jadedoc/dsssl2.htm, jadedoc/index.htm,
+	jadedoc/mif.htm, jadedoc/rtf.htm, jadedoc/tex.htm,
+	jadedoc/transform.htm, jadedoc/xmlfo.htm (jade_1_3_branch): More
+	doc improvements.
+
+1999-09-09 13:48  pn
+
+	* jadedoc/dsssl2.htm: INfo about char-map extra values added.
+
+1999-09-09 12:49  pn
+
+	* jade/HtmlFOTBuilder.cxx, jade/SgmlFOTBuilder.cxx: Support
+	inline-space-space and char-map ICs.
+
+1999-09-09 12:39  pn
+
+	* style/FOTBuilder.cxx, style/FOTBuilder.h: Added
+	FOTBuilder::setCharMap(), SaveFOTBuilder::setCharMap() and
+	SaveFOTBuilder::setInlineSpaceSpace(). Changed behaviour of
+	FOTBuilder::characters(const Vector<CharacterNIC> &).
+
+	* style/InheritedC.cxx: Support symbols uppercase, lowercase and
+	capitalize for the char-map inherited characteristic under the -2
+	option.
+
+1999-09-09 12:22  pn
+
+	* dsssl/fot.dtd: inline-space-space and char-map inherited
+	characteristics added.
+
+1999-09-08 20:39  pn
+
+	* style/Interpreter.cxx, style/Interpreter.h,
+	style/InterpreterMessages.msg: const fix and completed
+	implementation of PublicIdCharPropValues.
+
+1999-09-08 19:47  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* NEWS: Replace some occurances of `Jade' by `OpenJade'. Add an
+	entry for char-map.
+
+1999-09-08 19:04  pn
+
+	* style/Interpreter.cxx, style/Interpreter.h: Private copy
+	constructor and assignment operator added for CharProp and
+	CharPropValues (with derivatives) classes.
+
+1999-09-08 18:40  pn
+
+	* style/FlowObj.cxx, style/InheritedC.cxx, style/Insn.cxx,
+	style/InterpreterMessages.msg, style/ProcessContext.cxx,
+	style/SosofoObj.h: Implemented char-map.
+
+1999-09-08 17:53  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* config/install-sh (tl_branch): install-sh was missing on
+	tl_branch
+
+	* style/Interpreter.cxx (tl_branch): A const fix for gcc.
+
+1999-09-08 06:13  pn
+
+	* jadedoc/contributors.htm, jadedoc/dsssl2.htm, jadedoc/index.htm,
+	jadedoc/mif.htm, jadedoc/rtf.htm, jadedoc/tex.htm,
+	jadedoc/transform.htm, jadedoc/xmlfo.htm (jade_1_3_branch): Merged
+	fixes from main branch.
+
+1999-09-07 22:29  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* dsssl/style-sheet.dtd, style/DssslApp.cxx,
+	style/DssslSpecEventHandler.cxx, style/DssslSpecEventHandler.h,
+	style/ELObj.cxx, style/ELObj.h, style/Interpreter.cxx,
+	style/Interpreter.h, style/InterpreterMessages.msg,
+	style/SchemeParser.cxx, style/SchemeParser.h,
+	style/StyleEngine.cxx, style/StyleEngine.h, style/primitive.cxx,
+	style/primitive.h (tl_branch): Initial TL framework.
+
+1999-09-07 22:28  pn
+
+	* jadedoc/contributors.htm, jadedoc/dsssl2.htm, jadedoc/index.htm,
+	jadedoc/mif.htm, jadedoc/rtf.htm, jadedoc/tex.htm,
+	jadedoc/transform.htm, jadedoc/xmlfo.htm: ALT attributes on some
+	IMG tags fixed and a topy fix.
+
+1999-09-07 22:06  pn
+
+	* style/InheritedC.cxx, style/Interpreter.h: char-map inherited
+	characteristic support. (Only type checked, not used yet.)
+
+1999-09-07 21:57  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* jadedoc/TeX.htm, jadedoc/contributors.htm, jadedoc/copying.txt,
+	jadedoc/dsssl2.htm, jadedoc/index.htm, jadedoc/jade.htm,
+	jadedoc/mif.htm, jadedoc/rtf.htm, jadedoc/tex.htm,
+	jadedoc/transform.htm, jadedoc/xmlfo.htm,
+	jadedoc/images/background.gif, jadedoc/images/dsssltitle.gif,
+	jadedoc/images/space.gif, jadedoc/images/top-of-page.gif: New docs
+	merged to main line.
+
+1999-09-07 21:51  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* jadedoc/index.htm (jade_1_3_branch): Lift some sections from the
+	old docs.
+
+1999-09-07 18:16  pn
+
+	* jade/HtmlFOTBuilder.cxx, jade/HtmlFOTBuilder.h,
+	jade/Makefile.sub, jade/MifFOTBuilder.cxx, jade/MifFOTBuilder.h,
+	jade/RtfFOTBuilder.cxx, jade/RtfFOTBuilder.h,
+	jade/SgmlFOTBuilder.cxx, jade/SgmlFOTBuilder.h,
+	jade/TeXFOTBuilder.cxx, jade/TeXFOTBuilder.h,
+	jade/TransformFOTBuilder.cxx, jade/TransformFOTBuilder.h,
+	jade/jade.cxx: Support character properties as default values for
+	character NICs for strings of characters. Add FOT::Description to
+	backends.
+
+1999-09-07 18:09  pn
+
+	* testsuite/Makefile: Big Name Change (TM).
+
+	* testsuite/expr-lang.dsl, testsuite/expr-lang.expected: Character
+	property tests.
+
+1999-09-07 18:03  pn
+
+	* style/DssslApp.cxx, style/DssslApp.h, style/FOTBuilder.cxx,
+	style/FOTBuilder.h, style/FlowObj.cxx, style/InheritedC.cxx,
+	style/Insn.cxx, style/Interpreter.cxx, style/Interpreter.h,
+	style/InterpreterMessages.msg, style/ProcessContext.cxx,
+	style/ProcessContext.h, style/SchemeParser.cxx, style/SosofoObj.h,
+	style/StyleEngine.cxx, style/StyleEngine.h, style/primitive.cxx,
+	style/style_inst.m4: Reworked character property handling.
+	Declarations now have same semantics as other body specifications.
+	Char FO NICs are now correctly defaulted by char properties
+	(possible to turn off).
+
+1999-09-07 09:51  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* jadedoc/contributors.htm, jadedoc/dsssl2.htm, jadedoc/index.htm,
+	jadedoc/mif.htm, jadedoc/rtf.htm, jadedoc/tex.htm,
+	jadedoc/transform.htm, jadedoc/xmlfo.htm,
+	jadedoc/images/background.gif, jadedoc/images/dsssltitle.gif,
+	jadedoc/images/space.gif, jadedoc/images/top-of-page.gif
+	(jade_1_3_branch): More documentation fixes, images added.
+
+	* jadedoc/images/dsssltitle.gif: file dsssltitle.gif was initially
+	added on branch jade_1_3_branch.
+
+	* jadedoc/images/space.gif: file space.gif was initially added on
+	branch jade_1_3_branch.
+
+	* jadedoc/images/top-of-page.gif: file top-of-page.gif was
+	initially added on branch jade_1_3_branch.
+
+	* jadedoc/images/background.gif: file background.gif was initially
+	added on branch jade_1_3_branch.
+
+1999-09-06 23:55  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* jadedoc/index.htm: file index.htm was initially added on branch
+	jade_1_3_branch.
+
+	* jadedoc/TeX.htm, jadedoc/contributors.htm, jadedoc/copying.txt,
+	jadedoc/dsssl2.htm, jadedoc/index.htm, jadedoc/jade.htm,
+	jadedoc/mif.htm, jadedoc/rtf.htm, jadedoc/tex.htm,
+	jadedoc/transform.htm, jadedoc/xmlfo.htm (jade_1_3_branch): The new
+	documentation, images still missing.
+
+	* jadedoc/tex.htm: file tex.htm was initially added on branch
+	jade_1_3_branch.
+
+	* jadedoc/rtf.htm: file rtf.htm was initially added on branch
+	jade_1_3_branch.
+
+	* jadedoc/xmlfo.htm: file xmlfo.htm was initially added on branch
+	jade_1_3_branch.
+
+	* jadedoc/contributors.htm: file contributors.htm was initially
+	added on branch jade_1_3_branch.
+
+1999-09-05 20:39  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* develdoc/missing, dsssl/dsssl.dtd, dsssl/style-sheet.dtd,
+	jade/HtmlFOTBuilder.cxx, jade/HtmlFOTBuilder.h,
+	jade/MifFOTBuilder.cxx, jade/MifFOTBuilder.h,
+	jade/RtfFOTBuilder.cxx, jade/RtfFOTBuilder.h,
+	jade/SgmlFOTBuilder.cxx, jade/SgmlFOTBuilder.h,
+	jade/TeXFOTBuilder.cxx, jade/TeXFOTBuilder.h, jade/jade.cxx,
+	style/DssslApp.cxx, style/DssslApp.h, style/Expression.cxx,
+	style/FOTBuilder.h, style/FlowObj.cxx, style/InheritedC.cxx,
+	style/Interpreter.cxx, style/Interpreter.h,
+	style/InterpreterMessages.msg, style/SchemeParser.cxx,
+	style/SchemeParser.h, style/StyleEngine.cxx, style/StyleEngine.h,
+	style/primitive.cxx, style/primitive.h: Merge the features branch.
+
+1999-09-05 14:46  Avi Kivity <avi@avionitek.com>
+
+	* jade/TextFOTBuilder.cxx: MSVC fix for gcc fix. Sigh.
+
+1999-09-05 10:12  Avi Kivity <avi@avionitek.com>
+
+	* jade/TextFOTBuilder.cxx, style/FOTBuilder.h: Gcc fixes.
+
+1999-09-04 20:23  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* develdoc/missing, dsssl/dsssl.dtd, dsssl/style-sheet.dtd,
+	style/Interpreter.cxx, style/Interpreter.h,
+	style/InterpreterMessages.msg, style/SchemeParser.cxx,
+	style/SchemeParser.h, style/StyleEngine.cxx (features): Support
+	sgml-grove-plan (currently only give warnings for grove plan
+	mismatches). Replace dsssl/dsssl.dtd by the version found in the
+	standard.
+
+1999-09-04 17:22  Avi Kivity <avi@avionitek.com>
+
+	* jade/TextFOTBuilder.cxx: Paragraph indents implemented.
+
+1999-09-02 21:31  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/DssslApp.cxx, style/Expression.cxx, style/FlowObj.cxx,
+	style/InheritedC.cxx, style/Interpreter.cxx, style/Interpreter.h,
+	style/InterpreterMessages.msg, style/SchemeParser.cxx,
+	dsssl/builtins.dsl, style/SosofoObj.h, style/StyleEngine.cxx,
+	style/primitive.cxx, style/primitive.h (features): Second cut at
+	feature-checking.
+
+1999-09-02 20:02  Avi Kivity <avi@avionitek.com>
+
+	* spcat/Makefile.sub: Binary with an `o', in accordance with
+	convention.
+
+	* jade.dsw, spcat/spcat.dsp: Spcat for Win32.
+
+	* style/FOTBuilder.cxx, style/FOTBuilder.h,
+	style/ProcessContext.cxx, style/ProcessContext.h,
+	style/style_inst.m4: Groundwork for allowing partial emit() from
+	SaveFOTBuilder.
+
+	* jade/TextFOTBuilder.cxx: Removed some unnecessary buffering.
+
+1999-09-01 20:17  Avi Kivity <avi@avionitek.com>
+
+	* grove/grove.dsp, groveoa/groveoa.dsp, lib/lib.dsp,
+	spgrove/spgrove.dsp, style/style.dsp: DLL loading speed
+	optimization.
+
+	* jade/TextFOTBuilder.cxx: Paragraph quadding implemented
+	(partial).
+
+1999-09-01 19:38  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/sdata.h: Fix sdata entity map for
+	cyrillic-capital-letter-de.
+
+	* style/sdata.h (jade_1_3_branch): fix sdata entity map for
+	cyrillic-capital-letter-de.
+
+1999-09-01 07:42  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* Makefile.lib.in, configure, config/configure.in,
+	grove/Makefile.sub, lib/Makefile.sub, spgrove/Makefile.sub,
+	style/Makefile.sub: Set library version numbers explicitly. Do not
+	forget to change the current number 0:0:0 to 0:1:0, 1:0:0 or 1:0:1
+	for the next release depending on the changes (if in doubt, consult
+	the libtool manual).
+
+1999-09-01 07:25  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* Makefile.lib.in, configure, config/configure.in,
+	grove/Makefile.sub, lib/Makefile.sub, spgrove/Makefile.sub,
+	style/Makefile.sub (jade_1_3_branch): Set library versions
+	explicitly. All renamed libraries start out as 0:0:0.
+
+1999-08-31 21:33  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* jade/HtmlFOTBuilder.cxx, jade/HtmlFOTBuilder.h,
+	jade/Makefile.sub, jade/MifFOTBuilder.cxx, jade/MifFOTBuilder.h,
+	jade/RtfFOTBuilder.cxx, jade/RtfFOTBuilder.h,
+	jade/SgmlFOTBuilder.cxx, jade/SgmlFOTBuilder.h,
+	jade/TeXFOTBuilder.cxx, dsssl/Makefile.jadetex,
+	dsssl/style-sheet.dtd, jade/TeXFOTBuilder.h, jade/jade.cxx,
+	style/DssslApp.cxx, style/DssslApp.h, style/Expression.cxx,
+	style/FOTBuilder.h, style/FlowObj.cxx, style/InheritedC.cxx,
+	style/Interpreter.cxx, style/Interpreter.h,
+	style/InterpreterMessages.msg, style/SchemeParser.cxx,
+	style/SchemeParser.h, style/SosofoObj.h, style/StyleEngine.cxx,
+	style/StyleEngine.h, style/primitive.cxx (features): First cut at
+	feature-checking.
+
+1999-08-31 20:40  Avi Kivity <avi@avionitek.com>
+
+	* groveoa/groveoa.def: Removed linker warning caused by the Great
+	Name Change (tm).
+
+1999-08-30 11:28  Avi Kivity <avi@avionitek.com>
+
+	* spcat/Makefile.sub: Binaries renamed to avoid conflict with Jade
+	package.
+
+1999-08-30 10:35  Avi Kivity <avi@avionitek.com>
+
+	* Makefile, Makefile.comm, Makefile.lib, Makefile.prog:
+	Non-autoconf build support for unix systems removed.
+
+1999-08-30 10:30  Avi Kivity <avi@avionitek.com>
+
+	* grove/Makefile.sub, grove/grove.dsp, groveoa/groveoa.dsp,
+	jade/Makefile.sub, jade/jade.dsp, lib/Makefile.sub, lib/lib.dsp,
+	nsgmls/Makefile.sub, nsgmls/nsgmls.dsp, sgmlnorm/Makefile.sub,
+	sgmlnorm/sgmlnorm.dsp, spam/Makefile.sub, spam/spam.dsp,
+	spent/Makefile.sub, spent/spent.dsp, spgrove/Makefile.sub,
+	spgrove/spgrove.dsp, style/Makefile.sub, style/style.dsp,
+	sx/Makefile.sub, sx/sx.dsp: Binaries renamed to avoid conflict with
+	Jade package.
+
+1999-08-30 10:25  Avi Kivity <avi@avionitek.com>
+
+	* grove/Makefile.sub, jade/Makefile.sub, lib/Makefile.sub,
+	nsgmls/Makefile.sub, sgmlnorm/Makefile.sub, spam/Makefile.sub,
+	spent/Makefile.sub, spgrove/Makefile.sub, style/Makefile.sub,
+	sx/Makefile.sub, grove/grove.dsp, groveoa/groveoa.dsp,
+	jade/jade.dsp, lib/lib.dsp, nsgmls/nsgmls.dsp,
+	sgmlnorm/sgmlnorm.dsp, spam/spam.dsp, spent/spent.dsp,
+	spgrove/spgrove.dsp, style/style.dsp, sx/sx.dsp (jade_1_3_branch):
+	Binaries renamed to avoid conflict with Jade package.
+
+1999-08-29 22:45  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* Makefile.in: Another hygienic patch by Adam.
+
+1999-08-29 21:15  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* configure, config/configure.in, config/install-sh,
+	config/install.sh: Apply a cleanup patch by Adam, rename install.sh
+	to install-sh since the autoconf manual recommends it.
+
+1999-08-28 20:39  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* Makefile.in, NEWS, configure, config/configure.in: Remove the
+	stupid --enable-xyz stuff again (Makefile targets work just fine).
+	Add spcat to Makefile.in and NEWS.
+
+1999-08-28 20:16  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* contrib/README: Mention the psgml stuff.
+
+1999-08-28 20:09  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* doc/index.htm: Link in spcat.htm
+
+1999-08-28 20:04  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* doc/spcat.htm, spcat/Makefile.sub, spcat/spcat.cxx: A command
+	line interface to the catalog manager.
+
+1999-08-28 20:01  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* contrib/customize.dtd, contrib/psgml-dsssl.el,
+	contrib/psgml-jade.el: Some contributions to make working with
+	emacs/psgml and jade easier.
+
+1999-08-27 20:26  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* jadedist/files.txt: Add missing files.
+
+1999-08-26 21:59  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* configure, config/aclocal.m4, config/configure.in, Makefile.in:
+	Add separate --enable-xyz options for each program. Fix several
+	bugs in configure.in.
+
+1999-08-26 12:40  Avi Kivity <avi@avionitek.com>
+
+	* jade-generate.mak: Generate style/jade_version.h.
+
+1999-08-26 11:54  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* Makefile.lib.in, VERSION, configure, config/configure.in,
+	lib/mkversion.pl, style/Makefile.sub, style/jade_version.h,
+	style/mkversion.pl, style/style.dsp: Separate library version
+	numbers for libsp and the rest. These are derived from the SP and
+	Jade version numbers in VERSION.  style/jade_version.h is now a
+	generated file.
+
+1999-08-26 11:09  Avi Kivity <avi@avionitek.com>
+
+	* jade/TextFOTBuilder.cxx: Displayed flow objects in paragraphs
+	(really nested paragraphs) implemented.
+
+1999-08-26 08:57  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/SchemeParser.cxx: Fix a bug introduced in the parseCond
+	rewrite.
+
+1999-08-26 08:07  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* NEWS: Document cond parsing updates.
+
+1999-08-25 21:35  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/SchemeParser.cxx: Disable multiple bodies in cond clauses
+	when -2 extension are not enabled. Implement (test => recipient)
+	cond clauses.
+
+1999-08-25 21:04  Avi Kivity <avi@avionitek.com>
+
+	* jade/Makefile.sub, jade/jade.cxx, jade/jade.dsp: Integrated the
+	plaintext backend.
+
+	* jade/TextFOTBuilder.cxx, jade/TextFOTBuilder.h: Initial revision.
+	Supports simple-page-sequence, character, and non-nested
+	paragraphs.
+
+1999-08-25 20:24  Avi Kivity <avi@avionitek.com>
+
+	* style/FOTBuilder.cxx, style/FOTBuilder.h: Bugfix:
+	SaveFOTBuilder's call list is terminated at all times. Also, all
+	class parameters to FOTBuilder's methods are STYLE_APIs.
+
+1999-08-24 15:58  pn
+
+	* style/InterpreterMessages.msg (jade_1_3_branch):
+	varCharPropertyExprUnsupported: New message.
+
+	* style/Interpreter.cxx (jade_1_3_branch):
+	(Interpreter::addCharProperty, Interpreter::setCharProperty): Avoid
+	crashing when expression is non-constant.
+
+1999-08-24 10:34  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* Makefile.prog.in, configure, config/configure.in: Merged
+	--program-prefix support to the main branch.
+
+1999-08-24 10:18  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* Makefile.prog.in, configure, config/configure.in
+	(jade_1_3_branch): Support --program-prefix and friends in
+	configure.
+
+1999-08-23 21:11  Avi Kivity <avi@avionitek.com>
+
+	* style/style_inst.m4: MSVC template fix.
+
+1999-08-23 15:20  Avi Kivity <avi@avionitek.com>
+
+	* style/style_inst.m4: Manual template instantiations for
+	SaveFOTBuilder.
+
+1999-08-23 14:47  Avi Kivity <avi@avionitek.com>
+
+	* style/FOTBuilder.h: Member templates moved to namespace scope for
+	compatibility with older compilers.
+
+1999-08-23 09:14  Avi Kivity <avi@avionitek.com>
+
+	* jadedist/bin-files.txt, jadedist/bin-files.txt (jade_1_3_branch):
+	Added dsssl/extensions.dsl to the binary distribution.
+
+1999-08-22 23:30  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* testsuite/expr-lang.dsl, testsuite/expr-lang.expected: Examples
+	from the standard added.
+
+1999-08-22 21:44  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/Interpreter.cxx, style/Interpreter.h,
+	style/SchemeParser.cxx, dsssl/builtins.dsl: Add "internal
+	definitions", ie we can use (define internal: var value) in
+	builtins.dsl now; this binds var to value for use in builtins.dsl,
+	but keeps it undefined as far as users are concerned. Defining var
+	in the style sheet will not affect uses of var in builtins.dsl. 
+	(define internal: ...) is not allowed in style sheets.
+
+1999-08-22 21:18  Avi Kivity <avi@avionitek.com>
+
+	* style/jade_version.h: Version number indicates 1.4 development.
+
+	* dsssl/fot.dtd, jade/SgmlFOTBuilder.cxx, style/FOTBuilder.cxx,
+	style/FOTBuilder.h, style/FlowObj.cxx, style/InheritedC.cxx,
+	testsuite/flow-obj.dsl: Merged the tbe-1 branch.
+
+1999-08-22 14:37  Avi Kivity <avi@avionitek.com>
+
+	* Makefile.comm, Makefile.comm.in: .msg implicit rule fix; old rule
+	remains for non-gnu make.
+
+1999-08-22 14:13  Avi Kivity <avi@avionitek.com>
+
+	* Makefile, Makefile.in: Inter-directory dependency fixes.
+
+1999-08-22 12:26  Avi Kivity <avi@avionitek.com>
+
+	* lib/lib.dsp: Win32 locale fix.
+
+1999-08-22 10:27  Avi Kivity <avi@avionitek.com>
+
+	* testsuite/flow-obj.dsl: file flow-obj.dsl was initially added on
+	branch tbe-1.
+
+	* dsssl/fot.dtd, jade/SgmlFOTBuilder.cxx, style/FOTBuilder.cxx,
+	style/FOTBuilder.h, style/FlowObj.cxx, style/InheritedC.cxx,
+	testsuite/flow-obj.dsl (tbe-1): Side-by-side, side-by-side-item
+	implemented.
+
+1999-08-21 18:30  Avi Kivity <avi@avionitek.com>
+
+	* style/FOTBuilder.cxx, style/FOTBuilder.h (tbe-1): SaveFOTBuilder
+	can emit() multiple times (emit() made const). As a side-effect,
+	SaveFOTBuilder is copyable and assignable.
+
+1999-08-21 18:25  Avi Kivity <avi@avionitek.com>
+
+	* contrib/catalog, contrib/transform.dsl: SGML transformation
+	procedures.
+
+1999-08-21 15:52  Avi Kivity <avi@avionitek.com>
+
+	* style/jade_version.h: Version number: 1.3pre1
+
+1999-08-21 12:34  Avi Kivity <avi@avionitek.com>
+
+	* jadedist/bin-files.txt: dsssl\builtins.dsl included in binary
+	distribution.
+
+1999-08-21 12:19  Avi Kivity <avi@avionitek.com>
+
+	* Makefile, Makefile.in: Directory dependency fix.
+
+	* Makefile.comm: Removed dependency on m4.
+
+1999-08-21 11:52  Avi Kivity <avi@avionitek.com>
+
+	* jadedoc/jade.htm: Installation procedure documented.
+
+1999-08-21 11:39  Avi Kivity <avi@avionitek.com>
+
+	* testsuite/expr-lang.dsl: Tests defined a little less painfully.
+
+1999-08-21 11:26  Avi Kivity <avi@avionitek.com>
+
+	* testsuite/expr-lang.dsl: Line-terminator fix.
+
+	* testsuite/expr-lang.expected: Language-dependent char tests.
+
+1999-08-21 11:08  Avi Kivity <avi@avionitek.com>
+
+	* testsuite/Makefile: 'make clean' target
+
+	* testsuite/expr-lang.dsl: Language-dependent char tests.
+
+1999-08-20 20:36  Avi Kivity <avi@avionitek.com>
+
+	* testsuite/expr-lang.expected: Expression language expected test
+	results.
+
+1999-08-20 20:31  Avi Kivity <avi@avionitek.com>
+
+	* testsuite/Makefile: Testsuite driver.
+
+	* testsuite/expr-lang.dsl, testsuite/null.sgml: Copyright
+	information.
+
+1999-08-20 20:17  Avi Kivity <avi@avionitek.com>
+
+	* testsuite/expr-lang.dsl: Expression language tests. Currently
+	tests only the char=? procedure, but ready for much more.
+
+	* testsuite/null.sgml: Null SGML instance.
+
+1999-08-20 20:11  Avi Kivity <avi@avionitek.com>
+
+	* style/style.dsp: Win32 has locale support.
+
+1999-08-20 19:41  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* NEWS: Document -V(define.
+
+	* dsssl/builtins.dsl: Fix some bugs introduced by blindly typing in
+	the definitions from the standard.
+
+1999-08-20 19:10  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/StyleEngine.h, style/Interpreter.cxx, style/Interpreter.h,
+	style/StyleEngine.cxx:	  Parse cmdline definitions properly and
+	allow
+	   -Vvariable1 -Vvariable2=value2 -V\(define\ variable3\ value3\)
+	   as equivalent to
+	   (define variable1 #t)
+	   (define variable2 "value2")
+	   (define variable3 value3)
+
+1999-08-20 19:05  Avi Kivity <avi@avionitek.com>
+
+	* dsssl/builtins.dsl: Implemented char and string primitives.
+
+1999-08-20 18:42  Avi Kivity <avi@avionitek.com>
+
+	* lib/entmgr_inst.m4: Corrected usage of config macros.
+
+	* dsssl/builtins.dsl: (ancestors) infinite loop fixed.
+
+1999-08-20 10:49  Avi Kivity <avi@avionitek.com>
+
+	* contrib/rtf2doc.pl: Handle Word errors gracefully
+
+1999-08-20 07:05  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* configure, config/configure.in, lib/entmgr_inst.m4,
+	lib/parser_inst.m4: Replace gcc-2.95 specific fixes by more generic
+	ones.
+
+1999-08-19 22:54  Avi Kivity <avi@avionitek.com>
+
+	* contrib/README, contrib/rtf2doc.pl: Script to convert .rtf files
+	to .doc, embedding graphics in the process.
+
+1999-08-19 21:55  Avi Kivity <avi@avionitek.com>
+
+	* contrib/README: A short description of what this directory is and
+	what's in it.
+
+1999-08-19 17:08  Avi Kivity <avi@avionitek.com>
+
+	* jadedoc/jade.htm: Build intructions updated.
+
+1999-08-19 12:58  Avi Kivity <avi@avionitek.com>
+
+	* style/style.dsp: Added LangObj.cxx.
+
+	* style/FlowObj.cxx: Fix for MSVC++.
+
+1999-08-19 12:51  Avi Kivity <avi@avionitek.com>
+
+	* groveoa/GroveNode.cxx: Fix typo in ElementTypeNode
+	implementation.
+
+1999-08-18 20:48  pn
+
+	* style/Interpreter.cxx, style/charProps.h:
+	Interpreter::installCharProperties(): Add values for
+	break-before-priority and break-after-priority character
+	properties.
+
+1999-08-18 13:23  pn
+
+	* style/Interpreter.cxx: Interpreter::installCharProperties(): Use
+	CharMap<>.setRange() instead of setChar() for ranges of characters.
+
+1999-08-17 18:51  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* lib/entmgr_inst.m4: One more duplicate removed.
+
+	* lib/entmgr_inst.m4: OK, I'll stop committing now until I'm sure
+	there are no more dupes.
+
+1999-08-17 18:41  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* jade/MifFOTBuilder_inst.m4, lib/entmgr_inst.m4: Remove duplicate
+	instantiations.
+
+1999-08-17 17:45  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* configure, config/configure.in: gcc-2.95 fixes for configure.
+
+	* NEWS, develdoc/missing: Doc updates.
+
+1999-08-17 10:44  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* grove/Node.cxx, grove/Node.h, groveoa/CGroveBuilder.cxx,
+	groveoa/CGroveBuilder.h, groveoa/GroveNode.cxx,
+	groveoa/groveoa.idl, spgrove/GroveBuilder.cxx,
+	style/ELObjPropVal.h, style/primitive.cxx: Apply prlabs1 patch
+	contained in JadeMIF-1.0h by Kathleen Marszalek.
+
+1999-08-16 22:12  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* NEWS: More news.
+
+1999-08-16 21:48  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/Expression.cxx: Implement force!.
+
+1999-08-16 18:38  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* jade/MifFOTBuilder_inst.m4, lib/entmgr_inst.m4,
+	lib/parser_inst.m4: Temp fixes for template initialization to allow
+	compilation with gcc-2.95.
+
+1999-08-16 18:31  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/primitive.cxx: const corrections for picky gcc-2.95.
+
+1999-08-16 18:16  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/FlowObj.cxx: Remove forgotten printf.
+
+1999-08-16 00:00  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/InheritedC.cxx: Change PublicIdInheritedC to return a
+	string, not a symbol.
+
+1999-08-15 22:45  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/FlowObj.cxx, style/Interpreter.cxx, style/Interpreter.h,
+	style/InterpreterMessages.msg, style/SchemeParser.cxx,
+	style/SchemeParser.h, style/primitive.cxx, style/primitive.h:
+	Implement declare-char-characteristic+property. We do not actually
+	support any nonstandard character NICs, they are just ignored (and
+	are available as char properties).
+	
+	Move the nonstandard functionality of sgml-parse and expt to
+	external procedures of the same name.
+	
+	Apply a patch by Peter Nilsson to fix several bugs in the
+	SchemeParser part of the character properties implementation.
+
+1999-08-15 21:31  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* dsssl/extensions.dsl: All extensions known to jade.
+
+1999-08-14 11:43  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/primitive.h: Forgot to remove map and c..r from the header.
+
+1999-08-13 20:38  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* dsssl/builtins.dsl, style/primitive.cxx: Replace the cxx map and
+	c..r primitives by scheme equivalents.
+
+1999-08-13 20:26  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/ProcessContext.cxx, style/FOTBuilder.h, style/FlowObj.cxx,
+	style/Insn.cxx, style/SosofoObj.h, style/charProps.h,
+	style/ELObjPropVal.h, style/Expression.cxx, style/FOTBuilder.cxx,
+	style/Insn2.h: 
+	{Interpreter,SchemeParser}.{h,cxx},InterpreterMessages.msg,primitiv
+	e.cxx, style_inst.m4:  EL side of character properties. 
+	ProcessContext.cxx:  process-children-trim uses input-whitespace?. 
+	charProps.h:  New file, some standard character properties
+	extracted from Unicode.  SosofoObj.h,ProcessContext.cxx,Insn.cxx: 
+	Save current node in SetNonInheritedCsSosofoObj. 
+	FOTBuilder.{h,cxx},FlowObj.cxx,Insn2.h,Insn.cxx,Expression.cxx: 
+	Special inheritance for character NICs, using a new
+	SetImplicitCharInsn.  ELObjPropVal.h:  New file, extracted from
+	primitive.cxx.
+
+	* jade/TeXFOTBuilder.cxx: Emit all character NICs, emit script as
+	string without prefix.	Mainly for testing purposes.  Since the
+	character NICs are not used at all by the jadetex macros and blow
+	up the size of the tex files, this should probably be changed
+	before 1.3.
+
+1999-08-13 20:09  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/Interpreter.h, style/Interpreter.cxx,
+	style/InterpreterMessages.msg, style/SchemeParser.cxx,
+	style/SchemeParser.h, style/primitive.cxx, style/style_inst.m4: The
+	expression language part of character properties.
+
+1999-08-12 13:52  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/SchemeParser.cxx: Check that a unit-name is not an
+	exponent-marker.
+
+	* style/InterpreterMessages.msg, style/primitive.cxx: Add some
+	dynamic roots and a new error message to map-constructor.
+
+1999-08-05 22:33  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/primitive.cxx: Small fix for with-language.
+
+1999-08-05 22:29  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* NEWS, develdoc/missing: Doc updates.
+
+	* style/Interpreter.cxx, style/Interpreter.h,
+	style/SchemeParser.cxx, style/SchemeParser.h: Implement
+	special-query-expressions. Note: the keywords are treated as
+	syntactic keywords (the standard isn't explicit about this).
+
+1999-08-04 20:01  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/StyleEngine.cxx: Fix parsing of declarations in multiple
+	parts.
+
+1999-08-04 19:55  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* jadedoc/jade.htm, style/Interpreter.cxx, style/Interpreter.h,
+	style/InterpreterMessages.msg, style/SchemeParser.cxx: 
+	Fixes for default-language-declaration (Peter Nilsson
+	<pnidv96@student.vxu.se>).  Check for valid character-names and
+	numbers when parsing standard-chars (test case:
+	<standard-chars>xyz$!% #d-5</standard-chars>).	Check for valid
+	unit-name when parsing unit-declaration (test case: (define-unit
+	xyz$!% 2m) ).  Fix parsing of numbers with #d prefix and decimal
+	dot (test case: #d6.0e+2m2).
+
+	* style/Style.h, style/Style.cxx: Correct subobject handling of
+	color spaces.
+
+1999-08-04 19:51  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/ELObj.cxx, style/ELObj.h: Print methods for UnspecifiedObj
+	and ErrorObj by Peter Nilsson <pnidv96@student.vxu.se>.
+
+1999-08-02 18:33  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/SchemeParser.cxx: Fix keyword and identifier parsing.
+	Previously, some valid keywords were not accepted, eg ::, a: and
+	:a:.
+
+	* dsssl/builtins.dsl: replace all occurrences of siblings by
+	rsiblings.
+
+	* NEWS: document the -Dvar=val patch.
+
+1999-07-31 18:53  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* jadedoc/jade.htm, style/DssslApp.cxx, style/Interpreter.cxx:
+	Applied patch to allow -Dvar=val for string values.
+
+1999-07-25 08:13  Avi Kivity <avi@avionitek.com>
+
+	* jade/jade.dsp, lib/instmac.m4, lib/lib.dsp, nsgmls/nsgmls.dsp,
+	spam/spam.dsp, spgrove/spgrove.dsp, style/style.dsp, sx/sx.dsp:
+	lib/instmac.m4 > lib/instmac.pl
+
+1999-07-23 20:57  Avi Kivity <avi@avionitek.com>
+
+	* style/jade_version.h: Version number indicates 1.3 development.
+
+	* include/Entity.h: Classes declared SP_API in order to survive
+	MSVC (caused by builtins.dsl entity dereference)
+
+1999-07-23 20:28  Avi Kivity <avi@avionitek.com>
+
+	* style/common_inst.m4: More uninstantiated templates
+
+1999-07-23 19:49  Avi Kivity <avi@avionitek.com>
+
+	* style/common_inst.m4: Add uninstantiated templates
+
+1999-07-23 18:56  Avi Kivity <avi@avionitek.com>
+
+	* build-win32.bat: Script to build Jade for Win32
+
+	* jade-generate.mak, sp-generate.mak: Removed dependencies on unix
+	tools (m4, chmod, rm)
+
+1999-07-23 18:10  Avi Kivity <avi@avionitek.com>
+
+	* jade/MifFOTBuilder.cxx, jade/RtfFOTBuilder.cxx,
+	jade/SgmlFOTBuilder.cxx, jade/TeXFOTBuilder.cxx,
+	style/FOTBuilder.cxx, style/FOTBuilder.h, style/FlowObj.cxx,
+	style/ProcessContext.cxx, style/ProcessContext.h:
+	simple-page-sequence headers and footers unserialized
+
+1999-07-23 18:00  Avi Kivity <avi@avionitek.com>
+
+	* Makefile: Mif and HTML enabled by default
+
+1999-07-23 17:55  Avi Kivity <avi@avionitek.com>
+
+	* dsssl/catalog: System id resolved for builtins.dsl
+
+1999-07-23 17:47  Avi Kivity <avi@avionitek.com>
+
+	* style/Interpreter.cxx: Fix compilation problem
+
+1999-07-23 17:36  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* Makefile, Makefile.comm, Makefile.lib, Makefile.prog: Restore
+	original Makefiles.
+
+1999-07-23 17:19  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/Interpreter.cxx: Fix compilation with SP_HAVE_LOCALE=0.
+
+1999-07-23 17:19  Avi Kivity <avi@avionitek.com>
+
+	* msggen.pl: Fix Perl -w warning
+
+1999-07-23 17:15  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* Makefile, Makefile.comm, Makefile.lib, Makefile.prog,
+	jade/TeXFOTBuilder.cxx, lib/Makefile.sub, nsgmls/Makefile.sub,
+	spam/Makefile.sub, style/Makefile.sub, sx/Makefile.sub: Cleanup to
+	make it compile. Added enough dependencies for ./configure; make to
+	work without intermediate make gen.
+
+1999-07-23 15:50  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* Makefile.lib.in, NEWS, VERSION, configure, config/aclocal.m4,
+	config/configure.in, config/ltconfig, config/ltmain.sh,
+	grove/Makefile.sub, include/config.h, jade/TeXFOTBuilder.cxx,
+	jade/jade.dsp, lib/CmdLineAppMessages.msg, lib/Makefile.sub,
+	spgrove/Makefile.sub, spgrove/threads.h,
+	style/DssslAppMessages.msg, style/InterpreterMessages.msg,
+	style/Makefile.sub, style/jade_version.h, style/primitive.cxx: Just
+	merged jade_1_2_2 to the main branch.
+
+1999-07-22 21:56  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* develdoc/missing: List of missing pieces from DSSSL.
+
+	* develdoc/jadedoc.sgml: Documentation of jade internals.
+
+	* style/Interpreter.cxx, style/Interpreter.h,
+	style/InterpreterMessages.msg, style/Style.cxx, style/Style.h,
+	style/primitive.cxx, NEWS: support for all standard color-spaces
+	via conversion to device rgb.
+
+1999-07-20 10:24  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* spgrove/Makefile.sub, style/Makefile.sub: More .lo dependency
+	fixes.
+
+1999-07-20 09:29  Avi Kivity <avi@avionitek.com>
+
+	* style/InterpreterMessages.cxx, style/InterpreterMessages.h,
+	style/InterpreterMessages.rc (jade_1_2_1_branch): Sync with
+	style/InterpreterMessages.msg
+
+1999-07-20 08:57  Avi Kivity <avi@avionitek.com>
+
+	* style/jade_version.h (jade_1_2_1_branch): Version number bumped
+	to 1.2.2
+
+1999-07-19 21:45  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* Makefile.comm.in, configure, config/configure.in: Change rule for
+	m4.cxx to use perl and remove check for m4 from configure.
+
+1999-07-19 09:19  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* jade/HtmlFOTBuilder_inst.cxx, jade/HtmlMessages.h,
+	jade/HtmlMessages.rc, jade/JadeMessages.h, jade/JadeMessages.rc,
+	jade/MifFOTBuilder_inst.cxx, jade/MifMessages.h,
+	jade/MifMessages.rc, jade/RtfFOTBuilder_inst.cxx,
+	jade/RtfMessages.h, jade/RtfMessages.rc,
+	jade/TeXFOTBuilder_inst.cxx, jade/TeXMessages.h,
+	jade/TeXMessages.rc, jade/TransformFOTBuilder_inst.cxx,
+	lib/ArcEngineMessages.h, lib/ArcEngineMessages.rc,
+	lib/CatalogMessages.h, lib/CatalogMessages.rc,
+	lib/CmdLineAppMessages.h, lib/CmdLineAppMessages.rc,
+	lib/EntityManagerMessages.h, lib/EntityManagerMessages.rc,
+	lib/MessageFormatterMessages.h, lib/MessageFormatterMessages.rc,
+	lib/MessageReporterMessages.h, lib/MessageReporterMessages.rc,
+	lib/ParserAppMessages.h, lib/ParserAppMessages.rc,
+	lib/ParserMessages.cxx, lib/ParserMessages.h,
+	lib/ParserMessages.rc, lib/PosixStorageMessages.h,
+	lib/PosixStorageMessages.rc, lib/StdioStorageMessages.h,
+	lib/StdioStorageMessages.rc, lib/URLStorageMessages.h,
+	lib/URLStorageMessages.rc, lib/WinInetStorageMessages.h,
+	lib/WinInetStorageMessages.rc, lib/app_inst.cxx, lib/arc_inst.cxx,
+	lib/entmgr_inst.cxx, lib/parser_inst.cxx, lib/version.h,
+	lib/xentmgr_inst.cxx, nsgmls/NsgmlsMessages.h,
+	nsgmls/NsgmlsMessages.rc, nsgmls/RastEventHandlerMessages.h,
+	nsgmls/RastEventHandlerMessages.rc, nsgmls/nsgmls_inst.cxx,
+	spam/SpamMessages.h, spam/SpamMessages.rc, spam/spam_inst.cxx,
+	spgrove/grove_inst.cxx, style/DssslAppMessages.h,
+	style/DssslAppMessages.rc, style/FlowObj_inst.cxx,
+	style/InterpreterMessages.cxx, style/InterpreterMessages.h,
+	style/InterpreterMessages.rc, style/common_inst.cxx,
+	style/primitive_inst.cxx, style/style_inst.cxx, sx/SxMessages.h,
+	sx/SxMessages.rc, sx/XmlOutputMessages.h, sx/XmlOutputMessages.rc,
+	sx/sx_inst.cxx: Remove most generated files.
+
+1999-07-16 00:58  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* NEWS, style/primitive.cxx, style/InterpreterMessages.msg
+	(jade_1_2_1_branch): Add forgotten procedure assoc to NEWS. 
+	Improve error reporting for new primitives.
+
+1999-07-15 18:27  Avi Kivity <avi@avionitek.com>
+
+	* NEWS (jade_1_2_1_branch): HTML and MIF backends are now enabled
+	by default
+
+1999-07-15 16:16  Avi Kivity <avi@avionitek.com>
+
+	* jade/jade.dsp (jade_1_2_1_branch): Mif and html enabled by
+	default
+
+1999-07-15 15:57  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* Makefile.lib.in, configure, config/configure.in, config/ltconfig,
+	config/ltmain.sh, grove/Makefile.sub, include/config.h,
+	lib/Makefile.sub, spgrove/Makefile.sub, spgrove/threads.h,
+	style/Makefile.sub (jade_1_2_1_branch): add more messages to
+	configure (me), add hurd support (Adam Di Carlo
+	<adam@onshore.com>), add inter-library dependencies (Adam) remove
+	-ansi (Adam)
+
+1999-07-15 12:44  Avi Kivity <avi@avionitek.com>
+
+	* style/primitive_inst.cxx, style/primitive_inst.m4
+	(jade_1_2_1_branch): Previous change (1.1.1.3.2.1) backed out - not
+	requierd.
+
+1999-07-15 11:08  Avi Kivity <avi@avionitek.com>
+
+	* style/primitive.cxx (jade_1_2_1_branch): Yet another egcs
+	adaptaion
+
+1999-07-15 09:10  Avi Kivity <avi@avionitek.com>
+
+	* style/jade_version.h (jade_1_2_1_branch): version number bumped
+	to -pre3
+
+	* style/primitive.cxx, style/primitive_inst.cxx,
+	style/primitive_inst.m4 (jade_1_2_1_branch): ArrayDeleter<> hack
+	replaced with Vector<> for compiler template support compatibility,
+	as well as general cleanness.
+
+1999-07-14 12:43  Avi Kivity <avi@avionitek.com>
+
+	* style/primitive.cxx (jade_1_2_1_branch): previous change
+	(1.4.2.2) backed out, as it contains a non-related, breaking
+	change.
+
+	* style/primitive.cxx (jade_1_2_1_branch): egcs bug workaround
+
+1999-07-13 23:36  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* VERSION, lib/CmdLineAppMessages.h, lib/CmdLineAppMessages.msg,
+	lib/CmdLineAppMessages.rc, lib/version.h, style/DssslAppMessages.h,
+	style/DssslAppMessages.msg, style/DssslAppMessages.rc,
+	style/jade_version.h (jade_1_2_1_branch): Change the version info
+	messages to use "OpenSP" and "OpenJade" instead of "SP" and "Jade".
+	Bump the OpenSP version number to 1.3.4 and the OpenJade version
+	number to 1.2.2-pre2 (for the next prerelease).
+
+1999-07-13 23:02  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* configure, config/aclocal.m4, config/configure.in
+	(jade_1_2_1_branch): Use a more versatile macro smr_SWITCH (stolen
+	from fvwm) for the optional backends. These are compiled in now by
+	default.
+
+	* style/jade_version.h (jade_1_2_1_branch): Bump version number to
+	1.2.2-pre1.
+
+	* style/primitive.cxx (jade_1_2_1_branch): add workaround for an
+	egcs bug
+
+1999-07-13 11:47  Avi Kivity <avi@avionitek.com>
+
+	* lib/instmac.pl: file instmac.pl was initially added on branch
+	jade_1_2_1_branch.
+
+	* lib/instmac.pl (jade_1_2_1_branch): Removed from branch.
+
+	* lib/instmac.pl, lib/instmac.pl (jade_1_2_1_branch): Replacement
+	for instmac.m4
+
+1999-07-13 11:28  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* config/configure.in: add --enable-html arg to configure
+
+1999-07-13 11:22  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* configure, config/configure.in (jade_1_2_1_branch): add an
+	--enable-html arg to configure for building the html backend.
+
+1999-07-13 09:43  Avi Kivity <avi@avionitek.com>
+
+	* jade/TeXFOTBuilder_inst.cxx (jade_1_2_1_branch): Sync with
+	TexFOTBuilder_inst.m4 (generated file)
+
+	* style/primitive.cxx (jade_1_2_1_branch): Compilation problem fix:
+	egcs extensions replaced with std C++ constructs.
+
+	* style/InterpreterMessages.cxx, style/InterpreterMessages.h,
+	style/InterpreterMessages.msg, style/InterpreterMessages.rc
+	(jade_1_2_1_branch): Merged in 1.4 from the development branch
+
+	* jade/TeXFOTBuilder.cxx (jade_1_2_1_branch): Compilation problem
+	fix (utlilty functions made members of TeXFOTBuilder to allow
+	access)
+
+1999-07-11 19:11  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/FOTBuilder.cxx, style/FOTBuilder.h, jade/TeXFOTBuilder.cxx,
+	style/InheritedC.cxx: inline-space-space is no longer ignored by
+	FOTBuilder and TeXFOTBuilder.  I haven't yet added support to
+	jadetex.
+
+1999-07-08 23:48  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* sx/XmlOutputEventHandler.cxx: merge the fix applied in the stable
+	branch.
+
+1999-07-08 23:38  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* sx/XmlOutputEventHandler.cxx (jade_1_2_1_branch): applied a fix
+	for `sx -xcdata' from James.
+
+1999-07-08 21:10  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/SchemeParser.cxx (jade_1_2_1_branch):
+	SchemeParser::parseMake(): ignore duplicate keywords in make
+	expressions.
+
+1999-07-08 21:04  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* dsssl/jadetex.dtx (jade_1_2_1_branch): a *complete* version of
+	jadetex 2.7, the last commit was truncated.
+
+1999-07-08 20:52  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* NEWS, style/SchemeParser.cxx: SchemeParser::parseMake(): ignore
+	duplicate keywords in make expressions.
+
+1999-07-08 00:00  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* dsssl/style-sheet.dtd: allow declarations before the first part.
+
+1999-07-07 23:57  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* dsssl/jadetex.dtx: jadetex 2.7 again. The previous commit had
+	this file truncated.
+
+1999-07-07 23:40  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* Makefile.comm.in: generate dependency information for libtool
+	objects (.lo) as well.
+
+	* include/config.h: add a default value for
+	DEFAULT_SCHEME_BUILTINS.
+
+	* style/Interpreter.cxx, style/Interpreter.h,
+	style/SchemeParser.cxx, style/SchemeParser.h,
+	style/StyleEngine.cxx: cleanup the declaration element stuff. The
+	parsing is done by the SchemeParser, the Interpreter simply holds
+	the resulting values.
+
+1999-07-01 23:40  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* jadedoc/jade.htm, dsssl/catalog, dsssl/style-sheet.dtd
+	(jade_1_2_1_branch): add supported decl archforms to
+	style-sheet.dtd; change the pubid for that file, but leave the old
+	catalog entry.
+
+1999-07-01 22:49  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* NEWS, jadedoc/jade.htm: add a pointer to NEWS at the top of
+	jade.htm.
+
+	* style/Interpreter.cxx, style/Interpreter.h, style/LangObj.cxx,
+	style/LangObj.h, style/ELObj.cxx, style/ELObj.h,
+	style/EvalContext.h, style/InterpreterMessages.cxx,
+	style/InterpreterMessages.h, style/InterpreterMessages.msg,
+	style/InterpreterMessages.rc, style/Makefile.sub,
+	style/SchemeParser.cxx, style/SchemeParser.h, style/primitive.cxx,
+	style/primitive.h: language-dependent expression language
+	procedures and external procedure
+	"UNREGISTERED::OpenJade//Procedure::language" to create language
+	objects by reference to a POSIX locale.
+
+1999-07-01 22:44  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* dsssl/catalog, dsssl/style-sheet.dtd: add supported decl
+	archforms to dtd, change pubid to "-//OpenJade//DTD DSSSL Style
+	Sheet//EN", add catalog entry for new pubid, but leave old entry.
+
+1999-06-30 00:34  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* NEWS, dsssl/Makefile.jadetex, dsssl/jadetex.dtx,
+	jade/TeXFOTBuilder.cxx, jade/TeXFOTBuilder_inst.m4: merge the TeX
+	backend additions from the stable branch.
+
+1999-06-30 00:19  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* dsssl/ChangeLog: forgotten file.
+
+	* dsssl/unicode.sty, jade/TeXFOTBuilder.cxx, dsssl/jadetex.dtx,
+	jade/TeXFOTBuilder_inst.m4, NEWS, dsssl/Makefile.jadetex
+	(jade_1_2_1_branch): PDF bookmarks support for TeX backend/jadetex
+	from Sebastian, who gives credit for the patches to J.-M. Kubek
+	(kubek@insa-tlse.fr).
+
+1999-06-30 00:15  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* NEWS: document query language additions
+
+1999-06-29 23:54  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/DssslApp.cxx, style/DssslApp.h, style/Interpreter.cxx,
+	style/Interpreter.h, style/SchemeParser.cxx, style/SchemeParser.h,
+	style/StyleEngine.cxx, style/StyleEngine.h: char-repertoire,
+	add-name-chars and add-separator-chars declaration element type
+	forms, -s cmdline switch to make jade forget its builtin character
+	repertoire.
+
+1999-06-29 23:51  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* Makefile.comm.in, configure, config/configure.in,
+	dsssl/builtins.dsl: fix default location for builtins.dsl (you can
+	change that at runtime via a SYSTEM catalog entry); remove
+	duplicate procedures from builtins.dsl.
+
+1999-06-29 21:20  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* msggen.pl: prepare msggen.pl to create .po files for gettext.
+
+1999-06-29 21:04  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* Makefile.in, NEWS, configure, config/configure.in,
+	dsssl/builtins.dsl, style/DssslApp.cxx, style/DssslApp.h,
+	style/GroveManager.h, style/Interpreter.cxx, style/Interpreter.h,
+	style/InterpreterMessages.cxx, style/InterpreterMessages.h,
+	style/InterpreterMessages.msg, style/InterpreterMessages.rc:
+	support for "scheme builtins" and a little fix for gettext
+	detection.  The following things are still to do for the "scheme
+	builtins": the windows build process has to install builtins.dsl
+	somewhere and define DEFAULT_SCHEME_BUILTINS accordingly; we have
+	to decide which of the added expression language procedures should
+	stay in cxx and which should be defined in scheme.
+
+1999-06-26 20:44  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* NEWS, style/DssslSpecEventHandler.cxx,
+	style/DssslSpecEventHandler.h, style/Interpreter.cxx,
+	style/Interpreter.h, style/InterpreterMessages.cxx,
+	style/InterpreterMessages.h, style/InterpreterMessages.msg,
+	style/InterpreterMessages.rc, style/StyleEngine.cxx,
+	style/style_inst.m4, style/style_inst.cxx: standard-chars and
+	map-sdata-entity declaration element type forms, "line-feed" and
+	"carriage-return" predefined character names.
+
+	* style/charNames.h: "line-feed" and "carriage-return" predefined
+	character names.
+
+1999-06-25 19:19  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* NEWS: log of user-visible changes.
+
+1999-06-23 18:53  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/primitive.cxx: replace uses of ELObj::asChar() by
+	ELObj::charValue().
+
+	* style/InterpreterMessages.cxx, style/InterpreterMessages.h,
+	style/InterpreterMessages.msg, style/InterpreterMessages.rc: add
+	forgotten error messages for the new expression language
+	primitives.
+
+1999-06-22 23:31  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/primitive.cxx: Fix the recently-discovered bug in +/- wrt.
+	length-specs.
+
+1999-06-22 23:17  Matthias Clasen <clasen@mathematik.uni-freiburg.de>
+
+	* style/primitive.cxx, style/primitive.h: Add a lot of expression
+	language primitives, and map-constructor.
+
+1999-06-15 08:07  Avi Kivity <avi@avionitek.com>
+
+	* Makefile.jade, README.configure, dsssl/FOT.tex,
+	dsssl/demoMaster.tex, groveoa/WinApp.cxx, groveoa/WinApp.h,
+	jade/DssslApp.cxx, jade/DssslApp.h, jade/DssslAppMessages.h,
+	jade/DssslAppMessages.msg, jade/DssslAppMessages.rc, jade/fot.dtd,
+	jade/jade_version.h, spent/spent_inst.cxx, spent/spent_inst.m4,
+	style/NotationStorage.cxx, style/NotationStorage.h: Leftover file
+	from pre-1.2.1 jade release removed
+

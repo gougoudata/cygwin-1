@@ -1,0 +1,81 @@
+automake1.11
+========================================================================
+Provides the latest version of automake in the 1.11.x series
+
+Runtime requirements (these or newer):
+  cygwin-1.7.16-1
+  perl-5.14.2-3
+  coreutils-8.15-1
+  m4-1.4.16-1
+  texinfo-4.13-4
+  alternatives-1.3.30c-10
+  xz-5.0.2_20110517-1
+  autoconf2.5
+  autoconf
+
+Build requirements (these or newer):
+  cygwin-1.7.16-1
+  perl-5.14.2-3
+  coreutils-8.15-1
+  m4-1.4.16-1
+  texinfo-4.13-4
+  cygport-0.11.0-1
+  autoconf2.5
+  autoconf
+  make-3.82.90-1
+
+Canonical homepage:
+  http://www.gnu.org/software/automake/
+
+Canonical download:
+  ftp://ftp.gnu.org/pub/gnu/automake/
+
+License:
+  GPL
+
+Language:
+  perl, m4
+
+========================================================================
+
+Build instructions:
+  unpack automake1.11-1.11.6-X-src.tar.bz2
+    if you use setup to install this src package, it will be unpacked
+    under /usr/src automatically
+  cd /usr/src
+  cygport ./automake1.11-1.11.6-X.cygport all
+
+This will create:
+  /usr/src/automake1.11-1.11.6-X-src.tar.bz2
+  /usr/src/automake1.11-1.11.6-X.bz2
+
+Also, 'cygport ./automake1.11-1.11.6-X.cygport check' will test the package
+
+========================================================================
+
+Files included in automake1.11-1.11.6-X:
+  see cygcheck -l output
+
+========================================================================
+
+Port Notes:
+----- automake1.11-1.11.6-1 -- 2012 Aug 31 ----
+* Update to latest upstream release
+* Fixes security issue
+  + CVE-2012-3386: make distcheck vs. o+w permissions
+* Use new cygport(1) capabilities to automatically generate the setup.hint
+ 
+----- automake1.11-1.11.3-1 -- 2012 Mar 31 ----
+* Update to latest upstream release
+* cygport(5) no longer attempts to remove MiKTeX from $PATH -- with the
+  new dependencies, cygwin TeX can no longer be easily avoided, and will
+  take precendence over MiKTeX anyway.
+
+----- automake1.11-1.11.1-1 -- 2009 Dec 23 ----
+* Update to latest upstream release
+
+----- automake1.11-1.11-10 -- 2009 May 24 ----
+First instance in the 1.11 series for cygwin-1.7.
+
+========================================================================
+Cygwin port maintained by: Chuck Wilson <cygwin@cygwin.com>

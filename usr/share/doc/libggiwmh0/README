@@ -1,0 +1,21 @@
+		============================	Updated:
+	        LibGGIWMH EXTENSION README FILE	20021217
+		============================
+
+Introduction
+============
+
+LibGGIWMH is an extension for GGI targets that are window system
+based to allow access to things like setting the title bar, resizing,
+etc..
+
+GGI resources
+=============
+
+Web site: http://www.ggi-project.org/
+FTP site: ftp://ftp.ggi-project.org/pub/ggi
+
+Maintainers
+===========
+
+	Andreas Beck		becka@uni-duesseldorf.de

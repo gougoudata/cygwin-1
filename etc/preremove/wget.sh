@@ -1,6 +1,16 @@
 #!/bin/sh
 # Preremove script for wget.
 
-/bin/cmp -s /etc/wgetrc /usr/share/doc/wget-1.10.2/sample.wgetrc &&
-  { echo "$0: /etc/wgetrc is unmodified; removing for an update" ;
-    /bin/rm -f /etc/wgetrc; }
+manifest=/etc/preremove/wget-manifest.lst
+
+[ -f $manifest ] || { echo "Unable to find manifest file"; exit 1; }
+
+echo "$0: *** Removing unmodified base files."
+echo "*** These will be updated by the postinstall script."
+echo "*** Please wait."
+
+while read f; do
+  /bin/cmp -s "/${f}" "/etc/defaults/${f}" && \
+    { echo "$0: /$f hasn't been modified, it will be updated" ; \
+     /bin/rm -f "/${f}"; }
+done < ${manifest}

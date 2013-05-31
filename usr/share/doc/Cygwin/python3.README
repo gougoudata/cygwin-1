@@ -1,0 +1,71 @@
+python3
+------------------------------------------
+Python is an interpreted, interactive object-oriented programming
+language suitable (amongst other uses) for distributed application
+development, scripting, numeric computing and system testing.  Python
+is often compared to Tcl, Perl, Java, JavaScript, Visual Basic or
+Scheme.
+
+Runtime requirements:
+  cygwin-1.7.5-1
+  crypt-1.1-1
+  libbz2_1-1.0.5-10
+  libexpat1-2.0.1-1
+  libffi4-4.3.4-3
+  libgcc1-4.3.4-3
+  libgdbm4-1.8.3-20
+  libintl8-0.17-11
+  libncursesw10-5.7-18
+  libreadline7-6.0.3-2
+  libsqlite3_0-3.6.21-3
+  openssl-0.9.8n-1
+(python-tkinter)
+  tcl-8.5.6-2
+  tk-8.5.6-1
+  tk-tix-8.4.3-1
+
+Build requirements:
+(besides corresponding -devel packages)
+  autoconf2.5-2.65-1
+  binutils-2.20.51-1
+  cygport-0.9.83-1
+  gawk-3.1.7-1
+  gcc4-core-4.3.4-3
+  make-3.81-2
+  sed-4.2.1-1
+
+Canonical website:
+  http://www.python.org/
+
+Canonical download:
+  http://www.python.org/ftp/python/
+
+-------------------------------------------
+
+Build instructions:
+  unpack python3-3.1.2-X-src.tar.bz2
+    if you use setup to install this src package, it will be
+	 unpacked under /usr/src automatically
+  cd /usr/src
+  cygport ./python3-3.1.2-X.cygport all
+
+This will create:
+  /usr/src/idle3-3.1.2-X.tar.bz2
+  /usr/src/python3-3.1.2-X-src.tar.bz2
+  /usr/src/python3-3.1.2-X.tar.bz2
+  /usr/src/python3-test-3.1.2-X.tar.bz2
+  /usr/src/python3-tkinter-3.1.2-X.tar.bz2
+
+-------------------------------------------
+
+Port Notes:
+
+----- version 3.1.2-1 -----
+Version bump.
+
+----- version 3.1.1-1 -----
+Initial release of Py3K for Cygwin 1.7.
+
+
+Cygwin port maintained by:
+http://sourceware.org/cygwinports/

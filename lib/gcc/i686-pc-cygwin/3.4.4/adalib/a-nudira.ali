@@ -20,14 +20,14 @@ W ada%s			ada.ads			ada.ali
 W ada.numerics%s	a-numeri.ads		a-numeri.ali
 W interfaces%s		interfac.ads		interfac.ali
 
-D ada.ads		20030424175358 a0108083
+D ada.ads		20030424175357 a0108083
 D a-calend.ads		20030424175352 83015fd2
-D a-numeri.ads		20030424175354 24750733
-D a-nudira.ads		20031021134154 5cab6f77
-D a-nudira.adb		20031021134154 3523c1dc
-D interfac.ads		20031021134210 6e859da6
+D a-numeri.ads		20030424175353 24750733
+D a-nudira.ads		20031021134153 5cab6f77
+D a-nudira.adb		20031021134153 3523c1dc
+D interfac.ads		20031021134209 6e859da6
 D system.ads		20031021134222 6af26689
-D s-exctab.ads		20031021134214 6637f07f
+D s-exctab.ads		20031021134213 6637f07f
 D s-stalib.ads		20031021134214 e7ad2af0
 D unchconv.ads		20030424175420 1b7a14c5
 X 1 ada.ads

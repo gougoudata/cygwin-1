@@ -1,0 +1,70 @@
+stg-export(1)
+=============
+
+NAME
+----
+stg-export - Export patches to a directory
+
+SYNOPSIS
+--------
+[verse]
+'stg' export [options] [--] [<patch1>] [<patch2>] [<patch3>..<patch4>]
+
+DESCRIPTION
+-----------
+
+Export a range of applied patches to a given directory (defaults to
+'patches-<branch>') in a standard unified GNU diff format. A template
+file (defaulting to '.git/patchexport.tmpl' or
+'~/.stgit/templates/patchexport.tmpl' or
+'/usr/share/stgit/templates/patchexport.tmpl') can be used for the
+patch format. The following variables are supported in the template
+file:
+
+  %(description)s - patch description
+  %(shortdescr)s  - the first line of the patch description
+  %(longdescr)s   - the rest of the patch description, after the first line
+  %(diffstat)s    - the diff statistics
+  %(authname)s    - author's name
+  %(authemail)s   - author's e-mail
+  %(authdate)s    - patch creation date
+  %(commname)s    - committer's name
+  %(commemail)s   - committer's e-mail
+
+OPTIONS
+-------
+-d DIR::
+--dir DIR::
+        Export patches to DIR instead of the default.
+
+-p::
+--patch::
+        Append .patch to the patch names.
+
+-e EXTENSION::
+--extension EXTENSION::
+        Append .EXTENSION to the patch names.
+
+-n::
+--numbered::
+        Prefix the patch names with order numbers.
+
+-t FILE::
+--template FILE::
+        Use FILE as a template.
+
+-b BRANCH::
+--branch BRANCH::
+        Use BRANCH instead of the default branch.
+
+-s::
+--stdout::
+        Dump the patches to the standard output.
+
+-O OPTIONS::
+--diff-opts OPTIONS::
+        Extra options to pass to "git diff".
+
+StGit
+-----
+Part of the StGit suite - see linkman:stg[1]

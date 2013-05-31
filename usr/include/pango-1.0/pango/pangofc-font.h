@@ -42,7 +42,7 @@ typedef struct _PangoFcFontClass PangoFcFontClass;
 
 /**
  * PANGO_RENDER_TYPE_FC:
- * 
+ *
  * A string constant used to identify shape engines that work
  * with the fontconfig based backends. See the @engine_type field
  * of #PangoEngineInfo.
@@ -57,9 +57,9 @@ typedef struct _PangoFcFontClass PangoFcFontClass;
 
 /**
  * PangoFcFont:
- * 
- * #PangoFcFontMap is a base class for font implementations
- * using the FontConfig and FreeType libraries and is used in
+ *
+ * #PangoFcFont is a base class for font implementations
+ * using the Fontconfig and FreeType libraries and is used in
  * conjunction with #PangoFcFontMap. When deriving from this
  * class, you need to implement all of its virtual functions
  * other than shutdown() along with the get_glyph_extents()
@@ -71,8 +71,10 @@ struct _PangoFcFont
 
   FcPattern *font_pattern;	    /* fully resolved pattern */
   PangoFontMap *fontmap;	    /* associated map */
+  gpointer priv;		    /* used internally */
+  PangoMatrix matrix;		    /* used internally */
   PangoFontDescription *description;
-  
+
   GSList *metrics_by_lang;
 
   guint is_hinted : 1;
@@ -93,7 +95,8 @@ struct _PangoFcFont
  *   Unicode character.
  * @get_unknown_glyph: Gets the glyph that should be used to
  *   display an unknown-glyph indication for the specified
- *   unicode character.
+ *   Unicode character.
+ *   May be %NULL.
  * @shutdown: Performs any font-specific shutdown code that
  *   needs to be done when pango_fc_font_map_shutdown is called.
  *   May be %NULL.
@@ -130,14 +133,18 @@ gboolean   pango_fc_font_has_char          (PangoFcFont      *font,
 					    gunichar          wc);
 guint      pango_fc_font_get_glyph         (PangoFcFont      *font,
 					    gunichar          wc);
+#ifndef PANGO_DISABLE_DEPRECATED
+G_DEPRECATED_FOR(PANGO_GET_UNKNOWN_GLYPH)
 PangoGlyph pango_fc_font_get_unknown_glyph (PangoFcFont      *font,
 					    gunichar          wc);
+G_DEPRECATED
 void       pango_fc_font_kern_glyphs       (PangoFcFont      *font,
 					    PangoGlyphString *glyphs);
+#endif /* PANGO_DISABLE_DEPRECATED */
 
 #endif /* PANGO_ENABLE_ENGINE || PANGO_ENABLE_BACKEND */
 
-GType      pango_fc_font_get_type (void);
+GType      pango_fc_font_get_type (void) G_GNUC_CONST;
 
 FT_Face    pango_fc_font_lock_face         (PangoFcFont      *font);
 void       pango_fc_font_unlock_face       (PangoFcFont      *font);

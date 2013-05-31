@@ -1,0 +1,853 @@
+2013-03-16  Jim Meyering  <meyering@fb.com>
+
+	version 1.18
+	* NEWS: Record release date.
+
+2013-03-16  Jim Meyering  <jim@meyering.net>
+
+	NEWS: describe the few changes
+	* NEWS: Mention the few changes.
+
+2013-03-16  Jim Meyering  <meyering@fb.com>
+
+	build: update gnulib submodule to latest; and gnulib
+	* bootstrap: Update from gnulib.
+
+2013-01-04  Jim Meyering  <jim@meyering.net>
+
+	maint: update all copyright year number ranges
+	Run "make update-copyright".
+
+	build: update gnulib submodule to latest
+
+2012-10-23  Eric Blake  <eblake@redhat.com>
+
+	build: default to --enable-gcc-warnings in a git tree
+	Anyone building from cloned sources can be assumed to have a new
+	enough environment, such that enabling gcc warnings by default will
+	be useful.  Tarballs still default to no warnings, and the default
+	can still be overridden with --disable-gcc-warnings.
+	* configure.ac (gl_gcc_warnings): Set default based on environment.
+
+2012-09-20  Jim Meyering  <meyering@redhat.com>
+
+	build: move non-recursive-gnulib-prefix-hack to gnulib; update
+	* gl/build-aux/prefix-gnulib-mk: Remove file.
+	* gl/m4/non-recursive-gnulib-prefix-hack.m4: Remove file.
+	* gl/modules/non-recursive-gnulib-prefix-hack: Remove file.
+	* gnulib: Update to latest.
+
+2012-09-19  Akim Demaille  <akim@lrde.epita.fr>
+
+	build: fix gperf fix
+	* src/local.mk (src/cpp-cond.c): Use a more accurate pattern
+	to make the lookup function static.  For details, see
+	https://lists.gnu.org/archive/html/bug-cppi/2012-03/msg00001.html
+
+2012-09-19  Jim Meyering  <meyering@redhat.com>
+
+	build: update gnulib submodule to latest
+
+	build: use new gnulib module: non-recursive-gnulib-prefix-hack
+	Well, it's not officially a gnulib module yet.  For now, it's used
+	only here and in coreutils.
+	* configure.ac: Remove the code I'd copied from bison's configure.ac,
+	since now it's done via code in this module's .m4 file.
+	* bootstrap.conf (gnulib_modules): Add that module name to the list.
+	(bootstrap_post_import_hook): Invoke from its new location: build-aux/.
+	* gl/m4/non-recursive-gnulib-prefix-hack.m4: Likewise.
+	* gl/modules/non-recursive-gnulib-prefix-hack: Likewise.
+	* gl/build-aux/prefix-gnulib-mk: Copied from coreutils.
+	This is an improved version of ...
+	* etc/prefix-gnulib-mk: ...this.  Remove file.
+
+2012-09-01  Eric Blake  <eblake@redhat.com>
+
+	build: work with new glibc when not optimizing
+	Starting with glibc 2.15, the system headers refuse to compile
+	unconditional use of FORTIFY_SOURCE if optimization is disabled
+	but -Werror is in effect.
+
+	* configure.ac (FORTIFY_SOURCE): Make conditional.
+
+2012-08-04  Jim Meyering  <meyering@redhat.com>
+
+	maint: post-release administrivia
+	* NEWS: Add header line for next release.
+	* .prev-version: Record previous version.
+	* cfg.mk (old_NEWS_hash): Auto-update.
+
+	version 1.17
+	* NEWS: Record release date.
+
+	doc: update NEWS
+	* NEWS (Improvements): Mention new translations.
+	Slow news day, so mention gnulib updates, too.
+
+	build: update gnulib, bootstrap and tests/init.sh
+
+2012-06-19  Jim Meyering  <meyering@redhat.com>
+
+	build: avoid distcheck failure due to left-over lib/sys directory
+	* dist-check.mk (my-distcheck): Add a rule to remove empty directories
+	after "make distclean", since otherwise, the existence of an empty
+	lib/sys would cause this rule (and hence "make distcheck") to fail.
+
+	build: update gnulib and bootstrap
+
+2012-04-20  Jim Meyering  <meyering@redhat.com>
+
+	build: require latest version of gettext
+	* configure.ac: Require gettext version 0.18.1.
+
+	build: create src/ and man/ via configure, not via Makefile rules
+	* configure.ac: Create the directories here, not via commands
+	in four separate rules distributed across two files:
+	* man/local.mk (.x.1): Remove mkdir -p.
+	* src/local.mk (src/localedir.h): Likewise.
+	(src/cppi.c): Likewise.
+	(src/cpp.h): Likewise.
+
+2012-04-18  Jim Meyering  <meyering@redhat.com>
+
+	build: tell bootstrap to sync itself from gnulib
+	* bootstrap.conf (bootstrap_sync): Set it.
+	* bootstrap: Update from gnulib.
+
+	maint: remove unused files
+	* build-aux/ChangeLog: Remove file.
+	* lib/.cppi-disable: Likewise.
+	* tests/.gitignore: Likewise.
+
+2012-04-17  Jim Meyering  <meyering@redhat.com>
+
+	maint: fix a typo in old ChangeLog
+	* ChangeLog.1: Fix typo: s/statment/statement/
+	Spotted by http://github.com/lyda/misspell-check
+
+	build: update gnulib submodule to latest
+
+2012-04-16  Jim Meyering  <meyering@redhat.com>
+
+	maint: remove now unnecessary "." from SUBDIRS list
+	* Makefile.am (SUBDIRS): Don't list "." here.  Not needed.
+
+2012-04-15  Jim Meyering  <meyering@redhat.com>
+
+	maint: use malloc-gnu and realloc-gnu modules, not the deprecated ones
+	* bootstrap.conf (gnulib_modules): Use malloc-gnu and realloc-gnu,
+	rather than the deprecated (non-gnu) versions.
+
+2012-04-14  Jim Meyering  <meyering@redhat.com>
+
+	build: use "-t" (not "-tmp") as temporary file suffix
+	* src/local.mk: Use -t consistently, not -tmp.
+
+	tests: correct test-disabling built_programs setting
+	* dist-check.mk (built_programs): Don't presume that there is a
+	Makefile in src/.  Now the one we want is in the top-level directory.
+	I.e., drop the "-C src", and filter out the new "src/" prefix.
+
+	build: remove now-obsolete dist-hook dependency
+	Before the conversion to non-recursive make, we had to require
+	that dist-hook build src/cppi in order to generate man pages.
+	Now, with full dependencies, that kludge is not needed.
+	* src/local.mk (dist-hook): Remove now-unnecessary dependency.
+
+	build: remove lex.backup, not src/lex.backup
+	* src/local.mk (CLEANFILES): Remove lex.backup here, not
+	via DISTCLEANFILES.  Also, now it's lex.backup, not src/lex.backup,
+	since now we run flex from the top level directory, and not from src/.
+
+	build: mkdir -p src/ as needed
+	Now that configure does not guarantee creation of src/
+	in a non-srcdir build, we must do it manually.
+	* src/local.mk (src/localedir, src/cppi.c, src/cpp.h): Create src/
+	before trying to create files within that directory.
+
+2012-03-30  Jim Meyering  <meyering@redhat.com>
+
+	maint: ignore almost all po/* entries, so that "git status" is clean
+	* .gitignore: Remove all /po/.+ entries; replace with just two:
+	/po/ and !/po/POTFILES.in, to denote that we VC only that one file
+	in the po/ directory.  Reported by Akim Demaille.
+	Also ignore gnulib-tool artifact, lib/gnulib.mk.bak.
+
+	build: update gnulib submodule to latest
+
+2012-03-30  Akim Demaille  <akim@lrde.epita.fr>
+
+	maint: please Emacs
+	* src/cppi.l: Put the C mode request in a place all the
+	Emacsen check.
+
+	build: fix VPATH build issues
+	* Makefile.am (.version): Must be in srcdir.
+	* src/local.mk (AM_CPPFLAGS): Add missing -I for src/system.h.
+
+2012-02-19  Jim Meyering  <meyering@redhat.com>
+
+	tests: adjust man cross-check rule to work also on cygwin
+	* man/local.mk (check-programs-vs-x): Account for nonempty $(EXEEXT).
+
+2012-02-18  Jim Meyering  <meyering@redhat.com>
+
+	tests: fix help-version on cygwin, where $EXEEXT is nonempty
+	* tests/help-version: Use double quotes, not single around sed expr.
+
+2012-01-29  Jim Meyering  <meyering@redhat.com>
+
+	maint: fix a harmless-here bug in the man cross-check rules
+	* man/local.mk (check-x-vs-1, programs): Use \012, not \015.
+	Didn't matter here, with only a single program, but definitely
+	matters when there are two or more.
+
+2012-01-25  Jim Meyering  <meyering@redhat.com>
+
+	tests: accommodate systems with non-empty $(EXEEXT) like cygwin
+	* tests/help-version: Remove any .exe suffix from $prog before
+	eval'ing to get $prog_setup or expected_failure_status_$prog values.
+	* tests/local.mk (TESTS_ENVIRONMENT): Export $(EXEEXT).
+
+	build: don't require /usr/bin/perl
+	* etc/prefix-gnulib-mk: Replace #!/usr/bin/perl line
+	with the usual, more portable eval... formula.
+
+2012-01-24  Jim Meyering  <meyering@redhat.com>
+
+	maint: post-release administrivia
+	* NEWS: Add header line for next release.
+	* .prev-version: Record previous version.
+	* cfg.mk (old_NEWS_hash): Auto-update.
+
+	version 1.16
+	* NEWS: Record release date.
+
+	doc: NEWS: mention our non-recursive make scheme
+	* NEWS (Build-related): Mention the non-recursive make scheme.
+
+	build: don't depend on help2man when building from dist tarball
+	* Makefile.am (do-not-require-help2man): New rule.
+	(dist-hook): Depend on it.
+
+	build: part two of using subdir-objects: handle e.g., GETOPT_H
+	* configure.ac: Prepend lib/ to the value of each /_H$/ = /\.h$/
+	substituted variable, converting each <var,value> pair, e.g.,
+	<GETOPT_H,getopt.h> to <GETOPT_H,lib/getopt.h>.
+
+	maint: tweak m4 quoting in AC_CONFIG_FILES
+	* configure.ac (AC_CONFIG_FILES): Quote args.
+
+	maint: use gnulib's getopt-gnu, not the deprecated getopt module
+	* bootstrap.conf (gnulib_modules): Use getopt-gnu, not the
+	deprecated getopt module.
+
+	maint: remove redundant build output
+	* man/local.mk (.x.1): Don't say "Updating man page man/cppi.1".
+	AM_V_GEN takes care of that already.
+
+	maint: update init.sh from gnulib
+	* tests/init.sh: Update from gnulib.
+
+	build: remove obsolete settings from cfg.mk
+	* cfg.mk (local-checks-to-skip): Remove.  No longer needed.
+	(gnulib_dir): Likewise.
+
+	maint: .gitignore: ignore/adjust a few more
+
+	build: don't recurse into tests/ when building
+	* Makefile.am (SUBDIRS): Remove tests/.
+	* tests/local.mk: New file, derived from ...
+	(EXTRA_DIST): Add tests/init.sh.
+	(TESTS_ENVIRONMENT): Export PACKAGE_BUGREPORT; used in help-version.
+	* tests/Makefile.am: ... this file.  Remove file.
+	* tests/help-version: Adjust PATH.
+	* configure.ac (AC_CONFIG_FILES): Remove tests/Makefile.
+	* tests/*: invoke test-common differently:
+	-. $srcdir/test-common
+	+. $top_srcdir/tests/test-common
+	* cfg.mk (_hv_regex_strong): Customize a regexp to accommodate
+	this new usage, to avoid spurious failure of the
+	sc_cross_check_PATH_usage_in_tests syntax-check rule.
+
+	tests: add the help-version test
+	* tests/help-version: New test, from coreutils.
+	* tests/Makefile.am: Add it.  Redirect 9>&2.
+	(EXTRA_DIST): Add init.sh.
+	(TESTS_ENVIRONMENT): s/PACKAGE_VERSION/VERSION/
+	* tests/version-check: Likewise.
+	* tests/init.sh: New file.
+
+	build: don't recurse into man/ when building
+	* man/local.mk: New file, derived from...
+	* man/Makefile.am: ... this file.  Remove file.
+	* Makefile.am: Include man/local.mk.
+	(SUBDIRS): Remove "man".
+	* configure.ac (AC_CONFIG_FILES): Remove man/Makefile.
+
+	maint: man: use dist_man1_MANS, rather than dist_man_MANS
+	* man/Makefile.am: Doing that causes automake to generate
+	slightly better rules.
+
+	maint: remove useless artifacts copied from coreutils
+	There is no need to handle special cases like "install" and "[".
+	* man/Makefile.am (mapped_name): Remove unused cruft.
+	(programs, check-program-vs-x): Likewise.
+
+	update bootstrap; don't recurse into lib/ or src/
+	* bootstrap.conf (gnulib_modules): Remove alloca, not used.
+	(gnulib_tool_option_extras): Adapt to new bootstrap.
+	(bootstrap_post_import_hook): Define, now that make does not
+	recurse into lib/
+	* configure.ac (AM_PROG_CC_C_O): Use this, not AC_PROC_CC.
+	(AC_CONFIG_FILES): Remove lib/Makefile and src/Makefile.
+	* lib/local.mk: Renamed from lib/Makefile.am, with modifications.
+	* src/local.mk: Renamed from src/Makefile.am, with modifications.
+	* etc/prefix-gnulib-mk: New file, from bison.  Its job is to
+	rewrite the rules in lib/gnulib.mk to work with automake's
+	subdir-objects option.
+	* man/Makefile.am (programs): Adjust, now that the $(bin_PROGRAMS)-
+	defining Makefile is in "..", not src/.
+	* src/system.h: Don't include <alloca.h>.  Not needed.
+
+2012-01-21  Jim Meyering  <meyering@redhat.com>
+
+	build: remove use of vestigial rm_subst
+	* Makefile.am (dist-hook): Don't try to substitute "rm".
+	That was needed only for coreutils, not here.
+
+2012-01-01  Jim Meyering  <meyering@redhat.com>
+
+	maint: update all copyright year number ranges
+	Run "make update-copyright".
+
+2011-12-12  Jim Meyering  <meyering@redhat.com>
+
+	maint: correct minor formatting nits
+	* src/cppi.l (maint): Format consistently: s/TYPE\* var/TYPE *var/g.
+	(gobble_define): Likewise.
+
+2011-11-19  Jim Meyering  <meyering@redhat.com>
+
+	build: update gnulib submodule to latest
+
+	maint: adjust the URL that will appear in the generated announcement
+	* cfg.mk (url_dir_list): Use this http://ftp.gnu.org/gnu/$(PACKAGE)
+	for the first link listed in the generated announcement.
+	announce-gen now provides the faster mirror link automatically.
+	(gnulib_dir): Remove unnecessary definition.
+
+2011-05-25  Jim Meyering  <meyering@redhat.com>
+
+	maint: use gnulib's new readme-release module
+	* bootstrap.conf (gnulib_modules): Add readme-release.
+	(bootstrap_epilogue): Add the recommended perl one-liner.
+	* README-release: Remove file; it is now generated from gnulib.
+	* .gitignore: Add it.
+
+	maint: use gnulib's tight_scope rule rather than our private one
+	* src/Makefile.am (noinst_HEADERS): Define.
+	(sc_tight_scope): Remove rule.
+	Delete cpp.h via DISTCLEANFILES, rather than via CLEANFILES,
+	now that it's part of noinst_HEADERS.
+	* cfg.mk: Adapt to new tight_scope rule from gnulib
+	* gnulib: Update to latest.
+
+2011-03-19  Jim Meyering  <meyering@redhat.com>
+
+	maint: update copyright year lists to include 2011
+	* cfg.mk (update-copyright-env): Define.
+
+	maint: stop using .x-sc_* files to list syntax-check exemptions
+	Instead, use the new mechanism with which you merely use a
+	variable (derived from the rule name) defined in cfg.mk to an ERE
+	matching the exempted file names.
+	* gnulib: Update to latest, to get maint.mk that implements this.
+	* .x-sc_prohibit_stat_st_blocks: Remove file.
+	* .x-sc_prohibit_tab_based_indentation: Likewise.
+	* cfg.mk: Define variables to exempt the same files.
+
+2011-02-20  Jim Meyering  <meyering@redhat.com>
+
+	build: update gnulib submodule to latest; update bootstrap
+	* configure.ac (WERROR_CFLAGS): Also turn off -Wlong-long, a
+	new-from-gnulib warning that is incompatible with lib/xstrtol.h.
+	* bootstrap: Update from gnulib.
+
+2010-10-10  Jim Meyering  <meyering@redhat.com>
+
+	build: update gnulib submodule to latest
+
+2010-09-04  Jim Meyering  <meyering@redhat.com>
+
+	maint: update bootstrap from gnulib
+	* bootstrap: Update.
+
+	build: update gnulib submodule to latest
+
+	.gitignore: Ignore a few more.
+
+	build: use gnulib's gettext-h module
+	* bootstrap.conf (gnulib_modules): Add gettext-h.
+
+2010-05-24  Jim Meyering  <meyering@redhat.com>
+
+	build: update gnulib submodule to latest
+
+	doc: improve grammar in --help output
+	* src/cppi.l (usage): Improve grammar in --help output.
+
+	maint: remove unused definition of fseeko
+	* src/system.h (fseeko) [!HAVE_FSEEKO]: Remove unused definition.
+	(sync): Likewise.
+	(ASSIGN_STRDUPA): Likewise.
+	(gcd, lcm, ptr_align): Likewise.
+	(DECIMAL_DIGIT_ACCUMULATE, ATTRIBUTE_UNUSED): Likewise.
+	(ST_BLKSIZE, DEV_BSIZE, ST_NBLOCKS, ST_NBLOCKSIZE): Likewise.
+	(select_plural, SETVBUF, X2NREALLOC, X2REALLOC): Likewise.
+	(_D_EXACT_NAMLEN): Likewise.
+	(mkfifo, NOT_AN_INODE_NUMBER, initialize_exit_failure): Likewise.
+	(HAVE_MAJOR, major, minor, makedev): Likewise.
+	(EISDIR, ENOSYS): Likewise.
+	Don't include <fcntl.h> or <dirent.h>.  Not needed.
+
+	maint: system.h: remove unneeded definitions to pass make syntax-check
+	* src/system.h: Remove definitions of now always-defined macros.
+
+2010-04-03  Jim Meyering  <meyering@redhat.com>
+
+	gnulib: update to latest; and use lib-ignore
+	* bootstrap.conf (gnulib_modules): Add lib-ignore.
+	* src/Makefile.am (AM_LDFLAGS): Define.  Use gnulib's new
+	$(IGNORE_UNUSED_LIBRARIES_CFLAGS).
+	* cfg.mk (sc_prohibit_tab_based_indentation): Adapt to use
+	_sc_search_regexp rather than _prohibit_regexp.
+	(sc_prohibit_emacs__indent_tabs_mode__setting): Likewise.
+
+2010-04-01  Jim Meyering  <meyering@redhat.com>
+
+	build: update gnulib submodule to latest
+
+2010-04-01  Sergey Poznyakoff  <gray@gnu.org.ua>
+
+	enable support for internationalized diagnostics
+	* src/cppi.l (main): Enable L10N support.
+	* NEWS: Mention this.
+
+2010-03-20  Jim Meyering  <meyering@redhat.com>
+
+	maint: code formatting nit
+	* src/system.h (ST_NBLOCKS): Add space before paren.
+
+2010-03-18  Jim Meyering  <meyering@redhat.com>
+
+	build: accommodate "make distdir" before "make all"
+	* lib/Makefile.am (dist-hook): Depend on $(noinst_LIBRARIES),
+	so that "make distdir" can succeed before "make all" has run.
+
+	maint: use automake's $(AM_V_GEN) and $(AM_V_AT) to...
+	* src/Makefile.am: ... make build rules print full details with V=1,
+	and to print only a summary with V=0.  That's better than always
+	printing full details or suppressing the the unconditionally with "@".
+
+	doc: mention other bootstrap tools -- so they appear in announcement
+	* cfg.mk (bootstrap-tools): Set it, to also mention flex, gperf and help2man.
+
+	doc: update 1.15's NEWS, belatedly
+	* NEWS: Mention in 1.15's NEWS that we now ship a .pot file.
+	* cfg.mk (old_NEWS_hash): Update.
+
+	build: avoid "make distdir" failure
+	* src/Makefile.am (dist-hook): Depend on cppi, so that "make distdir"
+	no longer fails for lack of "cppi" when running help2man to generate
+	cppi.1.
+
+2010-03-17  Jim Meyering  <meyering@redhat.com>
+
+	post-release administrivia
+	* NEWS: Add header line for next release.
+	* .prev-version: Record previous version.
+	* cfg.mk (old_NEWS_hash): Auto-update.
+
+	version 1.15
+	* NEWS: Record release date.
+
+	build: update gnulib submodule to latest
+
+	maint: set up for message translations
+	* po/POTFILES.in: New file.
+	* po/Makefile.am: Remove file.
+	* configure.ac (AC_CONFIG_FILES): List po/Makefile.in,
+	not po/Makefile.
+	* .gitignore: Update.
+	* TODO: Remove the item, now that it's done.
+	* README-release: Now that we generate a .pot file, add
+	coordinator@translationproject.org to the announcement Cc: list.
+
+	maint: remove unused file: help2man
+	* man/help2man: Remove file.  It was never used.
+
+	maint: use gettext 0.17
+	* configure.ac: Use gettext 0.17
+
+	build: make bootstrap ensure that help2man is available
+	* bootstrap.conf (buildreq): Add help2man.
+	Thanks to Rob Vermaas for setting up the nixos hydra autobuilder:
+	http://hydra.nixos.org/jobset/gnu/cppi-master
+
+2010-03-12  Jim Meyering  <meyering@redhat.com>
+
+	build: update gnulib submodule to latest
+
+	build: make bootstrap ensure that flex exists
+	* bootstrap.conf (buildreq): Add flex to the list of required programs.
+
+2010-03-04  Jim Meyering  <meyering@redhat.com>
+
+	build: avoid build failure on non-glibc systems
+	* bootstrap.conf (gnulib_modules): Add obstack.
+	Reported by Ludovic Courtès.
+
+2010-03-03  Jim Meyering  <meyering@redhat.com>
+
+	maint: document release procedure
+	* README-release: New file.
+
+	post-release administrivia
+	* NEWS: Add header line for next release.
+	* .prev-version: Record previous version.
+	* cfg.mk (old_NEWS_hash): Auto-update.
+
+	version 1.14
+	* NEWS: Record release date.
+
+	build: update gnulib submodule to latest; update bootstrap, too
+	* bootstrap: Update from gnulib.
+
+2010-01-21  Jim Meyering  <meyering@redhat.com>
+
+	build: update gnulib submodule to latest
+
+2010-01-03  Jim Meyering  <meyering@redhat.com>
+
+	maint: avoid warning from update-copyright
+	* ChangeLog.1: Add copyright, to quiet warning from update-copyright
+
+	build: update gnulib submodule to latest
+
+2010-01-01  Jim Meyering  <meyering@redhat.com>
+
+	build: update gnulib submodule to latest
+
+	maint: remove all .cvsignore files
+
+	build: use automake's $(AM_V_GEN) to quiet the build process
+	* man/Makefile.am: Use $(AM_V_GEN).
+
+	maint: update all FSF copyright year lists to include 2010
+	Use this command:
+	git ls-files |grep -vE '^(\..*|COPYING|gnulib)$' |xargs \
+	env UPDATE_COPYRIGHT_USE_INTERVALS=1 build-aux/update-copyright
+
+	maint: add a copyright comment
+	* src/cppi.l: Add copyright.
+
+2009-12-31  Jim Meyering  <meyering@redhat.com>
+
+	maint: newer gnulib; don't hard-code my GPG key ID
+	* cfg.mk (gpg_key_ID): Remove definition, now that maint.mk automates it.
+	* gnulib: Update to latest.
+
+	maint: adjust NEWS to conform
+	* NEWS: conform to what e.g., do-release-commit-and-tag requires.
+
+	maint: add build-related modules
+	* bootstrap.conf (gnulib_modules): Add do-release-commit-and-tag
+	and gnu-web-doc-update.
+
+	maint: sync dist-check.mk from coreutils
+	* dist-check.mk: Sync from coreutils.
+	Unpack compressed tarball using xz when possible, since that's faster.
+	* gnulib: Update to latest.
+
+2009-11-23  Jim Meyering  <meyering@redhat.com>
+
+	build: use AC_CONFIG_HEADERS, not AM_CONFIG_HEADER
+	* configure.ac: Use AC_CONFIG_HEADERS, not AM_CONFIG_HEADER.
+
+2009-11-21  Jim Meyering  <meyering@redhat.com>
+
+	ignore more
+
+	change max-string-length-exceeded exit code from 4 to 1
+	This makes it so exit codes are ordered on increasing seriousness.
+	* src/cppi.l (EXIT_*): Define.
+	Use new symbols, rather than constants.
+	(usage): Update.
+
+	maint: update bootstrap
+	* bootstrap: Update from coreutils.
+
+	maint: cfg.mk: remove factored-out ftp host/dir definitions
+	* cfg.mk (gnu_ftp_host-alpha, gnu_ftp_host-beta gnu_ftp_host-stable):
+	(gnu_rel_host, url_dir_list): Remove definitions.  The defaults,
+	now provided by maint.mk, are the same.
+	* gnulib: Update for latest, including those maint.mk additions.
+
+2009-09-29  Jim Meyering  <meyering@redhat.com>
+
+	build: use gnulib's calloc and realloc modules
+	* bootstrap.conf (gnulib_modules): Add calloc and realloc.
+
+2009-09-14  Jim Meyering  <meyering@redhat.com>
+
+	cppi: adjust --help output to correct formatting of cppi.1
+	* src/cppi.l (usage): Adjust spacing so help2man can do
+	a better job of formatting cppi.1.
+
+	maint: update help2man
+	* man/help2man: Merge changes from coreutils.
+
+2009-09-13  Jim Meyering  <meyering@redhat.com>
+
+	maint: remove unnecessary .x-sc-* files
+	* .x-sc_file_system: Remove now-useless file.
+	* .gdb-history: Likewise.
+	* .x-sc_obsolete_symbols: Likewise.
+	* .x-sc_prohibit_atoi_atof: Likewise.
+	* .x-sc_space_tab: Likewise.
+	* .x-sc_trailing_blank: Likewise.
+	* .x-sc_useless_cpp_parens: Likewise.
+	* .x-sc_unmarked_diagnostics: Likewise.
+	* .x-sc_sun_os_names: Likewise.
+
+	maint: teach "make syntax-check" the space-only indentation rule
+	* cfg.mk (sc_prohibit_tab_based_indentation): New rule.
+	* .x-sc_prohibit_tab_based_indentation: New file.
+
+	global: convert indentation-TABs to spaces
+	Transformed via this shell code:
+	t=$'\t'
+	git ls-files \
+	  | grep -vE '(^|/)((GNU)?[Mm]akefile|ChangeLog)|\.(am|mk)$' \
+	  | grep -vE 'tests/pr/|help2man' \
+	  | xargs grep -lE "^ *$t" \
+	  | xargs perl -MText::Tabs -ni -le \
+	    '$m=/^( *\t[ \t]*)(.*)/; print $m ? expand($1) . $2 : $_'
+
+	doc: update README-* files
+	* README-hacking: Update from coreutils.
+	* README-prereq: New file, from coreutils.
+
+	maint: distribute only .xz-compressed tarballs
+	* configure.ac (AM_INIT_AUTOMAKE): Use no-dist-gzip.
+	See if anyone complains.
+	* dist-check.mk (taint-distcheck): Use .xz tarball, not .gz one.
+	(my-distcheck): Likewise.
+
+	maint: use gnupload module (release related)
+	* bootstrap.conf (gnulib_modules): Add gnupload.
+
+	build: update bootstrap script
+	* bootstrap: Update from coreutils
+
+2009-08-24  Jim Meyering  <meyering@redhat.com>
+
+	build: update infrastructure
+	* bootstrap: Update from coreutils.
+	* bootstrap.conf: Likewise.
+	* gnulib: Update submodule to latest.
+
+2009-06-23  Jim Meyering  <meyering@redhat.com>
+
+	plug a leak
+	* src/cppi.l (cpp_indent): Don't leak the opener obstack.
+
+2009-06-20  Jim Meyering  <meyering@redhat.com>
+
+	build: require automake-1.11
+	* configure.ac: Require automake-1.11.
+
+	maint: update gnulib- and build-related files.
+	* cfg.mk: Include $(srcdir)/dist-check.mk
+	* bootstrap.conf (gnulib_modules): Add maintainer-makefile.
+	* build-aux/vc-list-files: Remove file.  We get it from gnulib, now.
+	* maint.mk: Likewise.
+	* lib/Makefile.am (AM_CFLAGS): Append, don't set.
+	* dist-check.mk: New file.  From coreutils.
+	* .gitignore: Mention maint.mk.
+	* .cvsignore: Remove file.
+	* README-hacking: Update from coreutils.
+	* Makefile.am (EXTRA_DIST): Add dist-check.mk.
+
+	maint: use a git submodule for gnulib
+	* .gitmodules: New file, to track gnulib.
+	* gnulib: New file, created by running this:
+	git submodule add git://git.sv.gnu.org/gnulib.git gnulib
+
+2009-04-19  Jim Meyering  <meyering@redhat.com>
+
+	build: avoid ignored failure during distcheck's check-programs-vs-x run
+	* man/Makefile.am (programs): Remove bogus use of $(srcdir).
+
+	build: fix a bug in the "make distcheck" rule
+	* maint.mk (built_programs): Remove stray "make".
+
+	maint: clean up AM_CPPFLAGS
+	* src/Makefile.am (AM_CPPFLAGS): Remove unused -I options.
+
+	maint: list gnulib modules one per line; sort
+	* bootstrap.conf (gnulib_modules): No semantic change.
+
+	build: don't use dirname.h
+	* src/system.h: Don't include "dirname.h".
+	(dot_or_dotdot): Remove unused static inline function.
+	(readdir_ignoring_dot_and_dotdot): Likewise.
+
+	build: enable many warnings
+	* src/Makefile.am (AM_CFLAGS): Define.
+	* bootstrap.conf (gnulib_modules): Add warnings and manywarnings.
+	* configure.ac: Use manywarnings-enabling code from gnutls, as adapted
+	in coreutils.
+
+	avoid warnings
+	* src/cppi.l (kth_entry): Remove redundant test for 0 <= unsigned var.
+	(usage): Declare with ATTRIBUTE_NORETURN.
+	* src/cpp.gp [struct KW] (name): Add const attribute.
+	* src/cppi.l: (default_file_list): Cast away const in initializer.
+	* src/cppi.l (emit_indented_cpp): Handle EIC_INVALID explicitly (like
+	default:) in switch.
+
+	build: stop using obsolete gnulib modules
+	* bootstrap.conf (avoided_gnulib_modules): Remove definition.
+	(gnulib_modules): Remove use.
+
+	build: update from coreutils
+	* maint.mk: Update from coreutils.
+	* cfg.mk (old_NEWS_hash): Remove trailing "  -".
+	* .x-sc_prohibit_stat_st_blocks: New file.
+
+	build: make gperf generate ANSI-C definitions, to avoid gcc warnings
+	* src/Makefile.am (GPERF_OPTIONS): New variable.
+	Remove -a and -p, add --language=ANSI-C.
+	(cpp-cond.c): Use the new variable.
+
+2009-01-06  Jim Meyering  <meyering@redhat.com>
+
+	remove now-unneeded gnulib module: assert
+	* configure.ac: Require 2.63.240 or newer for the AC_HEADER_ASSERT fix.
+	Use AC_HEADER_ASSERT, now that it's fixed.
+	* bootstrap.conf (gnulib_modules): Remove assert, no longer needed.
+
+2008-07-28  Jim Meyering  <meyering@redhat.com>
+
+	* maint.mk: sync from coreutils
+
+	minor tweaks/clean-up
+	* src/cppi.l: Remove redundant "const".
+	(isblank): #undef, then define unconditionally.
+
+	update maint.mk from coreutils, with small tweaks
+	* maint.mk: update from coreutils
+	* src/cppi.l: Remove an offending "." in a diagnostic.
+	* tests/e8: Adapt to changed punctuation in diagnostic.
+
+	* bootstrap: sync from coreutils
+
+	* bootstrap.conf: Touch ChangeLog.
+
+2008-06-04  Jim Meyering  <meyering@redhat.com>
+
+	use gnulib's progname module
+	* src/cppi.l (main): Call set_program_name rather than setting
+	program_name manually.
+	* src/system.h: Include progname.h.
+
+	* maint.mk: Merge from coreutils.
+
+2008-05-30  Jim Meyering  <meyering@redhat.com>
+
+	* bootstrap.conf (gnulib_modules): Add autobuild.
+
+2008-05-27  Jim Meyering  <meyering@redhat.com>
+
+	update main.mk from coreutils, with small tweaks:
+	* maint.mk: update from coreutils, but
+	(built_programs): Use a more generic definition, even though
+	it depends on $(bin_PROGRAMS), i.e., it excludes scripts.
+	(my-distcheck): Accommodate missing gnulib-tests.
+
+	enforce --help and --version compliance
+	* configure.ac (AM_INIT_AUTOMAKE): Add std-options.
+
+2008-05-04  Jim Meyering  <meyering@redhat.com>
+
+	sync from coreutils
+	* maint.mk: Sync from coreutils
+	* cfg.mk: Likewise.
+	* .prev-version: Update to 1.13.
+	* NEWS: Update for 1.14.
+
+2008-04-19  Jim Meyering  <meyering@redhat.com>
+
+	sync from coreutils: .version, cfg.mk, maint.mk
+	* maint.mk: Likewise.
+	* cfg.mk: Likewise.
+	* Makefile.am: Add rule for .version.
+	* man/Makefile.am: Depend on .version.
+	* .gitignore: Add .version and .tarball-version.
+
+2008-03-25  Jim Meyering  <meyering@redhat.com>
+
+	Rename Makefile.maint -> maint.mk, Makefile.cfg -> cfg.mk.
+	* Makefile.am (EXTRA_DIST): Reflect renaming.
+	* .x-sc_prohibit_atoi_atof: Likewise, and remove outdated patterns.
+
+	Use new gnulib gnumakefile module.
+	* bootstrap.conf (gnulib_modules): Pull in new module.
+	* GNUmakefile: Remove from version control.
+	* .gitignore: Update.
+	* configure.ac (AC_CONFIG_LINKS): Delete; rely on gnulib to do
+	this now.
+
+	Update makefiles from coreutils.
+	* GNUmakefile: Update.
+	* Makefile.maint: Merge.
+
+2008-03-06  Jim Meyering  <meyering@redhat.com>
+
+	Add dist-hook rule.
+	* Makefile.am (dist-hook): Add rule for both .tarball-version
+	and gen-ChangeLog.
+
+	* configure.ac: Require automake-1.10.1 and use lzma, not bz.
+
+	* bootstrap.conf (gnulib_modules): Add useless-if-before-free.
+
+	* Makefile.maint: Update from coreutils.
+
+	* Makefile.maint (alpha beta major): Don't depend on changelog-check.
+
+	* bootstrap.conf: Don't bother with gnulib tests.
+
+	* bootstrap: Update from coreutils.
+
+	No longer use obsolete "free" module.
+	* bootstrap.conf (obsolete_gnulib_modules): Remove free.
+
+	Update build tools from coreutils.
+	* GNUmakefile: Copy from coreutils.
+	* configure.ac: Copy .tarball-version and VPATH-related pieces.
+
+	No more manually-maintained ChangeLog file.
+	* ChangeLog.1: Rename from ChangeLog.
+	* bootstrap.conf (gnulib_modules): Add gitlog-to-changelog.
+	* Makefile.am (gen-ChangeLog): New rule.
+
+2008-02-04  Jim Meyering  <meyering@redhat.com>
+
+	sync from coreutils
+
+2008-01-26  Jim Meyering  <meyering@redhat.com>
+
+	* Makefile.maint: Update from coreutils.

@@ -1,4 +1,7 @@
-#!/bin/sh
+/usr/bin/install-catalog --remove /etc/sgml/xml-docbook-4.1.2.cat /etc/sgml/sgml-docbook.cat
+/usr/bin/install-catalog --remove /etc/sgml/xml-docbook-4.1.2.cat /usr/share/sgml/docbook/xml-dtd-4.1.2/docbook.cat
 
-xmlcatalog --noout --del "-//OASIS//DTD DocBook XML V4.1.2//EN" /etc/xml/catalog
-xmlcatalog --noout --del http://www.oasis-open.org/docbook/xml/4.1.2/ /etc/xml/catalog
+/usr/bin/rm -f /etc/xml/docbook
+/usr/bin/rm -f /usr/share/sgml/docbook/xml-dtd-4.1.2/*docbook*.dtd
+/usr/bin/build-docbook-catalog
+

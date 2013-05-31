@@ -4,9 +4,9 @@
  *	  POSTGRES definitions for external and compressed storage
  *	  of variable size attributes.
  *
- * Copyright (c) 2000-2006, PostgreSQL Global Development Group
+ * Copyright (c) 2000-2012, PostgreSQL Global Development Group
  *
- * $PostgreSQL: pgsql/src/include/access/tuptoaster.h,v 1.28.2.1 2007/02/04 20:00:49 tgl Exp $
+ * src/include/access/tuptoaster.h
  *
  *-------------------------------------------------------------------------
  */
@@ -14,7 +14,7 @@
 #define TUPTOASTER_H
 
 #include "access/htup.h"
-#include "storage/bufpage.h"
+#include "utils/relcache.h"
 
 /*
  * This enables de-toasting of index entries.  Needed until VACUUM is
@@ -24,45 +24,75 @@
 
 
 /*
+ * Find the maximum size of a tuple if there are to be N tuples per page.
+ */
+#define MaximumBytesPerTuple(tuplesPerPage) \
+	MAXALIGN_DOWN((BLCKSZ - \
+				   MAXALIGN(SizeOfPageHeaderData + (tuplesPerPage) * sizeof(ItemIdData))) \
+				  / (tuplesPerPage))
+
+/*
  * These symbols control toaster activation.  If a tuple is larger than
  * TOAST_TUPLE_THRESHOLD, we will try to toast it down to no more than
- * TOAST_TUPLE_TARGET bytes.  Both numbers include all tuple header overhead
- * and between-fields alignment padding, but we do *not* consider any
- * end-of-tuple alignment padding; hence the values can be compared directly
- * to a tuple's t_len field.  (Note that the symbol values are not
- * necessarily MAXALIGN multiples.)
+ * TOAST_TUPLE_TARGET bytes through compressing compressible fields and
+ * moving EXTENDED and EXTERNAL data out-of-line.
  *
- * The numbers need not be the same, though they currently are.
+ * The numbers need not be the same, though they currently are.  It doesn't
+ * make sense for TARGET to exceed THRESHOLD, but it could be useful to make
+ * it be smaller.
+ *
+ * Currently we choose both values to match the largest tuple size for which
+ * TOAST_TUPLES_PER_PAGE tuples can fit on a heap page.
+ *
+ * XXX while these can be modified without initdb, some thought needs to be
+ * given to needs_toast_table() in toasting.c before unleashing random
+ * changes.  Also see LOBLKSIZE in large_object.h, which can *not* be
+ * changed without initdb.
  */
-#define TOAST_TUPLE_THRESHOLD	(MaxTupleSize / 4)
+#define TOAST_TUPLES_PER_PAGE	4
 
-#define TOAST_TUPLE_TARGET		(MaxTupleSize / 4)
+#define TOAST_TUPLE_THRESHOLD	MaximumBytesPerTuple(TOAST_TUPLES_PER_PAGE)
+
+#define TOAST_TUPLE_TARGET		TOAST_TUPLE_THRESHOLD
+
+/*
+ * The code will also consider moving MAIN data out-of-line, but only as a
+ * last resort if the previous steps haven't reached the target tuple size.
+ * In this phase we use a different target size, currently equal to the
+ * largest tuple that will fit on a heap page.	This is reasonable since
+ * the user has told us to keep the data in-line if at all possible.
+ */
+#define TOAST_TUPLES_PER_PAGE_MAIN	1
+
+#define TOAST_TUPLE_TARGET_MAIN MaximumBytesPerTuple(TOAST_TUPLES_PER_PAGE_MAIN)
 
 /*
  * If an index value is larger than TOAST_INDEX_TARGET, we will try to
  * compress it (we can't move it out-of-line, however).  Note that this
  * number is per-datum, not per-tuple, for simplicity in index_form_tuple().
  */
-#define TOAST_INDEX_TARGET		(MaxTupleSize / 16)
+#define TOAST_INDEX_TARGET		(MaxHeapTupleSize / 16)
 
 /*
  * When we store an oversize datum externally, we divide it into chunks
  * containing at most TOAST_MAX_CHUNK_SIZE data bytes.	This number *must*
  * be small enough that the completed toast-table tuple (including the
- * ID and sequence fields and all overhead) is no more than MaxTupleSize
- * bytes.  It *should* be small enough to make toast-table tuples no more
- * than TOAST_TUPLE_THRESHOLD bytes, else heapam.c will uselessly invoke
- * the toaster on toast-table tuples.
+ * ID and sequence fields and all overhead) will fit on a page.
+ * The coding here sets the size on the theory that we want to fit
+ * EXTERN_TUPLES_PER_PAGE tuples of maximum size onto a page.
  *
- * NB: you cannot change this value without forcing initdb, at least not
- * if your DB contains any multi-chunk toasted values.
+ * NB: Changing TOAST_MAX_CHUNK_SIZE requires an initdb.
  */
-#define TOAST_MAX_CHUNK_SIZE	(TOAST_TUPLE_THRESHOLD -			\
-			MAXALIGN(												\
-				MAXALIGN(offsetof(HeapTupleHeaderData, t_bits)) +	\
-				sizeof(Oid) +										\
-				sizeof(int32) +										\
-				VARHDRSZ))
+#define EXTERN_TUPLES_PER_PAGE	4		/* tweak only this */
+
+#define EXTERN_TUPLE_MAX_SIZE	MaximumBytesPerTuple(EXTERN_TUPLES_PER_PAGE)
+
+#define TOAST_MAX_CHUNK_SIZE	\
+	(EXTERN_TUPLE_MAX_SIZE -							\
+	 MAXALIGN(offsetof(HeapTupleHeaderData, t_bits)) -	\
+	 sizeof(Oid) -										\
+	 sizeof(int32) -									\
+	 VARHDRSZ)
 
 
 /* ----------
@@ -72,7 +102,8 @@
  * ----------
  */
 extern HeapTuple toast_insert_or_update(Relation rel,
-					   HeapTuple newtup, HeapTuple oldtup);
+					   HeapTuple newtup, HeapTuple oldtup,
+					   int options);
 
 /* ----------
  * toast_delete -
@@ -90,7 +121,7 @@ extern void toast_delete(Relation rel, HeapTuple oldtup);
  *		in compressed format.
  * ----------
  */
-extern varattrib *heap_tuple_fetch_attr(varattrib *attr);
+extern struct varlena *heap_tuple_fetch_attr(struct varlena * attr);
 
 /* ----------
  * heap_tuple_untoast_attr() -
@@ -99,7 +130,7 @@ extern varattrib *heap_tuple_fetch_attr(varattrib *attr);
  *		it as needed.
  * ----------
  */
-extern varattrib *heap_tuple_untoast_attr(varattrib *attr);
+extern struct varlena *heap_tuple_untoast_attr(struct varlena * attr);
 
 /* ----------
  * heap_tuple_untoast_attr_slice() -
@@ -108,9 +139,18 @@ extern varattrib *heap_tuple_untoast_attr(varattrib *attr);
  *		(Handles all cases for attribute storage)
  * ----------
  */
-extern varattrib *heap_tuple_untoast_attr_slice(varattrib *attr,
+extern struct varlena *heap_tuple_untoast_attr_slice(struct varlena * attr,
 							  int32 sliceoffset,
 							  int32 slicelength);
+
+/* ----------
+ * toast_flatten_tuple -
+ *
+ *	"Flatten" a tuple to contain no out-of-line toasted fields.
+ *	(This does not eliminate compressed or short-header datums.)
+ * ----------
+ */
+extern HeapTuple toast_flatten_tuple(HeapTuple tup, TupleDesc tupleDesc);
 
 /* ----------
  * toast_flatten_tuple_attribute -

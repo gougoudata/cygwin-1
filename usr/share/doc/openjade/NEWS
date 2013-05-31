@@ -1,0 +1,167 @@
+Changes in OpenJade 1.4devel
+
+* Query rules.
+
+* The "media", "title" and "alternate" attributes in stylesheet PIs are 
+  supported according to the HTML 4.0 specification.
+
+* A new external procedure with public identifier
+  "UNREGISTERED::OpenJade//Procedure::uri-ref-address" returns an address
+  object to the supplied URI. This allows hyperlinks to resources of the WWW
+  in documents. Currently URI references are implemented in the HTML/CSS 
+  and TeX backends.
+
+* The command line option --help gives a summary of the usage and all
+  supported command line options.
+
+* Separate cmdline options for the two SGML parsers used for the document and
+  the style-sheet.
+
+* GNU-style long command line options are now supported in addition to the
+  short ones.
+
+* OpenJade is internationalized. Translations for many messages are available
+  in German and Swedish.
+
+* The standard flow objects check that their content is valid.
+
+* Internal defines (ie defines at the begin of a body) are supported. 
+  
+* The char-map inherited characteristic is supported. 
+
+* (test => recipient) cond clauses are supported.
+
+* RTF output had extra spaces that were detrimental to display;
+  patch from Andrey Taranov.
+
+* Better time string support; it is possible to compare time, date and
+  datetime (not only datetime). Also partial formats (like YY-MM-DD,
+  YYYY-MM or HH:MM) are now supported.  Patch from Francis J. Lacoste.
+
+* Optimize sosofo-append to reduce its memory and stack usage when
+  using it to build long list of sosofos.  Patch from Francis
+  J. Lacoste.
+
+* For the TeX backend, turn on the twoside LaTeX feature by default.
+  Patch from Francis J. Lacoste.
+
+* Improve table support in the JadeTeX backend:
+  - Support for nested tables.  cell-after-column-margin: and
+    cell-before-column-margin: wasn't really working.
+  - Row spanning was broken. This patch only supports 'start row
+    alignment though.
+  - Paragraphs in cell spanning multiple column are now working.
+  - Support for the row-alignment: characteristic.
+  - Support for cell-background? and background-color properties.
+  Patch from Francis J. Lacoste.  To see benefits of this, requires
+  JadeTeX 3.2 or better.
+
+* Add support for the 'asis and 'asis-wrap values for the paragraph's
+  'lines:' characteristic.  Patch from Francis J. Lacoste.
+
+* Allow JadeTeX to resolve references to subdocs or to content
+  produced through a "sgml-parse" by hacking on the NodeIndex
+  instruction.  Patch from Jean-Marie Kubek.
+
+* remove contrib/jadetex, get it from upstream if you want it
+
+Changes in OpenJade 1.3
+
+* The SGML backend will no emit linebreaks when used as -t sgml-raw.
+
+* OpenJade can bind variables to arbitrary values on the command line. 
+
+* The prlabs1 module of the SGML property set is supported.
+
+* Style sheet extensions.dsl lists all known
+  external procedures ready for easy inclusion
+  as an external-specification.
+
+* External procedure with public identifier
+  "UNREGISTERED::OpenJade//Procedure::expt"
+  allows to form integral powers of quantities.
+  
+* External procedure with public identifier
+  "UNREGISTERED::OpenJade//Procedure::sgml-parse"
+  allows to parse wrt. an architecture.
+
+* OpenJade supports force! for inherited characteristics.
+
+* OpenJade supports character properties.
+ 
+* OpenJade supports special-query-expressions.
+
+* OpenJade can bind variables to string values on the command line.
+
+* All standard color spaces supported. 
+
+* OpenJade ignores duplicate keywords in make expressions, as 
+  mandated by DSSSL.
+
+* External procedure with public identifier
+  "UNREGISTERED::OpenJade//Procedure::language"
+  to create a language object by reference to a POSIX locale.
+ 
+* Language-dependent procedures of the expression language:
+  language?, current-language, declare-default-language, 
+  with-language, define-language, char<?, char>?, char<=?,
+  char>=?, char-ci=?, char-ci<?, char-ci>?, char-ci<=?,
+  char-ci>=?, char-upcase, char-downcase, string-ci=?,
+  string-equiv?, string<?, string>?, string<=?, string>=?,
+  string-ci<?, string-ci>?, string-ci<=?, string-ci>=?.
+
+* The style-sheet.dtd derived from the dsssl architecture
+  has been extended (in a backwards compatible way) to
+  include the delaration element type forms supported by
+  Jade. The public identifier for the dtd is 
+
+  "-//OpenJade//DTD DSSSL Style Sheet//EN" 
+  
+* char-repertoire, add-name-chars and add-separator-chars
+  declaration element type forms are supported. When given
+  the -s cmdline flag, Jade doesn't use its builtin 
+  character repertoire.
+  
+* Most of the derived procedures in the query language:
+  current-root, node-list-reduce, node-list-contains?,
+  node-list-remove-duplicates, node-list-union, 
+  node-list-intersection, node-list-difference, 
+  node-list-symmetric-difference, node-list-union-map,
+  node-list-some?, node-list-every?, node-list-filter,
+  node-list->list, node-list-tail, node-list-head,
+  node-list-sublist, node-list-count, node-list-last,
+  node-list-property, origin, origin-to-subnode-rel,
+  tree-root, grove-root, source, subtree, subgrove,
+  ancestors, grove-root-path, rsiblings, ipreced,
+  ifollow, grove-before?, sort-in-tree-order, tree-before?,
+  tree-before, property-lookup, select-by-property, 
+  select-by-null-property, select-by-missing-property,
+  attribute, referent, q-element, q-class, q-sdata.
+  
+Changes in OpenJade 1.2.2 
+
+* The HTML and MIF backends are now enabled by default.
+
+* The TeX backend has support for PDF bookmarks. This is
+  supported by the new version of jadetex which is included.
+
+* Predefined character names line-feed and carriage-return 
+  for the character numbers 10 and 13.
+
+* standard-chars and map-sdata-entity declaration element
+  type forms are supported.
+
+* Style language additions: map-constructor.
+ 
+* + and - return a length-spec if any of there arguments
+  is a length-spec.
+
+* Most of the non-core expression language:
+  c...r, assoc, keyword->string, string->keyword, exact?, inexact?,
+  zero?, positive?, negative?, odd?, even?, exp, log, sin, cos,
+  tan, asin, acos, atan, expt, exact->inexact, inexact->exact,
+  quantity->number, string->list, list->string, map, time<?,
+  time>?, time<=?, time>=?.
+
+
+1.2.1  The begin.

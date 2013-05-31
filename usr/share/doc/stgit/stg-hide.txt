@@ -1,0 +1,27 @@
+stg-hide(1)
+===========
+
+NAME
+----
+stg-hide - Hide a patch in the series
+
+SYNOPSIS
+--------
+[verse]
+'stg' hide [options] [--] <patch-range>
+
+DESCRIPTION
+-----------
+
+Hide a range of unapplied patches so that they are no longer shown in
+the plain 'series' command output.
+
+OPTIONS
+-------
+-b BRANCH::
+--branch BRANCH::
+        Use BRANCH instead of the default branch.
+
+StGit
+-----
+Part of the StGit suite - see linkman:stg[1]

@@ -18,8 +18,8 @@ W system%s		system.ads		system.ali
 W system.unsigned_types%s  s-unstyp.ads		s-unstyp.ali
 
 D system.ads		20031021134222 6af26689
-D s-expuns.ads		20031021134214 28466e32
-D s-expuns.adb		20030424175410 fc22922f
+D s-expuns.ads		20031021134213 28466e32
+D s-expuns.adb		20030424175409 fc22922f
 D s-unstyp.ads		20031021134218 0d291e44
 X 1 system.ads
 44K9*System 163e11 2|39r6 41r9 45r15 47r15 49r5 3|34r6 34r33 36r14 75r5

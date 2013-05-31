@@ -1,0 +1,12 @@
+prefix=/usr/x86_64-pc-cygwin/sys-root/usr
+exec_prefix=/usr/x86_64-pc-cygwin/sys-root/usr
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: Xi
+Description: X Input Extension Library
+Version: 1.6.1
+Requires: inputproto
+Requires.private: x11 xext
+Cflags: -I${includedir}
+Libs: -L${libdir} -lXi

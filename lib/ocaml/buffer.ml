@@ -11,7 +11,7 @@
 (*                                                                     *)
 (***********************************************************************)
 
-(* $Id: buffer.ml,v 1.17 2004/06/14 20:20:16 weis Exp $ *)
+(* $Id: buffer.ml 10216 2010-03-28 08:16:45Z xleroy $ *)
 
 (* Extensible buffers *)
 
@@ -30,7 +30,7 @@ let create n =
 let contents b = String.sub b.buffer 0 b.position
 
 let sub b ofs len =
-  if ofs < 0 || len < 0 || ofs > b.position - len 
+  if ofs < 0 || len < 0 || ofs > b.position - len
   then invalid_arg "Buffer.sub"
   else begin
     let r = String.create len in
@@ -39,8 +39,16 @@ let sub b ofs len =
   end
 ;;
 
-let nth b ofs = 
-  if ofs < 0 || ofs >= b.position then 
+let blit src srcoff dst dstoff len =
+  if len < 0 || srcoff < 0 || srcoff > src.position - len
+             || dstoff < 0 || dstoff > (String.length dst) - len
+  then invalid_arg "Buffer.blit"
+  else
+    String.blit src.buffer srcoff dst dstoff len
+;;
+
+let nth b ofs =
+  if ofs < 0 || ofs >= b.position then
    invalid_arg "Buffer.nth"
   else String.get b.buffer ofs
 ;;
@@ -87,11 +95,13 @@ let add_string b s =
   if new_position > b.length then resize b len;
   String.blit s 0 b.buffer b.position len;
   b.position <- new_position
-  
+
 let add_buffer b bs =
   add_substring b bs.buffer 0 bs.position
 
 let add_channel b ic len =
+  if len < 0 || len > Sys.max_string_length then   (* PR#5004 *)
+    invalid_arg "Buffer.add_channel";
   if b.position + len > b.length then resize b len;
   really_input ic b.buffer b.position len;
   b.position <- b.position + len
@@ -122,14 +132,17 @@ let advance_to_non_alpha s start =
     if i >= lim then lim else
     match s.[i] with
     | 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' |
-      'é'|'à'|'á'|'è'|'ù'|'â'|'ê'|'î'|'ô'|'û'|'ë'|'ï'|'ü'|'ç'|
-      'É'|'À'|'Á'|'È'|'Ù'|'Â'|'Ê'|'Î'|'Ô'|'Û'|'Ë'|'Ï'|'Ü'|'Ç' ->
-        advance (i + 1) lim
+      'é'|'à'|'á'|'è'|'ù'|'â'|'ê'|
+      'î'|'ô'|'û'|'ë'|'ï'|'ü'|'ç'|
+      'É'|'À'|'Á'|'È'|'Ù'|'Â'|'Ê'|
+      'Î'|'Ô'|'Û'|'Ë'|'Ï'|'Ü'|'Ç' ->
+      advance (i + 1) lim
     | _ -> i in
   advance start (String.length s);;
 
 (* We are just at the beginning of an ident in s, starting at start. *)
-let find_ident s start =
+let find_ident s start lim =
+  if start >= lim then raise Not_found else
   match s.[start] with
   (* Parenthesized ident ? *)
   | '(' | '{' as c ->
@@ -150,19 +163,21 @@ let add_substitute b f s =
       match s.[i] with
       | '$' as current when previous = '\\' ->
          add_char b current;
-         subst current (i + 1)
+         subst ' ' (i + 1)
       | '$' ->
-         let ident, next_i = find_ident s (i + 1) in
+         let j = i + 1 in
+         let ident, next_i = find_ident s j lim in
          add_string b (f ident);
          subst ' ' next_i
       | current when previous == '\\' ->
          add_char b '\\';
          add_char b current;
-         subst current (i + 1)
+         subst ' ' (i + 1)
       | '\\' as current ->
          subst current (i + 1)
       | current ->
          add_char b current;
          subst current (i + 1)
-    end in
+    end else
+    if previous = '\\' then add_char b previous in
   subst ' ' 0;;

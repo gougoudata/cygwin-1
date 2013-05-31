@@ -21,15 +21,19 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 #ifndef __GTK_TOGGLE_BUTTON_H__
 #define __GTK_TOGGLE_BUTTON_H__
 
 
-#include <gdk/gdk.h>
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
 #include <gtk/gtkbutton.h>
+
 
 G_BEGIN_DECLS
 
@@ -48,9 +52,9 @@ struct _GtkToggleButton
 {
   GtkButton button;
 
-  guint active : 1;
-  guint draw_indicator : 1;
-  guint inconsistent : 1;
+  guint GSEAL (active) : 1;
+  guint GSEAL (draw_indicator) : 1;
+  guint GSEAL (inconsistent) : 1;
 };
 
 struct _GtkToggleButtonClass

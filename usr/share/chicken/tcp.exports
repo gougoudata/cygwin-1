@@ -1,0 +1,17 @@
+##sys#tcp-port->fileno
+tcp-abandon-port
+tcp-accept
+tcp-accept-ready?
+tcp-accept-timeout
+tcp-addresses
+tcp-buffer-size
+tcp-close
+tcp-connect
+tcp-connect-timeout
+tcp-listen
+tcp-listener-fileno
+tcp-listener-port
+tcp-listener?
+tcp-port-numbers
+tcp-read-timeout
+tcp-write-timeout

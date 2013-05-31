@@ -21,14 +21,17 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 #ifndef __GTK_MENU_H__
 #define __GTK_MENU_H__
 
 
-#include <gdk/gdk.h>
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
 #include <gtk/gtkaccelgroup.h>
 #include <gtk/gtkmenushell.h>
 
@@ -56,55 +59,55 @@ typedef void (*GtkMenuDetachFunc)   (GtkWidget *attach_widget,
 
 struct _GtkMenu
 {
-  GtkMenuShell menu_shell;
+  GtkMenuShell GSEAL (menu_shell);
   
-  GtkWidget *parent_menu_item;
-  GtkWidget *old_active_menu_item;
+  GtkWidget *GSEAL (parent_menu_item);
+  GtkWidget *GSEAL (old_active_menu_item);
 
-  GtkAccelGroup *accel_group;
-  gchar         *accel_path;
-  GtkMenuPositionFunc position_func;
-  gpointer position_func_data;
+  GtkAccelGroup *GSEAL (accel_group);
+  gchar         *GSEAL (accel_path);
+  GtkMenuPositionFunc GSEAL (position_func);
+  gpointer GSEAL (position_func_data);
 
-  guint toggle_size;
+  guint GSEAL (toggle_size);
   /* Do _not_ touch these widgets directly. We hide the reference
    * count from the toplevel to the menu, so it must be restored
    * before operating on these widgets
    */
-  GtkWidget *toplevel;
+  GtkWidget *GSEAL (toplevel);
   
-  GtkWidget *tearoff_window;
-  GtkWidget *tearoff_hbox;
-  GtkWidget *tearoff_scrollbar;
-  GtkAdjustment *tearoff_adjustment;
+  GtkWidget *GSEAL (tearoff_window);
+  GtkWidget *GSEAL (tearoff_hbox);
+  GtkWidget *GSEAL (tearoff_scrollbar);
+  GtkAdjustment *GSEAL (tearoff_adjustment);
 
-  GdkWindow *view_window;
-  GdkWindow *bin_window;
+  GdkWindow *GSEAL (view_window);
+  GdkWindow *GSEAL (bin_window);
 
-  gint scroll_offset;
-  gint saved_scroll_offset;
-  gint scroll_step;
-  guint timeout_id;
+  gint GSEAL (scroll_offset);
+  gint GSEAL (saved_scroll_offset);
+  gint GSEAL (scroll_step);
+  guint GSEAL (timeout_id);
   
   /* When a submenu of this menu is popped up, motion in this
    * region is ignored
    */
-  GdkRegion *navigation_region;
-  guint navigation_timeout;
+  GdkRegion *GSEAL (navigation_region); /* unused */
+  guint GSEAL (navigation_timeout);
 
-  guint needs_destruction_ref_count : 1;
-  guint torn_off : 1;
+  guint GSEAL (needs_destruction_ref_count) : 1;
+  guint GSEAL (torn_off) : 1;
   /* The tearoff is active when it is torn off and the not-torn-off
    * menu is not popped up.
    */
-  guint tearoff_active : 1; 
+  guint GSEAL (tearoff_active) : 1;
 
-  guint scroll_fast : 1;
+  guint GSEAL (scroll_fast) : 1;
 
-  guint upper_arrow_visible : 1;
-  guint lower_arrow_visible : 1;
-  guint upper_arrow_prelight : 1;
-  guint lower_arrow_prelight : 1;
+  guint GSEAL (upper_arrow_visible) : 1;
+  guint GSEAL (lower_arrow_visible) : 1;
+  guint GSEAL (upper_arrow_prelight) : 1;
+  guint GSEAL (lower_arrow_prelight) : 1;
 };
 
 struct _GtkMenuClass
@@ -153,6 +156,7 @@ void	       gtk_menu_set_accel_group	  (GtkMenu	       *menu,
 GtkAccelGroup* gtk_menu_get_accel_group	  (GtkMenu	       *menu);
 void           gtk_menu_set_accel_path    (GtkMenu             *menu,
 					   const gchar         *accel_path);
+const gchar*   gtk_menu_get_accel_path    (GtkMenu             *menu);
 
 /* A reference count is kept for a widget when it is attached to
  * a particular widget. This is typically a menu item; it may also
@@ -178,7 +182,7 @@ gboolean   gtk_menu_get_tearoff_state     (GtkMenu             *menu);
  */
 void       gtk_menu_set_title             (GtkMenu             *menu,
 					   const gchar         *title);
-G_CONST_RETURN gchar *gtk_menu_get_title  (GtkMenu             *menu);
+const gchar *gtk_menu_get_title           (GtkMenu             *menu);
 
 void       gtk_menu_reorder_child         (GtkMenu             *menu,
                                            GtkWidget           *child,
@@ -196,6 +200,7 @@ void       gtk_menu_attach                (GtkMenu             *menu,
 
 void       gtk_menu_set_monitor           (GtkMenu             *menu,
                                            gint                 monitor_num);
+gint       gtk_menu_get_monitor           (GtkMenu             *menu);
 GList*     gtk_menu_get_for_attach_widget (GtkWidget           *widget); 
 
 #ifndef GTK_DISABLE_DEPRECATED
@@ -203,6 +208,11 @@ GList*     gtk_menu_get_for_attach_widget (GtkWidget           *widget);
 #define gtk_menu_prepend(menu,child)    gtk_menu_shell_prepend ((GtkMenuShell *)(menu),(child))
 #define gtk_menu_insert(menu,child,pos)	gtk_menu_shell_insert ((GtkMenuShell *)(menu),(child),(pos))
 #endif /* GTK_DISABLE_DEPRECATED */
+
+void     gtk_menu_set_reserve_toggle_size (GtkMenu  *menu,
+                                          gboolean   reserve_toggle_size);
+gboolean gtk_menu_get_reserve_toggle_size (GtkMenu  *menu);
+
 
 G_END_DECLS
 

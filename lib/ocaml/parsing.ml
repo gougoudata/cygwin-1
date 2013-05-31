@@ -11,7 +11,7 @@
 (*                                                                     *)
 (***********************************************************************)
 
-(* $Id: parsing.ml,v 1.18 2004/01/01 16:42:40 doligez Exp $ *)
+(* $Id: parsing.ml 10908 2010-12-22 13:05:55Z xleroy $ *)
 
 (* The parsing engine *)
 
@@ -77,6 +77,9 @@ type parser_output =
 external parse_engine :
     parse_tables -> parser_env -> parser_input -> Obj.t -> parser_output
     = "caml_parse_engine"
+
+external set_trace: bool -> bool
+    = "caml_set_parser_trace"
 
 let env =
   { s_stack = Array.create 100 0;
@@ -148,6 +151,7 @@ let yyparse tables start lexer lexbuf =
   and init_stackbase = env.stackbase
   and init_state = env.state
   and init_curr_char = env.curr_char
+  and init_lval = env.lval
   and init_errflag = env.errflag in
   env.stackbase <- env.sp + 1;
   env.curr_char <- start;
@@ -161,6 +165,7 @@ let yyparse tables start lexer lexbuf =
     env.stackbase <- init_stackbase;
     env.state <- init_state;
     env.curr_char <- init_curr_char;
+    env.lval <- init_lval;
     env.errflag <- init_errflag;
     match exn with
       YYexit v ->
@@ -177,9 +182,15 @@ let peek_val env n =
   Obj.magic env.v_stack.(env.asp - n)
 
 let symbol_start_pos () =
-  if env.rule_len > 0
-  then env.symb_start_stack.(env.asp - env.rule_len + 1)
-  else env.symb_end_stack.(env.asp)
+  let rec loop i =
+    if i <= 0 then env.symb_end_stack.(env.asp)
+    else begin
+      let st = env.symb_start_stack.(env.asp - i + 1) in
+      let en = env.symb_end_stack.(env.asp - i + 1) in
+      if st <> en then st else loop (i - 1)
+    end
+  in
+  loop env.rule_len
 ;;
 let symbol_end_pos () = env.symb_end_stack.(env.asp);;
 let rhs_start_pos n = env.symb_start_stack.(env.asp - (env.rule_len - n));;

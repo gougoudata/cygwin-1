@@ -1,8 +1,19 @@
-# $Id: sample.cygport 4155 2008-08-07 04:58:41Z yselkowitz $
+NAME="cygport"
+VERSION=0.12.1
+RELEASE=1
+CATEGORY="Devel"
+SUMMARY="Cygwin source packaging tool"
+DESCRIPTION="This is cygport, a revolutionary new method for building
+and maintaining packages for the Cygwin distribution."
+HOMEPAGE="http://sourceware.org/cygwinports/"
+SRC_URI="mirror://sourceforge/cygwin-ports/${P}.tar.xz"
 
-DESCRIPTION="Next-generation Cygwin packaging application"
-HOMEPAGE="http://cygwinports.dotsrc.org/"
-SRC_URI="mirror://sourceforge/cygwin-ports/${P}.tar.bz2"
+# Build dependencies only
+DEPEND="groff help2man robodoc"
+# runtime deps to go in setup.hint, and note the escaped newline
+REQUIRES="autoconf automake binutils bzip2 coreutils diffstat diffutils \
+dos2unix file gawk grep gzip libtool lndir make patch rsync sed tar unzip \
+util-linux wget which"
 
 # We use the standard src_compile and src_test.
 
@@ -10,5 +21,5 @@ src_install() {
 	cd ${B}
 	cyginstall
 
-	make_etc_defaults /etc/cygport.conf
+	make_etc_defaults /etc/cygport.conf /etc/X11/cygport-xvfb.conf
 }

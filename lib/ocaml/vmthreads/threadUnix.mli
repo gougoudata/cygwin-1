@@ -11,7 +11,7 @@
 (*                                                                     *)
 (***********************************************************************)
 
-(* $Id: threadUnix.mli,v 1.21.6.1 2004/06/22 17:18:49 remy Exp $ *)
+(* $Id: threadUnix.mli 6553 2004-07-13 12:25:21Z xleroy $ *)
 
 (** Thread-compatible system calls.
 

@@ -1,0 +1,66 @@
+This directory contains various things that we're not quite sure what
+to do with, but that someone may find useful.
+
+Unlike the rest of monotone, the code in this directory is _not_ tested,
+and may not even work with the current version of monotone.
+
+See individual files for licenses.
+
+  -- monotone.zsh_completion: command line completion code for zsh.
+
+  -- monotone-nav.el: An Emacs interface.
+
+  -- ciabot_monotone.py: A python script to watch a repository and
+     send notifications of commits to CIA (http://cia.navi.cx).
+
+  -- mtbrowse.sh: An interactive text-mode history browser
+
+  -- Monotone.pm: A Perl module to access a 'mtn automate stdio' subprocess.
+
+  -- monoprof.sh: A simple monotone profiling script.
+
+  -- Log2Gxl.java: Removed. Now in branch net.venge.monotone.contrib.monotree
+
+  -- ext_hooks.lua.in, ext_hooks_expand.pl: run ext_hooks_expand.pl and you
+     will get ext_hooks.lua, a hooks system that allows loading several
+     implementations of the same hooks from a bunch of .lua files stored in
+     a directory pointed at by $MTN_LUAHOOKSDIR.  Hooks are commonly added
+     using the function add_hook().  There is simple documentation at the
+     top of ext_hooks.lua.in.
+
+  -- monotone-mirror.sh: script to mirror another (remote) database and to
+     perform actions after mirroring, all according to a specification file.
+     monotone-mirror-postaction-update.sh: a post action script that updates
+     directories after a database has been mirrored according to a
+     specification file.
+     Both files has comments in the beginning, explaining how the specification
+     files should be written.
+
+  -- monotone-run-script-post-netsync.lua: run a script after revs or certs
+     for a particular branch have arrived via netsync
+
+  -- mtn_makepermissions: creates read-permissions and write-permissions from
+     files in the subdirectories read-permissions.d and write-permissions.d,
+     Debian-style.
+
+  -- monotone-cluster-push.lua: A simple script to push changes to other
+     servers upon receiving them.  This will only work on a server instance.
+
+  -- extra-commands.lua: Some simple lua user commands to automate common
+     command sequences.  The lua code should be copied to a monotonerc file
+     for use.
+
+  -- ciabot_monotone_hookversion.lua / ciabot_monotone_hookversion.py:
+     Two scripts that work together to send commit notifications to
+     http://CIA.cv/.  The main configuration is done in the file
+     ciabot.conf, found in the monotone configuration directory.
+     Before including ciabot_monotone_hookversion.lua, you need to assign
+     the path (as a string) to ciabot_monotone_hookversion.py to the
+     variable ciabot_python_script.
+     For further documentation on the configuration, see the comments
+     in ciabot_monotone_hookversion.py.
+
+  -- display_branches.lua: A simple Lua script that hooks into the netsync
+     notifiers.  After a pull, it will display what branches are being
+     filled with new revisions, and how many.  Easy to include from your
+     monotonerc.

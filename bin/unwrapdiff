@@ -26,7 +26,7 @@ $verbose = 0;
 use Getopt::Std;
 getopts('v-:', \%opts);
 if ($opts{'-'} && $opts{'-'} eq 'version') {
-    print "unwrapdiff - patchutils version 0.2.31\n";
+    print "unwrapdiff - patchutils version 0.3.2\n";
     exit 0;
 }
 if ($opts{'-'} && $opts{'-'} eq 'help') {

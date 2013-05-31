@@ -17,15 +17,15 @@ W system%s		system.ads		system.ali
 W system.exceptions%s	s-except.ads		s-except.ali
 W system.storage_elements%s  s-stoele.adb	s-stoele.ali
 
-D ada.ads		20030424175358 a0108083
-D a-except.ads		20031021134154 a1717b33
+D ada.ads		20030424175357 a0108083
+D a-except.ads		20031021134153 a1717b33
 D system.ads		20031021134222 6af26689
 D s-except.ads		20030424175408 7f3ea084
 D s-mastop.ads		20031021134214 8351aa57
 D s-mastop.adb		20031021134214 24b3a6d5
 D s-stalib.ads		20031021134214 e7ad2af0
-D s-stoele.ads		20050603190336 5a73170b
-D s-stoele.adb		20030424175414 792079f8
+D s-stoele.ads		20050603200336 5a73170b
+D s-stoele.adb		20030424175413 792079f8
 D s-traent.ads		20031021134218 e81a0978
 D unchconv.ads		20030424175420 1b7a14c5
 X 3 system.ads

@@ -1,24 +1,15 @@
 //
-// "$Id: fonts.cxx 5519 2006-10-11 03:12:15Z mike $"
+// "$Id: fonts.cxx 8864 2011-07-19 04:49:30Z greg.ercolano $"
 //
 // Font demo program for the Fast Light Tool Kit (FLTK).
 //
-// Copyright 1998-2005 by Bill Spitzak and others.
+// Copyright 1998-2010 by Bill Spitzak and others.
 //
-// This library is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Library General Public
-// License as published by the Free Software Foundation; either
-// version 2 of the License, or (at your option) any later version.
+// This library is free software. Distribution and use rights are outlined in
+// the file "COPYING" which should have been included with this file.  If this
+// file is missing or damaged, see the license at:
 //
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-// Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public
-// License along with this library; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
-// USA.
+//     http://www.fltk.org/COPYING.php
 //
 // Please report all bugs and problems on the following page:
 //
@@ -26,7 +17,8 @@
 //
 
 #include <FL/Fl.H>
-#include <FL/Fl_Window.H>
+#include <FL/Fl_Double_Window.H>
+#include <FL/Fl_Tile.H>
 #include <FL/Fl_Hold_Browser.H>
 #include <FL/fl_draw.H>
 #include <FL/Fl_Box.H>
@@ -34,7 +26,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-Fl_Window *form;
+Fl_Double_Window *form;
+Fl_Tile *tile;
 
 class FontDisplay : public Fl_Widget {
   void draw();
@@ -102,35 +95,55 @@ void size_cb(Fl_Widget *, long) {
   textobj->redraw();
 }
 
-char label[400];
+char label[0x1000];
 
 void create_the_forms() {
-  form = new Fl_Window(550,370);
-
+  // create the sample string
+  int n = 0;
   strcpy(label, "Hello, world!\n");
   int i = strlen(label);
-  uchar c;
+  ulong c;
   for (c = ' '+1; c < 127; c++) {
-    if (!(c&0x1f)) label[i++]='\n'; 
+    if (!(c&0x1f)) label[i++]='\n';
     if (c=='@') label[i++]=c;
     label[i++]=c;
   }
   label[i++] = '\n';
-  for (c = 0xA1; c; c++) {if (!(c&0x1f)) label[i++]='\n'; label[i++]=c;}
+  for (c = 0xA1; c < 0x600; c += 9) {
+    if (!(++n&(0x1f))) label[i++]='\n';
+    i += fl_utf8encode((unsigned int)c, label + i);
+  }
   label[i] = 0;
 
+  // create the basic layout
+  form = new Fl_Double_Window(550,370);
+
+  tile = new Fl_Tile(0, 0, 550, 370);
+
+  Fl_Group *textgroup = new Fl_Group(0, 0, 550, 185);
+  textgroup->box(FL_FLAT_BOX);
   textobj = new FontDisplay(FL_FRAME_BOX,10,10,530,170,label);
   textobj->align(FL_ALIGN_TOP|FL_ALIGN_LEFT|FL_ALIGN_INSIDE|FL_ALIGN_CLIP);
   textobj->color(9,47);
+  textgroup->resizable(textobj);
+  textgroup->end();
+
+  Fl_Group *fontgroup = new Fl_Group(0, 185, 550, 185);
+  fontgroup->box(FL_FLAT_BOX);
   fontobj = new Fl_Hold_Browser(10, 190, 390, 170);
   fontobj->box(FL_FRAME_BOX);
   fontobj->color(53,3);
   fontobj->callback(font_cb);
-  form->resizable(fontobj);
   sizeobj = new Fl_Hold_Browser(410, 190, 130, 170);
   sizeobj->box(FL_FRAME_BOX);
   sizeobj->color(53,3);
   sizeobj->callback(size_cb);
+  fontgroup->resizable(fontobj);
+  fontgroup->end();
+
+  tile->end();
+
+  form->resizable(tile);
   form->end();
 }
 
@@ -141,11 +154,13 @@ int main(int argc, char **argv) {
   Fl::args(argc, argv);
   Fl::get_system_colors();
   create_the_forms();
-#ifdef __APPLE__
+
+// For the Unicode test, get all fonts...
+//#ifdef __APPLE__
   int i = 0;
-#else
-  int i = fl_choice("Which fonts:","-*","iso8859","All");
-#endif
+//#else
+//  int i = fl_choice("Which fonts:","-*","iso8859","All");
+//#endif
   int k = Fl::set_fonts(i ? (i>1 ? "*" : 0) : "-*");
   sizes = new int*[k];
   numsizes = new int[k];
@@ -157,6 +172,7 @@ int main(int argc, char **argv) {
       char *p = buffer;
       if (t & FL_BOLD) {*p++ = '@'; *p++ = 'b';}
       if (t & FL_ITALIC) {*p++ = '@'; *p++ = 'i';}
+	  *p++ = '@'; *p++ = '.'; // Suppress subsequent formatting - some MS fonts have '@' in their name
       strcpy(p,name);
       name = buffer;
     }
@@ -179,5 +195,5 @@ int main(int argc, char **argv) {
 }
 
 //
-// End of "$Id: fonts.cxx 5519 2006-10-11 03:12:15Z mike $".
+// End of "$Id: fonts.cxx 8864 2011-07-19 04:49:30Z greg.ercolano $".
 //

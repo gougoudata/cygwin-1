@@ -11,7 +11,7 @@
 (*                                                                     *)
 (***********************************************************************)
 
-(* $Id: marshal.ml,v 1.8 2004/01/01 16:42:40 doligez Exp $ *)
+(* $Id: marshal.ml 7164 2005-10-25 18:34:07Z doligez $ *)
 
 type extern_flags =
     No_sharing
@@ -50,4 +50,4 @@ let from_string buff ofs =
     if ofs > String.length buff - (header_size + len)
     then invalid_arg "Marshal.from_string"
     else from_string_unsafe buff ofs
-  end  
+  end

@@ -1,0 +1,28 @@
+mingw64-i686-pthreads
+The pthreads-win32 package is used for Pthreads development. This package is for the i686-w64-mingw32 toolchain.
+
+Canonical homepage:
+http://sourceware.org/pthreads-win32/
+
+Canonical download:
+http://sourceforge.net/projects/mingw-w64/files/Cygwin%20Snapshots/pthreads-w32-20100619.tar.xz/download
+
+This package contains:
+
+  /usr/i686-w64-mingw32/sys-root/mingw/bin/pthreadGC2.dll
+  /usr/i686-w64-mingw32/sys-root/mingw/include/pthread.h
+  /usr/i686-w64-mingw32/sys-root/mingw/include/sched.h
+  /usr/i686-w64-mingw32/sys-root/mingw/include/semaphore.h
+  /usr/i686-w64-mingw32/sys-root/mingw/lib/libpthread.a
+  /usr/share/doc/Cygwin/mingw64-i686-pthreads.README
+  /usr/share/doc/mingw64-i686-pthreads/ANNOUNCE
+  /usr/share/doc/mingw64-i686-pthreads/BUGS
+  /usr/share/doc/mingw64-i686-pthreads/CONTRIBUTORS
+  /usr/share/doc/mingw64-i686-pthreads/COPYING
+  /usr/share/doc/mingw64-i686-pthreads/COPYING.LIB
+  /usr/share/doc/mingw64-i686-pthreads/ChangeLog
+  /usr/share/doc/mingw64-i686-pthreads/FAQ
+  /usr/share/doc/mingw64-i686-pthreads/MAINTAINERS
+  /usr/share/doc/mingw64-i686-pthreads/NEWS
+  /usr/share/doc/mingw64-i686-pthreads/README
+  /usr/share/doc/mingw64-i686-pthreads/TODO

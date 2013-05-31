@@ -21,14 +21,17 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 #ifndef __GTK_FIXED_H__
 #define __GTK_FIXED_H__
 
 
-#include <gdk/gdk.h>
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
 #include <gtk/gtkcontainer.h>
 
 
@@ -50,7 +53,7 @@ struct _GtkFixed
 {
   GtkContainer container;
 
-  GList *children;
+  GList *GSEAL (children);
 };
 
 struct _GtkFixedClass
@@ -76,9 +79,11 @@ void       gtk_fixed_move              (GtkFixed       *fixed,
                                         GtkWidget      *widget,
                                         gint            x,
                                         gint            y);
+#ifndef GTK_DISABLE_DEPRECATED
 void       gtk_fixed_set_has_window    (GtkFixed       *fixed,
 					gboolean        has_window);
 gboolean   gtk_fixed_get_has_window    (GtkFixed       *fixed);
+#endif
 
 G_END_DECLS
 

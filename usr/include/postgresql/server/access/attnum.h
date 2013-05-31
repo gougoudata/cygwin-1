@@ -4,10 +4,10 @@
  *	  POSTGRES attribute number definitions.
  *
  *
- * Portions Copyright (c) 1996-2006, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2012, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
- * $PostgreSQL: pgsql/src/include/access/attnum.h,v 1.22.2.1 2008/04/05 01:58:35 tgl Exp $
+ * src/include/access/attnum.h
  *
  *-------------------------------------------------------------------------
  */

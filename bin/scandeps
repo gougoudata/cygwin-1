@@ -1,6 +1,6 @@
-#!/usr/bin/perl5.10.0
+#!/usr/bin/perl
 
-eval 'exec /usr/bin/perl5.10.0  -S $0 ${1+"$@"}'
+eval 'exec /usr/bin/perl  -S $0 ${1+"$@"}'
     if 0; # not running under some shell
 
 $VERSION = '0.76';
@@ -13,12 +13,13 @@ use ExtUtils::MakeMaker;
 use subs qw( _name _modtree );
 
 my %opts;
-getopts('BVxce:', \%opts);
+getopts('BVRxce:C:', \%opts);
 
 my (%map, %skip);
 my $core    = $opts{B};
 my $verbose = $opts{V};
 my $eval    = $opts{e};
+my $recurse = $opts{R} ? 0 : 1;
 
 if ($eval) {
     require File::Temp;
@@ -28,7 +29,7 @@ if ($eval) {
     push @ARGV, $filename;
 }
 
-die "Usage: $0 [ -B ] [ -V ] [ -x | -c ] [ -e STRING | FILE ... ]\n" unless @ARGV;
+die "Usage: $0 [ -B ] [ -V ] [ -x | -c ] [ -R ] [-C FILE ] [ -e STRING | FILE ... ]\n" unless @ARGV;
 
 my @files = @ARGV;
 while (<>) {
@@ -38,10 +39,11 @@ while (<>) {
 
 my $map = scan_deps(
     files   => \@files,
-    recurse => 1,
+    recurse => $recurse,
     $opts{x} ? ( execute => 1 ) :
     $opts{c} ? ( compile => 1 ) : (),
     $opts{V} ? ( warn_missing => 1 ) : (),
+    $opts{C} ? ( cache_file   => $opts{C}) : (),
 );
 
 
@@ -66,8 +68,8 @@ foreach my $key (sort keys %$map) {
 
     next if $skip{$name};
 
-    my $privPath = "$Config::Config{privlib}/$key";
-    my $archPath = "$Config::Config{archlib}/$key";
+    my $privPath = "$Config::Config{privlibexp}/$key";
+    my $archPath = "$Config::Config{archlibexp}/$key";
     $privPath =~ s|\\|\/|og;
     $archPath =~ s|\\|\/|og;
     if ($mod->{file} eq $privPath
@@ -142,10 +144,12 @@ scandeps.pl - Scan file prerequisites
 
 =head1 SYNOPSIS
 
-    % scandeps.pl *.pm		# Print PREREQ_PM section for *.pm
+    % scandeps.pl *.pm          # Print PREREQ_PM section for *.pm
     % scandeps.pl -e 'STRING'	# Scan an one-liner
-    % scandeps.pl -B *.pm	# Include core modules
-    % scandeps.pl -V *.pm	# Show autoload/shared/data files
+    % scandeps.pl -B *.pm       # Include core modules
+    % scandeps.pl -V *.pm       # Show autoload/shared/data files
+    % scandeps.pl -R *.pm       # Don't recurse
+    % scandeps.pl -C CACHEFILE  # use CACHEFILE to cache dependencies
 
 =head1 DESCRIPTION
 
@@ -190,6 +194,10 @@ Executes the code and inspects its C<%INC>, in addition to static scanning.
 
 Include core modules in the output and the recursive search list.
 
+=item -R
+
+Only show dependencies found in the files listed and do not recurse.
+
 =item -V
 
 Verbose mode: Output all files found during the process; 
@@ -198,6 +206,11 @@ show dependencies between modules and availability.
 Additionally, warns of any missing dependencies. If you find missing
 dependencies that aren't really dependencies, you have probably found
 false positives.
+
+=item -C CACHEFILE
+
+Use CACHEFILE to speed up the scanning process by caching dependencies.
+Creates CACHEFILE if it does not exist yet.
 
 =back
 

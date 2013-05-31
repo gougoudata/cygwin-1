@@ -1,0 +1,33 @@
+#!/bin/bash
+
+prefix=/usr
+bindir=${prefix}/bin
+sbindir=${prefix}/sbin
+infodir=${prefix}/share/info
+
+/usr/sbin/update-alternatives \
+    --install "${bindir}/gcj.exe" "gcj" "${bindir}/gcj-3.exe" 30 \
+  --slave "/usr/bin/addr2name.awk" "addr2name.awk" "/usr/bin/addr2name.awk-3" \
+  --slave "/usr/bin/gcjh.exe" "gcjh" "/usr/bin/gcjh-3.exe" \
+  --slave "/usr/bin/gij.exe" "gij" "/usr/bin/gij-3.exe" \
+  --slave "/usr/bin/grepjar.exe" "grepjar" "/usr/bin/grepjar-3.exe" \
+  --slave "/usr/bin/i686-pc-cygwin-gcj.exe" "i686-pc-cygwin-gcj" "/usr/bin/i686-pc-cygwin-gcj-3.exe" \
+  --slave "/usr/bin/i686-pc-cygwin-gcjh.exe" "i686-pc-cygwin-gcjh" "/usr/bin/i686-pc-cygwin-gcjh-3.exe" \
+  --slave "/usr/bin/jar.exe" "jar" "/usr/bin/jar-3.exe" \
+  --slave "/usr/bin/jcf-dump.exe" "jcf-dump" "/usr/bin/jcf-dump-3.exe" \
+  --slave "/usr/bin/jv-convert.exe" "jv-convert" "/usr/bin/jv-convert-3.exe" \
+  --slave "/usr/bin/jv-scan.exe" "jv-scan" "/usr/bin/jv-scan-3.exe" \
+  --slave "/usr/bin/rmic.exe" "rmic" "/usr/bin/rmic-3.exe" \
+  --slave "/usr/bin/rmiregistry.exe" "rmiregistry" "/usr/bin/rmiregistry-3.exe" \
+  --slave "/usr/share/man/man1/gcj.1.gz" "gcj.1.gz" "/usr/share/man/man1/gcj-3.1.gz" \
+  --slave "/usr/share/man/man1/gcjh.1.gz" "gcjh.1.gz" "/usr/share/man/man1/gcjh-3.1.gz" \
+  --slave "/usr/share/man/man1/gij.1.gz" "gij.1.gz" "/usr/share/man/man1/gij-3.1.gz" \
+  --slave "/usr/share/man/man1/grepjar.1.gz" "grepjar.1.gz" "/usr/share/man/man1/grepjar-3.1.gz" \
+  --slave "/usr/share/man/man1/jar.1.gz" "jar.1.gz" "/usr/share/man/man1/jar-3.1.gz" \
+  --slave "/usr/share/man/man1/jcf-dump.1.gz" "jcf-dump.1.gz" "/usr/share/man/man1/jcf-dump-3.1.gz" \
+  --slave "/usr/share/man/man1/jv-convert.1.gz" "jv-convert.1.gz" "/usr/share/man/man1/jv-convert-3.1.gz" \
+  --slave "/usr/share/man/man1/jv-scan.1.gz" "jv-scan.1.gz" "/usr/share/man/man1/jv-scan-3.1.gz" \
+  --slave "/usr/share/man/man1/rmic.1.gz" "rmic.1.gz" "/usr/share/man/man1/rmic-3.1.gz" \
+  --slave "/usr/share/man/man1/rmiregistry.1.gz" "rmiregistry.1.gz" "/usr/share/man/man1/rmiregistry-3.1.gz" \
+
+

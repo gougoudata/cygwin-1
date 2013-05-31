@@ -1,0 +1,5088 @@
+"";;01EA1EDE5B08563A68E3F9212FFC5D6E538A50DE0D9899B194C0EDBE0806
+""{ Logiweb, a system for electronic distribution of mathematics
+    Copyright (C) 2004-2010 Klaus Grue
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  021111307  USA
+
+    Contact: Klaus Grue, DIKU, Universitetsparken 1, DK2100 Copenhagen,
+    Denmark, grue@diku.dk, http://logiweb.eu/, http://www.diku.dk/~grue/
+
+    Logiweb is a system for distribution of mathematical definitions,
+    lemmas, and proofs. For more on Logiweb, consult http://logiweb.eu/.
+""}
+
+""P check
+
+""R base
+
+""D 0
+alpha
+beta
+gamma
+delta
+epsilon
+varepsilon
+zeta
+eta
+theta
+vartheta
+iota
+kappa
+lambda
+mu
+nu
+xi
+pi
+varpi
+rho
+varrho
+sigma
+varsigma
+tau
+upsilon
+phi
+chi
+psi
+omega
+Gamma
+Delta
+Theta
+Lambda
+Xi
+Pi
+Sigma
+Upsilon
+Phi
+Psi
+Omega
+cla
+clb
+clc
+cld
+cle
+clf
+clg
+clh
+cli
+clj
+clk
+cll
+clm
+cln
+clo
+clp
+clq
+clr
+cls
+clt
+clu
+clv
+clw
+clx
+cly
+clz
+statement
+proof
+meta
+math
+tactic
+unitac
+locate
+statement define " as " end define
+proof define " as " end define
+meta define " as " end define
+math define " as " end define
+tactic define " as " end define
+unitac define " as " end define
+locate define " as " end define
+#a
+#b
+#c
+#d
+#e
+#f
+#g
+#h
+#i
+#j
+#k
+#l
+#m
+#n
+#o
+#p
+#q
+#r
+#s
+#t
+#u
+#v
+#w
+#x
+#y
+#z
+tacfresh ( " )
+unifresh ( " , " )
+L00
+L01
+L02
+L03
+L04
+L05
+L06
+L07
+L08
+L09
+L10
+L11
+L12
+L13
+L14
+L15
+L16
+L17
+L18
+L19
+L20
+L21
+L22
+L23
+L24
+L25
+L26
+L27
+L28
+L29
+L30
+L31
+L32
+L33
+L34
+L35
+L36
+L37
+L38
+L39
+L40
+L41
+L42
+L43
+L44
+L45
+L46
+L47
+L48
+L49
+L50
+L51
+L52
+L53
+L54
+L55
+L56
+L57
+L58
+L59
+L60
+L61
+L62
+L63
+L64
+L65
+L66
+L67
+L68
+L69
+L70
+L71
+L72
+L73
+L74
+L75
+L76
+L77
+L78
+L79
+L80
+L81
+L82
+L83
+L84
+L85
+L86
+L87
+L88
+L89
+L90
+L91
+L92
+L93
+L94
+L95
+L96
+L97
+L98
+L99
+False
+p.A1
+p.A2
+p.A3
+p.MP
+p.Prop
+p.IProp
+distinctvar ( " , " )
+metaavoid1 ( " , " , " )
+metaavoid1* ( " , " , " )
+objectavoid1 ( " , " , " , " )
+objectavoid1* ( " , " , " , " )
+metafree ( " , " , " , " )
+metafree* ( " , " , " , " )
+objectfree ( " , " , " , " )
+objectfree* ( " , " , " , " )
+remove ( " , " )
+metaavoid2* ( " , " , " )
+metasubst ( " , " , " )
+metasubst* ( " , " , " )
+metasubstc ( " , " , " )
+metasubstc1 ( " , " , " , " )
+metasubstc1* ( " , " , " , " )
+metasubstc2 ( " , " , " , " )
+metasubstc2* ( " , " , " , " )
+metasubstc3 ( " , " , " , " )
+expand-All ( " )
+expand-All1 ( " , " , " )
+make-string ( " , " )
+end diagnose
+Locate ( " , " , " )
+Locate1 ( " , " , " , " , " )
+error ( " , " )
+mismatch ( " , " , " )
+mismatch* ( " , " , " )
+eval-Init ( " , " )
+eval-Ponens ( " , " , " )
+eval-Probans ( " , " , " )
+eval-Verify ( " , " , " )
+eval-Curry ( " , " , " )
+eval-Uncurry ( " , " , " )
+eval-Deref ( " , " , " )
+eval-at ( " , " , " )
+eval-at1 ( " , " , " , " , " )
+eval-infer ( " , " , " , " )
+eval-endorse ( " , " , " , " )
+eval-ie ( " , " , " , " )
+eval-all ( " , " , " , " )
+eval-cut ( " , " , " )
+seqeval ( " , " )
+Repeat
+prepare proof indentation
+claiming ( " , " )
+proofcheck
+proofcheck1 ( " )
+proofcheck2 ( " )
+seqeval* ( " , " )
+premisecheck* ( " , " )
+checked ( " , " )
+premisecheck ( " , " )
+circularitycheck1 ( " , " , " , " )
+circularitycheck2 ( " , " , " , " )
+circularitycheck2* ( " , " , "  , " )
+lemma1
+lemma2
+lemma2a
+lemma2b
+lemma2c
+lemma2d
+lemma2e
+lemma2f
+lemma3
+lemma4a
+lemma4b
+lemma4c
+lemma4d
+lemma4e
+lemma4f
+lemma4g
+int2string ( " , " )
+int2string1 ( " , " )
+val2term ( " , " )
+card2term ( " , " )
+univar ( " , " , " )
+pterm ( " , " )
+pterm1 ( " , " , " , " )
+pterm2 ( " , " , " )
+pterm2* ( " , " , " )
+inst ( " , " , " )
+inst* ( " , " , " )
+occur ( " , " , " )
+occur* ( " , " , " )
+unify ( " , " , " )
+unify* ( " , " , " )
+unify2 ( " , " , " )
+taceval ( " , " , " )
+taceval1 ( " , " , " )
+tacstate0
+unitac0
+tactic-push ( " , " , " )
+tactic-pop ( " , " )
+tactic-Init ( " )
+tactic-Ponens ( " )
+tactic-Probans ( " )
+tactic-Verify ( " )
+tactic-Curry ( " )
+tactic-Uncurry ( " )
+tactic-Deref ( " )
+tactic-at ( " )
+tactic-at1 ( " , " , " , " )
+tactic-at2 ( " , " , " , " , " )
+tactic-infer ( " )
+tactic-endorse ( " )
+tactic-ie ( " )
+tactic-all ( " )
+tactic-cut ( " )
+tactic-cut1 ( " , " , " )
+hook-arg
+hook-res
+hook-idx
+hook-uni
+hook-pre
+hook-cond
+hook-parm
+hook-unitac
+hook-rule
+hook-lemma
+hook-conclude
+unitac ( " )
+unitac1 ( " , " , " )
+unieval ( " , " , " )
+unitac-Init ( " )
+unitac-Conclude ( " )
+unitac-conclude ( " )
+unitac-conclude-std ( " )
+unitac-Ponens ( " )
+unitac-ponens ( " )
+unitac-Probans ( " )
+unitac-probans ( " )
+unitac-Verify ( " )
+unitac-verify ( " )
+unitac-Curry ( " )
+unitac-Uncurry ( " )
+unitac-Deref ( " )
+unitac-idest ( " )
+unitac-At ( " )
+unitac-at ( " )
+unitac-Infer ( " )
+unitac-infer ( " )
+unitac-Endorse ( " )
+unitac-endorse ( " )
+unitac-All ( " )
+unitac-all ( " )
+unitac-cut ( " )
+unitac-adapt ( " , " , " )
+unitac-rule ( " )
+unitac-rule-std ( " )
+unitac-theo ( " , " , " )
+unitac-rule0 ( " , " , " )
+unitac-rule-plus ( " , " , " )
+unitac-rule-stmt ( " , " , " , " )
+unitac-rule1 ( " , " , " )
+unitac-rule2 ( " , " , " )
+unitac-search ( " , " , " )
+unitac-search1 ( " , " , " , " , " )
+unitac-rule3 ( " , " )
+unitac-rule4 ( " , " )
+unitac-rule5 ( " , " , " , " )
+unitac-stack ( " , " , " )
+unitac-lemma ( " )
+unitac-lemma-std ( " )
+unitac-Rule ( " )
+seqcnt ( " , " )
+tactic-conclude-cut ( " )
+tactic-premise-line ( " )
+tactic-condition-line ( " )
+tactic-block ( " )
+System S
+S.S1
+S.S5
+S.reflexivity
+
+""D 2
+
+""D 4
+"#
+" plist ( " )
+" def ( " , " )
+" lhs ( " , " )
+" rhs ( " , " )
+" metadef ( " )
+" metavar ( " )
+" stmt-rhs ( " )
+" proof-rhs ( " )
+" tactic-rhs ( " )
+" unitac-rhs ( " )
+" locate-rhs ( " )
+" mathdef ( " )
+" valuedef ( " )
+" objectvar ( " )
+" objectlambda ( " )
+" objectquote ( " )
+" objectterm ( " )
+" objectterm* ( " )
+" metaterm ( " )
+" metaterm* ( " )
+" metaavoid ( " ) "
+" metaavoid* ( " ) "
+" objectavoid ( " ) "
+" objectavoid* ( " ) "
+
+""D 6
+
+""D 8
+
+""D 10
+
+""D 12
+" set+ "
+" set- "
+" set-- "
+" union "
+
+""D 14
+
+""D 16
+
+""D 17
+
+""D 19
+
+""D 20
+" member "
+" subset "
+" set= "
+" sequent= "
+
+""D 22
+p.not "
+
+""D 24
+
+""D 26
+
+""D 29
+" p.imply "
+
+""D 30
+
+""D 32
+metadeclare "
+
+""D 33
+
+""D 34
+
+""D 38
+" Init
+" Ponens
+" Probans
+" Verify
+" Curry
+" Uncurry
+" Deref
+" At
+" Infer
+" Endorse
+" All
+" Conclude
+" Rule
+
+""D 40
+" at "
+" ponens "
+" probans "
+" verify "
+" p.mp "
+
+""D 41
+" infer "
+" endorse "
+" id est "
+
+""D 42
+All " : "
+
+""D 43
+" oplus "
+
+""D 44
+" conclude "
+
+""D 45
+line " : " >> " ; "
+Line " : " >> " ; "
+line " : " >> " ;
+line " : " >> " qed
+line " : Premise >> " ; "
+Line " : Premise >> " ; "
+line " : Condition >> " ; "
+Line " : Condition >> " ; "
+line " : Arbitrary >> " ; "
+line " : Local >> " = " ; "
+line " : Block >> Begin ; " line " : Block >> End ; "
+Line " : Block >> Begin ; " line " : Block >> End ; "
+
+""D 47
+" ;; "
+
+""D 48
+" proves "
+
+""D 49
+axiom " : " end axiom
+rule " : " end rule
+theory " : " end theory
+lemma " : " end lemma
+" lemma " : " end lemma
+proof of " : "
+" proof of " : "
+
+""D 51
+dbug ( " ) "
+dbug* ( " ) "
+glue ( " ) "
+diag ( " ) "
+disp ( " ) "
+form ( " ) "
+glue' ( " ) "
+dbug' ( " ) "
+diag' ( " ) "
+disp' ( " ) "
+form' ( " ) "
+LocateProofLine ( " , " ) "
+
+""D 52
+
+""D 54
+
+""D 56
+
+""B
+
+text "index.html" : ""-"";
+
+<head>
+<title>
+A Logiweb proof checker
+</title>
+</head>
+
+<body>
+<h2>
+A Logiweb proof checker
+</h2>
+
+<p>
+<a href='../index.html'>Up</a>
+</p>
+
+<p>
+
+Contents:
+<a href='page.pdf'>Main text</a>
+<a href='chores.pdf'>Chores</a>
+</p>
+
+<p><address>Klaus Grue</address></p>
+</body>
+" end text ,,
+
+
+
+text "page.bib" : ""-"";
+
+@article      {berline97,
+  author    = {C. Berline and K. Grue},
+  title     = {A $\kappa$-denotational semantics for {M}ap {T}heory
+               in {ZFC+SI}},
+  journal   = TCS,
+  year      = {1997},
+  volume    = {179},
+  number    = {1--2},
+  pages     = {137--202},
+  month     = {jun}}
+
+@inproceedings{Logiweb,
+  author    = {K. Grue},
+  title     = {Logiweb},
+  editor    = {Fairouz Kamareddine},
+  booktitle = {Mathematical Knowledge Management Symposium 2003},
+  publisher = {Elsevier},
+  series    = {Electronic Notes in Theoretical Computer Science},
+  volume    = {93},
+  year      = {2004},
+  pages     = {70--101}}
+
+@Book         {Mendelson,
+  author    = {E. Mendelson},
+  title     = {Introduction to Mathematical Logic},
+  publisher = {Wadsworth and Brooks},
+  year      = {1987},
+  edition   = {3.}}
+
+@techreport{chores,
+  author    = {K. Grue},
+  year      = {2006},
+  title     = {A Logiweb proof checker - chores},
+  institution={Logiweb},
+  note      =
+{\href{\lgwBlockRelay \lgwBlockThis /page/appendix.pdf}{%
+\lgwBreakRelay \lgwBreakThis /page/appendix.pdf}}}
+
+@techreport{base,
+  author    = {K. Grue},
+  year      = {2006},
+  title     = {A Logiweb base page},
+  institution={Logiweb},
+  note      =
+{\href{\lgwBlockRelay \lgwBlockbase /page/index.html}{%
+\lgwBreakRelay \lgwBreakbase /page/index.html}}}
+
+" end text ,,
+
+
+
+text "page.tex" : ""-"";
+
+\documentclass[fleqn]{article}
+
+% Include definitions generated by the Logiweb compiler
+\input{lgwinclude}
+
+% Make latexsym characters available
+\usepackage{latexsym}
+
+% Ensure reasonable rendering of strings
+\everymath{\rm}
+\everydisplay{\rm}
+
+% Enable generation of an index
+\usepackage{makeidx}
+\makeindex
+\newcommand{\intro}[1]{\emph{#1}}
+\newcommand{\indexintro}[1]{\index{#1}\intro{#1}}
+
+% Enable generation of a bibliography
+\bibliographystyle{plain}
+
+% Enable hyperlinks
+\usepackage[dvipdfm=true]{hyperref}
+\hypersetup{pdfpagemode=UseNone}
+\hypersetup{pdfstartpage=1}
+\hypersetup{pdfstartview=FitBH}
+\hypersetup{pdfpagescrop={120 80 490 730}}
+\hypersetup{pdftitle=A Logiweb proof checker}
+\hypersetup{colorlinks=true}
+
+% Construct for listing statements with associated explanations
+\newenvironment{statements}{\begin{list}{}{
+\setlength{\leftmargin}{5em}
+\setlength{\itemindent}{-5em}}}{\end{list}}
+
+\begin{document}
+\title{A Logiweb proof checker}
+\author{Klaus Grue}
+\maketitle
+\tableofcontents
+
+"[ make macro expanded version ragged right ]"
+"[ prepare proof indentation ]"
+
+
+
+\section{Introduction}
+
+\indexintro{Logiweb} \cite{Logiweb} is an open source system available under GNU GPL for distribution of mathematical definitions, lemmas, and proofs.
+
+The present document is part of a \index{page, Logiweb}\indexintro{Logiweb page}. A Logiweb page is a cluster of documents which has been submitted to the Logiweb system. Such a cluster typically consists of a main document like the present one plus a number of electronic appendices.
+
+The present Logiweb page (i.e.\ the document cluster to which the present document belongs) defines a general purpose proof checker.
+
+
+
+\subsection{Electronic appendices}
+
+The present Logiweb page comprises one html and two PDF files, located the following places:
+
+\begin{itemize}
+\item \href{\lgwBlockRelay \lgwBlockThis /page/page.pdf}{%
+\lgwBreakRelay \lgwBreakThis /page/page.pdf}
+\item \href{\lgwBlockRelay \lgwBlockThis /page/chores.pdf}{%
+\lgwBreakRelay \lgwBreakThis /page/chores.pdf} \cite{chores}
+\item \href{\lgwBlockRelay \lgwBlockThis /page/index.html}{%
+\lgwBreakRelay \lgwBreakThis /page/index.html}
+\end{itemize}
+
+The first link points to the present paper. The second link points to an electronic appendix with definitions that would bore most readers (such as definitions of how each construct should be rendered). The second link is included in the \textsc{Bib}\TeX\ bibliography \cite{chores} for easy reference. The third link points to a table of contents.
+
+
+
+\subsection{Referenced Logiweb pages}
+
+The present Logiweb page references the following other Logiweb page:
+
+\begin{itemize}
+\item \href{\lgwBlockRelay \lgwBlockbase /page/chores.pdf}{%
+\lgwBreakRelay \lgwBreakbase /page/chores.pdf} \cite{base}
+\end{itemize}
+
+
+
+\subsection{Bed page}
+
+The present page may be used as `bed' page, i.e.\ as the first reference of other pages. Pages which use the present page as bed page and which do not define a verifier of their own use the verifier of the present page:
+
+"[[[ verifier test1 &c proofcheck end verifier ]]]"
+
+\noindent The verifier is a conjunction of "[[ proofcheck ]]" which is the proof checker defined on the present page and "[[ test1 ]]" which is defined on the bed page of the present page. The "[[ test1 ]]" verifier executes test suites and supports testing of computable functions.
+
+Pages which use the present page as bed page and which do not define a macro expander of their own use the macro expander of the present page:
+
+"[[[ expander macro1 end expander ]]]"
+
+\noindent The expander is nothing but a reexport of the expander defined on the bed page of the present page.
+
+
+
+\section{Terms}
+
+\subsection{Aspect declarations}
+
+We shall use several user aspects for implementing the proof checker.
+
+Logiweb has a list of predefined aspects like `value', `name', `use', and so on. Predefined aspects are built up from small letters and space characters. The list of predefined aspects may grow with time, so user defined aspects must contain at least one character which is neither a small letter, nor a space character.
+
+Furthermore, to reduce the risk of name conflicts, one should give any user aspect a personal touch. The aspects defined in the following all end with a slash and the initials of the present author. If two authors use the same aspect for different things, then a third author may run into trouble when referencing both of the two first authors.
+
+Logiweb has means for defining guaranteed unique aspects, but we shall not use that here. The aspects to be used are:
+
+\begin{statements}
+
+\item "[[ eager message define statement as "statement/kg" end define ]]"\index{statement} defines `"[[ statement ]]"' to represent the \index{aspect, statement}\indexintro{statement aspect}. The present page uses the statement aspect for expressing lemmas, theories, axioms, inference rules, and conjectures.
+
+\item "[[ eager message define proof as "proof/kg" end define ]]"\index{proof} defines `"[[ proof ]]"' to represent the \index{aspect, proof}\index{proof aspect}\intro{proof} user aspect. The present page uses the proof aspect for expressing formal proofs.
+
+\item "[[ eager message define meta as "meta/kg" end define ]]"\index{meta} defines `"[[ meta ]]"' to represent the \index{aspect, meta}\index{meta aspect}\intro{meta} user aspect. The present page uses the meta aspect for declaring constructs to be meta-variables, meta-quantifiers and sequent operators.
+
+\item "[[ eager message define math as "math/kg" end define ]]"\index{math} defines `"[[ math ]]"' to represent the \index{aspect, math}\index{math aspect}\intro{math} user aspect. The semantics of this aspect is defined by individual axiomatic systems, the intension being that definition of new function letters are done using this aspect.
+
+\item "[[ eager message define tactic as "tactic/kg" end define ]]"\index{tactic} defines `"[[ tactic ]]"' to represent the \index{aspect, tactic}\index{tactic aspect}\intro{tactic} user aspect. The present page uses the tactic aspect for specifying how proofs should be translated into sequent terms.
+
+\item "[[ eager message define unitac as "unitac/kg" end define ]]"\index{unitac} defines `"[[ unitac ]]"' to represent the \index{aspect, unitac}\index{unitac aspect}\intro{unitac} user aspect. The unitac aspect defines a special kind of tactic which may occur inside arguments of the `unification tactic'. The unification tactic is described later.
+
+\item "[[ eager message define locate as "locate/kg" end define ]]"\index{locate} defines `"[[ locate ]]"' to represent the \index{aspect, locate}\index{locate aspect}\intro{locate} user aspect. The present page uses the locate aspect for locating the source of errors for the sake of diagnostic messages.
+
+\end{statements}
+
+
+
+\subsection{Definition constructs}
+
+The following constructs allow to define various aspects of a construct "[[ x ]]".
+
+\begin{statements}
+
+\item "[[ macro define statement define x as y end define as define statement of x as y end define end define ]]".
+
+\item "[[ macro define proof define x as y end define as define proof of x as y end define end define ]]".
+
+\item "[[ macro define meta define x as y end define as define meta of x as y end define end define ]]".
+
+\item "[[ macro define math define x as y end define as define math of x as y end define end define ]]".
+
+\item "[[ macro define tactic define x as y end define as define tactic of x as y end define end define ]]".
+
+\item "[[ macro define unitac define x as y end define as define unitac of x as y end define end define ]]".
+
+\item "[[ macro define locate define x as y end define as define locate of root protect x end protect as y end define end define ]]".
+
+\end{statements}
+
+In `locate' definitions, the construct being defined is protected against macro expansion. This is important because errors are located in the body of a page, i.e.\ in the page before macro expansion whereas locate definitions are interpretted after macro expansion. So protection is needed in cases where one needs to assign a locate aspect to some construct which also has a macro definition.
+
+
+
+\subsection{Axioms, rules, theories, and lemmas}
+
+Axioms, inference rules, theories, and lemmas are all represented by statement definitions. As an example, a lemma "[[ L ]]" saying that any statement infers itself could read
+
+"[ hide lemma L : #a infer #a  end lemma end hide ]"
+
+\noindent which is simply shorthand for "[[ hide statement define L as #a infer #a end define end hide ]]". The lemma construct is defined thus: "[[ macro define lemma x : y end lemma as ensure math statement define x as y end define end math end define ]]".
+
+A theory "[[ T ]]" comprising an inference rule named "[[ p.MP ]]" and three axioms "[[ p.A1 ]]", "[[ p.A2 ]]", and "[[ p.A3 ]]" could read
+
+"[ hide theory T : p.MP oplus p.A1 oplus p.A2 oplus p.A3 end theory end hide ]"
+
+\noindent which is shorthand for "[[ hide statement define T as p.MP oplus p.A1 oplus p.A2 oplus p.A3 end define end hide ]]". The theory construct is defined thus: "[[ macro define theory x : y end theory as ensure math define statement of x as y end define end math end define ]]".
+
+An axiom "[[ p.A1 ]]" which says that "[[ #a p.imply #b p.imply #a ]]" for all terms "[[ #a ]]" and "[[ #b ]]" could read
+
+"[ hide axiom p.A1 : All #a ,, #b : A p.imply B p.imply A end axiom end hide ]"
+
+\noindent This is shorthand for "[[ hide statement define p.A1 as All #a ,, #b : #a p.imply #b p.imply #a end define end hide ]]" plus one more definition. The second definition is a unitac definition which explains how to prove the axiom. This may seem strange since, from a human point of view, axioms are assumed rather than proved. But in the present system, axioms actually do have to be proved, and the proof even depends on context. As an example, if axiom "[[ p.A1 ]]" occurs in a proof which is relative to the theory "[[ T ]]" above, then the proof of "[[ p.A1 ]]" will be one which accesses the second element of "[[ T ]]". In a proof relative to "[[ p.A1 oplus p.A2 oplus p.A3 oplus p.MP ]]", the proof would be one which accesses the first element.
+
+A working logician need not care about how axioms are proved backstage. And need not even know that axioms do have to be proved. The working logician just needs to state proofs in a style close to that of \cite{Mendelson} and the definitions on the present page will take care of the rest.
+
+The axiom construct is defined thus:
+
+"[[[ macro define axiom x : y end axiom as ensure math define statement of x as y end define,unitac define x as \ u . unitac-rule ( u ) end define end math end define ]]]"
+
+When an axiom like "[[ p.A1 ]]" occurs in a proof line which is expanded using the unification tactic, then the unification tactic evaluates "[[ unitac-rule ( << t ,, s ,, c >> ) ]]" where "[[ t ]]" is "[[ p.A1 ]]", "[[ s ]]" is a `state' which contains local information, and "[[ c ]]" is the cache of the page on which the proof occurs. Among other, the state "[[ s ]]" contains information about which theories may be used and which hypotheses have been assumed. The value of "[[ unitac-rule ( << t ,, s ,, c >> ) ]]" is a proof of "[[ All #a ,, #b : #a p.imply #b p.imply #a ]]" which the unification tactic will then try to instantiate suitably.
+
+From the point of view of the proof checker, there is no difference between axioms and inference rules:
+
+"[[[ macro define rule x : y end rule as ensure math define statement of x as y end define,unitac define x as \ u . unitac-rule ( u ) end define end math end define ]]]"
+
+
+
+\subsection{Meta variables}
+
+We use the meta aspect to declare that a construct is a meta variable. In general, several aspects are used when finding out what a construct means: Constructs which have a meta aspect mean whatever that aspect says they mean. Constructs without a meta aspect mean whatever the value aspect says they mean. Constructs with neither meta nor value aspect mean whatever the def aspect says they mean. Constructs with no meta, value, or def aspect are considered to be object variables. So e.g.\ "[[ a ]]", "[[ X ]]", and "[[ beta ]]" are object variables.
+
+A construct is a meta variable if its "[[ meta ]]" aspect equals "[[ show "var" end show ]]". The following construct allows to declare meta variables:
+
+"[[[ macro define metadeclare x as meta define x as "var" end define end define ]]]"
+
+To have an arsenal of meta variables, we declare "[[ #a ]]", "[[ #b ]]", and so on to be meta variables:
+"[[ metadeclare #a ]]",
+"[[ metadeclare #b ]]",
+"[[ metadeclare #c ]]",
+"[[ metadeclare #d ]]",
+"[[ metadeclare #e ]]",
+"[[ metadeclare #f ]]",
+"[[ metadeclare #g ]]",
+"[[ metadeclare #h ]]",
+"[[ metadeclare #i ]]",
+"[[ metadeclare #j ]]",
+"[[ metadeclare #k ]]",
+"[[ metadeclare #l ]]",
+"[[ metadeclare #m ]]",
+"[[ metadeclare #n ]]",
+"[[ metadeclare #o ]]",
+"[[ metadeclare #p ]]",
+"[[ metadeclare #q ]]",
+"[[ metadeclare #r ]]",
+"[[ metadeclare #s ]]",
+"[[ metadeclare #t ]]",
+"[[ metadeclare #u ]]",
+"[[ metadeclare #v ]]",
+"[[ metadeclare #w ]]",
+"[[ metadeclare #x ]]",
+"[[ metadeclare #y ]]", and
+"[[ metadeclare #z ]]".
+
+A term is a meta variable, if the "[[ meta ]]" aspect of the root of the term equals "[[ show "var" end show ]]". As an example of use, we declare the unary construct "[[ x# ]]" to be a meta variable:
+
+"[[[ metadeclare x# ]]]"
+
+\noindent The construct above allows to use e.g.\ "[[ a# ]]", "[[ beta# ]]", "[[ c prime# ]]", and "[[ d _ { 5 }# ]]" as meta variables.
+
+Two meta variable are identical if they are identical as terms (i.e.\ w.r.t.\ "[[ x t= y ]]"). As a peculiarity this entails that "[[ ( 2 + 2 )# ]]" and "[[ 4# ]]" are distinct meta variables.
+
+We shall need two more indexed meta variables: "[[ metadeclare tacfresh ( x ) ]]" and "[[ metadeclare unifresh ( x , y ) ]]". The unification tactic defined later uses these indexed meta variables to generate variables that are supposed to be `fresh'. If you use these indexed meta variables in proofs, you ask for trouble.
+
+
+
+\subsection{Cache accessors}
+
+Given a construct "[[ x ]]" and a cache "[[ c ]]", the following functions return various information about "[[ x ]]". The last construct below decides whether or not a construct "[[ x ]]" is a meta variable.
+
+\begin{statements}
+
+\item "[[ eager define x plist ( c ) as c [[ x ref ]] [[ "codex" ]] [[ x ref ]] [[ x idx ]] [[ 0 ]] end define ]]". Given a symbol "[[ x ]]", this construct looks up an array which maps strings to the associated aspects.
+
+\item "[[ eager define x def ( c , a ) as x plist ( c ) [[ a ]] end define ]]". Look up aspect "[[ a ]]" of symbol "[[ x ]]".
+
+\item "[[ eager define x lhs ( c , a ) as x def ( c , a ) second end define ]]". Look up the left hand side of the aspect "[[ a ]]" definition of symbol "[[ x ]]".
+
+\item "[[ eager define x rhs ( c , a ) as x def ( c , a ) third end define ]]". Look up the right hand side of the aspect "[[ a ]]" definition of symbol "[[ x ]]".
+
+\item "[[ eager define x metadef ( c ) as x rhs ( c , meta ) idx end define ]]". Look up the meta definition of symbol "[[ x ]]".
+
+\item "[[ eager define x metavar ( c ) as x metadef ( c ) = "var" end define ]]". True if "[[ x ]]" is a meta variable.
+
+\item "[[ eager define x stmt-rhs ( c ) as x rhs ( c , statement ) end define ]]". Look up the statement definition of symbol "[[ x ]]".
+
+\item "[[ eager define x proof-rhs ( c ) as x rhs ( c , proof ) end define ]]". Look up the statement definition of symbol "[[ x ]]".
+
+\item "[[ eager define x tactic-rhs ( c ) as x rhs ( c , tactic ) end define ]]". Look up the statement definition of symbol "[[ x ]]".
+
+\item "[[ eager define x unitac-rhs ( c ) as x rhs ( c , unitac ) end define ]]". Look up the statement definition of symbol "[[ x ]]".
+
+\item "[[ eager define x locate-rhs ( c ) as x rhs ( c , locate ) end define ]]". Look up the statement definition of symbol "[[ x ]]".
+
+\end{statements}
+
+
+
+\subsection{Meta operators}
+
+In addition to meta variables, the five operators for building meta terms of the Logiweb sequent calculus are:
+
+\begin{statements}
+
+\item "[[ meta define x infer y as "infer" end define ]]". States that provability of "[[ x ]]" implies provability of "[[ y ]]".
+
+\item "[[ meta define x endorse y as "endorse" end define ]]" States that if "[[ x ]]" evaluates to "[[ true ]]" then "[[ y ]]" is provable.
+
+\item "[[ meta define x oplus y as "plus" end define ]]" States that both "[[ x ]]" and "[[ y ]]" are provable.
+
+\item "[[ meta define All x : y as "all" end define ]]". States that "[[ y ]]" is provable for all "[[ x ]]"
+
+\item "[[ meta define False as "false" end define ]]". Expresses absurdity. One may disprove "[[ x ]]" is by proving "[[ x infer False ]]"
+
+\end{statements}
+
+
+
+\subsection{Meta constructs}
+
+We shall say that a construct is a \index{construct, meta}\indexintro{meta construct} iff the construct has a meta definition. In other words we shall say that a construct "[[ x ]]" is a meta construct iff "[[ x metadef ( self ) != true ]]".
+
+We shall say that a meta construct is a \index{variable, meta}\indexintro{meta variable} iff it is meta defined as "[[ show "var" end show ]]". In other words, "[[ x ]]" is a meta variable iff "[[ x metadef ( self ) = "var" ]]".
+
+We shall say that a meta construct "[[ x ]]" is a \index{binder, meta}\indexintro{meta binder} iff "[[ x metadef ( self ) = "all" ]]".
+
+We shall say that a meta construct is a \index{operator, meta}\indexintro{meta operator} if it is neither a meta variable nor a meta binder.
+
+
+
+\subsection{Object constructs}
+
+We shall say that a construct is an \index{construct, object}\indexintro{object construct} iff it is not a meta construct. So "[[ x ]]" is an object construct iff "[[ x metadef ( self ) = true ]]"
+
+We shall say that an object construct is an \index{binder, object}\indexintro{object binder} if the construct is declared to denote lambda abstraction. So "[[ x ]]" is an object binder iff "[[ self [[ x ref ]] [[ "code" ]] [[ x idx ]] = 0 ]]".
+
+We shall say that an object construct "[[ x ]]" is a \indexintro{quote} if the construct is declared to denote quoting. So "[[ x ]]" is a quote iff "[[ self [[ x ref ]] [[ "code" ]] [[ x idx ]] = 1 ]]".
+
+We shall say that an object construct is an \index{variable, object}\indexintro{object variable} if it neither has a value nor a math definition.
+
+We shall say that object constructs other than object variables, object binders, and quotes are \index{operator, object}\index{object operator}\intro{object operators}.
+
+
+
+\subsection{Object terms}
+
+We shall say that a term is an \index{term, object}\indexintro{object term} if it is built up from the following:
+
+\begin{itemize}
+
+\item object operators applied to object terms.
+
+\item quotes applied to arbitrary terms.
+
+\item object variables applied to arbitrary terms (i.e.\ object variables with arbitrary indices).
+
+\item object binders applied to an object or meta variable and an object term in that order.
+
+\item meta variables applied to arbitrary terms (i.e.\ meta variables with arbitrary indices).
+
+\end{itemize}
+
+In other words, a term "[[ x ]]" is an object term iff "[[ x objectterm ( self ) ]]" where we define "[[ x objectterm ( c ) ]]" in the following.
+
+\begin{statements}
+
+\item "[[ eager define x valuedef ( c ) as c [[ x ref ]] [[ "code" ]] [[ x idx ]] end define ]]". The value definition of "[[ x ]]". This is "[[ 0 ]]" for lambda abstractions, "[[ 1 ]]" for quotes, and "[[ true ]]" for constructs with no value definition.
+
+\item "[[ eager define x mathdef ( c ) as x rhs ( c , math ) idx end define ]]". The math definition of "[[ x ]]". This is "[[ true ]]" for constructs with no math definition.
+
+\item "[[ eager define x objectvar ( c ) as x metadef ( c ) = true .and. x valuedef ( c ) = true .and. x mathdef ( c ) = true end define ]]". This is true if "[[ x ]]" is an object variable.
+
+\item "[[ eager define x objectlambda ( c ) as x metadef ( c ) = true .and. x valuedef ( c ) = 0 end define ]]". This is true if "[[ x ]]" is a lambda abstraction.
+
+\item "[[ eager define x objectquote ( c ) as x metadef ( c ) = true .and. x valuedef ( c ) = 1 end define ]]". This is true if "[[ x ]]" is a lambda abstraction.
+
+\item "[[ eager define x objectterm ( c ) as newline
+
+let d = x metadef ( c ) in newline
+
+if d = "var" then true else newline
+
+if d != true then false else newline
+
+let d = x valuedef ( c ) in newline
+
+if d = 0 then ( x first objectvar ( c ) .or. x first metavar ( c ) ) .and. x second objectterm ( c ) else newline
+
+if d = 1 then true else
+
+if d .and. x mathdef ( c ) then true else x tail objectterm* ( c ) end define ]]"
+
+\item "[[ eager define x objectterm* ( c ) as x atom .or. x head objectterm ( c ) .and. x tail objectterm* ( c ) end define ]]".
+
+\end{statements}
+
+
+
+\subsection{Meta terms}
+
+We shall say that a term is a \index{term, meta}\indexintro{meta term} if it is built up from the following:
+
+\begin{itemize}
+
+\item object terms.
+
+\item meta operators applied to meta terms.
+
+\item meta binders applied to a meta variable and a meta term in that order.
+
+\end{itemize}
+
+In other words, a term "[[ x ]]" is a meta term iff "[[ x metaterm ( self ) ]]" where we define "[[ x metaterm ( c ) ]]" in the following.
+
+\begin{statements}
+
+\item "[[ eager define x metaterm ( c ) as newline
+
+let d = x metadef ( c ) in newline
+
+if d = "var" then true else newline
+
+if d = "all" then x first metavar ( c ) .and. x second metaterm ( c ) else newline
+
+if d != true then x tail metaterm* ( c ) else x objectterm ( c ) end define ]]"
+
+\item "[[ eager define x metaterm* ( c ) as x atom .or. x head metaterm ( c ) .and. x tail metaterm* ( c ) end define ]]"
+
+\end{statements}
+
+
+
+\subsection{Avoidance}
+
+We shall say that a variable "[[ x ]]" \index{avoid}\intro{avoids} a term "[[ t ]]" if "[[ x ]]" does not occur free in "[[ t ]]". The meta version of avoidance is defined thus:
+
+\begin{statements}
+
+\item "[[ eager define x metaavoid ( c ) y as x metavar ( c ) .and. metaavoid1 ( x , y , c ) end define ]]". True if "[[ x ]]" is a meta variable and "[[ x ]]" does not occur free in the meta term "[[ y ]]".
+
+\item "[[ eager define x metaavoid* ( c ) y as newline
+
+if y atom then true else newline
+
+if x metaavoid ( c ) ( y head ) then x metaavoid* ( c ) ( y tail ) else y head end define ]]". True if "[[ x ]]" does not occur free in any element of the list "[[ y ]]" of meta terms. Otherwise returns the first element of "[[ y ]]" in which "[[ x ]]" occurs free.
+
+\item "[[ eager define metaavoid1 ( x , y , c ) as newline
+
+let d = y metadef ( c ) in newline
+
+if d = "var" then .not. x t= y else newline
+
+if d = "all" then x t= y first .or. metaavoid1 ( x , y second , c ) else newline
+
+if d != true then metaavoid1* ( x , y tail , c ) else newline
+
+let d = y valuedef ( c ) in newline
+
+if d = 1 then true else metaavoid1* ( x , y tail , c ) end define ]]"
+
+\item "[[ eager define metaavoid1* ( x , y , c ) as y atom .or. metaavoid1 ( x , y head , c ) .and. metaavoid1* ( x , y tail , c ) end define ]]"
+
+\end{statements}
+
+The object version of avoidance is defined in the following. We define a construct "[[ x objectavoid* ( c ) y ]]" which is true if "[[ x ]]" is a list of distinct object variables all of which avoid the term "[[ y ]]".
+
+\begin{statements}
+
+\item "[[ eager define distinctvar ( x , c ) as x atom .or. x head objectvar ( c ) .and. .not. x head member x tail .and. distinctvar ( x tail , c ) end define ]]". True if "[[ x ]]" is a list of distinct meta variables.
+
+\item "[[ eager define x objectavoid* ( c ) y as distinctvar ( x , c ) .and. ( objectavoid1 ( x , y , c , true ) catch tail ) end define ]]". True if "[[ x ]]" is a list of object variables none of which occur free in the meta term "[[ y ]]". If some element of "[[ x ]]" definitely occur free in "[[ y ]]" then the function returns "[[ false ]]". If the term contains meta variables then the function returns a list of meta variables which the variables in "[[ x ]]" must avoid in order to avoid "[[ y ]]".
+
+\item "[[ eager define x objectavoid ( c ) y as << x >> objectavoid* ( c ) y end define ]]". Same as above except that "[[ x ]]" is a term rather than a list of terms.
+
+\item "[[ eager define objectavoid1 ( x , y , c , r ) as newline
+
+if x = <<>> then r else newline
+
+let d = y metadef ( c ) in newline
+
+if d = "var" then r set+ y else newline
+
+let d = y valuedef ( c ) in newline
+
+if d = true then if y member x then false raise else r else newline
+
+if d = 0 then objectavoid1 ( x set- y first , y second , c , r ) else newline
+
+if d = 1 then r else newline
+
+objectavoid1* ( x , y tail , c , r ) end define ]]"
+
+\item "[[ eager define objectavoid1* ( x , y , c , r ) as if y atom then r else objectavoid1* ( x , y tail , c , objectavoid1 ( x , y head , c , r ) ) end define ]]"
+
+\end{statements}
+
+
+
+\subsection{Substitution freeness}
+
+We shall say that a substitution is \index{free substitution}\index{substitution, free}\intro{free} if one can perform the substitution without renaming. The meta and object versions of freeness are defined in the following.
+
+\begin{statements}
+
+\item "[[ eager define metafree ( x , y , z , c ) as newline
+
+let d = x metadef ( c ) in newline
+
+if d = "var" then true else newline
+
+if d = true then z objectterm ( c ) .or. y metaavoid ( c ) x else newline
+
+if d != "all" then metafree* ( x tail , y , z , c ) else newline
+
+if y t= x first then true else newline
+
+if y metaavoid ( c ) x second then true else newline
+
+x first metaavoid ( c ) z .and. metafree ( x second , y , z , c ) end define ]]". True if one can freely replace the meta variable "[[ y ]]" by the meta term "[[ z ]]" in the meta term "[[ x ]]".
+
+\item "[[ eager define metafree* ( x , y , z , c ) as x atom .or. metafree ( x head , y , z , c ) .and. metafree* ( x tail , y , z , c ) end define ]]" True if one can freely replace the meta variable "[[ y ]]" by the meta term "[[ z ]]" in any element of the list "[[ x ]]" of meta terms.
+
+\item "[[ eager define objectfree ( x , y , z , c ) as newline
+
+if x metadef ( c ) != true then false else newline
+
+let d = x valuedef ( c ) in newline
+
+if d = true then true else newline
+
+if d = 1 then true else newline
+
+if d != 0 then objectfree* ( x tail , y , z , c ) else newline
+
+if y t= x first then true else newline
+
+if y objectavoid ( c ) x second then true else newline
+
+x first objectavoid ( c ) z .and. objectfree ( x second , y , z , c ) end define ]]". True if one can freely replace the object variable "[[ y ]]" by the object term "[[ z ]]" in the object term "[[ x ]]".
+
+\item "[[ eager define objectfree* ( x , y , z , c ) as x atom .or. objectfree ( x head , y , z , c ) .and. objectfree* ( x tail , y , z , c ) end define ]]". True if one can freely replace the object variable "[[ y ]]" by the object term "[[ z ]]" in any element of the list "[[ x ]]" of object terms.
+
+\end{statements}
+
+
+
+\subsection{Substitution}
+
+The function "[[ metasubst ( x , s , c ) ]]" defined in the following substitutes variables with terms as specified in the association list "[[ s ]]". Only free occurences of variables in "[[ x ]]" are replaced. The function performs substitution without renaming of free variables and does not check whether or not the substitution if free. Substitution is parallel so that one may use e.g.\ "[[ s = << quote x end quote :: quote y end quote ,, quote y end quote :: quote x end quote >> ]]" to swap "[[ x ]]" and "[[ y ]]".
+
+\begin{statements}
+
+\item "[[ eager define metasubst ( x , s , c ) as newline
+
+let d = x metadef ( c ) in newline
+
+if d = "var" then lookup ( x , s , x ) else newline
+
+if d != "all" then x head :: metasubst* ( x tail , s , c ) else newline
+
+let s = remove ( x first , s ) in newline
+
+<< x head ,, x first ,, metasubst ( x second , s , c ) >> end define ]]".
+
+\item "[[ eager define metasubst* ( x , s , c ) as newline
+
+if x atom then true else newline
+
+metasubst ( x head , s , c ) :: metasubst* ( x tail , s , c ) end define ]]"
+
+\end{statements}
+
+The following function is like "[[ metasubst ( x , s , c ) ]]" but also checks that the substitution is free, that "[[ z ]]" is a metaterm, and that if "[[ x ]]" is a metaterm then so is the return value. Returns "[[ true ]]" on error.
+
+\begin{statements}
+
+\item "[[ eager define metasubstc ( x , s , c ) as metasubstc1 ( x , s , true , c ) end define ]]"
+
+\item "[[ eager define metasubstc1 ( x , s , b , c ) as newline
+
+let d = x metadef ( c ) in newline
+
+if d = "var" then metasubstc3 ( x , s , b , c ) else newline
+
+if d then metasubstc2 ( x , s , b , c ) else newline
+
+if d != "all" then x head :: metasubstc1* ( x tail , s , b , c ) else newline
+
+let s = remove ( x first , s ) in newline
+
+<< x head ,, x first ,, metasubstc1 ( x second , s , x first :: b , c ) >> end define ]]".
+
+\item "[[ eager define metasubstc1* ( x , s , b , c ) as newline
+
+if x atom then true else newline
+
+metasubstc1 ( x head , s , b , c ) :: metasubstc1* ( x tail , s , b , c ) end define ]]"
+
+\item "[[ eager define metasubstc2 ( x , s , b , c ) as newline
+
+let d = x metadef ( c ) in newline
+
+if d then x head :: metasubstc2* ( x tail , s , b , c ) else newline
+
+let v = lookup ( x , s , true ) in newline
+
+if v then x else newline
+
+let d = v metadef ( c ) in newline
+
+if .not. d .and. d != "var" then newline
+
+error ( x ,
+LocateProofLine ( x , c )
+diag ( "Substitution of" )
+disp ( x )
+diag ( "with" )
+disp ( v )
+diag ( "produces non-meta-term" )
+end diagnose ) else newline
+
+if metaavoid2* ( b , v , c ) then v else newline
+
+error ( x ,
+LocateProofLine ( x , c )
+diag ( "At-seqop used for non-free substitution. Attempt to instantiate" )
+disp ( x )
+diag ( "with" )
+disp ( v )
+end diagnose ) end define ]]"
+
+\item "[[ eager define metasubstc2* ( x , s , b , c ) as newline
+
+if x atom then true else newline
+
+metasubstc2 ( x head , s , b , c ) :: metasubstc2* ( x tail , s , b , c ) end define ]]"
+
+\item "[[ eager define metaavoid2* ( x , y , c ) as x .or. x head metaavoid ( c ) y .and. metaavoid2* ( x tail , y , c ) end define ]]"
+
+\item "[[ eager define metasubstc3 ( x , s , b , c ) as newline
+
+let v = lookup ( x , s , true ) in newline
+
+if v then x else newline
+
+if metaavoid2* ( b , v , c ) then v else newline
+
+error ( x ,
+LocateProofLine ( x , c )
+diag ( "At-seqop used for non-free substitution. Attempt to instantiate" )
+disp ( x )
+diag ( "with" )
+disp ( v )
+end diagnose ) end define ]]"
+
+\item "[[ eager define remove ( x , s ) as newline
+
+if s atom then s else newline
+
+if x t= s head head then remove ( x , s tail ) else newline
+
+s head :: remove ( x , s tail ) end define ]]"
+
+\end{statements}
+
+
+
+\subsection{Quantifiers}
+
+The following macro definition allows to write e.g.\ "[[ All #x ,, #y ,, #z : #a ]]" instead of "[[ All #x : All #y : All #z : #a ]]".
+
+\begin{statements}
+
+\item "[[ Macro define All u : v as \ x . expand-All ( x ) end define ]]"
+
+\item "[[ eager define expand-All ( x ) as newline
+
+let << t ,, s ,, c >> = x in newline
+
+let << true ,, u ,, v >> = t in newline
+
+let u = stateexpand ( u , s , c ) in newline
+
+let v = stateexpand ( v , s , c ) in newline
+
+expand-All1 ( t , u , v ) end define ]]"
+
+\item "[[ eager define expand-All1 ( t , u , v ) as newline
+
+if .not. u r= quote x ,, y end quote then back t quote All u unquote : v unquote end quote else newline
+
+expand-All1 ( t , u first , expand-All1 ( t , u second , v ) ) end define ]]"
+
+\end{statements}
+
+
+
+\section{Sequents}
+
+\subsection{Term sets}\label{sec:TermSets}
+
+We represent sets of terms by tuples of terms without repetitions so that no two elements "[[ x ]]" and "[[ y ]]" of the tuple satisfy "[[ x t= y ]]".
+
+\begin{statements}
+
+\item "[[ eager define x member y as if y atom then false else x t= y head .or. x member y tail end define ]]". Membership of a set of terms.
+
+\item "[[ eager define x set+ y as if y member x then x else y :: x end define ]]". Add the term "[[ y ]]" to the set "[[ x ]]" of terms.
+
+\item "[[ eager define x set- y as if y member x then x set-- y else x end define ]]". Remove the term "[[ y ]]" from the set "[[ x ]]" of terms.
+
+\item "[[ eager define x set-- y as if x atom then true else if x head t= y then x tail else x head :: x tail set-- y end define ]]"
+
+\item "[[ eager define x subset y as if x atom then true else x head member y .and. x tail subset y end define ]]"
+
+\item "[[ eager define x union y as if x atom then y else x tail union ( y set+ x head ) end define ]]"
+
+\item "[[ eager define x set= y as x subset y .and. y subset x end define ]]"
+
+\end{statements}
+
+
+
+\subsection{Sequents}
+
+The sequents of Logiweb sequent calculus have form "[[ << P ,, C ,, R >> ]]" where "[[ P ]]" is a pool of premisses, "[[ C ]]" is a pool of condition (i.e.\ side conditions), and "[[ R ]]" is a result which holds if the given premisses and conditions hold. "[[ P ]]" and "[[ C ]]" are sets of meta terms (c.f. Section \ref{sec:TermSets}) and "[[ R ]]" is a meta term.
+
+\begin{statements}
+
+\item "[[ eager define x sequent= y as x zeroth set= y zeroth .and. x first set= y first .and. x second t= y second end define ]]"
+
+\end{statements}
+
+
+
+\subsection{Sequent operators}
+
+The thirteen sequent operators of the Logiweb sequent calculus are:
+
+\begin{statements}
+
+\item "[[ meta define x Init as "Init" end define ]]". Allows to build a sequent with "[[ x ]]" as both premise and result.
+
+\item "[[ meta define x Ponens as "Ponens" end define ]]". Allows to move a premise from result to premise pool.
+
+\item "[[ meta define x Probans as "Probans" end define ]]". Allows to move a condition from result to condition pool.
+
+\item "[[ meta define x Verify as "Verify" end define ]]". Allows to evaluate and remove a condition from the result.
+
+\item "[[ meta define x Curry as "Curry" end define ]]". Allows to change a result from "[[ x oplus y infer z ]]" to "[[ x infer y infer z ]]".
+
+\item "[[ meta define x Uncurry as "Uncurry" end define ]]". Allows to change a result from "[[ x infer y infer z ]]" to "[[ x oplus y infer z ]]"
+
+\item "[[ meta define x Deref as "Dereference" end define ]]". Allows to change the name of a result to the result itself.
+
+\item "[[ meta define x at y as "at" end define ]]". Allows to instantiate a meta quantifier.
+
+\item "[[ meta define x infer y as "infer" end define ]]". Allows to move a premise from premise pool to result.
+
+\item "[[ meta define x endorse y as "endorse" end define ]]". Allows to move a condition from condition pool to result.
+
+\item "[[ meta define x id est y as "id est" end define ]]". Allows to change the result of "[[ x ]]" to the name "[[ y ]]" for the result.
+
+\item "[[ meta define All x : y as "all" end define ]]". Allows to perform meta generalization.
+
+\item "[[ meta define x ;; y as "cut" end define ]]". Allows to perform a cut operation.
+
+\end{statements}
+
+The operators "[[ x infer y ]]", "[[ x endorse y ]]", and "[[ All x : y ]]" may be used both as meta and as sequent operators. Whether they denote the one or the other depends on context.
+
+
+
+\subsection{Sequent pseudo operators}
+
+In addition to the genuine sequent operators the following pseudo operators allow to build up the body of a proof. The pseudo operators disappear during unification.
+
+\begin{statements}
+
+\item "[[ meta define x ponens y as "ponens" end define ]]". Same as "[[ x Ponens ]]" but "[[ y ]]" specifies what the moved premise looks like as an aid to unification.
+
+\item "[[ meta define x probans y as "probans" end define ]]". Same as "[[ x Probans ]]" but "[[ y ]]" specifies what the moved condition looks like as an aid to unification.
+
+\item "[[ meta define x verify y as "verify" end define ]]". Same as "[[ x Verify ]]" but "[[ y ]]" specifies what the verified condition looks like as an aid to unification.
+
+\item "[[ meta define x conclude y as "conclude" end define ]]". Same as "[[ x ]]" but "[[ y ]]" specifies what "[[ x ]]" is supposed to prove as an aid to unification.
+
+\item "[[ meta define x At as "At" end define ]]". Same as "[[ x at y ]]" but leaves it to unification to determine "[[ y ]]".
+
+\item "[[ meta define x Infer as "Infer" end define ]]". Same as "[[ y infer x ]]" but leaves it to unification to determine "[[ y ]]".
+
+\item "[[ meta define x Endorse as "Endorse" end define ]]". Same as "[[ y endorse x ]]" but leaves it to unification to determine "[[ y ]]".
+
+\item "[[ meta define x All as "All" end define ]]". Same as "[[ All y : x ]]" but leaves it to unification to determine "[[ y ]]".
+
+\item "[[ meta define x Conclude as "Conclude" end define ]]". Add as many "[[ x at y ]]", "[[ x Ponens ]]", and "[[ x Verify ]]" operations as possible in an attempt to make "[[ x ]]" prove an object term.
+
+\end{statements}
+
+
+
+\subsection{Counting of sequent operators}
+
+The following function can be used for profiling tactics in that it returns the number of tactic operators in the term t.
+
+"[[ eager define seqcnt ( t , c ) as newline
+
+if t r= quote x Init end quote then 1 else newline
+
+if t r= quote x Ponens end quote then 1 + seqcnt ( t first , c ) else newline
+
+if t r= quote x Probans end quote then 1 + seqcnt ( t first , c ) else newline
+
+if t r= quote x Verify end quote then 1 + seqcnt ( t first , c ) else newline
+
+if t r= quote x Curry end quote then 1 + seqcnt ( t first , c ) else newline
+
+if t r= quote x Uncurry end quote then 1 + seqcnt ( t first , c ) else newline
+
+if t r= quote x Deref end quote then 1 + seqcnt ( t first , c ) else newline
+
+if t r= quote x at y end quote then 1 + seqcnt ( t first , c ) else newline
+
+if t r= quote x infer y end quote then 1 + seqcnt ( t second , c ) else newline
+
+if t r= quote x endorse y end quote then 1 + seqcnt ( t second , c ) else newline
+
+if t r= quote x id est y end quote then 1 + seqcnt ( t first , c ) else newline
+
+if t r= quote All x : y end quote then 1 + seqcnt ( t second , c ) else newline
+
+if t r= quote x ;; y end quote then 1 + seqcnt ( t first , c ) + seqcnt ( t second , c ) else newline
+
+error ( t ,
+LocateProofLine ( t , c )
+diag ( "In seqcnt: Unknown seqop in root of" )
+disp ( t )
+end diagnose )
+
+end define ]]"
+
+
+
+\subsection{Error message construct}
+
+The "[[ eager define error ( x , y ) as ( dbug ( x ) y ) raise end define ]]" construct is useful for signaling errors. The construct signals that an error has occurred by raising an exception. Exceptions take one parameter, and "[[ error ( x , y ) ]]" raises an exception with parameter "[[ y ]]". That parameter is supposed to be a term which, when typeset, explains to a human reader what went wrong.
+
+If the term "[[ y ]]" contains no useful ``debugging information'' then "[[ error ( x , y ) ]]" takes the debugging information from "[[ x ]]". At the time of writing, the debugging information is not used. As an example of use, a Logiweb browser could have a button for moving to the proof line in error. As another example, a custom renderer could add a hypertarget to the line in error such that one could navigate to it using an ordinary web browser.
+
+
+
+\subsection{Pattern recognition}
+
+The `mismatch' construct defined in the following is such that  e.g.\ "[[ mismatch ( quote x infer y end quote , R , c ) ]]" is false if "[[ R ]]" has form "[[ x infer y ]]".
+
+\begin{statements}
+
+\item "[[ eager define mismatch ( x , y , c ) as newline
+
+let a = x metadef ( c ) in newline
+
+if a = true then false else newline
+
+if a != y metadef ( c ) then true else mismatch* ( x tail , y tail , c ) end define ]]"
+
+
+
+\item "[[ eager define mismatch* ( x , y , c ) as newline
+
+if x atom .and. y atom then false else newline
+
+if x atom .or. y atom then true else newline
+
+mismatch ( x head , y head , c ) .or. mismatch* ( x tail , y tail , c ) end define ]]"
+
+\end{statements}
+
+
+
+\subsection{Sequent evaluator}
+
+"[[ seqeval ( t , c ) ]]" evaluates the sequent term "[[ t ]]". The result is either an exception or a valid sequent "[[ s ]]". In the latter case, "[[ t ]]" is said to be a sequent proof of "[[ s ]]".
+
+\vspace{\abovedisplayskip}
+
+\noindent "[[ eager define seqeval ( t , c ) as newline
+
+"";timer ( "seqeval" ) .then. newline
+
+if t r= quote x Init end quote then eval-Init ( t first , c ) else newline
+
+if t r= quote x Ponens end quote then eval-Ponens ( seqeval ( t first , c ) , t first , c ) else newline
+
+if t r= quote x Probans end quote then eval-Probans ( seqeval ( t first , c ) , t first , c ) else newline
+
+if t r= quote x Verify end quote then eval-Verify ( seqeval ( t first , c ) , t first , c ) else newline
+
+if t r= quote x Curry end quote then eval-Curry ( seqeval ( t first , c ) , t first , c ) else newline
+
+if t r= quote x Uncurry end quote then eval-Uncurry ( seqeval ( t first , c ) , t first , c ) else newline
+
+if t r= quote x Deref end quote then eval-Deref ( seqeval ( t first , c ) , t first , c ) else newline
+
+if t r= quote x at y end quote then eval-at ( t , true , c ) else newline
+
+if t r= quote x infer y end quote then eval-infer ( t first , seqeval ( t second , c ) , t second , c ) else newline
+
+if t r= quote x endorse y end quote then eval-endorse ( t first , seqeval ( t second , c ) , t second , c ) else newline
+
+if t r= quote x id est y end quote then eval-ie ( seqeval ( t first , c ) , t second , t first , c ) else newline
+
+if t r= quote All x : y end quote then eval-all ( t first , seqeval ( t second , c ) , t second , c ) else newline
+
+if t r= quote x ;; y end quote then eval-cut ( seqeval ( t first , c ) , seqeval ( t second , c ) , c ) else newline
+
+error ( t ,
+LocateProofLine ( t , c )
+diag ( "Unknown seqop in root of" )
+disp ( t )
+end diagnose )
+
+end define ]]"
+
+
+
+\subsection{Definitions of sequent operators}
+
+The individual sequent operators of the Logiweb sequent calculus are defined as follows:
+
+\begin{statements}
+
+\item "[[ eager define eval-Init ( x , c ) as newline
+
+"";timer ( "eval-Init" ) .then. newline
+
+if x metaterm ( c ) then << << x >> ,, <<>> ,, x >> else newline
+
+error ( x ,
+LocateProofLine ( x , c )
+diag ( "Init-seqop used on non-meta term:" )
+disp ( x )
+end diagnose )
+
+end define ]]"
+
+
+
+\item "[[ eager define eval-Ponens ( x , d , c ) as newline
+
+"";timer ( "eval-Ponens" ) .then. newline
+
+let << P ,, C ,, R >> = x in newline
+
+if mismatch ( quote x infer y end quote , R , c ) then newline
+
+error ( d ,
+LocateProofLine ( d , c )
+diag ( "Ponens-seqop used on non-inference:" )
+disp ( R )
+end diagnose ) else newline
+
+let << true ,, P prime ,, R prime >> = R in newline
+
+<< P set+ P prime ,, C ,, R prime >> end define ]]"
+
+
+
+\item "[[ eager define eval-Probans ( x , d , c ) as newline
+
+"";timer ( "eval-Probans" ) .then. newline
+
+let << P ,, C ,, R >> = x in newline
+
+if mismatch ( quote x endorse y end quote , R , c ) then newline
+
+error ( d ,
+LocateProofLine ( d , c )
+diag ( "Probans-seqop used on non-endorsement:" )
+disp ( R )
+end diagnose ) else newline
+
+let << true ,, C prime ,, R prime >> = R in newline
+
+<< P ,, C set+ C prime ,, R prime >> end define ]]"
+
+
+
+\item "[[ eager define eval-Verify ( x , d , c ) as newline
+
+"";timer ( "eval-Verify" ) .then. newline
+
+let << P ,, C ,, R >> = x in newline
+
+if mismatch ( quote x endorse y end quote , R , c ) then newline
+
+error ( d ,
+LocateProofLine ( d , c )
+diag ( "Verify-seqop used on non-endorsement:" )
+disp ( R )
+end diagnose ) else newline
+
+let << true ,, C prime ,, R prime >> = R in newline
+
+if ( eval ( C prime , true , c ) apply c maptag ) untag catch = false :: true then << P ,, C ,, R prime >> else newline
+
+error ( d ,
+LocateProofLine ( d , c )
+diag ( "Verify-seqop used on false condition:" )
+disp ( C prime )
+end diagnose )
+
+end define ]]"
+
+
+
+\item "[[ eager define eval-Curry ( x , d , c ) as newline
+
+"";timer ( "eval-Curry" ) .then. newline
+
+let << P ,, C ,, R >> = x in newline
+
+if mismatch ( quote ( x oplus y ) infer z end quote , R , c ) then newline
+
+error ( d ,
+LocateProofLine ( d , c )
+diag ( "Curry-seqop used on unfit argument:" )
+disp ( R )
+end diagnose ) else newline
+
+let back true quote ( X unquote oplus Y unquote ) infer Z unquote end quote = R in newline
+
+<< P ,, C ,, back R quote X unquote infer Y unquote infer Z unquote end quote >> end define ]]"
+
+
+
+\item "[[ eager define eval-Uncurry ( x , d , c ) as newline
+
+"";timer ( "eval-Uncurry" ) .then. newline
+
+let << P ,, C ,, R >> = x in newline
+
+if mismatch ( quote x infer y infer z end quote , R , c ) then newline
+
+error ( d ,
+LocateProofLine ( d , c )
+diag ( "Uncurry-seqop used on unfit argument:" )
+disp ( R )
+end diagnose ) else newline
+
+let back true quote X unquote infer Y unquote infer Z unquote end quote = R in newline
+
+<< P ,, C ,, back R quote ( X unquote oplus Y unquote ) infer Z unquote end quote >> end define ]]"
+
+
+
+\item "[[ eager define eval-Deref ( x , d , c ) as newline
+
+"";timer ( "eval-Deref" ) .then. newline
+
+let << P ,, C ,, R >> = x in newline
+
+let R prime = R stmt-rhs ( c ) in newline
+
+if R prime = true then newline
+
+error ( d ,
+LocateProofLine ( d , c )
+diag ( "Deref-seqop used on undefined statement:" )
+disp ( R )
+end diagnose ) else newline
+
+if R prime metaterm ( c ) then << P ,, C ,, R prime >> else newline
+
+error ( d ,
+LocateProofLine ( d , c )
+diag ( "Deref-seqop applied to" )
+disp ( R )
+diag ( "produced non-meta term:" )
+disp ( R prime )
+end diagnose )
+
+end define ]]"
+
+
+
+\item "[[ eager define eval-at ( x , v , c ) as newline
+
+"";timer ( "eval-at" ) .then. newline
+
+if .not. x r= quote x at y end quote then
+
+let << P ,, C ,, R >> = seqeval ( x , c ) in newline
+
+<< P ,, C ,, eval-at1 ( R , v , true , x , c ) >> else newline
+
+if x second metaterm ( c ) then eval-at ( x first , x second :: v , c ) else newline
+
+error ( x ,
+LocateProofLine ( x , c )
+diag ( "At-seqop used on non-meta-term:" )
+disp ( x second )
+end diagnose ) end define ]]"
+
+\item "[[ eager define eval-at1 ( R , v , s , d , c ) as newline
+
+if v then metasubstc ( R , s , c ) else newline
+
+if mismatch ( quote All x : y end quote , R , c ) then
+
+error ( d ,
+LocateProofLine ( d , c )
+diag ( "At-seqop used on non-quantifier:" )
+disp ( R )
+end diagnose ) else newline
+
+eval-at1 ( R second , v tail , ( R first :: v head ) :: s , d , c ) end define ]]"
+
+
+
+\item "[[ eager define eval-infer ( x , y , d , c ) as newline
+
+"";timer ( "eval-infer" ) .then. newline
+
+if .not. x metaterm ( c ) then newline
+
+error ( d ,
+LocateProofLine ( d , c )
+diag ( "Infer-seqop used on non-meta term:" )
+disp ( x )
+end diagnose ) else newline
+
+let << P ,, C ,, R >> = y in newline
+
+<< P set- x ,, C ,, back R quote x unquote infer R unquote end quote >>
+
+end define ]]"
+
+
+
+\item "[[ eager define eval-endorse ( x , y , d , c ) as newline
+
+"";timer ( "eval-endorse" ) .then. newline
+
+if .not. x metaterm ( c ) then newline
+
+error ( d ,
+LocateProofLine ( d , c )
+diag ( "Endorse-seqop used on non-meta term:" )
+disp ( x )
+end diagnose ) else newline
+
+let << P ,, C ,, R >> = y in newline
+
+<< P ,, C set- x ,, back R quote x unquote endorse R unquote end quote >>
+
+end define ]]"
+
+
+
+\item "[[ eager define eval-ie ( x , y , d , c ) as newline
+
+"";timer ( "eval-ie" ) .then. newline
+
+let << P ,, C ,, R >> = x in newline
+
+if R t= y stmt-rhs ( c ) then newline
+
+<< P ,, C ,, y >> else newline
+
+error ( d ,
+LocateProofLine ( d , c )
+diag ( "IdEst-seqop used on non-matching result. Attempt to match" )
+disp ( y )
+diag ( "with" )
+disp ( R )
+end diagnose )
+
+end define ]]"
+
+
+
+\item "[[ eager define eval-all ( x , y , d , c ) as newline
+
+"";timer ( "eval-all" ) .then. newline
+
+let << P ,, C ,, R >> = y in newline
+
+if .not. x metaavoid* ( c ) P then newline
+
+error ( d ,
+LocateProofLine ( d , c )
+diag ( "All-seqop catches variable" )
+disp ( x )
+diag ( "which is free in the following premise:" )
+disp ( x metaavoid* ( c ) P )
+end diagnose ) else newline
+
+if .not. x metaavoid* ( c ) C then newline
+
+error ( d ,
+LocateProofLine ( d , c )
+diag ( "All-seqop catches variable" )
+disp ( x )
+diag ( "which is free in the following condition:" )
+disp ( x metaavoid* ( c ) C )
+end diagnose ) else newline
+
+<< P ,, C ,, back R quote All x unquote : R unquote end quote >> end define ]]"
+
+
+
+\item "[[ eager define eval-cut ( x , y , c ) as newline
+
+"";timer ( "eval-cut" ) .then. newline
+
+let << P ,, C ,, R >> = x in newline
+
+let << P prime ,, C prime ,, R prime >> = y in newline
+
+<< P union ( P prime set- R ) ,, C union C prime ,, R prime >> end define ]]"
+
+\end{statements}
+
+
+
+\section{Proof construction}
+
+\subsection{Location information}
+
+\begin{statements}
+
+\item "[[ locate define proof of x : y as "proof" :: 1 end define ]]". State that the given construct defines a proof and that the name of the proof is the first argument.
+
+\item "[[ locate define x proof of y : z as "proof" :: 2 end define ]]". State that the given construct defines a proof and that the name of the proof is the second argument.
+
+\item "[[ locate define proof define x as y end define as "proof" :: 1 end define ]]". State that the given construct defines a proof and that the name of the proof is the first argument.
+
+\item "[[ locate define line asterisk : asterisk >> asterisk ; asterisk as "line" :: 1 end define ]]". State that the given construct defines a proof line and that the name of the proof line is the first argument.
+
+\item "[[ locate define line asterisk : asterisk >> asterisk ; as "line" :: 1 end define ]]"
+
+\item "[[ locate define line asterisk : asterisk >> asterisk qed as "line" :: 1 end define ]]"
+
+\item "[[ locate define line asterisk : Premise >> asterisk ; asterisk as "line" :: 1 end define ]]"
+
+\item "[[ locate define line asterisk : Condition >> asterisk ; asterisk as "line" :: 1 end define ]]"
+
+\item "[[ locate define line asterisk : Arbitrary >> asterisk ; asterisk as "line" :: 1 end define ]]"
+
+\item "[[ locate define line asterisk : Local >> asterisk = asterisk ; asterisk as "line" :: 1 end define ]]"
+
+\item "[[ locate define line asterisk : Block >> Begin ; asterisk line asterisk : Block >> End ; asterisk as "line" :: 3 end define ]]"
+
+\end{statements}
+
+
+
+\subsection{Error message generation}
+
+\begin{statements}
+
+\item "[[ eager define make-string ( d , x ) as << << 0 ,, x ,, d >> >> end define ]]". Convert the string "[[ x ]]" to a tree which represents the term
+
+\item "[[ eager define dbug ( x ) y as newline
+
+if y debug != true then y else newline
+
+make-root ( x , y ) :: dbug* ( x ) y tail
+
+end define ]]"
+
+\item "[[ eager define dbug* ( x ) y as if y then true else ( dbug ( x ) y head ) :: dbug* ( x ) y tail end define ]]"
+
+\item "[[ eager define glue ( x ) y as << make-root ( true , show quote glue' ( x ) y end quote end show ) ,, make-string ( true , x ) ,, y >> end define ]]"
+
+\item "[[ eager define diag ( x ) y as << make-root ( true , show quote diag' ( x ) y end quote end show ) ,, make-string ( true , x ) ,, y >> end define ]]"
+
+\item "[[ eager define disp ( x ) y as << make-root ( true , show quote disp' ( x ) y end quote end show ) ,, x ,, y >> end define ]]"
+
+\item "[[ eager define form ( x ) y as << make-root ( true , show quote form' ( x ) y end quote end show ) ,, x ,, y >> end define ]]"
+
+\item "[[ eager define end diagnose as make-string ( true , show "". end show ) end define ]]"
+
+\end{statements}
+
+
+
+\subsection{Error location}
+
+\begin{statements}
+
+\item "[[ eager define Locate ( t , s , c ) as newline
+
+let true :: d = reverse ( t debug head ) catch in newline
+
+let e :: v = Locate1 ( d tail , c [[ d head ]] [[ "body" ]] , s , true , c ) catch in newline
+
+if e then exception else v
+
+end define ]]". "[[ t ]]" is supposed to be a term which has been macro expanded. If macro expansion has been set up properly, then it is possible to locate where "[[ t ]]" came from before macro expansion. "[[ d ]]" is set to that location encoded as a list "[[ << r ,, i _ { 0 } ,, *** ,, i _ { n } >> ]]" where "[[ r ]]" is the reference of the page where the term occurred and "[[ i _ { 0 } ,, *** ,, i _ { n } ]]" is a path from the root of that page to the term. That path is traversed and for each symbol on the path, the locate aspect is looked up. The locate aspect is supposed to be a pair of a string and a value. If the string equals "[[ s ]]" then a pair of the symbol with subtrees and the value is returned. If more than one node matches, the last one (the one closest to "[[ t ]]") is returned. If no nodes match, then "[[ true ]]" is returned.
+
+\item "[[ eager define Locate1 ( d , t , s , r , c ) as newline
+
+if t then r else newline
+
+let v = t locate-rhs ( c ) in newline
+
+let v = if v then true else eval ( v , true , c ) untag in newline
+
+let r = if v head = s then t :: v tail else r in newline
+
+if d atom then r else newline
+
+Locate1 ( d tail , nth ( d head , t tail ) , s , r , c )
+
+end define ]]"
+
+\item "[[ eager define LocateProofLine ( v , c ) y as newline
+
+let p = Locate ( v , "proof" , c ) in newline
+
+let l = Locate ( v , "line" , c ) in newline
+
+if .not. p .and. .not. l then newline
+
+dbug ( v )
+diag ( "Line" )
+form ( nth ( l tail , l head ) )
+diag ( "in proof of" )
+form ( nth ( p tail , p head ) )
+glue ( ":\newline " )
+y else newline
+
+if .not. p then newline
+
+dbug ( v )
+diag ( "In proof of" )
+form ( nth ( p tail , p head ) )
+glue ( ":\newline " )
+y else newline
+
+dbug ( v )
+diag ( "Cannot locate error." )
+diag ( "Look at ``macro'' and ``locate'' definitions." )
+diag ( "". )
+y
+
+end define ]]"
+
+\end{statements}
+
+
+
+\subsection{Proof checker}
+
+\begin{statements}
+
+\item "[[ eager define claiming ( x , y ) as newline
+
+if .not. y r= quote u &c v end quote then x t= y else newline
+
+claiming ( x , y first ) .or. claiming ( x , y second ) end define ]]".
+
+True if "[[ x ]]" is among the conjuncts of a term "[[ y ]]" built up from conjunctions and "[[ u &c v ]]".
+
+\item "[[ value define proofcheck as \ c . proofcheck1 ( c ) end define ]]".
+
+Suited as conjunct in the claim of a page.
+
+\item "[[ verifier test1 &c proofcheck end verifier ]]".
+
+Use both proofcheck and test1 as verifiers.
+
+\item "[[ eager define proofcheck1 ( c ) as newline
+
+let e :: v = proofcheck2 ( c ) catch in newline
+
+"";timer ( true ) .then. newline
+
+if v != true then diagnose v end diagnose else newline
+
+if .not. e then true else newline
+
+diagnose show quote "In proof checker: unprocessed exception" end quote end show end diagnose end define ]]".
+
+Proofcheck page. Errors are reported as exceptions whose value is a term to be typeset as diagnose and for which the debugging information of the root indicates the location of the error.
+
+\item "[[ eager define proofcheck2 ( c ) as newline
+
+let r = c [[ 0 ]] in newline
+
+"";timer ( "seqeval*" ) .then. newline
+
+let a = seqeval* ( c [[ r ]] [[ "codex" ]] [[ r ]] , c ) in newline
+
+"";timer ( "circularitycheck1" ) .then. newline
+
+let x = circularitycheck1 ( r , c , a , a ) in true end define ]]".
+
+Check all proofs on the page using "[[ seqeval* ( a , c ) ]]", then check that the proofs do not reference each other in a circular way.
+
+\item "[[ eager define seqeval* ( a , c ) as newline
+
+if a = true then true else newline
+
+let x :: y = a in newline
+
+if .not. x intp then seqeval* ( x , c ) :: seqeval* ( y , c ) else newline
+
+let d = y [[ 0 ]] [[ proof ]] in
+
+if d = true then true else newline
+
+"";timer ( d second ) .then. newline
+
+print ( d second rhs ( c , !"name" ) idx :: LF ) .then. newline
+
+"";timer ( "tactic" ) .then. newline
+
+let e :: p = ( eval ( d third , true , c ) apply d maptag apply c maptag ) untag [[ hook-arg ]] catch in newline
+
+"";timer ( true ) .then. newline
+
+if e .and. p then
+error ( d second ,
+diag ( "Malformed proof of" )
+form ( d second )
+end diagnose ) else newline
+
+if e then p raise else newline
+
+"";timer ( "seqeval" ) .then. newline
+
+let e :: S = seqeval ( p , c ) catch in newline
+
+"";timer ( true ) .then. newline
+
+if e .and. S then
+error ( d second ,
+diag ( "Malformed sequent proof of" )
+form ( d second )
+end diagnose ) else newline
+
+if e then S raise else newline
+
+let << P ,, C ,, R >> = S in newline
+
+if C != <<>> then
+error ( d second ,
+diag ( "In proof of" )
+form ( d second )
+glue ( ":\newline " )
+diag ( "Unchecked sidecondition:" )
+disp ( C head )
+end diagnose ) else newline
+
+let l = y [[ 0 ]] [[ statement ]] in newline
+
+if l = true then
+error ( d second ,
+diag ( "Proof of non-existent lemma:" )
+disp ( d second )
+end diagnose ) else newline
+
+if .not. l third t= R then newline
+
+error ( d ,
+diag ( "The proof of" )
+disp ( d second )
+diag ( "does not prove what the lemma says." )
+diag ( "After macro expansion, the lemma says:" )
+disp ( l third )
+diag ( "After macro, tactic, and sequent expansion, the proof concludes:" )
+disp ( R )
+end diagnose ) else newline
+
+premisecheck* ( P , c ) .and. x :: S end define ]]".
+
+Sequent evaluate all proofs in the array "[[ a ]]" and return an array of sequents. Proofs are tactic evaluated first end the resulting sequents are checked for everything except circularities.
+
+\item "[[ eager define premisecheck* ( P , c ) as newline
+
+if P atom then true else premisecheck ( P head  , c ) .and. premisecheck* ( P tail , c ) end define ]]".
+
+Check each premise in the list "[[ P ]]" of premisses.
+
+\item "[[ eager define checked ( r , c ) as newline
+
+let x = c [[ r ]] [[ "codex" ]] [[ r ]] [[ 0 ]] [[ 0 ]] [[ "claim" ]] third in newline
+
+if claiming ( quote proofcheck end quote , x ) then true else newline
+
+if .not. x then false else newline
+
+let r = c [[ r ]] [[ "bibliography" ]] first in newline
+
+if r then false else newline
+
+let x = c [[ r ]] [[ "codex" ]] [[ r ]] [[ 0 ]] [[ 0 ]] [[ "claim" ]] third in newline
+
+claiming ( quote proofcheck end quote , x ) end define ]]". True if the page with reference "[[ r ]]" has been checked by "[[ proofcheck ]]".
+
+\item "[[ eager define premisecheck ( P , c ) as newline
+
+let r = P ref in let i = P idx in newline
+
+if r != c [[ 0 ]] .and. c [[ r ]] [[ "diagnose" ]] untag != true then newline
+
+error ( P ,
+diag ( "Lemma" )
+disp ( P )
+diag ( "occurs on a page with a non-empty diagnose." )
+diag ( "Avoid referencing that lemma." )
+end diagnose ) else newline
+
+if .not. checked ( r , c ) then newline
+
+error ( P ,
+diag ( "Lemma" )
+disp ( P )
+diag ( "occurs on a page which has not been checked" )
+diag ( "by the present proof checker." )
+diag ( "Avoid referencing that lemma." )
+end diagnose ) else newline
+
+if P proof-rhs ( c ) then newline
+
+error ( P ,
+LocateProofLine ( P , c )
+diag ( "Lemma" )
+disp ( P )
+diag ( "has no proof. Avoid referencing that lemma." )
+end diagnose ) else true end define ]]".
+
+Check that a referenced lemma occurs on a correct page ("[[ "diagnose" = true ]]"), has been checked (claim contains verifier), and has been proved (has non-empty proof aspect).
+
+\item "[[ eager define circularitycheck1 ( r , c , a , q ) as newline
+
+if a = true then q else newline
+
+let x :: y = a in newline
+
+if x intp then circularitycheck2 ( r , c , x , q ) else
+
+circularitycheck1 ( r , c , y , circularitycheck1 ( r , c , x , q ) ) end define ]]".
+
+Check all indices in "[[ a ]]" for circularities. "[[ q ]]" is an array of sequents. The elements of "[[ q ]]" are set to "[[ 0 ]]" while they are being checked for circularities and are set to "[[ 1 ]]" when it has been verified that they are not circular.
+
+\item "[[ eager define circularitycheck2 ( r , c , i , q ) as newline
+
+let v = q [[ i ]] in newline
+
+if v = 0 then newline
+
+let n = c [[ r ]] [[ "codex" ]] [[ r ]] [[ i ]] [[ 0 ]] [[ proof ]] second in newline
+
+error ( n ,
+diag ( "Circular proof. The vicious circle includes lemma" )
+disp ( n )
+end diagnose ) else newline
+
+if v = 1 then q else newline
+
+circularitycheck2* ( r , c , v head , q [[ i -> 0 ]] ) [[ i -> 1 ]] end define ]]".
+
+Check the proof with index "[[ i ]]" for circularities.
+
+\item "[[ eager define circularitycheck2* ( r , c , l , q ) as newline
+
+if l atom then q else newline
+
+let p :: l = l in newline
+
+let q = circularitycheck2* ( r , c , l , q ) in newline
+
+if r != p ref then q else
+
+circularitycheck2 ( r , c , p idx , q ) end define ]]".
+
+Check all proofs in the list "[[ l ]]" of terms for circularity.
+
+\item "[[ statement define lemma1 as All #x : All #y : #x infer #y infer #x end define ]]".
+
+Manually stated lemma for testing.
+
+\item "[[ proof define lemma1 as \ p . \ c . true [[ hook-arg -> quote All #x : All #y : #x infer #y infer #x Init end quote ]] end define ]]".
+
+Manually stated proof for testing.
+
+\end{statements}
+
+
+
+\subsection{Conversions from values to terms}
+
+The following are useful for constructing indexed variables:
+
+\begin{statements}
+
+\item "[[ eager define int2string ( t , v ) as newline
+
+if v > 0 then << 0 :: int2string1 ( v , "". ) :: t debug >> else newline
+
+if v = 0 then << 0 :: "0" :: t debug >> else newline
+
+<< 0 :: 256 * int2string1 ( - v , "". ) + logand ( "-" , 255 ) :: t debug >> end define ]]"
+
+\item "[[ eager define int2string1 ( v , r ) as newline
+
+if v = 0 then r else newline
+
+let z = logand ( "0" , 255 ) in newline
+
+let x :: y = floor ( v , 10 ) in newline
+
+int2string1 ( x , 256 * r + z + y ) end define ]]"
+
+\item "[[ eager define val2term ( t , v ) as newline
+
+if v = true then back t quote true end quote else newline
+
+if v = false then back t quote false end quote else newline
+
+if v pairp then back t quote val2term ( t , v head ) unquote :: val2term ( t , v tail ) unquote end quote else newline
+
+if v mapp then back t quote map ( *** ) end quote else newline
+
+if v objectp then back t quote object ( val2term ( t , destruct ( v ) ) unquote ) end quote else
+
+if v = 0 then back t quote 0 end quote else newline
+
+if v < 0 then back t quote - card2term ( t , - v ) unquote end quote else newline
+
+card2term ( t , v ) end define ]]"
+
+\item "[[ eager define card2term ( t , v ) as newline
+
+if v = 0 then back t quote %% end quote else newline
+
+if evenp ( v )
+then back t quote card2term ( t , half ( v ) ) unquote %0 end quote
+else back t quote card2term ( t , half ( v ) ) unquote %1 end quote end define ]]".
+
+\end{statements}
+
+
+
+\subsection{Unification}
+
+\begin{statements}
+
+\item "[[ eager define univar ( t , v , i ) as
+back t quote unifresh ( v unquote , int2string ( t , i ) unquote ) end quote end define ]]"
+
+\item "[[ eager define pterm ( t , c ) as pterm1 ( t , true , 1 , c ) end define ]]".
+
+We shall refer to terms in which some of the bound meta variables are replaced by fresh variables indexed by numbers as \index{term, parameter}\index{parameter term}\intro{parameter terms}. "[[ pterm ( t , c ) ]]" replaces meta variables bound at the top level in "[[ t ]]". The function is used e.g.\ on instances of lemmas in proofs before unification. That allows to recognize instantiable meta variables after their associated quantifiers have been removed. "[[ c ]]" should be the cache of the page.
+
+\item "[[ eager define pterm1 ( t , s , n , c ) as newline
+
+let d = t metadef ( c ) in newline
+
+if d != "all" then pterm2 ( t , s , c ) else newline
+
+let v = univar ( t first , t first , n ) in newline
+
+let t prime = pterm1 ( t second , ( t first :: v ) :: s , n + 1 , c ) in newline
+
+back t quote All v unquote : t prime unquote end quote end define ]]".
+
+\item "[[ eager define pterm2 ( t , s , c ) as newline
+
+let d = t metadef ( c ) in newline
+
+let s = if d = "all" then ( t first :: t first ) :: s else s in newline
+
+if d != "var" then t head :: pterm2* ( t tail , s , c ) else newline
+
+let n = lookup ( t , s , true ) in newline
+
+if n = true then t else n end define ]]"
+
+\item "[[ eager define pterm2* ( t , s , c ) as newline
+
+if t atom then true else newline
+
+pterm2 ( t head , s , c ) :: pterm2* ( t tail , s , c ) end define ]]"
+
+\item "[[ eager define inst ( t , d , a ) as newline
+
+if .not. t r= quote unifresh ( true , true ) end quote then ( t ref :: t idx :: d debug ) :: inst* ( t tail , d , a ) else newline
+
+let u = a [[ t second idx ]] in
+
+if u != true then inst ( u , d , a ) else newline
+
+error ( d ,
+diag ( "Incomplete unification. Uninstantiated variable:" )
+disp ( t )
+end diagnose ) end define ]]".
+
+Instantiate the parameter term "[[ t ]]" as specified by the array "[[ a ]]". May loop indefinitely. As an example, a substitution which maps "[[ #x ]]" to "[[ #x :: #x ]]" will keep expanding "[[ #x ]]" forever. We shall say that a substitution is \index{circular substitution}\index{substitution, circular}\intro{circular} if there exists a term "[[ t ]]" for which "[[ inst ( t , d , x ) ]]" loops indefinitely.
+
+\item "[[ eager define inst* ( t , d , a ) as if t atom then true else inst ( t head , d , a ) :: inst* ( t tail , d , a ) end define ]]".
+
+\item "[[ eager define occur ( t , u , s ) as newline
+
+if u r= quote unifresh ( true , true ) end quote then t t= u .or. occur ( t , s [[ u second idx ]] , s ) else newline
+
+occur* ( t , u tail , s ) end define ]]".
+
+True if "[[ t ]]" occurs in "[[ inst ( u , d , s ) ]]". May loop indefinitely if "[[ s ]]" is circular.
+
+\item "[[ eager define occur* ( t , u , s ) as newline
+
+if u atom then false else occur ( t , u head , s ) .or. occur* ( t , u tail , s ) end define ]]".
+
+\item "[[ eager define unify ( t , u , s ) as newline
+
+if t r= quote unifresh ( true , true ) end quote then unify2 ( t , u , s ) else newline
+
+if u r= quote unifresh ( true , true ) end quote then unify2 ( u , t , s ) else newline
+
+if t r= u then unify* ( t tail , u tail , s ) else newline
+
+error ( t ,
+diag ( "Unable to unify" )
+disp ( t )
+diag ( "with" )
+disp ( u )
+end diagnose )
+
+end define ]]".
+
+If possible, return the `smallest' substitution which contains "[[ s ]]" and unifies the parameter terms "[[ t ]]" and "[[ u ]]", i.e.\ a substitution which, if applied to "[[ t ]]" and "[[ u ]]" yield identical terms. Raise an exception if unification is impossible.
+
+\item "[[ eager define unify* ( t , u , s ) as newline
+
+if t atom then s else newline
+
+unify* ( t tail , u tail , unify ( t head , u head , s ) ) end define ]]".
+
+\item "[[ eager define unify2 ( t , u , s ) as newline
+
+if t t= u then s else newline
+
+let t prime = s [[ t second idx ]] in newline
+
+if t prime != true then unify ( t prime , u , s ) else newline
+
+if occur ( t , u , s ) then exception else s [[ t second idx -> u ]] end define ]]".
+
+Does the same as "[[ unify ( t , u , s ) ]]" but only when "[[ t ]]" is a number.
+
+\end{statements}
+
+
+
+\subsection{Hooks for the tactic state}
+
+\begin{statements}
+
+\item "[[ eager define hook-arg as "arg" end define ]]"
+
+Argumentation hook. States returned from tactic or unitac evaluation contain the returned argumentation on this hook.
+
+\item "[[ eager define hook-res as "con" end define ]]"
+
+Result hook. States returned from tactic or unitac evaluation contain the expected conclusion on this hook.
+
+\item "[[ eager define hook-idx as "idx" end define ]]"
+
+Index hook. During unitac evaluation, the index hook contains an accumulating index used for generating fresh variables.
+
+\item "[[ eager define hook-uni as "uni" end define ]]"
+
+Unification hook. During unitac evaluation, the result of unification is accumulated here.
+
+\item "[[ eager define hook-pre as "pre" end define ]]"
+
+Premise hook. Premises are stacked here during tactic evaluation. Premises may be explicitly assumed premises, the conclusion of the left hand side of a cut, or a theory assumed at the beginning of a proofs. Elements of the premise hook have form "[[ l :: p :: x ]]" where "[[ l ]]" is a label for referring to the premise, "[[ p ]]" is the premise itself, and "[[ x ]]" may be used by individual tactics.
+
+\item "[[ eager define hook-cond as "cond" end define ]]"
+
+Condition hook. Side conditions are stacked here during tactic evaluation.
+
+\item "[[ eager define hook-parm as "parm" end define ]]"
+
+Parameter hook. Tactic evaluation of "[[ x at y ]]" stacks "[[ y ]]" on the parameter hook. Tactic evaluation of "[[ All x : y ]]" unstacks. Useful for parameterized tactics.
+
+\end{statements}
+
+
+
+\subsection{Tactic evaluation}
+
+\begin{statements}
+
+\item "[[ eager define taceval ( t , s , c ) as newline
+
+let d = t tactic-rhs ( c ) in newline
+
+if .not. d then ( eval ( d , true , c ) apply << t ,, s ,, c >> maptag ) untag else newline
+
+let << r ,, a >> = lookup ( t , s [[ hook-pre ]] , true ) in newline
+
+if .not. a then s [[ hook-res -> r ]] [[ hook-arg -> a ]] else newline
+
+error ( t , newline
+diag ( "Unknown tactic operator in root of argumentation:" ) newline
+disp ( t )
+end diagnose ) end define ]]".
+
+Evaluate the `tactic' aspect of "[[ t ]]".
+
+\item "[[ eager define tactic-push ( n , v , s ) as newline
+
+s [[ n -> v :: s [[ n ]] ]] end define ]]"
+
+Push the value "[[ v ]]" onto the stack named "[[ n ]]" in the tactic state "[[ s ]]".
+
+\item "[[ eager define tactic-pop ( n , s ) as newline
+
+s [[ n -> s [[ n ]] tail ]] end define ]]"
+
+Pop a value from the stack named "[[ n ]]" in the tactic state "[[ s ]]" and return the new state (not the popped value).
+
+\item "[[ eager define taceval1 ( t , p , c ) as newline
+
+let d = t tactic-rhs ( c ) in newline
+
+let t = back t quote t unquote infer p unquote end quote in newline
+
+if d then taceval ( t , tacstate0 , c ) else newline
+
+( eval ( d , true , c ) apply << t ,, tacstate0 ,, c >> maptag ) untag end define ]]"
+
+Evaluate the `tactic' aspect of "[[ t infer p ]]" using the tactic definition of "[[ t ]]". If "[[ t ]]" has no tactic definition then use taceval.
+
+\end{statements}
+
+
+
+\subsection{Proof macros}
+
+\begin{statements}
+
+\item "[[ macro define x lemma y : z end lemma as ensure math statement define y as x infer z end define,unitac define y as \ u . unitac-lemma ( u ) end define end math end define ]]".
+
+A lemma declaration is the same as a statement definition plus a unitac definition which says how to sequent-prove a lemma plus what the lemma concludes.
+
+\item "[[ macro define proof of x : y as ensure math define proof of x as \ p . \ c . taceval ( quote y end quote , tacstate0 , c ) end define end math end define ]]".
+
+A proof is the same as a proof definition.
+
+\item "[[ macro define x proof of y : z as ensure math define proof of y as \ p . \ c . taceval1 ( quote x end quote , quote z end quote , c ) end define end math end define ]]".
+
+Assume "[[ x ]]", then prove "[[ y ]]" using the proof "[[ z ]]". If "[[ x ]]" has a tactic definition then that tactic is applied to the entire proof.
+
+\end{statements}
+
+
+
+\subsection{Proof line macros}
+
+\begin{statements}
+
+\item "[[ macro define line l : a >> x ; as a conclude x end define ]]"
+
+\item "[[ macro define line l : a >> x qed as a conclude x end define ]]"
+
+\item "[[ macro define line l : Arbitrary >> x ; n as All x : n end define ]]"
+
+\item "[[ macro define line l : Local >> x = y ; n as let x := y in n end define ]]"
+
+\end{statements}
+
+
+
+\section{Tactic definitions of sequent operators}
+
+\subsection{Init tactic}
+
+\begin{statements}
+
+\item "[[ tactic define x Init as \ u . tactic-Init ( u ) end define ]]".
+
+\item "[[ eager define tactic-Init ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let << true ,, x >> = t in newline
+
+s [[ hook-arg -> t ]] [[ hook-res -> x ]] end define ]]"
+
+\end{statements}
+
+
+
+\subsection{Ponens tactic}
+
+\begin{statements}
+
+\item "[[ tactic define x Ponens as \ u . tactic-Ponens ( u ) end define ]]".
+
+\item "[[ eager define tactic-Ponens ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let << true ,, x >> = t in newline
+
+let s = taceval ( x , s , c ) in newline
+
+let a = back t quote s [[ hook-arg ]] unquote Ponens end quote in newline
+
+let r = s [[ hook-res ]] in newline
+
+if mismatch ( quote x infer y end quote , r , c ) then newline
+
+error ( t ,
+diag ( "Ponens tactic used on non-inference:" )
+disp ( r )
+end diagnose ) else newline
+
+s [[ hook-arg -> a ]] [[ hook-res -> r second ]] end define ]]"
+
+\end{statements}
+
+
+
+\subsection{Probans tactic}
+
+\begin{statements}
+
+\item "[[ tactic define x Probans as \ u . tactic-Probans ( u ) end define ]]".
+
+\item "[[ eager define tactic-Probans ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let << true ,, x >> = t in newline
+
+let s = taceval ( x , s , c ) in newline
+
+let a = back t quote s [[ hook-arg ]] unquote Probans end quote in newline
+
+let r = s [[ hook-res ]] in newline
+
+if mismatch ( quote x endorse y end quote , r , c ) then newline
+
+error ( t ,
+diag ( "Probans tactic used on non-endorsement:" )
+disp ( r )
+end diagnose ) else newline
+
+s [[ hook-arg -> a ]] [[ hook-res -> r second ]] end define ]]"
+
+\end{statements}
+
+
+
+\subsection{Verify tactic}
+
+\begin{statements}
+
+\item "[[ tactic define x Verify as \ u . tactic-Verify ( u ) end define ]]".
+
+\item "[[ eager define tactic-Verify ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let << true ,, x >> = t in newline
+
+let s = taceval ( x , s , c ) in newline
+
+let a = back t quote s [[ hook-arg ]] unquote Verify end quote in newline
+
+let r = s [[ hook-res ]] in newline
+
+if mismatch ( quote x endorse y end quote , r , c ) then newline
+
+error ( t ,
+diag ( "Verify tactic used on non-endorsement:" )
+disp ( r )
+end diagnose ) else newline
+
+s [[ hook-arg -> a ]] [[ hook-res -> r second ]] end define ]]"
+
+\end{statements}
+
+
+
+\subsection{Curry tactic}
+
+\begin{statements}
+
+\item "[[ tactic define x Curry as \ u . tactic-Curry ( u ) end define ]]".
+
+\item "[[ eager define tactic-Curry ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let << true ,, x >> = t in newline
+
+let s = taceval ( x , s , c ) in newline
+
+let a = back t quote s [[ hook-arg ]] unquote Curry end quote in newline
+
+let r = s [[ hook-res ]] in newline
+
+if mismatch ( quote ( x oplus y ) infer z end quote , r , c ) then newline
+
+error ( t ,
+diag ( "Curry tactic used on unfit argument:" )
+disp ( r )
+end diagnose ) else newline
+
+let r = back r quote r first first unquote infer r first second unquote infer r second unquote end quote in newline
+
+s [[ hook-arg -> a ]] [[ hook-res -> r ]] end define ]]"
+
+\end{statements}
+
+
+
+\subsection{Uncurry tactic}
+
+\begin{statements}
+
+\item "[[ tactic define x Uncurry as \ u . tactic-Uncurry ( u ) end define ]]".
+
+\item "[[ eager define tactic-Uncurry ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let << true ,, x >> = t in newline
+
+let s = taceval ( x , s , c ) in newline
+
+let a = back t quote s [[ hook-arg ]] unquote Uncurry end quote in newline
+
+let r = s [[ hook-res ]] in newline
+
+if mismatch ( quote x infer y infer z end quote , r , c ) then newline
+
+error ( t ,
+diag ( "Uncurry tactic used on unfit argument:" )
+disp ( r )
+end diagnose ) else newline
+
+let r = back r quote ( r first unquote oplus r second first unquote ) infer r second second unquote end quote in newline
+
+s [[ hook-arg -> a ]] [[ hook-res -> r ]] end define ]]"
+
+\end{statements}
+
+
+
+\subsection{Deref tactic}
+
+\begin{statements}
+
+\item "[[ tactic define x Deref as \ u . tactic-Deref ( u ) end define ]]".
+
+\item "[[ eager define tactic-Deref ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let << true ,, x >> = t in newline
+
+let s = taceval ( x , s , c ) in newline
+
+let a = back t quote s [[ hook-arg ]] unquote Deref end quote in newline
+
+let r = s [[ hook-res ]] in newline
+
+let r prime = r stmt-rhs ( c ) in newline
+
+if r prime = true then newline
+
+error ( t ,
+diag ( "Deref tactic used on undefined statement:" )
+disp ( r )
+end diagnose ) else newline
+
+s [[ hook-arg -> a ]] [[ hook-res -> r prime ]] end define ]]"
+
+\end{statements}
+
+
+
+\subsection{At tactic}
+
+Accumulate instantiations on the ``parameters'' stack. To do multiple instantiations in parallel, "[[ tactic-at1 ( t , s , v , c ) ]]" accumulates instantiations on the "[[ v ]]" list and then "[[ tactic-at2 ( t , s , v , s prime , c ) ]]" accumulates instantiations on the "[[ s prime ]]" association list of substitutions to be performed in parallel.
+
+\begin{statements}
+
+\item "[[ tactic define x at y as \ u . tactic-at ( u ) end define ]]".
+
+\item "[[ eager define tactic-at ( u ) as newline
+
+let << t ,, s ,, c >> = u in tactic-at1 ( t , s , true , c ) end define 
+]]"
+
+\item "[[ eager define tactic-at1 ( t , s , v , c ) as newline
+
+if mismatch ( quote x at y end quote , t , c ) then newline
+
+tactic-at2 ( t , taceval ( t , s , c ) , v , true , c ) else newline
+
+let << true ,, x ,, y >> = t in newline
+
+let s = tactic-push ( hook-parm , y , s ) in newline
+
+tactic-at1 ( x , s , y :: v , c ) end define ]]"
+
+\item "[[ eager define tactic-at2 ( t , s , v , s prime , c ) as newline
+
+if v then s [[ hook-res -> metasubst ( s [[ hook-res ]] , s prime , c ) ]] else newline
+
+let y :: v = v in newline
+
+let a = back t quote s [[ hook-arg ]] unquote at y unquote end quote in newline
+
+let r = s [[ hook-res ]] in newline
+
+if mismatch ( quote All x : y end quote , r , c ) then newline
+
+error ( t ,
+diag ( "At tactic used on non-quantifier:" )
+disp ( r )
+end diagnose ) else newline
+
+let s = s [[ hook-arg -> a ]] [[ hook-res -> r second ]] in newline
+
+tactic-at2 ( t , s , v , ( r first :: y ) :: s prime , c ) end define ]]"
+
+\end{statements}
+
+
+
+\subsection{Infer tactic}
+
+Accumulate premises on the ``premises'' stack.
+
+\begin{statements}
+
+\item "[[ tactic define x infer y as \ u . tactic-infer ( u ) end define ]]".
+
+\item "[[ eager define tactic-infer ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let << true ,, x ,, y >> = t in newline
+
+let s = tactic-push ( hook-pre , << true ,, x ,, back x quote x unquote Init end quote >> , s ) in newline
+
+let s = taceval ( y , s , c ) in newline
+
+let a = back t quote x unquote infer s [[ hook-arg ]] unquote end quote in newline
+
+let r = back t quote x unquote infer s [[ hook-res ]] unquote end quote in newline
+
+s [[ hook-arg -> a ]] [[ hook-res -> r ]] end define ]]"
+
+\end{statements}
+
+
+
+\subsection{Endorse tactic}
+
+Accumulate side conditions on the ``conditions'' stack.
+
+\begin{statements}
+
+\item "[[ tactic define x endorse y as \ u . tactic-endorse ( u ) end define ]]".
+
+\item "[[ eager define tactic-endorse ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let << true ,, x ,, y >> = t in newline
+
+let s = taceval ( y , tactic-push ( hook-cond , << true ,, x >> , s ) , c ) in newline
+
+let a = back t quote x unquote endorse s [[ hook-arg ]] unquote end quote in newline
+
+let r = back t quote x unquote endorse s [[ hook-res ]] unquote end quote in newline
+
+s [[ hook-arg -> a ]] [[ hook-res -> r ]] end define ]]"
+
+\end{statements}
+
+
+
+\subsection{Id est tactic}
+
+\begin{statements}
+
+\item "[[ tactic define x id est y as \ u . tactic-ie ( u ) end define ]]".
+
+\item "[[ eager define tactic-ie ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let << true ,, x ,, y >> = t in newline
+
+let s = taceval ( x , s , c ) in newline
+
+let a = back t quote s [[ hook-arg ]] unquote id est y unquote end quote in newline
+
+s [[ hook-arg -> a ]] [[ hook-res -> y ]] end define ]]"
+
+\end{statements}
+
+
+
+\subsection{All tactic}
+
+Pop instantiations from the ``parameters'' stack.
+
+\begin{statements}
+
+\item "[[ tactic define All x : y as \ u . tactic-all ( u ) end define ]]".
+
+\item "[[ eager define tactic-all ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let << true ,, x ,, y >> = t in newline
+
+let s = taceval ( y , tactic-pop ( hook-parm , s ) , c ) in newline
+
+let a = back t quote All x unquote : s [[ hook-arg ]] unquote end quote in newline
+
+let r = back t quote All x unquote : s [[ hook-res ]] unquote end quote in newline
+
+s [[ hook-arg -> a ]] [[ hook-res -> r ]] end define ]]"
+
+\end{statements}
+
+
+
+\subsection{Cut tactic}
+
+Accumulate conclusions of left hand sides of cuts on the ``premises'' stack.
+
+\begin{statements}
+
+\item "[[ tactic define x ;; y as \ u . tactic-cut ( u ) end define ]]".
+
+\item "[[ eager define tactic-cut ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let << true ,, x ,, y >> = t in newline
+
+let s prime = taceval ( x , s , c ) in newline
+
+let a = s prime [[ hook-arg ]] in newline
+
+let r = s prime [[ hook-res ]] in newline
+
+let s = tactic-push ( hook-pre , << true ,, r ,, back r quote r unquote Init end quote >> , s ) in newline
+
+let s = taceval ( y , s , c ) in newline
+
+let a = back t quote a unquote ;; s [[ hook-arg ]] unquote end quote in newline
+
+s [[ hook-arg -> a ]] end define ]]"
+
+\end{statements}
+
+
+
+\section{Unification tactic}
+
+\subsection{Main definitions}
+
+\begin{statements}
+
+\item "[[ tactic define a conclude a prime as \ x . unitac ( x ) end define ]]".
+
+Proof tactic which tries to modify the argumentation "[[ a ]]" so that it proves the term "[[ a prime ]]". The tactic adds missing "[[ x at y ]]", "[[ x Ponens ]]", and "[[ x Verify ]]" operations and determines the "[[ y ]]" in "[[ x at y ]]" using unification.
+
+
+
+\item "[[ eager define unitac ( x ) as newline
+
+let << t ,, s ,, c >> = x in newline
+
+let e :: v = unitac1 ( t , s , c ) catch in newline
+
+if .not. e then v else newline
+
+if .not. v then error ( t , LocateProofLine ( t , c ) v ) else newline
+
+error ( t , newline
+LocateProofLine ( t , c ) newline
+diag ( "During unification: Uncaught exception" ) newline
+end diagnose )
+
+end define ]]"
+
+Hand the term "[[ t ]]" of form "[[ a conclude a prime ]]", the tactic state "[[ s ]]", and the codex "[[ c ]]" to unitac1. Locate any errors found by unitac1.
+
+
+
+\item "[[ eager define unitac1 ( t , s , c ) as newline
+
+let s = s [[ hook-idx -> 1 ]] [[ hook-uni -> true ]] in newline
+
+let s = unieval ( t , s , c ) in newline
+
+let t = inst ( s [[ hook-arg ]] , t , s [[ hook-uni ]] ) in newline
+
+let e :: v = taceval ( t , s , c ) catch in
+
+if .not. e then v else newline
+
+if .not. v then v raise else newline
+
+error ( t , newline
+diag ( "Post unification tactic evalutation: Uncaught exception" ) newline
+end diagnose )
+
+end define ]]"
+
+Call unieval to unitac expand the proof term "[[ t ]]" to a unification and an uninstantiated argumentation. The unification and argumentation are added to the state "[[ s ]]". "[[ c ]]" is the cache. Then instantiate the argumentation and do usual tactic expansion.
+
+\end{statements}
+
+
+
+\subsection{Adaption}
+
+\begin{statements}
+
+\item "[[ eager define unitac-adapt ( t , s , c ) as newline
+
+if t = "var" then s else newline
+
+let a = s [[ hook-arg ]] in newline
+
+let r = s [[ hook-res ]] in newline
+
+let d = r metadef ( c ) in newline
+
+if d = "var" then s else newline
+
+if d = t then s else newline
+
+if d = "infer" then newline
+
+unitac-adapt ( t , s [[ hook-arg -> back a quote a unquote Ponens end quote ]] [[ hook-res -> r second ]] , c ) else newline
+
+if d = "endorse" then newline
+
+unitac-adapt ( t , s [[ hook-arg -> back a quote a unquote Verify end quote ]] [[ hook-res -> r second ]] , c ) else newline
+
+if d = "all" then newline
+
+let i = s [[ hook-idx ]] in newline
+
+let s = s [[ hook-idx -> i + 1 ]] in newline
+
+let v = univar ( a , r first , i ) in newline
+
+let r prime = metasubst ( r second , << r first :: v >> , c ) in newline
+
+unitac-adapt ( t , s [[ hook-arg -> back a quote a unquote at v unquote end quote ]] [[ hook-res -> r prime ]] , c ) else newline
+
+if t then s else newline
+
+error ( a , newline
+diag ( "Cannot convert" )
+disp ( r ) newline
+diag ( "to type ``" )
+diag ( t )
+diag ( "''" )
+end diagnose ) end define ]]".
+
+Add Ponens, Verify, and At operations to the argumentation inside "[[ s ]]" until the root of the conclusion is of type "[[ t ]]". As examples, "[[ t ]]" could be ``infer'', ``endorse'', ``all'', ``var'' or "[[ true ]]". In the latter case, a maximum of Ponens, Verify, and At operations are added. When "[[ t ]]" is ``var'', a minimum of operators are added (meaning that "[[ s ]]" is returned unchanged).
+
+\end{statements}
+
+
+
+\subsection{Unitac evaluation}
+
+\begin{statements}
+
+\item "[[ eager define unieval ( t , s , c ) as newline
+
+let d = t unitac-rhs ( c ) in newline
+
+if d then newline
+
+let << r ,, a >> = lookup ( t , s [[ hook-pre ]] , true ) in newline
+
+if .not. a then s [[ hook-arg -> a ]] [[ hook-res -> r ]] else newline
+
+error ( t , newline
+diag ( "Unknown unitac operator in root of argumentation:" ) newline
+disp ( t )
+end diagnose ) else newline
+
+let e :: s = ( eval ( d , true , c ) apply << t ,, s ,, c >> maptag ) untag catch in newline
+
+if .not. e then s else newline
+
+if .not. s then s raise else newline
+
+error ( t , newline
+diag ( "Exception raised by the unitac aspect of:" )
+disp ( t )
+end diagnose )
+
+end define ]]"
+
+Unitac expand the argumentation "[[ t ]]" to a unification, an uninstantiated argumentation, and an expected conclusion. The unification, argumentation, and conclusion are added to the state "[[ s ]]" as "[[ s [[ hook-uni ]] ]]", "[[ s [[ hook-arg ]] ]]", and "[[ s [[ hook-res ]] ]]", respectively. "[[ c ]]" is the cache.
+
+During unitac expansion, fresh variables are generated using "[[ univar ( t prime , v , s [[ hook-idx ]] ) ]]" where "[[ s [[ hook-idx ]] ]]" is supposed to be a unique index. "[[ v ]]" is the varible which receives the unique index and debugging information is taken from "[[ t prime ]]". The index is supposed to guarantee uniqueness in itself. The purpose of "[[ v ]]" is to make error messages more readable.
+
+\end{statements}
+
+
+
+\section{Unitac definitions}
+
+\subsection{Init}
+
+\begin{statements}
+
+\item "[[ unitac define x Init as \ u . unitac-Init ( u ) end define ]]"
+
+\item "[[ eager define unitac-Init ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+s [[ hook-res -> t first ]] [[ hook-arg -> t ]] end define ]]"
+
+If "[[ t ]]" has form "[[ r Init ]]" then the conclusion is "[[ r ]]" and the argumentation is "[[ r Init ]]".
+
+\end{statements}
+
+
+
+\subsection{Ponens}
+
+\begin{statements}
+
+\item "[[ unitac define x Ponens as \ u . unitac-Ponens ( u ) end define ]]"
+
+\item "[[ unitac define x ponens y as \ u . unitac-ponens ( u ) end define ]]"
+
+\item "[[ eager define unitac-Ponens ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let s = unieval ( t first , s , c ) in newline
+
+let s = unitac-adapt ( "infer" , s , c ) in newline
+
+let a = s [[ hook-arg ]] in newline
+
+let r = s [[ hook-res ]] in newline
+
+s [[ hook-arg -> back t quote a unquote Ponens end quote ]] [[ hook-res -> r second ]] end define ]]"
+
+If the argumentation has form "[[ a Ponens ]]" then convert the argumentation "[[ a ]]" into something whose conclusion "[[ r ]]" is expected to be of form "[[ x infer y ]]".
+
+\item "[[ eager define unitac-ponens ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let s = unieval ( t first , s , c ) in newline
+
+let s = unitac-adapt ( "infer" , s , c ) in newline
+
+let a = s [[ hook-arg ]] in newline
+
+let r = s [[ hook-res ]] in newline
+
+let s = unieval ( t second , s , c ) in newline
+
+let s = unitac-adapt ( r first metadef ( c ) , s , c ) in newline
+
+let a prime = s [[ hook-arg ]] in newline
+
+let r prime = s [[ hook-res ]] in newline
+
+let u = s [[ hook-uni ]] in newline
+
+let u = unify ( r first , r prime , u ) in newline
+
+let s = s [[ hook-uni -> u ]] in newline
+
+s [[ hook-arg -> back t quote a prime unquote ;; a unquote Ponens end quote ]] [[ hook-res -> r second ]]
+
+end define ]]"
+
+If the argumentation has form "[[ a ponens a prime ]]" then convert "[[ a ]]" into something whose result is expected to be of form "[[ x infer y ]]". Convert "[[ a prime ]]" into something whose result is expected to be of form "[[ r prime ]]". Unify "[[ x ]]" with "[[ r prime ]]" and return argumentation "[[ ( a prime ;; a Ponens ) ]]" and conclusion "[[ y ]]".
+
+\end{statements}
+
+
+
+\subsection{Probans}
+
+\begin{statements}
+
+\item "[[ unitac define x Probans as \ u . unitac-Probans ( u ) end define ]]"
+
+\item "[[ unitac define x probans y as \ u . unitac-probans ( u ) end define ]]"
+
+\item "[[ eager define unitac-Probans ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let s = unieval ( t first , s , c ) in newline
+
+let s = unitac-adapt ( "endorse" , s , c ) in newline
+
+let a = s [[ hook-arg ]] in newline
+
+let r = s [[ hook-res ]] in newline
+
+s [[ hook-arg -> back t quote a unquote Probans end quote ]] [[ hook-res -> r second ]] end define ]]"
+
+If the argumentation has form "[[ a probans p ]]" then convert the argumentation "[[ a ]]" into something whose conclusion "[[ r ]]" is expected to be of form "[[ x endorse y ]]".
+
+\item "[[ eager define unitac-probans ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let s = unieval ( t first , s , c ) in newline
+
+let s = unitac-adapt ( "endorse" , s , c ) in newline
+
+let a = s [[ hook-arg ]] in newline
+
+let r = s [[ hook-res ]] in newline
+
+let u = s [[ hook-uni ]] in newline
+
+let << p >> = lookup ( t second , s [[ hook-cond ]] , << t second >> ) in newline
+
+let u = unify ( r first , p , u ) in newline
+
+let s = s [[ hook-uni -> u ]] in newline
+
+s [[ hook-arg -> back t quote a unquote Probans end quote ]] [[ hook-res -> r second ]]
+
+end define ]]"
+
+If the argumentation has form "[[ a probans s ]]" then convert "[[ a ]]" into something whose result is expected to be of form "[[ x endorse y ]]". Unify "[[ x ]]" with "[[ s ]]" and return argumentation "[[ a Probans ]]" and conclusion "[[ y ]]".
+
+\end{statements}
+
+
+
+\subsection{Verify}
+
+\begin{statements}
+
+\item "[[ unitac define x Verify as \ u . unitac-Verify ( u ) end define ]]"
+
+\item "[[ unitac define x verify y as \ u . unitac-verify ( u ) end define ]]"
+
+\item "[[ eager define unitac-Verify ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let s = unieval ( t first , s , c ) in newline
+
+let s = unitac-adapt ( "endorse" , s , c ) in newline
+
+let a = s [[ hook-arg ]] in newline
+
+let r = s [[ hook-res ]] in newline
+
+s [[ hook-arg -> back t quote a unquote Verify end quote ]] [[ hook-res -> r second ]]
+
+end define ]]"
+
+If the argumentation has form "[[ a Verify ]]" then convert the argumentation "[[ a ]]" into something whose conclusion "[[ r ]]" is expected to be of form "[[ x endorse y ]]".
+
+\item "[[ eager define unitac-verify ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let s = unieval ( t first , s , c ) in newline
+
+let s = unitac-adapt ( "endorse" , s , c ) in newline
+
+let a = s [[ hook-arg ]] in newline
+
+let r = s [[ hook-res ]] in newline
+
+let u = s [[ hook-uni ]] in newline
+
+let u = unify ( r first , t second , u ) in newline
+
+let s = s [[ hook-uni -> u ]] in newline
+
+s [[ hook-arg -> back t quote a unquote Verify end quote ]] [[ hook-res -> r second ]]
+
+end define ]]"
+
+If the argumentation has form "[[ a verify s ]]" then convert "[[ a ]]" into something whose result is expected to be of form "[[ x endorse y ]]". Unify "[[ x ]]" with "[[ s ]]" and return argumentation "[[ a Verify ]]" and conclusion "[[ y ]]".
+
+\end{statements}
+
+
+
+\subsection{Curry and decurry}
+
+\begin{statements}
+
+\item "[[ unitac define x Curry as \ u . unitac-Curry ( u ) end define ]]"
+
+\item "[[ unitac define x Uncurry as \ u . unitac-Uncurry ( u ) end define ]]"
+
+\item "[[ eager define unitac-Curry ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let s = unieval ( t first , s , c ) in newline
+
+let s = unitac-adapt ( "infer" , s , c ) in newline
+
+let a = s [[ hook-arg ]] in newline
+
+let r = s [[ hook-res ]] in newline
+
+if .not. r first r= quote x oplus y end quote then newline
+
+error ( r ,
+diag ( "Unsuited for currying:" )
+disp ( r )
+end diagnose ) else newline
+
+let r = back r quote r first first unquote infer r first second unquote infer r second unquote end quote in newline
+
+s [[ hook-arg -> back t quote a unquote Curry end quote ]] [[ hook-res -> r ]]
+
+end define ]]"
+
+If the argumentation has form "[[ a Curry ]]" then convert the argumentation "[[ a ]]" into something with conclusion "[[ x oplus y infer z ]]" and return conclusion "[[ x infer y infer z ]]".
+
+\item "[[ eager define unitac-Uncurry ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let s = unieval ( t first , s , c ) in newline
+
+let s = unitac-adapt ( "infer" , s , c ) in newline
+
+let a = s [[ hook-arg ]] in newline
+
+let r = s [[ hook-res ]] in newline
+
+if .not. r second r= quote x infer y end quote then newline
+
+error ( r ,
+diag ( "Unsuited for uncurrying:" )
+disp ( r )
+end diagnose ) else newline
+
+let r = back r quote ( r first unquote oplus r second first unquote ) infer r second second unquote end quote in newline
+
+s [[ hook-arg -> back t quote a unquote Uncurry end quote ]] [[ hook-res -> r ]]
+
+end define ]]"
+
+If the argumentation has form "[[ a Uncurry ]]" then convert the argumentation "[[ a ]]" into something with conclusion "[[ x infer y infer z ]]" and return conclusion "[[ ( x oplus y ) infer z ]]".
+
+\end{statements}
+
+
+
+\subsection{At}
+
+\begin{statements}
+
+\item "[[ unitac define x At as \ u . unitac-At ( u ) end define ]]"
+
+\item "[[ unitac define x at y as \ u . unitac-at ( u ) end define ]]"
+
+\item "[[ eager define unitac-At ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let s = unieval ( t first , s , c ) in newline
+
+let s = unitac-adapt ( "all" , s , c ) in newline
+
+let a = s [[ hook-arg ]] in newline
+
+let r = s [[ hook-res ]] in newline
+
+let i = s [[ hook-idx ]] in newline
+
+let s = s [[ hook-idx -> i + 1 ]] in newline
+
+let v = univar ( a , r first , i ) in newline
+
+let a = back t quote a unquote at v unquote end quote in newline
+
+let r = metasubst ( r second , << r first :: v >> , c ) in newline
+
+s [[ hook-arg -> a ]] [[ hook-res -> r ]]
+
+end define ]]"
+
+If the argumentation has form "[[ a At ]]" then convert "[[ a ]]" into something whose conclusion is expected to be of form "[[ All x : y ]]". Then replace "[[ x ]]" by a fresh variable "[[ v ]]" in "[[ y ]]" and return argumentation "[[ a at v ]]" and conclusion "[[ y ]]".
+
+\item "[[ eager define unitac-at ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let s = unieval ( t first , s , c ) in newline
+
+let s = unitac-adapt ( "all" , s , c ) in newline
+
+let a = s [[ hook-arg ]] in newline
+
+let r = s [[ hook-res ]] in newline
+
+let i = s [[ hook-idx ]] in newline
+
+let s = s [[ hook-idx -> i + 1 ]] in newline
+
+let v = univar ( a , r first , i ) in newline
+
+let a = back t quote a unquote at v unquote end quote in newline
+
+let r = metasubst ( r second , << r first :: v >> , c ) in newline
+
+let u = s [[ hook-uni ]] in newline
+
+let u = unify ( t second , v , u ) in newline
+
+let s = s [[ hook-uni -> u ]] in newline
+
+s [[ hook-arg -> a ]] [[ hook-res -> r ]]
+
+end define ]]"
+
+If the argumentation has form "[[ a at a prime ]]" then convert "[[ a ]]" into something whose conclusion is expected to be of form "[[ All x : y ]]". Then replace "[[ x ]]" by a fresh variable "[[ v ]]" in "[[ y ]]", unify "[[ v ]]" with "[[ a prime ]]", and return argumentation "[[ a at v ]]" and conclusion "[[ y ]]".
+
+\end{statements}
+
+
+
+\subsection{Reference and dereference}
+
+\begin{statements}
+
+\item "[[ unitac define x Deref as \ u . unitac-Deref ( u ) end define ]]"
+
+\item "[[ eager define unitac-Deref ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let s = unieval ( t first , s , c ) in newline
+
+let s = unitac-adapt ( true , s , c ) in newline
+
+let r = s [[ hook-res ]] in newline
+
+let l = r stmt-rhs ( c ) in newline
+
+if l then s else newline
+
+let a = s [[ hook-arg ]] in newline
+
+let a = back t quote a unquote Deref end quote in newline
+
+s [[ hook-arg -> a ]] [[ hook-res -> l ]] end define ]]"
+
+\item Let "[[ r ]]" be the conclusion of "[[ t first ]]". "[[ r ]]" is supposed to be a lemma. Let "[[ l ]]" be the contents of that lemma. Use "[[ l ]]" as conclusion of "[[ t first Deref ]]".
+
+\item "[[ unitac define x id est y as \ u . unitac-idest ( u ) end define ]]"
+
+\item "[[ eager define unitac-idest ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let s = unieval ( t first , s , c ) in newline
+
+let l = t second stmt-rhs ( c ) in newline
+
+let s = unitac-adapt ( l metadef ( c ) , s , c ) in newline
+
+let r = s [[ hook-res ]] in newline
+
+let u = s [[ hook-uni ]] in newline
+
+let u = unify ( r , l , u ) in newline
+
+let s = s [[ hook-uni -> u ]] in newline
+
+let a = s [[ hook-arg ]] in newline
+
+let a = back t quote a unquote id est t second unquote end quote in newline
+
+s [[ hook-arg -> a ]] [[ hook-res -> t second ]] end define ]]"
+
+\item Let "[[ l ]]" be the contents of the lemma named "[[ t second ]]". Unify the conclusion "[[ r ]]" of "[[ t first ]]" with "[[ l ]]" and take "[[ t second ]]" to be the conclusion of "[[ t first id est t second ]]".
+
+\end{statements}
+
+
+
+\subsection{Infer}
+
+\begin{statements}
+
+\item "[[ unitac define x Infer as \ u . unitac-Infer ( u ) end define ]]"
+
+\item "[[ eager define unitac-Infer ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let s = unieval ( t first , s , c ) in newline
+
+let i = s [[ hook-idx ]] in newline
+
+let s = s [[ hook-idx -> i + 1 ]] in newline
+
+let v = univar ( t , quote cla end quote , i ) in newline
+
+let r = s [[ hook-res ]] in newline
+
+let a = s [[ hook-arg ]] in newline
+
+let r = back t quote v unquote infer r unquote end quote in newline
+
+let a = back t quote v unquote infer a unquote end quote in newline
+
+s [[ hook-arg -> a ]] [[ hook-res -> r ]] end define ]]"
+
+\item "[[ unitac define x infer y as \ u . unitac-infer ( u ) end define ]]"
+
+\item "[[ eager define unitac-infer ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let s = unieval ( t second , s , c ) in newline
+
+let r = s [[ hook-res ]] in newline
+
+let a = s [[ hook-arg ]] in newline
+
+let r = back t quote t first unquote infer r unquote end quote in newline
+
+let a = back t quote t first unquote infer a unquote end quote in newline
+
+s [[ hook-arg -> a ]] [[ hook-res -> r ]] end define ]]"
+
+\end{statements}
+
+
+
+\subsection{Endorse}
+
+\begin{statements}
+
+\item "[[ unitac define x Endorse as \ u . unitac-Endorse ( u ) end define ]]"
+
+\item "[[ eager define unitac-Endorse ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let s = unieval ( t first , s , c ) in newline
+
+let i = s [[ hook-idx ]] in newline
+
+let s = s [[ hook-idx -> i + 1 ]] in newline
+
+let v = univar ( t , quote cla end quote , i ) in newline
+
+let r = s [[ hook-res ]] in newline
+
+let a = s [[ hook-arg ]] in newline
+
+let r = back t quote v unquote endorse r unquote end quote in newline
+
+let a = back t quote v unquote endorse a unquote end quote in newline
+
+s [[ hook-arg -> a ]] [[ hook-res -> r ]] end define ]]"
+
+\item "[[ unitac define x endorse y as \ u . unitac-endorse ( u ) end define ]]"
+
+\item "[[ eager define unitac-endorse ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let s = unieval ( t second , s , c ) in newline
+
+let r = s [[ hook-res ]] in newline
+
+let a = s [[ hook-arg ]] in newline
+
+let r = back t quote t first unquote endorse r unquote end quote in newline
+
+let a = back t quote t first unquote endorse a unquote end quote in newline
+
+s [[ hook-arg -> a ]] [[ hook-res -> r ]] end define ]]"
+
+\end{statements}
+
+
+
+\subsection{All}
+
+\begin{statements}
+
+\item "[[ unitac define x All as \ u . unitac-All ( u ) end define ]]"
+
+\item "[[ eager define unitac-All ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let s = unieval ( t first , s , c ) in newline
+
+let i = s [[ hook-idx ]] in newline
+
+let s = s [[ hook-idx -> i + 1 ]] in newline
+
+let v = univar ( t , quote cla end quote , i ) in newline
+
+let r = s [[ hook-res ]] in newline
+
+let a = s [[ hook-arg ]] in newline
+
+let r = back t quote All v unquote : r unquote end quote in newline
+
+let a = back t quote All v unquote : a unquote end quote in newline
+
+s [[ hook-arg -> a ]] [[ hook-res -> r ]] end define ]]"
+
+\item "[[ unitac define All x : y as \ u . unitac-all ( u ) end define ]]"
+
+\item "[[ eager define unitac-all ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let s = unieval ( t second , s , c ) in newline
+
+let r = s [[ hook-res ]] in newline
+
+let a = s [[ hook-arg ]] in newline
+
+let r = back t quote All t first unquote : r unquote end quote in newline
+
+let a = back t quote All t first unquote : a unquote end quote in newline
+
+s [[ hook-arg -> a ]] [[ hook-res -> r ]] end define ]]"
+
+\end{statements}
+
+
+
+\subsection{Cut}
+
+\begin{statements}
+
+\item "[[ unitac define x ;; y as \ u . unitac-cut ( u ) end define ]]"
+
+\item "[[ eager define unitac-cut ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let s = unieval ( t first , s , c ) in newline
+
+let a prime = s [[ hook-arg ]] in newline
+
+let s = unieval ( t second , s , c ) in newline
+
+let r = s [[ hook-res ]] in newline
+
+let a = s [[ hook-arg ]] in newline
+
+let a = back t quote a prime unquote ;; a unquote end quote in newline
+
+s [[ hook-arg -> a ]] [[ hook-res -> r ]] end define ]]"
+
+\end{statements}
+
+
+
+\subsection{Unary conclude}
+
+The "[[ x Conclude ]]" operator adds Ponens, Verify, and At operations to the argumentation inside "[[ x ]]" until all occurrences of "[[ u infer v ]]", "[[ u endorse v ]]", and "[[ All u : v ]]" have been removed. One may think of "[[ x Conclude ]]" as a unary version of "[[ x conclude y ]]" in which "[[ y ]]" is missing but for which it is known that "[[ y ]]" is an object term.
+
+\begin{statements}
+
+\item "[[ unitac define x Conclude as \ u . unitac-Conclude ( u ) end define ]]"
+
+\item "[[ eager define unitac-Conclude ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let s = unieval ( t first , s , c ) in newline
+
+unitac-adapt ( true , s , c ) end define ]]"
+
+If "[[ t ]]" has form "[[ a Conclude ]]" then find the conclusion "[[ r ]]" of "[[ a ]]", add as many "[[ x at y ]]", "[[ x Ponens ]]", and "[[ x Verify ]]" operations as possible, and return "[[ a :: r :: u ]]".
+
+\end{statements}
+
+
+
+\section{Lemmas, rules, and proof lines}
+
+Lemmas, rules, and proof lines do not always say what they seem to say. As an example, a lemma stating that "[[ x = x ]]" in Mendelsons "[[ System S ]]" does not say "[[ x = x ]]". Rather, it says "[[ System S infer x = x ]]". As another example, if one allows the use of deduction in FOL-based proofs then a proof line proving e.g. "[[ x + 1 = 0 + ( x + 1 ) ]]" under the hypothesis "[[ x = 0 + x ]]" really proves "[[ x = 0 + x p.imply x + 1 = 0 + ( x + 1 ) ]]". Or, rather, it proves "[[ System S infer x = 0 + x p.imply x + 1 = 0 + ( x + 1 ) ]]" if the proof is stated in "[[ System S ]]".
+
+No single way of handling lemmas, rules, and proofs will satisfy all theories. As an example, deduction in FOL is different from deduction in map theory, and for that reason those two theories need different ways of treating proof lines in hypothetical proofs.
+
+For that reason, the way lemmas, rules, and proofs are treated is embedded in the tactic state.
+
+
+
+\subsection{The initial tactic state}
+
+The initial tactic state "[[ tacstate0 ]]" contains "[[ unitac0 ]]". "[[ unitac0 ]]" in turn defines how to treat lemmas, rules, and proof lines during unitac evaluation. The definition of "[[ tacstate0 ]]" reads:
+
+\begin{statements}
+
+\item "[[ eager define hook-unitac as "unitac" end define ]]"
+
+\item "[[ eager define tacstate0 as true [[ hook-unitac -> unitac0 ]] end define ]]"
+
+\end{statements}
+
+\noindent The "[[ unitac0 ]]" structure defines how to handle lemmas, rules, and proof lines during unitac evaluation. Handling of proof lines really means how to handle the conclude construct "[[ x conclude y ]]".
+
+\begin{statements}
+
+\item "[[ eager define hook-lemma as "lemma" end define ]]"
+
+\item "[[ eager define hook-rule as "rule" end define ]]"
+
+\item "[[ eager define hook-conclude as "conclude" end define ]]"
+
+\item "[[ eager define unitac0 as
+
+true
+
+[[ hook-lemma -> quote \ u . unitac-lemma-std ( u ) end quote ]]
+
+[[ hook-rule -> quote \ u . unitac-rule-std ( u ) end quote ]]
+
+[[ hook-conclude -> quote \ u . unitac-conclude-std ( u ) end quote ]] end define ]]".
+
+\end{statements}
+
+
+
+\subsection{Conclude}
+
+\begin{statements}
+
+\item "[[ unitac define x conclude y as \ u . unitac-conclude ( u ) end define ]]"
+
+\item "[[ eager define unitac-conclude ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let d = s [[ hook-unitac ]] [[ hook-conclude ]] in newline
+
+( eval ( d , true , c ) apply << t ,, s ,, c >> maptag ) untag end define ]]"
+
+\item "[[ eager define unitac-conclude-std ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let s = unieval ( t first , s , c ) in newline
+
+let s = unitac-adapt ( t second metadef ( c ) , s , c ) in newline
+
+let u = unify ( s [[ hook-res ]] , t second , s [[ hook-uni ]] ) in newline
+
+s [[ hook-uni -> u ]] [[ hook-res -> t second ]]
+
+end define ]]"
+
+If "[[ t ]]" has form "[[ t first conclude t second ]]" then convert "[[ t first ]]" into something whose conclusion fits "[[ t second ]]". Unify the conclusion with "[[ t second ]]" and return the resulting state "[[ s ]]".
+
+\end{statements}
+
+
+
+\subsection{Rules}
+
+We define two rule tactics: "[[ x Rule ]]" for explicit use and "[[ unitac-rule ( x ) ]]" which is implicitly attached to axioms and inference rules. The ``implicit attachment'' is done by the axiom and rule macros. As an example of use, "[[ p.A1 Rule ]]" explicitly proves "[[ p.A1 ]]" whereas "[[ p.A1 ]]" implicitly proves "[[ All #a ,, #b : A p.imply B p.imply A ]]". Note that the former proves the name and the latter proves the contents of "[[ p.A1 ]]".
+
+\begin{statements}
+
+\item "[[ unitac define r Rule as \ u . unitac-Rule ( u ) end define ]]"
+
+\item "[[ eager define unitac-Rule ( x ) as newline
+
+let << t ,, s ,, c >> = x in newline
+
+let r = t first in newline
+
+let a = unitac-theo ( r , s , c ) in newline
+
+s [[ hook-arg -> a ]] [[ hook-res -> r ]] end define ]]"
+
+
+
+\item "[[ eager define unitac-rule ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let d = s [[ hook-unitac ]] [[ hook-rule ]] in newline
+
+( eval ( d , true , c ) apply << t ,, s ,, c >> maptag ) untag end define ]]"
+
+\item "[[ eager define unitac-rule-std ( x ) as newline
+
+let << t ,, s ,, c >> = x in newline
+
+let r = t stmt-rhs ( c ) in newline
+
+let a = unitac-theo ( t , s , c ) in newline
+
+let a = back r quote a unquote Deref end quote in newline
+
+s [[ hook-arg -> a ]] [[ hook-res -> r ]] end define ]]"
+
+\item "[[ eager define unitac-theo ( t , s , c ) as newline
+
+let p = reverse ( s [[ hook-pre ]] ) in newline
+
+unitac-rule0 ( t , p , c ) end define ]]"
+
+Construct a proof of the rule "[[ t ]]" assuming the premisses contained in the tactic state "[[ s ]]". Complain if no proof is found.
+
+\item "[[ eager define unitac-rule0 ( r , P , c ) as newline
+
+let p = unitac-rule1 ( r , P , c ) in newline
+
+if .not. p then p else newline
+
+if r metadef ( c ) = "plus" then unitac-rule-plus ( r , P , c ) else newline
+
+let d = r stmt-rhs ( c ) in newline
+
+if .not. d then unitac-rule-stmt ( d , r , P , c ) else newline
+
+error ( r , newline
+diag ( "No locally assumed theory includes the following rule:" )
+disp ( r ) newline
+end diagnose ) end define ]]"
+
+Construct a proof of the rule "[[ r ]]" assuming the premisses "[[ P ]]". Complain if no proof is found. The function first tries to find "[[ r ]]" verbatim among the premisses (where each premise is tree searched). If no proof is found, "[[ r ]]" is decomposed.
+
+\item "[[ eager define unitac-rule-plus ( R , P , c ) as newline
+
+let << true ,, r ,, r prime >> = R in newline
+
+let p = unitac-rule0 ( r , P , c ) in newline
+
+if p then true else newline
+
+let p prime = unitac-rule0 ( r prime , P , c ) in newline
+
+if p prime then true else
+
+back R quote p unquote ;; p prime unquote ;; ( ( r unquote oplus r prime unquote ) infer ( r unquote oplus r prime unquote ) Init ) Curry Ponens Ponens end quote end define ]]"
+
+Construct a proof of the rule "[[ R ]]" of form "[[ r oplus r prime ]]" assuming the premisses "[[ P ]]". Return "[[ true ]]" if no proof is found.
+
+\item "[[ eager define unitac-rule-stmt ( d , r , P , c ) as newline
+
+let p = unitac-rule0 ( d , P , c ) in newline
+
+if p then true else newline
+
+back r quote p unquote ;; d unquote Init id est r unquote end quote end define ]]"
+
+Construct a proof of the rule "[[ r ]]" with definition "[[ d ]]" assuming the premisses "[[ P ]]". Return "[[ true ]]" if no proof is found.
+
+\item "[[ eager define unitac-rule1 ( r , P , c ) as newline
+
+if P atom then true else newline
+
+unitac-rule2 ( r , P head first , c ) .and. newline
+
+unitac-rule1 ( r , P tail , c ) end define ]]"
+
+Construct a proof of the rule "[[ r ]]" assuming the premisses "[[ P ]]". Return "[[ true ]]" if the rule is not found among the premisses.
+
+\item "[[ eager define unitac-rule2 ( r , T , c ) as newline
+
+let p = unitac-search ( r , T , c ) in newline
+
+if p then true else newline
+
+unitac-rule3 ( r , p ) end define ]]"
+
+Construct a proof of the rule "[[ r ]]" assuming the theory "[[ T ]]". Sequent evaluating the proof gives "[[ << << T >> ,, true ,, r prime >> ]]" where "[[ r prime ]]" is what the rule with name "[[ r ]]" says. Return "[[ true ]]" if no proof is found (i.e.\ if the rule does not belong to the theory).
+
+
+
+\item "[[ eager define unitac-search ( r , T , c ) as newline
+
+unitac-search1 ( r , T , true , << T >> , c ) catch tail
+
+end define ]]".
+
+Search for the rule "[[ r ]]" in the theory "[[ T ]]" and return the ``path'' of "[[ r ]]". Return "[[ true ]]" is "[[ r ]]" is not found.
+
+A path is a non-empty list of ``addresses''. An address is a pair of a tree and a list of ``edges''. Each edge is one of the strings ``head'' and ``tail''. As an example, the address "[[ << ( x oplus y ) oplus z ,, "head" ,, "tail" >> ]]" points out the "[[ y ]]" in the tree "[[ ( x oplus y ) oplus z ]]".
+
+A path "[[ << a ,, b >> ]]" adresses some term "[[ a prime ]]" which, when dereferenced, is supposed to be the starting point of "[[ b ]]". As an example, "[[ << << p.Prop oplus p.A3 ,, "head" >> ,, << p.A1 oplus p.A2 oplus p.MP ,, "tail" ,, "head" >> >> ]]" is a path to "[[ p.A2 ]]" within "[[ p.Prop oplus p.A3 ]]".
+
+The path is returned in reverse order.
+
+
+
+\item "[[ eager define unitac-search1 ( r , T , p , a , c ) as newline
+
+if r t= T then ( reverse ( a ) :: p ) raise else newline
+
+let T prime = T stmt-rhs ( c ) in newline
+
+if .not. T prime then unitac-search1 ( r , T prime , reverse ( a ) :: p , << T prime >> , c ) else newline
+
+if T metadef ( c ) != "plus" then true else newline
+
+unitac-search1 ( r , T first , p , "head" :: a , c ) .and. newline
+
+unitac-search1 ( r , T second , p , "tail" :: a , c ) end define ]]".
+
+Search for "[[ r ]]" in "[[ T ]]" and throw the path of "[[ r ]]" when found. Return "[[ true ]]" if "[[ r ]]" is not found. Accumulate the path in "[[ p ]]" in reverse order and the addresses in "[[ a ]]" in reverse order. The path is returned in reverse order.
+
+
+
+\item "[[ eager define unitac-rule3 ( r , p ) as newline
+
+let q = unitac-rule4 ( r , p head ) in newline
+
+if p tail then q else
+
+let p = unitac-rule3 ( r , p tail ) in newline
+
+back r quote p unquote Deref ;; q unquote end quote end define ]]"
+
+
+
+\item "[[ eager define unitac-rule4 ( r , a ) as newline
+
+let p = unitac-rule5 ( r , a head , a tail , true ) in newline
+
+back r quote p unquote Ponens end quote end define ]]".
+
+Given an address "[[ T :: a ]]", construct a proof which generates the sequent "[[ << << T >> ,, true ,, a prime >> ]]" where "[[ a prime ]]" is the conjunct at address "[[ a ]]" in conjunction "[[ T ]]".
+
+
+
+\item "[[ eager define unitac-rule5 ( r , T , a , s ) as newline
+
+if a atom then newline
+
+let p = unitac-stack ( r , s , back r quote T unquote Init end quote ) in
+
+back r quote T unquote infer p unquote end quote else
+
+let e :: a = a in newline
+
+if e = "head" then newline
+
+back r quote unitac-rule5 ( r , T first , a , T second :: s ) unquote Uncurry end quote else newline
+
+back r quote ( T first unquote infer unitac-rule5 ( r , T second , a , s ) unquote ) Uncurry end quote end define ]]".
+
+Given a conjunction "[[ T ]]" and a list "[[ a ]]" of edges, prove "[[ T infer a prime ]]" where "[[ a prime ]]" is the conjunct at address "[[ a ]]".
+
+
+
+\item "[[ eager define unitac-stack ( r , s , t ) as newline
+
+if s atom then t else newline
+
+let p :: s = s in newline
+
+let t = unitac-stack ( r , s , t ) in newline
+
+back r quote p unquote infer t unquote end quote
+
+end define ]]".
+
+Add the premisses on the stack "[[ s ]]" to the term "[[ t ]]".
+
+\end{statements}
+
+
+
+\subsection{Lemmas}
+
+\begin{statements}
+
+\item "[[ eager define unitac-lemma ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let d = s [[ hook-unitac ]] [[ hook-lemma ]] in newline
+
+( eval ( d , true , c ) apply << t ,, s ,, c >> maptag ) untag end define ]]"
+
+\item "[[ eager define unitac-lemma-std ( x ) as newline
+
+let << t ,, s ,, c >> = x in newline
+
+let << true ,, T ,, r >> = t stmt-rhs ( c ) in newline
+
+let a prime = unitac-theo ( T , s , c ) in newline
+
+let a = back t quote a prime unquote ;; t unquote Init Deref Ponens end quote in newline
+
+s [[ hook-arg -> a ]] [[ hook-res -> r ]] end define ]]".
+
+Define how to sequent prove a lemma and what the lemma concludes.
+
+\end{statements}
+
+
+
+\section{Tactic definitions of proof line constructs}
+
+\subsection{Conclude-cut lines}
+
+\begin{statements}
+
+\item "[[ macro define line l : a >> x ; n as Line l : a >> x ; n end define ]]"
+
+\item "[[ tactic define Line l : a >> x ; n as \ u . tactic-conclude-cut ( u ) end define ]]"
+
+\item "[[ eager define tactic-conclude-cut ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let << true ,, l ,, a ,, x ,, n >> = t in newline
+
+let s prime = taceval ( back t quote a unquote conclude x unquote end quote , s , c ) in newline
+
+let a prime = s prime [[ hook-arg ]] in newline
+
+let r = s prime [[ hook-res ]] in newline
+
+let s = tactic-push ( hook-pre , << l ,, r ,, back r quote r unquote Init end quote >> , s ) in newline
+
+let s = taceval ( n , s , c ) in newline
+
+let a = s [[ hook-arg ]] in newline
+
+s [[ hook-arg -> back t quote a prime unquote ;; a unquote end quote ]] end define ]]"
+
+\end{statements}
+
+
+
+\subsection{Premise line}
+
+\begin{statements}
+
+\item "[[ macro define line l : Premise >> x ; n as Line l : Premise >> x ; n end define ]]"
+
+\item "[[ tactic define Line l : Premise >> x ; n as \ u . tactic-premise-line ( u ) end define ]]"
+
+\item "[[ eager define tactic-premise-line ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let << true ,, l ,, x ,, n >> = t in newline
+
+let s = taceval ( n , tactic-push ( hook-pre , << l ,, x ,, back x quote x unquote Init end quote >> , s ) , c ) in newline
+
+let a = back t quote x unquote infer s [[ hook-arg ]] unquote end quote in newline
+
+let r = back t quote x unquote infer s [[ hook-res ]] unquote end quote in newline
+
+s [[ hook-arg -> a ]] [[ hook-res -> r ]] end define ]]"
+
+\end{statements}
+
+
+
+\subsection{Condition line}
+
+\begin{statements}
+
+\item "[[ macro define line l : Condition >> x ; n as Line l : Condition >> x ; n end define ]]"
+
+\item "[[ tactic define Line l : Condition >> x ; n as \ u . tactic-condition-line ( u ) end define ]]"
+
+\item "[[ eager define tactic-condition-line ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let << true ,, l ,, x ,, n >> = t in newline
+
+let s = taceval ( n , tactic-push ( hook-cond , << l ,, x >> , s ) , c ) in newline
+
+let a = back t quote x unquote endorse s [[ hook-arg ]] unquote end quote in newline
+
+let r = back t quote x unquote endorse s [[ hook-res ]] unquote end quote in newline
+
+s [[ hook-arg -> a ]] [[ hook-res -> r ]] end define ]]"
+
+\end{statements}
+
+
+
+\subsection{Blocks}
+
+\begin{statements}
+
+\item "[[ macro define line l : Block >> Begin ; x line k : Block >> End ; n as Line l : Block >> Begin ; x line k : Block >> End ; n end define ]]"
+
+\item "[[ tactic define Line l : Block >> Begin ; x line k : Block >> End ; n as \ u . tactic-block ( u ) end define ]]"
+
+\item "[[ eager define tactic-block ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let << true ,, l ,, x ,, k ,, n >> = t in newline
+
+let s prime = taceval ( x , s , c ) in newline
+
+let a prime = s prime [[ hook-arg ]] in newline
+
+let r = s prime [[ hook-res ]] in newline
+
+let s = tactic-push ( hook-pre , << k ,, r ,, back r quote r unquote Init end quote >> , s ) in newline
+
+let s = taceval ( n , s , c ) in newline
+
+let a = s [[ hook-arg ]] in newline
+
+s [[ hook-arg -> back t quote a prime unquote ;; a unquote end quote ]] end define ]]"
+
+\end{statements}
+
+
+
+\section{Sample proofs}
+
+\subsection{Propositional Calculus}
+
+We now define Propositional Calculus ("[[ p.Prop ]]") as in \cite{Mendelson}. We also define Intuitionistic Propositional Calculus ("[[ p.IProp ]]").
+
+"[ axiom p.A1 : All #x ,, #y : #x p.imply #y p.imply #x end axiom ]"
+
+"[ axiom p.A2 : All #x ,, #y ,, #z : ( #x p.imply #y p.imply #z ) p.imply ( #x p.imply #y ) p.imply #x p.imply #z end axiom ]"
+
+"[ axiom p.A3 : All #x ,, #y : ( p.not #y p.imply p.not #x ) p.imply ( p.not #y p.imply #x ) p.imply #y end axiom ]"
+
+"[ rule p.MP : All #x ,, #y : #x p.imply #y infer #x infer #y end rule ]"
+
+"[ theory p.IProp : p.A1 oplus p.A2 oplus p.MP end theory ]"
+
+"[ theory p.Prop : p.IProp oplus p.A3 end theory ]"
+
+\noindent The inference rule of Modus Ponens ("[[ p.MP ]]") is typically applied to two arguments, so we introduce a macro for that:
+
+"[[[ macro define x p.mp y as p.MP ponens x ponens y Conclude end define ]]]"
+
+\noindent In the macro, "[[ y Conclude ]]" is argument "[[ y ]]" from which all occurences of "[[ All #u : #v ]]", "[[ #u infer #v ]]", and "[[ #u endorse #v ]]" are stripped by applications of "[[ #a at #b ]]", "[[ #a Ponens ]]", and "[[ #a Verify ]]", respectively. Stripping is done during tactic evaluation. The macro does not strip "[[ x ]]" since that happens automatically: During tactic evaluation, the "[[ p.MP ]]" rules forces "[[ x ]]" to be of form "[[ #x p.imply #y ]]" which causes "[[ x ]]" to be stripped.
+
+As an example of a proof, take the first lemma proved in \cite{Mendelson}:
+
+
+
+"[ p.Prop lemma lemma2 : All #x : #x p.imply #x end lemma ]"
+
+"[ p.Prop proof of lemma2 :
+
+line L01 : Arbitrary >> #x ;
+
+line L02 : p.A2 >>
+  ( #x p.imply ( #y p.imply #x ) p.imply #x ) p.imply newline
+  ( #x p.imply #y p.imply #x ) p.imply #x p.imply #x ;
+
+line L03 : p.A1 >> #x p.imply ( #y p.imply #x ) p.imply #x ;
+
+line L04 : L02 p.mp L03 >> ( #x p.imply #y p.imply #x ) p.imply #x p.imply #x ;
+
+line L05 : p.A1 >> #x p.imply #y p.imply #x ;
+
+line L06 : L04 p.mp L05 >> #x p.imply #x qed ]"
+
+\noindent We may leave more work to unification simply by omitting line "[[ L02 ]]" and "[[ L03 ]]":
+
+"[ p.Prop lemma lemma2a : All #x : #x p.imply #x end lemma ]"
+
+"[ p.Prop proof of lemma2a :
+
+line L01 : Arbitrary >> #x ;
+
+line L04 : p.A2 p.mp p.A1 >> ( #x p.imply #y p.imply #x ) p.imply #x p.imply #x ;
+
+line L05 : p.A1 >> #x p.imply #y p.imply #x ;
+
+line L06 : L04 p.mp L05 >> #x p.imply #x qed ]"
+
+\noindent We may state the proof even shorter as follows:
+
+"[ p.Prop lemma lemma2b : All #x : #x p.imply #x end lemma ]"
+
+"[ p.Prop proof of lemma2b :
+
+line L01 : Arbitrary >> #x ;
+
+line L05 : p.A1 >> #x p.imply #y p.imply #x ;
+
+line L06 : p.A2 p.mp p.A1 p.mp L05 >> #x p.imply #x qed ]"
+
+\noindent It would be tempting to change the argumentation of line "[[ L06 ]]" to "[[ p.A2 p.mp p.A1 p.mp p.A1 ]]", but then unification would be unable to determine how to instantiate the second quantifier of "[[ p.A1 ]]". We may specify that instantiation explicitly, though:
+
+"[ p.Prop lemma lemma2c : All #x : #x p.imply #x end lemma ]"
+
+"[ p.Prop proof of lemma2c :
+
+line L01 : Arbitrary >> #x ;
+
+line L06 : p.A2 p.mp p.A1 p.mp ( p.A1 At at #y ) >> #x p.imply #x qed ]"
+
+\noindent In the proof above, "[[ p.A1 At ]]" tells unification to instantiate the first quantifier of "[[ p.A1 ]]" suitably. "[[ p.A1 At at #y ]]" tells unification to instantiate the first quantifier suitably and to instantiate the second one to "[[ #y ]]".
+
+Line "[[ L01 ]]" above applies the generalization sequent operator "[[ All #x : #y ]]" to the rest of the proof. The same effect may be achieved by putting that operator in the argumentation of line "[[ L06 ]]". But then one must also add a meta-quantifier to the conclusion of line "[[ L06 ]]". The "[[ All #x : #y ]]" construct happens to denote both the generalization sequent operator and the meta-quantifier:
+
+"[ p.Prop lemma lemma2d : All #x : #x p.imply #x end lemma ]"
+
+"[ p.Prop proof of lemma2d :
+
+line L06 : All #x : p.A2 p.mp p.A1 p.mp ( p.A1 At at #y ) >> All #x : #x p.imply #x qed ]"
+
+\noindent One may even leave to unification to guess the quantified variable:
+
+"[ p.Prop lemma lemma2e : All #x : #x p.imply #x end lemma ]"
+
+"[ p.Prop proof of lemma2e :
+
+line L06 : ( p.A2 p.mp p.A1 p.mp ( p.A1 At at #y ) ) All >> All #x : #x p.imply #x qed ]"
+
+\noindent The theory part of a lemma and a proof may be stated as a conjunction in an arbitrary order. Each conjunct may be a rule or a theory, where each theory recursively may be an arbitrary conjunction of rules and theories. As an example, "[[ p.IProp oplus p.A3 ]]" contains the rules "[[ p.A1 ]]", "[[ p.A2 ]]", "[[ p.A3 ]]", and "[[ p.MP ]]" which makes the following lemma and proof correct:
+
+"[ p.IProp oplus p.A3 lemma lemma2f : All #x : #x p.imply #x end lemma ]"
+
+"[ p.IProp oplus p.A3 proof of lemma2f :
+
+line L01 : Arbitrary >> #x ;
+
+line L06 : p.A2 p.mp p.A1 p.mp ( p.A1 At at #y ) >> #x p.imply #x qed ]"
+
+
+
+\subsection{Blocks}
+
+Blocks allow subproofs inside other proofs. The following example stress test the block concept in that it first proves that any statement "[[ #x ]]" implies itself, then applies that to the statement itself. The proof is much like applying the identity function to itself which of course yeilds the identity function.
+
+"[ p.Prop lemma lemma3 : All #x : #x infer #x end lemma ]"
+
+"[ p.Prop proof of lemma3 :
+
+line L01 : Block >> Begin ;
+
+line L02 : Arbitrary >> #x ;
+
+line L03 : Premise >> #x ;
+
+line L04 : L03 >> #x ;
+
+line L05 : Block >> End ;
+
+line L06 : L05 ponens L05 >> All #x : #x infer #x qed ]"
+
+
+
+\subsection{System S}
+
+For the sake of testing we introduce a small subset of Mendelsons System S. For historical reasons, this system is used in the Logiweb test suites.
+
+"[ theory System S : S.S1 oplus S.S5 end theory ]"
+
+"[ rule S.S1 : All #x ,, #y ,, #z : #x = #y infer #x = #z infer #y = #z end rule ]"
+
+"[ rule S.S5 : All #x : #x + 0 = #x end rule ]"
+
+"[ System S lemma S.reflexivity : All #x : #x = #x end lemma ]"
+
+"[ System S proof of S.reflexivity :
+
+line L01 : Arbitrary >> #x ;
+
+line L02 : S.S5 >> #x + 0 = #x ;
+
+line L03 : S.S1 ponens L02 ponens L02 >> #x = #x qed ]"
+
+
+
+\subsection{Rules}
+
+
+
+"[ p.Prop lemma lemma4a : p.IProp end lemma ]"
+
+"[ p.Prop proof of lemma4a :
+
+line L01 : p.IProp Rule >> p.IProp qed ]"
+
+
+
+"[ p.Prop lemma lemma4b : p.A1 end lemma ]"
+
+"[ p.Prop proof of lemma4b :
+
+line L01 : p.A1 Rule >> p.A1 qed ]"
+
+
+
+"[ p.Prop lemma lemma4c : p.A2 end lemma ]"
+
+"[ p.Prop proof of lemma4c :
+
+line L01 : p.A2 Rule >> p.A2 qed ]"
+
+
+
+"[ p.Prop lemma lemma4d : p.A3 end lemma ]"
+
+"[ p.Prop proof of lemma4d :
+
+line L01 : p.A3 Rule >> p.A3 qed ]"
+
+
+
+"[ p.IProp oplus p.A3 lemma lemma4e : p.Prop end lemma ]"
+
+"[ p.IProp oplus p.A3 proof of lemma4e :
+
+line L01 : p.Prop Rule >> p.Prop qed ]"
+
+
+
+"[ p.IProp lemma lemma4f : p.A3 infer p.Prop end lemma ]"
+
+"[ p.IProp proof of lemma4f :
+
+line L01 : Premise >> p.A3 ;
+
+line L02 : p.Prop Rule >> p.Prop qed ]"
+
+
+
+"[ p.IProp lemma lemma4g : p.A3 infer x p.imply x end lemma ]"
+
+"[ p.IProp proof of lemma4g :
+
+line L01 : Premise >> p.A3 ;
+
+line L02 : lemma2 >> x p.imply x qed ]"
+
+
+
+\printindex
+
+
+
+\bibliography{./page}
+
+
+
+\end{document}
+" end text ,,
+
+
+
+latex ( "page" ) ,,
+makeindex ( "page" ) ,,
+bibtex ( "page" ) ,,
+latex ( "page" ) ,,
+makeindex ( "page" ) ,,
+latex ( "page" ) ,,
+dvipdfm ( "page" ) ,,
+
+
+
+text "chores.tex" : ""-"";
+
+\documentclass[fleqn]{article}
+
+% Include definitions generated by the Logiweb compiler
+\input{lgwinclude}
+
+% Make latexsym characters available
+\usepackage{latexsym}
+
+% Ensure reasonable rendering of strings
+\everymath{\rm}
+\everydisplay{\rm}
+
+% Enable generation of an index
+\usepackage{makeidx}
+\makeindex
+\newcommand{\intro}[1]{\emph{#1}}
+\newcommand{\indexintro}[1]{\index{#1}\intro{#1}}
+
+% Enable generation of a bibliography
+\bibliographystyle{plain}
+
+% Enable hyperlinks
+\usepackage[dvipdfm=true]{hyperref}
+\hypersetup{pdfpagemode=UseNone}
+\hypersetup{pdfstartpage=1}
+\hypersetup{pdfstartview=FitBH}
+\hypersetup{pdfpagescrop={120 80 490 730}}
+\hypersetup{pdftitle=A Logiweb proof checker - chores}
+\hypersetup{colorlinks=true}
+
+% Construct for listing statements with associated explanations
+\newenvironment{statements}{\begin{list}{}{
+\setlength{\leftmargin}{5em}
+\setlength{\itemindent}{-5em}}}{\end{list}}
+
+\begin{document}
+\title{A Logiweb proof checker - chores}
+\author{Klaus Grue}
+\maketitle
+\tableofcontents
+
+
+
+\section{\TeX\ definitions}
+
+\begin{statements}
+
+\item "[[ tex show define alpha as "
+\alpha " end define ]]"
+
+\item "[[ tex show define beta as "
+\beta " end define ]]"
+
+\item "[[ tex show define gamma as "
+\gamma " end define ]]"
+
+\item "[[ tex show define delta as "
+\delta " end define ]]"
+
+\item "[[ tex show define epsilon as "
+\epsilon " end define ]]"
+
+\item "[[ tex show define varepsilon as "
+\varepsilon " end define ]]"
+
+\item "[[ tex show define zeta as "
+\zeta " end define ]]"
+
+\item "[[ tex show define eta as "
+\eta " end define ]]"
+
+\item "[[ tex show define theta as "
+\theta " end define ]]"
+
+\item "[[ tex show define vartheta as "
+\vartheta " end define ]]"
+
+\item "[[ tex show define iota as "
+\iota " end define ]]"
+
+\item "[[ tex show define kappa as "
+\kappa " end define ]]"
+
+\item "[[ tex show define lambda as "
+\lambda " end define ]]"
+
+\item "[[ tex show define mu as "
+\mu " end define ]]"
+
+\item "[[ tex show define nu as "
+\nu " end define ]]"
+
+\item "[[ tex show define xi as "
+\xi " end define ]]"
+
+\item "[[ tex show define pi as "
+\pi " end define ]]"
+
+\item "[[ tex show define varpi as "
+\varpi " end define ]]"
+
+\item "[[ tex show define rho as "
+\rho " end define ]]"
+
+\item "[[ tex show define varrho as "
+\varrho " end define ]]"
+
+\item "[[ tex show define sigma as "
+\sigma " end define ]]"
+
+\item "[[ tex show define varsigma as "
+\varsigma " end define ]]"
+
+\item "[[ tex show define tau as "
+\tau " end define ]]"
+
+\item "[[ tex show define upsilon as "
+\upsilon " end define ]]"
+
+\item "[[ tex show define phi as "
+\phi " end define ]]"
+
+\item "[[ tex show define chi as "
+\chi " end define ]]"
+
+\item "[[ tex show define psi as "
+\psi " end define ]]"
+
+\item "[[ tex show define omega as "
+\omega " end define ]]"
+
+\item "[[ tex show define Gamma as "
+\Gamma " end define ]]"
+
+\item "[[ tex show define Delta as "
+\Delta " end define ]]"
+
+\item "[[ tex show define Theta as "
+\Theta " end define ]]"
+
+\item "[[ tex show define Lambda as "
+\Lambda " end define ]]"
+
+\item "[[ tex show define Xi as "
+\Xi " end define ]]"
+
+\item "[[ tex show define Pi as "
+\Pi " end define ]]"
+
+\item "[[ tex show define Sigma as "
+\Sigma " end define ]]"
+
+\item "[[ tex show define Upsilon as "
+\Upsilon " end define ]]"
+
+\item "[[ tex show define Phi as "
+\Phi " end define ]]"
+
+\item "[[ tex show define Psi as "
+\Psi " end define ]]"
+
+\item "[[ tex show define Omega as "
+\Omega " end define ]]"
+
+\item "[[ tex show define cla as "{\cal A}" end define ]]"
+
+\item "[[ tex show define clb as "{\cal B}" end define ]]"
+
+\item "[[ tex show define clc as "{\cal C}" end define ]]"
+
+\item "[[ tex show define cld as "{\cal D}" end define ]]"
+
+\item "[[ tex show define cle as "{\cal E}" end define ]]"
+
+\item "[[ tex show define clf as "{\cal F}" end define ]]"
+
+\item "[[ tex show define clg as "{\cal G}" end define ]]"
+
+\item "[[ tex show define clh as "{\cal H}" end define ]]"
+
+\item "[[ tex show define cli as "{\cal I}" end define ]]"
+
+\item "[[ tex show define clj as "{\cal J}" end define ]]"
+
+\item "[[ tex show define clk as "{\cal K}" end define ]]"
+
+\item "[[ tex show define cll as "{\cal L}" end define ]]"
+
+\item "[[ tex show define clm as "{\cal M}" end define ]]"
+
+\item "[[ tex show define cln as "{\cal N}" end define ]]"
+
+\item "[[ tex show define clo as "{\cal O}" end define ]]"
+
+\item "[[ tex show define clp as "{\cal P}" end define ]]"
+
+\item "[[ tex show define clq as "{\cal Q}" end define ]]"
+
+\item "[[ tex show define clr as "{\cal R}" end define ]]"
+
+\item "[[ tex show define cls as "{\cal S}" end define ]]"
+
+\item "[[ tex show define clt as "{\cal T}" end define ]]"
+
+\item "[[ tex show define clu as "{\cal U}" end define ]]"
+
+\item "[[ tex show define clv as "{\cal V}" end define ]]"
+
+\item "[[ tex show define clw as "{\cal W}" end define ]]"
+
+\item "[[ tex show define clx as "{\cal X}" end define ]]"
+
+\item "[[ tex show define cly as "{\cal Y}" end define ]]"
+
+\item "[[ tex show define clz as "{\cal Z}" end define ]]"
+
+\item "[[ tex show define statement as "
+stmt" end define ]]"
+
+\item "[[ tex show define proof as "
+proof" end define ]]"
+
+\item "[[ tex show define statement define x as y end define as "
+[ "[ texshow x end texshow ]"
+\stackrel{stmt}{=} "[ texshow y end texshow ]"
+]" end define ]]"
+
+\item "[[ tex show define proof define x as y end define as "
+[ "[ texshow x end texshow ]"
+\stackrel{proof}{=} "[ texshow y end texshow ]"
+]" end define ]]"
+
+\item "[[ tex show define meta define x as y end define as "
+[ "[ texshow x end texshow ]"
+\stackrel{meta}{=} "[ texshow y end texshow ]"
+]" end define ]]"
+
+\item "[[ tex show define math define x as y end define as "
+[ "[ texshow x end texshow ]"
+\stackrel{math}{=} "[ texshow y end texshow ]"
+]" end define ]]"
+
+\item "[[ tex show define tactic define x as y end define as "
+[ "[ texshow x end texshow ]"
+\stackrel{tactic}{=} "[ texshow y end texshow ]"
+]" end define ]]"
+
+\item "[[ tex show define unitac define x as y end define as "
+[ "[ texshow x end texshow ]"
+\stackrel{unitac}{=} "[ texshow y end texshow ]"
+]" end define ]]"
+
+\item "[[ tex show define locate define x as y end define as "
+[ "[ texshow x end texshow ]"
+\stackrel{locate}{=} "[ y ]"
+]" end define ]]"
+
+\item "[[ tex show define #a as "
+\mathsf{a}" end define ]]"
+
+\item "[[ tex show define #b as "
+\mathsf{b}" end define ]]"
+
+\item "[[ tex show define #c as "
+\mathsf{c}" end define ]]"
+
+\item "[[ tex show define #d as "
+\mathsf{d}" end define ]]"
+
+\item "[[ tex show define #e as "
+\mathsf{e}" end define ]]"
+
+\item "[[ tex show define #f as "
+\mathsf{f}" end define ]]"
+
+\item "[[ tex show define #g as "
+\mathsf{g}" end define ]]"
+
+\item "[[ tex show define #h as "
+\mathsf{h}" end define ]]"
+
+\item "[[ tex show define #i as "
+\mathsf{i}" end define ]]"
+
+\item "[[ tex show define #j as "
+\mathsf{j}" end define ]]"
+
+\item "[[ tex show define #k as "
+\mathsf{k}" end define ]]"
+
+\item "[[ tex show define #l as "
+\mathsf{l}" end define ]]"
+
+\item "[[ tex show define #m as "
+\mathsf{m}" end define ]]"
+
+\item "[[ tex show define #n as "
+\mathsf{n}" end define ]]"
+
+\item "[[ tex show define #o as "
+\mathsf{o}" end define ]]"
+
+\item "[[ tex show define #p as "
+\mathsf{p}" end define ]]"
+
+\item "[[ tex show define #q as "
+\mathsf{q}" end define ]]"
+
+\item "[[ tex show define #r as "
+\mathsf{r}" end define ]]"
+
+\item "[[ tex show define #s as "
+\mathsf{s}" end define ]]"
+
+\item "[[ tex show define #t as "
+\mathsf{t}" end define ]]"
+
+\item "[[ tex show define #u as "
+\mathsf{u}" end define ]]"
+
+\item "[[ tex show define #v as "
+\mathsf{v}" end define ]]"
+
+\item "[[ tex show define #w as "
+\mathsf{w}" end define ]]"
+
+\item "[[ tex show define #x as "
+\mathsf{x}" end define ]]"
+
+\item "[[ tex show define #y as "
+\mathsf{y}" end define ]]"
+
+\item "[[ tex show define #z as "
+\mathsf{z}" end define ]]"
+
+\item "[[ tex show define False as "
+\mathrel{\makebox[0mm][l]{$\bot$}\,{\bot}}" end define ]]"
+
+\item "[[ tex show define p.A1 as "
+A1" end define ]]"
+
+\item "[[ tex show define p.A2 as "
+A2" end define ]]"
+
+\item "[[ tex show define p.A3 as "
+A3" end define ]]"
+
+\item "[[ tex show define p.MP as "
+MP" end define ]]"
+
+\item "[[ tex show define p.Prop as "
+Prop" end define ]]"
+
+\item "[[ tex show define p.IProp as "
+IProp" end define ]]"
+
+
+
+\item "[[ tex show define x# as "".[ x ]"
+{}^{\#}" end define ]]"
+
+
+
+\item "[[ tex show define x member y as "".[ x ]"
+\in "[ y ]"". end define ]]"
+
+
+
+\item "[[ tex show define p.not x as "
+\neg "[ x ]"". end define ]]"
+
+
+
+\item "[[ tex show define x p.imply y as "".[ x ]"
+\Rightarrow "[ y ]"". end define ]]"
+
+
+
+\item "[[ tex show define metadeclare x as "
+meta\ \linebreak [0]"[ x ]"". end define ]]"
+
+
+
+\item "[[ tex show define x Init as "".[ x ]"
+{}^I " end define ]]"
+
+\item "[[ tex show define x Ponens as "".[ x ]"
+{}^{\rhd} " end define ]]"
+
+\item "[[ tex show define x Probans as "".[ x ]"
+{\makebox[0mm][l]{${}^\rhd$}\,{}^\rhd} " end define ]]"
+
+\item "[[ tex show define x Verify as "".[ x ]"
+{}^{\ast} " end define ]]"
+
+\item "[[ tex show define x Curry as "".[ x ]"
+{}^C " end define ]]"
+
+\item "[[ tex show define x Uncurry as "".[ x ]"
+{}^U " end define ]]"
+
+\item "[[ tex show define x Deref as "".[ x ]"
+{}^D " end define ]]"
+
+\item "[[ tex show define x At as "".[ x ]"
+{}^@ " end define ]]"
+
+\item "[[ tex show define x Infer as "".[ x ]"
+{}^{\vdash} " end define ]]"
+
+\item "[[ tex show define x Endorse as "".[ x ]"
+{\makebox[0mm][l]{${}^\vdash$}\,{}^\vdash} " end define ]]"
+
+\item "[[ tex show define x All as "".[ x ]"
+{}^{\Pi} " end define ]]"
+
+\item "[[ tex show define x Conclude as "".[ x ]"
+{}^{\gg}" end define ]]"
+
+
+
+\item "[[ tex show define x at y as "".[ x ]"
+\mathrel{@} "[ y ]"". end define ]]"
+
+\item "[[ tex show define x ponens y as "".[ x ]"
+\rhd "[ y ]"". end define ]]"
+
+\item "[[ tex show define x probans y as "".[ x ]"
+\mathrel{\makebox[0mm][l]{$\rhd$}\,{\rhd}} "[ y ]"". end define ]]"
+
+\item "[[ tex show define x infer y as "".[ x ]"
+\vdash "[ y ]"". end define ]]"
+
+\item "[[ tex show define x endorse y as "".[ x ]"
+\mathrel{\makebox[0mm][l]{$\vdash$}\,{\vdash}} "[ y ]"". end define ]]"
+
+\item "[[ tex show define x id est y as "".[ x ]"
+\mathrel{ie} "[ y ]"". end define ]]"
+
+\item "[[ tex show define x verify y as "".[ x ]"
+\mathrel{\ast} "[ y ]"". end define ]]"
+
+\item "[[ tex show define x conclude y as "".[ x ]"
+\gg "[ y ]"". end define ]]"
+
+\item "[[ tex show define x p.mp y as "".[ x ]"
+\unrhd "[ y ]"". end define ]]"
+
+
+
+\item "[[ tex show define All x : y as "
+\Pi "[ x ]"
+\colon "[ y ]"". end define ]]"
+
+
+
+\item "[[ tex show define x oplus y as "".[ x ]"
+\oplus "[ y ]"". end define ]]"
+
+
+
+\item "[[ tex use define line x : y >> z ; u as "
+\newline%
+\makebox[0.1\textwidth]{}%
+\parbox[b]{0.4\textwidth}{\raggedright%
+\makebox[0mm][r]{\makebox[0.1\textwidth][l]{$"[ x ]"{:}$}}%
+$"[ y ]" {} \gg {}$}%
+\parbox[t]{0.4\textwidth}{\raggedright\setlength{\leftskip}{\indentation}%
+$"[ z ]"$\hfill
+\makebox[0mm][l]{\quad ;}} "[ u ]"". end define ]]"
+
+\item "[[ tex show define line x : y >> z ; u as "
+L "[ x ]"
+\colon "[ y ]"
+\gg "[ z ]"
+; "[ u ]"". end define ]]"
+
+\item "[[ tex use define line x : y >> z ; as "
+\newline%
+\makebox[0.1\textwidth]{}%
+\parbox[b]{0.4\textwidth}{\raggedright%
+\makebox[0mm][r]{\makebox[0.1\textwidth][l]{$"[ x ]"{:}$}}%
+$"[ y ]" {} \gg {}$}%
+\parbox[t]{0.4\textwidth}{\raggedright\setlength{\leftskip}{\indentation}%
+$"[ z ]"$\hfill
+\makebox[0mm][l]{\quad ;}}" end define ]]"
+
+\item "[[ tex show define line x : y >> z ; as "
+L "[ x ]"
+\colon "[ y ]"
+\gg "[ z ]"
+;" end define ]]"
+
+\item "[[ tex use define line x : y >> z qed as "
+\newline%
+\makebox[0.1\textwidth]{}%
+\parbox[b]{0.4\textwidth}{\raggedright%
+\makebox[0mm][r]{\makebox[0.1\textwidth][l]{$"[ x ]"{:}$}}%
+$"[ y ]" {} \gg {}$}%
+\parbox[t]{0.4\textwidth}{\raggedright\setlength{\leftskip}{\indentation}%
+$"[ z ]"$\hfill
+\makebox[0mm][l]{\quad $\Box$}}" end define ]]"
+
+\item "[[ tex show define line x : y >> z qed as "
+L "[ x ]"
+\colon "[ y ]"
+\gg "[ z ]"
+\Box" end define ]]"
+
+\item "[[ tex use define line x : Premise >> z ; u as "
+\newline%
+\makebox[0.1\textwidth]{}%
+\parbox[b]{0.4\textwidth}{\raggedright%
+\makebox[0mm][r]{\makebox[0.1\textwidth][l]{$"[ x ]"{:}$}}%
+$Premise {} \gg {}$}%
+\parbox[t]{0.4\textwidth}{\raggedright\setlength{\leftskip}{\indentation}%
+$"[ z ]"$\hfill
+\makebox[0mm][l]{\quad ;}} "[ u ]"". end define ]]"
+
+\item "[[ tex show define line x : Premise >> z ; u as "
+L "[ x ]"
+\colon Premise
+\gg "[ z ]"
+; "[ u ]"". end define ]]"
+
+\item "[[ tex use define line x : Condition >> z ; u as "
+\newline%
+\makebox[0.1\textwidth]{}%
+\parbox[b]{0.4\textwidth}{\raggedright%
+\makebox[0mm][r]{\makebox[0.1\textwidth][l]{$"[ x ]"{:}$}}%
+$Condition {} \gg {}$}%
+\parbox[t]{0.4\textwidth}{\raggedright\setlength{\leftskip}{\indentation}%
+$"[ z ]"$\hfill
+\makebox[0mm][l]{\quad ;}} "[ u ]"". end define ]]"
+
+\item "[[ tex show define line x : Condition >> z ; u as "
+L "[ x ]"
+\colon Condition
+\gg "[ z ]"
+; "[ u ]"". end define ]]"
+
+\item "[[ tex use define line x : Arbitrary >> z ; u as "
+\newline%
+\makebox[0.1\textwidth]{}%
+\parbox[b]{0.4\textwidth}{\raggedright%
+\makebox[0mm][r]{\makebox[0.1\textwidth][l]{$"[ x ]"{:}$}}%
+$Arbitrary {} \gg {}$}%
+\parbox[t]{0.4\textwidth}{\raggedright\setlength{\leftskip}{\indentation}%
+$"[ z ]"$\hfill
+\makebox[0mm][l]{\quad ;}} "[ u ]"". end define ]]"
+
+\item "[[ tex show define line x : Arbitrary >> z ; u as "
+L "[ x ]"
+\colon Arbitrary
+\gg "[ z ]"
+; "[ u ]"". end define ]]"
+
+\item "[[ tex use define line x : Local >> y = z ; u as "
+\newline%
+\makebox[0.1\textwidth]{}%
+\parbox[b]{0.4\textwidth}{\raggedright%
+\makebox[0mm][r]{\makebox[0.1\textwidth][l]{$"[ x ]"{:}$}}%
+$Local {} \gg {}$}%
+\parbox[t]{0.4\textwidth}{\raggedright\setlength{\leftskip}{\indentation}%
+$"[ y ]" \mathrel{\ddot{=}} "[ z ]"$\hfill
+\makebox[0mm][l]{\quad ;}} "[ u ]"". end define ]]"
+
+\item "[[ tex show define line x : Local >> y = z ; u as "
+L "[ x ]"
+\colon Local
+\gg "[ y ]" \mathrel{\ddot{=}} "[ z ]"
+; "[ u ]"". end define ]]"
+
+\item "[[ tex use define line x : Block >> Begin ; y line z : Block >> End ; u as "
+\newline%
+\makebox[0.1\textwidth]{}%
+\parbox[b]{0.4\textwidth}{\raggedright%
+\makebox[0mm][r]{\makebox[0.1\textwidth][l]{$"[ x ]"{:}$}}%
+$Block {} \gg {}$}%
+\parbox[t]{0.4\textwidth}{\raggedright\setlength{\leftskip}{\indentation}%
+$Begin$\hfill
+\makebox[0mm][l]{\quad ;}}\addtolength{\indentation}{1em} "[ y ]"
+\newline\addtolength{\indentation}{-1em}%
+\makebox[0.1\textwidth]{}%
+\parbox[b]{0.4\textwidth}{\raggedright%
+\makebox[0mm][r]{\makebox[0.1\textwidth][l]{$"[ z ]"{:}$}}%
+$Block {} \gg {}$}%
+\parbox[t]{0.4\textwidth}{\raggedright\setlength{\leftskip}{\indentation}%
+$End$\hfill
+\makebox[0mm][l]{\quad ;}} "[ u ]"". end define ]]"
+
+\item "[[ tex show define line x : Block >> Begin ; y line z : Block >> End ; u as "
+L "[ x ]"
+\colon Block \gg Begin ; \quad "[ y ]"
+\quad L "[ z ]"
+\colon Block \gg End ; "[ u ]"". end define ]]"
+
+\item "[[ tex use define prepare proof indentation as "
+\ifx\indentation\undefined
+\newlength{\indentation}\setlength{\indentation}{0em}
+\fi" end define ]]"
+
+
+
+\item "[[ tex show define x ;; y as "".[ x ]"
+; "[ y ]"". end define ]]"
+
+
+
+\item "[[ tex use define axiom x : y end axiom as "
+\addvspace{\abovedisplayskip}
+\noindent $\mathbf{Axiom\ }"[ x ]"
+\colon "[ y ]"
+\;\Box$
+
+\addvspace{\belowdisplayskip}" end define ]]"
+
+\item "[[ tex show define axiom x : y end axiom as "
+\mathbf{Axiom\ }"[ x ]"
+\colon "[ y ]"
+\;\Box" end define ]]"
+
+\item "[[ tex use define rule x : y end rule as "
+\addvspace{\abovedisplayskip}
+\noindent $\mathbf{Rule\ }"[ x ]"
+\colon "[ y ]"
+\;\Box$
+
+\addvspace{\belowdisplayskip}" end define ]]"
+
+\item "[[ tex show define rule x : y end rule as "
+\mathbf{Rule\ }"[ x ]"
+\colon "[ y ]"
+\;\Box" end define ]]"
+
+\item "[[ tex use define theory x : y end theory as "
+\addvspace{\abovedisplayskip}
+\noindent $\mathbf{Theory\ }"[ x ]"
+\colon "[ y ]"
+\;\Box$
+
+\addvspace{\belowdisplayskip}" end define ]]"
+
+\item "[[ tex show define theory x : y end theory as "
+\mathbf{Theory\ }"[ x ]"
+\colon "[ y ]"
+\;\Box" end define ]]"
+
+\item "[[ tex use define lemma x : y end lemma as "
+\addvspace{\abovedisplayskip}
+\noindent $\mathbf{Lemma\ }"[ x ]"
+\colon "[ y ]"
+\;\Box$
+
+\addvspace{\belowdisplayskip}" end define ]]"
+
+\item "[[ tex show define lemma x : y end lemma as "
+\mathbf{Lemma\ }"[ x ]"
+\colon "[ y ]"
+\;\Box" end define ]]"
+
+\item "[[ tex use define x lemma y : z end lemma as "
+\addvspace{\abovedisplayskip}
+\noindent $"[ x ]"
+\mathbf{\ lemma\ }"[ y ]"
+\colon "[ z ]"
+\;\Box$
+
+\addvspace{\belowdisplayskip}" end define ]]"
+
+\item "[[ tex show define x lemma y : z end lemma as "".[ x ]"
+\mathbf{\ lemma\ }"[ y ]"
+\colon "[ z ]"
+\;\Box" end define ]]"
+
+\item "[[ tex use define proof of x : y as "
+\addvspace{\abovedisplayskip}
+\noindent $\mathbf{Proof\ of\ }"[ x ]"
+\colon "[ y ]"$
+
+\addvspace{\belowdisplayskip}" end define ]]"
+
+\item "[[ tex show define proof of x : y as "
+\mathbf{Proof\ of\ }"[ x ]"
+\colon "[ y ]"". end define ]]"
+
+\item "[[ tex use define x proof of y : z as "
+\addvspace{\abovedisplayskip}
+\noindent $"[ x ]"
+\mathbf{\ proof\ of\ }"[ y ]"
+\colon "[ z ]"$
+
+\addvspace{\belowdisplayskip}" end define ]]"
+
+\item "[[ tex show define x proof of y : z as "".[ x ]"
+\mathbf{\ proof\ of\ }"[ y ]"
+\colon "[ z ]"". end define ]]"
+
+
+
+\item "[[ tex show define glue ( x ) y as "
+glue\linebreak [0]\ (\linebreak [0]\ "[ texshow x end texshow ]"
+\linebreak [0]\ )\linebreak [0]\ "[ y ]"". end define ]]"
+
+\item "[[ tex show define diag ( x ) y as "
+diag\linebreak [0]\ (\linebreak [0]\ "[ texshow x end texshow ]"
+\linebreak [0]\ )\linebreak [0]\ "[ y ]"". end define ]]"
+
+\item "[[ tex use define glue' ( x ) y as "".[ x ]"".[ y ]"". end define ]]"
+
+\item "[[ tex use define diag' ( x ) y as "
+"[ x ]" "[ y ]"". end define ]]"
+
+\item "[[ tex use define disp' ( x ) y as "
+\begin{quotation} \noindent $  "[ x ]"
+ $ \end{quotation} "[ y ]"". end define ]]"
+
+\item "[[ tex use define form' ( x ) y as "
+$ "[ x ]"
+$"[ y ]"". end define ]]"
+
+
+
+\end{statements}
+
+
+
+\section{Name definitions}
+
+"[[ protect ""N end protect ]]"
+
+
+
+\section{Charge definitions}
+
+"[[ protect ""C end protect ]]"
+
+
+
+\end{document}
+" end text ,,
+
+
+
+latex ( "chores" ) ,,
+latex ( "chores" ) ,,
+dvipdfm ( "chores" )
+
+
+
+

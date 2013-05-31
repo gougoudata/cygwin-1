@@ -1,24 +1,15 @@
 //
-// "$Id: input.cxx 5519 2006-10-11 03:12:15Z mike $"
+// "$Id: input.cxx 8864 2011-07-19 04:49:30Z greg.ercolano $"
 //
 // Input field test program for the Fast Light Tool Kit (FLTK).
 //
-// Copyright 1998-2005 by Bill Spitzak and others.
+// Copyright 1998-2010 by Bill Spitzak and others.
 //
-// This library is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Library General Public
-// License as published by the Free Software Foundation; either
-// version 2 of the License, or (at your option) any later version.
+// This library is free software. Distribution and use rights are outlined in
+// the file "COPYING" which should have been included with this file.  If this
+// file is missing or damaged, see the license at:
 //
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-// Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public
-// License along with this library; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
-// USA.
+//     http://www.fltk.org/COPYING.php
 //
 // Please report all bugs and problems on the following page:
 //
@@ -35,6 +26,7 @@
 #include <FL/Fl_Multiline_Input.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Toggle_Button.H>
+#include <FL/Fl_Light_Button.H>
 #include <FL/Fl_Color_Chooser.H>
 
 void cb(Fl_Widget *ob) {
@@ -52,6 +44,10 @@ void toggle_cb(Fl_Widget *o, long v) {
 void test(Fl_Input *i) {
   if (i->changed()) {
     i->clear_changed(); printf("%s '%s'\n",i->label(),i->value());
+    char utf8buf[10];
+    int last = fl_utf8encode(i->index(i->position()), utf8buf);
+    utf8buf[last] = 0;
+    printf("Symbol at cursor position: %s\n", utf8buf);
   }
 }
 
@@ -61,7 +57,7 @@ void button_cb(Fl_Widget *,void *) {
 
 void color_cb(Fl_Widget* button, void* v) {
   Fl_Color c;
-  switch ((long)v) {
+  switch ((fl_intptr_t)v) {
   case 0: c = FL_BACKGROUND2_COLOR; break;
   case 1: c = FL_SELECTION_COLOR; break;
   default: c = FL_FOREGROUND_COLOR; break;
@@ -74,12 +70,23 @@ void color_cb(Fl_Widget* button, void* v) {
   }
 }
 
+void tabnav_cb(Fl_Widget *w, void *v) {
+  Fl_Light_Button *b = (Fl_Light_Button*)w;
+  Fl_Multiline_Input *fmi = (Fl_Multiline_Input*)v;
+  fmi->tab_nav(b->value() ? 1 : 0);
+}
+
+void arrownav_cb(Fl_Widget *w, void *v) {
+  Fl_Light_Button *b = (Fl_Light_Button*)w;
+  Fl::option(Fl::OPTION_ARROW_FOCUS, b->value() ? true : false);
+}
+
 int main(int argc, char **argv) {
   // the following two lines set the correct color scheme, so that 
   // calling fl_contrast below will return good results
   Fl::args(argc, argv);
   Fl::get_system_colors();
-  Fl_Window *window = new Fl_Window(400,400);
+  Fl_Window *window = new Fl_Window(400,420);
 
   int y = 10;
   input[0] = new Fl_Input(70,y,300,30,"Normal:"); y += 35;
@@ -88,13 +95,15 @@ int main(int argc, char **argv) {
   // input[0]->maximum_size(20);
   // input[0]->static_value("this is a testgarbage");
   input[1] = new Fl_Float_Input(70,y,300,30,"Float:"); y += 35;
-  input[1]->tooltip("Input field for floating-point number");
+  input[1]->tooltip("Input field for floating-point number (F1)");
+  input[1]->shortcut(FL_F+1);
   input[2] = new Fl_Int_Input(70,y,300,30,"Int:"); y += 35;
-  input[2]->tooltip("Input field for integer number");
-  input[3] = new Fl_Secret_Input(70,y,300,30,"Secret:"); y += 35;
-  input[3]->tooltip("Input field for password");
-  input[4] = new Fl_Multiline_Input(70,y,300,100,"Multiline:"); y += 105;
-  input[4]->tooltip("Input field for short text with newlines");
+  input[2]->tooltip("Input field for integer number (F2)");
+  input[2]->shortcut(FL_F+2);
+  input[3] = new Fl_Secret_Input(70,y,300,30,"&Secret:"); y += 35;
+  input[3]->tooltip("Input field for password (Alt-S)");
+  input[4] = new Fl_Multiline_Input(70,y,300,100,"&Multiline:"); y += 105;
+  input[4]->tooltip("Input field for short text with newlines (Alt-M)");
   input[4]->wrap(1);
 
   for (int i = 0; i < 4; i++) {
@@ -116,18 +125,29 @@ int main(int argc, char **argv) {
   b->callback(toggle_cb, FL_WHEN_NOT_CHANGED); y += 25;
   b->tooltip("Do callback even if the text is not changed");
   y += 5;
-  b = new Fl_Button(10,y,200,25,"&print changed()");
+  b = new Fl_Button(10,y,200,25,"&print changed()"); y += 25;
   b->callback(button_cb);
   b->tooltip("Print widgets that have changed() flag set");
 
-  b = new Fl_Button(220,y1,100,25,"color"); y1 += 25;
+  b = new Fl_Light_Button(10,y,100,25," Tab Nav");
+  b->tooltip("Control tab navigation for the multiline input field");
+  b->callback(tabnav_cb, (void*)input[4]);
+  b->value(input[4]->tab_nav() ? 1 : 0);
+  b = new Fl_Light_Button(110,y,100,25," Arrow Nav"); y += 25;
+  b->tooltip("Control horizontal arrow key focus navigation behavior.\n"
+             "e.g. Fl::OPTION_ARROW_FOCUS");
+  b->callback(arrownav_cb);
+  b->value(input[4]->tab_nav() ? 1 : 0);
+  b->value(Fl::option(Fl::OPTION_ARROW_FOCUS) ? 1 : 0);
+
+  b = new Fl_Button(220,y1,120,25,"color"); y1 += 25;
   b->color(input[0]->color()); b->callback(color_cb, (void*)0);
   b->tooltip("Color behind the text");
-  b = new Fl_Button(220,y1,100,25,"selection_color"); y1 += 25;
+  b = new Fl_Button(220,y1,120,25,"selection_color"); y1 += 25;
   b->color(input[0]->selection_color()); b->callback(color_cb, (void*)1);
   b->labelcolor(fl_contrast(FL_BLACK,b->color()));
   b->tooltip("Color behind selected text");
-  b = new Fl_Button(220,y1,100,25,"textcolor"); y1 += 25;
+  b = new Fl_Button(220,y1,120,25,"textcolor"); y1 += 25;
   b->color(input[0]->textcolor()); b->callback(color_cb, (void*)2);
   b->labelcolor(fl_contrast(FL_BLACK,b->color()));
   b->tooltip("Color of the text");
@@ -138,5 +158,5 @@ int main(int argc, char **argv) {
 }
 
 //
-// End of "$Id: input.cxx 5519 2006-10-11 03:12:15Z mike $".
+// End of "$Id: input.cxx 8864 2011-07-19 04:49:30Z greg.ercolano $".
 //

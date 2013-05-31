@@ -1,0 +1,31 @@
+stg-goto(1)
+===========
+
+NAME
+----
+stg-goto - Push or pop patches to the given one
+
+SYNOPSIS
+--------
+[verse]
+'stg' goto [options] [--] <patch-name>
+
+DESCRIPTION
+-----------
+
+Push/pop patches to/from the stack until the one given on the command
+line becomes current.
+
+OPTIONS
+-------
+-k::
+--keep::
+        Keep the local changes.
+
+-m::
+--merged::
+        Check for patches merged upstream.
+
+StGit
+-----
+Part of the StGit suite - see linkman:stg[1]

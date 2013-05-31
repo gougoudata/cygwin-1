@@ -21,14 +21,18 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 #ifndef __GTK_IMAGE_H__
 #define __GTK_IMAGE_H__
 
 
-#include <gdk/gdk.h>
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
+#include <gio/gio.h>
 #include <gtk/gtkmisc.h>
 
 
@@ -52,6 +56,7 @@ typedef struct _GtkImageStockData   GtkImageStockData;
 typedef struct _GtkImageIconSetData GtkImageIconSetData;
 typedef struct _GtkImageAnimationData GtkImageAnimationData;
 typedef struct _GtkImageIconNameData  GtkImageIconNameData;
+typedef struct _GtkImageGIconData     GtkImageGIconData;
 
 struct _GtkImagePixmapData
 {
@@ -92,6 +97,35 @@ struct _GtkImageIconNameData
   guint theme_change_id;
 };
 
+struct _GtkImageGIconData
+{
+  GIcon *icon;
+  GdkPixbuf *pixbuf;
+  guint theme_change_id;
+};
+
+/**
+ * GtkImageType:
+ * @GTK_IMAGE_EMPTY: there is no image displayed by the widget
+ * @GTK_IMAGE_PIXMAP: the widget contains a #GdkPixmap
+ * @GTK_IMAGE_IMAGE: the widget contains a #GdkImage
+ * @GTK_IMAGE_PIXBUF: the widget contains a #GdkPixbuf
+ * @GTK_IMAGE_STOCK: the widget contains a stock icon name (see <xref linkend="gtk-Stock-Items"/>)
+ * @GTK_IMAGE_ICON_SET: the widget contains a #GtkIconSet
+ * @GTK_IMAGE_ANIMATION: the widget contains a #GdkPixbufAnimation
+ * @GTK_IMAGE_ICON_NAME: the widget contains a named icon.
+ *  This image type was added in GTK+ 2.6
+ * @GTK_IMAGE_GICON: the widget contains a #GIcon.
+ *  This image type was added in GTK+ 2.14
+ *
+ * Describes the image data representation used by a #GtkImage. If you
+ * want to get the image from the widget, you can only get the
+ * currently-stored representation. e.g.  if the
+ * gtk_image_get_storage_type() returns #GTK_IMAGE_PIXBUF, then you can
+ * call gtk_image_get_pixbuf() but not gtk_image_get_stock().  For empty
+ * images, you can request any storage type (call any of the "get"
+ * functions), but they will all return %NULL values.
+ */
 typedef enum
 {
   GTK_IMAGE_EMPTY,
@@ -101,14 +135,21 @@ typedef enum
   GTK_IMAGE_STOCK,
   GTK_IMAGE_ICON_SET,
   GTK_IMAGE_ANIMATION,
-  GTK_IMAGE_ICON_NAME
+  GTK_IMAGE_ICON_NAME,
+  GTK_IMAGE_GICON
 } GtkImageType;
 
+/**
+ * GtkImage:
+ *
+ * This struct contain private data only and should be accessed by the functions
+ * below.
+ */
 struct _GtkImage
 {
   GtkMisc misc;
 
-  GtkImageType storage_type;
+  GtkImageType GSEAL (storage_type);
   
   union
   {
@@ -119,13 +160,14 @@ struct _GtkImage
     GtkImageIconSetData icon_set;
     GtkImageAnimationData anim;
     GtkImageIconNameData name;
-  } data;
+    GtkImageGIconData gicon;
+  } GSEAL (data);
 
   /* Only used with GTK_IMAGE_PIXMAP, GTK_IMAGE_IMAGE */
-  GdkBitmap *mask;
+  GdkBitmap *GSEAL (mask);
 
   /* Only used with GTK_IMAGE_STOCK, GTK_IMAGE_ICON_SET, GTK_IMAGE_ICON_NAME */
-  GtkIconSize icon_size;
+  GtkIconSize GSEAL (icon_size);
 };
 
 struct _GtkImageClass
@@ -161,7 +203,10 @@ GtkWidget* gtk_image_new_from_icon_set  (GtkIconSet      *icon_set,
 GtkWidget* gtk_image_new_from_animation (GdkPixbufAnimation *animation);
 GtkWidget* gtk_image_new_from_icon_name (const gchar     *icon_name,
 					 GtkIconSize      size);
+GtkWidget* gtk_image_new_from_gicon     (GIcon           *icon,
+					 GtkIconSize      size);
 
+void gtk_image_clear              (GtkImage        *image);
 void gtk_image_set_from_pixmap    (GtkImage        *image,
                                    GdkPixmap       *pixmap,
                                    GdkBitmap       *mask);
@@ -183,6 +228,9 @@ void gtk_image_set_from_animation (GtkImage           *image,
 void gtk_image_set_from_icon_name (GtkImage        *image,
 				   const gchar     *icon_name,
 				   GtkIconSize      size);
+void gtk_image_set_from_gicon     (GtkImage        *image,
+				   GIcon           *icon,
+				   GtkIconSize      size);
 void gtk_image_set_pixel_size     (GtkImage        *image,
 				   gint             pixel_size);
 
@@ -203,7 +251,10 @@ void       gtk_image_get_icon_set (GtkImage         *image,
                                    GtkIconSize      *size);
 GdkPixbufAnimation* gtk_image_get_animation (GtkImage *image);
 void       gtk_image_get_icon_name (GtkImage              *image,
-				    G_CONST_RETURN gchar **icon_name,
+				    const gchar          **icon_name,
+				    GtkIconSize           *size);
+void       gtk_image_get_gicon     (GtkImage              *image,
+				    GIcon                **gicon,
 				    GtkIconSize           *size);
 gint       gtk_image_get_pixel_size (GtkImage             *image);
 

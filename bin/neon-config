@@ -23,7 +23,7 @@ Known values for OPTION are:
   --support FEATURE     exit with success if feature is supported
 
  Known features: 
-    dav [yes], ssl [yes], zlib [yes], ipv6 [], lfs [no],
+    dav [yes], ssl [yes], zlib [yes], ipv6 [yes], lfs [no],
     i18n [yes], ts_ssl [no]
 
 EOF
@@ -60,7 +60,7 @@ while test $# -gt 0; do
 	;;
 
     --version)
-	echo neon 0.28.3
+	echo neon 0.29.6
 	exit 0
 	;;
 
@@ -73,7 +73,7 @@ while test $# -gt 0; do
        	;;
 
     --libs)
-        LIBS="-lneon -lintl  -lz -lssl -lcrypto   -lexpat"
+        LIBS="-lneon -lintl  -lz -lssl -lcrypto -lz   -lproxy -lpthread -lm   -lexpat"
 	# Don't add standard library paths
         if test "$prefix" != "/usr"; then
            LIBS="-L${libdir} ${LIBS}"
@@ -91,7 +91,7 @@ while test $# -gt 0; do
 	case "$1" in
 	ssl|SSL) support yes ;;
 	zlib|ZLIB) support yes ;;
-	ipv6|IPV6) support  ;;
+	ipv6|IPV6) support yes ;;
 	dav|DAV) support yes ;;
 	lfs|LFS) support no ;;
 	i18n|I18N) support yes ;;

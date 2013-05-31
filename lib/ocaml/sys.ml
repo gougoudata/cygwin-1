@@ -11,7 +11,11 @@
 (*                                                                     *)
 (***********************************************************************)
 
-(* $Id: sys.ml,v 1.101.2.7 2004/08/19 12:52:17 doligez Exp $ *)
+(* $Id: sys.mlp 7927 2007-02-26 14:21:57Z xleroy $ *)
+
+(* WARNING: sys.ml is generated from sys.mlp.  DO NOT EDIT sys.ml or
+   your changes will be lost.
+*)
 
 (* System interface *)
 
@@ -24,6 +28,7 @@ let max_array_length = (1 lsl (word_size - 10)) - 1;;
 let max_string_length = word_size / 8 * max_array_length - 1;;
 
 external file_exists: string -> bool = "caml_sys_file_exists"
+external is_directory : string -> bool = "caml_sys_is_directory"
 external remove: string -> unit = "caml_sys_remove"
 external rename : string -> string -> unit = "caml_sys_rename"
 external getenv: string -> string = "caml_sys_getenv"
@@ -76,6 +81,6 @@ let catch_break on =
     set_signal sigint Signal_default
 
 
-(* OCaml version string, must be in the format described in sys.mli. *)
+(* The version string is found in file ../VERSION *)
 
-let ocaml_version = "3.08.1";;
+let ocaml_version = "3.12.1";;

@@ -4,10 +4,10 @@
  *	  prototypes for postgres.c.
  *
  *
- * Portions Copyright (c) 1996-2006, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2012, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
- * $PostgreSQL: pgsql/src/include/tcop/tcopprot.h,v 1.85 2006/10/07 19:25:29 tgl Exp $
+ * src/include/tcop/tcopprot.h
  *
  * OLD COMMENTS
  *	  This file was created so that other c files could get the two
@@ -20,6 +20,8 @@
 #define TCOPPROT_H
 
 #include "executor/execdesc.h"
+#include "nodes/parsenodes.h"
+#include "storage/procsignal.h"
 #include "utils/guc.h"
 
 
@@ -27,7 +29,7 @@
 #define STACK_DEPTH_SLOP (512 * 1024L)
 
 extern CommandDest whereToSendOutput;
-extern DLLIMPORT const char *debug_query_string;
+extern PGDLLIMPORT const char *debug_query_string;
 extern int	max_stack_depth;
 extern int	PostAuthDelay;
 
@@ -41,30 +43,35 @@ typedef enum
 	LOGSTMT_ALL					/* log all statements */
 } LogStmtLevel;
 
-extern LogStmtLevel log_statement;
+extern int	log_statement;
 
-#ifndef BOOTSTRAP_INCLUDE
-
-extern List *pg_parse_and_rewrite(const char *query_string,
-					 Oid *paramTypes, int numParams);
 extern List *pg_parse_query(const char *query_string);
 extern List *pg_analyze_and_rewrite(Node *parsetree, const char *query_string,
 					   Oid *paramTypes, int numParams);
-extern Plan *pg_plan_query(Query *querytree, ParamListInfo boundParams);
-extern List *pg_plan_queries(List *querytrees, ParamListInfo boundParams,
-				bool needSnapshot);
+extern List *pg_analyze_and_rewrite_params(Node *parsetree,
+							  const char *query_string,
+							  ParserSetupHook parserSetup,
+							  void *parserSetupArg);
+extern PlannedStmt *pg_plan_query(Query *querytree, int cursorOptions,
+			  ParamListInfo boundParams);
+extern List *pg_plan_queries(List *querytrees, int cursorOptions,
+				ParamListInfo boundParams);
 
-extern bool assign_max_stack_depth(int newval, bool doit, GucSource source);
-#endif   /* BOOTSTRAP_INCLUDE */
+extern bool check_max_stack_depth(int *newval, void **extra, GucSource source);
+extern void assign_max_stack_depth(int newval, void *extra);
 
 extern void die(SIGNAL_ARGS);
 extern void quickdie(SIGNAL_ARGS);
-extern void authdie(SIGNAL_ARGS);
 extern void StatementCancelHandler(SIGNAL_ARGS);
 extern void FloatExceptionHandler(SIGNAL_ARGS);
+extern void RecoveryConflictInterrupt(ProcSignalReason reason); /* called from SIGUSR1
+																 * handler */
 extern void prepare_for_client_read(void);
 extern void client_read_ended(void);
-extern int	PostgresMain(int argc, char *argv[], const char *username);
+extern void process_postgres_switches(int argc, char *argv[],
+						  GucContext ctx, const char **dbname);
+extern int	PostgresMain(int argc, char *argv[],
+						 const char *dbname, const char *username);
 extern long get_stack_depth_rlimit(void);
 extern void ResetUsage(void);
 extern void ShowUsage(const char *title);

@@ -19,7 +19,7 @@ W system.unsigned_types%s  s-unstyp.ads		s-unstyp.ali
 
 D system.ads		20031021134222 6af26689
 D s-unstyp.ads		20031021134218 0d291e44
-D s-vercon.ads		20030424175416 7c1a4b34
+D s-vercon.ads		20030424175415 7c1a4b34
 D s-vercon.adb		20031021134218 01fcd0ba
 X 1 system.ads
 44K9*System 163e11 3|38r6 40r9 48r14 55r5 4|34r6 34r33 35r14 42r14 59r5

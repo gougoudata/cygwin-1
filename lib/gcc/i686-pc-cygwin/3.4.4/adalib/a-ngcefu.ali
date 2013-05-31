@@ -20,16 +20,16 @@ W ada%s			ada.ads			ada.ali
 W ada.numerics%s	a-numeri.ads		a-numeri.ali
 W ada.numerics.generic_complex_types%s
 
-D ada.ads		20030424175358 a0108083
-D a-numeri.ads		20030424175354 24750733
-D a-numaux.ads		20040105152044 4cec556e
-D a-ngcefu.ads		20030424175354 a84a2961
-D a-ngcefu.adb		20031021134154 4cb5da6b
-D a-ngcoty.ads		20030424175354 36def867
-D a-ngelfu.ads		20030424175354 95071d99
-D a-ngelfu.adb		20031021134154 5e7eea23
+D ada.ads		20030424175357 a0108083
+D a-numeri.ads		20030424175353 24750733
+D a-numaux.ads		20040105152043 4cec556e
+D a-ngcefu.ads		20030424175353 a84a2961
+D a-ngcefu.adb		20031021134153 4cb5da6b
+D a-ngcoty.ads		20030424175353 36def867
+D a-ngelfu.ads		20030424175353 95071d99
+D a-ngelfu.adb		20031021134153 5e7eea23
 D system.ads		20031021134222 6af26689
-D s-exctab.ads		20031021134214 6637f07f
+D s-exctab.ads		20031021134213 6637f07f
 D s-stalib.ads		20031021134214 e7ad2af0
 D unchconv.ads		20030424175420 1b7a14c5
 X 1 ada.ads

@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" id="node9" href="$class_text_test_result.html" title="Holds printable test result (DEPRECATED).deprecated Use class TextTestProgressListener and TextOutput..." alt="" coords="71,237,188,267"/>
+<area shape="rect" id="node2" href="$class_test_success_listener.html" title="TestListener that checks if any test case failed." alt="" coords="53,83,205,112"/>
+<area shape="rect" id="node4" href="$class_test_listener.html" title="Listener for test progress and result.Implementing the Observer pattern a TestListener may be registe..." alt="" coords="5,5,107,35"/>
+<area shape="rect" id="node6" href="$class_synchronized_object.html" title="Base class for synchronized object." alt="" coords="131,5,277,35"/>
+</map>

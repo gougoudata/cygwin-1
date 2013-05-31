@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node2" href="$class_test_result.html" title="Manages TestListener.A single instance of this class is used when running the test. It is usually created by the test runner (TestRunner)." alt="" coords="35,160,123,189"/>
+<area shape="rect" id="node4" href="$class_synchronized_object.html" title="Base class for synchronized object." alt="" coords="5,5,152,35"/>
+<area shape="rect" id="node8" href="$class_test_success_listener.html" title="TestListener that checks if any test case failed." alt="" coords="143,83,295,112"/>
+<area shape="rect" id="node6" href="$class_test_result_collector.html" title="Collects test result.A TestResultCollector is a TestListener which collects the results of executing ..." alt="" coords="147,160,291,189"/>
+<area shape="rect" id="node10" href="$class_test_listener.html" title="Listener for test progress and result.Implementing the Observer pattern a TestListener may be registe..." alt="" coords="176,5,277,35"/>
+</map>

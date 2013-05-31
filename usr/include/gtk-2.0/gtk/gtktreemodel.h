@@ -20,6 +20,10 @@
 #ifndef __GTK_TREE_MODEL_H__
 #define __GTK_TREE_MODEL_H__
 
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
 #include <glib-object.h>
 
 /* Not needed, retained for compatibility -Yosh */
@@ -80,7 +84,7 @@ struct _GtkTreeModelIface
 					  gint         *new_order);
 
   /* Virtual Table */
-  GtkTreeModelFlags (* get_flags)  (GtkTreeModel *tree_model);   
+  GtkTreeModelFlags (* get_flags)  (GtkTreeModel *tree_model);
 
   gint         (* get_n_columns)   (GtkTreeModel *tree_model);
   GType        (* get_column_type) (GtkTreeModel *tree_model,
@@ -130,6 +134,8 @@ void         gtk_tree_path_prepend_index    (GtkTreePath       *path,
 					     gint               index_);
 gint         gtk_tree_path_get_depth        (GtkTreePath       *path);
 gint        *gtk_tree_path_get_indices      (GtkTreePath       *path);
+gint        *gtk_tree_path_get_indices_with_depth (GtkTreePath *path,
+                                                   gint        *depth);
 void         gtk_tree_path_free             (GtkTreePath       *path);
 GtkTreePath *gtk_tree_path_copy             (const GtkTreePath *path);
 GType        gtk_tree_path_get_type         (void) G_GNUC_CONST;
@@ -161,6 +167,7 @@ GtkTreeRowReference *gtk_tree_row_reference_new_proxy (GObject             *prox
 						       GtkTreeModel        *model,
 						       GtkTreePath         *path);
 GtkTreePath         *gtk_tree_row_reference_get_path  (GtkTreeRowReference *reference);
+GtkTreeModel        *gtk_tree_row_reference_get_model (GtkTreeRowReference *reference);
 gboolean             gtk_tree_row_reference_valid     (GtkTreeRowReference *reference);
 GtkTreeRowReference *gtk_tree_row_reference_copy      (GtkTreeRowReference *reference);
 void                 gtk_tree_row_reference_free      (GtkTreeRowReference *reference);
@@ -174,7 +181,7 @@ void                 gtk_tree_row_reference_reordered (GObject     *proxy,
 						       GtkTreePath *path,
 						       GtkTreeIter *iter,
 						       gint        *new_order);
-						       
+
 /* GtkTreeIter operations */
 GtkTreeIter *     gtk_tree_iter_copy             (GtkTreeIter  *iter);
 void              gtk_tree_iter_free             (GtkTreeIter  *iter);
@@ -257,9 +264,6 @@ void gtk_tree_model_rows_reordered        (GtkTreeModel *tree_model,
 					   GtkTreePath  *path,
 					   GtkTreeIter  *iter,
 					   gint         *new_order);
-
-
-
 
 G_END_DECLS
 

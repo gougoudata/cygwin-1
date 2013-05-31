@@ -22,22 +22,22 @@ W system.parameters%s	s-parame.adb		s-parame.ali
 W system.task_primitives%s  s-taspri.ads	s-taspri.ali
 W system.tasking%s	s-taskin.adb		s-taskin.ali
 
-D ada.ads		20030424175358 a0108083
-D a-except.ads		20031021134154 a1717b33
+D ada.ads		20030424175357 a0108083
+D a-except.ads		20031021134153 a1717b33
 D system.ads		20031021134222 6af26689
-D s-errrep.ads		20031021134214 dcdd8132
+D s-errrep.ads		20031021134213 dcdd8132
 D s-osinte.ads		20031021134152 fdceb516
 D s-parame.ads		20031021134214 8479efe6
 D s-soflin.ads		20031021134214 14059e84
 D s-stache.ads		20031021134214 6135f334
 D s-stalib.ads		20031021134214 e7ad2af0
-D s-stoele.ads		20050603190336 5a73170b
-D s-stoele.adb		20030424175414 792079f8
-D s-tasinf.ads		20031021134216 c9aa44b6
+D s-stoele.ads		20050603200336 5a73170b
+D s-stoele.adb		20030424175413 792079f8
+D s-tasinf.ads		20031021134215 c9aa44b6
 D s-taspri.ads		20031021134152 1975c70c
-D s-taprop.ads		20031021134216 69202ccf
+D s-taprop.ads		20031021134215 69202ccf
 D s-taprop.adb		20031021134152 2f9b0840
-D s-taskin.ads		20031021134216 5af97c3f
+D s-taskin.ads		20031021134215 5af97c3f
 D s-traent.ads		20031021134218 e81a0978
 D unchconv.ads		20030424175420 1b7a14c5
 X 3 system.ads

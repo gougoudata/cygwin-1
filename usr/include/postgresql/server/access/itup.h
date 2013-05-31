@@ -4,10 +4,10 @@
  *	  POSTGRES index tuple definitions.
  *
  *
- * Portions Copyright (c) 1996-2006, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2012, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
- * $PostgreSQL: pgsql/src/include/access/itup.h,v 1.47 2006/07/13 16:49:19 momjian Exp $
+ * src/include/access/itup.h
  *
  *-------------------------------------------------------------------------
  */
@@ -37,7 +37,7 @@ typedef struct IndexTupleData
 	ItemPointerData t_tid;		/* reference TID to heap tuple */
 
 	/* ---------------
-	 * t_info is layed out in the following fashion:
+	 * t_info is laid out in the following fashion:
 	 *
 	 * 15th (high) bit: has nulls
 	 * 14th bit: has var-width attributes
@@ -55,7 +55,7 @@ typedef IndexTupleData *IndexTuple;
 typedef struct IndexAttributeBitMapData
 {
 	bits8		bits[(INDEX_MAX_KEYS + 8 - 1) / 8];
-} IndexAttributeBitMapData;
+}	IndexAttributeBitMapData;
 
 typedef IndexAttributeBitMapData *IndexAttributeBitMap;
 
@@ -110,7 +110,7 @@ typedef IndexAttributeBitMapData *IndexAttributeBitMap;
 			+ (tupleDesc)->attrs[(attnum)-1]->attcacheoff) \
 		) \
 		: \
-			nocache_index_getattr((tup), (attnum), (tupleDesc), (isnull)) \
+			nocache_index_getattr((tup), (attnum), (tupleDesc)) \
 	) \
 	: \
 	( \
@@ -121,7 +121,7 @@ typedef IndexAttributeBitMapData *IndexAttributeBitMap;
 		) \
 		: \
 		( \
-			nocache_index_getattr((tup), (attnum), (tupleDesc), (isnull)) \
+			nocache_index_getattr((tup), (attnum), (tupleDesc)) \
 		) \
 	) \
 )
@@ -134,7 +134,7 @@ typedef IndexAttributeBitMapData *IndexAttributeBitMap;
  * must be maxaligned, and it must have an associated item pointer.
  */
 #define MaxIndexTuplesPerPage	\
-	((int) ((BLCKSZ - offsetof(PageHeaderData, pd_linp)) / \
+	((int) ((BLCKSZ - SizeOfPageHeaderData) / \
 			(MAXALIGN(sizeof(IndexTupleData) + 1) + sizeof(ItemIdData))))
 
 
@@ -142,7 +142,9 @@ typedef IndexAttributeBitMapData *IndexAttributeBitMap;
 extern IndexTuple index_form_tuple(TupleDesc tupleDescriptor,
 				 Datum *values, bool *isnull);
 extern Datum nocache_index_getattr(IndexTuple tup, int attnum,
-					  TupleDesc tupleDesc, bool *isnull);
+					  TupleDesc tupleDesc);
+extern void index_deform_tuple(IndexTuple tup, TupleDesc tupleDescriptor,
+				   Datum *values, bool *isnull);
 extern IndexTuple CopyIndexTuple(IndexTuple source);
 
 #endif   /* ITUP_H */

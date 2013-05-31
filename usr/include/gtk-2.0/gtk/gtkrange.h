@@ -21,21 +21,22 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 #ifndef __GTK_RANGE_H__
 #define __GTK_RANGE_H__
 
 
-#include <gdk/gdk.h>
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
 #include <gtk/gtkadjustment.h>
 #include <gtk/gtkwidget.h>
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 
 #define GTK_TYPE_RANGE            (gtk_range_get_type ())
@@ -56,48 +57,49 @@ struct _GtkRange
 {
   GtkWidget widget;
 
-  GtkAdjustment *adjustment;
-  GtkUpdateType update_policy;
-  guint inverted : 1;
+  GtkAdjustment *GSEAL (adjustment);
+  GtkUpdateType GSEAL (update_policy);
+  guint GSEAL (inverted) : 1;
 
   /*< protected >*/
-  
-  guint flippable : 1;
-  
+
+  guint GSEAL (flippable) : 1;
+
   /* Steppers are: < > ---- < >
    *               a b      c d
    */
-   
-  guint has_stepper_a : 1;
-  guint has_stepper_b : 1;
-  guint has_stepper_c : 1;
-  guint has_stepper_d : 1;
 
-  guint need_recalc : 1;
+  guint GSEAL (has_stepper_a) : 1;
+  guint GSEAL (has_stepper_b) : 1;
+  guint GSEAL (has_stepper_c) : 1;
+  guint GSEAL (has_stepper_d) : 1;
 
-  guint slider_size_fixed : 1;
-  
-  gint min_slider_size;
+  guint GSEAL (need_recalc) : 1;
 
-  GtkOrientation orientation;
+  guint GSEAL (slider_size_fixed) : 1;
+
+  gint GSEAL (min_slider_size);
+
+  GtkOrientation GSEAL (orientation);
 
   /* Area of entire stepper + trough assembly in widget->window coords */
-  GdkRectangle range_rect;
+  GdkRectangle GSEAL (range_rect);
   /* Slider range along the long dimension, in widget->window coords */
-  gint slider_start, slider_end;
+  gint GSEAL (slider_start);
+  gint GSEAL (slider_end);
 
   /* Round off value to this many digits, -1 for no rounding */
-  gint round_digits;
-  
+  gint GSEAL (round_digits);
+
   /*< private >*/
-  guint trough_click_forward : 1;  /* trough click was on the forward side of slider */
-  guint update_pending : 1;        /* need to emit value_changed */
-  GtkRangeLayout *layout;
-  GtkRangeStepTimer *timer;
-  gint slide_initial_slider_position;
-  gint slide_initial_coordinate;
-  guint update_timeout_id;
-  GdkWindow *event_window;
+  guint GSEAL (trough_click_forward) : 1;  /* trough click was on the forward side of slider */
+  guint GSEAL (update_pending) : 1;        /* need to emit value_changed */
+  GtkRangeLayout *GSEAL (layout);
+  GtkRangeStepTimer *GSEAL (timer);
+  gint GSEAL (slide_initial_slider_position);
+  gint GSEAL (slide_initial_coordinate);
+  guint GSEAL (update_timeout_id);
+  GdkWindow *GSEAL (event_window);
 };
 
 struct _GtkRangeClass
@@ -111,7 +113,7 @@ struct _GtkRangeClass
   void (* value_changed)    (GtkRange     *range);
   void (* adjust_bounds)    (GtkRange     *range,
                              gdouble	   new_value);
-  
+
   /* action signals for keybindings */
   void (* move_slider)      (GtkRange     *range,
                              GtkScrollType scroll);
@@ -131,33 +133,83 @@ struct _GtkRangeClass
 };
 
 
-GType          gtk_range_get_type               (void) G_GNUC_CONST;
+GType              gtk_range_get_type                      (void) G_GNUC_CONST;
 
-void           gtk_range_set_update_policy (GtkRange      *range,
-                                            GtkUpdateType  policy);
-GtkUpdateType  gtk_range_get_update_policy (GtkRange      *range);
-void           gtk_range_set_adjustment    (GtkRange      *range,
-                                            GtkAdjustment *adjustment);
-GtkAdjustment* gtk_range_get_adjustment    (GtkRange      *range);
-void           gtk_range_set_inverted      (GtkRange      *range,
-                                            gboolean       setting);
-gboolean       gtk_range_get_inverted      (GtkRange      *range);
-void           gtk_range_set_increments    (GtkRange      *range,
-                                            gdouble        step,
-                                            gdouble        page);
-void           gtk_range_set_range         (GtkRange      *range,
-                                            gdouble        min,
-                                            gdouble        max);
-void           gtk_range_set_value         (GtkRange      *range,
-                                            gdouble        value);
-gdouble        gtk_range_get_value         (GtkRange      *range);
+#ifndef GTK_DISABLE_DEPRECATED
+void               gtk_range_set_update_policy             (GtkRange      *range,
+                                                            GtkUpdateType  policy);
+GtkUpdateType      gtk_range_get_update_policy             (GtkRange      *range);
+#endif /* GTK_DISABLE_DEPRECATED */
 
-gdouble	      _gtk_range_get_wheel_delta   (GtkRange           *range,
-					    GdkScrollDirection  direction);
+void               gtk_range_set_adjustment                (GtkRange      *range,
+                                                            GtkAdjustment *adjustment);
+GtkAdjustment*     gtk_range_get_adjustment                (GtkRange      *range);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+void               gtk_range_set_inverted                  (GtkRange      *range,
+                                                            gboolean       setting);
+gboolean           gtk_range_get_inverted                  (GtkRange      *range);
+
+void               gtk_range_set_flippable                 (GtkRange      *range,
+                                                            gboolean       flippable);
+gboolean           gtk_range_get_flippable                 (GtkRange      *range);
+
+void               gtk_range_set_slider_size_fixed         (GtkRange      *range,
+                                                            gboolean       size_fixed);
+gboolean           gtk_range_get_slider_size_fixed         (GtkRange      *range);
+
+void               gtk_range_set_min_slider_size           (GtkRange      *range,
+                                                            gboolean       min_size);
+gint               gtk_range_get_min_slider_size           (GtkRange      *range);
+
+void               gtk_range_get_range_rect                (GtkRange      *range,
+                                                            GdkRectangle  *range_rect);
+void               gtk_range_get_slider_range              (GtkRange      *range,
+                                                            gint          *slider_start,
+                                                            gint          *slider_end);
+
+void               gtk_range_set_lower_stepper_sensitivity (GtkRange      *range,
+                                                            GtkSensitivityType sensitivity);
+GtkSensitivityType gtk_range_get_lower_stepper_sensitivity (GtkRange      *range);
+void               gtk_range_set_upper_stepper_sensitivity (GtkRange      *range,
+                                                            GtkSensitivityType sensitivity);
+GtkSensitivityType gtk_range_get_upper_stepper_sensitivity (GtkRange      *range);
+
+void               gtk_range_set_increments                (GtkRange      *range,
+                                                            gdouble        step,
+                                                            gdouble        page);
+void               gtk_range_set_range                     (GtkRange      *range,
+                                                            gdouble        min,
+                                                            gdouble        max);
+void               gtk_range_set_value                     (GtkRange      *range,
+                                                            gdouble        value);
+gdouble            gtk_range_get_value                     (GtkRange      *range);
+
+void               gtk_range_set_show_fill_level           (GtkRange      *range,
+                                                            gboolean       show_fill_level);
+gboolean           gtk_range_get_show_fill_level           (GtkRange      *range);
+void               gtk_range_set_restrict_to_fill_level    (GtkRange      *range,
+                                                            gboolean       restrict_to_fill_level);
+gboolean           gtk_range_get_restrict_to_fill_level    (GtkRange      *range);
+void               gtk_range_set_fill_level                (GtkRange      *range,
+                                                            gdouble        fill_level);
+gdouble            gtk_range_get_fill_level                (GtkRange      *range);
+void               gtk_range_set_round_digits              (GtkRange      *range,
+                                                            gint           round_digits);
+gint                gtk_range_get_round_digits             (GtkRange      *range);
+
+
+/* internal API */
+gdouble            _gtk_range_get_wheel_delta              (GtkRange      *range,
+                                                            GdkScrollDirection direction);
+
+void               _gtk_range_set_stop_values              (GtkRange      *range,
+                                                            gdouble       *values,
+                                                            gint           n_values);
+gint               _gtk_range_get_stop_positions           (GtkRange      *range,
+                                                            gint         **values);          
+
+
+G_END_DECLS
 
 
 #endif /* __GTK_RANGE_H__ */

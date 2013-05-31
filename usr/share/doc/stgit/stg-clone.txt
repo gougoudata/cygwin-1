@@ -1,0 +1,29 @@
+stg-clone(1)
+============
+
+NAME
+----
+stg-clone - Make a local clone of a remote repository
+
+SYNOPSIS
+--------
+[verse]
+'stg' clone <repository> <dir>
+
+DESCRIPTION
+-----------
+
+Clone a git repository into the local directory <dir> (using
+linkstg:clone[]) and initialise the local branch "master".
+
+This operation is for example suitable to start working using the
+"tracking branch" workflow (see link:stg[1]). Other means to setup
+an StGit stack are linkstg:init[] and the '--create' and '--clone'
+commands of linkstg:branch[].
+
+The target directory <dir> will be created by this command, and must
+not already exist.
+
+StGit
+-----
+Part of the StGit suite - see linkman:stg[1]

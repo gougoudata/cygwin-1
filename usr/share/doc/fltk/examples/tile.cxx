@@ -1,24 +1,15 @@
 //
-// "$Id: tile.cxx 5519 2006-10-11 03:12:15Z mike $"
+// "$Id: tile.cxx 8864 2011-07-19 04:49:30Z greg.ercolano $"
 //
 // Tile test program for the Fast Light Tool Kit (FLTK).
 //
-// Copyright 1998-2005 by Bill Spitzak and others.
+// Copyright 1998-2010 by Bill Spitzak and others.
 //
-// This library is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Library General Public
-// License as published by the Free Software Foundation; either
-// version 2 of the License, or (at your option) any later version.
+// This library is free software. Distribution and use rights are outlined in
+// the file "COPYING" which should have been included with this file.  If this
+// file is missing or damaged, see the license at:
 //
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-// Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public
-// License along with this library; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
-// USA.
+//     http://www.fltk.org/COPYING.php
 //
 // Please report all bugs and problems on the following page:
 //
@@ -30,8 +21,10 @@
 #include <FL/Fl_Tile.H>
 #include <FL/Fl_Box.H>
 
+//#define TEST_INACTIVE
+
 int main(int argc, char** argv) {
-  Fl_Window window(300,300);
+  Fl_Double_Window window(300,300);
   window.box(FL_NO_BOX);
   window.resizable(window);
   Fl_Tile tile(0,0,300,300);
@@ -40,7 +33,7 @@ int main(int argc, char** argv) {
   box0.color(9);
   box0.labelsize(36);
   box0.align(FL_ALIGN_CLIP);
-  Fl_Window w1(150,0,150,150,"1");
+  Fl_Double_Window w1(150,0,150,150,"1");
   w1.box(FL_NO_BOX);
   Fl_Box box1(0,0,150,150,"1\nThis is a\nchild\nwindow");
   box1.box(FL_DOWN_BOX);
@@ -82,11 +75,14 @@ int main(int argc, char** argv) {
 
   tile.end();
   window.end();
-  window.show(argc,argv);
+#ifdef TEST_INACTIVE // test inactive case 
+  tile.deactivate();
+#endif
   w1.show();
+  window.show(argc,argv);
   return Fl::run();
 }
 
 //
-// End of "$Id: tile.cxx 5519 2006-10-11 03:12:15Z mike $".
+// End of "$Id: tile.cxx 8864 2011-07-19 04:49:30Z greg.ercolano $".
 //

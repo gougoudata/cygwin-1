@@ -1,0 +1,12 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$_text_test_result_8h.html" title="TextTestResult.h" alt="" coords="80,83,208,112"/>
+<area shape="rect" id="node7" href="$_text_test_runner_8cpp.html" title="TextTestRunner.cpp" alt="" coords="171,160,320,189"/>
+<area shape="rect" id="node9" href="$_protector_8cpp.html" title="Protector.cpp" alt="" coords="283,83,389,112"/>
+<area shape="rect" id="node11" href="$_repeated_test_8cpp.html" title="RepeatedTest.cpp" alt="" coords="413,83,552,112"/>
+<area shape="rect" id="node13" href="$_test_case_8cpp.html" title="TestCase.cpp" alt="" coords="576,83,685,112"/>
+<area shape="rect" id="node15" href="$_test_composite_8cpp.html" title="TestComposite.cpp" alt="" coords="709,83,851,112"/>
+<area shape="rect" id="node17" href="$_test_result_8cpp.html" title="TestResult.cpp" alt="" coords="875,83,989,112"/>
+<area shape="rect" id="node19" href="$_test_runner_8cpp.html" title="TestRunner.cpp" alt="" coords="1013,83,1136,112"/>
+<area shape="rect" id="node21" href="$_test_suite_8cpp.html" title="TestSuite.cpp" alt="" coords="1160,83,1267,112"/>
+<area shape="rect" id="node5" href="$_text_test_result_8cpp.html" title="TextTestResult.cpp" alt="" coords="5,160,147,189"/>
+</map>

@@ -1,0 +1,32 @@
+------------------------------------------
+Next release
+------------------------------------------
+Version : 2.0.1
+Due : 2001-08-26
+
+* Move the build process to a 3-number versioning scheme. (christoph)
+* Change makefile so that the sgml files don't go in the
+  tarballs. (christoph)
+* Verify that 'man9' is not missing in dist/rpm/libggimisc.spec.in (christoph)
+
+------------------------------------------
+Long-term plan
+------------------------------------------
+
+1) fbdev waitretrace needs work, especially, prevent hangs using 
+   a reasonable timeout, and return an error code if that expires.
+   (svgalib could probably use this too, but an alarm would
+    be needed to do it since once we call vga_waitretrace, we
+    are at the mercy of svgalib.)
+
+2) Integrate with LibGAlloc
+
+3) Add Border/overscan color setting
+
+4) Add font cell loading/storing
+
+5) Better define the API functions
+
+6) Persuade people who do fbdev work to either implement, or properly
+   signify that they do not implement, splitline.
+

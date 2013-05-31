@@ -11,7 +11,7 @@
 (*                                                                     *)
 (***********************************************************************)
 
-(* $Id: camlinternalOO.ml,v 1.9 2004/05/26 11:10:51 garrigue Exp $ *)
+(* $Id: camlinternalOO.ml 8768 2008-01-11 16:13:18Z doligez $ *)
 
 open Obj
 
@@ -41,7 +41,7 @@ type params = {
     mutable clean_when_copying : bool;
     mutable retry_count : int;
     mutable bucket_small_size : int
-  } 
+  }
 
 let params = {
   compact_table = true;
@@ -49,7 +49,7 @@ let params = {
   clean_when_copying = true;
   retry_count = 3;
   bucket_small_size = 16
-} 
+}
 
 (**** Parameters ****)
 
@@ -120,7 +120,10 @@ let dummy_table =
 
 let table_count = ref 0
 
-let null_item : item = Obj.obj (Obj.field (Obj.repr 0n) 1)
+(* dummy_met should be a pointer, so use an atom *)
+let dummy_met : item = obj (Obj.new_block 0 0)
+(* if debugging is needed, this could be a good idea: *)
+(* let dummy_met () = failwith "Undefined method" *)
 
 let rec fit_size n =
   if n <= 2 then n else
@@ -129,7 +132,7 @@ let rec fit_size n =
 let new_table pub_labels =
   incr table_count;
   let len = Array.length pub_labels in
-  let methods = Array.create (len*2+2) null_item in
+  let methods = Array.create (len*2+2) dummy_met in
   methods.(0) <- magic len;
   methods.(1) <- magic (fit_size len * Sys.word_size / 8 - 1);
   for i = 0 to len - 1 do methods.(i*2+3) <- magic pub_labels.(i) done;
@@ -145,7 +148,7 @@ let new_table pub_labels =
 let resize array new_size =
   let old_size = Array.length array.methods in
   if new_size > old_size then begin
-    let new_buck = Array.create new_size null_item in
+    let new_buck = Array.create new_size dummy_met in
     Array.blit array.methods 0 new_buck 0 old_size;
     array.methods <- new_buck
  end
@@ -203,7 +206,11 @@ let narrow table vars virt_meths concr_meths =
      (table.methods_by_name, table.methods_by_label, table.hidden_meths,
       table.vars, virt_meth_labs, vars)
      :: table.previous_states;
-  table.vars <- Vars.empty;
+  table.vars <-
+    Vars.fold
+      (fun lab info tvars ->
+        if List.mem lab vars then Vars.add lab info tvars else tvars)
+      table.vars Vars.empty;
   let by_name = ref Meths.empty in
   let by_label = ref Labs.empty in
   List.iter2
@@ -252,19 +259,29 @@ let new_slot table =
   index
 
 let new_variable table name =
-  let index = new_slot table in
-  table.vars <- Vars.add name index table.vars;
-  index
+  try Vars.find name table.vars
+  with Not_found ->
+    let index = new_slot table in
+    if name <> "" then table.vars <- Vars.add name index table.vars;
+    index
 
-let new_variables table names =
-  let index = new_variable table names.(0) in
-  for i = 1 to Array.length names - 1 do
-    ignore (new_variable table names.(i))
+let to_array arr =
+  if arr = Obj.magic 0 then [||] else arr
+
+let new_methods_variables table meths vals =
+  let meths = to_array meths in
+  let nmeths = Array.length meths and nvals = Array.length vals in
+  let res = Array.create (nmeths + nvals) 0 in
+  for i = 0 to nmeths - 1 do
+    res.(i) <- get_method_label table meths.(i)
   done;
-  index
+  for i = 0 to nvals - 1 do
+    res.(i+nmeths) <- new_variable table vals.(i)
+  done;
+  res
 
 let get_variable table name =
-  Vars.find name table.vars
+  try Vars.find name table.vars with Not_found -> assert false
 
 let get_variables table names =
   Array.map (get_variable table) names
@@ -305,7 +322,12 @@ let inherits cla vals virt_meths concr_meths (_, super, _, env) top =
   let init =
     if top then super cla env else Obj.repr (super cla) in
   widen cla;
-  init
+  Array.concat
+    [[| repr init |];
+     magic (Array.map (get_variable cla) (to_array vals) : int array);
+     Array.map
+       (fun nm -> repr (get_method cla (get_method_label cla nm) : closure))
+       (to_array concr_meths) ]
 
 let make_class pub_meths class_init =
   let table = create_table pub_meths in
@@ -321,6 +343,10 @@ let make_class_store pub_meths class_init init_table =
   init_class table;
   init_table.class_init <- class_init;
   init_table.env_init <- env_init
+
+let dummy_class loc =
+  let undef = fun _ -> raise (Undefined_recursive_module loc) in
+  (Obj.magic undef, undef, undef, Obj.repr 0)
 
 (**** Objects ****)
 
@@ -437,14 +463,14 @@ let app_const_env f x e n =
 let app_env_const f e n x =
   ret (fun obj ->
     f (Array.unsafe_get (Obj.magic (Array.unsafe_get obj e) : obj) n) x)
-let meth_app_const n x = ret (fun obj -> (sendself obj n) x)
+let meth_app_const n x = ret (fun obj -> (sendself obj n : _ -> _) x)
 let meth_app_var n m =
-  ret (fun obj -> (sendself obj n) (Array.unsafe_get obj m))
+  ret (fun obj -> (sendself obj n : _ -> _) (Array.unsafe_get obj m))
 let meth_app_env n e m =
-  ret (fun obj -> (sendself obj n)
+  ret (fun obj -> (sendself obj n : _ -> _)
       (Array.unsafe_get (Obj.magic (Array.unsafe_get obj e) : obj) m))
 let meth_app_meth n m =
-  ret (fun obj -> (sendself obj n) (sendself obj m))
+  ret (fun obj -> (sendself obj n : _ -> _) (sendself obj m))
 let send_const m x c =
   ret (fun obj -> sendcache x m (Array.unsafe_get obj 0) c)
 let send_var m n c =

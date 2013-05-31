@@ -1,6 +1,6 @@
 /* FILE NAME:   arithm.h
 
-   Copyright (C) 1997-2002 Vladimir Makarov.
+   Copyright (C) 1997-2007 Vladimir Makarov.
 
    Written by Vladimir Makarov <vmakarov@users.sourceforge.net>
 
@@ -247,11 +247,6 @@ public:
   static char *from_string (int size, const char *operand, void *result);
 };
 
-
-/* This is for VC++ 5.0 */
-#ifdef WIN32
-#define NO_TEMPLATE
-#endif
 
 #ifndef NO_TEMPLATE
 

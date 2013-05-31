@@ -1,5 +1,21 @@
 //
-// "$Id: keyboard.cxx 5519 2006-10-11 03:12:15Z mike $"
+// "$Id: keyboard.cxx 9303 2012-03-26 16:54:54Z manolo $"
+//
+
+//
+// Copyright 1998-2010 by Bill Spitzak and others.
+//
+// This library is free software. Distribution and use rights are outlined in
+// the file "COPYING" which should have been included with this file.  If this
+// file is missing or damaged, see the license at:
+//
+//     http://www.fltk.org/COPYING.php
+//
+// Please report all bugs and problems on the following page:
+//
+//     http://www.fltk.org/str.php
+//
+
 //
 // Keyboard/event test program for the Fast Light Tool Kit (FLTK).
 //
@@ -17,30 +33,11 @@
 //
 // On IRIX the backslash key does not work.  A bug in XKeysymToKeycode?
 //
-// Copyright 1998-2005 by Bill Spitzak and others.
-//
-// This library is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Library General Public
-// License as published by the Free Software Foundation; either
-// version 2 of the License, or (at your option) any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-// Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public
-// License along with this library; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
-// USA.
-//
-// Please report all bugs and problems on the following page:
-//
-//     http://www.fltk.org/str.php
-//
-
 
 #include "keyboard_ui.h"
+
+#include <string.h>
+
 
 // these are used to identify which buttons are which:
 void key_cb(Fl_Button*, void*) {}
@@ -66,6 +63,7 @@ struct keycode_table{int n; const char* text;} table[] = {
   {FL_Escape, "FL_Escape"},
   {FL_BackSpace, "FL_BackSpace"},
   {FL_Tab, "FL_Tab"},
+  {FL_Iso_Key, "FL_Iso_Key"},
   {FL_Enter, "FL_Enter"},
   {FL_Print, "FL_Print"},
   {FL_Scroll_Lock, "FL_Scroll_Lock"},
@@ -97,20 +95,27 @@ struct keycode_table{int n; const char* text;} table[] = {
 
 int main(int argc, char** argv) {
   Fl::add_handler(handle);
-  Fl_Window *window = make_window();
+  MyWindow *window = make_window();
   window->show(argc,argv);
   while (Fl::wait()) {
+    const char *str;
     
     // update all the buttons with the current key and shift state:
     for (int i = 0; i < window->children(); i++) {
       Fl_Widget* b = window->child(i);
       if (b->callback() == (Fl_Callback*)key_cb) {
-	int i = (long)b->user_data();
+	int i = b->argument();
 	if (!i) i = b->label()[0];
-	((Fl_Button*)b)->value(Fl::event_key(i));
+        Fl_Button *btn = ((Fl_Button*)b);
+        int state = Fl::event_key(i);
+        if (btn->value()!=state)
+	  btn->value(state);
       } else if (b->callback() == (Fl_Callback*)shift_cb) {
-	int i = (long)b->user_data();
-	((Fl_Button*)b)->value(Fl::event_state(i));
+	int i = b->argument();
+        Fl_Button *btn = ((Fl_Button*)b);
+        int state = Fl::event_state(i);
+        if (btn->value()!=state)
+	  btn->value(state);
       }
     }
 
@@ -133,13 +138,16 @@ int main(int argc, char** argv) {
       for (int i = 0; i < int(sizeof(table)/sizeof(*table)); i++)
 	if (table[i].n == k) {keyname = table[i].text; break;}
     }
-    key_output->value(keyname);
+    if (strcmp(key_output->value(), keyname))
+      key_output->value(keyname);
 
-    text_output->value(Fl::event_text());
+    str = Fl::event_text();
+    if (strcmp(text_output->value(), str))
+      text_output->value(str);
   }
   return 0;
 }
 
 //
-// End of "$Id: keyboard.cxx 5519 2006-10-11 03:12:15Z mike $".
+// End of "$Id: keyboard.cxx 9303 2012-03-26 16:54:54Z manolo $".
 //

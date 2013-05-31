@@ -21,20 +21,21 @@
  * Modified by the GTK+ Team and others 1997-2001.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 #ifndef __GTK_ARROW_H__
 #define __GTK_ARROW_H__
 
 
-#include <gdk/gdk.h>
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
 #include <gtk/gtkmisc.h>
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 
 #define GTK_TYPE_ARROW                  (gtk_arrow_get_type ())
@@ -52,8 +53,8 @@ struct _GtkArrow
 {
   GtkMisc misc;
 
-  gint16 arrow_type;
-  gint16 shadow_type;
+  gint16 GSEAL (arrow_type);
+  gint16 GSEAL (shadow_type);
 };
 
 struct _GtkArrowClass
@@ -70,9 +71,7 @@ void       gtk_arrow_set        (GtkArrow      *arrow,
 				 GtkShadowType  shadow_type);
 
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 
 #endif /* __GTK_ARROW_H__ */

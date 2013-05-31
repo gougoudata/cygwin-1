@@ -1,0 +1,5 @@
+auto
+/usr/bin/emacsclient
+
+/usr/bin/emacsclient-nox.exe
+10

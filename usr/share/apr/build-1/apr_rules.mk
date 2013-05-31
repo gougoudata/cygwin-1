@@ -26,10 +26,11 @@
 #
 apr_builddir=/usr/share/apr/build-1
 apr_builders=/usr/share/apr/build-1
+top_builddir=/usr/share/apr/build-1
 
 # Some layouts require knowing what version we are at.
 APR_MAJOR_VERSION=1
-APR_DOTTED_VERSION=1.3.3
+APR_DOTTED_VERSION=1.4.6
 
 CC=gcc
 RM=rm
@@ -40,7 +41,7 @@ LIBTOOL=$(SHELL) $(apr_builddir)/libtool
 # compilation and linking flags that are supposed to be set only by the user.
 # configure adds to them for tests, but we restore them at the end.
 #
-CFLAGS=-O2 -pipe 
+CFLAGS=-g -O2 -pipe 
 CPPFLAGS=
 LDFLAGS=
 LIBS=
@@ -52,7 +53,7 @@ DEFS=-DHAVE_CONFIG_H
 EXTRA_CFLAGS=
 EXTRA_CPPFLAGS=-DCYGWIN
 EXTRA_LDFLAGS=
-EXTRA_LIBS=-lcrypt 
+EXTRA_LIBS=-luuid -lcrypt 
 EXTRA_INCLUDES=
 
 # NOTEST_* are flags and libraries that can be added by the user without

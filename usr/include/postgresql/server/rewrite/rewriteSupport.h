@@ -4,10 +4,10 @@
  *
  *
  *
- * Portions Copyright (c) 1996-2006, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2012, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
- * $PostgreSQL: pgsql/src/include/rewrite/rewriteSupport.h,v 1.28 2006/03/05 15:58:58 momjian Exp $
+ * src/include/rewrite/rewriteSupport.h
  *
  *-------------------------------------------------------------------------
  */
@@ -21,5 +21,9 @@ extern bool IsDefinedRewriteRule(Oid owningRel, const char *ruleName);
 
 extern void SetRelationRuleStatus(Oid relationId, bool relHasRules,
 					  bool relIsBecomingView);
+
+extern Oid	get_rewrite_oid(Oid relid, const char *rulename, bool missing_ok);
+extern Oid get_rewrite_oid_without_relid(const char *rulename,
+							  Oid *relid, bool missing_ok);
 
 #endif   /* REWRITESUPPORT_H */

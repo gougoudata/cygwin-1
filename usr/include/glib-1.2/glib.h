@@ -202,20 +202,11 @@ extern "C" {
 #  endif
 #endif
 #ifndef G_INLINE_FUNC
-#  ifdef __GNUC__
-#    ifdef __OPTIMIZE__
-#      define G_INLINE_FUNC extern inline
-#    else
-#      undef G_CAN_INLINE
-#      define G_INLINE_FUNC extern
-#    endif
-#  else /* !__GNUC__ */
 #    ifdef G_CAN_INLINE
 #      define G_INLINE_FUNC static inline
 #    else
 #      define G_INLINE_FUNC extern
 #    endif
-#  endif /* !__GNUC__ */
 #endif /* !G_INLINE_FUNC */
 
 

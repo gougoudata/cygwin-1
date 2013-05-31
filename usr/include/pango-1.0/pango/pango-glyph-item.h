@@ -1,4 +1,3 @@
-/* -*- mode: C; c-file-style: "gnu" -*- */
 /* Pango
  * pango-glyph-item.h: Pair of PangoItem and a glyph string
  *
@@ -38,9 +37,14 @@ struct _PangoGlyphItem
   PangoGlyphString *glyphs;
 };
 
+#define PANGO_TYPE_GLYPH_ITEM (pango_glyph_item_get_type ())
+
+GType pango_glyph_item_get_type (void) G_GNUC_CONST;
+
 PangoGlyphItem *pango_glyph_item_split        (PangoGlyphItem *orig,
 					       const char     *text,
 					       int             split_index);
+PangoGlyphItem *pango_glyph_item_copy         (PangoGlyphItem *orig);
 void            pango_glyph_item_free         (PangoGlyphItem *glyph_item);
 GSList *        pango_glyph_item_apply_attrs  (PangoGlyphItem *glyph_item,
 					       const char     *text,
@@ -49,6 +53,41 @@ void            pango_glyph_item_letter_space (PangoGlyphItem *glyph_item,
 					       const char     *text,
 					       PangoLogAttr   *log_attrs,
 					       int             letter_spacing);
+void 	  pango_glyph_item_get_logical_widths (PangoGlyphItem *glyph_item,
+					       const char     *text,
+					       int            *logical_widths);
+
+
+typedef struct _PangoGlyphItemIter PangoGlyphItemIter;
+
+struct _PangoGlyphItemIter
+{
+  PangoGlyphItem *glyph_item;
+  const gchar *text;
+
+  int start_glyph;
+  int start_index;
+  int start_char;
+
+  int end_glyph;
+  int end_index;
+  int end_char;
+};
+
+#define PANGO_TYPE_GLYPH_ITEM_ITER (pango_glyph_item_iter_get_type ())
+
+GType               pango_glyph_item_iter_get_type (void) G_GNUC_CONST;
+PangoGlyphItemIter *pango_glyph_item_iter_copy (PangoGlyphItemIter *orig);
+void                pango_glyph_item_iter_free (PangoGlyphItemIter *iter);
+
+gboolean pango_glyph_item_iter_init_start   (PangoGlyphItemIter *iter,
+					     PangoGlyphItem     *glyph_item,
+					     const char         *text);
+gboolean pango_glyph_item_iter_init_end     (PangoGlyphItemIter *iter,
+					     PangoGlyphItem     *glyph_item,
+					     const char         *text);
+gboolean pango_glyph_item_iter_next_cluster (PangoGlyphItemIter *iter);
+gboolean pango_glyph_item_iter_prev_cluster (PangoGlyphItemIter *iter);
 
 G_END_DECLS
 

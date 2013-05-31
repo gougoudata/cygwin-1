@@ -25,21 +25,21 @@ W system%s		system.ads		system.ali
 W system.exception_table%s  s-exctab.adb	s-exctab.ali
 W system.standard_library%s  s-stalib.adb	s-stalib.ali
 
-D ada.ads		20030424175358 a0108083
-D a-except.ads		20031021134154 a1717b33
-D interfac.ads		20031021134210 6e859da6
+D ada.ads		20030424175357 a0108083
+D a-except.ads		20031021134153 a1717b33
+D interfac.ads		20031021134209 6e859da6
 D i-c.ads		20031021134208 89099b00
 D i-cstrin.ads		20031021134208 924095a4
 D i-cstrin.adb		20031021134208 45dd2a03
 D system.ads		20031021134222 6af26689
-D s-exctab.ads		20031021134214 6637f07f
+D s-exctab.ads		20031021134213 6637f07f
 D s-parame.ads		20031021134214 8479efe6
 D s-secsta.ads		20040105152046 7804722c
 D s-soflin.ads		20031021134214 14059e84
 D s-stache.ads		20031021134214 6135f334
 D s-stalib.ads		20031021134214 e7ad2af0
-D s-stoele.ads		20050603190336 5a73170b
-D s-stoele.adb		20030424175414 792079f8
+D s-stoele.ads		20050603200336 5a73170b
+D s-stoele.adb		20030424175413 792079f8
 D s-traent.ads		20031021134218 e81a0978
 D unchconv.ads		20030424175420 1b7a14c5
 X 3 interfac.ads

@@ -6,8 +6,6 @@
 
 prefix=/usr
 exec_prefix=/usr
-libdir=${exec_prefix}/lib
-includedir=${prefix}/include/ImageMagick
 
 usage="\
 Usage: MagickWand-config [--cflags] [--cppflags] [--exec-prefix] [--ldflags] [--libs] [--prefix] [--version]"
@@ -37,22 +35,22 @@ while test $# -gt 0; do
       echo $exec_prefix
       ;;
     --version)
-      echo '6.4.0 Q16 '
+      echo '6.7.6 Q16 '
       ;;
     --cflags)
-      echo "-I${includedir} "
+      pkg-config --cflags MagickWand
       ;;
     --cxxflags)
-      echo '-O2 -pipe -Wall -W'
+      pkg-config --cflags MagickWand
       ;;
     --cppflags)
-      echo '-I/usr/include/ImageMagick'
+      pkg-config --cflags MagickWand
       ;;
     --ldflags)
-      echo '-L/usr/lib -L/usr/X11R6/lib -lfreetype -lz'
+      pkg-config --libs MagickWand
       ;;
     --libs)
-      echo "-L${libdir} -lMagickWand -lMagickCore"
+      pkg-config --libs MagickWand
       ;;
     *)
       echo "${usage}" 1>&2

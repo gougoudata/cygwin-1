@@ -19,10 +19,10 @@ U system.arith_64%s	s-arit64.ads		ba139013 NE PU PK
 W interfaces%s		interfac.ads		interfac.ali
 W system%s		system.ads		system.ali
 
-D interfac.ads		20031021134210 6e859da6
+D interfac.ads		20031021134209 6e859da6
 D system.ads		20031021134222 6af26689
 D s-arit64.ads		20030424175408 be646b3c
-D s-arit64.adb		20031021134214 3051c35c
+D s-arit64.adb		20031021134213 3051c35c
 D s-purexc.ads		20031021134214 a2383b42
 D unchconv.ads		20030424175420 1b7a14c5
 X 1 interfac.ads

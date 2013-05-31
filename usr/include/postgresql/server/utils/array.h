@@ -4,7 +4,7 @@
  *	  Declarations for Postgres arrays.
  *
  * A standard varlena array has the following internal structure:
- *	  <size>		- total number of bytes (also, TOAST info flags)
+ *	  <vl_len_>		- standard varlena header word
  *	  <ndim>		- number of dimensions of the array
  *	  <dataoffset>	- offset to stored data, or 0 if no nulls bitmap
  *	  <elemtype>	- element type OID
@@ -46,10 +46,10 @@
  * only work with varlena arrays.
  *
  *
- * Portions Copyright (c) 1996-2006, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2012, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
- * $PostgreSQL: pgsql/src/include/utils/array.h,v 1.60 2006/11/08 19:24:38 tgl Exp $
+ * src/include/utils/array.h
  *
  *-------------------------------------------------------------------------
  */
@@ -61,18 +61,22 @@
 /*
  * Arrays are varlena objects, so must meet the varlena convention that
  * the first int32 of the object contains the total object size in bytes.
+ * Be sure to use VARSIZE() and SET_VARSIZE() to access it, though!
  *
  * CAUTION: if you change the header for ordinary arrays you will also
  * need to change the headers for oidvector and int2vector!
  */
 typedef struct
 {
-	int32		size;			/* total array size (varlena requirement) */
+	int32		vl_len_;		/* varlena header (do not touch directly!) */
 	int			ndim;			/* # of dimensions */
 	int32		dataoffset;		/* offset to data, or 0 if no bitmap */
 	Oid			elemtype;		/* element type OID */
 } ArrayType;
 
+/*
+ * working state for accumArrayResult() and friends
+ */
 typedef struct ArrayBuildState
 {
 	MemoryContext mcontext;		/* where all the temp stuff is kept */
@@ -110,6 +114,9 @@ typedef struct ArrayMapState
 	ArrayMetaState ret_extra;
 } ArrayMapState;
 
+/* ArrayIteratorData is private in arrayfuncs.c */
+typedef struct ArrayIteratorData *ArrayIterator;
+
 /*
  * fmgr macros for array objects
  */
@@ -132,7 +139,7 @@ typedef struct ArrayMapState
  *
  * Unlike C, the default lower bound is 1.
  */
-#define ARR_SIZE(a)				((a)->size)
+#define ARR_SIZE(a)				VARSIZE(a)
 #define ARR_NDIM(a)				((a)->ndim)
 #define ARR_HASNULL(a)			((a)->dataoffset != 0)
 #define ARR_ELEMTYPE(a)			((a)->elemtype)
@@ -188,17 +195,22 @@ extern Datum array_gt(PG_FUNCTION_ARGS);
 extern Datum array_le(PG_FUNCTION_ARGS);
 extern Datum array_ge(PG_FUNCTION_ARGS);
 extern Datum btarraycmp(PG_FUNCTION_ARGS);
+extern Datum hash_array(PG_FUNCTION_ARGS);
 extern Datum arrayoverlap(PG_FUNCTION_ARGS);
 extern Datum arraycontains(PG_FUNCTION_ARGS);
 extern Datum arraycontained(PG_FUNCTION_ARGS);
+extern Datum array_ndims(PG_FUNCTION_ARGS);
 extern Datum array_dims(PG_FUNCTION_ARGS);
 extern Datum array_lower(PG_FUNCTION_ARGS);
 extern Datum array_upper(PG_FUNCTION_ARGS);
-extern Datum array_type_coerce(PG_FUNCTION_ARGS);
-extern Datum array_type_length_coerce(PG_FUNCTION_ARGS);
-extern Datum array_length_coerce(PG_FUNCTION_ARGS);
+extern Datum array_length(PG_FUNCTION_ARGS);
 extern Datum array_larger(PG_FUNCTION_ARGS);
 extern Datum array_smaller(PG_FUNCTION_ARGS);
+extern Datum generate_subscripts(PG_FUNCTION_ARGS);
+extern Datum generate_subscripts_nodir(PG_FUNCTION_ARGS);
+extern Datum array_fill(PG_FUNCTION_ARGS);
+extern Datum array_fill_with_lower_bounds(PG_FUNCTION_ARGS);
+extern Datum array_unnest(PG_FUNCTION_ARGS);
 
 extern Datum array_ref(ArrayType *array, int nSubscripts, int *indx,
 		  int arraytyplen, int elmlen, bool elmbyval, char elmalign,
@@ -235,6 +247,7 @@ extern void deconstruct_array(ArrayType *array,
 				  Oid elmtype,
 				  int elmlen, bool elmbyval, char elmalign,
 				  Datum **elemsp, bool **nullsp, int *nelemsp);
+extern bool array_contains_nulls(ArrayType *array);
 extern ArrayBuildState *accumArrayResult(ArrayBuildState *astate,
 				 Datum dvalue, bool disnull,
 				 Oid element_type,
@@ -242,7 +255,11 @@ extern ArrayBuildState *accumArrayResult(ArrayBuildState *astate,
 extern Datum makeArrayResult(ArrayBuildState *astate,
 				MemoryContext rcontext);
 extern Datum makeMdArrayResult(ArrayBuildState *astate, int ndims,
-				  int *dims, int *lbs, MemoryContext rcontext);
+				  int *dims, int *lbs, MemoryContext rcontext, bool release);
+
+extern ArrayIterator array_create_iterator(ArrayType *arr, int slice_ndim);
+extern bool array_iterate(ArrayIterator iterator, Datum *value, bool *isnull);
+extern void array_free_iterator(ArrayIterator iterator);
 
 /*
  * prototypes for functions defined in arrayutils.c
@@ -255,6 +272,7 @@ extern void mda_get_range(int n, int *span, const int *st, const int *endp);
 extern void mda_get_prod(int n, const int *range, int *prod);
 extern void mda_get_offset_values(int n, int *dist, const int *prod, const int *span);
 extern int	mda_next_tuple(int n, int *curr, const int *span);
+extern int32 *ArrayGetIntegerTypmods(ArrayType *arr, int *n);
 
 /*
  * prototypes for functions defined in array_userfuncs.c
@@ -265,6 +283,15 @@ extern Datum array_cat(PG_FUNCTION_ARGS);
 extern ArrayType *create_singleton_array(FunctionCallInfo fcinfo,
 					   Oid element_type,
 					   Datum element,
+					   bool isNull,
 					   int ndims);
+
+extern Datum array_agg_transfn(PG_FUNCTION_ARGS);
+extern Datum array_agg_finalfn(PG_FUNCTION_ARGS);
+
+/*
+ * prototypes for functions defined in array_typanalyze.c
+ */
+extern Datum array_typanalyze(PG_FUNCTION_ARGS);
 
 #endif   /* ARRAY_H */

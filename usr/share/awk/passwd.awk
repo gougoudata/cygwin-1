@@ -3,13 +3,14 @@
 # Arnold Robbins, arnold@skeeve.com, Public Domain
 # May 1993
 # Revised October 2000
+# Revised December 2010
 
 BEGIN {
     # tailor this to suit your system
     _pw_awklib = "/usr/lib/awk/"
 }
 
-function _pw_init(    oldfs, oldrs, olddol0, pwcat, using_fw)
+function _pw_init(    oldfs, oldrs, olddol0, pwcat, using_fw, using_fpat)
 {
     if (_pw_inited)
         return
@@ -18,6 +19,7 @@ function _pw_init(    oldfs, oldrs, olddol0, pwcat, using_fw)
     oldrs = RS
     olddol0 = $0
     using_fw = (PROCINFO["FS"] == "FIELDWIDTHS")
+    using_fpat = (PROCINFO["FS"] == "FPAT")
     FS = ":"
     RS = "\n"
 
@@ -33,22 +35,20 @@ function _pw_init(    oldfs, oldrs, olddol0, pwcat, using_fw)
     FS = oldfs
     if (using_fw)
         FIELDWIDTHS = FIELDWIDTHS
+    else if (using_fpat)
+        FPAT = FPAT
     RS = oldrs
     $0 = olddol0
 }
 function getpwnam(name)
 {
     _pw_init()
-    if (name in _pw_byname)
-        return _pw_byname[name]
-    return ""
+    return _pw_byname[name]
 }
 function getpwuid(uid)
 {
     _pw_init()
-    if (uid in _pw_byuid)
-        return _pw_byuid[uid]
-    return ""
+    return _pw_byuid[uid]
 }
 function getpwent()
 {

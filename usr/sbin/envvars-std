@@ -18,7 +18,11 @@
 #
 # This file is generated from envvars-std.in
 #
-PATH="/usr/lib:$PATH"
+if test "x$PATH" != "x" ; then
+  PATH="/usr/lib:$PATH"
+else
+  PATH="/usr/lib"
+fi
 export PATH
 #
 

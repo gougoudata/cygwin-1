@@ -4,10 +4,10 @@
  *
  *
  *
- * Portions Copyright (c) 1996-2006, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2012, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
- * $PostgreSQL: pgsql/src/include/executor/nodeBitmapOr.h,v 1.3 2006/03/05 15:58:56 momjian Exp $
+ * src/include/executor/nodeBitmapOr.h
  *
  *-------------------------------------------------------------------------
  */
@@ -16,10 +16,9 @@
 
 #include "nodes/execnodes.h"
 
-extern int	ExecCountSlotsBitmapOr(BitmapOr *node);
 extern BitmapOrState *ExecInitBitmapOr(BitmapOr *node, EState *estate, int eflags);
 extern Node *MultiExecBitmapOr(BitmapOrState *node);
 extern void ExecEndBitmapOr(BitmapOrState *node);
-extern void ExecReScanBitmapOr(BitmapOrState *node, ExprContext *exprCtxt);
+extern void ExecReScanBitmapOr(BitmapOrState *node);
 
 #endif   /* NODEBITMAPOR_H */

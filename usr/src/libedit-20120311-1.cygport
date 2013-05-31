@@ -1,0 +1,65 @@
+DESCRIPTION="The NetBSD Editline library"
+HOMEPAGE="http://www.thrysoee.dk/editline/"
+SRC_URI="http://www.thrysoee.dk/editline/${P}-3.0.tar.gz"
+SRC_DIR="${P}-3.0"
+
+SHLIB_VERSION=
+
+eval_pkgname() {
+  pushd ${D}/usr/bin
+  SHLIB_VERSION=$(ls -1 cyg*.dll | sed -e 's/cygedit-\([0-9]*\)\.dll/\1/')
+  popd
+  cat > "${P}-${PR}.pkginfo" <<- EOF
+	PKG_NAMES="libedit libedit-devel libedit${SHLIB_VERSION}"
+	libedit_CONTENTS=""
+	libedit_devel_CONTENTS="usr/include usr/lib usr/share/man/man3"
+	libedit${SHLIB_VERSION}_CONTENTS="usr/bin usr/share/doc usr/share/man/man5"
+	EOF
+}
+
+[ -f "${P}-${PR}.pkginfo" ] && . "${P}-${PR}.pkginfo"
+
+src_compile() {
+  cd ${B}
+  export CPPFLAGS="-I/usr/include/ncursesw"
+  export LDFLAGS="-L/usr/lib/ncursesw"
+  cygconf --enable-widec
+  cygmake
+}
+
+src_install() {
+  pushd ${B}
+  cyginstall
+  popd
+  eval_pkgname
+  DEPS="$(cygport libedit-${PVR}.cygport depends |
+	  sed -n -e '/^  cygwin-/d' -e 's/^  \([^-]*\)-.*/\1/p' |
+	  xargs echo)"
+  cd ${C}
+  cat > libedit.hint <<-EOF
+	sdesc: "The NetBSD Editline library"
+	ldesc: "Libedit is an autotool- and libtoolized port of the NetBSD Editline
+	library.  It provides generic line editing, history, and tokenization
+	functions, similar to those found in GNU Readline."
+	category: Devel Libs
+	requires: libedit${SHLIB_VERSION}
+	EOF
+  cat > libedit-devel.hint <<-EOF
+	sdesc: "The NetBSD Editline library (devel)"
+	ldesc: "Libedit is an autotool- and libtoolized port of the NetBSD Editline
+	library.  It provides generic line editing, history, and tokenization
+	functions, similar to those found in GNU Readline."
+	category: Devel Libs
+	requires: libedit${SHLIB_VERSION} libncursesw-devel
+	external-source: libedit
+	EOF
+  cat > libedit${SHLIB_VERSION}.hint <<-EOF
+	sdesc: "The NetBSD Editline library (runtime)"
+	ldesc: "Libedit is an autotool- and libtoolized port of the NetBSD Editline
+	library.  It provides generic line editing, history, and tokenization
+	functions, similar to those found in GNU Readline."
+	category: Libs
+	requires: ${DEPS}
+	external-source: libedit
+	EOF
+}

@@ -21,7 +21,7 @@ W system.unsigned_types%s  s-unstyp.ads		s-unstyp.ali
 U system.img_real%s	s-imgrea.ads		ad66f592 NE PR PK
 W system%s		system.ads		system.ali
 
-D ada.ads		20030424175358 a0108083
+D ada.ads		20030424175357 a0108083
 D a-unccon.ads		20030424175356 5b55fe29
 D system.ads		20031021134222 6af26689
 D s-fatgen.ads		20031021134214 80dd309e
@@ -31,10 +31,10 @@ D s-imgllu.ads		20030424175410 c84acf16
 D s-imgrea.ads		20030424175410 c794931b
 D s-imgrea.adb		20031021134214 b631a88f
 D s-imguns.ads		20030424175410 e533639a
-D s-powtab.ads		20030424175414 84be3859
+D s-powtab.ads		20030424175413 84be3859
 D s-secsta.ads		20040105152046 7804722c
-D s-stoele.ads		20050603190336 5a73170b
-D s-stoele.adb		20030424175414 792079f8
+D s-stoele.ads		20050603200336 5a73170b
+D s-stoele.adb		20030424175413 792079f8
 D s-unstyp.ads		20031021134218 0d291e44
 D unchconv.ads		20030424175420 1b7a14c5
 X 3 system.ads

@@ -3,6 +3,7 @@
 # Arnold Robbins, arnold@skeeve.com, Public Domain
 # May 1993
 # Revised October 2000
+# Revised December 2010
 
 BEGIN    \
 {
@@ -11,7 +12,7 @@ BEGIN    \
 }
 
 function _gr_init(    oldfs, oldrs, olddol0, grcat,
-                             using_fw, n, a, i)
+                             using_fw, using_fpat, n, a, i)
 {
     if (_gr_inited)
         return
@@ -20,6 +21,7 @@ function _gr_init(    oldfs, oldrs, olddol0, grcat,
     oldrs = RS
     olddol0 = $0
     using_fw = (PROCINFO["FS"] == "FIELDWIDTHS")
+    using_fpat = (PROCINFO["FS"] == "FPAT")
     FS = ":"
     RS = "\n"
 
@@ -50,29 +52,25 @@ function _gr_init(    oldfs, oldrs, olddol0, grcat,
     FS = oldfs
     if (using_fw)
         FIELDWIDTHS = FIELDWIDTHS
+    else if (using_fpat)
+        FPAT = FPAT
     RS = oldrs
     $0 = olddol0
 }
 function getgrnam(group)
 {
     _gr_init()
-    if (group in _gr_byname)
-        return _gr_byname[group]
-    return ""
+    return _gr_byname[group]
 }
 function getgrgid(gid)
 {
     _gr_init()
-    if (gid in _gr_bygid)
-        return _gr_bygid[gid]
-    return ""
+    return _gr_bygid[gid]
 }
 function getgruser(user)
 {
     _gr_init()
-    if (user in _gr_groupsbyuser)
-        return _gr_groupsbyuser[user]
-    return ""
+    return _gr_groupsbyuser[user]
 }
 function getgrent()
 {

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Name=Qt3 Assistant
+Type=Application
+Comment=
+Exec=assistant-qt3
+TryExec=assistant-qt3
+Icon=assistant-qt3.png
+Categories=Development;Qt;
+

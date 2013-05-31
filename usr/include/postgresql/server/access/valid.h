@@ -4,10 +4,10 @@
  *	  POSTGRES tuple qualification validity definitions.
  *
  *
- * Portions Copyright (c) 1996-2006, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2012, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
- * $PostgreSQL: pgsql/src/include/access/valid.h,v 1.38 2006/03/05 15:58:54 momjian Exp $
+ * src/include/access/valid.h
  *
  *-------------------------------------------------------------------------
  */
@@ -54,8 +54,9 @@ do \
 			break; \
 		} \
  \
-		__test = FunctionCall2(&__cur_keys->sk_func, \
-							   __atp, __cur_keys->sk_argument); \
+		__test = FunctionCall2Coll(&__cur_keys->sk_func, \
+								   __cur_keys->sk_collation, \
+								   __atp, __cur_keys->sk_argument); \
  \
 		if (!DatumGetBool(__test)) \
 		{ \

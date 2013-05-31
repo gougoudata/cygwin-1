@@ -30,8 +30,6 @@
 #include <apr_poll.h>
 #include <apr_uri.h>
 
-#include "serf_declare.h"
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -44,6 +42,9 @@ typedef struct serf_bucket_type_t serf_bucket_type_t;
 typedef struct serf_bucket_alloc_t serf_bucket_alloc_t;
 
 typedef struct serf_connection_t serf_connection_t;
+typedef struct serf_listener_t serf_listener_t;
+typedef struct serf_incoming_t serf_incoming_t;
+typedef struct serf_incoming_request_t serf_incoming_request_t;
 
 typedef struct serf_request_t serf_request_t;
 
@@ -69,6 +70,19 @@ typedef struct serf_request_t serf_request_t;
  */
 #define SERF_ERROR_REQUEST_LOST (APR_OS_START_USERERR + SERF_ERROR_RANGE + 2)
 
+/* General authentication related errors */
+#define SERF_ERROR_AUTHN_FAILED (APR_OS_START_USERERR + SERF_ERROR_RANGE + 90)
+
+/* None of the available authn mechanisms for the request are supported */
+#define SERF_ERROR_AUTHN_NOT_SUPPORTED (APR_OS_START_USERERR + SERF_ERROR_RANGE + 91)
+
+/* Authn was requested by the server but the header lacked some attribute  */
+#define SERF_ERROR_AUTHN_MISSING_ATTRIBUTE (APR_OS_START_USERERR + SERF_ERROR_RANGE + 92)
+
+/* Authentication handler initialization related errors */
+#define SERF_ERROR_AUTHN_INITALIZATION_FAILED (APR_OS_START_USERERR +\
+    SERF_ERROR_RANGE + 93)
+
 /**
  * Create a new context for serf operations.
  *
@@ -77,7 +91,8 @@ typedef struct serf_request_t serf_request_t;
  *
  * The context will be allocated within @a pool.
  */
-SERF_DECLARE(serf_context_t *) serf_context_create(apr_pool_t *pool);
+serf_context_t *serf_context_create(
+    apr_pool_t *pool);
 
 /**
  * Callback function. Add a socket to the externally managed poll set.
@@ -85,33 +100,37 @@ SERF_DECLARE(serf_context_t *) serf_context_create(apr_pool_t *pool);
  * Both @a pfd and @a serf_baton should be used when calling serf_event_trigger
  * later.
  */
-typedef apr_status_t (*serf_socket_add_t)(void *user_baton,
-                                          apr_pollfd_t *pfd,
-                                          void *serf_baton);
+typedef apr_status_t (*serf_socket_add_t)(
+    void *user_baton,
+    apr_pollfd_t *pfd,
+    void *serf_baton);
+
 /**
- * Callback function. Remove the socket, identified by both @a pfd and 
+ * Callback function. Remove the socket, identified by both @a pfd and
  * @a serf_baton from the externally managed poll set.
  */
-typedef apr_status_t (*serf_socket_remove_t)(void *user_baton,
-                                             apr_pollfd_t *pfd,
-                                             void *serf_baton);
+typedef apr_status_t (*serf_socket_remove_t)(
+    void *user_baton,
+    apr_pollfd_t *pfd,
+    void *serf_baton);
 
 /* Create a new context for serf operations.
  *
  * Use this function to make serf not use its internal control loop, but
- * instead rely on an external event loop. Serf will use the @a addf and @a rmf 
- * callbacks to notify of any event on a connection. The @a user_baton will be 
+ * instead rely on an external event loop. Serf will use the @a addf and @a rmf
+ * callbacks to notify of any event on a connection. The @a user_baton will be
  * passed through the addf and rmf callbacks.
  *
  * The context will be allocated within @a pool.
  */
-SERF_DECLARE(serf_context_t *) serf_context_create_ex(void *user_baton,
-                                                      serf_socket_add_t addf,
-                                                      serf_socket_remove_t rmf,
-                                                      apr_pool_t *pool);
+serf_context_t *serf_context_create_ex(
+    void *user_baton,
+    serf_socket_add_t addf,
+    serf_socket_remove_t rmf,
+    apr_pool_t *pool);
 
 /**
- * Make serf process events on a connection, identified by both @a pfd and 
+ * Make serf process events on a connection, identified by both @a pfd and
  * @a serf_baton.
  *
  * Any outbound data is delivered, and incoming data is made available to
@@ -120,9 +139,10 @@ SERF_DECLARE(serf_context_t *) serf_context_create_ex(void *user_baton,
  * If any data is processed (incoming or outgoing), then this function will
  * return with APR_SUCCESS.
  */
-SERF_DECLARE(apr_status_t) serf_event_trigger(serf_context_t *s,
-                                              void *serf_baton,
-                                              const apr_pollfd_t *pfd);
+apr_status_t serf_event_trigger(
+    serf_context_t *s,
+    void *serf_baton,
+    const apr_pollfd_t *pfd);
 
 /** @see serf_context_run should not block at all. */
 #define SERF_DURATION_NOBLOCK 0
@@ -146,26 +166,29 @@ SERF_DECLARE(apr_status_t) serf_event_trigger(serf_context_t *s,
  *
  * All temporary allocations will be made in @a pool.
  */
-SERF_DECLARE(apr_status_t) serf_context_run(serf_context_t *ctx,
-                                            apr_short_interval_time_t duration,
-                                            apr_pool_t *pool);
+apr_status_t serf_context_run(
+    serf_context_t *ctx,
+    apr_short_interval_time_t duration,
+    apr_pool_t *pool);
 
 
-SERF_DECLARE(apr_status_t) serf_context_prerun(serf_context_t *ctx);
+apr_status_t serf_context_prerun(
+    serf_context_t *ctx);
 
 /**
  * Callback function for progress information. @a progress indicates cumulative
  * number of bytes read or written, for the whole context.
  */
-typedef void (*serf_progress_t)(void *progress_baton,
-                                apr_off_t read,
-                                apr_off_t write);
+typedef void (*serf_progress_t)(
+    void *progress_baton,
+    apr_off_t read,
+    apr_off_t write);
 
 /**
  * Sets the progress callback function. @a progress_func will be called every
  * time bytes are read of or written on a socket.
  */
-SERF_DECLARE(void) serf_context_set_progress_cb(
+void serf_context_set_progress_cb(
     serf_context_t *ctx,
     const serf_progress_t progress_func,
     void *progress_baton);
@@ -198,14 +221,17 @@ SERF_DECLARE(void) serf_context_set_progress_cb(
  * ### callback. it may be wasteful to create a per-conn allocator, so this
  * ### baton-based, app-responsible form might be best.
  *
- * Responsibility for the bucket is passed to the serf library. It will be
+ * Responsibility for the buckets is passed to the serf library. They will be
  * destroyed when the connection is closed.
  *
  * All temporary allocations should be made in @a pool.
  */
-typedef serf_bucket_t * (*serf_connection_setup_t)(apr_socket_t *skt,
-                                                   void *setup_baton,
-                                                   apr_pool_t *pool);
+typedef apr_status_t (*serf_connection_setup_t)(
+    apr_socket_t *skt,
+    serf_bucket_t **read_bkt,
+    serf_bucket_t **write_bkt,
+    void *setup_baton,
+    apr_pool_t *pool);
 
 /**
  * ### need to update docco w.r.t socket. became "stream" recently.
@@ -235,10 +261,11 @@ typedef serf_bucket_t * (*serf_connection_setup_t)(apr_socket_t *skt,
  * All temporary allocations should be made in @a pool.
  */
 /* ### do we need to return an error? */
-typedef serf_bucket_t * (*serf_response_acceptor_t)(serf_request_t *request,
-                                                    serf_bucket_t *stream,
-                                                    void *acceptor_baton,
-                                                    apr_pool_t *pool);
+typedef serf_bucket_t * (*serf_response_acceptor_t)(
+    serf_request_t *request,
+    serf_bucket_t *stream,
+    void *acceptor_baton,
+    apr_pool_t *pool);
 
 /**
  * Notification callback for when a connection closes.
@@ -252,10 +279,11 @@ typedef serf_bucket_t * (*serf_response_acceptor_t)(serf_request_t *request,
  *
  * All temporary allocations should be made in @a pool.
  */
-typedef void (*serf_connection_closed_t)(serf_connection_t *conn,
-                                         void *closed_baton,
-                                         apr_status_t why,
-                                         apr_pool_t *pool);
+typedef void (*serf_connection_closed_t)(
+    serf_connection_t *conn,
+    void *closed_baton,
+    apr_status_t why,
+    apr_pool_t *pool);
 
 /**
  * Response data has arrived and should be processed.
@@ -285,10 +313,26 @@ typedef void (*serf_connection_closed_t)(serf_connection_t *conn,
  *
  * All temporary allocations should be made in @a pool.
  */
-typedef apr_status_t (*serf_response_handler_t)(serf_request_t *request,
-                                                serf_bucket_t *response,
-                                                void *handler_baton,
-                                                apr_pool_t *pool);
+typedef apr_status_t (*serf_response_handler_t)(
+    serf_request_t *request,
+    serf_bucket_t *response,
+    void *handler_baton,
+    apr_pool_t *pool);
+
+/**
+ * Callback function to be implemented by the application, so that serf
+ * can handle server and proxy authentication.
+ * code = 401 (server) or 407 (proxy).
+ * baton = the baton passed to serf_context_run.
+ * authn_type = one of "Basic", "Digest".
+ */
+typedef apr_status_t (*serf_credentials_callback_t)(
+    char **username,
+    char **password,
+    serf_request_t *request, void *baton,
+    int code, const char *authn_type,
+    const char *realm,
+    apr_pool_t *pool);
 
 /**
  * Create a new connection associated with the @a ctx serf context.
@@ -311,7 +355,7 @@ typedef apr_status_t (*serf_response_handler_t)(serf_request_t *request,
  * Note: the connection is not made immediately. It will be opened on
  * the next call to @see serf_context_run.
  */
-SERF_DECLARE(serf_connection_t *) serf_connection_create(
+serf_connection_t *serf_connection_create(
     serf_context_t *ctx,
     apr_sockaddr_t *address,
     serf_connection_setup_t setup,
@@ -343,7 +387,7 @@ SERF_DECLARE(serf_connection_t *) serf_connection_create(
  * Note: the connection is not made immediately. It will be opened on
  * the next call to @see serf_context_run.
  */
-SERF_DECLARE(apr_status_t) serf_connection_create2(
+apr_status_t serf_connection_create2(
     serf_connection_t **conn,
     serf_context_t *ctx,
     apr_uri_t host_info,
@@ -353,10 +397,44 @@ SERF_DECLARE(apr_status_t) serf_connection_create2(
     void *closed_baton,
     apr_pool_t *pool);
 
+
+typedef apr_status_t (*serf_accept_client_t)(
+    serf_context_t *ctx,
+    serf_listener_t *l,
+    void *accept_baton,
+    apr_socket_t *insock,
+    apr_pool_t *pool);
+
+apr_status_t serf_listener_create(
+    serf_listener_t **listener,
+    serf_context_t *ctx,
+    const char *host,
+    apr_uint16_t port,
+    void *accept_baton,
+    serf_accept_client_t accept_func,
+    apr_pool_t *pool);
+
+typedef apr_status_t (*serf_incoming_request_cb_t)(
+    serf_context_t *ctx,
+    serf_incoming_request_t *req,
+    void *request_baton,
+    apr_pool_t *pool);
+
+apr_status_t serf_incoming_create(
+    serf_incoming_t **client,
+    serf_context_t *ctx,
+    apr_socket_t *insock,
+    void *request_baton,
+    serf_incoming_request_cb_t request,
+    apr_pool_t *pool);
+
+
+
+
 /**
  * Reset the connection, but re-open the socket again.
  */
-SERF_DECLARE(apr_status_t) serf_connection_reset(
+apr_status_t serf_connection_reset(
     serf_connection_t *conn);
 
 /**
@@ -365,7 +443,7 @@ SERF_DECLARE(apr_status_t) serf_connection_reset(
  * The closed callback passed to serf_connection_create() will be invoked
  * with APR_SUCCESS.
  */
-SERF_DECLARE(apr_status_t) serf_connection_close(
+apr_status_t serf_connection_close(
     serf_connection_t *conn);
 
 /**
@@ -374,9 +452,16 @@ SERF_DECLARE(apr_status_t) serf_connection_close(
  * Ex.: setting max_requests to 1 means a request is sent when a response on the
  * previous request was received and handled.
  */
-SERF_DECLARE(void)
-serf_connection_set_max_outstanding_requests(serf_connection_t *conn,
-                                             unsigned int max_requests);
+void serf_connection_set_max_outstanding_requests(
+    serf_connection_t *conn,
+    unsigned int max_requests);
+
+void serf_connection_set_async_responses(
+    serf_connection_t *conn,
+    serf_response_acceptor_t acceptor,
+    void *acceptor_baton,
+    serf_response_handler_t handler,
+    void *handler_baton);
 
 /**
  * Setup the @a request for delivery on its connection.
@@ -395,14 +480,15 @@ serf_connection_set_max_outstanding_requests(serf_connection_t *conn,
  * The responsibility for the request bucket is passed to the request
  * object. When the request is done with the bucket, it will be destroyed.
  */
-typedef apr_status_t (*serf_request_setup_t)(serf_request_t *request,
-                                             void *setup_baton,
-                                             serf_bucket_t **req_bkt,
-                                             serf_response_acceptor_t *acceptor,
-                                             void **acceptor_baton,
-                                             serf_response_handler_t *handler,
-                                             void **handler_baton,
-                                             apr_pool_t *pool);
+typedef apr_status_t (*serf_request_setup_t)(
+    serf_request_t *request,
+    void *setup_baton,
+    serf_bucket_t **req_bkt,
+    serf_response_acceptor_t *acceptor,
+    void **acceptor_baton,
+    serf_response_handler_t *handler,
+    void **handler_baton,
+    apr_pool_t *pool);
 
 /**
  * Construct a request object for the @a conn connection.
@@ -417,7 +503,7 @@ typedef apr_status_t (*serf_request_setup_t)(serf_request_t *request,
  * Invoking any calls other than @see serf_request_cancel before the setup
  * callback executes is not supported.
  */
-SERF_DECLARE(serf_request_t *) serf_connection_request_create(
+serf_request_t *serf_connection_request_create(
     serf_connection_t *conn,
     serf_request_setup_t setup,
     void *setup_baton);
@@ -436,7 +522,7 @@ SERF_DECLARE(serf_request_t *) serf_connection_request_create(
  * Invoking any calls other than @see serf_request_cancel before the setup
  * callback executes is not supported.
  */
-SERF_DECLARE(serf_request_t *) serf_connection_priority_request_create(
+serf_request_t *serf_connection_priority_request_create(
     serf_connection_t *conn,
     serf_request_setup_t setup,
     void *setup_baton);
@@ -452,7 +538,8 @@ SERF_DECLARE(serf_request_t *) serf_connection_priority_request_create(
  * cancel the request, the connection must be closed (by clearing or
  * destroying its associated pool).
  */
-SERF_DECLARE(apr_status_t) serf_request_cancel(serf_request_t *request);
+apr_status_t serf_request_cancel(
+    serf_request_t *request);
 
 /**
  * Return the pool associated with @a request.
@@ -461,19 +548,19 @@ SERF_DECLARE(apr_status_t) serf_request_cancel(serf_request_t *request);
  * pool. In particular, all allocation should be bounded in size, rather
  * than proportional to any data stream.
  */
-SERF_DECLARE(apr_pool_t *) serf_request_get_pool(
+apr_pool_t *serf_request_get_pool(
     const serf_request_t *request);
 
 /**
  * Return the bucket allocator associated with @a request.
  */
-SERF_DECLARE(serf_bucket_alloc_t *) serf_request_get_alloc(
+serf_bucket_alloc_t *serf_request_get_alloc(
     const serf_request_t *request);
 
 /**
  * Return the connection associated with @a request.
  */
-SERF_DECLARE(serf_connection_t *) serf_request_get_conn(
+serf_connection_t *serf_request_get_conn(
     const serf_request_t *request);
 
 /**
@@ -482,7 +569,7 @@ SERF_DECLARE(serf_connection_t *) serf_request_get_conn(
  * This can be called after the request has started processing -
  * subsequent data will be delivered to this new handler.
  */
-SERF_DECLARE(void) serf_request_set_handler(
+void serf_request_set_handler(
     serf_request_t *request,
     const serf_response_handler_t handler,
     const void **handler_baton);
@@ -495,34 +582,56 @@ SERF_DECLARE(void) serf_request_set_handler(
  * specified by @a address. The address must live at least as long as the
  * serf context.
  */
-SERF_DECLARE(void) serf_config_proxy(
+void serf_config_proxy(
     serf_context_t *ctx,
     apr_sockaddr_t *address);
+
+/* Supported authentication types. */
+#define SERF_AUTHN_NONE      0x00
+#define SERF_AUTHN_BASIC     0x01
+#define SERF_AUTHN_DIGEST    0x02
+#define SERF_AUTHN_NTLM      0x04
+#define SERF_AUTHN_NEGOTIATE 0x08
+#define SERF_AUTHN_ALL       0xFF
+
+/**
+ * Define the authentication handlers that serf will try on incoming requests.
+ */
+void serf_config_authn_types(
+    serf_context_t *ctx,
+    int authn_types);
+
+/**
+ * Set the credentials callback handler.
+ */
+void serf_config_credentials_callback(
+    serf_context_t *ctx,
+    serf_credentials_callback_t cred_cb);
 
 /* ### maybe some connection control functions for flood? */
 
 /*** Special bucket creation functions ***/
 
 /**
- * Create a bucket of type 'socket bucket'. 
- * This is basically a wrapper around @a serf_bucket_socket_create, which 
- * initializes the bucket using connection and/or context specific settings. 
+ * Create a bucket of type 'socket bucket'.
+ * This is basically a wrapper around @a serf_bucket_socket_create, which
+ * initializes the bucket using connection and/or context specific settings.
  */
-SERF_DECLARE(serf_bucket_t *) serf_context_bucket_socket_create(
+serf_bucket_t *serf_context_bucket_socket_create(
     serf_context_t *ctx,
     apr_socket_t *skt,
     serf_bucket_alloc_t *allocator);
 
 /**
- * Create a bucket of type 'request bucket'. 
- * This is basically a wrapper around @a serf_bucket_request_create, which 
+ * Create a bucket of type 'request bucket'.
+ * This is basically a wrapper around @a serf_bucket_request_create, which
  * initializes the bucket using request, connection and/or context specific
  * settings.
- * 
- * If the host_url and/or user_agent options are set on the connection, 
- * headers 'Host' and/or 'User-Agent' will be set on the request message.
+ *
+ * This function will set following header(s):
+ * - Host: if the connection was created with @a serf_connection_create2.
  */
-SERF_DECLARE(serf_bucket_t *) serf_request_bucket_request_create(
+serf_bucket_t *serf_request_bucket_request_create(
     serf_request_t *request,
     const char *method,
     const char *uri,
@@ -704,6 +813,27 @@ struct serf_bucket_type_t {
      */
     void (*destroy)(serf_bucket_t *bucket);
 
+    /**
+     * Save the current state of the @a bucket for later retrieval and return
+     * APR_SUCCESS. A previously set snapshot will be cleared.
+     * In case of error, the bucket should be considered invalid.
+     */
+    apr_status_t (*snapshot)(serf_bucket_t *bucket);
+
+    /**
+     * Restore the state of the @a bucket to the state set in the last
+     * snapshot and returns APR_SUCCESS. If no snapshot was set, the bucket's
+     * state is unchanged and APR_SUCCESS is returned.
+     * In case of error, the bucket should be considered invalid.
+     */
+    apr_status_t (*restore_snapshot)(serf_bucket_t *bucket);
+
+    /**
+     * Test if a snapshot is set. Returns 0 if no snapshot was set, a non-0
+     * value if there is a snapshot set.
+     */
+    int (*is_snapshot_set)(serf_bucket_t *bucket);
+
     /* ### apr buckets have 'copy', 'split', and 'setaside' functions.
        ### not sure whether those will be needed in this bucket model.
     */
@@ -748,6 +878,9 @@ struct serf_bucket_type_t {
 #define serf_bucket_read_bucket(b,t) ((b)->type->read_bucket(b,t))
 #define serf_bucket_peek(b,d,l) ((b)->type->peek(b,d,l))
 #define serf_bucket_destroy(b) ((b)->type->destroy(b))
+#define serf_bucket_snapshot(b) ((b)->type->snapshot(b))
+#define serf_bucket_restore_snapshot(b) ((b)->type->restore_snapshot(b))
+#define serf_bucket_is_snapshot_set(b) ((b)->type->is_snapshot_set(b))
 
 /**
  * Check whether a real error occurred. Note that bucket read functions
@@ -785,7 +918,9 @@ struct serf_bucket_t {
  * The block of memory is given by @a block. The baton provided when the
  * allocator was constructed is passed as @a unfreed_baton.
  */
-typedef void (*serf_unfreed_func_t)(void *unfreed_baton, void *block);
+typedef void (*serf_unfreed_func_t)(
+    void *unfreed_baton,
+    void *block);
 
 /**
  * Create a new allocator for buckets.
@@ -803,7 +938,7 @@ typedef void (*serf_unfreed_func_t)(void *unfreed_baton, void *block);
  * call. Any failure to return memory is a bug in the application, and an
  * abort can assist with determining what kinds of memory were not freed.
  */
-SERF_DECLARE(serf_bucket_alloc_t *) serf_bucket_allocator_create(
+serf_bucket_alloc_t *serf_bucket_allocator_create(
     apr_pool_t *pool,
     serf_unfreed_func_t unfreed,
     void *unfreed_baton);
@@ -818,7 +953,7 @@ SERF_DECLARE(serf_bucket_alloc_t *) serf_bucket_allocator_create(
  *
  * See design-guide.txt for more information about pool usage.
  */
-SERF_DECLARE(apr_pool_t *) serf_bucket_allocator_get_pool(
+apr_pool_t *serf_bucket_allocator_get_pool(
     const serf_bucket_alloc_t *allocator);
 
 
@@ -856,7 +991,7 @@ typedef struct {
 /**
  * Initialize the @a linebuf structure.
  */
-SERF_DECLARE(void) serf_linebuf_init(serf_linebuf_t *linebuf);
+void serf_linebuf_init(serf_linebuf_t *linebuf);
 
 /**
  * Fetch a line of text from @a bucket, accumulating the line into
@@ -866,7 +1001,7 @@ SERF_DECLARE(void) serf_linebuf_init(serf_linebuf_t *linebuf);
  * ### we should return a data/len pair so that we can avoid a copy,
  * ### rather than having callers look into our state and line buffer.
  */
-SERF_DECLARE(apr_status_t) serf_linebuf_fetch(
+apr_status_t serf_linebuf_fetch(
     serf_linebuf_t *linebuf,
     serf_bucket_t *bucket,
     int acceptable);
@@ -875,18 +1010,22 @@ SERF_DECLARE(apr_status_t) serf_linebuf_fetch(
 
 
 /* Internal functions for bucket use and lifecycle tracking */
-SERF_DECLARE(apr_status_t) serf_debug__record_read(
+apr_status_t serf_debug__record_read(
     const serf_bucket_t *bucket,
     apr_status_t status);
-SERF_DECLARE(void) serf_debug__entered_loop(serf_bucket_alloc_t *allocator);
-SERF_DECLARE(void) serf_debug__closed_conn(serf_bucket_alloc_t *allocator);
-SERF_DECLARE(void) serf_debug__bucket_destroy(const serf_bucket_t *bucket);
-SERF_DECLARE(void) serf_debug__bucket_alloc_check(serf_bucket_alloc_t *allocator);
+void serf_debug__entered_loop(
+    serf_bucket_alloc_t *allocator);
+void serf_debug__closed_conn(
+    serf_bucket_alloc_t *allocator);
+void serf_debug__bucket_destroy(
+    const serf_bucket_t *bucket);
+void serf_debug__bucket_alloc_check(
+    serf_bucket_alloc_t *allocator);
 
 /* Version info */
 #define SERF_MAJOR_VERSION 0
-#define SERF_MINOR_VERSION 2
-#define SERF_PATCH_VERSION 0
+#define SERF_MINOR_VERSION 7
+#define SERF_PATCH_VERSION 1
 
 /* Version number string */
 #define SERF_VERSION_STRING APR_STRINGIFY(SERF_MAJOR_VERSION) "." \
@@ -909,6 +1048,21 @@ SERF_DECLARE(void) serf_debug__bucket_alloc_check(serf_bucket_alloc_t *allocator
    || ((major) == SERF_MAJOR_VERSION && (minor) == SERF_MINOR_VERSION && \
             (patch) <= SERF_PATCH_VERSION))
 
+
+/**
+ * Returns the version of the library the application has linked/loaded.
+ * Values are returned in @a major, @a minor, and @a patch.
+ *
+ * Applications will want to use this function to verify compatibility,
+ * expecially while serf has not reached a 1.0 milestone. APIs and
+ * semantics may change drastically until the library hits 1.0.
+ */
+void serf_lib_version(
+    int *major,
+    int *minor,
+    int *patch);
+
+
 #ifdef __cplusplus
 }
 #endif
@@ -923,4 +1077,4 @@ SERF_DECLARE(void) serf_debug__bucket_alloc_check(serf_bucket_alloc_t *allocator
 #include "serf_bucket_types.h"
 
 
-#endif	/* !SERF_H */
+#endif    /* !SERF_H */

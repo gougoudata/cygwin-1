@@ -1,0 +1,1259 @@
+cvs (1:1.12.13-12) unstable; urgency=low
+
+  * Update the Simplified Chinese debconf translation. Thanks to Deng
+    Xiyue. Closes: #495953
+  * Add a Basque debconf translation. Thanks to Piarres Beobide.
+    Closes: #495953
+
+ -- Steve McIntyre <93sam@debian.org>  Wed, 03 Sep 2008 00:00:17 +0100
+
+cvs (1:1.12.13-11) unstable; urgency=low
+
+  * Be more aggressive about checking --allow-root; can now be used for
+    limiting allowed CVSROOTs using rsh/ssh as well. Closes: #169967,
+    thanks to Tim Riker for the original patch.
+
+ -- Steve McIntyre <93sam@debian.org>  Mon, 27 Jan 2008 19:08:02 +0000
+
+cvs (1:1.12.13-10) unstable; urgency=low
+
+  * Fix the internal getcwd() function to cope with working inside a
+    bindmount/chroot. Thanks to Colin Watson for the patch.
+    Closes: #456164,#461154,#495641
+  * Add a fix from Petr Salinger so that cvs will work on
+    GNU/kFreeBSD. Closes: #455496 . Looks related to the getcwd()
+    changes above, but belt and braces won't hurt.
+  * Add a Finnish Debconf translation, hanks to Esko Arajärvi.
+    Closes: #455257
+  * Updated the download URL in debian/copyright. Closes: #351690
+  * Check for /etc/cvs-cron.conf before using it. Closes: #197473
+  * Move the default repository location from /var/lib/cvs to /srv/cvs for
+    better FHS compliance. Closes: #284710, thanks to Pierre THIERRY for
+    the patch.
+  * LOTS of fixes for silly mistakes in the auto-generated CVS man page.
+    Closes: #365078 (and then some)
+  * Break "tag" and "rtag" in the cvs.5 man page. Closes: #422128
+  * Added IPV6 support, thanks to a patch from h-yamamo
+    (h-yamamo@db3.so-net.ne.jp), passed on by KIMURA Yasuhiro.
+    Closes: #430415
+  * Minor rules file cleanup (old commented lines removed)
+
+ -- Steve McIntyre <93sam@debian.org>  Sun, 27 Jan 2008 19:08:02 +0000
+
+cvs (1:1.12.13-9) unstable; urgency=low
+
+  * Don't be so loud on errors. Closes: #386153
+
+ -- Steve McIntyre <93sam@debian.org>  Fri,  7 Dec 2007 00:12:23 +0000
+
+cvs (1:1.12.13-8) unstable; urgency=medium
+
+  * Update Russian debconf translation, Thanks to Yuriy Talakan.
+    Closes: #414076.
+
+ -- Steve McIntyre <93sam@debian.org>  Mon, 12 Mar 2007 01:19:33 +0000
+
+cvs (1:1.12.13-7) unstable; urgency=low
+
+  * Add Galician debconf translation, thanks to Jacobo Tarrio.
+    Closes: #407948.
+  * Update Czech debconf translation, thanks to Jan Outrata.
+    Closes: #408720.
+  * Update Portuguese debconf translation to fix a misleading bug.
+    Thanks to Fabio Pugliese Ornellas. Closes: #408110.
+
+ -- Steve McIntyre <93sam@debian.org>  Sun, 28 Jan 2007 20:19:05 +0000
+
+cvs (1:1.12.13-6) unstable; urgency=high
+
+  * High urgency upload to fix 2 serious bugs before etch.
+  * Fix unaligned access causing SIGBUS on sparc. Thanks to Julien Cristau
+    for the patch. (closes: #402745).
+  * Updated Spanish debconf translation, thanks to Javier
+    Fernandez-Sanguino Pena. Closes: #403418,#344565.
+  * Don't attempt to manage the pserver in inetd.conf beyond initial
+    installation; add an entry in README.Debian for this. Closes: #403334
+  * Remove bash-ism in postrm.
+  * Add Depends on update-inetd.
+  * Update Dutch debconf translation, thanks to Kurt De Bree.
+    Closes: #392213.
+  * Update Catalan debconf translation, thanks to Miguel Gea Milvaques.
+    Closes: #392051.
+  * Added Italian debconf translation, thanks to Stefano Canepa.
+    Closes: #391743.
+
+ -- Steve McIntyre <93sam@debian.org>  Sat, 23 Dec 2006 21:41:17 +0000
+
+cvs (1:1.12.13-5) unstable; urgency=low
+
+  * Major update for l10n before etch, thanks to Christian Perrier.
+  * debian/po:
+    + Add Swedish debconf templates, thanks to Daniel Nylander.
+      (Closes: #390512)
+    + Update Danish debconf templates, thanks to Claus Hindsgaul.
+      (Closes: #290442)
+    + Add Catalan debconf templates, thanks to Miguel Gea Milvaques.
+      (Closes: #346412)
+    + Update French debconf templates, thanks to Christian Perrier.
+    + Update German debconf templates, thanks to Jens Seidel.
+    + Update Turkish debconf templates, thanks to Mehmet TURKER.
+    + Update Brazilian Portuguese debconf templates, thanks to 
+      Andre Luis Lopes.
+    + Add Vietnamese debconf templates, thanks to Clytie Siddall.
+      (Closes: #310159)
+    + Update Portuguese debconf templates, thanks to 
+      Ricardo Silva
+    + Update Japanese debconf templates, thanks to 
+      Hideki Yamane. Closes: #391621
+  * debian/cvs.templates:
+    + Remove extra quote in templates and unfuzzy translations. Use
+      the occasion to make the templates fit the writing style suggested
+      in the Developer's Reference.
+      Closes: #290442, #300493, #310160
+
+ -- Zak B. Elep <zakame@spunge.org>  Mon,  2 Oct 2006 10:53:30 +0800
+
+cvs (1:1.12.13-4) unstable; urgency=low
+
+  [ Zak B. Elep ]
+  * debian/rules:
+    + Copy config.{guess,sub} to the (new) right location for
+      1.12.13, thanks to Petr Salinger. (Closes: #372627)
+  * debian/patches:
+    + Add 15_PATH_MAX_check to fix bad checking, thanks to Cyril
+      Brulebois. (Closes: #378966)
+    + Add 25_import-n-X fixing `import -X' failure, thanks to
+      Florian Zschocke. (Closes: #374694)
+  * debian/po:
+    + Add pt.po for Portuguese translation of debconf messages,
+      thanks to Miguel Figueiredo and Ricardo Silva.
+      (Closes: #381742)
+  [ Steve McIntyre ]
+  * debian/patches:
+    + Add 68_DSA_external_passwd_file: patch from the Debian DSA team to
+      optionally use an external passwd file rather than CVSROOT/passwd
+    + Fix 94_parseopts: parse old-style tag= and tagexpand=
+      options in the options files properly, don't crash!
+
+ -- Steve McIntyre <93sam@debian.org>  Thu, 17 Aug 2006 00:18:01 +0100
+
+cvs (1:1.12.13-3) unstable; urgency=low
+
+  [ Steve McIntyre ]
+  * debian/patches:
+    + Add 95_flag_conflicted_copies - patch from upstream to fix breakage in
+    conflict handling. Closes: #368681
+
+  [ Zak B. Elep ]
+  * debian/patches:
+    + Add 12_rcs2log_POSIX_sort to let rcs2log use unambigous sort
+      flags. (Closes: #368909)
+
+ -- Steve McIntyre <93sam@debian.org>  Fri, 09 Jun 2006 20:13:53 +0100
+
+cvs (1:1.12.13-2) unstable; urgency=low
+
+  [ Steve McIntyre ]
+  * Apply zlib bugfix from cvs development mailing list so that reading
+    CVS data over compressed links works again. Closes: #368494
+
+ -- Steve McIntyre <93sam@debian.org>  Mon, 22 May 2006 19:53:42 +0100
+
+cvs (1:1.12.13-1) unstable; urgency=low
+
+  [ Steve McIntyre ]
+  * CVS now maintained by a team, with packaging/patches maintained
+    on alioth. First new team member is Zak B. Elep.
+
+  [ Zak B. Elep ]
+  * New upstream version.
+  * debian/control:
+    + Add myself to Uploaders.
+    + Bump Standards-Version.
+    + Remove automake1.7 Build-Dependency as it is not needed
+      anymore.
+    + Add perl to Build-Depends as debian/rules calls it explicitly.
+  * debian/rules:
+    + Update version.
+    + Use DH_COMPAT=4 .
+    + Use dh_installman .  Add appropriate debian/manpages .
+  * debian/patches:
+    + Slightly touch 14_ext_expansion
+    + Slightly touch 56_extra_tags
+    + Remove 63_add_commit_dir, now merged in upstream
+    + Remove 64_fix_loginfo_variables, now merged in upstream
+    + Slightly touch 66_64bit_crashfix
+    + Slightly touch 67_date_format_option
+    + Remove 69_CAN-2005-0753, now merged in upstream
+    + Remove 70_perl_contrib_taint, now merged in upstream
+    + Slightly touch 85_normalize_correct_roots
+    + Slightly touch 94_parseopts to use new RCS_setlocalid and
+      RCS_setincexc
+  * debian/cvs.docs:
+    + Update paths.
+  * Fix this changelog, remove spurious tabs.
+  * Remove debian/conffiles as DH_COMPAT=4 automatically detects
+    these.
+  * debian/copyright:
+    + Add co-maintenance note.
+    + Update copyright snippet from src/main.c
+  * debian/cvs.doc-base.client:
+    + Point Index to cvsclient.html
+
+  [ Steve McIntyre ]
+  * Updated/reduced size of 60_PAM_support
+  * Improved documentation on the Debian patches to aid in team
+    maintenance.
+
+ -- Steve McIntyre <93sam@debian.org>  Fri, 19 May 2006 23:57:58 +0100
+
+cvs (1:1.12.9-17) unstable; urgency=low
+
+  * Add an extra option to set the DateFormat used in log output.
+
+ -- Steve McIntyre <93sam@debian.org>  Tue, 08 Nov 2005 14:26:42 +0000
+
+cvs (1:1.12.9-16) unstable; urgency=low
+
+  * Fix a 64-bit crash in the entries_time() function and another bug in
+    the diff code. Thanks to Gabor Gombas for the patch. Closes: #329127.
+
+ -- Steve McIntyre <93sam@debian.org>  Fri, 04 Nov 2005 01:38:08 +0000
+
+cvs (1:1.12.9-15) unstable; urgency=low
+
+  * Print a clearer message if ~/.cvspass does not exist when cvs login is
+    called. Closes: #168163.
+  * Updated debconf dependency to allow debconf-2.0 also.
+  * Make sure we don't install the cvsbug man page. Closes: #324965
+  * Patch for a tmp race in cvsbug (in the source package; we don't ship
+    the script as part of the package). Closes: #325106
+
+ -- Steve McIntyre <93sam@debian.org>  Wed, 31 Aug 2005 23:06:00 +0100
+
+cvs (1:1.12.9-14) unstable; urgency=low
+
+  * Update to German debconf translation. Thanks to Jens Seidel for the
+    patch. Closes: #312344
+  * Update to Russian debconf translation. Thanks to Yuriy Talakan for the
+    patch. Closes: #310322
+  * Added Vietnamese debconf translation. Thanks to Clytie Siddall.
+    Closes: #310159
+  * Turn off read-only warning that breaks pserver client access. Doh!
+    Closes: #319467, #264019
+  * Applied Jeremy Boff's patch to fix variable name corruption in loginfo
+    script handling. Closes: #317025.
+  * Use autotools-dev at build time to make sure we build OK on
+    GNU/k*BSD. Thanks to Aurelien Jarno for the patch. Closes: #302736
+  * Cope with changes to texi2html (used in the package build process).
+
+ -- Steve McIntyre <93sam@debian.org>  Sat, 23 Jul 2005 19:37:45 +0100
+
+cvs (1:1.12.9-13) unstable; urgency=high
+
+  * Security fixes, hence high urgency.
+  * Fixes for CAN-2005-0753:
+    + Buffer overflow
+    + Arbitrary free() call
+    + Potential NULL dereference
+  * Fixes for contrib perl scripts
+  * Closes: #305254
+
+ -- Steve McIntyre <93sam@debian.org>  Wed, 27 Apr 2005 00:55:57 +0100
+
+cvs (1:1.12.9-12) unstable; urgency=low
+
+  * Doh! Forgot to apply the repouid patch to the unstable version of CVS
+    when it was added to woody. Added now. These included fixes to the
+    cvs-repouid changes:
+    + Make sure user passwords are still checked if the cvs-repouids
+      file exists. Closes: #260200, CAN-2004-1342
+    + Fix potential crash if the cvs-repouids file exists but does not
+      contain a mapping for the current repository, CAN-2004-1343
+    + Thanks to Alberto Garcia for finding these.
+  * Added Czech debconf translation. Thanks to Jan Outrata for the
+    patch. Closes: #291577
+
+ -- Steve McIntyre <93sam@debian.org>  Thu, 17 Feb 2005 00:04:16 +0000
+
+cvs (1:1.12.9-11) unstable; urgency=low
+
+  * Doh! Forgot to apply the repouid patch to the unstable version of CVS
+    when it was added to woody. Added now...
+  * Added Czech debconf translation. Thanks to Jan Outrata for the
+    patch. Closes: #291577
+
+ -- Steve McIntyre <93sam@debian.org>  Thu, 17 Feb 2005 00:04:16 +0000
+
+cvs (1:1.12.9-10) unstable; urgency=low
+
+  * Back-ported change from newer upstream. Print the working dir for
+    checkins so that frontends like pcl-cvs get enough
+    information. Closes: #252202.
+
+ -- Steve McIntyre <93sam@debian.org>  Sun, 16 Jan 2005 18:42:00 +0000
+
+cvs (1:1.12.9-9) unstable; urgency=low
+
+  * Screwed up the previous build; _really_ add the new ja.po this time!
+
+ -- Steve McIntyre <93sam@debian.org>  Sun, 26 Dec 2004 20:31:00 +0000
+
+cvs (1:1.12.9-8) unstable; urgency=low
+
+  * Updated Japansese debconf translation. Thanks to Hideki Yamane for the
+    patch. Closes: #287001
+
+ -- Steve McIntyre <93sam@debian.org>  Sun, 26 Dec 2004 18:31:57 +0000
+
+cvs (1:1.12.9-7) unstable; urgency=low
+
+  * Fixed broken pt_BR debconf translation. Closes: #284130
+  * Added Japansese debconf translation. Thanks to Hideki Yamane for the
+    patch. Closes: #285491
+
+ -- Steve McIntyre <93sam@debian.org>  Wed, 15 Dec 2004 23:37:00 +0000
+
+cvs (1:1.12.9-6) unstable; urgency=low
+
+  * Don't crash the client if we have a malformed CVSROOT with no method
+    specified. Closes: #274020.
+
+ -- Steve McIntyre <93sam@debian.org>  Mon, 25 Oct 2004 22:41:38 +0100
+
+cvs (1:1.12.9-5) unstable; urgency=low
+
+  * Added Danish debconf translation. Closes: #267565. Thanks to
+    Claus Hindsgaul for the patch.
+  * Added support for "extssh" method. Closes: #276328.
+
+ -- Steve McIntyre <93sam@debian.org>  Thu, 21 Oct 2004 15:39:38 +0100
+
+cvs (1:1.12.9-4) unstable; urgency=low
+
+  * Added Spanish debconf translation. Closes: #254558. Thanks to Lucas
+    Wall for the patch.
+  * Updated Brazilian Portugese debconf translation. Closes: #264099.
+    Thanks to Andre Luis Lopes for the patch.
+  * Added Turkish debconf translation. Closes: #252028. Thanks to Recai
+    Oktas / Mehmet Turker for the patch.
+
+ -- Steve McIntyre <93sam@debian.org>  Wed, 18 Aug 2004 21:03:30 +0100
+
+cvs (1:1.12.9-3) unstable; urgency=low
+
+  * Really fix rcs2log - make sure it still works with older log output
+    too! Closes: #258140. Thanks to Ludovic Rousseau again for the patch.
+
+ -- Steve McIntyre <93sam@debian.org>  Wed, 21 Jul 2004 12:50:10 +0100
+
+cvs (1:1.12.9-2) unstable; urgency=low
+
+  * Fix rcs2log to deal with the new format of cvs log output. Closes:
+    #258140. Thanks to Ludovic Rousseau for the patch.
+  * Added a Conflicts on cvs2cl (<< 2.55-1). Closes: #254376
+
+ -- Steve McIntyre <93sam@debian.org>  Mon, 12 Jul 2004 21:26:10 +0100
+
+cvs (1:1.12.9-1) unstable; urgency=high
+
+  * New upstream version.
+    + Several security fixes: CAN-2004-0414, CAN-2004-0416,
+      CAN-2004-0417 & CAN-2004-0418
+
+ -- Steve McIntyre <93sam@debian.org>  Wed, 09 Jun 2004 20:42:37 +0100
+
+cvs (1:1.12.8-1) unstable; urgency=low
+
+  * New upstream version.
+    + Includes upstream fix for CAN-2004-0396.
+    + Adds new "ls" and "rls" commands to allow repository
+      browsing. Closes: #245867
+  * Old patches no longer necessary:
+    + 11_cvs.man (changed upstream; man page now built automatically)
+    + 13_texinfo_docs (applied upstream)
+    + 67_CAN-2004-0396 (CAN-2004-0396 as above)
+    + 96_cvs.1.options (changed upstream; man page now built automatically)
+  * One patch reworked to fit new upstream:
+    + 97_cvs.info.typo
+ -- Steve McIntyre <93sam@debian.org>  Tue, 18 May 2004 12:58:01 +0100
+
+cvs (1:1.12.7-1) unstable; urgency=low
+
+  * Much delayed upload of 1.12.7 due to security updates to older
+    versions. 
+  * New upstream version. (closes: #237985)
+    + Includes full upstream fix for #234042.
+    + Includes upstream fix for #231805.
+    + Security fixes in both server and client to limit file access,
+      as in #247275
+    + MAJOR CHANGES to *info output - watch out for script breakage.
+      For now, old formats are supported but deprecated and will emit
+      warnings. Read the docs for more information.
+  * Security fix for pserver heap attack (applied. 
+  * Old patches no longer necessary:
+    + 57_update_segfault_fix (in upstream now)
+    + 82_flow_control_fix (fixed upstream in a different way)
+  * Two patches reworked to fit new upstream:
+    + 56_extra_tag and 61_tag_keyword_expansion completely rewritten to work
+      with new upstream *info code; now merged into 56_extra_tags
+  * One patch removed for now:
+    + 40_diff_p1 causes too much hassle for other users, and needs more
+      work. Closes: #241215, #232931
+  * Updated German translation of debconf templates.
+    Closes: #244138. Thanks to Florian Ernst for the patch.
+  * Updated Dutch translation of debconf templates.
+    Closes: #244315. Thanks to Luk Claes for the patch.
+  * Fixed silly long-standing bug in debian/rules that caused us
+    to run configure twice: stamp-configure != configure-stamp...
+  * Cleaned up README.Debian. Several of the patches mentioned are no
+    longer relevant, and keyword expansion has changed slightly.
+    Closes: #241870. Thanks to James Rowe for the patch.
+  * Minor lintian cleanups.
+
+ -- Steve McIntyre <93sam@debian.org>  Tue, 25 May 2004 14:49:05 -0300
+
+cvs (1:1.12.5-6) unstable; urgency=high
+
+  * Security fix for heap overflow in pserver (CAN-2004-0396).
+        
+ -- Steve McIntyre <93sam@debian.org>  Tue, 18 May 2004 12:58:01 +0100
+
+cvs (1:1.12.5-5) unstable; urgency=high
+
+    * Removed old build-dependency on csh. Ugh! Should allow me to
+      work around the non-functional s390 buildd and allow this
+      security fix into testing ASAP.
+        
+ -- Steve McIntyre <93sam@debian.org>  Sat, 15 May 2004 14:08:01 +0100
+
+cvs (1:1.12.5-4) unstable; urgency=high
+
+  * Merged forward security fixes from stable update. Fix potential
+    exploits of client via pserver using absolute and relative
+    pathnames: CAN-2004-0180 and CAN-2004-0405. Closes: #247275
+        
+ -- Steve McIntyre <93sam@debian.org>  Tue, 04 May 2004 23:58:39 +0100
+
+cvs (1:1.12.5-3) unstable; urgency=low
+
+  * Added Simplified Chinese translation of debconf templates.
+    Closes: #232405. Thanks to Carlos Z.F. Liu for the patch.
+  * Added Danish translation of debconf templates.
+    Closes: #234622. Thanks to Claus Hindsgaul for the patch.
+  * Updated French translation of debconf templates.
+    Closes: #235162. Thanks to Christian Perrier for the patch.
+  * Removed files left over from the pre po-debconf i18n work.
+    Closes: #232438.
+  * Fixed reported segfault in complicated update situation.
+    Closes: #234042.
+  * Forgot to mention change in -2: Changed cvs diff to produce
+    patches in -p1 format rather than -p0 by default. Patch from
+    Matthew Wilcox <willy@debian.org>.
+
+ -- Steve McIntyre <93sam@debian.org>  Thu, 26 Feb 2004 23:19:39 +0000
+
+cvs (1:1.12.5-2) unstable; urgency=high
+
+  * Added cvs-repouid patch for improved security in pserver. See
+    README.Debian for details.
+  * Re-added -l option to the client. Does nothing, but stops
+    warnings/errors. Will really fix #219950 and #224737, and also a
+    differently-described bug (220379). Closes: #219950, #220379
+  * Remove bashisms from the cron.weekly script. Closes: #231961. Thanks
+    to Clint Adams for the patch.
+  * Applied NetBSD patch to fix flow control problems. Closes: #231805.
+  * Changed over to using gettext-based debconf templates. Thanks to
+    Christian Perrier for the patch. Closes: #198387.
+  * Updated Standards-Version.
+
+ -- Steve McIntyre <93sam@debian.org>  Tue, 10 Feb 2004 19:38:33 +0000
+
+cvs (1:1.12.5-1) unstable; urgency=high
+
+  * New upstream release:
+    + Fix for potential security hole with no known exploits: previous
+      versions of cvs could attempt to create files and directories in
+      the filesystem root. Closes: #223655, #221914.
+    + Fix for another potential security hole: don't allow pserver to
+      run as root.
+    + Usage of the deprecated -l option now generates a warning from the
+      server, rather than an error. Closes: #219950, #224737.
+    + Support for case-insensitivity in clients removed. Please see the
+      NEWS file before panicking about this!
+  * Included the upstream FAQ in the package. Closes: #219325.
+
+ -- Steve McIntyre <93sam@debian.org>  Fri, 02 Jan 2004 19:39:02 +0000
+
+cvs (1:1.12.2-3) unstable; urgency=low
+
+  * Fixed bug in SystemAuth and PamAuth interaction - if PamAuth was
+    set, we'd always attempt SystemAuth.
+
+ -- Steve McIntyre <93sam@debian.org>  Wed, 19 Nov 2003 11:58:10 +0000
+
+cvs (1:1.12.2-2) unstable; urgency=low
+
+  * Fixed missing variable initialisation in the -1 release that broke
+    remote pserver. <sigh> I thought I'd tested that one! Closes: #218871
+
+ -- Steve McIntyre <93sam@debian.org>  Mon, 03 Nov 2003 12:22:41 +0000
+
+cvs (1:1.12.2-1) unstable; urgency=low
+
+  * New upstream release (1.12.2).
+      + "cvs update .." no longer goes insane. Closes: #201417
+  * Old patches no longer necessary:
+      + 58_unidiff_missing_newline (merged upstream)
+      + 59_getline_compile_fix (upstream fixed a different way)
+      + 87_disable_init_cvs_server (upstream fixed a different way)
+      + 88_local_tag_expansions (merged upstream)
+  * Old patches updated to fit new upstream:
+      + 60_PAM_support (upstream now has PAM support, but 
+        not in quite the same way - this is still work in progress)
+      + 94_parseopts
+  * Added new patch to make :ext: more intelligent, e.g. :ext=ssh: now
+    works. Thanks to Inaky Perez-Gonzalez for the patch. Closes: #165432
+  * Replaced a couple of typos in the rcs2log man page. Closes: #216247
+
+ -- Steve McIntyre <93sam@debian.org>  Sun, 02 Nov 2003 03:35:41 +0000
+
+cvs (1:1.12.1-7) unstable; urgency=low
+
+  * Rebuilt against new automake1.7 to remove unwanted info dir.gz
+    files, and updated build-dep to match. Make sure that any dir
+    files are deleted during the build. Closes: #215655.
+
+ -- Steve McIntyre <93sam@debian.org>  Tue, 14 Oct 2003 01:17:03 +0100
+
+cvs (1:1.12.1-6) unstable; urgency=low
+
+  * Added details of the PAM patch to README.Debian
+  * _Really_ removed the cvsconfig man page this time...
+  * Added quick summary of "annotate" to the man page. Closes: #143513
+
+ -- Steve McIntyre <93sam@debian.org>  Mon, 13 Oct 2003 23:56:52 +0100
+
+cvs (1:1.12.1-5) unstable; urgency=low
+
+  * If we are using PAM, do _not_ fall back to the system password
+    file. Added a separate control option PamAuth to complement
+    SystemAuth. Closes: #214850, #215157. PamAuth defaults to yes,
+    SystemAuth to no. See the info file for more documentation.
+  * Fixed broken debconf question about enabling pserver. Closes: #215020
+  * Fixed broken debconf default for cvs/pserver_setspawnlimit. Closes: #215021
+  * Ignore leading whitespace in .cvsrc files. Closes: #212415. Thanks to James R. Van Zandt for the patch.
+  * Removed cvsconfig man page, as it's no longer used. Closes: #202106
+  * Added documentation about the Pam options PamAuth and PamDefaultUser.
+  * Updated pam config file to include the new common- files by default.
+
+ -- Steve McIntyre <93sam@debian.org>  Sun, 12 Oct 2003 23:31:07 +0100
+
+cvs (1:1.12.1-4) unstable; urgency=low
+
+  * Fix the use of db_purge in the postrm. Closes: #203771
+  * Upped the default resource limits to more reasonable levels. Closes: #202013
+  * Clarified in the docs how keywords are expanded. Closes: #181622
+
+ -- Steve McIntyre <93sam@debian.org>  Sat, 02 Aug 2003 15:49:22 +0100
+
+cvs (1:1.12.1-3) unstable; urgency=high
+
+  * Better (i.e. tested) fix for FTBFS on ia64 and alpha. Closes: #199833. 
+
+ -- Steve McIntyre <93sam@debian.org>  Thu, 17 Jul 2003 00:30:18 +0100
+
+cvs (1:1.12.1-2) unstable; urgency=high
+
+  * Fix for FTBFS on ia64 and alpha. Closes: #199833. Thanks to Joey
+    Hess for the patch.
+  * Fix unidiff output on files without trailing newlines. Thanks to
+    Andrew Moise for the patch. Closes: #175525
+
+ -- Steve McIntyre <93sam@debian.org>  Sun, 13 Jul 2003 23:39:17 +0100
+
+cvs (1:1.12.1-1) unstable; urgency=high
+
+  * New upstream version.
+  * Old patches now in upstream, so no longer needed:
+      + 53_BSD_LOCAL_BRANCH_NUM
+      + 90_zlib (now use configure with --with-external-zlib)
+  * Old patches updated to fit new upstream:
+      + 60_PAM_support
+      + 88_local_tag_expansions
+      + 94_parseopts
+  * Fixed logic bug in PAM patch - now setting SystemAuth=no works again. (Security bug) Closes: #194520
+  * New upstream includes the OpenBSD read-only patch already. Closes: #194710
+  * Fixed some misspellings in the docs. Closes: #150336
+
+ -- Steve McIntyre <93sam@debian.org>  Mon, 02 Jun 2003 00:29:51 +0100
+
+cvs (1:1.11.5-7) unstable; urgency=low
+
+  * Removed the man page for cvs-makerepos, which is no longer in the package. Closes: #175377.
+
+ -- Steve McIntyre <93sam@debian.org>  Sun, 11 May 2003 00:22:37 +0100
+
+cvs (1:1.11.5-6) unstable; urgency=low
+
+  * Make sure we have an explicit build-dep on libpam0g-dev so that all
+    arches build with PAM support.
+
+ -- Steve McIntyre <93sam@debian.org>  Sat, 10 May 2003 23:07:17 +0100
+
+cvs (1:1.11.5-5) unstable; urgency=low
+
+  * Clean up the PAM support so cvsd package works again. Closes: #188738
+
+ -- Steve McIntyre <93sam@debian.org>  Thu, 17 Apr 2003 20:48:16 +0100
+
+cvs (1:1.11.5-4) unstable; urgency=low
+
+  * Removed cvsbug altogether - it's unnecessary in the Debian package. This will fix the temp race problem a different way! Really closes: #173236.
+  * Fixed bug in documentation about "cvs add". Closes: #76152
+
+ -- Steve McIntyre <93sam@debian.org>  Thu, 20 Mar 2003 22:44:16 +0000
+
+cvs (1:1.11.5-3) unstable; urgency=low
+
+  * Fixed documentation bugs in cvs-pserver man page. Closes: #171054
+  * Now includes the upstream NEWS file. Closes: #185008
+
+ -- Steve McIntyre <93sam@debian.org>  Mon, 17 Mar 2003 23:05:33 +0000
+
+cvs (1:1.11.5-2) unstable; urgency=low
+
+  * Added missing Build-Depends. Closes: #184686
+  * Fix for temp file race in cvsbug. Closes: #173236
+  * The NMU changes from 1.11.2-5.1 are already in this upstream version. Closes: #179526
+
+ -- Steve McIntyre <93sam@debian.org>  Fri, 14 Mar 2003 09:50:45 +0000
+
+cvs (1:1.11.5-1) unstable; urgency=low
+
+  * New maintainer.
+  * New upstream version.
+  * Add extra custom %S tag for quoting filenames.
+  * Added patch for tag keyword expansion in logging.
+  * Merged in PAM support patch. (Closes: #115804, #99999).
+  * Cleaned up existing debian patches.
+  * Cleaned up several lintian warnings.
+  * More to follow shortly...
+
+ -- Steve McIntyre <93sam@debian.org>  Wed, 12 Mar 2003 21:41:06 +0000
+
+cvs (1.11.2-5.1) unstable; urgency=high
+
+  * Non-maintainer upload (with permission)
+  * Apply upstream's patch for double-free security bug (56_double_free)
+    - CAN-2003-0015
+    - DSA 233
+    - http://ccvs.cvshome.org/source/browse/ccvs/src/server.c.diff?r1=1.282&r2=1.283
+
+ -- Matt Zimmerman <mdz@debian.org>  Sun,  2 Feb 2003 17:14:48 -0500
+
+cvs (1.11.2-5) unstable; urgency=low
+
+  * Fix keyword handling to accept alphanumerics, not just alphabetics.
+    Thanks to Branden Robinson for this fix.
+  * Fix typo in cvs-pserver (closes: #158659)
+  * Add "debian" to version number (closes: #152283)
+  * Don't spawn an editor on a remote system 
+    (closes: #157881, #162821, #161914, #148397)
+  * Change cvs-pserver to be a bash script, since we use bashisms in the
+    cvs-pserver.conf (closes: #162962)
+
+ -- Tollef Fog Heen <tfheen@debian.org>  Tue,  1 Oct 2002 23:58:23 +0200
+
+cvs (1.11.2-4) unstable; urgency=low
+
+  * Add comment to cvs-{cron,pserver}.conf pointing out that : is used to
+    separate the repositories.  Thanks to Yury Lyakh for pointing this
+    out.
+  * Add note to cvs.texinfo explaining what the parameters to cvs import
+    is (closes: #54509)
+  * Change to use /usr/bin/sensible-editor instead of /usr/bin/editor
+    (closes: #154957)
+  * Dont hard code pserver limits, (closes: #150321), thanks to David
+    Byers.
+
+ -- Tollef Fog Heen <tfheen@debian.org>  Wed,  7 Aug 2002 23:23:59 +0200
+
+cvs (1.11.2-3) unstable; urgency=low
+
+  * The "clean-out-more-cruft-and-unbreak-previous-brokenness" release
+  * Don't make a folly of yourself if /etc/cvs.conf exists 
+    (closes: #149435, 149432)
+  * Put the newline after any templates. (closes: #149322)
+  * The config stuff has been updated now (closes: #144078)
+  * Only ask questions about rotating and so on if we actually have any
+    repositories.  (closes: #71535)
+  * Upstream release seems to have fixed 85168, by code inspection.
+    (closes: #85168)
+  * Add patch from upstream and still be able to diff files named '--foo'
+    and similar.  (closes: #148038)
+
+ -- Tollef Fog Heen <tfheen@debian.org>  Sun,  9 Jun 2002 12:34:39 +0200
+
+cvs (1.11.2-2) unstable; urgency=low
+
+  * A fix from upstream which unbroke the watch commands was commited
+    (closes: #141343)
+  * Fix up some typos in the man page (closes: #93630)
+  * Don't run cvs init if the dir already exists (closes: #148569)
+  * Set some resource limits for pserver (closes: #148567)
+
+ -- Tollef Fog Heen <tfheen@debian.org>  Thu, 30 May 2002 19:08:53 +0200
+
+cvs (1.11.2-1) unstable; urgency=low
+
+  * The "clean out the cruft release"
+  * change more 0xa0 to spaces.  I wonder where those are from..
+  * New upstream release (closes: #143422)
+  * The upstream release seems to have fixed #52425 (confirmed with a copy
+    of the repository and working directory from Vladislav Kurz), 
+    (closes: #52425)
+  * Also, -k is mentioned in cvs -H diff now. (closes: 115044)
+  * Redo the configuration script (closes: #55346, #138407, #143710)
+    (and closes: #145614, #145831, #35152)
+  * change to /bin/sh in postrm, instead of bash.
+  * get rid of isdefault in the config script. (and tighten dependency on
+    debconf a little bit, to shut up lintian)
+  * get rid of cvsconfig and cvs-makerepos.  At last! :)
+
+ -- Tollef Fog Heen <tfheen@debian.org>  Sun,  5 May 2002 15:37:59 +0200
+
+cvs (1.11.1p1debian-8) unstable; urgency=low
+
+  * Add CSH=/bin/csh to work around a (now fixed) bug in
+    {t,}csh.  (closes: #106547)
+
+ -- Tollef Fog Heen <tfheen@debian.org>  Sun, 14 Apr 2002 13:08:24 +0200
+
+cvs (1.11.1p1debian-7) unstable; urgency=low
+
+  * Somehow, a space wasn't a space but a 0xa0, in cvs-pserver.  
+    (closes: #142665) 
+
+ -- Tollef Fog Heen <tfheen@debian.org>  Sun, 14 Apr 2002 08:02:22 +0200
+
+cvs (1.11.1p1debian-6) unstable; urgency=medium
+
+  * The "polish for woody" release.
+  * Add sccs2rcs date patch from Yann Dirson (closes: #140005).
+  * Only add a blank line if we don't have a commit message already
+    (closes: #140107).
+  * Various small cleanups in the debian/ directory.
+  * Add CVS_TMP_DIR support.
+  * Remove inetd entry on purge as well as on remove.
+  * RM: This should go into woody, 140107 isn't a very grave bug, it is
+    going to be annoying to the users.  The other fixes should not break
+    anything.
+
+ -- Tollef Fog Heen <tfheen@debian.org>  Thu, 11 Apr 2002 13:51:18 +0200
+
+cvs (1.11.1p1debian-5) unstable; urgency=low
+
+  * The CVS_BADROOT patch disappeared.  Added back again.
+  * Change from two to one blank line, and check the right way 
+    (closes: #138182).  This was fixed in the last upload, but I 
+    forgot to note it in the changelog.
+  * Remove /usr/share/cvs since it's not used (closes: #136950)
+
+ -- Tollef Fog Heen <tfheen@debian.org>  Mon, 18 Mar 2002 00:11:17 +0100
+
+cvs (1.11.1p1debian-4) unstable; urgency=low
+
+  * The Localize-It release
+  * Add Russian template (closes: #136585)
+  * Add Dutch templates (closes: #92537)
+  * Add German templates (closes: #103248)
+  * Add French templates (closes: 136340)
+  * Add Brazilian Portugese templates (closes: #106147)
+  * Remove bogus watch file from debian/
+  * Create .cvspass if it doesn't exist (closes: 101996)
+
+ -- Tollef Fog Heen <tfheen@debian.org>  Tue, 12 Mar 2002 00:46:31 +0100
+
+cvs (1.11.1p1debian-3) unstable; urgency=low
+
+  * Add build-conflicts for kerberos libs, since we don't like them ATM.
+    Will try to look at this post-woody (closes: #131688)
+  * Merged changelog entries from uploads to stable into their proper
+    place in the changelog.
+
+ -- Tollef Fog Heen <tfheen@debian.org>  Thu, 28 Feb 2002 00:33:20 +0100
+
+cvs (1.11.1p1debian-2) unstable; urgency=low
+
+  * Change info-reader to info-browser in control file (closes: #136102)
+
+ -- Tollef Fog Heen <tfheen@debian.org>  Wed, 27 Feb 2002 23:01:13 +0100
+
+cvs (1.11.1p1debian-1) unstable; urgency=low
+
+  * Change to DBS.
+  * Apply patch from 120042, which only tries to parse pserver, gserver
+    and kserver methods when doing cvs login.  (closes: #120042).
+  * Add build-dep on csh, needed for sccs2rcs.  Note that I don't add a
+    depend, as this is only in contrib and won't be of interest to most
+    people.  (closes: #106547)
+  * Move cvsconfig man page into .8, the typo is already fixed 
+    (closes: #60219)
+  * Change commit template so that there are two newlines at the
+    beginning.  (closes: #102624)
+  * make /etc/cvs-{cron,pserver}.conf into normal configuration files, and
+    only call cvsconfig if they aren't there in the first place (closes
+    #135645)
+  * Hand-merge patch from 65984 to fix the man page (closes: #65984)
+  * Decrease mtime when creating the temp file, let's people edit files in
+    less than one second while CVS still sees that it's changed (closes:
+    #71502)
+  * Write man page for cvs-pserver, which fixes all the lintian errors
+    (closes: #110143)
+  * Mention Cederquist in the doc-base description (closes: #129798)
+  * Apply BSD CVS_LOCAL_BRANCH_NUM patch.  (closes: #118747, #56553)
+  
+ -- Tollef Fog Heen <tfheen@debian.org>  Wed, 27 Feb 2002 05:26:26 +0100
+
+cvs (1.11.1p1-6) unstable; urgency=high
+
+  * New maintainer (closes: #134548)
+  * Add --multi to --remove call in cvsconfig (closes: #121922)
+  * Fix typo in texinfo source (closes: #120824)
+  * Add documentation regarding `P' from cvs update (closes: #111741)
+  * Change references from GNU Public License to GNU General Public
+    License, where that is meant (closes: #102142)
+  * Move contributed files to /usr/share/doc/cvs/contrib (closes: #128098)
+  * Add upstream security fix for cvs co -r '' (closes: #133351)
+  * Allow root to commit files.  If people want to do stupid things as
+    root, I won't stand in their way. (closes: #57480)
+
+ -- Tollef Fog Heen <tfheen@debian.org>  Wed, 20 Feb 2002 00:22:29 +0100
+
+cvs (1.11.1p1-5) unstable; urgency=low
+
+  * Undo my changes to allow filenames beginning with -.
+    (Closes: #131153, #131357, #131477)
+  * Don't allow just anyone to change a tag. (Closes: #133860)
+  * Disable Kerberos support (Closes: #131688)
+
+ -- Eric Gillespie, Jr. <epg@debian.org>  Fri, 15 Feb 2002 18:27:49 -0500
+
+cvs (1.11.1p1-4) unstable; urgency=low
+
+  * Don't choke on filenames that start with '-'.  Patch to src/client.c
+    and src/rcscmds.c submitted to bug-cvs@gnu.org. (Closes: #130595)
+
+ -- Eric Gillespie, Jr. <epg@debian.org>  Fri, 25 Jan 2002 03:39:20 +0000
+
+cvs (1.11.1p1-3) unstable; urgency=high
+
+  * Don't make history and val-tags files world-writable when creating a
+    new repository. (Closes: #125892)
+
+ -- Eric Gillespie, Jr. <epg@debian.org>  Sat, 22 Dec 2001 00:15:11 +0000
+
+cvs (1.11.1p1-2) unstable; urgency=low
+
+  * Disable init over pserver.  Temporarily address #119402.
+  * Provide cvs-doc. (Closes: #105479)
+  * List previous maintainer in debian/copyright. (Closes: #119943)
+
+ -- Eric Gillespie, Jr. <epg@debian.org>  Mon, 19 Nov 2001 17:57:00 +0000
+
+cvs (1.11.1p1-1) unstable; urgency=low
+
+  * Build-Depends on bison. (Closes: #95263)
+  * Create repositories with the correct permissons. (Closes: #63416)
+  * debian/*: Cleanup and simplify.  Eliminate cvs-doc binary package.
+  * Properly install documentation.
+    (Closes: #52792, #54200, #57326, #61516, #61517, #65283, #95259, #99916)
+  * Add man page for rcs2log.  Thanks Andrea Glorioso
+    <sama@aglorioso.com>.  (Closes: #34351, #38264)
+  * Fix the local-keyword documentation in README.Debian.
+  * Kill the cvs-doc package.  It was pretty small, so i folded it into
+    the main package.
+  * New upstream release (Closes: #99175):
+    . Bug fixes.
+    . New "cvs rlog" and "cvs rannotate" commands.
+    . Slightly different format for .cvspass file.  New and old versions
+      will continue to interoperate invisibly unless a new cvs login is
+      performed with the new version.
+    . See the NEWS.gz and changelog.gz for more details.
+
+ -- Eric Gillespie, Jr. <epg@debian.org>  Thu, 14 Jun 2001 02:47:29 -0500
+
+cvs (1.11-1.1) unstable; urgency=low
+
+  * NMU with permission of Eric Gillespie, Jr. <epg@debian.org>.
+  * Added the missing build dependency on bison. (closes: #95263)
+
+ -- Adrian Bunk <bunk@fs.tum.de>  Mon,  4 Jun 2001 10:25:08 +0200
+
+cvs (1.11-1) unstable; urgency=low
+
+  * New maintainer. (Closes: #93863)
+  * Update Standards-Version to 3.5.3.0.
+  * Add Build-Depends on texinfo. (Closes: #93829)
+  * Cleanup of debian/rules, including adding support for debugging via
+    DEB_BUILD_OPTIONS.
+  * Rename README.debian to README.Debian.
+  * Remove Emacs cruft from debian/changelog.
+  * Move all man and info pages from cvs-doc to cvs.
+  * Remove many needless patches to upstream source. Some of this was
+    instead moved to debian/rules.
+  * Remove cvs.conf on purge.
+  * Change default of cvs/badrepositories question to "Create" so users
+    who sit on the Enter key don't get stuck in a loop. (Closes: #83032)
+  * Don't ask cvs/badrepositories question again after preconfiguration.
+    (Closes: #79775)
+  * Apply patch from FreeBSD to support more extensive control of keyword
+    expansion. See README.Debian for details.
+
+ -- Eric Gillespie, Jr. <epg@debian.org>  Fri, 20 Apr 2001 09:28:51 -0500
+
+cvs (1.11-0.2) unstable; urgency=HIGH
+
+  * NMU (or is it -- last maintainer upload was over 1 year ago!)
+  * Applied patch from Colin Phipps <cph@cph.demon.co.uk> to fix insecure
+    tempfile security hole in rcs2log, Closes: #90168 (the correct code was
+    there, just commented out).
+  * Added groff to build-depends, Closes: #90535
+  * Changed default repositoy location to /var/lib/cvs, to slighlty better
+    comply with the FHS (there's not really a good defualt location).
+    Closes: #88431
+ 
+ -- Joey Hess <joeyh@debian.org>  Tue, 10 Apr 2001 23:39:39 -0700
+
+cvs (1.11-0.1) unstable; urgency=low
+
+  * NMU
+  * New upstream release. (closes: #76494, #84452)
+  * Added build dependencies. (closes: #84612)
+  * Corrected the spelling of Wichert's in README.Debian.
+    (closes: #75191)
+
+ -- Adrian Bunk <bunk@fs.tum.de>  Sat,  3 Mar 2001 20:00:31 +0100
+
+cvs (1.10.8-1) unstable; urgency=low
+
+  * New upstream version.
+  * Reinstated the documentation references to cvs-makerepos, and included
+    the script.
+  * Run pserver using an intermediary shell script to unset HOME and pass
+    the --allow-root options (inetd doesn't pass enough of these if you
+    use more than about 4).
+
+ -- Tom Lees <tom@debian.org>  Thu, 23 Mar 2000 12:34:33 +0000
+
+cvs (1.10.7-9) stable; urgency=medium
+
+  * Only call cvsconfig in the postinst if /etc/cvs.conf doesn't exist
+    already.
+
+ -- Tollef Fog Heen <tfheen@debian.org>  Mon, 04 Mar 2002 00:10:13 +0100
+
+cvs (1.10.7-8) stable; urgency=high
+
+  * Add fix for possible security hole i diff, thanks to Niels Heinen
+    for pointing it out, and Larry Jones for the patch.
+  * New maintainer.
+
+ -- Tollef Fog Heen <tfheen@debian.org>  Thu, 21 Feb 2002 17:44:10 +0100
+
+cvs (1.10.7-7) frozen; urgency=medium
+
+  * Removed references to the non-included "cvs-makerepos" script.
+    (I forgot to include it, but this is the freeze, so there can be no new
+    code :(). This was release-critical! Closes: #59543.
+
+ -- Tom Lees <tom@debian.org>  Wed, 22 Mar 2000 18:24:39 +0000
+
+cvs (1.10.7-6) unstable frozen; urgency=medium
+
+  * Fixed a bug which could cause the config script to crash if
+    the default repositories didn't exist and the config frontend
+    wasn't asking "medium" priority questions. (Closes: #59511)
+
+ -- Tom Lees <tom@debian.org>  Fri,  3 Mar 2000 12:40:11 +0000
+
+cvs (1.10.7-5) unstable frozen; urgency=medium
+
+  * Fixed a bug in the cron.weekly script. Closes: #56645.
+  * Modified some documentation; changed the manpage slightly
+    (Closes: #45441) to correct the description of the CVS/Root
+    file, and added INFO-DIR-SECTION bits to the info files.
+  * Updated to the latest debconf (Closes: #56324).
+
+ -- Tom Lees <tom@debian.org>  Wed,  1 Mar 2000 13:35:23 +0000
+
+cvs (1.10.7-4) unstable frozen; urgency=medium
+
+  * Fixed a bug which caused pserver to crash.
+    Closes: #55592.
+
+ -- Tom Lees <tom@debian.org>  Tue, 25 Jan 2000 12:58:42 +0000
+
+cvs (1.10.7-3) unstable; urgency=low
+
+  * Debconf support.
+    - Merges old data from /etc/cvs.conf
+    - cvsconfig script implements current debconf configuration
+    - Also cvsconfig options to export debconf configuration
+      in old-style format.
+  * Merge in the NMUs of 1.10.7-2.3, 2.2 and 2.1.
+    Closes: #53233, #54547, #50630, #52536, #51234, #51464, #51463.
+  * Fix for switch_to_user not working if cvs pserver run as non-root
+    (closes: #55017).
+
+ -- Tom Lees <tom@debian.org>  Fri, 14 Jan 2000 20:52:30 +0000
+
+cvs (1.10.7-2.3) unstable; urgency=low
+
+  * Non-maintainer release
+  * contrib/commit_prep, contrib/loc_accum: Added use Fcntl to have 
+    O_EXCL and friends. Closes: #53233.
+  * debian/control: Changed description to be less confusing.
+    Closes: #54547.
+  * man/cvs.1: Document cvs update output "P". Closes: #50630
+  * debian/rules: Don't install cvsbug.8. Closes: #52536.
+  * debian/rules: Removed some invisible whitespaces on otherwise
+    empty lines.
+  * debian/copyright: Refer to /usr/share/common-licenses/GPL.
+
+ -- Tommi Virtanen <tv@debian.org>  Sun,  9 Jan 2000 17:20:06 +0200
+
+cvs (1.10.7-2.2) unstable; urgency=low
+
+  * Non-maintainer release
+  * Don't use ~/.cvsignore if running in servermode
+
+ -- Wichert Akkerman <wakkerma@debian.org>  Sun, 19 Dec 1999 17:01:48 +0100
+
+cvs (1.10.7-2.1) unstable; urgency=low
+
+  * Non-maintainer release
+  * Fix handling of homedirectory for pserver, patch from
+    Jim Studt <jim@federated.com>. Closes: Bug#51234
+  * contrib/log_accum.pl: make append_to_logfile really append
+  * contrib/log_accum.pl: open logfile safely in write_logfile, Closes:#51464
+  * contrib/commit_prep.pl: open logfile safely, Closes: Bug#51463
+
+ -- Wichert Akkerman <wakkerma@debian.org>  Sun, 19 Dec 1999 16:13:24 +0100
+
+cvs (1.10.7-2) unstable; urgency=low
+
+  * Made fully FHS compliant.
+  * Corrected description of CVS in the control file (Closes: #45900).
+  * Now use make realclean not make distclean, since this cleans up the
+    info files etc.
+  * Patched the cvsclient.texi file to add directory entry.
+  * Changed libdiff's defined location of "pr" to "/usr/bin/pr", not
+    "/bin/pr" (so cvs diff --paginate will work now).
+  * Fixed locations of csh and perl in configure script permanently,
+    so it will build using these (policy) locations no matter what
+    the builder has installed.
+  * Fixed doc-base stuff (removed texinfo and info documents).
+  * Now call dh_installinfo, and with the info filenames directly
+    rather than using the file debian/cvs-doc.info, so info files
+    are now correctly installed.
+  * cvs-doc is now lintian-clean.
+  * The only "real" lintian error in cvs is now the lack of manpage
+    for rcs2log.
+  * Changed to using my @debian.org address for maintainer field.
+  * Make the user press enter after encountering any of the important
+    messages in preinst/postinst. Closes: #45573
+  * Fix a couple of small bugs.
+     - The cvsconfig man page wasn't being installed.
+     - The `cvsbug' script was being installed (bugs should be
+       reported via the Debian BTS).
+  * Missed the bugs filed against cvs-doc last time.
+     - cvs-doc no longer recommends: cvs (closes: #41136)
+     - Closes: #31273 since it was fixed in 1.10.7-1.
+  * Patches to the info files (sent upstream) to make options about
+    modules clearer (closes: #10162).
+  * Patches to the man page to mention the 'init' command (closes: #7955,
+    #10246) (also sent upstream).
+  * Patch to the info files to make clear that :server: is not supported
+    on the Debian version (closes: #10437).
+  * 1.10.7-1 should not have closed #29548, this was a typo (but did no
+    harm since the bug had been closed anyway previously).
+    Closes: #29458.
+
+ -- Tom Lees <tom@debian.org>  Wed, 29 Sep 1999 16:58:47 +0100
+
+cvs (1.10.7-1) unstable; urgency=medium
+
+  * New upstream version.
+  * Set the default editor to /usr/bin/editor, Closes: #44077
+  * Added option and higher default for inetd respawn speed to
+    cvsconfig. Closes: #39884
+  * Added -s option to cvsconfig and detection for the problem
+    involving upgrading CVS disabling a pserver. Closes: #37140
+  * Some bugs reported for earlier versions of CVS seem to now no longer
+    be present: in particular Closes: #10986, #15997, #22392,
+    #24990, #34629
+  * Changes to the config file system, now only issues warnings when
+    appropriate about config files.
+  * Changes to build system to use debhelper's info and doc-base
+    support. This Closes: #38540, #38557, #39217
+  * Modification: rcs2log now installed into /usr/bin ONLY, not
+    /usr/lib/cvs/contrib only as Christian Kurz's patch did.
+  * Add fixes from Christian Kurz <shorty@debian.org>:-
+      (unfortunately rather late, but here they are anyway)
+      (Thu, 17 Jun 1999 16:31:15 +0200)
+    - changed debian/rules for building on ARM-architecture
+      (closes: #29548)
+    - two occurance of rcs2log reduce to one in /usr/lib/cvs/contrib 
+      (closes: #33131)
+    - fixed IFS-variable in cron-script of cvs (closes: #35151)
+    - changed place for tempfile in rcs2log.
+    - date in rcs2log fixed upstream (closes: #19948, #22108)
+    - applied patch from Kis Gergely for setting CVS Username 
+      in an environment variable (closes: #35593)
+    - changed postinst-script so that cvsconfig isn't started 
+      after an install (closes: #37889, #37140)
+
+ -- Tom Lees <tom@lpsg.demon.co.uk>  Fri, 17 Sep 1999 09:34:37 +0100
+
+cvs (1.10.4-1) unstable; urgency=low
+
+  * Fixes #20835, #20836, #20687.
+  * Newer upstream version.
+  * Document weird pserver problems with /root permissions in
+    README.Debian.
+
+ -- Tom Lees <tom@lpsg.demon.co.uk>  Sat, 23 Jan 1999 18:19:30 +0000
+
+cvs (1.10.3-1) unstable; urgency=low
+
+  * Upgrade to newer upstream source.
+  * Added cvs-doc package (docs are now over 1.0M).
+  * pcl-cvs removed from upstream sources, now being
+    packaged separately.
+
+ -- Tom Lees <tom@lpsg.demon.co.uk>  Wed,  2 Dec 1998 19:32:03 +0000
+
+cvs (1.9.29-1) unstable; urgency=low
+
+  * Upgrade to newer upstream source.
+
+ -- Tom Lees <tom@lpsg.demon.co.uk>  Wed,  5 Aug 1998 22:00:20 +0100
+
+cvs (1.9.26-5) unstable frozen; urgency=high
+
+  * Fix bug #23812 - cvs-pcl depends on emacsen not emacsen-common.
+  * Fix bug #23935-related bug: now depends on make.
+
+ -- Tom Lees <tom@lpsg.demon.co.uk>  Fri, 26 Jun 1998 14:26:18 +0100
+
+cvs (1.9.26-4) unstable frozen; urgency=medium
+
+  * Fix bug #22029 and bug #22071 - pcl-cvs directories
+    weren't being set correctly.
+
+ -- Tom Lees <tom@lpsg.demon.co.uk>  Sun, 10 May 1998 21:36:32 +0100
+
+cvs (1.9.26-3) unstable frozen; urgency=medium
+
+  * Fixes a bug relating to pserver support and shadow passwords.
+  * pcl-cvs byte-compilation should now work.
+  * cvsconfig now uses tempfile (fixes release-critical security bug).
+  * CVS built-in scripts now use tempfile (fixes #19787).
+  * Fixes #21068, by supplying a highly doctored makefile for emacs
+    installation.
+
+ -- Tom Lees <tom@lpsg.demon.co.uk>  Mon, 30 Mar 1998 20:29:46 +0100
+
+cvs (1.9.26-2) unstable frozen; urgency=medium
+
+  * Fixes a bug in the doc-base stuff
+  * cvs-pcl now works (emacsen-common support).
+
+ -- Tom Lees <tom@lpsg.demon.co.uk>  Sun, 29 Mar 1998 11:59:34 +0100
+
+cvs (1.9.26-1) unstable frozen; urgency=low
+
+  * Fixed many bugs, now uses debhelper.
+  * Uses doc-base.
+  * New upstream release fixes security holes, removes diff/rcs dependencies.
+
+ -- Tom Lees <tom@lpsg.demon.co.uk>  Thu, 19 Mar 1998 17:00:27 +0000
+
+cvs (1.9.10+openbsd-2) unstable; urgency=low
+
+  * Compiled against zlib1g, not zlib1.
+  * Can now rotate logfiles using /etc/cvs.conf conffile.
+  * New /usr/sbin/cvsconfig script.
+  * Reads /etc/cvsrc before ~/.cvsrc for command-line options.
+
+ -- Tom Lees <tom@lpsg.demon.co.uk>  Thu,  2 Oct 1997 21:08:55 +0100
+
+cvs (1.9.10+openbsd-1) unstable; urgency=medium
+
+  * Added patches from OpenBSD supporting anonymous CVS servers, a new
+    "options" file, and an extra "local tag".
+  * Compiled against libc6.
+
+ -- Tom Lees <tom@lpsg.demon.co.uk>  Sat, 16 Aug 1997 21:59:00 +0100
+
+cvs (1.9.10-1) stable; urgency=medium
+
+  * Most importantly, fixes a couple of security holes, due to the upgrade
+    to 1.9.10. The most important of these is the pserver exploit.
+  * To prevent possible further exploits, CVS pserver is no longer added to
+    inetd by default.
+  * Moved info documentation from section "Programming" to section
+    "Development".
+
+ -- Tom Lees <tom@lpsg.demon.co.uk>  Sat, 16 Aug 1997 21:31:04 +0100
+
+cvs (1.9-5) unstable; urgency=low
+
+  * Added cvs-paper to the documentation (in text format).
+
+ -- Tom Lees <tom@lpsg.demon.co.uk>  Sun, 1 Jun 1997 10:04:47 +0100
+
+cvs (1.9-4) unstable frozen; urgency=high
+
+  * postrm fixed to not completely corrupt inetd.conf
+
+ -- Tom Lees <tom@lpsg.demon.co.uk>  Sun, 20 Apr 1997 09:31:21 +0100
+
+cvs (1.9-3) unstable frozen; urgency=medium
+
+  * Renamed pcl-cvs to cvs-pcl so that it will show up next to cvs in package
+    listings
+  * Added CVSvn.texi into /usr/doc/cvs, so that people can print TeXinfo
+    documentation without needing the source package (#8619)
+  * cvs-pcl now puts startup files in /etc/emacs/site-start.d - dependency on
+    elib, so priority is 55
+  * Moved dwww-index documentation to use menu package
+  * Since no-one else seems to have done much with CVS, I will now expect to
+    be the usual maintainer from now on.
+
+ -- Tom Lees <tom@lpsg.demon.co.uk>  Thu, 10 Apr 1997 08:48:20 +0100
+
+cvs (1.9-2) unstable; urgency=low
+
+  * Added pcl-cvs package #5451
+  * Newer debmake
+  * Added patch to support cvs -W ! - clears all wrappers (patch also
+    forwarded to CVS people) #3374
+  * Added "recommends" of patch #7542
+
+ -- Tom Lees <tom@lpsg.demon.co.uk>  Mon, 17 Feb 1997 10:54:15 +0000
+
+cvs (1.9-1) unstable; urgency=medium
+
+  * Completely repackaged from original sources using debmake.
+  * Now uses texi2html to generate dwww-indexed documentation.
+  * New upstream version: a couple nasty bugs, and has a couple more
+    features.
+  * Built with shadow passwords - now the password-authenticated server will
+    work on shadow systems.
+  * I (Tom Lees) will maintain this package with bugfixes, but am not
+    anticipating being the permanent maintainer.
+
+ -- Tom Lees <tom@lpsg.demon.co.uk>  Mon, 6 Jan 1997 19:31:47 +0000

@@ -21,7 +21,11 @@
 #ifndef __GTK_FILE_CHOOSER_WIDGET_H__
 #define __GTK_FILE_CHOOSER_WIDGET_H__
 
-#include "gtkfilechooser.h"
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
+#include <gtk/gtkfilechooser.h>
 #include <gtk/gtkvbox.h>
 
 G_BEGIN_DECLS
@@ -33,27 +37,31 @@ G_BEGIN_DECLS
 #define GTK_IS_FILE_CHOOSER_WIDGET_CLASS(klass)  (G_TYPE_CHECK_CLASS_TYPE ((klass), GTK_TYPE_FILE_CHOOSER_WIDGET))
 #define GTK_FILE_CHOOSER_WIDGET_GET_CLASS(obj)   (G_TYPE_INSTANCE_GET_CLASS ((obj), GTK_TYPE_FILE_CHOOSER_WIDGET, GtkFileChooserWidgetClass))
 
-typedef struct _GtkFileChooserWidget      GtkFileChooserWidget;
-typedef struct _GtkFileChooserWidgetClass GtkFileChooserWidgetClass;
-
+typedef struct _GtkFileChooserWidget        GtkFileChooserWidget;
 typedef struct _GtkFileChooserWidgetPrivate GtkFileChooserWidgetPrivate;
+typedef struct _GtkFileChooserWidgetClass   GtkFileChooserWidgetClass;
+
+struct _GtkFileChooserWidget
+{
+  GtkVBox parent_instance;
+
+  GtkFileChooserWidgetPrivate *GSEAL (priv);
+};
 
 struct _GtkFileChooserWidgetClass
 {
   GtkVBoxClass parent_class;
 };
 
-struct _GtkFileChooserWidget
-{
-  GtkVBox parent_instance;
-
-  GtkFileChooserWidgetPrivate *priv;
-};
-
 GType      gtk_file_chooser_widget_get_type         (void) G_GNUC_CONST;
 GtkWidget *gtk_file_chooser_widget_new              (GtkFileChooserAction  action);
+
+
+#ifndef GTK_DISABLE_DEPRECATED
 GtkWidget *gtk_file_chooser_widget_new_with_backend (GtkFileChooserAction  action,
 						     const gchar          *backend);
+#endif /* GTK_DISABLE_DEPRECATED */
+
 G_END_DECLS
 
 #endif /* __GTK_FILE_CHOOSER_WIDGET_H__ */

@@ -24,21 +24,18 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
+
+#ifndef GTK_DISABLE_DEPRECATED
 
 #ifndef __GTK_ITEM_FACTORY_H__
 #define	__GTK_ITEM_FACTORY_H__
 
+#include <gtk/gtk.h>
 
-#include <gtk/gtkwidget.h>
 
 G_BEGIN_DECLS
-
-typedef gchar * (*GtkTranslateFunc)	   (const gchar		*path,
-					    gpointer             func_data);
-
-#if !defined (GTK_DISABLE_DEPRECATED) || defined (GTK_COMPILATION)
 
 typedef void	(*GtkPrintFunc)		   (gpointer		 func_data,
 					    const gchar		*str);
@@ -76,7 +73,7 @@ struct _GtkItemFactory
 
   GtkTranslateFunc       translate_func;
   gpointer               translate_data;
-  GtkDestroyNotify       translate_notify;   
+  GDestroyNotify         translate_notify;
 };
 
 struct _GtkItemFactoryClass
@@ -154,7 +151,7 @@ void		gtk_item_factory_add_foreign        (GtkWidget	    *accel_widget,
 						     GdkModifierType modifiers);
      
 GtkItemFactory*       gtk_item_factory_from_widget      (GtkWidget *widget);
-G_CONST_RETURN gchar* gtk_item_factory_path_from_widget (GtkWidget *widget);
+const gchar *         gtk_item_factory_path_from_widget (GtkWidget *widget);
 
 GtkWidget*	gtk_item_factory_get_item	      (GtkItemFactory *ifactory,
 						       const gchar    *path);
@@ -187,7 +184,7 @@ void	gtk_item_factory_popup		(GtkItemFactory		*ifactory,
 					 guint32		 time_);
 void	gtk_item_factory_popup_with_data(GtkItemFactory		*ifactory,
 					 gpointer		 popup_data,
-					 GtkDestroyNotify	 destroy,
+					 GDestroyNotify          destroy,
 					 guint			 x,
 					 guint			 y,
 					 guint			 mouse_button,
@@ -197,7 +194,7 @@ gpointer gtk_item_factory_popup_data_from_widget (GtkWidget	*widget);
 void   gtk_item_factory_set_translate_func (GtkItemFactory      *ifactory,
 					    GtkTranslateFunc     func,
 					    gpointer             data,
-					    GtkDestroyNotify     notify);
+					    GDestroyNotify       notify);
 
 /* Compatibility functions for deprecated GtkMenuFactory code
  */
@@ -231,10 +228,9 @@ void	gtk_item_factory_create_menu_entries (guint		 n_entries,
 void	gtk_item_factories_path_delete	   (const gchar		*ifactory_path,
 					    const gchar		*path);
 
-#endif /* !GTK_DISABLE_DEPRECATED || GTK_COMPILATION */
-
-
 G_END_DECLS
+
+#endif /* !GTK_DISABLE_DEPRECATED */
 
 #endif	/* __GTK_ITEM_FACTORY_H__ */
 

@@ -5,7 +5,7 @@
    pstoeditoptions.h : This file is part of pstoedit
    definition of program options 
 
-   Copyright (C) 1993 - 2007 Wolfgang Glunz, wglunz34_AT_pstoedit.net
+   Copyright (C) 1993 - 2012 Wolfgang Glunz, wglunz35_AT_pstoedit.net
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -128,79 +128,87 @@ public:
 	char *nameOfInputFile  ; //= 0;
 	char *nameOfOutputFile ; //= 0;	// can contain %d for page splitting
 
-	Option < RSString, RSStringValueExtractor> nameOfIncludeFile ;// = 0;	// name of an option include file
-	Option < RSString, RSStringValueExtractor> replacementfont;// = "Courier";
- 	Option < bool, BoolTrueExtractor > nomaptoisolatin1 ;//= false;
-	Option < bool, BoolTrueExtractor > withdisplay ;//= false;
-	Option < bool, BoolTrueExtractor > noquit ;//= false;
-	Option < bool, BoolTrueExtractor > nocurves ;//= false;		// normally curves are shown as curves if backend supports
-	Option < bool, BoolTrueExtractor > nosubpathes ;//= false;	// normally we use subpathes if the backend support them
-	Option < bool, BoolTrueExtractor > mergelines ;//= false;
-	Option < bool, BoolTrueExtractor > convertFilledRectToStroke; //= false;
-	Option < bool, BoolTrueExtractor > mergetext ;//= false;
-	Option < bool, BoolTrueExtractor > drawtext ;//= false;
-	Option < bool, BoolTrueExtractor > autodrawtext ;//= false;
-	Option < bool, BoolTrueExtractor > disabledrawtext ;//= false;
-	Option < bool, BoolTrueExtractor > correctdefinefont ;//= false;
+	OptionT < RSString, RSStringValueExtractor> nameOfIncludeFile ;// = 0;	// name of an option include file
+	OptionT < RSString, RSStringValueExtractor> replacementfont;// = "Courier";
+ 	OptionT < bool, BoolTrueExtractor > nomaptoisolatin1 ;//= false;
+	OptionT < bool, BoolTrueExtractor > withdisplay ;//= false;
+	OptionT < RSString, RSStringValueExtractor> pngimage ;
+	OptionT < bool, BoolTrueExtractor > quiet ;//= false;
+	OptionT < bool, BoolTrueExtractor > noquit ;//= false;
+	OptionT < bool, BoolTrueExtractor > nocurves ;//= false;		// normally curves are shown as curves if backend supports
+	OptionT < bool, BoolTrueExtractor > nosubpathes ;//= false;	// normally we use subpathes if the backend support them
+	OptionT < bool, BoolTrueExtractor > mergelines ;//= false;
+	OptionT < bool, BoolTrueExtractor > convertFilledRectToStroke; //= false;
+	OptionT < bool, BoolTrueExtractor > mergetext ;//= false;
+	OptionT < bool, BoolTrueExtractor > drawtext ;//= false;
+	OptionT < bool, BoolTrueExtractor > autodrawtext ;//= false;
+	OptionT < bool, BoolTrueExtractor > disabledrawtext ;//= false;
+	OptionT < bool, BoolTrueExtractor > DrawGlyphBitmaps ;//= false; 
+	OptionT < bool, BoolTrueExtractor > correctdefinefont ;//= false;
 
-	Option < bool, BoolTrueExtractor > ptioption;
-	Option < bool, BoolTrueExtractor > ptaoption;
+	OptionT < bool, BoolTrueExtractor > ptioption;
+	OptionT < bool, BoolTrueExtractor > ptaoption;
 	unsigned int precisiontext ;//= 0; // derived from the above pti ->1 pta -> 2 sonst 0
 
-	Option < double, DoubleValueExtractor > xscale;
-	Option < double, DoubleValueExtractor > yscale;
-	Option < double, DoubleValueExtractor > xshift;
-	Option < double, DoubleValueExtractor > yshift;
-	Option < bool, BoolTrueExtractor > centered ;
+	OptionT < double, DoubleValueExtractor > xscale;
+	OptionT < double, DoubleValueExtractor > yscale;
+	OptionT < double, DoubleValueExtractor > xshift;
+	OptionT < double, DoubleValueExtractor > yshift;
+	OptionT < bool, BoolTrueExtractor > centered ;
+	OptionT < double, DoubleValueExtractor > minlinewidth;
 
 
-	Option < bool, BoolTrueExtractor > splitpages ;//= false;
-	Option < bool, BoolTrueExtractor > verbose ;//= false;
-	Option < bool, BoolTrueExtractor > useBBfrominput; //= false;
-	Option < bool, BoolTrueExtractor > simulateSubPaths ;//= false;
-	Option < RSString, RSStringValueExtractor> unmappablecharstring ;//= 0;
-	Option < bool, BoolTrueExtractor > dontloadplugins ;//= false;
-	Option < bool, BoolTrueExtractor > nobindversion ;//= false;	// use old NOBIND instead of DELAYBIND
-	Option < int, IntValueExtractor > pagetoextract ;//= 0;		// 0 stands for all pages
-	Option < double, DoubleValueExtractor > flatness ;//= 1.0f;		// used for setflat
-	Option < bool, BoolTrueExtractor > simulateClipping ;//= false;	// simulate clipping most useful in combination with -dt
-	Option < bool, BoolTrueExtractor > usePlainStrings; //= false;
-	Option < bool, BoolTrueExtractor > useRGBcolors ;//= false;
-	Option < bool, BoolTrueExtractor > noclip ;//= false;
-	Option < bool, BoolTrueExtractor > t2fontsast1 ;//= false;	// handle T2 fonts (often come as embedded fonts in PDF files) same as T1
-	Option < bool, BoolTrueExtractor > keepinternalfiles ;//= false;
-	Option < bool, BoolTrueExtractor > justgstest ;//= false;
-	Option < bool, BoolTrueExtractor > pscover ;//= false;
-	Option < bool, BoolTrueExtractor > nofontreplacement ;//= false;
-	Option < bool, BoolTrueExtractor > passglyphnames; 
-	Option < int, IntValueExtractor > rotation ;//= 0;
-	Option < RSString, RSStringValueExtractor> explicitFontMapFile ;//= 0;
-	Option < RSString, RSStringValueExtractor > outputPageSize;//("");
-	Option < bool, BoolTrueExtractor > fromgui;
-	Option < bool, BoolTrueExtractor > showdialog;
+	OptionT < bool, BoolTrueExtractor > splitpages ;//= false;
+	OptionT < bool, BoolTrueExtractor > verbose ;//= false;
+	OptionT < bool, BoolTrueExtractor > useBBfrominput; //= false;
+	OptionT < bool, BoolTrueExtractor > simulateSubPaths ;//= false;
+	OptionT < RSString, RSStringValueExtractor> unmappablecharstring ;//= 0;
+	OptionT < bool, BoolTrueExtractor > dontloadplugins ;//= false;
+	OptionT < bool, BoolTrueExtractor > nobindversion ;//= false;	// use old NOBIND instead of DELAYBIND
+	OptionT < int, IntValueExtractor > pagetoextract ;//= 0;		// 0 stands for all pages
+	OptionT < double, DoubleValueExtractor > flatness ;//= 1.0f;		// used for setflat
+	OptionT < bool, BoolTrueExtractor > simulateClipping ;//= false;	// simulate clipping most useful in combination with -dt
+	OptionT < bool, BoolTrueExtractor > usePlainStrings; //= false;
+	OptionT < bool, BoolTrueExtractor > useRGBcolors ;//= false;
+	OptionT < bool, BoolTrueExtractor > useAGL ;//= false;
+	OptionT < bool, BoolTrueExtractor > noclip ;//= false;
+	OptionT < bool, BoolTrueExtractor > t2fontsast1 ;//= false;	// handle T2 fonts (often come as embedded fonts in PDF files) same as T1
+	OptionT < bool, BoolTrueExtractor > keepinternalfiles ;//= false;
+	OptionT < bool, BoolTrueExtractor > justgstest ;//= false;
+	OptionT < bool, BoolTrueExtractor > pscover ;//= false;
+	OptionT < bool, BoolTrueExtractor > nofontreplacement ;//= false;
+	OptionT < bool, BoolTrueExtractor > passglyphnames; 
+	OptionT < bool, BoolTrueExtractor > useoldnormalization; 
+	OptionT < int, IntValueExtractor > rotation ;//= 0;
+	OptionT < RSString, RSStringValueExtractor> explicitFontMapFile ;//= 0;
+	OptionT < RSString, RSStringValueExtractor > outputPageSize;//("");
+	OptionT < bool, BoolTrueExtractor > fromgui;
+	OptionT < bool, BoolTrueExtractor > showdialog;
+	OptionT < RSString, RSStringValueExtractor> GSToUse ;
 
-//	Option < double, DoubleValueExtractor >  magnification ;//= 1.0f;
-	Option < bool, BoolTrueExtractor > showdrvhelp ;//= false;
-	Option < bool, BoolTrueExtractor > showdocu_long ;//= false;
-	Option < bool, BoolTrueExtractor > showdocu_short ;//= false;
-	Option < bool, BoolTrueExtractor > dumphelp ;//= false;
+//	OptionT < double, DoubleValueExtractor >  magnification ;//= 1.0f;
+	OptionT < bool, BoolTrueExtractor > showdrvhelp ;//= false;
+	OptionT < bool, BoolTrueExtractor > showdocu_long ;//= false;
+	OptionT < bool, BoolTrueExtractor > showdocu_short ;//= false;
+	OptionT < bool, BoolTrueExtractor > dumphelp ;//= false;
 
-	Option < bool, BoolTrueExtractor > backendonly ;//= false;	// used for easier debugging of backends
+	OptionT < bool, BoolTrueExtractor > backendonly ;//= false;	// used for easier debugging of backends
 	// directly read input file by backend
 	// bypass ghostscript. The input file
 	// is assumed to be produced by a
 	// previous call with -f debug
 
-	Option < Argv, ArgvExtractor > psArgs;				// Pass through arguments to PostScript interpreter
-	Option < RSString, RSStringValueExtractor> drivername ;//= 0; // cannot be const char * because it is changed in pstoedit.cpp
-	Option < RSString, RSStringValueExtractor > gsregbase;
+	OptionT < Argv, ArgvExtractor > psArgs;				// Pass through arguments to PostScript interpreter
+	OptionT < int, IntValueExtractor > psLanguageLevel; 
+	OptionT < RSString, RSStringValueExtractor> drivername ;//= 0; // cannot be const char * because it is changed in pstoedit.cpp
+	OptionT < RSString, RSStringValueExtractor > gsregbase;
 	
 	PsToEditOptions() :
 
 	nameOfInputFile  (0),
 	nameOfOutputFile (0),	// can contain %d for page splitting
 
-	nameOfIncludeFile	(true, "-include","name of a PostScript file to be included",g_t,"name of an option include file" ,
+	nameOfIncludeFile	(true, "-include","name of a PostScript file to be included",g_t,"name of PostScript file to be included" ,
 		"This options allows to specify an additional PostScript file that will be "
 		"executed just before the normal input is read. This is helpful for "
 		"including specific page settings or for disabling potentially unsafe "
@@ -223,6 +231,13 @@ public:
 	withdisplay			(true, "-dis",noArgument,b_t,"let GhostScript display the file during conversion" , 
 		"Open a display during processing by Ghostscript. Some files "
 		"only work correctly this way. ",
+		false),
+
+	pngimage	(true, "-pngimage","filename - for debugging purpose mainly. Write result of processing also to a PNG file.",t_t,
+	"for debugging purpose mainly. Write result of processing also to a PNG file" ,UseDefaultDoku,(const char*) 0),
+
+	quiet				(true, "-q",noArgument,b_t,"quiet mode - do not write startup message" ,
+		UseDefaultDoku,
 		false),
 	noquit				(true, "-nq",noArgument,b_t,"don't quit GhostScript after PostScript processing - for debugging only" ,
 		"No exit from the PostScript interpreter. Normally Ghostscript "
@@ -279,6 +294,11 @@ public:
 		"instead of showing it as text. This may produce incorrect results, but in some cases it might nevertheless be useful. \"Use at own risk\". ", 
 		false),
 
+	DrawGlyphBitmaps		(true, "-dgbm",noArgument,t_t,"experimental - draw also bitmaps generated by fonts/glyphs" , 
+		UseDefaultDoku, 
+		false),
+
+
 	correctdefinefont	(true, "-correctdefinefont",noArgument,t_t,"apply some \"corrective\" actions to definefont - use this for ChemDraw generated PostScript files", 
 		"Some PostScript files, e.g. such as generated by ChemDraw, "
 		"use the PostScript definefont operator in way that is incompatible with "
@@ -322,6 +342,10 @@ public:
 	centered		(true,"-centered","number",g_t,"center image before scaling or shifting",
 		UseDefaultDoku,
 		false),
+
+	minlinewidth		(true, "-minlinewidth","number",g_t,"minimal line width. All lines thinner than this will be drawn in this line width - especially zero-width lines", 
+		UseDefaultDoku,
+		0.0f),
 
 	splitpages			(true, "-split",noArgument,g_t,"split multipage documents into single pages" ,
 		"Create a new file for each page of the input. For this the "
@@ -397,6 +421,9 @@ public:
 	useRGBcolors		(true, "-rgb",noArgument,g_t,"use RGB colors instead of CMYK" , 
 		"Since version 3.30 pstoedit uses the CMYK colors internally. The -rgb option turns on the old behavior to use RGB values.",
 		false),
+	useAGL		(true, "-useagl",noArgument,g_t,"use Adobe Glyph List instead of the IsoLatin1 table (this is experimental)" , 
+		UseDefaultDoku,
+		false),
 	noclip				(true, "-noclip",noArgument,g_t,"don't use clipping (relevant only if output format supports clipping at all)" , 
 		UseDefaultDoku,
 		false),
@@ -424,6 +451,9 @@ public:
 	passglyphnames		(true, "-glyphs",noArgument,t_t,"pass glyph names to output format driver" , 
 		"pass glyph names to the output format driver. So far no output format driver really uses the glyph names, so this does not have any effect at the moment. "
 		"It is a preparation for future work.",
+		false),
+	useoldnormalization		(true, "-useoldnormalization",noArgument,t_t,"use legacy (pre 3.50) method for normalizing font encodings" , 
+			"Just use this option in case the new heuristic introduced in 3.5 doesn't produce correct results - however, this normalization of font encoding will always be a best-effort approach since there is no real general solution to it with reasonable effort",
 		false),
 	rotation			(true, "-rotate","angle (0-360)",g_t,"rotate the image",
 		"Rotage image by angle.",
@@ -460,7 +490,7 @@ public:
 		"equivalents. This is useful because MetaPost is frequently used with "
 		"\\TeX/\\LaTeX\\ and those programs don't use standard font names. This file and "
 		"the MetaPost output format driver are provided by Scott Pakin "
-		"(\\Email{pakin_AT_cs.uiuc.edu}).  "
+		"(\\Email{scott+ps2ed_AT_pakin.org}).  "
 		" "
 		"Another example is wemf.fmp to be used under Windows. See the misc "
 		"directory of the pstoedit source distribution. ",
@@ -478,7 +508,8 @@ public:
 	showdialog			(true, "-showdialog",noArgument,h_t,"internal - not for normal user",
 		UseDefaultDoku,
 		false),
-	//	magnification		(true, "-scale","scale result",1.0), 
+	GSToUse				(true, "-gs","path to the ghostscript executable/DLL ",g_t,"tells pstoedit which ghostscript executable/DLL to use - overwrites the internal search heuristic",
+	UseDefaultDoku,(const char*)0), 
 	showdrvhelp			(true, "-help",noArgument,g_t,"show the help information",
 		UseDefaultDoku,
 		false) ,
@@ -508,17 +539,23 @@ public:
 		"300x300 dpi. (With older versions of GhostScript, changing the resolution "
 		"this way has an effect only if the \\Opt{-dis} option is given.) "
 		" "
-		" "
-		"You can switch Ghostscript into PostScript Level 1 only mode by  "
-		"\\Opt{-psarg \"level1.ps\"}. This can be useful for example if the PostScript file to be "
-		"converted uses some Level 2 specific custom color models that are not supported " 
-		"by pstoedit. However, this requires that the PostScript program checks for the "
-		"PostScript level supported by the interpreter and \"acts\" accordingly. "
-
 		"If you want to pass multiple options to Ghostscript you can use multiple  "
 		"-psarg options \\Opt{-psarg opt1} \\Opt{-psarg opt2} \\Opt{-psarg opt2}. "
 		"See the GhostScript manual for other possible options. "
 		),
+
+	psLanguageLevel		(true, "-pslanguagelevel","PostScript Language Level to be used 1,2, or 3", g_t, 
+		"PostScript Language Level to be used 1,2, or 3"
+		" "
+		"You can switch Ghostscript into PostScript Level 1 only mode by  "
+		"\\Opt{-pslanguagelevel 1}. This can be useful for example if the PostScript file to be "
+		"converted uses some Level 2 specific custom color models that are not supported " 
+		"by pstoedit. However, this requires that the PostScript program checks for the "
+		"PostScript level supported by the interpreter and \"acts\" accordingly. "
+		"The default language level is 3.",
+		UseDefaultDoku,
+		3),
+
 	drivername			(false,"-f","\"format[:options]\"",g_t,"target format identifier" , 
 		"target output format recognized by "
 		"\\Prog{pstoedit}.  Since other format drivers can be loaded dynamically, "
@@ -550,6 +587,8 @@ public:
 	ADD(replacementfont);
 	ADD(nomaptoisolatin1);
 	ADD(withdisplay);
+	ADD(pngimage);
+	ADD(quiet);
 	ADD(noquit);
 	ADD(nocurves );
 	ADD(nosubpathes);	
@@ -559,6 +598,7 @@ public:
 	ADD(drawtext);
 	ADD(autodrawtext);
 	ADD(disabledrawtext);
+	ADD(DrawGlyphBitmaps);
 	ADD(correctdefinefont);
 
 	ADD(ptioption);
@@ -570,6 +610,7 @@ public:
 	ADD(xshift);
 	ADD(yshift);
 	ADD(centered);
+	ADD(minlinewidth);
 
 	ADD(splitpages);
 	ADD(verbose );
@@ -583,6 +624,7 @@ public:
 	ADD(simulateClipping);	
 	ADD(usePlainStrings);	
 	ADD(useRGBcolors);
+	ADD(useAGL);
 	ADD(noclip);
 	ADD(t2fontsast1);	
 	ADD(keepinternalfiles);
@@ -590,6 +632,7 @@ public:
 	ADD(pscover);
 	ADD(nofontreplacement);
 	ADD(passglyphnames);
+	ADD(useoldnormalization);
 	ADD(rotation );
 	ADD(explicitFontMapFile);
 	ADD(outputPageSize);
@@ -601,9 +644,11 @@ public:
 	ADD(showdrvhelp) ;
 	ADD(showdocu_long) ;
 	ADD(showdocu_short) ;
+	ADD(GSToUse);
 	ADD(dumphelp ); 
 	ADD(backendonly);	
 	ADD(psArgs);	
+	ADD(psLanguageLevel);
 
 	ADD(drivername);
 	ADD(gsregbase);

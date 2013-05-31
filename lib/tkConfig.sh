@@ -10,51 +10,58 @@
 # file in addition to this one.
 #
 # The information in this file is specific to a single platform.
-#
-# RCS: @(#) $Id: tkConfig.sh.in,v 1.2 2001/10/15 21:19:16 hobbs Exp $
 
 # Tk's version number.
-TK_VERSION='8.4'
+TK_VERSION='8.5'
 TK_MAJOR_VERSION='8'
-TK_MINOR_VERSION='4'
-TK_PATCH_LEVEL='.1'
+TK_MINOR_VERSION='5'
+TK_PATCH_LEVEL='.11'
 
 # -D flags for use with the C compiler.
-TK_DEFS='-DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1'
+TK_DEFS='-DPACKAGE_NAME=\"tk\" -DPACKAGE_TARNAME=\"tk\" -DPACKAGE_VERSION=\"8.5\" -DPACKAGE_STRING=\"tk\ 8.5\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_LIMITS_H=1 -DTCL_SHLIB_EXT=\".dll\" -DTCL_CFG_OPTIMIZED=1 -DTCL_CFG_DEBUG=1 -DTCL_WIDE_INT_TYPE=long\ long -DHAVE_SYS_TIME_H=1 -DTIME_WITH_SYS_TIME=1 -DHAVE_INTPTR_T=1 -DHAVE_UINTPTR_T=1 -DHAVE_PW_GECOS=1 -DHAVE_XSS=1 -DHAVE_LIBXFT=1 -DHAVE_XFT=1'
 
 # Flag, 1: we built a shared lib, 0 we didn't
 TK_SHARED_BUILD=1
 
-# This indicates if Tk was build with debugging symbols
+
+# TK_DBGX used to be used to distinguish debug vs. non-debug builds.
+# This was a righteous pain so the core doesn't do that any more.
 TK_DBGX=
 
 # The name of the Tk library (may be either a .a file or a shared library):
-TK_LIB_FILE='libtk84.a'
+TK_LIB_FILE='libtk8.5.dll'
 
 # Additional libraries to use when linking Tk.
-TK_LIBS=' -lgdi32 -lcomdlg32 -limm32 -lcomctl32 -lshell32'
+TK_LIBS='-lX11 -lXss -lXext -lXft -lXrender -lfontconfig -lexpat -liconv -lfreetype -lz -lbz2 -lX11 -lxcb -lXau -lXdmcp    -ldl  '
 
-# Top-level directory in which Tcl's platform-independent files are
+# Top-level directory in which Tk's platform-independent files are
 # installed.
 TK_PREFIX='/usr'
 
-# Top-level directory in which Tcl's platform-specific files (e.g.
+# Top-level directory in which Tk's platform-specific files (e.g.
 # executables) are installed.
 TK_EXEC_PREFIX='/usr'
 
 # -I switch(es) to use to make all of the X11 include files accessible:
+TK_XINCLUDES=''
 
+# Linker switch(es) to use to link with the X11 library archive.
+TK_XLIBSW='-lX11 -lXss -lXext'
 
-# -l flag to pass to the linker to pick up the Tcl library
-TK_LIB_FLAG=''
+# -l flag to pass to the linker to pick up the Tk library
+TK_LIB_FLAG='-ltk8.5'
 
 # String to pass to linker to pick up the Tk library from its
 # build directory.
-TK_BUILD_LIB_SPEC='-ltk84'
+TK_BUILD_LIB_SPEC='-Wl,/usr/lib/libtk8.5.dll.a'
 
 # String to pass to linker to pick up the Tk library from its
 # installed directory.
-TK_LIB_SPEC=''
+TK_LIB_SPEC='-L/usr/lib -ltk8.5'
+
+# String to pass to the compiler so that an extension can
+# find installed Tk headers.
+TK_INCLUDE_SPEC='-I/usr/include'
 
 # Location of the top-level source directory from which Tk was built.
 # This is the directory that contains a README file as well as
@@ -62,7 +69,7 @@ TK_LIB_SPEC=''
 # different place than the directory containing the source files, this
 # points to the location of the sources, not the location where Tk was
 # compiled.
-TK_SRC_DIR=
+TK_SRC_DIR='/usr/include/tcl8.5'
 
 # Needed if you want to make a 'fat' shared library library
 # containing tk objects or link a different wish.
@@ -70,21 +77,21 @@ TK_CC_SEARCH_FLAGS=''
 TK_LD_SEARCH_FLAGS=''
 
 # The name of the Tk stub library (.a):
-TK_STUB_LIB_FILE='libtkstub84.a'
+TK_STUB_LIB_FILE='libtkstub8.5.a'
 
 # -l flag to pass to the linker to pick up the Tk stub library
-TK_STUB_LIB_FLAG='-ltkstub84'
+TK_STUB_LIB_FLAG='-ltkstub8.5'
 
 # String to pass to linker to pick up the Tk stub library from its
 # build directory.
-TK_BUILD_STUB_LIB_SPEC='-ltkstub84'
+TK_BUILD_STUB_LIB_SPEC='-Wl,/usr/lib/libtkstub8.5.a'
 
 # String to pass to linker to pick up the Tk stub library from its
 # installed directory.
-TK_STUB_LIB_SPEC=''
+TK_STUB_LIB_SPEC='-Wl,-ltkstub8.5'
 
 # Path to the Tk stub library in the build directory.
-TK_BUILD_STUB_LIB_PATH=''
+TK_BUILD_STUB_LIB_PATH='/usr/lib/libtkstub8.5.a'
 
 # Path to the Tk stub library in the install directory.
-TK_STUB_LIB_PATH=''
+TK_STUB_LIB_PATH='/usr/lib/libtkstub8.5.a'

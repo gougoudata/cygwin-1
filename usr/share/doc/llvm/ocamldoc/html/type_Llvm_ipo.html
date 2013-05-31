@@ -1,0 +1,46 @@
+<html><head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Llvm" rel="Chapter" href="Llvm.html">
+<link title="Llvm_analysis" rel="Chapter" href="Llvm_analysis.html">
+<link title="Llvm_bitreader" rel="Chapter" href="Llvm_bitreader.html">
+<link title="Llvm_bitwriter" rel="Chapter" href="Llvm_bitwriter.html">
+<link title="Llvm_executionengine" rel="Chapter" href="Llvm_executionengine.html">
+<link title="Llvm_ipo" rel="Chapter" href="Llvm_ipo.html">
+<link title="Llvm_scalar_opts" rel="Chapter" href="Llvm_scalar_opts.html">
+<link title="Llvm_target" rel="Chapter" href="Llvm_target.html"><title>Llvm_ipo</title>
+</head>
+<body>
+<code class="code"><span class="keyword">sig</span><br>
+&nbsp;&nbsp;<span class="keyword">external</span>&nbsp;add_argument_promotion&nbsp;:&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">Module</span>&nbsp;]&nbsp;<span class="constructor">Llvm</span>.<span class="constructor">PassManager</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span class="string">"llvm_add_argument_promotion"</span><br>
+&nbsp;&nbsp;<span class="keyword">external</span>&nbsp;add_constant_merge&nbsp;:&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">Module</span>&nbsp;]&nbsp;<span class="constructor">Llvm</span>.<span class="constructor">PassManager</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span class="string">"llvm_add_constant_merge"</span><br>
+&nbsp;&nbsp;<span class="keyword">external</span>&nbsp;add_dead_arg_elimination&nbsp;:&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">Module</span>&nbsp;]&nbsp;<span class="constructor">Llvm</span>.<span class="constructor">PassManager</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span class="string">"llvm_add_dead_arg_elimination"</span><br>
+&nbsp;&nbsp;<span class="keyword">external</span>&nbsp;add_function_attrs&nbsp;:&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">Module</span>&nbsp;]&nbsp;<span class="constructor">Llvm</span>.<span class="constructor">PassManager</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span class="string">"llvm_add_function_attrs"</span><br>
+&nbsp;&nbsp;<span class="keyword">external</span>&nbsp;add_function_inlining&nbsp;:&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">Module</span>&nbsp;]&nbsp;<span class="constructor">Llvm</span>.<span class="constructor">PassManager</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span class="string">"llvm_add_function_inlining"</span><br>
+&nbsp;&nbsp;<span class="keyword">external</span>&nbsp;add_global_dce&nbsp;:&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">Module</span>&nbsp;]&nbsp;<span class="constructor">Llvm</span>.<span class="constructor">PassManager</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span class="string">"llvm_add_global_dce"</span><br>
+&nbsp;&nbsp;<span class="keyword">external</span>&nbsp;add_global_optimizer&nbsp;:&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">Module</span>&nbsp;]&nbsp;<span class="constructor">Llvm</span>.<span class="constructor">PassManager</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span class="string">"llvm_add_global_optimizer"</span><br>
+&nbsp;&nbsp;<span class="keyword">external</span>&nbsp;add_ipc_propagation&nbsp;:&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">Module</span>&nbsp;]&nbsp;<span class="constructor">Llvm</span>.<span class="constructor">PassManager</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span class="string">"llvm_add_ipc_propagation"</span><br>
+&nbsp;&nbsp;<span class="keyword">external</span>&nbsp;add_prune_eh&nbsp;:&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">Module</span>&nbsp;]&nbsp;<span class="constructor">Llvm</span>.<span class="constructor">PassManager</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span class="string">"llvm_add_prune_eh"</span><br>
+&nbsp;&nbsp;<span class="keyword">external</span>&nbsp;add_ipsccp&nbsp;:&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">Module</span>&nbsp;]&nbsp;<span class="constructor">Llvm</span>.<span class="constructor">PassManager</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span class="string">"llvm_add_ipsccp"</span><br>
+&nbsp;&nbsp;<span class="keyword">external</span>&nbsp;add_internalize&nbsp;:&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">Module</span>&nbsp;]&nbsp;<span class="constructor">Llvm</span>.<span class="constructor">PassManager</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span class="string">"llvm_add_internalize"</span><br>
+&nbsp;&nbsp;<span class="keyword">external</span>&nbsp;add_strip_dead_prototypes&nbsp;:&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">Module</span>&nbsp;]&nbsp;<span class="constructor">Llvm</span>.<span class="constructor">PassManager</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span class="string">"llvm_add_strip_dead_prototypes"</span><br>
+&nbsp;&nbsp;<span class="keyword">external</span>&nbsp;add_strip_symbols&nbsp;:&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">Module</span>&nbsp;]&nbsp;<span class="constructor">Llvm</span>.<span class="constructor">PassManager</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span class="string">"llvm_add_strip_symbols"</span><br>
+<span class="keyword">end</span></code></body></html>

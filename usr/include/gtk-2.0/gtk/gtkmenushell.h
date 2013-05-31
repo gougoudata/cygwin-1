@@ -21,14 +21,17 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 #ifndef __GTK_MENU_SHELL_H__
 #define __GTK_MENU_SHELL_H__
 
 
-#include <gdk/gdk.h>
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
 #include <gtk/gtkcontainer.h>
 
 
@@ -48,20 +51,21 @@ typedef struct _GtkMenuShellClass  GtkMenuShellClass;
 struct _GtkMenuShell
 {
   GtkContainer container;
-  
-  GList *children;
-  GtkWidget *active_menu_item;
-  GtkWidget *parent_menu_shell;
-  
-  guint button;
-  guint32 activate_time;
 
-  guint active : 1;
-  guint have_grab : 1;
-  guint have_xgrab : 1;
-  guint ignore_leave : 1;	/* unused */
-  guint menu_flag : 1;		/* unused */
-  guint ignore_enter : 1;
+  GList *GSEAL (children);
+  GtkWidget *GSEAL (active_menu_item);
+  GtkWidget *GSEAL (parent_menu_shell);
+
+  guint GSEAL (button);
+  guint32 GSEAL (activate_time);
+
+  guint GSEAL (active) : 1;
+  guint GSEAL (have_grab) : 1;
+  guint GSEAL (have_xgrab) : 1;
+  guint GSEAL (ignore_leave) : 1; /* unused */
+  guint GSEAL (menu_flag) : 1;    /* unused */
+  guint GSEAL (ignore_enter) : 1;
+  guint GSEAL (keyboard_mode) : 1;
 };
 
 struct _GtkMenuShellClass
@@ -84,11 +88,12 @@ struct _GtkMenuShellClass
 			    GtkWidget    *child,
 			    gint          position);
   gint (*get_popup_delay)  (GtkMenuShell *menu_shell);
+  gboolean (*move_selected) (GtkMenuShell *menu_shell,
+			     gint          distance);
 
   /* Padding for future expansion */
   void (*_gtk_reserved1) (void);
   void (*_gtk_reserved2) (void);
-  void (*_gtk_reserved3) (void);
 };
 
 
@@ -115,12 +120,21 @@ void  _gtk_menu_shell_activate         (GtkMenuShell *menu_shell);
 gint  _gtk_menu_shell_get_popup_delay  (GtkMenuShell *menu_shell);
 void  gtk_menu_shell_cancel            (GtkMenuShell *menu_shell);
 
-void _gtk_menu_shell_add_mnemonic    (GtkMenuShell *menu_shell,
-				      guint         keyval,
-				      GtkWidget    *target);
-void _gtk_menu_shell_remove_mnemonic (GtkMenuShell *menu_shell,
-				      guint         keyval,
-				      GtkWidget    *target);
+void  _gtk_menu_shell_add_mnemonic     (GtkMenuShell *menu_shell,
+                                        guint         keyval,
+                                        GtkWidget    *target);
+void  _gtk_menu_shell_remove_mnemonic  (GtkMenuShell *menu_shell,
+                                        guint         keyval,
+                                        GtkWidget    *target);
+
+gboolean gtk_menu_shell_get_take_focus (GtkMenuShell *menu_shell);
+void     gtk_menu_shell_set_take_focus (GtkMenuShell *menu_shell,
+                                        gboolean      take_focus);
+
+void     _gtk_menu_shell_update_mnemonics  (GtkMenuShell *menu_shell);
+void     _gtk_menu_shell_set_keyboard_mode (GtkMenuShell *menu_shell,
+                                            gboolean      keyboard_mode);
+gboolean _gtk_menu_shell_get_keyboard_mode (GtkMenuShell *menu_shell);
 
 G_END_DECLS
 

@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/bin/python
 # -*- python-mode -*-
 """Takes care of starting the Init function
 """

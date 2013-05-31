@@ -7,9 +7,10 @@ includedir=${prefix}/include
 
 Name: ao
 Description: ao is a cross-platform audio output library
-Version: 0.8.8
+Version: 1.1.0
 Requires:
 Conflicts:
-Libs: -L${libdir} -lao -lpthread  -lwinmm
+Libs: -L${libdir} -lao
+Libs.private: -lpthread  -lwinmm
 Cflags: -I${includedir}
 

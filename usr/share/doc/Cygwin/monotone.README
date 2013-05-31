@@ -1,0 +1,131 @@
+monotone
+------------------------------------------
+monotone is a free distributed version control system. it provides a simple,
+single-file transactional version store, with fully disconnected operation and
+an efficient peer-to-peer synchronization protocol.
+
+Runtime requirements (newer releases are usually ok):
+  cygwin-1.7.9-1
+  libgcc1-4.5.3-2
+  libidn11-1.18-1
+  libintl8-0.18.1.1-1
+  libpcre0-8.13-1
+  libsqlite3_0-3.7.3-1
+  libstdc++6-4.5.3-2
+  lua-5.1.4-11
+  zlib0-1.2.5-1
+
+Build requirements:
+  gcc4
+  binutils
+  boost-devel
+  libsqlite3-devel
+  libidn-devel
+  gettext
+  gettext-devel
+  zlib
+  perl
+  botan
+
+Canonical homepage:
+  http://monotone.ca/
+
+License:
+  GPL
+
+Language:
+  C++, LUA
+
+------------------------------------
+
+Build instructions:
+  unpack monotone-1.0-2-src.tar.bz2
+    if you use setup to install this src package, it will be
+	 unpacked under /usr/src automatically
+  cd /usr/src
+  cygport monotone-1.0-2 all
+
+This will create:
+  /usr/src/monotone-1.0-2.tar.bz2
+  /usr/src/monotone-1.0-2-src.tar.bz2
+
+Or use 'cygport monotone-1.0-2 prep' to get a patched source directory.
+
+To find out the files included in the binary distribution, you can
+use "cygcheck -l monotone", or browse the listing for the appropriate version
+at <http://cygwin.com/packages/>.
+
+For more information about this package, see the upstream documentation in
+/usr/share/doc/monotone.
+
+------------------
+
+Port Notes:
+
+----------  monotone-1.0-2 -- 2011-10-09 -----------
+Rebuild with g++-4.5.
+
+----------  monotone-1.0-1 -- 2011-04-13 -----------
+Upstream major release. No patch needed.
+
+----------  monotone-0.99.1-1 -- 2010-11-03 -----------
+Upstream major release. No patch needed.
+
+----------  monotone-0.48-1 -- 2010-06-24 -----------
+Upstream major release. No patch needed.
+
+----------  monotone-0.46-1 -- 2010-02-07 -----------
+Upstream major release. No patch needed.
+
+----------  monotone-0.45-1 -- 2009-09-12 -----------
+Upstream major release. No patch needed.
+
+----------  monotone-0.42-2 -- 2009-04-17 -----------
+Re-built against Cygwin-1.7 in order to support UTF-8 filenames.
+
+----------  monotone-0.42-1 -- 2009-01-17 -----------
+Upstream major release. No patch needed.
+
+----------  monotone-0.40-1 -- 2008-04-23 -----------
+Upstream major release. No patch needed.
+
+----------  monotone-0.38-1 -- 2007-12-12 -----------
+Upstream major release. No patch needed.
+
+----------  monotone-0.37-1 -- 2007-10-28 -----------
+Upstream major release. No patch needed.
+
+----------  monotone-0.34-1 -- 2007-04-01 -----------
+Upstream major release. No patch needed.
+
+----------  monotone-0.33-1 -- 2007-03-12 -----------
+Upstream major release. No patch needed.
+
+----------  monotone-0.32-1 -- 2007-01-14 -----------
+Upstream major release. No patch needed.
+
+----------  monotone-0.30-1 -- 2006-09-23 -----------
+Upstream major release.
+Included updated translation files.
+
+----------  monotone-0.29-1 -- 2006-08-21 -----------
+Upstream major release. No patch needed.
+
+----------  monotone-0.28-1 -- 2006-08-07 -----------
+Upstream major release. No patch needed.
+
+----------  monotone-0.27-1 -- 2006-06-23 -----------
+Upstream major release.
+Needed a small patch to support hash<unsigned long>.
+
+----------  monotone-0.26-1 -- 2006-04-13 -----------
+Upstream major release.
+
+----------  monotone-0.25.2-1 -- 2006-03-18 -----------
+Upstream security fix release.
+
+----------  monotone-0.25-1 -- 2006-01-01 -----------
+Initial cygwin release.
+
+Cygwin port maintained by: Lapo Luchini <lapo@lapo.it>
+Please address all questions to the Cygwin mailing list at <cygwin@cygwin.com>

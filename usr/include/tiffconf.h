@@ -42,6 +42,9 @@
 /* Support JPEG compression (requires IJG JPEG library) */
 #define JPEG_SUPPORT 1
 
+/* Support JBIG compression (requires JBIG-KIT library) */
+#define JBIG_SUPPORT 1
+
 /* Support LogLuv high dynamic range encoding */
 #define LOGLUV_SUPPORT 1
 
@@ -53,7 +56,7 @@
 
 /* Support Old JPEG compresson (read contrib/ojpeg/README first! Compilation
    fails with unpatched IJG JPEG library) */
-/* #undef OJPEG_SUPPORT */
+#define OJPEG_SUPPORT 1
 
 /* Support Macintosh PackBits algorithm */
 #define PACKBITS_SUPPORT 1

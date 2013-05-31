@@ -1,0 +1,14 @@
+#!/bin/bash
+
+prefix=/usr
+bindir=${prefix}/bin
+sbindir=${prefix}/sbin
+infodir=${prefix}/share/info
+
+/usr/sbin/update-alternatives \
+    --install "${bindir}/gdc.exe" "gdc" "${bindir}/gdc-3.exe" 30 \
+  --slave "/usr/bin/i686-pc-cygwin-gdc.exe" "i686-pc-cygwin-gdc" "/usr/bin/i686-pc-cygwin-gdc-3.exe" \
+  --slave "/usr/share/man/man1/gdc.1.gz" "gdc.1.gz" "/usr/share/man/man1/gdc-3.1.gz" \
+  --slave "/usr/share/man/man1/gdmd.1.gz" "gdmd.1.gz" "/usr/share/man/man1/gdmd-3.1.gz" \
+
+

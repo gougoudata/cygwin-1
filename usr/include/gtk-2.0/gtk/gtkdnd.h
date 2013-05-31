@@ -1,3 +1,4 @@
+/* -*- Mode: C; c-file-style: "gnu"; tab-width: 8 -*- */
 /* GTK - The GIMP Toolkit
  * Copyright (C) 1995-1997 Peter Mattis, Spencer Kimball and Josh MacDonald
  *
@@ -21,16 +22,20 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 #ifndef __GTK_DND_H__
 #define __GTK_DND_H__
 
-#include <gdk/gdk.h>
-#include <gtk/gtkenums.h>
+
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
 #include <gtk/gtkwidget.h>
 #include <gtk/gtkselection.h>
+
 
 G_BEGIN_DECLS
 
@@ -41,11 +46,13 @@ typedef enum {
   GTK_DEST_DEFAULT_ALL        = 0x07
 } GtkDestDefaults;
 
-/* Flags for the GtkTargetEntry on the destination side 
+/* Flags for the GtkTargetEntry on the destination side
  */
 typedef enum {
   GTK_TARGET_SAME_APP = 1 << 0,    /*< nick=same-app >*/
-  GTK_TARGET_SAME_WIDGET = 1 << 1  /*< nick=same-widget >*/
+  GTK_TARGET_SAME_WIDGET = 1 << 1, /*< nick=same-widget >*/
+  GTK_TARGET_OTHER_APP = 1 << 2,   /*< nick=other-app >*/
+  GTK_TARGET_OTHER_WIDGET = 1 << 3 /*< nick=other-widget >*/
 } GtkTargetFlags;
 
 /* Destination side */
@@ -87,6 +94,10 @@ void           gtk_drag_dest_add_text_targets  (GtkWidget    *widget);
 void           gtk_drag_dest_add_image_targets (GtkWidget    *widget);
 void           gtk_drag_dest_add_uri_targets   (GtkWidget    *widget);
 
+void           gtk_drag_dest_set_track_motion  (GtkWidget *widget,
+						gboolean   track_motion);
+gboolean       gtk_drag_dest_get_track_motion  (GtkWidget *widget);
+
 /* Source side */
 
 void gtk_drag_source_set  (GtkWidget            *widget,
@@ -112,6 +123,8 @@ void gtk_drag_source_set_icon_pixbuf (GtkWidget   *widget,
 				      GdkPixbuf   *pixbuf);
 void gtk_drag_source_set_icon_stock  (GtkWidget   *widget,
 				      const gchar *stock_id);
+void gtk_drag_source_set_icon_name   (GtkWidget   *widget,
+				      const gchar *icon_name);
 
 /* There probably should be functions for setting the targets
  * as a GtkTargetList
@@ -143,6 +156,10 @@ void gtk_drag_set_icon_stock  (GdkDragContext *context,
 			       const gchar    *stock_id,
 			       gint            hot_x,
 			       gint            hot_y);
+void gtk_drag_set_icon_name   (GdkDragContext *context,
+			       const gchar    *icon_name,
+			       gint            hot_x,
+			       gint            hot_y);
 
 void gtk_drag_set_icon_default (GdkDragContext    *context);
 
@@ -169,6 +186,3 @@ void gtk_drag_set_default_icon (GdkColormap   *colormap,
 G_END_DECLS
 
 #endif /* __GTK_DND_H__ */
-
-
-

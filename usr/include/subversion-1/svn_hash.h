@@ -1,17 +1,22 @@
 /**
  * @copyright
  * ====================================================================
- * Copyright (c) 2000-2004 CollabNet.  All rights reserved.
+ *    Licensed to the Apache Software Foundation (ASF) under one
+ *    or more contributor license agreements.  See the NOTICE file
+ *    distributed with this work for additional information
+ *    regarding copyright ownership.  The ASF licenses this file
+ *    to you under the Apache License, Version 2.0 (the
+ *    "License"); you may not use this file except in compliance
+ *    with the License.  You may obtain a copy of the License at
  *
- * This software is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at http://subversion.tigris.org/license-1.html.
- * If newer versions of this license are posted there, you may use a
- * newer version instead, at your option.
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * This software consists of voluntary contributions made by many
- * individuals.  For exact contribution history, see the revision
- * history and logs, available at http://subversion.tigris.org/.
+ *    Unless required by applicable law or agreed to in writing,
+ *    software distributed under the License is distributed on an
+ *    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ *    KIND, either express or implied.  See the License for the
+ *    specific language governing permissions and limitations
+ *    under the License.
  * ====================================================================
  * @endcopyright
  *
@@ -23,13 +28,14 @@
 #ifndef SVN_HASH_H
 #define SVN_HASH_H
 
+#include <apr.h>
 #include <apr_pools.h>
 #include <apr_hash.h>
-#include <apr_file_io.h>
+#include <apr_tables.h>
+#include <apr_file_io.h>  /* for apr_file_t */
 
 #include "svn_types.h"
-#include "svn_io.h"
-#include "svn_error.h"
+#include "svn_io.h"       /* for svn_stream_t */
 
 
 #ifdef __cplusplus
@@ -71,10 +77,11 @@ extern "C" {
  *
  * @since New in 1.1.
  */
-svn_error_t *svn_hash_read2(apr_hash_t *hash,
-                            svn_stream_t *stream,
-                            const char *terminator,
-                            apr_pool_t *pool);
+svn_error_t *
+svn_hash_read2(apr_hash_t *hash,
+               svn_stream_t *stream,
+               const char *terminator,
+               apr_pool_t *pool);
 
 /**
  * Dump @a hash to @a stream.  Use @a pool for all allocations.  @a
@@ -84,10 +91,11 @@ svn_error_t *svn_hash_read2(apr_hash_t *hash,
  *
  * @since New in 1.1.
  */
-svn_error_t *svn_hash_write2(apr_hash_t *hash,
-                             svn_stream_t *stream,
-                             const char *terminator,
-                             apr_pool_t *pool);
+svn_error_t *
+svn_hash_write2(apr_hash_t *hash,
+                svn_stream_t *stream,
+                const char *terminator,
+                apr_pool_t *pool);
 
 /**
  * Similar to svn_hash_read2(), but allows @a stream to contain
@@ -96,10 +104,11 @@ svn_error_t *svn_hash_write2(apr_hash_t *hash,
  *
  * @since New in 1.1.
  */
-svn_error_t *svn_hash_read_incremental(apr_hash_t *hash,
-                                       svn_stream_t *stream,
-                                       const char *terminator,
-                                       apr_pool_t *pool);
+svn_error_t *
+svn_hash_read_incremental(apr_hash_t *hash,
+                          svn_stream_t *stream,
+                          const char *terminator,
+                          apr_pool_t *pool);
 
 /**
  * Similar to svn_hash_write2(), but only writes out entries for
@@ -109,11 +118,12 @@ svn_error_t *svn_hash_read_incremental(apr_hash_t *hash,
  *
  * @since New in 1.1.
  */
-svn_error_t *svn_hash_write_incremental(apr_hash_t *hash,
-                                        apr_hash_t *oldhash,
-                                        svn_stream_t *stream,
-                                        const char *terminator,
-                                        apr_pool_t *pool);
+svn_error_t *
+svn_hash_write_incremental(apr_hash_t *hash,
+                           apr_hash_t *oldhash,
+                           svn_stream_t *stream,
+                           const char *terminator,
+                           apr_pool_t *pool);
 
 /**
  * This function behaves like svn_hash_read2(), but it only works
@@ -123,9 +133,11 @@ svn_error_t *svn_hash_write_incremental(apr_hash_t *hash,
  *
  * @deprecated Provided for backward compatibility with the 1.0 API.
  */
-svn_error_t *svn_hash_read(apr_hash_t *hash,
-                           apr_file_t *srcfile,
-                           apr_pool_t *pool);
+SVN_DEPRECATED
+svn_error_t *
+svn_hash_read(apr_hash_t *hash,
+              apr_file_t *srcfile,
+              apr_pool_t *pool);
 
 /**
  * This function behaves like svn_hash_write2(), but it only works
@@ -133,9 +145,11 @@ svn_error_t *svn_hash_read(apr_hash_t *hash,
  *
  * @deprecated Provided for backward compatibility with the 1.0 API.
  */
-svn_error_t *svn_hash_write(apr_hash_t *hash,
-                            apr_file_t *destfile,
-                            apr_pool_t *pool);
+SVN_DEPRECATED
+svn_error_t *
+svn_hash_write(apr_hash_t *hash,
+               apr_file_t *destfile,
+               apr_pool_t *pool);
 
 /** @} */
 
@@ -184,11 +198,12 @@ typedef svn_error_t *(*svn_hash_diff_func_t)
  *
  * Use @a pool for temporary allocation.
  */
-svn_error_t *svn_hash_diff(apr_hash_t *hash_a,
-                           apr_hash_t *hash_b,
-                           svn_hash_diff_func_t diff_func,
-                           void *diff_func_baton,
-                           apr_pool_t *pool);
+svn_error_t *
+svn_hash_diff(apr_hash_t *hash_a,
+              apr_hash_t *hash_b,
+              svn_hash_diff_func_t diff_func,
+              void *diff_func_baton,
+              apr_pool_t *pool);
 
 /** @} */
 
@@ -207,9 +222,10 @@ svn_error_t *svn_hash_diff(apr_hash_t *hash_a,
  *
  * @since New in 1.5.
  */
-svn_error_t *svn_hash_keys(apr_array_header_t **array,
-                           apr_hash_t *hash,
-                           apr_pool_t *pool);
+svn_error_t *
+svn_hash_keys(apr_array_header_t **array,
+              apr_hash_t *hash,
+              apr_pool_t *pool);
 
 /**
  * Set @a *hash to a new hash whose keys come from the items in @a keys
@@ -219,9 +235,10 @@ svn_error_t *svn_hash_keys(apr_array_header_t **array,
  *
  * @since New in 1.5.
  */
-svn_error_t *svn_hash_from_cstring_keys(apr_hash_t **hash,
-                                        const apr_array_header_t *keys,
-                                        apr_pool_t *pool);
+svn_error_t *
+svn_hash_from_cstring_keys(apr_hash_t **hash,
+                           const apr_array_header_t *keys,
+                           apr_pool_t *pool);
 
 /**
  * Clear any key/value pairs in the hash table.  A wrapper for a
@@ -229,7 +246,41 @@ svn_error_t *svn_hash_from_cstring_keys(apr_hash_t **hash,
  *
  * @since New in 1.5.
  */
-svn_error_t *svn_hash__clear(apr_hash_t *hash);
+svn_error_t *
+svn_hash__clear(apr_hash_t *hash, apr_pool_t *pool);
+
+/** @} */
+
+
+/**
+ * @defgroup svn_hash_getters Specialized getter APIs for hashes
+ * @{
+ */
+
+/** Find the value of a @a key in @a hash, return the value.
+ *
+ * If @a hash is @c NULL or if the @a key cannot be found, the
+ * @a default_value will be returned.
+ *
+ * @since New in 1.7.
+ */
+const char *
+svn_hash__get_cstring(apr_hash_t *hash,
+                      const char *key,
+                      const char *default_value);
+
+/** Like svn_hash_get_cstring(), but for boolean values.
+ *
+ * Parses the value as a boolean value. The recognized representations
+ * are 'TRUE'/'FALSE', 'yes'/'no', 'on'/'off', '1'/'0'; case does not
+ * matter.
+ *
+ * @since New in 1.7.
+ */
+svn_boolean_t
+svn_hash__get_bool(apr_hash_t *hash,
+                   const char *key,
+                   svn_boolean_t default_value);
 
 /** @} */
 

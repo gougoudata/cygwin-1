@@ -1,0 +1,88 @@
+stg-refresh(1)
+==============
+
+NAME
+----
+stg-refresh - Generate a new commit for the current patch
+
+SYNOPSIS
+--------
+[verse]
+'stg' refresh [options] [--] [<files or dirs>]
+
+DESCRIPTION
+-----------
+
+Include the latest work tree and index changes in the current patch.
+This command generates a new git commit object for the patch; the old
+commit is no longer visible.
+
+You may optionally list one or more files or directories relative to
+the current working directory; if you do, only matching files will be
+updated.
+
+Behind the scenes, stg refresh first creates a new temporary patch
+with your updates, and then merges that patch into the patch you asked
+to have refreshed. If you asked to refresh a patch other than the
+topmost patch, there can be conflicts; in that case, the temporary
+patch will be left for you to take care of, for example with stg
+squash.
+
+The creation of the temporary patch is recorded in a separate entry in
+the patch stack log; this means that one undo step will undo the merge
+between the other patch and the temp patch, and two undo steps will
+additionally get rid of the temp patch.
+
+OPTIONS
+-------
+-u::
+--update::
+        Only update the current patch files.
+
+-i::
+--index::
+        Instead of setting the patch top to the current contents of
+        the worktree, set it to the current contents of the index.
+
+-p PATCH::
+--patch PATCH::
+        Refresh (applied) PATCH instead of the top patch.
+
+-e::
+--edit::
+        Invoke an editor for the patch description.
+
+-a NOTE::
+--annotate NOTE::
+        Annotate the patch log entry.
+
+-m MESSAGE::
+--message MESSAGE::
+        Use MESSAGE instead of invoking the editor.
+
+-f FILE::
+--file FILE::
+        Use the contents of FILE instead of invoking the editor.
+        (If FILE is "-", write to stdout.)
+
+--sign::
+        Add a "Signed-off-by:" to the end of the patch.
+
+--ack::
+        Add an "Acked-by:" line to the end of the patch.
+
+--author "NAME <EMAIL>"::
+        Set the author details.
+
+--authname NAME::
+        Set the author name.
+
+--authemail EMAIL::
+        Set the author email.
+
+--authdate DATE::
+        Set the author date.
+
+StGit
+-----
+Part of the StGit suite - see linkman:stg[1]

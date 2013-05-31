@@ -1,0 +1,10 @@
+<map id="G" name="G">
+<area shape="rect" id="node2" href="$class_outputter.html" title="Abstract outputter to print test result summary." alt="" coords="5,277,85,307"/>
+<area shape="rect" id="node4" href="$class_test_result_collector.html" title="Collects test result.A TestResultCollector is a TestListener which collects the results of executing ..." alt="" coords="109,277,253,307"/>
+<area shape="rect" id="node6" href="$class_test_success_listener.html" title="TestListener that checks if any test case failed." alt="" coords="105,181,257,211"/>
+<area shape="rect" id="node8" href="$class_test_listener.html" title="Listener for test progress and result.Implementing the Observer pattern a TestListener may be registe..." alt="" coords="115,101,216,131"/>
+<area shape="rect" id="node10" href="$class_synchronized_object.html" title="Base class for synchronized object." alt="" coords="240,101,387,131"/>
+<area shape="rect" id="node12" href="$class_synchronized_object_1_1_synchronization_object.html" title="Abstract synchronization object (mutex)" alt="" coords="167,5,460,35"/>
+<area shape="rect" id="node14" href="$class_xml_document.html" title="A XML Document." alt="" coords="277,277,384,307"/>
+<area shape="rect" id="node16" href="$class_xml_element.html" title="A XML Element." alt="" coords="283,181,379,211"/>
+</map>

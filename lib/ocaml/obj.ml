@@ -11,7 +11,7 @@
 (*                                                                     *)
 (***********************************************************************)
 
-(* $Id: obj.ml,v 1.23 2004/01/01 16:42:40 doligez Exp $ *)
+(* $Id: obj.ml 9561 2010-01-25 11:55:30Z doligez $ *)
 
 (* Operations on internal representations of values *)
 
@@ -27,9 +27,12 @@ external set_tag : t -> int -> unit = "caml_obj_set_tag"
 external size : t -> int = "%obj_size"
 external field : t -> int -> t = "%obj_field"
 external set_field : t -> int -> t -> unit = "%obj_set_field"
+let double_field x i = Array.get (obj x : float array) i
+let set_double_field x i v = Array.set (obj x : float array) i v
 external new_block : int -> int -> t = "caml_obj_block"
 external dup : t -> t = "caml_obj_dup"
 external truncate : t -> int -> unit = "caml_obj_truncate"
+external add_offset : t -> Int32.t -> t = "caml_obj_add_offset"
 
 let marshal (obj : t) =
   Marshal.to_string obj []
@@ -54,3 +57,4 @@ let final_tag = custom_tag
 
 let int_tag = 1000
 let out_of_heap_tag = 1001
+let unaligned_tag = 1002

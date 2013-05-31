@@ -16,20 +16,19 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  */
+
 #ifndef __G_I18N_H__
 #define __G_I18N_H__
 
-#include <glib/gstrfuncs.h>
-#include <libintl.h>
+#include <glib.h>
 
-#define _(String) gettext (String)
-#define Q_(String) g_strip_context ((String), gettext (String))
-#ifdef gettext_noop
-#define N_(String) gettext_noop (String)
-#else
+#include <libintl.h>
+#include <string.h>
+
+#define  _(String) gettext (String)
+#define Q_(String) g_dpgettext (NULL, String, 0)
 #define N_(String) (String)
-#endif
+#define C_(Context,String) g_dpgettext (NULL, Context "\004" String, strlen (Context) + 1)
+#define NC_(Context, String) (String)
 
 #endif  /* __G_I18N_H__ */
-
-

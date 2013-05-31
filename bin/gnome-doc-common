@@ -4,7 +4,7 @@ progname=`echo "$0" | sed 's%^.*/%%'`
 
 PROGRAM=gnome-doc-common
 PACKAGE=gnome-common
-VERSION=2.20.0
+VERSION=3.7.4
 
 prefix=/usr
 datarootdir=/usr/share

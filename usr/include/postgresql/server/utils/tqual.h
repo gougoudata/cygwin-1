@@ -5,79 +5,41 @@
  *
  *	  Should be moved/renamed...	- vadim 07/28/98
  *
- * Portions Copyright (c) 1996-2006, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2012, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
- * $PostgreSQL: pgsql/src/include/utils/tqual.h,v 1.64 2006/10/04 00:30:11 momjian Exp $
+ * src/include/utils/tqual.h
  *
  *-------------------------------------------------------------------------
  */
 #ifndef TQUAL_H
 #define TQUAL_H
 
-#include "access/htup.h"
-#include "storage/buf.h"
+#include "utils/snapshot.h"
 
+
+/* Static variables representing various special snapshot semantics */
+extern PGDLLIMPORT SnapshotData SnapshotNowData;
+extern PGDLLIMPORT SnapshotData SnapshotSelfData;
+extern PGDLLIMPORT SnapshotData SnapshotAnyData;
+extern PGDLLIMPORT SnapshotData SnapshotToastData;
+
+#define SnapshotNow			(&SnapshotNowData)
+#define SnapshotSelf		(&SnapshotSelfData)
+#define SnapshotAny			(&SnapshotAnyData)
+#define SnapshotToast		(&SnapshotToastData)
 
 /*
- * "Regular" snapshots are pointers to a SnapshotData structure.
- *
- * We also have some "special" snapshot values that have fixed meanings
- * and don't need any backing SnapshotData.  These are encoded by small
- * integer values, which of course is a gross violation of ANSI C, but
- * it works fine on all known platforms.
- *
- * SnapshotDirty is an even more special case: its semantics are fixed,
- * but there is a backing SnapshotData struct for it.  That struct is
- * actually used as *output* data from tqual.c, not input into it.
- * (But hey, SnapshotDirty ought to have a dirty implementation, no? ;-))
+ * We don't provide a static SnapshotDirty variable because it would be
+ * non-reentrant.  Instead, users of that snapshot type should declare a
+ * local variable of type SnapshotData, and initialize it with this macro.
  */
-
-typedef struct SnapshotData
-{
-	TransactionId xmin;			/* XID < xmin are visible to me */
-	TransactionId xmax;			/* XID >= xmax are invisible to me */
-	uint32		xcnt;			/* # of xact ids in xip[] */
-	TransactionId *xip;			/* array of xact IDs in progress */
-	/* note: all ids in xip[] satisfy xmin <= xip[i] < xmax */
-	int32		subxcnt;		/* # of xact ids in subxip[], -1 if overflow */
-	TransactionId *subxip;		/* array of subxact IDs in progress */
-
-	/*
-	 * note: all ids in subxip[] are >= xmin, but we don't bother filtering
-	 * out any that are >= xmax
-	 */
-	CommandId	curcid;			/* in my xact, CID < curcid are visible */
-} SnapshotData;
-
-typedef SnapshotData *Snapshot;
-
-/* Special snapshot values: */
-#define InvalidSnapshot				((Snapshot) 0x0)	/* same as NULL */
-#define SnapshotNow					((Snapshot) 0x1)
-#define SnapshotSelf				((Snapshot) 0x2)
-#define SnapshotAny					((Snapshot) 0x3)
-#define SnapshotToast				((Snapshot) 0x4)
-
-extern DLLIMPORT Snapshot SnapshotDirty;
+#define InitDirtySnapshot(snapshotdata)  \
+	((snapshotdata).satisfies = HeapTupleSatisfiesDirty)
 
 /* This macro encodes the knowledge of which snapshots are MVCC-safe */
 #define IsMVCCSnapshot(snapshot)  \
-	((snapshot) != SnapshotNow && \
-	 (snapshot) != SnapshotSelf && \
-	 (snapshot) != SnapshotAny && \
-	 (snapshot) != SnapshotToast && \
-	 (snapshot) != SnapshotDirty)
-
-
-extern DLLIMPORT Snapshot SerializableSnapshot;
-extern DLLIMPORT Snapshot LatestSnapshot;
-extern DLLIMPORT Snapshot ActiveSnapshot;
-
-extern TransactionId TransactionXmin;
-extern TransactionId RecentXmin;
-extern TransactionId RecentGlobalXmin;
-
+	((snapshot)->satisfies == HeapTupleSatisfiesMVCC)
 
 /*
  * HeapTupleSatisfiesVisibility
@@ -86,40 +48,11 @@ extern TransactionId RecentGlobalXmin;
  * Notes:
  *	Assumes heap tuple is valid.
  *	Beware of multiple evaluations of snapshot argument.
- *	Hint bits in the HeapTuple's t_infomask may be updated as a side effect.
+ *	Hint bits in the HeapTuple's t_infomask may be updated as a side effect;
+ *	if so, the indicated buffer is marked dirty.
  */
 #define HeapTupleSatisfiesVisibility(tuple, snapshot, buffer) \
-((snapshot) == SnapshotNow ? \
-	HeapTupleSatisfiesNow((tuple)->t_data, buffer) \
-: \
-	((snapshot) == SnapshotSelf ? \
-		HeapTupleSatisfiesItself((tuple)->t_data, buffer) \
-	: \
-		((snapshot) == SnapshotAny ? \
-			true \
-		: \
-			((snapshot) == SnapshotToast ? \
-				HeapTupleSatisfiesToast((tuple)->t_data, buffer) \
-			: \
-				((snapshot) == SnapshotDirty ? \
-					HeapTupleSatisfiesDirty((tuple)->t_data, buffer) \
-				: \
-					HeapTupleSatisfiesSnapshot((tuple)->t_data, snapshot, buffer) \
-				) \
-			) \
-		) \
-	) \
-)
-
-/* Result codes for HeapTupleSatisfiesUpdate */
-typedef enum
-{
-	HeapTupleMayBeUpdated,
-	HeapTupleInvisible,
-	HeapTupleSelfUpdated,
-	HeapTupleUpdated,
-	HeapTupleBeingUpdated
-} HTSU_Result;
+	((*(snapshot)->satisfies) ((tuple)->t_data, snapshot, buffer))
 
 /* Result codes for HeapTupleSatisfiesVacuum */
 typedef enum
@@ -131,24 +64,29 @@ typedef enum
 	HEAPTUPLE_DELETE_IN_PROGRESS	/* deleting xact is still in progress */
 } HTSV_Result;
 
-extern bool HeapTupleSatisfiesItself(HeapTupleHeader tuple, Buffer buffer);
-extern bool HeapTupleSatisfiesNow(HeapTupleHeader tuple, Buffer buffer);
-extern bool HeapTupleSatisfiesDirty(HeapTupleHeader tuple, Buffer buffer);
-extern bool HeapTupleSatisfiesToast(HeapTupleHeader tuple, Buffer buffer);
-extern bool HeapTupleSatisfiesSnapshot(HeapTupleHeader tuple,
-						   Snapshot snapshot, Buffer buffer);
+/* These are the "satisfies" test routines for the various snapshot types */
+extern bool HeapTupleSatisfiesMVCC(HeapTupleHeader tuple,
+					   Snapshot snapshot, Buffer buffer);
+extern bool HeapTupleSatisfiesNow(HeapTupleHeader tuple,
+					  Snapshot snapshot, Buffer buffer);
+extern bool HeapTupleSatisfiesSelf(HeapTupleHeader tuple,
+					   Snapshot snapshot, Buffer buffer);
+extern bool HeapTupleSatisfiesAny(HeapTupleHeader tuple,
+					  Snapshot snapshot, Buffer buffer);
+extern bool HeapTupleSatisfiesToast(HeapTupleHeader tuple,
+						Snapshot snapshot, Buffer buffer);
+extern bool HeapTupleSatisfiesDirty(HeapTupleHeader tuple,
+						Snapshot snapshot, Buffer buffer);
+
+/* Special "satisfies" routines with different APIs */
 extern HTSU_Result HeapTupleSatisfiesUpdate(HeapTupleHeader tuple,
 						 CommandId curcid, Buffer buffer);
 extern HTSV_Result HeapTupleSatisfiesVacuum(HeapTupleHeader tuple,
 						 TransactionId OldestXmin, Buffer buffer);
+extern bool HeapTupleIsSurelyDead(HeapTupleHeader tuple,
+					  TransactionId OldestXmin);
 
-extern Snapshot GetTransactionSnapshot(void);
-extern Snapshot GetLatestSnapshot(void);
-extern Snapshot CopySnapshot(Snapshot snapshot);
-extern void FreeSnapshot(Snapshot snapshot);
-extern void FreeXactSnapshot(void);
-
-/* in procarray.c; declared here to avoid including tqual.h in procarray.h: */
-extern Snapshot GetSnapshotData(Snapshot snapshot, bool serializable);
+extern void HeapTupleSetHintBits(HeapTupleHeader tuple, Buffer buffer,
+					 uint16 infomask, TransactionId xid);
 
 #endif   /* TQUAL_H */

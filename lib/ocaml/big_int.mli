@@ -11,15 +11,15 @@
 (*                                                                     *)
 (***********************************************************************)
 
-(* $Id: big_int.mli,v 1.10 2002/03/14 20:12:54 xleroy Exp $ *)
+(* $Id: big_int.mli 10327 2010-04-29 13:53:01Z xleroy $ *)
 
 (** Operations on arbitrary-precision integers.
 
-   Big integers (type [big_int]) are signed integers of arbitrary size. 
+   Big integers (type [big_int]) are signed integers of arbitrary size.
 *)
-  
+
 open Nat
- 
+
 type big_int
         (** The type of big integers. *)
 
@@ -128,9 +128,59 @@ val int_of_big_int : big_int -> int
         (** Convert a big integer to a small integer (type [int]).
            Raises [Failure "int_of_big_int"] if the big integer
            is not representable as a small integer. *)
+
+val big_int_of_int32 : int32 -> big_int
+        (** Convert a 32-bit integer to a big integer. *)
+val big_int_of_nativeint : nativeint -> big_int
+        (** Convert a native integer to a big integer. *)
+val big_int_of_int64 : int64 -> big_int
+        (** Convert a 64-bit integer to a big integer. *)
+val int32_of_big_int : big_int -> int32
+        (** Convert a big integer to a 32-bit integer.
+            Raises [Failure] if the big integer is outside the
+            range [[-2{^31}, 2{^31}-1]]. *)
+val nativeint_of_big_int : big_int -> nativeint
+        (** Convert a big integer to a native integer.
+            Raises [Failure] if the big integer is outside the
+            range [[Nativeint.min_int, Nativeint.max_int]]. *)
+val int64_of_big_int : big_int -> int64
+        (** Convert a big integer to a 64-bit integer.
+            Raises [Failure] if the big integer is outside the
+            range [[-2{^63}, 2{^63}-1]]. *)
+
 val float_of_big_int : big_int -> float
         (** Returns a floating-point number approximating the
            given big integer. *)
+
+(** {6 Bit-oriented operations} *)
+
+val and_big_int : big_int -> big_int -> big_int
+        (** Bitwise logical ``and''.
+            The arguments must be positive or zero. *)
+val or_big_int : big_int -> big_int -> big_int
+        (** Bitwise logical ``or''.
+            The arguments must be positive or zero. *)
+val xor_big_int : big_int -> big_int -> big_int
+        (** Bitwise logical ``exclusive or''.
+            The arguments must be positive or zero. *)
+val shift_left_big_int : big_int -> int -> big_int
+        (** [shift_left_big_int b n] returns [b] shifted left by [n] bits.
+            Equivalent to multiplication by [2^n]. *)
+val shift_right_big_int : big_int -> int -> big_int
+        (** [shift_right_big_int b n] returns [b] shifted right by [n] bits.
+            Equivalent to division by [2^n] with the result being
+            rounded towards minus infinity. *)
+val shift_right_towards_zero_big_int : big_int -> int -> big_int
+        (** [shift_right_towards_zero_big_int b n] returns [b] shifted
+            right by [n] bits.  The shift is performed on the absolute
+            value of [b], and the result has the same sign as [b].
+            Equivalent to division by [2^n] with the result being
+            rounded towards zero. *)
+val extract_big_int : big_int -> int -> int -> big_int
+        (** [extract_big_int bi ofs n] returns a nonnegative number
+            corresponding to bits [ofs] to [ofs + n - 1] of the
+            binary representation of [bi].  If [bi] is negative,
+            a two's complement representation is used. *)
 
 (**/**)
 

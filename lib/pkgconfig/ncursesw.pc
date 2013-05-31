@@ -1,0 +1,13 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=/usr/include/ncursesw
+major_version=5
+version=5.7.20091227
+
+Name: ncursesw
+Description: ncurses 5.7 library
+Version: ${version}
+Requires: 
+Libs:  -lncursesw 
+Cflags: -I${includedir}

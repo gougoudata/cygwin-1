@@ -7,6 +7,7 @@ Git - Perl interface to the Git version control system
 
 package Git;
 
+use 5.008;
 use strict;
 
 
@@ -56,7 +57,7 @@ require Exporter;
 @EXPORT_OK = qw(command command_oneline command_noisy
                 command_output_pipe command_input_pipe command_close_pipe
                 command_bidi_pipe command_close_bidi_pipe
-                version exec_path hash_object git_cmd_try
+                version exec_path html_path hash_object git_cmd_try
                 remote_refs
                 temp_acquire temp_release temp_reset temp_path);
 
@@ -98,7 +99,7 @@ increase notwithstanding).
 
 use Carp qw(carp croak); # but croak is bad - throw instead
 use Error qw(:try);
-use Cwd qw(abs_path);
+use Cwd qw(abs_path cwd);
 use IPC::Open2 qw(open2);
 use Fcntl qw(SEEK_SET SEEK_CUR);
 }
@@ -166,12 +167,13 @@ sub repository {
 		}
 	}
 
-	if (not defined $opts{Repository} and not defined $opts{WorkingCopy}) {
-		$opts{Directory} ||= '.';
+	if (not defined $opts{Repository} and not defined $opts{WorkingCopy}
+		and not defined $opts{Directory}) {
+		$opts{Directory} = '.';
 	}
 
-	if ($opts{Directory}) {
-		-d $opts{Directory} or throw Error::Simple("Directory not found: $!");
+	if (defined $opts{Directory}) {
+		-d $opts{Directory} or throw Error::Simple("Directory not found: $opts{Directory} $!");
 
 		my $search = Git->repository(WorkingCopy => $opts{Directory});
 		my $dir;
@@ -184,7 +186,7 @@ sub repository {
 
 		if ($dir) {
 			$dir =~ m#^/# or $dir = $opts{Directory} . '/' . $dir;
-			$opts{Repository} = $dir;
+			$opts{Repository} = abs_path($dir);
 
 			# If --git-dir went ok, this shouldn't die either.
 			my $prefix = $search->command_oneline('rev-parse', '--show-prefix');
@@ -203,15 +205,15 @@ sub repository {
 			$dir = $opts{Directory};
 
 			unless (-d "$dir/refs" and -d "$dir/objects" and -e "$dir/HEAD") {
-				# Mimick git-rev-parse --git-dir error message:
-				throw Error::Simple('fatal: Not a git repository');
+				# Mimic git-rev-parse --git-dir error message:
+				throw Error::Simple("fatal: Not a git repository: $dir");
 			}
 			my $search = Git->repository(Repository => $dir);
 			try {
 				$search->command('symbolic-ref', 'HEAD');
 			} catch Git::Error::Command with {
-				# Mimick git-rev-parse --git-dir error message:
-				throw Error::Simple('fatal: Not a git repository');
+				# Mimic git-rev-parse --git-dir error message:
+				throw Error::Simple("fatal: Not a git repository: $dir");
 			}
 
 			$opts{Repository} = abs_path($dir);
@@ -394,7 +396,16 @@ See C<command_close_bidi_pipe()> for details.
 
 sub command_bidi_pipe {
 	my ($pid, $in, $out);
+	my ($self) = _maybe_self(@_);
+	local %ENV = %ENV;
+	my $cwd_save = undef;
+	if ($self) {
+		shift;
+		$cwd_save = cwd();
+		_setup_git_cmd_env($self);
+	}
 	$pid = open2($in, $out, 'git', @_);
+	chdir($cwd_save) if $cwd_save;
 	return ($pid, $in, $out, join(' ', @_));
 }
 
@@ -491,6 +502,16 @@ C<git --exec-path>). Useful mostly only internally.
 sub exec_path { command_oneline('--exec-path') }
 
 
+=item html_path ()
+
+Return path to the Git html documentation (the same as
+C<git --html-path>). Useful mostly only internally.
+
+=cut
+
+sub html_path { command_oneline('--html-path') }
+
+
 =item repo_path ()
 
 Return path to the git repository. Must be called on a repository instance.
@@ -534,7 +555,7 @@ sub wc_chdir {
 		or throw Error::Simple("bare repository");
 
 	-d $self->wc_path().'/'.$subdir
-		or throw Error::Simple("subdir not found: $!");
+		or throw Error::Simple("subdir not found: $subdir $!");
 	# Of course we will not "hold" the subdirectory so anyone
 	# can delete it now and we will never know. But at least we tried.
 
@@ -549,15 +570,68 @@ does. In scalar context requires the variable to be set only one time
 (exception is thrown otherwise), in array context returns allows the
 variable to be set multiple times and returns all the values.
 
-This currently wraps command('config') so it is not so fast.
-
 =cut
 
 sub config {
+	return _config_common({}, @_);
+}
+
+
+=item config_bool ( VARIABLE )
+
+Retrieve the bool configuration C<VARIABLE>. The return value
+is usable as a boolean in perl (and C<undef> if it's not defined,
+of course).
+
+=cut
+
+sub config_bool {
+	my $val = scalar _config_common({'kind' => '--bool'}, @_);
+
+	# Do not rewrite this as return (defined $val && $val eq 'true')
+	# as some callers do care what kind of falsehood they receive.
+	if (!defined $val) {
+		return undef;
+	} else {
+		return $val eq 'true';
+	}
+}
+
+
+=item config_path ( VARIABLE )
+
+Retrieve the path configuration C<VARIABLE>. The return value
+is an expanded path or C<undef> if it's not defined.
+
+=cut
+
+sub config_path {
+	return _config_common({'kind' => '--path'}, @_);
+}
+
+
+=item config_int ( VARIABLE )
+
+Retrieve the integer configuration C<VARIABLE>. The return value
+is simple decimal number.  An optional value suffix of 'k', 'm',
+or 'g' in the config file will cause the value to be multiplied
+by 1024, 1048576 (1024^2), or 1073741824 (1024^3) prior to output.
+It would return C<undef> if configuration variable is not defined,
+
+=cut
+
+sub config_int {
+	return scalar _config_common({'kind' => '--int'}, @_);
+}
+
+# Common subroutine to implement bulk of what the config* family of methods
+# do. This curently wraps command('config') so it is not so fast.
+sub _config_common {
+	my ($opts) = shift @_;
 	my ($self, $var) = _maybe_self(@_);
 
 	try {
-		my @cmd = ('config');
+		my @cmd = ('config', $opts->{'kind'} ? $opts->{'kind'} : ());
 		unshift @cmd, $self if $self;
 		if (wantarray) {
 			return command(@cmd, '--get-all', $var);
@@ -569,67 +643,6 @@ sub config {
 		if ($E->value() == 1) {
 			# Key not found.
 			return;
-		} else {
-			throw $E;
-		}
-	};
-}
-
-
-=item config_bool ( VARIABLE )
-
-Retrieve the bool configuration C<VARIABLE>. The return value
-is usable as a boolean in perl (and C<undef> if it's not defined,
-of course).
-
-This currently wraps command('config') so it is not so fast.
-
-=cut
-
-sub config_bool {
-	my ($self, $var) = _maybe_self(@_);
-
-	try {
-		my @cmd = ('config', '--bool', '--get', $var);
-		unshift @cmd, $self if $self;
-		my $val = command_oneline(@cmd);
-		return undef unless defined $val;
-		return $val eq 'true';
-	} catch Git::Error::Command with {
-		my $E = shift;
-		if ($E->value() == 1) {
-			# Key not found.
-			return undef;
-		} else {
-			throw $E;
-		}
-	};
-}
-
-=item config_int ( VARIABLE )
-
-Retrieve the integer configuration C<VARIABLE>. The return value
-is simple decimal number.  An optional value suffix of 'k', 'm',
-or 'g' in the config file will cause the value to be multiplied
-by 1024, 1048576 (1024^2), or 1073741824 (1024^3) prior to output.
-It would return C<undef> if configuration variable is not defined,
-
-This currently wraps command('config') so it is not so fast.
-
-=cut
-
-sub config_int {
-	my ($self, $var) = _maybe_self(@_);
-
-	try {
-		my @cmd = ('config', '--int', '--get', $var);
-		unshift @cmd, $self if $self;
-		return command_oneline(@cmd);
-	} catch Git::Error::Command with {
-		my $E = shift;
-		if ($E->value() == 1) {
-			# Key not found.
-			return undef;
 		} else {
 			throw $E;
 		}
@@ -831,7 +844,7 @@ sub _open_hash_and_insert_object_if_needed {
 
 	($self->{hash_object_pid}, $self->{hash_object_in},
 	 $self->{hash_object_out}, $self->{hash_object_ctx}) =
-		command_bidi_pipe(qw(hash-object -w --stdin-paths));
+		$self->command_bidi_pipe(qw(hash-object -w --stdin-paths --no-filters));
 }
 
 sub _close_hash_and_insert_object {
@@ -920,7 +933,7 @@ sub _open_cat_blob_if_needed {
 
 	($self->{cat_blob_pid}, $self->{cat_blob_in},
 	 $self->{cat_blob_out}, $self->{cat_blob_ctx}) =
-		command_bidi_pipe(qw(cat-file --batch));
+		$self->command_bidi_pipe(qw(cat-file --batch));
 }
 
 sub _close_cat_blob {
@@ -961,9 +974,7 @@ issue.
 =cut
 
 sub temp_acquire {
-	my ($self, $name) = _maybe_self(@_);
-
-	my $temp_fd = _temp_cache($name);
+	my $temp_fd = _temp_cache(@_);
 
 	$TEMP_FILES{$temp_fd}{locked} = 1;
 	$temp_fd;
@@ -1005,15 +1016,15 @@ sub temp_release {
 }
 
 sub _temp_cache {
-	my ($name) = @_;
+	my ($self, $name) = _maybe_self(@_);
 
 	_verify_require();
 
 	my $temp_fd = \$TEMP_FILEMAP{$name};
 	if (defined $$temp_fd and $$temp_fd->opened) {
 		if ($TEMP_FILES{$$temp_fd}{locked}) {
-			throw Error::Simple("Temp file with moniker '",
-				$name, "' already in use");
+			throw Error::Simple("Temp file with moniker '" .
+				$name . "' already in use");
 		}
 	} else {
 		if (defined $$temp_fd) {
@@ -1022,9 +1033,16 @@ sub _temp_cache {
 				"' was closed. Opening replacement.";
 		}
 		my $fname;
+
+		my $tmpdir;
+		if (defined $self) {
+			$tmpdir = $self->repo_path();
+		}
+
 		($$temp_fd, $fname) = File::Temp->tempfile(
-			'Git_XXXXXX', UNLINK => 1
+			'Git_XXXXXX', UNLINK => 1, DIR => $tmpdir,
 			) or throw Error::Simple("couldn't open new temp file");
+
 		$$temp_fd->autoflush;
 		binmode $$temp_fd;
 		$TEMP_FILES{$$temp_fd}{fname} = $fname;
@@ -1203,8 +1221,7 @@ either version 2, or (at your option) any later version.
 # the method was called upon an instance and (undef, @args) if
 # it was called directly.
 sub _maybe_self {
-	# This breaks inheritance. Oh well.
-	ref $_[0] eq 'Git' ? @_ : (undef, @_);
+	UNIVERSAL::isa($_[0], 'Git') ? @_ : (undef, @_);
 }
 
 # Check if the command id is something reasonable.
@@ -1263,13 +1280,21 @@ sub _command_common_pipe {
 # for the given repository and execute the git command.
 sub _cmd_exec {
 	my ($self, @args) = @_;
+	_setup_git_cmd_env($self);
+	_execv_git_cmd(@args);
+	die qq[exec "@args" failed: $!];
+}
+
+# set up the appropriate state for git command
+sub _setup_git_cmd_env {
+	my $self = shift;
 	if ($self) {
 		$self->repo_path() and $ENV{'GIT_DIR'} = $self->repo_path();
+		$self->repo_path() and $self->wc_path()
+			and $ENV{'GIT_WORK_TREE'} = $self->wc_path();
 		$self->wc_path() and chdir($self->wc_path());
 		$self->wc_subdir() and chdir($self->wc_subdir());
 	}
-	_execv_git_cmd(@args);
-	die qq[exec "@args" failed: $!];
 }
 
 # Execute the given Git command ($_[0]) with arguments ($_[1..])

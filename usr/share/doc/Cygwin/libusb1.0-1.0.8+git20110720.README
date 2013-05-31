@@ -1,0 +1,63 @@
+libusb-1.0
+------------------------------------------
+It is a library that allows userspace application to access USB 
+devices on WinUSB-compatible Windows operation systems (WinXP, Vista, and 7). 
+It is being integrated to and fully API compatible to libusb available at 
+http://libusb.sourceforge.net."
+
+
+Runtime requirements:
+  none
+
+Build requirements:
+  cygwin-1.5.18 or newer
+  gcc-3.4.4-1 or newer
+  binutils-20050610-1 or newer
+
+Canonical homepage:
+  http://libusb.sourceforge.net
+
+Canonical download:
+  git://git.libusb.org/libusb-pbatard.git
+
+License:
+  LGPL
+
+Language:
+  C
+
+------------------------------------
+
+Build instructions:
+  unpack libusb-1.0-1.0.8+git20110720-1-src.tar.bz2
+    if you use setup to install this src package, it will be
+	 unpacked under /usr/src automatically
+  cd /usr/src
+  ./libusb-1.0-1.0.8+git20110720-1.sh all
+
+This will create:
+  /usr/src/libusb-1.0-1.0.8+git20110720-1.tar.bz2
+  /usr/src/libusb-1.0-1.0.8+git20110720-1-src.tar.bz2
+
+Or use './libusb-1.0-1.0.8+git20110720-1.sh prep' to get a patched source directory
+
+To find out the files included in the binary distribution, you can
+use "cygcheck -l libusb-1.0", or browse the listing for the appropriate version
+at <http://cygwin.com/packages/>.
+
+------------------
+
+----------  libusb-1.0-1.0.8+git20110720 -- 2011/08/16 -----------
+New upstream snapshot
+
+----------  libusb-1.0-1.0.7+gitbd62c472 -- 2010/04/25 -----------
+New upstream snapshot
+
+----------  libusb-1.0-1.0.5+git03e9371a -- 2010/02/28 -----------
+Initial release
+
+For more information about this package, see the upstream documentation in
+/usr/share/doc/libusb-1.0-1.0.8+git20110720
+
+Cygwin port maintained by: Samuel Thibault <samuel.thibault@ens-lyon.org>
+Please address all questions to the Cygwin mailing list at <cygwin@cygwin.com>

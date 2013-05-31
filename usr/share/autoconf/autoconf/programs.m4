@@ -1,51 +1,28 @@
 # This file is part of Autoconf.                       -*- Autoconf -*-
 # Checking for programs.
 
-# Copyright (C) 1992, 1993, 1994, 1995, 1996, 1998, 1999, 2000, 2001,
-# 2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
+# Copyright (C) 1992-1996, 1998-2012 Free Software Foundation, Inc.
 
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2, or (at your option)
-# any later version.
+# This file is part of Autoconf.  This program is free
+# software; you can redistribute it and/or modify it under the
+# terms of the GNU General Public License as published by the
+# Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
+# Under Section 7 of GPL version 3, you are granted additional
+# permissions described in the Autoconf Configure Script Exception,
+# version 3.0, as published by the Free Software Foundation.
+#
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-# 02110-1301, USA.
+# and a copy of the Autoconf Configure Script Exception along with
+# this program; see the files COPYINGv3 and COPYING.EXCEPTION
+# respectively.  If not, see <http://www.gnu.org/licenses/>.
 
-# As a special exception, the Free Software Foundation gives unlimited
-# permission to copy, distribute and modify the configure scripts that
-# are the output of Autoconf.  You need not follow the terms of the GNU
-# General Public License when using or distributing such scripts, even
-# though portions of the text of Autoconf appear in them.  The GNU
-# General Public License (GPL) does govern all other use of the material
-# that constitutes the Autoconf program.
-#
-# Certain portions of the Autoconf source text are designed to be copied
-# (in certain cases, depending on the input) into the output of
-# Autoconf.  We call these the "data" portions.  The rest of the Autoconf
-# source text consists of comments plus executable code that decides which
-# of the data portions to output in any given case.  We call these
-# comments and executable code the "non-data" portions.  Autoconf never
-# copies any of the non-data portions into its output.
-#
-# This special exception to the GPL applies to versions of Autoconf
-# released by the Free Software Foundation.  When you make and
-# distribute a modified version of Autoconf, you may extend this special
-# exception to the GPL to apply to your modified version as well, *unless*
-# your modified version has the potential to copy into its output some
-# of the text that was the non-data portion of the version that you started
-# with.  (In other words, unless your change moves or copies text from
-# the non-data portions to the data portions.)  If your modification has
-# such potential, you must delete any notice of this special exception
-# to the GPL from your modified version.
-#
 # Written by David MacKenzie, with help from
 # Franc,ois Pinard, Karl Berry, Richard Pixley, Ian Lance Taylor,
 # Roland McGrath, Noah Friedman, david d zuhn, and many others.
@@ -211,9 +188,7 @@ AU_DEFUN([AC_CHECK_TOOL_PREFIX])
 AC_DEFUN([_AC_TOOL_WARN],
 [case $cross_compiling:$ac_tool_warned in
 yes:)
-AC_MSG_WARN([In the future, Autoconf will not detect cross-tools
-whose name does not start with the host triplet.  If you think this
-configuration is useful to you, please write to autoconf@gnu.org.])
+AC_MSG_WARN([using cross tools not prefixed with host triplet])
 ac_tool_warned=yes ;;
 esac])
 
@@ -291,10 +266,10 @@ fi
 
 
 # AC_PATH_TARGET_TOOL(VARIABLE, PROG-TO-CHECK-FOR, [VALUE-IF-NOT-FOUND], [PATH])
-# -----------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # (Use different variables $1 and ac_pt_$1 so that cache vars don't conflict.)
 AC_DEFUN([AC_PATH_TARGET_TOOL],
-[AC_BEFORE([$0], [AC_CANONICAL_TARGET])dnl
+[AC_REQUIRE([AC_CANONICAL_TARGET])dnl
 AC_PATH_PROG([$1], [$target_alias-$2], , [$4])
 if test -z "$ac_cv_path_$1"; then
   if test "$build" = "$target"; then
@@ -311,16 +286,16 @@ fi
 
 
 # AC_CHECK_TARGET_TOOL(VARIABLE, PROG-TO-CHECK-FOR, [VALUE-IF-NOT-FOUND], [PATH])
-# ------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 # (Use different variables $1 and ac_ct_$1 so that cache vars don't conflict.)
 AC_DEFUN([AC_CHECK_TARGET_TOOL],
-[AC_BEFORE([$0], [AC_CANONICAL_TARGET])dnl
+[AC_REQUIRE([AC_CANONICAL_TARGET])dnl
 AC_CHECK_PROG([$1], [$target_alias-$2], [$target_alias-$2], , [$4])
 if test -z "$ac_cv_prog_$1"; then
   if test "$build" = "$target"; then
     ac_ct_$1=$$1
     _AC_CHECK_PROG([ac_ct_$1], [$2], [$2], [$3], [$4])
-    $1=ac_ct_$1
+    $1=$ac_ct_$1
   else
     $1="$3"
   fi
@@ -332,12 +307,12 @@ fi
 
 # AC_CHECK_TARGET_TOOLS(VARIABLE, PROGS-TO-CHECK-FOR, [VALUE-IF-NOT-FOUND],
 #	                [PATH])
-# ------------------------------------------------------------------
+# -------------------------------------------------------------------------
 # Check for each tool in PROGS-TO-CHECK-FOR with the cross prefix. If
 # none can be found with a cross prefix, then use the first one that
 # was found without the cross prefix.
 AC_DEFUN([AC_CHECK_TARGET_TOOLS],
-[AC_BEFORE([$0], [AC_CANONICAL_TARGET])dnl
+[AC_REQUIRE([AC_CANONICAL_TARGET])dnl
 for ac_prog in $2
 do
   AC_CHECK_PROG([$1],
@@ -424,54 +399,73 @@ AC_DEFUN([AC_PROG_GREP],
 # AIX silently truncates long lines before matching.
 # NeXT understands only one -e and truncates long lines.
 m4_define([_AC_PROG_GREP],
-[_AC_PATH_PROG_FEATURE_CHECK([$1], [$2],
+[_AC_PATH_PROGS_FEATURE_CHECK([$1], [$2],
 	[_AC_FEATURE_CHECK_LENGTH([ac_path_$1], [ac_cv_path_$1],
-		["$ac_path_$1" $3], [$1])], [$PATH$PATH_SEPARATOR/usr/xpg4/bin])
+		["$ac_path_$1" $3], [$1])], [],
+	[$PATH$PATH_SEPARATOR/usr/xpg4/bin])dnl
 ])
 
 
-# _AC_PATH_PROG_FEATURE_CHECK(VARIABLE, PROGNAME-LIST, FEATURE-TEST, [PATH])
-# --------------------------------------------------------------------------
+# _AC_PATH_PROGS_FEATURE_CHECK(VARIABLE, PROGNAME-LIST, FEATURE-TEST,
+#                              [ACTION-IF-NOT-FOUND], [PATH=$PATH])
+# -------------------------------------------------------------------
 # FEATURE-TEST is called repeatedly with $ac_path_VARIABLE set to the
 # name of a program in PROGNAME-LIST found in PATH.  FEATURE-TEST must set
 # $ac_cv_path_VARIABLE to the path of an acceptable program, or else
-# _AC_PATH_PROG_FEATURE_CHECK will report that no acceptable program
-# was found, and abort.  If a suitable $ac_path_VARIABLE is found in the
-# FEATURE-TEST macro, it can set $ac_path_VARIABLE_found=':' to accept
-# that value without any further checks.
-m4_define([_AC_PATH_PROG_FEATURE_CHECK],
-[# Extract the first word of "$2" to use in msg output
-if test -z "$$1"; then
-set dummy $2; ac_prog_name=$[2]
-AC_CACHE_VAL([ac_cv_path_$1],
-[ac_path_$1_found=false
-# Loop through the user's path and test for each of PROGNAME-LIST
-_AS_PATH_WALK([$4],
-[for ac_prog in $2; do
-  for ac_exec_ext in '' $ac_executable_extensions; do
-    ac_path_$1="$as_dir/$ac_prog$ac_exec_ext"
-    AS_EXECUTABLE_P(["$ac_path_$1"]) || continue
-    $3
-    $ac_path_$1_found && break 3
-  done
-done
-])
-])
-$1="$ac_cv_path_$1"
-if test -z "$$1"; then
-  AC_MSG_ERROR([no acceptable $ac_prog_name could be found in dnl
-m4_default([$4], [\$PATH])])
-fi
-AC_SUBST([$1])
+# ACTION-IF-NOT-FOUND is executed; the default action (for internal use
+# only) issues a fatal error message.  If a suitable $ac_path_VARIABLE is
+# found in the FEATURE-TEST macro, it can set $ac_path_VARIABLE_found=':'
+# to accept that value without any further checks.
+m4_define([_AC_PATH_PROGS_FEATURE_CHECK],
+[if test -z "$$1"; then
+  ac_path_$1_found=false
+  # Loop through the user's path and test for each of PROGNAME-LIST
+  _AS_PATH_WALK([$5],
+  [for ac_prog in $2; do
+    for ac_exec_ext in '' $ac_executable_extensions; do
+      ac_path_$1="$as_dir/$ac_prog$ac_exec_ext"
+      AS_EXECUTABLE_P(["$ac_path_$1"]) || continue
+$3
+      $ac_path_$1_found && break 3
+    done
+  done])dnl
+  if test -z "$ac_cv_path_$1"; then
+    m4_default([$4],
+      [AC_MSG_ERROR([no acceptable m4_bpatsubst([$2], [ .*]) could be dnl
+found in m4_default([$5], [\$PATH])])])
+  fi
 else
   ac_cv_path_$1=$$1
 fi
 ])
 
 
+# AC_PATH_PROGS_FEATURE_CHECK(VARIABLE, PROGNAME-LIST,
+#                             FEATURE-TEST, [ACTION-IF-NOT-FOUND=:],
+#                             [PATH=$PATH])
+# ------------------------------------------------------------------
+# Designed to be used inside AC_CACHE_VAL.  It is recommended,
+# but not required, that the user also use AC_ARG_VAR([VARIABLE]).
+# If VARIABLE is not empty, set the cache variable
+# $ac_cv_path_VARIABLE to VARIABLE without any further tests.
+# Otherwise, call FEATURE_TEST repeatedly with $ac_path_VARIABLE
+# set to the name of a program in PROGNAME-LIST found in PATH.  If
+# no invocation of FEATURE-TEST sets $ac_cv_path_VARIABLE to the
+# path of an acceptable program, ACTION-IF-NOT-FOUND is executed.
+# FEATURE-TEST is invoked even when $ac_cv_path_VARIABLE is set,
+# in case a better candidate occurs later in PATH; to accept the
+# current setting and bypass further checks, FEATURE-TEST can set
+# $ac_path_VARIABLE_found=':'.  Note that, unlike AC_CHECK_PROGS,
+# this macro does not have any side effect on the current value
+# of VARIABLE.
+m4_define([AC_PATH_PROGS_FEATURE_CHECK],
+[_$0([$1], [$2], [$3], m4_default([$4], [:]), [$5])dnl
+])
+
+
 # _AC_FEATURE_CHECK_LENGTH(PROGPATH, CACHE-VAR, CHECK-CMD, [MATCH-STRING])
 # ------------------------------------------------------------------------
-# For use as the FEATURE-TEST argument to _AC_PATH_PROG_FEATURE_TEST.
+# For use as the FEATURE-TEST argument to _AC_PATH_PROGS_FEATURE_TEST.
 # On each iteration run CHECK-CMD on an input file, storing the value
 # of PROGPATH in CACHE-VAR if the CHECK-CMD succeeds.  The input file
 # is always one line, starting with only 10 characters, and doubling
@@ -484,16 +478,16 @@ m4_define([_AC_FEATURE_CHECK_LENGTH],
   _AC_PATH_PROG_FLAVOR_GNU([$$1],
     [$2="$$1" $1_found=:],
   [ac_count=0
-  echo $ECHO_N "0123456789$ECHO_C" >"conftest.in"
+  AS_ECHO_N([0123456789]) >"conftest.in"
   while :
   do
     cat "conftest.in" "conftest.in" >"conftest.tmp"
     mv "conftest.tmp" "conftest.in"
     cp "conftest.in" "conftest.nl"
-    echo '$4' >> "conftest.nl"
+    AS_ECHO(['$4']) >> "conftest.nl"
     $3 < "conftest.nl" >"conftest.out" 2>/dev/null || break
     diff "conftest.out" "conftest.nl" >/dev/null 2>&1 || break
-    ac_count=`expr $ac_count + 1`
+    AS_VAR_ARITH([ac_count], [$ac_count + 1])
     if test $ac_count -gt ${$1_max-0}; then
       # Best one so far, save it but keep looking for a better one
       $2="$$1"
@@ -505,7 +499,7 @@ dnl   # for best performing tool in a list breaks down.
     # 10*(2^10) chars as input seems more than enough
     test $ac_count -gt 10 && break
   done
-  rm -f conftest.in conftest.tmp conftest.nl conftest.out])
+  rm -f conftest.in conftest.tmp conftest.nl conftest.out])dnl
 ])
 
 
@@ -527,7 +521,7 @@ m4_ifval([$3],
 # ---------------
 AN_MAKEVAR([INSTALL], [AC_PROG_INSTALL])
 AN_PROGRAM([install], [AC_PROG_INSTALL])
-AC_DEFUN([AC_PROG_INSTALL],
+AC_DEFUN_ONCE([AC_PROG_INSTALL],
 [AC_REQUIRE([AC_CONFIG_AUX_DIR_DEFAULT])dnl
 AC_REQUIRE_AUX_FILE([install-sh])dnl
 # Find a good install program.  We prefer a C program (faster),
@@ -543,17 +537,18 @@ AC_REQUIRE_AUX_FILE([install-sh])dnl
 # SVR4 /usr/ucb/install, which tries to use the nonexistent group "staff"
 # OS/2's system install, which has a completely different semantic
 # ./install, which can be erroneously created by make from ./install.sh.
+# Reject install programs that cannot install multiple files.
 AC_MSG_CHECKING([for a BSD-compatible install])
 if test -z "$INSTALL"; then
 AC_CACHE_VAL(ac_cv_path_install,
 [_AS_PATH_WALK([$PATH],
-[# Account for people who put trailing slashes in PATH elements.
-case $as_dir/ in
+[[# Account for people who put trailing slashes in PATH elements.
+case $as_dir/ in @%:@((
   ./ | .// | /[cC]/* | \
   /etc/* | /usr/sbin/* | /usr/etc/* | /sbin/* | /usr/afsws/bin/* | \
   ?:[\\/]os2[\\/]install[\\/]* | ?:[\\/]OS2[\\/]INSTALL[\\/]* | \
   /usr/ucb/* ) ;;
-  *)
+  *)]
     # OSF1 and SCO ODT 3.0 have their own names for install.
     # Don't use installbsd from OSF since it installs stuff as root
     # by default.
@@ -569,14 +564,26 @@ case $as_dir/ in
 	    # program-specific install script used by HP pwplus--don't use.
 	    :
 	  else
-	    ac_cv_path_install="$as_dir/$ac_prog$ac_exec_ext -c"
-	    break 3
+	    rm -rf conftest.one conftest.two conftest.dir
+	    echo one > conftest.one
+	    echo two > conftest.two
+	    mkdir conftest.dir
+	    if "$as_dir/$ac_prog$ac_exec_ext" -c conftest.one conftest.two "`pwd`/conftest.dir" &&
+	      test -s conftest.one && test -s conftest.two &&
+	      test -s conftest.dir/conftest.one &&
+	      test -s conftest.dir/conftest.two
+	    then
+	      ac_cv_path_install="$as_dir/$ac_prog$ac_exec_ext -c"
+	      break 3
+	    fi
 	  fi
 	fi
       done
     done
     ;;
-esac])
+esac
+])
+rm -rf conftest.one conftest.two conftest.dir
 ])dnl
   if test "${ac_cv_path_install+set}" = set; then
     INSTALL=$ac_cv_path_install
@@ -652,7 +659,7 @@ AC_SUBST(INSTALL_DATA)dnl
 # recognize any option.  It will interpret all options as
 # directories to create.
 AN_MAKEVAR([MKDIR_P], [AC_PROG_MKDIR_P])
-AC_DEFUN([AC_PROG_MKDIR_P],
+AC_DEFUN_ONCE([AC_PROG_MKDIR_P],
 [AC_REQUIRE([AC_CONFIG_AUX_DIR_DEFAULT])dnl
 AC_REQUIRE_AUX_FILE([install-sh])dnl
 AC_MSG_CHECKING([for a thread-safe mkdir -p])
@@ -671,6 +678,7 @@ if test -z "$MKDIR_P"; then
 	   esac
 	 done
        done])])
+  test -d ./--version && rmdir ./--version
   if test "${ac_cv_path_mkdir+set}" = set; then
     MKDIR_P="$ac_cv_path_mkdir -p"
   else
@@ -678,12 +686,15 @@ if test -z "$MKDIR_P"; then
     # value for MKDIR_P within a source directory, because that will
     # break other packages using the cache if that directory is
     # removed, or if the value is a relative name.
-    test -d ./--version && rmdir ./--version
     MKDIR_P="$ac_install_sh -d"
   fi
 fi
-dnl Do special magic for MKDIR_P instead of AC_SUBST, to get
-dnl relative names right.
+dnl status.m4 does special magic for MKDIR_P instead of AC_SUBST,
+dnl to get relative names right.  However, also AC_SUBST here so
+dnl that Automake versions before 1.10 will pick it up (they do not
+dnl trace AC_SUBST_TRACE).
+dnl FIXME: Remove this once we drop support for Automake < 1.10.
+AC_SUBST([MKDIR_P])dnl
 AC_MSG_RESULT([$MKDIR_P])
 ])# AC_PROG_MKDIR_P
 
@@ -713,7 +724,8 @@ a { ECHO; }
 b { REJECT; }
 c { yymore (); }
 d { yyless (1); }
-e { yyless (input () != 0); }
+e { /* IRIX 6.5 flex 2.5.4 underquotes its yyless argument.  */
+    yyless ((input () != 0)); }
 f { unput (yytext[0]); }
 . { BEGIN INITIAL; }
 %%
@@ -743,7 +755,8 @@ if test -z "${LEXLIB+set}"; then
     ac_cv_lib_lex='none needed'
     for ac_lib in '' -lfl -ll; do
       LIBS="$ac_lib $ac_save_LIBS"
-      AC_LINK_IFELSE([`cat $LEX_OUTPUT_ROOT.c`], [ac_cv_lib_lex=$ac_lib])
+      AC_LINK_IFELSE([AC_LANG_DEFINES_PROVIDED[`cat $LEX_OUTPUT_ROOT.c`]],
+	[ac_cv_lib_lex=$ac_lib])
       test "$ac_cv_lib_lex" != 'none needed' && break
     done
     LIBS=$ac_save_LIBS
@@ -759,9 +772,9 @@ AC_CACHE_CHECK(whether yytext is a pointer, ac_cv_prog_lex_yytext_pointer,
 ac_cv_prog_lex_yytext_pointer=no
 ac_save_LIBS=$LIBS
 LIBS="$LEXLIB $ac_save_LIBS"
-AC_LINK_IFELSE(
+AC_LINK_IFELSE([AC_LANG_DEFINES_PROVIDED
   [#define YYTEXT_POINTER 1
-`cat $LEX_OUTPUT_ROOT.c`],
+`cat $LEX_OUTPUT_ROOT.c`]],
   [ac_cv_prog_lex_yytext_pointer=yes])
 LIBS=$ac_save_LIBS
 ])
@@ -804,14 +817,15 @@ AN_MAKEVAR([MAKE], [AC_PROG_MAKE_SET])
 AN_PROGRAM([make], [AC_PROG_MAKE_SET])
 AC_DEFUN([AC_PROG_MAKE_SET],
 [AC_MSG_CHECKING([whether ${MAKE-make} sets \$(MAKE)])
-set x ${MAKE-make}; ac_make=`echo "$[2]" | sed 's/+/p/g; s/[[^a-zA-Z0-9_]]/_/g'`
+set x ${MAKE-make}
+ac_make=`AS_ECHO(["$[2]"]) | sed 's/+/p/g; s/[[^a-zA-Z0-9_]]/_/g'`
 AC_CACHE_VAL(ac_cv_prog_make_${ac_make}_set,
 [cat >conftest.make <<\_ACEOF
 SHELL = /bin/sh
 all:
 	@echo '@@@%%%=$(MAKE)=@@@%%%'
 _ACEOF
-# GNU make sometimes prints "make[1]: Entering...", which would confuse us.
+# GNU make sometimes prints "make[1]: Entering ...", which would confuse us.
 case `${MAKE-make} -f conftest.make 2>/dev/null` in
   *@@@%%%=?*=@@@%%%*)
     eval ac_cv_prog_make_${ac_make}_set=yes;;
@@ -858,9 +872,9 @@ AC_DEFUN([AC_PROG_SED],
      for ac_i in 1 2 3 4 5 6 7; do
        ac_script="$ac_script$as_nl$ac_script"
      done
-     echo "$ac_script" | sed 99q >conftest.sed
-     $as_unset ac_script || ac_script=
-     _AC_PATH_PROG_FEATURE_CHECK(SED, [sed gsed],
+     echo "$ac_script" 2>/dev/null | sed 99q >conftest.sed
+     AS_UNSET([ac_script])
+     _AC_PATH_PROGS_FEATURE_CHECK(SED, [sed gsed],
 	[_AC_FEATURE_CHECK_LENGTH([ac_path_SED], [ac_cv_path_SED],
 		["$ac_path_SED" -f conftest.sed])])])
  SED="$ac_cv_path_SED"
@@ -880,8 +894,8 @@ AN_PROGRAM([bison], [AC_PROG_YACC])
 AC_DEFUN([AC_PROG_YACC],
 [AC_CHECK_PROGS(YACC, 'bison -y' byacc, yacc)dnl
 AC_ARG_VAR(YACC,
-[The `Yet Another C Compiler' implementation to use.  Defaults to the first
-program found out of: `bison -y', `byacc', `yacc'.])dnl
+[The `Yet Another Compiler Compiler' implementation to use.  Defaults to
+the first program found out of: `bison -y', `byacc', `yacc'.])dnl
 AC_ARG_VAR(YFLAGS,
 [The list of arguments that will be passed by default to $YACC.  This script
 will default YFLAGS to the empty string to avoid a default value of `-d' given

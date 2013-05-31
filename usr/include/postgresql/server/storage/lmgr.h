@@ -4,16 +4,18 @@
  *	  POSTGRES lock manager definitions.
  *
  *
- * Portions Copyright (c) 1996-2006, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2012, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
- * $PostgreSQL: pgsql/src/include/storage/lmgr.h,v 1.56.2.1 2008/03/04 19:54:23 tgl Exp $
+ * src/include/storage/lmgr.h
  *
  *-------------------------------------------------------------------------
  */
 #ifndef LMGR_H
 #define LMGR_H
 
+#include "lib/stringinfo.h"
+#include "storage/itemptr.h"
 #include "storage/lock.h"
 #include "utils/rel.h"
 
@@ -29,6 +31,7 @@ extern void UnlockRelationOid(Oid relid, LOCKMODE lockmode);
 extern void LockRelation(Relation relation, LOCKMODE lockmode);
 extern bool ConditionalLockRelation(Relation relation, LOCKMODE lockmode);
 extern void UnlockRelation(Relation relation, LOCKMODE lockmode);
+extern bool LockHasWaitersRelation(Relation relation, LOCKMODE lockmode);
 
 extern void LockRelationIdForSession(LockRelId *relid, LOCKMODE lockmode);
 extern void UnlockRelationIdForSession(LockRelId *relid, LOCKMODE lockmode);
@@ -65,5 +68,13 @@ extern void LockSharedObject(Oid classid, Oid objid, uint16 objsubid,
 				 LOCKMODE lockmode);
 extern void UnlockSharedObject(Oid classid, Oid objid, uint16 objsubid,
 				   LOCKMODE lockmode);
+
+extern void LockSharedObjectForSession(Oid classid, Oid objid, uint16 objsubid,
+						   LOCKMODE lockmode);
+extern void UnlockSharedObjectForSession(Oid classid, Oid objid, uint16 objsubid,
+							 LOCKMODE lockmode);
+
+/* Describe a locktag for error messages */
+extern void DescribeLockTag(StringInfo buf, const LOCKTAG *tag);
 
 #endif   /* LMGR_H */

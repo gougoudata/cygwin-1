@@ -24,17 +24,15 @@
  * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
  */
 
+#ifndef GTK_DISABLE_DEPRECATED
+
 #ifndef __GTK_FILESEL_H__
 #define __GTK_FILESEL_H__
 
-
-#include <gdk/gdk.h>
-#include <gtk/gtkdialog.h>
+#include <gtk/gtk.h>
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 
 #define GTK_TYPE_FILE_SELECTION            (gtk_file_selection_get_type ())
@@ -105,7 +103,7 @@ GType      gtk_file_selection_get_type            (void) G_GNUC_CONST;
 GtkWidget* gtk_file_selection_new                 (const gchar      *title);
 void       gtk_file_selection_set_filename        (GtkFileSelection *filesel,
 						   const gchar      *filename);
-G_CONST_RETURN gchar* gtk_file_selection_get_filename        (GtkFileSelection *filesel);
+const gchar* gtk_file_selection_get_filename      (GtkFileSelection *filesel);
 
 void	   gtk_file_selection_complete		  (GtkFileSelection *filesel,
 						   const gchar	    *pattern);
@@ -118,9 +116,10 @@ void       gtk_file_selection_set_select_multiple (GtkFileSelection *filesel,
 						   gboolean          select_multiple);
 gboolean   gtk_file_selection_get_select_multiple (GtkFileSelection *filesel);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+
+G_END_DECLS
 
 
 #endif /* __GTK_FILESEL_H__ */
+
+#endif /* GTK_DISABLE_DEPRECATED */

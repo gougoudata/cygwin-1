@@ -1,0 +1,89 @@
+svn-load
+------------------------------------------
+
+An enhanced import facility for Subversion
+
+A free replacement for svn_load_dirs, an enhanced import facility for
+Subversion. The utility will commit a single changeset that alters a
+repository subtree to match a local directory. It detects filenames
+that have been removed or created, and uses this knowledge to prompt
+the user about file and directory movements within the subtree. An
+automatic tagging option is also supported. Svn-load is well suited
+for vendor branch maintenance, where external source is routinely
+imported and merged.
+
+Runtime requirements:
+  python
+
+Build requirements:
+  python
+
+Canonical homepage:
+  http://free.linux.hp.com/~dannf/svn-load
+  http://packages.debian.org/unstable/svn-load
+
+Canonical download:
+  See above
+
+Version control repository:
+
+Mailing list:
+
+Forum / Wiki:
+
+IRC channel:
+
+Upstream contact:
+  Maintainer: Dann Frazier <dannf@hp.com>
+  Bugs: Dann Frazier <dannf@hp.com>
+
+License:
+  Custom
+
+  From svn-load:
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions
+  are met:
+
+    * Redistributions of source code must retain the above
+      copyright notice, this list of conditions and the following
+      disclaimer.
+    * Redistributions in binary form must reproduce the above
+      copyright notice, this list of conditions and the following
+      disclaimer in the documentation and/or other materials
+      provided with the distribution.
+    * Neither the name of the Hewlett-Packard Co. nor the names
+      of its contributors may be used to endorse or promote
+      products derived from this software without specific prior
+      written permission.
+
+Language:
+  Python
+
+------------------------------------------
+
+Build instructions:
+  unpack svn-load-*-src.tar.bz2
+    if you use setup to install this src package, it will be
+    unpacked under /usr/src automatically
+  cd /usr/src
+  ./svn-load*.sh all
+
+------------------------------------------
+
+Files included in the binary distribution:
+  See Cygwin package archive
+
+------------------------------------------
+
+Port Notes:
+
+----- version 1.3-1 -----
+- New upstream release 2012-09-22 Jari Aalto
+
+----- version 0.8-1 -----
+- Private release 2008-02-25 Jari Aalto
+
+Cygwin port maintained by: Jari Aalto <jari.aalto@cante.net>
+Copyright (C) 2008-2012 Jari Aalto; Licensed under GPL v2 or later

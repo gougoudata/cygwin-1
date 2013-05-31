@@ -14,7 +14,7 @@
 
 namespace Magick
 {
-  class MagickDLLDecl TypeMetric
+  class MagickPPExport TypeMetric
   {
     friend class Image;
   public:
@@ -45,7 +45,7 @@ namespace Magick
     //
 
   private:
-    MagickLib::TypeMetric  _typeMetric;
+    MagickCore::TypeMetric  _typeMetric;
   };
 } // namespace Magick
 

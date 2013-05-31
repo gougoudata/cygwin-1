@@ -1,0 +1,122 @@
+libggi2
+------------------------------------------
+General Graphics Interface
+
+Runtime requirements:
+  cygwin-1.7.17 or newer
+  libgii1
+
+Build requirements:
+  cygwin-1.7.17 or newer
+  gcc-4.5.3 or newer
+  binutils-2.23.51-1 or newer
+  libgii1-devel
+  libX11-devel
+  w32api
+  libncurses-devel
+  file
+  aalib-devel
+  cygport
+
+Canonical homepage:
+  http://www.ggi-project.org/
+
+Canonical download:
+  http://www.ggi-project.org/ftp/ggi/v2.2/libggi-2.2.2.src.tar.gz
+
+License:
+  BSD
+
+Language:
+  C
+
+------------------------------------
+
+Build instructions:
+  unpack libggi2-2.2.2-3-src.tar.bz2
+    if you use setup to install this src package, it will be
+	 unpacked under /usr/src automatically
+  cd /usr/src
+  cygport libggi2-2.2.2-3.cygport all
+
+This will create:
+  /usr/src/libggi2-2.2.2-3.tar.bz2
+  /usr/src/libggi2-devel-2.2.2-3.tar.bz2
+  /usr/src/libggi2-display-aa-2.2.2-3.tar.bz2
+  /usr/src/libggi2-display-file-2.2.2-3.tar.bz2
+  /usr/src/libggi2-display-terminfo-2.2.2-3.tar.bz2
+  /usr/src/libggi2-display-x-2.2.2-3.tar.bz2
+  /usr/src/libggi2-samples-2.2.2-3.tar.bz2
+  /usr/src/libggi2-2.2.2-3-src.tar.bz2
+  /usr/src/libggi2-debuginfo-2.2.2-3.tar.bz2
+
+Or use 'cygport libggi2-2.2.2-3.cygport prep' to get a patched source
+directory.
+
+To find out the files included in the binary distribution, you can
+use "cygcheck -l libggi2", or browse the listing for the appropriate version
+at <http://cygwin.com/packages/>.
+
+------------------
+
+Port Notes:
+
+----------  libggi2-2.2.2-3 -- 2013-03-15 -----------
+Add patch for bug in ggiClose on display-x.
+Modernize the cygport file.
+Depend on directx includes now found in w32api.
+Build with fresher autotools.
+Provide a debuginfo package.
+
+----------  libggi2-2.2.2-2 -- 2008-11-19 -----------
+New upstreams bugfix release.
+
+- display-lcd823(7): Make it build. Reported by Kimura Masaru.
+- programs/check/speed.c: Make it build with glibc 2.4. Reported by Kimura Masaru.
+- display-tile(7): Handle flushed area independent of the origin of the tile.
+- Crossblit fixes. Crossblitting some widths across some depths caused the 8 \
+rightmost pixels to not be blitted.
+- display-vgl(7): Build fix.
+- buildsystem: Make bootstrapping with automake 1.10 work.
+- display-quartz(7): Don't create a composite window. This irritates internal event \
+handling chains.
+- generic-linear-4, generic-linear-4-r: lots of bugfixes in 4bit default renderers
+- generic-linear-16, generic-linear-24, generic-linear-32: various crossblit fixes
+- generic-stubs: fix stack corruption in copybox for unpacked sub-byte modes.
+- generic-linear-1, generic-linear-1-r: fix off-by-one bug in ggiPutc(3).
+
+Move from g-b-s to cygport.
+Backport cvs revision 1.50.2.2 of display/directx/ddinit.c in order to fix a
+problem experienced by Marco Atzeri.
+
+----------  libggi2-2.2.1-2 -- 2006-03-02 -----------
+New upstreams bugfix release.
+
+- Update doc/README.directx to help MinGW users configure properly
+- display-fbdev(7): correct path in config-file. The mach64 fbdev
+accelerator-sublib loads again
+- display-directx(7): A deadlock in ggiClose has been fixed. It was caused
+by a race in ggiOpen.
+- display-kgi(7): Make it compile with gcc 4.
+- display-file(7): fix crash on exit
+- display-aa(7): Documentation fix: aalib reads settings from AAOPTS env.
+variable
+- buildsystem: libtool update / fixes
+
+Fix Cygwin package problem to not drop -DDEBUG option, in order to
+facilitate debugging. The deadlock in display-directx was included
+in the 2.2.0-1 package.
+
+----------  libggi2-2.2.0-2 -- 2006-02-21 -----------
+
+aalib added to the Cygwin dist, add new package for the
+display-aa display target.
+
+----------  libggi2-2.2.0-1 -- 2006-02-16 -----------
+Initial release
+
+For more information about this package, see the upstream documentation in
+/usr/share/doc/libggi2.
+
+Cygwin port maintained by: Peter Rosin <peda |at| lysator.liu.se>
+Please address all questions to the Cygwin mailing list at <cygwin@cygwin.com>

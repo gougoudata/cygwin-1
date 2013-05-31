@@ -19,19 +19,24 @@
  * Boston, MA 02111-1307, USA.
  */
 
-/* 
+/*
  * Author: James Henstridge <james@daa.com.au>
  *
  * Modified by the GTK+ Team and others 2003.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
+
 #ifndef __GTK_ACTION_GROUP_H__
 #define __GTK_ACTION_GROUP_H__
 
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
 #include <gtk/gtkaction.h>
-#include <gtk/gtkitemfactory.h> /* for GtkTranslateFunc */
+#include <gtk/gtktypeutils.h> /* for GtkTranslateFunc */
 
 G_BEGIN_DECLS
 
@@ -55,7 +60,7 @@ struct _GtkActionGroup
 
   /*< private >*/
 
-  GtkActionGroupPrivate *private_data;
+  GtkActionGroupPrivate *GSEAL (private_data);
 };
 
 struct _GtkActionGroupClass
@@ -105,7 +110,7 @@ struct _GtkRadioActionEntry
 
 GType           gtk_action_group_get_type                (void) G_GNUC_CONST;
 GtkActionGroup *gtk_action_group_new                     (const gchar                *name);
-G_CONST_RETURN gchar *gtk_action_group_get_name          (GtkActionGroup             *action_group);
+const gchar *gtk_action_group_get_name          (GtkActionGroup             *action_group);
 gboolean        gtk_action_group_get_sensitive           (GtkActionGroup             *action_group);
 void            gtk_action_group_set_sensitive           (GtkActionGroup             *action_group,
 							  gboolean                    sensitive);
@@ -156,10 +161,10 @@ void            gtk_action_group_add_radio_actions_full  (GtkActionGroup        
 void            gtk_action_group_set_translate_func      (GtkActionGroup             *action_group,
 							  GtkTranslateFunc            func,
 							  gpointer                    data,
-							  GtkDestroyNotify            notify);
+							  GDestroyNotify              notify);
 void            gtk_action_group_set_translation_domain  (GtkActionGroup             *action_group,
 							  const gchar                *domain);
-G_CONST_RETURN gchar *gtk_action_group_translate_string  (GtkActionGroup             *action_group,
+const gchar *gtk_action_group_translate_string  (GtkActionGroup             *action_group,
   	                                                  const gchar                *string);
 
 /* Protected for use by GtkAction */

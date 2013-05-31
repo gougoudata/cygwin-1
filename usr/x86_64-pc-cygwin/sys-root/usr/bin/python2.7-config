@@ -1,0 +1,16 @@
+#! /bin/sh
+version=2.7
+
+while test $# -gt 0; do
+  case "$1" in
+  --prefix|--exec-prefix)
+    echo /usr/x86_64-pc-cygwin/sys-root/usr ;;
+  --cflags|--includes)
+    echo "-I/usr/x86_64-pc-cygwin/sys-root/usr/include/python$version" ;;
+  --ldflags|--libs)
+    echo "-L/usr/x86_64-pc-cygwin/sys-root/usr/lib -lpython$version" ;;
+  esac
+  shift
+done
+
+exit 0

@@ -1,0 +1,100 @@
+Repository commands
+~~~~~~~~~~~~~~~~~~~
+
+linkstgsub:clone[]::
+    Make a local clone of a remote repository
+linkstgsub:id[]::
+    Print the git hash value of a StGit reference
+
+Stack (branch) commands
+~~~~~~~~~~~~~~~~~~~~~~~
+
+linkstgsub:branch[]::
+    Branch operations: switch, list, create, rename, delete, ...
+linkstgsub:clean[]::
+    Delete the empty patches in the series
+linkstgsub:commit[]::
+    Permanently store the applied patches into the stack base
+linkstgsub:float[]::
+    Push patches to the top, even if applied
+linkstgsub:goto[]::
+    Push or pop patches to the given one
+linkstgsub:hide[]::
+    Hide a patch in the series
+linkstgsub:init[]::
+    Initialise the current branch for use with StGIT
+linkstgsub:log[]::
+    Display the patch changelog
+linkstgsub:next[]::
+    Print the name of the next patch
+linkstgsub:patches[]::
+    Show the applied patches modifying a file
+linkstgsub:pop[]::
+    Pop one or more patches from the stack
+linkstgsub:prev[]::
+    Print the name of the previous patch
+linkstgsub:publish[]::
+    Push the stack changes to a merge-friendly branch
+linkstgsub:pull[]::
+    Pull changes from a remote repository
+linkstgsub:push[]::
+    Push one or more patches onto the stack
+linkstgsub:rebase[]::
+    Move the stack base to another point in history
+linkstgsub:redo[]::
+    Undo the last undo operation
+linkstgsub:repair[]::
+    Fix StGit metadata if branch was modified with git commands
+linkstgsub:reset[]::
+    Reset the patch stack to an earlier state
+linkstgsub:series[]::
+    Print the patch series
+linkstgsub:sink[]::
+    Send patches deeper down the stack
+linkstgsub:squash[]::
+    Squash two or more patches into one
+linkstgsub:top[]::
+    Print the name of the top patch
+linkstgsub:uncommit[]::
+    Turn regular git commits into StGit patches
+linkstgsub:undo[]::
+    Undo the last operation
+linkstgsub:unhide[]::
+    Unhide a hidden patch
+
+Patch commands
+~~~~~~~~~~~~~~
+
+linkstgsub:delete[]::
+    Delete patches
+linkstgsub:edit[]::
+    Edit a patch description or diff
+linkstgsub:export[]::
+    Export patches to a directory
+linkstgsub:files[]::
+    Show the files modified by a patch (or the current patch)
+linkstgsub:fold[]::
+    Integrate a GNU diff patch into the current patch
+linkstgsub:import[]::
+    Import a GNU diff file as a new patch
+linkstgsub:mail[]::
+    Send a patch or series of patches by e-mail
+linkstgsub:new[]::
+    Create a new, empty patch
+linkstgsub:pick[]::
+    Import a patch from a different branch or a commit object
+linkstgsub:refresh[]::
+    Generate a new commit for the current patch
+linkstgsub:rename[]::
+    Rename a patch
+linkstgsub:show[]::
+    Show the commit corresponding to a patch
+linkstgsub:sync[]::
+    Synchronise patches with a branch or a series
+
+Index/worktree commands
+~~~~~~~~~~~~~~~~~~~~~~~
+
+linkstgsub:diff[]::
+    Show the tree diff
+

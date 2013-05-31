@@ -1,0 +1,82 @@
+fossil
+------------------------------------------
+
+DVCS with built-in wiki, http server and issue tracker
+
+A single binary distributed version control which utilizes
+SQLite database backend for storage metadata. The self contained
+binary includes also issue tracker, wiki enginea and built in web
+server to serve everything; including the repositories. Fossil uses
+plain HTTP, with proxy support, for all network communications.
+Autosync feature helps to keep repositories and ther distributed issue
+trackers up to date without need for separate merging.
+
+See http://www.fossil-scm.org/index.html/doc/trunk/www/quickstart.wiki
+
+Runtime requirements:
+  libgcc1
+  libopenssl100
+  zlib0
+
+Build requirements:
+  openssl-devel
+  zlib-devel
+
+Canonical homepage:
+  http://freshmeat.net/projects/fossil
+  http://www.fossil-scm.org
+  http://packages.debian.org/fossil
+
+Canonical download:
+  See above
+
+Version control repository:
+
+Mailing list:
+  http://dir.gmane.org/gmane.comp.version-control.fossil-scm.user
+  http://www.mail-archive.com/fossil-users@lists.fossil-scm.org/
+
+Forum / Wiki:
+  http://www.fossil-scm.org/fossil/wiki
+
+IRC channel:
+
+Upstream contact:
+  Maintainer: D. Richard Hipp <drh@sqlite.org>
+  Bugs: http://www.fossil-scm.org/index.html/reportlist
+
+License:
+  BSD-2-Clause (aka FreeBSD)
+
+Language:
+  C
+
+------------------------------------------
+
+Build instructions:
+  unpack fossil-*-src.tar.bz2
+    if you use setup to install this source package, it will be
+    unpacked under /usr/src automatically
+  cd /usr/src
+  ./fossil*.sh all
+
+------------------------------------------
+
+Files included in the binary distribution:
+  See Cygwin package archive
+
+------------------------------------------
+
+Port Notes:
+
+----- version 20130216000435-1 -----
+- New upstream release 2013-03-05 Jari Aalto
+
+----- version 20120808112557-1 -----
+- New upstream release 2012-09-15 Jari Aalto
+
+----- version 20111213135356-1 -----
+- Initial release 2012-01-28 Jari Aalto
+
+Cygwin port maintained by: Jari Aalto <jari.aalto@cante.net>
+Copyright (C) 2012-2013 Jari Aalto; Licensed under GPL v2 or later

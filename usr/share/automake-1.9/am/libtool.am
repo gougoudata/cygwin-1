@@ -28,4 +28,4 @@ clean-libtool:
 
 ?TOPDIR?distclean-am: distclean-libtool
 ?TOPDIR?distclean-libtool:
-?TOPDIR?	-rm -f libtool
+?TOPDIR?	-rm -f libtool config.lt

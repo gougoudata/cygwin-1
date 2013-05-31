@@ -11,11 +11,11 @@
 (*                                                                     *)
 (***********************************************************************)
 
-(* $Id: stack.mli,v 1.18 2002/06/27 08:48:26 xleroy Exp $ *)
+(* $Id: stack.mli 7164 2005-10-25 18:34:07Z doligez $ *)
 
 (** Last-in first-out stacks.
 
-   This module implements stacks (LIFOs), with in-place modification. 
+   This module implements stacks (LIFOs), with in-place modification.
 *)
 
 type 'a t
@@ -55,4 +55,3 @@ val iter : ('a -> unit) -> 'a t -> unit
 (** [iter f s] applies [f] in turn to all elements of [s],
    from the element at the top of the stack to the element at the
    bottom of the stack. The stack itself is unchanged. *)
-

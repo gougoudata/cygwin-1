@@ -1,6 +1,6 @@
 /* cygwin_dll.h
 
-   Copyright 1998, 1999, 2000, 2001 Red Hat, Inc.
+   Copyright 1998, 1999, 2000, 2001, 2009, 2011 Red Hat, Inc.
 
 This file is part of Cygwin.
 
@@ -33,6 +33,7 @@ CDECL_END								      \
 static HINSTANCE storedHandle;						      \
 static DWORD storedReason;						      \
 static void* storedPtr;							      \
+int __dynamically_loaded;						      \
 									      \
 static int __dllMain (int a, char **b, char **c)			      \
 {									      \
@@ -53,6 +54,7 @@ int WINAPI _cygwin_dll_entry (HINSTANCE h, DWORD reason, void *ptr)	      \
       storedHandle = h;							      \
       storedReason = reason;						      \
       storedPtr = ptr;							      \
+      __dynamically_loaded = (ptr == NULL);				      \
       dll_index = cygwin_attach_dll (h, &__dllMain);			      \
       if (dll_index == (DWORD) -1)					      \
 	ret = 0;							      \

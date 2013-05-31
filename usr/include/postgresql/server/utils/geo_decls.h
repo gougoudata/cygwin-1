@@ -3,10 +3,10 @@
  * geo_decls.h - Declarations for various 2D constructs.
  *
  *
- * Portions Copyright (c) 1996-2006, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2012, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
- * $PostgreSQL: pgsql/src/include/utils/geo_decls.h,v 1.51 2006/07/13 16:49:20 momjian Exp $
+ * src/include/utils/geo_decls.h
  *
  * NOTE
  *	  These routines do *not* use the float types from adt/.
@@ -50,7 +50,7 @@
 #define FPge(A,B)				((A) >= (B))
 #endif
 
-#define HYPOT(A, B)				sqrt((A) * (A) + (B) * (B))
+#define HYPOT(A, B)				pg_hypot(A, B)
 
 /*---------------------------------------------------------------------
  * Point - (x,y)
@@ -78,7 +78,7 @@ typedef struct
  *-------------------------------------------------------------------*/
 typedef struct
 {
-	int32		size;			/* XXX varlena */
+	int32		vl_len_;		/* varlena header (do not touch directly!) */
 	int32		npts;
 	int32		closed;			/* is this a closed polygon? */
 	int32		dummy;			/* padding to make it double align */
@@ -121,7 +121,7 @@ typedef struct
  *-------------------------------------------------------------------*/
 typedef struct
 {
-	int32		size;			/* XXX varlena */
+	int32		vl_len_;		/* varlena header (do not touch directly!) */
 	int32		npts;
 	BOX			boundbox;
 	Point		p[1];			/* variable length array of POINTs */
@@ -211,6 +211,7 @@ extern Datum point_div(PG_FUNCTION_ARGS);
 /* private routines */
 extern double point_dt(Point *pt1, Point *pt2);
 extern double point_sl(Point *pt1, Point *pt2);
+extern double pg_hypot(double x, double y);
 
 /* public lseg routines */
 extern Datum lseg_in(PG_FUNCTION_ARGS);
@@ -290,6 +291,7 @@ extern Datum box_above(PG_FUNCTION_ARGS);
 extern Datum box_overabove(PG_FUNCTION_ARGS);
 extern Datum box_contained(PG_FUNCTION_ARGS);
 extern Datum box_contain(PG_FUNCTION_ARGS);
+extern Datum box_contain_pt(PG_FUNCTION_ARGS);
 extern Datum box_below_eq(PG_FUNCTION_ARGS);
 extern Datum box_above_eq(PG_FUNCTION_ARGS);
 extern Datum box_lt(PG_FUNCTION_ARGS);
@@ -420,6 +422,9 @@ extern Datum gist_poly_compress(PG_FUNCTION_ARGS);
 extern Datum gist_poly_consistent(PG_FUNCTION_ARGS);
 extern Datum gist_circle_compress(PG_FUNCTION_ARGS);
 extern Datum gist_circle_consistent(PG_FUNCTION_ARGS);
+extern Datum gist_point_compress(PG_FUNCTION_ARGS);
+extern Datum gist_point_consistent(PG_FUNCTION_ARGS);
+extern Datum gist_point_distance(PG_FUNCTION_ARGS);
 
 /* geo_selfuncs.c */
 extern Datum areasel(PG_FUNCTION_ARGS);

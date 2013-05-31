@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>class MiniTest::Spec - minitest-2.12.1 Documentation</title>
+
+<link type="text/css" media="screen" href="../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../index.html">Home</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/minitest/benchmark.rb
+    <li>lib/minitest/spec.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link"><a href="Unit/TestCase.html">MiniTest::Unit::TestCase</a>
+  
+</nav>
+
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-after">::after</a>
+    
+    <li><a href="#method-c-before">::before</a>
+    
+    <li><a href="#method-c-bench">::bench</a>
+    
+    <li><a href="#method-c-bench_performance_constant">::bench_performance_constant</a>
+    
+    <li><a href="#method-c-bench_performance_exponential">::bench_performance_exponential</a>
+    
+    <li><a href="#method-c-bench_performance_linear">::bench_performance_linear</a>
+    
+    <li><a href="#method-c-bench_range">::bench_range</a>
+    
+    <li><a href="#method-c-children">::children</a>
+    
+    <li><a href="#method-c-it">::it</a>
+    
+    <li><a href="#method-c-let">::let</a>
+    
+    <li><a href="#method-c-register_spec_type">::register_spec_type</a>
+    
+    <li><a href="#method-c-spec_type">::spec_type</a>
+    
+    <li><a href="#method-c-subject">::subject</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../History_txt.html">History</a>
+  
+    <li class="file"><a href="../Manifest_txt.html">Manifest</a>
+  
+    <li class="file"><a href="../README_txt.html">README</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../MiniTest.html">MiniTest</a>
+  
+    <li><a href="../MiniTest/Assertion.html">MiniTest::Assertion</a>
+  
+    <li><a href="../MiniTest/Assertions.html">MiniTest::Assertions</a>
+  
+    <li><a href="../MiniTest/Expectations.html">MiniTest::Expectations</a>
+  
+    <li><a href="../MiniTest/Mock.html">MiniTest::Mock</a>
+  
+    <li><a href="../MiniTest/Skip.html">MiniTest::Skip</a>
+  
+    <li><a href="../MiniTest/Spec.html">MiniTest::Spec</a>
+  
+    <li><a href="../MiniTest/Unit.html">MiniTest::Unit</a>
+  
+    <li><a href="../MiniTest/Unit/Guard.html">MiniTest::Unit::Guard</a>
+  
+    <li><a href="../MiniTest/Unit/TestCase.html">MiniTest::Unit::TestCase</a>
+  
+    <li><a href="../Object.html">Object</a>
+  
+    <li><a href="../PrideIO.html">PrideIO</a>
+  
+    <li><a href="../PrideLOL.html">PrideLOL</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class MiniTest::Spec</h1>
+
+  <div id="description" class="description">
+    
+<p><a href="Spec.html">MiniTest::Spec</a> -- The faster, better, less-magical
+spec framework!</p>
+
+<p>For a list of expectations, see <a
+href="Expectations.html">MiniTest::Expectations</a>.</p>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+    <!-- Constants -->
+    <section id="constants-list" class="section">
+      <h3 class="section-header">Constants</h3>
+      <dl>
+      
+        <dt id="NAME_RE">NAME_RE
+        
+        <dd class="description">
+        
+      
+        <dt id="TYPES">TYPES
+        
+        <dd class="description"><p>Contains pairs of matchers and <a href="Spec.html">Spec</a> classes to be
+used to calculate the superclass of a top-level describe. This allows for
+automatically customizable spec types.</p>
+
+<p>See: <a
+href="Spec.html#method-c-register_spec_type">::register_spec_type</a> and
+<a href="Spec.html#method-c-spec_type">::spec_type</a></p>
+        
+      
+      </dl>
+    </section>
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-after" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">after</span><span
+            class="method-args">(type = :each, &block)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Define an ‘after’ action. Inherits the way normal methods should.</p>
+
+<p>NOTE: <code>type</code> is ignored and is only there to make porting
+easier.</p>
+
+<p>Equivalent to <a
+href="Unit/TestCase.html#method-i-teardown">MiniTest::Unit::TestCase#teardown</a>.</p>
+          
+
+          
+          <div class="method-source-code" id="after-source">
+            <pre><span class="ruby-comment"># File lib/minitest/spec.rb, line 171</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">after</span> <span class="ruby-identifier">type</span> = <span class="ruby-value">:each</span>, &amp;<span class="ruby-identifier">block</span>
+  <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;unsupported after type: #{type}&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">type</span> <span class="ruby-operator">==</span> <span class="ruby-value">:each</span>
+
+  <span class="ruby-identifier">add_teardown_hook</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">tc</span><span class="ruby-operator">|</span> <span class="ruby-identifier">tc</span>.<span class="ruby-identifier">instance_eval</span>(&amp;<span class="ruby-identifier">block</span>) }
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- after-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- after-method -->
+
+    
+      <div id="method-c-before" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">before</span><span
+            class="method-args">(type = :each, &block)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Define a ‘before’ action. Inherits the way normal methods should.</p>
+
+<p>NOTE: <code>type</code> is ignored and is only there to make porting
+easier.</p>
+
+<p>Equivalent to <a
+href="Unit/TestCase.html#method-i-setup">MiniTest::Unit::TestCase#setup</a>.</p>
+          
+
+          
+          <div class="method-source-code" id="before-source">
+            <pre><span class="ruby-comment"># File lib/minitest/spec.rb, line 158</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">before</span> <span class="ruby-identifier">type</span> = <span class="ruby-value">:each</span>, &amp;<span class="ruby-identifier">block</span>
+  <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;unsupported before type: #{type}&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">type</span> <span class="ruby-operator">==</span> <span class="ruby-value">:each</span>
+
+  <span class="ruby-identifier">add_setup_hook</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">tc</span><span class="ruby-operator">|</span> <span class="ruby-identifier">tc</span>.<span class="ruby-identifier">instance_eval</span>(&amp;<span class="ruby-identifier">block</span>) }
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- before-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- before-method -->
+
+    
+      <div id="method-c-bench" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">bench</span><span
+            class="method-args">(name, &block)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>This is used to define a new benchmark method. You usually don’t use this
+directly and is intended for those needing to write new performance curve
+fits (eg: you need a specific polynomial fit).</p>
+
+<p>See <a
+href="Spec.html#method-c-bench_performance_linear">::bench_performance_linear</a>
+for an example of how to use this.</p>
+          
+
+          
+          <div class="method-source-code" id="bench-source">
+            <pre><span class="ruby-comment"># File lib/minitest/benchmark.rb, line 309</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">bench</span> <span class="ruby-identifier">name</span>, &amp;<span class="ruby-identifier">block</span>
+  <span class="ruby-identifier">define_method</span> <span class="ruby-node">&quot;bench_#{name.gsub(/\W+/, '_')}&quot;</span>, &amp;<span class="ruby-identifier">block</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- bench-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- bench-method -->
+
+    
+      <div id="method-c-bench_performance_constant" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">bench_performance_constant</span><span
+            class="method-args">(name, threshold = 0.99, &work)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Create a benchmark that verifies that the performance is constant.</p>
+
+<pre class="ruby"><span class="ruby-identifier">describe</span> <span class="ruby-string">&quot;my class&quot;</span> <span class="ruby-keyword">do</span>
+  <span class="ruby-identifier">bench_performance_constant</span> <span class="ruby-string">&quot;zoom_algorithm!&quot;</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">n</span><span class="ruby-operator">|</span>
+    <span class="ruby-ivar">@obj</span>.<span class="ruby-identifier">zoom_algorithm!</span>(<span class="ruby-identifier">n</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span>
+</pre>
+          
+
+          
+          <div class="method-source-code" id="bench_performance_constant-source">
+            <pre><span class="ruby-comment"># File lib/minitest/benchmark.rb, line 353</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">bench_performance_constant</span> <span class="ruby-identifier">name</span>, <span class="ruby-identifier">threshold</span> = <span class="ruby-value">0.99</span>, &amp;<span class="ruby-identifier">work</span>
+  <span class="ruby-identifier">bench</span> <span class="ruby-identifier">name</span> <span class="ruby-keyword">do</span>
+    <span class="ruby-identifier">assert_performance_constant</span> <span class="ruby-identifier">threshold</span>, &amp;<span class="ruby-identifier">work</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- bench_performance_constant-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- bench_performance_constant-method -->
+
+    
+      <div id="method-c-bench_performance_exponential" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">bench_performance_exponential</span><span
+            class="method-args">(name, threshold = 0.99, &work)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Create a benchmark that verifies that the performance is exponential.</p>
+
+<pre class="ruby"><span class="ruby-identifier">describe</span> <span class="ruby-string">&quot;my class&quot;</span> <span class="ruby-keyword">do</span>
+  <span class="ruby-identifier">bench_performance_exponential</span> <span class="ruby-string">&quot;algorithm&quot;</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">n</span><span class="ruby-operator">|</span>
+    <span class="ruby-ivar">@obj</span>.<span class="ruby-identifier">algorithm</span>(<span class="ruby-identifier">n</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span>
+</pre>
+          
+
+          
+          <div class="method-source-code" id="bench_performance_exponential-source">
+            <pre><span class="ruby-comment"># File lib/minitest/benchmark.rb, line 368</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">bench_performance_exponential</span> <span class="ruby-identifier">name</span>, <span class="ruby-identifier">threshold</span> = <span class="ruby-value">0.99</span>, &amp;<span class="ruby-identifier">work</span>
+  <span class="ruby-identifier">bench</span> <span class="ruby-identifier">name</span> <span class="ruby-keyword">do</span>
+    <span class="ruby-identifier">assert_performance_exponential</span> <span class="ruby-identifier">threshold</span>, &amp;<span class="ruby-identifier">work</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- bench_performance_exponential-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- bench_performance_exponential-method -->
+
+    
+      <div id="method-c-bench_performance_linear" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">bench_performance_linear</span><span
+            class="method-args">(name, threshold = 0.99, &work)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Create a benchmark that verifies that the performance is linear.</p>
+
+<pre class="ruby"><span class="ruby-identifier">describe</span> <span class="ruby-string">&quot;my class&quot;</span> <span class="ruby-keyword">do</span>
+  <span class="ruby-identifier">bench_performance_linear</span> <span class="ruby-string">&quot;fast_algorithm&quot;</span>, <span class="ruby-value">0.9999</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">n</span><span class="ruby-operator">|</span>
+    <span class="ruby-ivar">@obj</span>.<span class="ruby-identifier">fast_algorithm</span>(<span class="ruby-identifier">n</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span>
+</pre>
+          
+
+          
+          <div class="method-source-code" id="bench_performance_linear-source">
+            <pre><span class="ruby-comment"># File lib/minitest/benchmark.rb, line 338</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">bench_performance_linear</span> <span class="ruby-identifier">name</span>, <span class="ruby-identifier">threshold</span> = <span class="ruby-value">0.99</span>, &amp;<span class="ruby-identifier">work</span>
+  <span class="ruby-identifier">bench</span> <span class="ruby-identifier">name</span> <span class="ruby-keyword">do</span>
+    <span class="ruby-identifier">assert_performance_linear</span> <span class="ruby-identifier">threshold</span>, &amp;<span class="ruby-identifier">work</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- bench_performance_linear-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- bench_performance_linear-method -->
+
+    
+      <div id="method-c-bench_range" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">bench_range</span><span
+            class="method-args">(&block)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Specifies the ranges used for benchmarking for that class.</p>
+
+<pre>bench_range do
+  bench_exp(2, 16, 2)
+end</pre>
+
+<p>See <a
+href="Unit/TestCase.html#method-c-bench_range">MiniTest::Unit::TestCase.bench_range</a>
+for more details.</p>
+          
+
+          
+          <div class="method-source-code" id="bench_range-source">
+            <pre><span class="ruby-comment"># File lib/minitest/benchmark.rb, line 322</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">bench_range</span> &amp;<span class="ruby-identifier">block</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">super</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">block</span>
+
+  <span class="ruby-identifier">meta</span> = (<span class="ruby-keyword">class</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-keyword">self</span>; <span class="ruby-keyword">self</span>; <span class="ruby-keyword">end</span>)
+  <span class="ruby-identifier">meta</span>.<span class="ruby-identifier">send</span> <span class="ruby-value">:define_method</span>, <span class="ruby-string">&quot;bench_range&quot;</span>, &amp;<span class="ruby-identifier">block</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- bench_range-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- bench_range-method -->
+
+    
+      <div id="method-c-children" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">children</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns the children of this spec.</p>
+          
+
+          
+          <div class="method-source-code" id="children-source">
+            <pre><span class="ruby-comment"># File lib/minitest/spec.rb, line 141</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">children</span>
+  <span class="ruby-ivar">@children</span> <span class="ruby-operator">||=</span> []
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- children-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- children-method -->
+
+    
+      <div id="method-c-it" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">it</span><span
+            class="method-args">(desc = "anonymous", &block)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Define an expectation with name <code>desc</code>. Name gets morphed to a
+proper test method name. For some freakish reason, people who write specs
+don’t like class inheritence, so this goes way out of its way to make sure
+that expectations aren’t inherited.</p>
+
+<p>This is also aliased to specify and doesn’t require a <code>desc</code>
+arg.</p>
+
+<p>Hint: If you <em>do</em> want inheritence, use minitest/unit. You can mix
+and match between assertions and expectations as much as you want.</p>
+          
+
+          
+          <div class="method-source-code" id="it-source">
+            <pre><span class="ruby-comment"># File lib/minitest/spec.rb, line 194</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">it</span> <span class="ruby-identifier">desc</span> = <span class="ruby-string">&quot;anonymous&quot;</span>, &amp;<span class="ruby-identifier">block</span>
+  <span class="ruby-identifier">block</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">proc</span> { <span class="ruby-identifier">skip</span> <span class="ruby-string">&quot;(no tests defined)&quot;</span> }
+
+  <span class="ruby-ivar">@specs</span> <span class="ruby-operator">||=</span> <span class="ruby-value">0</span>
+  <span class="ruby-ivar">@specs</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
+
+  <span class="ruby-identifier">name</span> = <span class="ruby-string">&quot;test_%04d_%s&quot;</span> <span class="ruby-operator">%</span> [ <span class="ruby-ivar">@specs</span>, <span class="ruby-identifier">desc</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-constant">NAME_RE</span>, <span class="ruby-string">'_'</span>).<span class="ruby-identifier">downcase</span> ]
+
+  <span class="ruby-identifier">define_method</span> <span class="ruby-identifier">name</span>, &amp;<span class="ruby-identifier">block</span>
+
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">children</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">mod</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">mod</span>.<span class="ruby-identifier">send</span> <span class="ruby-value">:undef_method</span>, <span class="ruby-identifier">name</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">mod</span>.<span class="ruby-identifier">public_method_defined?</span> <span class="ruby-identifier">name</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">name</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- it-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- it-method -->
+
+    
+      <div id="method-c-let" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">let</span><span
+            class="method-args">(name, &block)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Essentially, define an accessor for <code>name</code> with
+<code>block</code>.</p>
+
+<p>Why use let instead of def? I honestly don’t know.</p>
+          
+
+          
+          <div class="method-source-code" id="let-source">
+            <pre><span class="ruby-comment"># File lib/minitest/spec.rb, line 216</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">let</span> <span class="ruby-identifier">name</span>, &amp;<span class="ruby-identifier">block</span>
+  <span class="ruby-identifier">define_method</span> <span class="ruby-identifier">name</span> <span class="ruby-keyword">do</span>
+    <span class="ruby-ivar">@_memoized</span> <span class="ruby-operator">||=</span> {}
+    <span class="ruby-ivar">@_memoized</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-identifier">name</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">k</span><span class="ruby-operator">|</span> <span class="ruby-ivar">@_memoized</span>[<span class="ruby-identifier">k</span>] = <span class="ruby-identifier">instance_eval</span>(&amp;<span class="ruby-identifier">block</span>) }
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- let-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- let-method -->
+
+    
+      <div id="method-c-register_spec_type" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">register_spec_type</span><span
+            class="method-args">(*args, &block)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Register a new type of spec that matches the spec’s description. This
+method can take either a Regexp and a spec class or a spec class and a
+block that takes the description and returns true if it matches.</p>
+
+<p>Eg:</p>
+
+<pre>register_spec_type(/Controller$/, MiniTest::Spec::Rails)</pre>
+
+<p>or:</p>
+
+<pre class="ruby"><span class="ruby-identifier">register_spec_type</span>(<span class="ruby-constant">MiniTest</span><span class="ruby-operator">::</span><span class="ruby-constant">Spec</span><span class="ruby-operator">::</span><span class="ruby-constant">RailsModel</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">desc</span><span class="ruby-operator">|</span>
+  <span class="ruby-identifier">desc</span>.<span class="ruby-identifier">superclass</span> <span class="ruby-operator">==</span> <span class="ruby-constant">ActiveRecord</span><span class="ruby-operator">::</span><span class="ruby-constant">Base</span>
+<span class="ruby-keyword">end</span>
+</pre>
+          
+
+          
+          <div class="method-source-code" id="register_spec_type-source">
+            <pre><span class="ruby-comment"># File lib/minitest/spec.rb, line 109</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">register_spec_type</span>(*<span class="ruby-identifier">args</span>, &amp;<span class="ruby-identifier">block</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-identifier">matcher</span>, <span class="ruby-identifier">klass</span> = <span class="ruby-identifier">block</span>, <span class="ruby-identifier">args</span>.<span class="ruby-identifier">first</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">matcher</span>, <span class="ruby-identifier">klass</span> = *<span class="ruby-identifier">args</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-constant">TYPES</span>.<span class="ruby-identifier">unshift</span> [<span class="ruby-identifier">matcher</span>, <span class="ruby-identifier">klass</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- register_spec_type-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- register_spec_type-method -->
+
+    
+      <div id="method-c-spec_type" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">spec_type</span><span
+            class="method-args">(desc)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Figure out the spec class to use based on a spec’s description. Eg:</p>
+
+<pre class="ruby"><span class="ruby-identifier">spec_type</span>(<span class="ruby-string">&quot;BlahController&quot;</span>) <span class="ruby-comment"># =&gt; MiniTest::Spec::Rails</span>
+</pre>
+          
+
+          
+          <div class="method-source-code" id="spec_type-source">
+            <pre><span class="ruby-comment"># File lib/minitest/spec.rb, line 123</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">spec_type</span> <span class="ruby-identifier">desc</span>
+  <span class="ruby-constant">TYPES</span>.<span class="ruby-identifier">find</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">matcher</span>, <span class="ruby-identifier">klass</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">matcher</span>.<span class="ruby-identifier">respond_to?</span> <span class="ruby-value">:call</span> <span class="ruby-keyword">then</span>
+      <span class="ruby-identifier">matcher</span>.<span class="ruby-identifier">call</span> <span class="ruby-identifier">desc</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">matcher</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">desc</span>.<span class="ruby-identifier">to_s</span>
+    <span class="ruby-keyword">end</span>
+  }.<span class="ruby-identifier">last</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- spec_type-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- spec_type-method -->
+
+    
+      <div id="method-c-subject" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">subject</span><span
+            class="method-args">(&block)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Another lazy man’s accessor generator. Made even more lazy by setting the
+name for you to <code>subject</code>.</p>
+          
+
+          
+          <div class="method-source-code" id="subject-source">
+            <pre><span class="ruby-comment"># File lib/minitest/spec.rb, line 227</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">subject</span> &amp;<span class="ruby-identifier">block</span>
+  <span class="ruby-identifier">let</span> <span class="ruby-value">:subject</span>, &amp;<span class="ruby-identifier">block</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- subject-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- subject-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

@@ -16,8 +16,8 @@ U system.exn_int%s	s-exnint.ads		87cd523a NE PU PK
 W system%s		system.ads		system.ali
 
 D system.ads		20031021134222 6af26689
-D s-exnint.ads		20031201132928 ed3f34b3
-D s-exnint.adb		20031201132928 ada9b9e6
+D s-exnint.ads		20031201132927 ed3f34b3
+D s-exnint.adb		20031201132927 ada9b9e6
 X 1 system.ads
 44K9*System 163e11 2|36r9 41r5 3|34r14 72r5
 X 2 s-exnint.ads

@@ -1,0 +1,27 @@
+gendef
+gendef generates exports definitions by analyzing DLLs. Functions with stdcall call
+conventions are automatically decorated. Analysis is not perfect, so do check
+the outputs for inconsistencies.
+
+Runtime requirements:
+  libgcc1
+
+Build requirements:
+  libmangle
+
+Canonical homepage:
+mingw-w64.sourceforge.net
+
+-------------------------------------------
+
+Files included in the binary distro
+  /usr/bin/gendef.exe
+  /usr/share/doc/Cygwin/gendef.README
+  /usr/share/doc/gendef/AUTHORS
+  /usr/share/doc/gendef/COPYING
+
+-------------------------------------------
+
+Port Notes:
+----- version svn2931-1 -----
+    Initial release 2010-07-23

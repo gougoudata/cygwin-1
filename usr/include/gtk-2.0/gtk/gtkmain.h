@@ -21,12 +21,16 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 #ifndef __GTK_MAIN_H__
 #define __GTK_MAIN_H__
 
+
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
 
 #include <gdk/gdk.h>
 #include <gtk/gtkwidget.h>
@@ -76,9 +80,9 @@ GTKMAIN_C_VAR const guint gtk_minor_version;
 GTKMAIN_C_VAR const guint gtk_micro_version;
 GTKMAIN_C_VAR const guint gtk_binary_age;
 GTKMAIN_C_VAR const guint gtk_interface_age;
-gchar* gtk_check_version (guint	required_major,
-			  guint	required_minor,
-			  guint	required_micro);
+const gchar* gtk_check_version (guint	required_major,
+			        guint	required_minor,
+			        guint	required_micro);
 
 
 /* Initialization, exit, mainloop and miscellaneous routines
@@ -95,9 +99,9 @@ gboolean gtk_init_check           (int    *argc,
   
 gboolean gtk_init_with_args       (int            *argc,
 				   char         ***argv,
-				   char           *parameter_string,
+				   const char     *parameter_string,
 				   GOptionEntry   *entries,
-				   char           *translation_domain,
+				   const char     *translation_domain,
 				   GError        **error);
 
 GOptionGroup *gtk_get_option_group (gboolean open_default_display);
@@ -125,10 +129,10 @@ gboolean gtk_init_check_abi_check (int	  *argc,
 
 #ifndef GTK_DISABLE_DEPRECATED
 void     gtk_exit                 (gint    error_code);
+gchar *        gtk_set_locale           (void);
 #endif /* GTK_DISABLE_DEPRECATED */
 
 void           gtk_disable_setlocale    (void);
-gchar *        gtk_set_locale           (void);
 PangoLanguage *gtk_get_default_language (void);
 gboolean       gtk_events_pending       (void);
 
@@ -152,6 +156,7 @@ void	   gtk_grab_add		   (GtkWidget	       *widget);
 GtkWidget* gtk_grab_get_current	   (void);
 void	   gtk_grab_remove	   (GtkWidget	       *widget);
 
+#if !defined (GTK_DISABLE_DEPRECATED) || defined (GTK_COMPILATION)
 void	   gtk_init_add		   (GtkFunction	       function,
 				    gpointer	       data);
 void	   gtk_quit_add_destroy	   (guint	       main_level,
@@ -163,10 +168,9 @@ guint	   gtk_quit_add_full	   (guint	       main_level,
 				    GtkFunction	       function,
 				    GtkCallbackMarshal marshal,
 				    gpointer	       data,
-				    GtkDestroyNotify   destroy);
+				    GDestroyNotify     destroy);
 void	   gtk_quit_remove	   (guint	       quit_handler_id);
 void	   gtk_quit_remove_by_data (gpointer	       data);
-#ifndef GTK_DISABLE_DEPRECATED
 guint	   gtk_timeout_add	   (guint32	       interval,
 				    GtkFunction	       function,
 				    gpointer	       data);
@@ -174,7 +178,7 @@ guint	   gtk_timeout_add_full	   (guint32	       interval,
 				    GtkFunction	       function,
 				    GtkCallbackMarshal marshal,
 				    gpointer	       data,
-				    GtkDestroyNotify   destroy);
+				    GDestroyNotify     destroy);
 void	   gtk_timeout_remove	   (guint	       timeout_handler_id);
 
 guint	   gtk_idle_add		   (GtkFunction	       function,
@@ -186,7 +190,7 @@ guint	   gtk_idle_add_full	   (gint	       priority,
 				    GtkFunction	       function,
 				    GtkCallbackMarshal marshal,
 				    gpointer	       data,
-				    GtkDestroyNotify   destroy);
+				    GDestroyNotify     destroy);
 void	   gtk_idle_remove	   (guint	       idle_handler_id);
 void	   gtk_idle_remove_by_data (gpointer	       data);
 guint	   gtk_input_add_full	   (gint	       source,
@@ -194,7 +198,7 @@ guint	   gtk_input_add_full	   (gint	       source,
 				    GdkInputFunction   function,
 				    GtkCallbackMarshal marshal,
 				    gpointer	       data,
-				    GtkDestroyNotify   destroy);
+				    GDestroyNotify     destroy);
 void	   gtk_input_remove	   (guint	       input_handler_id);
 #endif /* GTK_DISABLE_DEPRECATED */
 
@@ -220,6 +224,9 @@ gboolean _gtk_boolean_handled_accumulator (GSignalInvocationHint *ihint,
                                    gpointer               dummy);
 
 gchar *_gtk_get_lc_ctype (void);
+
+gboolean _gtk_module_has_mixed_deps (GModule *module);
+
 
 G_END_DECLS
 

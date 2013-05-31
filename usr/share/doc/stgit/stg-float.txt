@@ -1,0 +1,34 @@
+stg-float(1)
+============
+
+NAME
+----
+stg-float - Push patches to the top, even if applied
+
+SYNOPSIS
+--------
+[verse]
+'stg' float [--] <patches>
+'stg' float -s <series>
+
+DESCRIPTION
+-----------
+
+Push a patch or a range of patches to the top even if applied. The
+necessary pop and push operations will be performed to accomplish
+this. The '--series' option can be used to rearrange the (top) patches
+as specified by the given series file (or the standard input).
+
+OPTIONS
+-------
+-s FILE::
+--series FILE::
+        Rearrange according to the series FILE.
+
+-k::
+--keep::
+        Keep the local changes.
+
+StGit
+-----
+Part of the StGit suite - see linkman:stg[1]

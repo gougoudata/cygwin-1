@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2008 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999-2012 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.
@@ -46,7 +46,7 @@ typedef struct _TimerInfo
   TimerState
     state;
   
-  unsigned long
+  size_t
     signature;
 } TimerInfo;
 
@@ -56,6 +56,10 @@ extern MagickExport double
 
 extern MagickExport MagickBooleanType
   ContinueTimer(TimerInfo *);
+
+extern MagickExport TimerInfo
+  *AcquireTimerInfo(void),
+  *DestroyTimerInfo(TimerInfo *);
 
 extern MagickExport void
   GetTimerInfo(TimerInfo *),

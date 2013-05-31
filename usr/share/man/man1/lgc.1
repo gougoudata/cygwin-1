@@ -1,0 +1,163 @@
+.TH LGC 1 "JULY 2009" Logiweb "User Commands"
+.SH NAME
+lgc \- translate and publish logiweb page
+.SH SYNOPSIS
+.B lgc
+.BI [ OPTION ]...
+.BI [ SOURCE ]
+.SH DESCRIPTION
+The Logiweb compiler translates Logiweb pages from source format to a number of machine and human readable formats.
+.P
+Pages may contain free text mixed with machine intelligible objects like computer programs, testsuites, and formal proofs. The compiler can compile embedded computer programs, run testsuites, and check the correctness of formal proofs.
+.P
+The compiler takes a source file as input and produces a 'vector', a 'rack', and a 'rendering' as output. Source, vector, rack, and rendering all represent the same Logiweb page. The source format is suited for authoring of Logiweb pages using an ordinary text editor. The vector is a condensed representation suited for transmission over the Internet. The rack is a comprehensive representation suited for storing on a local disk. The rendering is a human readable representation suited for reading in a web browser.
+.P
+The compiler assigns a world-wide unique 'reference' to each page it translates. A reference comprises around 30 bytes. Having the reference of a page one may retrieve the vector of the page via an untrusted network from an untrusted repository. This is so since the reference contains a RIPEMD-160 hash code which allows to verify the authenticity of the page.
+.P
+References are expressed in 'mixed endian hexadecimal': Each byte is written with the most significant hex digit first, bytes are given in network byte order, and capital letters are used for the hex digits A to F.
+.SH OPTIONS
+.IP "-h, --help"
+Print help on frequently used options.
+.IP "-H, --help2"
+Print help on less frequent options.
+.IP "--help3"
+Print help on configuration options.
+.IP "-l location, --link=location"
+Store a symbolic link at the given location to the rendering output. The rightmost colon (if any) in the location is replaced by the name of the source file (without the .lgs extension). An opening tilde (if any) is replaced by $HOME. The default values are ~/.logiweb/name/:/ and : so that two links are produced by default. See LIST OPTIONS below on how to give this option more than once.
+.IP "--license"
+Print the license (i.e. GNU/GPL) of the lgc compiler.
+.IP "-n location, --namepath=location"
+Read pages given by name from given location. The rightmost colon (if any) in the location is replaced by the given name. Such names may be given in the source file being translated, c.f. lgc(5). An opening tilde in the location (if any) is replaced by $HOME. The default value of NAMEPATH is ~/.logiweb/name/:/rack.lgr. See LIST OPTIONS below on how to give this option more than once.
+.IP "-o name, --option=name"
+Process all configuration files, environment variables, and command line options. Then print the value of the option with the given name.
+.IP "--options"
+Like -o above, but prints all options.
+.IP "-p location, --path location
+Read referenced pages from given location. The rightmost colon (if any) in the location is replaced by the reference of the page expressed in mixed endian hexadecimal. Such references may come from the source file, c.f. lgc(5), or may be used for locating transitively referenced pages, i.e. pages referenced from referenced pages. An opening tilde in the location (if any) is replaced by $HOME. The default value of PATH is ~/.logiweb/logiweb/:/rack.lgr. See LIST OPTIONS below on how to give this option more than once.
+.IP "-r location, --rendering=location
+Store rendering at the given location. The rightmost colon (if any) in the location is replaced by the reference of the page. An opening tilde (if any) is replaced by $HOME. The default value is ~/.logiweb/logiweb/:/. The vector and rack produced by lgc are stored as vector.lgw and rack.lgr at the given location.
+.IP "-s file, --siteconfig=file
+Read options from given file, c.f. CONFIGURATION FILES below. An opening tilde (if any) is replaced by $HOME. The default value is /etc/logiweb/lgc.conf.
+.IP "-u file, --userconfig=file
+Read options from given file, c.f. CONFIGURATION FILES below. An opening tilde (if any) is replaced by $HOME. The default value is ~/.logiweb/lgc.conf.
+.IP "--source=file"
+Translate given file. 'lgc --source=X' is like 'lgc X'.
+.IP "-v verbosity, --verbose=verbosity"
+Set verbosity to given level. Levels are: 1. Print error messages. 2. Also print warning message. 3. Also print progress messages. 4. Print more progress messages. 5. Print debugging information. Level 0 is reserved for silence. Default level is 3.
+.IP "--version"
+Print the version of the lgc compiler.
+.IP
+.SH CONFIGURATION OPTIONS
+While it is possible to give the following options on the command line, they are intended to be used in configuration files.
+.IP "--leap=leapspec"
+Tell lgc that a leap second occurred or will occur at the given point in time. A leapspec has format
+.nf
+
+GRD-<year>-<month>-<day>[+1|-1].
+
+.fi
+The year, month, and day are given as a Gregorian date. Days go from UTC midnight to UTC midnight. The month and day have two digits. The year has four until year 9999. A leapspec indicates that the length of the given day is altered by the given amount (+1 second or -1 second). The leap affects the last minute of the last hour of the given UTC day. See LIST OPTIONS below on how to give this option more than once.
+.IP "--newline=value"
+Tell lgc what host newline convention to use. Possible values are CR, LF, CRLF, or LFCR. For the sake of portability, Logiweb always uses LF internally.
+.IP "--script=headline"
+Tell lgc what line to start with when emitting an executable. Default is '#!/usr/bin/lgwam script'
+.SH LIST OPTIONS
+The value of each option is a list of strings. Each command line option transforms the value of some option. The available transformations are: (1) Discard the current value and set the given option to a one element list containing the given string. (2) Add the given string in front of the given option. (3) Add the given string at the end of the given option. (4) Set the given option to the empty list. These four possibilities are illustrated in the following using the PATH variable as an example.
+.IP "-p xyzzy, --path=xyzzy"
+Set PATH to a one element list containing xyzzy.
+.IP "+p foo, --path+foo"
+Add foo in front of PATH. If given after the option above, the PATH now has value foo;xyzzy.
+.IP "++p bar, --path++bar"
+Add bar at end of PATH. If given after the options above, the PATH now has value foo;xyzzy;bar.
+.IP "--path"
+Set path to the empty list
+.P
+Options like HELP, VERSION, and so on have default value 'no'. Such options take effect when they differ from 'no'. As an example, -h translates to --help which sets HELP to the empty list which differs from 'no'.
+.P
+Options like SITECONFIG, USERCONFIG, and RENDERING only use the first string in the list. As an example, '-s file' translates to '--siteconfig=file' which sets the first (and only) element of SITECONFIG to file.
+.P
+A source file foo given on the command line translate to --source=foo. The compiler only uses the first string of the SOURCE option.
+.P
+The compiler processes the command line left to right. Long options are case insensitive. Short options are case sensitive. Short options are translated to long options before processing.
+.SH CONFIGURATION FILES
+The compiler processes options from the following sources in the order given.
+.IP "Compiled in defaults"
+These are the default values which can only be changed by recompiling lgc.
+.IP "Script defaults"
+The compiler is itself a Logiweb script and may look like this:
+.nf
+
+> more /usr/bin/lgc
+#!/usr/bin/lgwam script
+string
+015F43BE4A17DAD915936B7A773154A80946AEC82EFBEECDA4A7D7B80806
+lgc
+execute
+siteconfig=/etc/logiweb/lgc.conf
+
+.fi
+The first five lines identify the lgc compiler. The remaining lines define options exactly like long options do on the command line except that the leading two hyphens are omitted. Blank lines and lines starting with a hashmark (#) are ignored. Lines may be ended by an arbitrary sequence of CR and LF characters.
+.IP "Site configuration file"
+The site configuration file is treated like the option part of the script.
+.IP "User configuration file"
+The user configuration file is treated like the site configuration file. The only difference between the two is that the site file is processed before the user file.
+.IP "Environment variables"
+Environment options like LGC_FOO=xyzzy are treated as --FOO=xyzzy. Environment options can only be used for setting options to one-element lists of strings. As a special case, the environment variable HOME=xyzzy is treated as --HOME=xyzzy.
+.IP "Command line options"
+These were treated in great detail earlier in this man page.
+.P
+Options from the six sources above are treated as one long list of option transformations. As an example, --path+foo on the command line adds foo in front of whatever the five other sources have defined PATH to be.
+.P
+The compiler reads options once but process them three times: First for finding the value of SITECONFIG ignoring the site and user configuration files. Second for finding the value of USERCONFIG ignoring the user configuration file. And finally for finding the value of all the other options.
+.P
+The compiler does not restrict the set of possible options to those it knows itself. Hence, 'lgc --foo=bar source' will define the FOO option to equal 'bar'. Such user defined options can be picked up by user defined rendering functions in the source and may affect the outcome of rendering. Note that if the rendering is put on WWW this may expose the options used to the outside world. This includes the environment variable HOME and variables starting with LGC_. Use 'lgc --options' to see what might get exposed to the outside world.
+.SH PATH ITEMS
+.P
+When looking up a page by name or reference, lgc considers the locations in NAMEPATH and PATH, respectively, one at a time as follows.
+.P
+(1) If the item does not start with "file:" or "http:", then "file:" is prepended.
+.P
+(2) The item is divided in scheme and contents at the leftmost colon character. Hence, the scheme is either "file" or "http".
+.P
+(3) If the scheme is "file" and the contents starts with a tilde, then the tilde is replaced by the value of $HOME.
+.P
+(4) The rightmost colon character (if any) is replaced by the name (for NAMEPATH) or reference (for PATH) of the page. The reference is expressed in mixed endian hexadecimal.
+.P
+(5) The page is looked up as a file or using http depending on the scheme. A page with extension .lgr is treated as a Logiweb rack. A page with extension .lgw is treated as a Logiweb vector. A page with extension .lgu is treated as an URL which points at the page to be fetched. That URL is supposed to have extension .lgr or .lgw or .lgu. The .lgu extension is intended for future uses involving CGI scripts.
+.P
+As an example, if the item is ~/.logiweb/cache/:/page.lgr and the referenced page has reference 01AB then .logiweb/cache/01AB/page.lgr under the users home catalogue is retrieved and is interpretted as a Logiweb rack.
+.SH FILES
+.P
+The site configuration file typically resides in /etc/logiweb/lgc.conf. It is considered to be blank if it does not exist.
+.P
+The user configuration file typically resides in ~/.logiweb/lgc.conf. It is considered to be blank if it does not exist.
+.P
+Example source files typically reside in /usr/share/doc/logiweb/examples.
+.P
+Source files should have extension .lgs (this may become mandatory in the future).
+.P
+Links to rendering output typically have no extension.
+.P
+Logiweb vectors (compact representations of Logiweb pages suited for transmission over the internet) have extension .lgw.
+.P
+Logiweb racks (precompiled representations of Logiweb pages suited for fast loading) have extension .lgr.
+.P
+Logiweb pointers (page references in mixed endian hexadecimal) have extension .lgp.
+.P
+Logiweb URL indirections have extension .lgu.
+.SH ENVIRONMENT
+For each long option there is an associated environment variable, c.f. CONFIGURATION FILES above. Furthermore, lgc may use the HOME environment variable.
+.SH SECURITY CONSIDERATIONS
+The HOME environment variable and environment variables starting with LGC_ may get exposed if rendering output is made available via WWW.
+.P
+All transitively referenced pages are rendered locally. Local rendering may involve invokation of latex, bibtex, makeindex, and dvipdfm. Local rendering should occur in a chroot jail, but this has not yet been implemented. Thus: only reference trusted pages.
+.P
+All pages may define executable code. Executables end up under the rendering directory. Such executables can do anything if they are invoked. The lgc compiler never itself invokes an executable, but an attacker could either persuade or fool you to run it or could exploit security holes in latex to do so. Thus: only reference trusted pages.
+.P
+When loading a Logiweb vector, lgc uses the RIPEMD-160 hash function to verify the authenticity of the received vector. lgc makes no check of racks. Thus, only load racks from trusted places (typically your own harddisk and nowhere else).
+.P
+Feel free to include locations like http://untrusted.com/:/vector.lgw in PATH. RIPEMD-160 will protect you. But never include .lgr references to untrusted places and never include references to untrusted places in NAMEPATH.
+.SH AUTHOR
+Klaus Grue, http://logiweb.eu/
+.SH SEE ALSO
+lgwam(1), lgc(5), lgc.conf(5), logiweb(5)

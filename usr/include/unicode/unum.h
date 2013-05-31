@@ -1,6 +1,6 @@
 /*
 *******************************************************************************
-* Copyright (C) 1997-2007, International Business Machines Corporation and others.
+* Copyright (C) 1997-2011, International Business Machines Corporation and others.
 * All Rights Reserved.
 * Modification History:
 *
@@ -16,6 +16,7 @@
 
 #if !UCONFIG_NO_FORMATTING
 
+#include "unicode/localpointer.h"
 #include "unicode/uloc.h"
 #include "unicode/umisc.h"
 #include "unicode/parseerr.h"
@@ -95,9 +96,9 @@
  *    num = unum_parse(nf, str, u_strlen(str), &pos, &status);
  * \endcode
  * </pre>
- * Use UCAL_DECIMAL to get the normal number format for that country.
- * There are other static options available.  Use UCAL_CURRENCY
- * to get the currency number format for that country.  Use UCAL_PERCENT
+ * Use UNUM_DECIMAL to get the normal number format for that country.
+ * There are other static options available.  Use UNUM_CURRENCY
+ * to get the currency number format for that country.  Use UNUM_PERCENT
  * to get a format for displaying percentages. With this format, a
  * fraction from 0.53 is displayed as 53%.
  * <P>
@@ -133,19 +134,34 @@ typedef void* UNumberFormat;
  */
 typedef enum UNumberFormatStyle {
     /**
-     * Decimal format defined by pattern 
+     * Decimal format defined by a pattern string.
      * @stable ICU 3.0
      */
     UNUM_PATTERN_DECIMAL=0,
-    /** Decimal format */
+    /**
+     * Decimal format ("normal" style).
+     * @stable ICU 2.0
+     */
     UNUM_DECIMAL=1,
-    /** Currency format */
+    /**
+     * Currency format with a currency symbol, e.g., "$1.00".
+     * @stable ICU 2.0
+     */
     UNUM_CURRENCY,
-    /** Percent format */
+    /**
+     * Percent format
+     * @stable ICU 2.0
+     */
     UNUM_PERCENT,
-    /** Scientific format */
+    /**
+     * Scientific format
+     * @stable ICU 2.1
+     */
     UNUM_SCIENTIFIC,
-    /** Spellout rule-based format */
+    /**
+     * Spellout rule-based format
+     * @stable ICU 2.0
+     */
     UNUM_SPELLOUT,
     /** 
      * Ordinal rule-based format 
@@ -158,13 +174,40 @@ typedef enum UNumberFormatStyle {
      */
     UNUM_DURATION,
     /** 
-     * Rule-based format defined by pattern 
+     * Numbering system rule-based format
+     * @stable ICU 4.2
+     */
+    UNUM_NUMBERING_SYSTEM,
+    /** 
+     * Rule-based format defined by a pattern string.
      * @stable ICU 3.0
      */
     UNUM_PATTERN_RULEBASED,
-    /** Default format */
+    /**
+     * Currency format with an ISO currency code, e.g., "USD1.00".
+     * @draft ICU 4.8
+     */
+    UNUM_CURRENCY_ISO,
+    /**
+     * Currency format with a pluralized currency name,
+     * e.g., "1.00 US dollar" and "3.00 US dollars".
+     * @draft ICU 4.8
+     */
+    UNUM_CURRENCY_PLURAL,
+    /**
+     * One more than the highest number format style constant.
+     * @draft ICU 4.8
+     */
+    UNUM_FORMAT_STYLE_COUNT,
+    /**
+     * Default format
+     * @stable ICU 2.0
+     */
     UNUM_DEFAULT = UNUM_DECIMAL,
-    /** (Alias for UNUM_PATTERN_DECIMAL) */
+    /**
+     * Alias for UNUM_PATTERN_DECIMAL
+     * @stable ICU 3.0
+     */
     UNUM_IGNORE = UNUM_PATTERN_DECIMAL
 } UNumberFormatStyle;
 
@@ -183,6 +226,11 @@ typedef enum UNumberFormatRoundingMode {
     UNUM_FOUND_HALFEVEN,
     UNUM_ROUND_HALFDOWN,
     UNUM_ROUND_HALFUP,
+    /** 
+      * ROUND_UNNECESSARY reports an error if formatted result is not exact.
+      * @draft ICU 4.8
+      */
+    UNUM_ROUND_UNNECESSARY,
     /**
      * Half-even rounding
      * @stable, ICU 3.8
@@ -199,6 +247,18 @@ typedef enum UNumberFormatPadPosition {
     UNUM_PAD_BEFORE_SUFFIX,
     UNUM_PAD_AFTER_SUFFIX
 } UNumberFormatPadPosition;
+
+/**
+ * Constants for specifying currency spacing
+ * @draft ICU 4.8
+ */
+enum UCurrencySpacing {
+    UNUM_CURRENCY_MATCH,
+    UNUM_CURRENCY_SURROUNDING_MATCH,
+    UNUM_CURRENCY_INSERT,
+    UNUM_CURRENCY_SPACING_COUNT
+};
+typedef enum UCurrencySpacing UCurrencySpacing; /**< @draft ICU 4.8 */
 
 /**
  * Create and return a new UNumberFormat for formatting and parsing
@@ -248,6 +308,25 @@ unum_open(  UNumberFormatStyle    style,
 */
 U_STABLE void U_EXPORT2 
 unum_close(UNumberFormat* fmt);
+
+#if U_SHOW_CPLUSPLUS_API
+
+U_NAMESPACE_BEGIN
+
+/**
+ * \class LocalUNumberFormatPointer
+ * "Smart pointer" class, closes a UNumberFormat via unum_close().
+ * For most methods see the LocalPointerBase base class.
+ *
+ * @see LocalPointerBase
+ * @see LocalPointer
+ * @stable ICU 4.4
+ */
+U_DEFINE_LOCAL_OPEN_POINTER(LocalUNumberFormatPointer, UNumberFormat, unum_close);
+
+U_NAMESPACE_END
+
+#endif
 
 /**
  * Open a copy of a UNumberFormat.
@@ -343,6 +422,40 @@ unum_formatInt64(const UNumberFormat *fmt,
 U_STABLE int32_t U_EXPORT2 
 unum_formatDouble(    const    UNumberFormat*  fmt,
             double          number,
+            UChar*          result,
+            int32_t         resultLength,
+            UFieldPosition  *pos, /* 0 if ignore */
+            UErrorCode*     status);
+
+/**
+* Format a decimal number using a UNumberFormat.
+* The number will be formatted according to the UNumberFormat's locale.
+* The syntax of the input number is a "numeric string"
+* as defined in the Decimal Arithmetic Specification, available at
+* http://speleotrove.com/decimal
+* @param fmt The formatter to use.
+* @param number The number to format.
+* @param length The length of the input number, or -1 if the input is nul-terminated.
+* @param result A pointer to a buffer to receive the formatted number.
+* @param resultLength The maximum size of result.
+* @param pos    A pointer to a UFieldPosition.  On input, position->field
+*               is read.  On output, position->beginIndex and position->endIndex indicate
+*               the beginning and ending indices of field number position->field, if such
+*               a field exists.  This parameter may be NULL, in which case it is ignored.
+* @param status A pointer to an UErrorCode to receive any errors
+* @return The total buffer size needed; if greater than resultLength, the output was truncated.
+* @see unum_format
+* @see unum_formatInt64
+* @see unum_parse
+* @see unum_parseInt64
+* @see unum_parseDouble
+* @see UFieldPosition
+* @stable ICU 4.4 
+*/
+U_STABLE int32_t U_EXPORT2 
+unum_formatDecimal(    const    UNumberFormat*  fmt,
+            const char *    number,
+            int32_t         length,
             UChar*          result,
             int32_t         resultLength,
             UFieldPosition  *pos, /* 0 if ignore */
@@ -450,6 +563,41 @@ unum_parseDouble(    const   UNumberFormat*  fmt,
             int32_t         *parsePos /* 0 = start */,
             UErrorCode      *status);
 
+
+/**
+* Parse a number from a string into an unformatted numeric string using a UNumberFormat.
+* The input string will be parsed according to the UNumberFormat's locale.
+* The syntax of the output is a "numeric string"
+* as defined in the Decimal Arithmetic Specification, available at
+* http://speleotrove.com/decimal
+* @param fmt The formatter to use.
+* @param text The text to parse.
+* @param textLength The length of text, or -1 if null-terminated.
+* @param parsePos If not 0, on input a pointer to an integer specifying the offset at which
+*                 to begin parsing.  If not 0, on output the offset at which parsing ended.
+* @param outBuf A (char *) buffer to receive the parsed number as a string.  The output string
+*               will be nul-terminated if there is sufficient space.
+* @param outBufLength The size of the output buffer.  May be zero, in which case
+*               the outBuf pointer may be NULL, and the function will return the
+*               size of the output string.
+* @param status A pointer to an UErrorCode to receive any errors
+* @return the length of the output string, not including any terminating nul.
+* @see unum_parse
+* @see unum_parseInt64
+* @see unum_format
+* @see unum_formatInt64
+* @see unum_formatDouble
+* @stable ICU 4.4
+*/
+U_STABLE int32_t U_EXPORT2 
+unum_parseDecimal(const   UNumberFormat*  fmt,
+                 const   UChar*          text,
+                         int32_t         textLength,
+                         int32_t         *parsePos /* 0 = start */,
+                         char            *outBuf,
+                         int32_t         outBufLength,
+                         UErrorCode      *status);
+
 /**
  * Parse a string into a double and a currency using a UNumberFormat.
  * The string will be parsed according to the UNumberFormat's locale.
@@ -507,13 +655,13 @@ unum_applyPattern(          UNumberFormat  *format,
 * A UNumberFormat in a locale returned by this function will perform the correct
 * formatting and parsing for the locale.  The results of this call are not
 * valid for rule-based number formats.
-* @param index The index of the desired locale.
+* @param localeIndex The index of the desired locale.
 * @return A locale for which number formatting patterns are available, or 0 if none.
 * @see unum_countAvailable
 * @stable ICU 2.0
 */
 U_STABLE const char* U_EXPORT2 
-unum_getAvailable(int32_t index);
+unum_getAvailable(int32_t localeIndex);
 
 /**
 * Determine how many locales have decimal formatting patterns available.  The
@@ -802,8 +950,44 @@ typedef enum UNumberFormatSymbol {
    * @stable ICU 3.6
    */
   UNUM_MONETARY_GROUPING_SEPARATOR_SYMBOL = 17,  
+  /** One
+   * @draft ICU 4.6
+   */
+  UNUM_ONE_DIGIT_SYMBOL = 18,
+  /** Two
+   * @draft ICU 4.6
+   */
+  UNUM_TWO_DIGIT_SYMBOL = 19,
+  /** Three
+   * @draft ICU 4.6
+   */
+  UNUM_THREE_DIGIT_SYMBOL = 20,
+  /** Four
+   * @draft ICU 4.6
+   */
+  UNUM_FOUR_DIGIT_SYMBOL = 21,
+  /** Five
+   * @draft ICU 4.6
+   */
+  UNUM_FIVE_DIGIT_SYMBOL = 22,
+  /** Six
+   * @draft ICU 4.6
+   */
+  UNUM_SIX_DIGIT_SYMBOL = 23,
+  /** Seven
+    * @draft ICU 4.6
+   */
+  UNUM_SEVEN_DIGIT_SYMBOL = 24,
+  /** Eight
+   * @draft ICU 4.6
+   */
+  UNUM_EIGHT_DIGIT_SYMBOL = 25,
+  /** Nine
+   * @draft ICU 4.6
+   */
+  UNUM_NINE_DIGIT_SYMBOL = 26,
   /** count symbol constants */
-  UNUM_FORMAT_SYMBOL_COUNT = 18
+  UNUM_FORMAT_SYMBOL_COUNT = 27
 } UNumberFormatSymbol;
 
 /**

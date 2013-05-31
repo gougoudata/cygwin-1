@@ -7,6 +7,3 @@ ${sbindir}/update-alternatives \
 	--install ${bindir}/automake automake ${bindir}/automake-1.4 10 \
 	--slave   ${bindir}/aclocal  aclocal  ${bindir}/aclocal-1.4
 
-/usr/bin/install-info --dir-file=/usr/share/info/dir --info-file=/usr/share/info/automake1.4.info.gz
-
-

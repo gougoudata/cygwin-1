@@ -1,0 +1,119 @@
+gcr 3.6.2:
+ - Updated translations
+
+gcr 3.6.1:
+ - Remove unneeded translation
+ - Clear and focus password entry in gcr-viewer when invalid password
+ - Keep enumerating if getting info about one slot fails.
+ - Updated translations
+ - Testing fixes
+
+gcr 3.6.0:
+ - Updated translations
+
+gcr 3.5.92:
+ - Updated transaltions
+
+gcr 3.5.90:
+ - Updated translations
+ - Don't fail preconditions when pkcs11 isn't initialized in gcr
+ - Fix regression in ASN.1 parsing
+ - Build fixes
+
+gcr 3.5.5:
+ - Use p11-kit/pkcs11.h instead of shipping a copy with gck.
+ - Documentation fixes
+ - Updated translations
+
+gcr 3.5.4:
+ - Add debug output to GcrSecretExchange
+ - Fix invalid warning when sending a secret exchange
+ - Remove support code for old glib versions
+ - Updated translations
+ - Documentation fixes
+
+gcr 3.5.3:
+ - Rework DER parsing so we can parse odd PKCS#12 files
+ - Use GBytes, bump glib dependency
+ - Enable gnome2 keyring storage
+ - Documentation fixes
+ - Updated translations
+
+gcr 3.4.1:
+ - Fix more issues disabling grabs during password prompts
+ - More debug messages to GcrSystemPrompter
+ - Fix up GCR_DEBUG and GCK_DEBUG environment variables
+ - Updated translations
+ - Build fixes
+
+gcr 3.4.0:
+ (no changes since last release)
+
+gcr 3.3.92:
+ - Fix up copyright headers
+ - Updated translations
+ - Build fix
+
+gcr 3.3.90:
+ - Expose the secure memory API
+
+gcr 3.3.5:
+ - Add way to specify button labels for a GcrPrompt
+ - Reenable grabs for password prompts
+
+gcr 3.3.4
+ - Display an appropriate title in gcr-viewer
+ - Include GcrPrompt documentation
+ - Add 'new-prompt' signal to GcrSystemPrompter for use with javascript
+ - Fix build for glib 2.31 deprecations
+ - Build fixes
+
+gcr 3.3.3.1
+ - Fix build issues
+
+gcr 3.3.3
+ - Add support for parsing PKCS#10 and SPKAC formats in GcrParser
+ - Add support for viewing certificate requests in GcrViewer
+ - Support for dynamically loading private key data from PKCS#11
+ - Add GcrCertificateRequest class for requesting certificates
+ - Add function to retrieve basic constraints from a certificate
+ - Show import errors in an info bar under the viewer
+ - Don't show empty dates in gnupg key renderer
+ - Make secure memory pool shared across modules
+ - Add GckBuilder as a mutable attribute set
+ - Add floating references to GckAttributes
+ - Rename GckObjectAttributes to GckObjectCache
+ - Expose GcrSecureEntryBuffer as a public class
+ - Add system prompt and prompter
+ - Expose uri in GcrImporter
+ - Fix build for glib 2.31 deprecations
+ - Licensing fixes
+ - Build fixes, internal bug fixes, documentation, etc.
+
+gcr 3.3.2.1
+ - Fix build issues
+
+gcr 3.3.2
+ - Allow changing collection on a GcrCollectionModel, add tree/list
+   mode to GcrCollectionModel
+ - Allow chaining of GckEnumerator objects, so that when objects from
+   one is listed, then chained enumerator is enumerated.
+ - Integrate GTlsInteraction into libgck for logging in or key auth.
+ - Refactor internal DER parsing to use reference counted memory
+   using the prototyped GBytes API.
+ - Build fixes, documentation fixes, testing fixes, memory leak fixes
+
+gcr 3.3.1.1
+ - Fix build issues
+
+gcr 3.3.1
+ - Add function to get elements of union collection
+ - Add gck_slot_enumerate_objects() function
+ - Enumerator can now retrieve object attributes
+ - Add gck_session_find_handles() and friends
+ - Add gnupg and password icons
+ - Function to notify that certificate changed
+ - Update glib dependency for 2.30.0
+ - Build, translation and documentation fixes
+
+Versions 3.2.2 and prior were released as part of gnome-keyring

@@ -1,24 +1,15 @@
 //
-// "$Id: output.cxx 5519 2006-10-11 03:12:15Z mike $"
+// "$Id: output.cxx 8864 2011-07-19 04:49:30Z greg.ercolano $"
 //
 // Output test program for the Fast Light Tool Kit (FLTK).
 //
-// Copyright 1998-2005 by Bill Spitzak and others.
+// Copyright 1998-2010 by Bill Spitzak and others.
 //
-// This library is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Library General Public
-// License as published by the Free Software Foundation; either
-// version 2 of the License, or (at your option) any later version.
+// This library is free software. Distribution and use rights are outlined in
+// the file "COPYING" which should have been included with this file.  If this
+// file is missing or damaged, see the license at:
 //
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-// Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public
-// License along with this library; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
-// USA.
+//     http://www.fltk.org/COPYING.php
 //
 // Please report all bugs and problems on the following page:
 //
@@ -27,7 +18,7 @@
 
 #include <FL/Fl.H>
 #include <FL/Fl_Value_Input.H> // necessary for bug in mingw32?
-#include <FL/Fl_Window.H>
+#include <FL/Fl_Double_Window.H>
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Hor_Value_Slider.H>
 #include <FL/Fl_Toggle_Button.H>
@@ -41,7 +32,7 @@ Fl_Multiline_Output *text2;
 Fl_Input *input;
 Fl_Value_Slider *fonts;
 Fl_Value_Slider *sizes;
-Fl_Window *window;
+Fl_Double_Window *window;
 
 void font_cb(Fl_Widget *,void *) {
   text->textfont(int(fonts->value()));
@@ -63,21 +54,21 @@ void input_cb(Fl_Widget *,void *) {
 }
 
 int main(int argc, char **argv) {
-  window = new Fl_Window(400,400);
+  window = new Fl_Double_Window(400,400);
 
-  input = new Fl_Input(50,0,350,25);
+  input = new Fl_Input(50,375,350,25);
   input->static_value("The quick brown fox\njumped over\nthe lazy dog.");
   input->when(FL_WHEN_CHANGED);
   input->callback(input_cb);
 
-  sizes = new Fl_Hor_Value_Slider(50,25,350,25,"Size");
+  sizes = new Fl_Hor_Value_Slider(50,350,350,25,"Size");
   sizes->align(FL_ALIGN_LEFT);
   sizes->bounds(1,64);
   sizes->step(1);
   sizes->value(14);
   sizes->callback(size_cb);
 
-  fonts = new Fl_Hor_Value_Slider(50,50,350,25,"Font");
+  fonts = new Fl_Hor_Value_Slider(50,325,350,25,"Font");
   fonts->align(FL_ALIGN_LEFT);
   fonts->bounds(0,15);
   fonts->step(1);
@@ -90,16 +81,16 @@ int main(int argc, char **argv) {
   text2->tooltip("This is an Fl_Multiline_Output widget.");
   window->resizable(text2);
 
-  text = new Fl_Output(100,280,200,30,"Fl_Output");
+  text = new Fl_Output(100,90,200,30,"Fl_Output");
   text->value(input->value());
   text->align(FL_ALIGN_BOTTOM);
   text->tooltip("This is an Fl_Output widget.");
 
-  window->forms_end();
+  window->end();
   window->show(argc,argv);
   return Fl::run();
 }
 
 //
-// End of "$Id: output.cxx 5519 2006-10-11 03:12:15Z mike $".
+// End of "$Id: output.cxx 8864 2011-07-19 04:49:30Z greg.ercolano $".
 //

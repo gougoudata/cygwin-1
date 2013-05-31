@@ -2,4 +2,31 @@
 [ -f /etc/preremove/gcc-mingw-ada-manifest.lst ] || exit 0
 echo "*** Removing gcc-mingw-ada files.  Please wait. ***"
 cd /usr
-for i in `cat /etc/preremove/gcc-mingw-ada-manifest.lst` ; do /bin/rm -rf $i ; done && rm -vf /etc/preremove/gcc-mingw-ada-manifest.lst
+(while read LN
+do
+  if [ -e $LN -o -h $LN ]
+  then
+    if [ -f $LN -o -h $LN ]
+    then
+      echo rm -f ${LN}
+      rm -f $LN 2>/dev/null
+      if [ $? -ne 0 ]
+      then
+        echo "File or symbolic link ${LN} can't be removed."
+      fi
+    elif [ -d $LN ]
+    then
+      echo rmdir $LN
+      rmdir $LN 2>/dev/null
+      if [ $? -ne 0 ]
+      then
+        echo "Directory ${LN} is not empty; skipping."
+      fi
+    fi
+  else
+    echo "${LN} already removed."
+  fi
+done) < /etc/preremove/gcc-mingw-ada-manifest.lst
+echo 'rm -f /etc/preremove/gcc-mingw-ada-manifest.lst' 
+rm -f /etc/preremove/gcc-mingw-ada-manifest.lst
+

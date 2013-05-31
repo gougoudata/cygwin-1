@@ -1,6 +1,7 @@
 /* signal.h
 
-  Copyright 2004, 2005, 2006 Red Hat, Inc.
+  Copyright 2003, 2004, 2005, 2006, 2007, 2008, 2010, 2011, 2012, 2013
+  Red Hat, Inc.
 
   This file is part of Cygwin.
 
@@ -89,6 +90,19 @@ struct _sigcommune
   };
 };
 
+#define __SI_PAD_SIZE 32
+#ifdef __INSIDE_CYGWIN__
+# ifndef max
+#   define max(a,b) (((a) > (b)) ? (a) : (b))
+# endif /*max*/
+# define __uint32_size(__x) (max(sizeof (__x) / sizeof (uint32_t), 1))
+
+/* This padding represents the elements of the last struct in siginfo_t,
+   aligning the elements to the end to avoid conflicts with other struct
+   members. */
+# define __SI_CYG_PAD (__SI_PAD_SIZE - __uint32_size (void *))
+#endif /*__INSIDE_CYGWIN__*/
+
 typedef struct
 {
   int si_signo;				/* signal number */
@@ -99,26 +113,21 @@ typedef struct
 
   __extension__ union
   {
-    __uint32_t __pad[32];		/* plan for future growth */
+    __uint32_t __pad[__SI_PAD_SIZE];	/* plan for future growth */
     struct _sigcommune _si_commune;	/* cygwin ipc */
-    union
+    __extension__ struct
     {
-      /* timers */
-      struct
+      __extension__ union
       {
-	union
-	{
-	  struct
-	  {
-	    timer_t si_tid;		/* timer id */
-	    unsigned int si_overrun;	/* overrun count */
-	  };
-	  sigval_t si_sigval;		/* signal value */
-	  sigval_t si_value;		/* signal value */
-	};
+	sigval_t si_sigval;		/* signal value */
+	sigval_t si_value;		/* signal value */
+      };
+      __extension__ struct
+      {
+	timer_t si_tid;			/* timer id */
+	unsigned int si_overrun;	/* overrun count */
       };
     };
-
     /* SIGCHLD */
     __extension__ struct
     {
@@ -127,8 +136,17 @@ typedef struct
       clock_t si_stime;			/* system time */
     };
 
-    /* core dumping signals */
-    void *si_addr;			/* faulting address */
+    void *si_addr;			/* faulting address for core dumping
+					   signals */
+    /* Cygwin internal fields */
+#ifdef __INSIDE_CYGWIN__
+    __extension__ struct 
+    {
+      __uint32_t __pad2[__SI_CYG_PAD];	/* Locate at end of struct */
+      void *si_cyg;			/* pointer to block containing
+					   cygwin-special info */
+    };
+#endif /*__INSIDE_CYGWIN__*/
   };
 } siginfo_t;
 #pragma pack(pop)
@@ -190,6 +208,8 @@ enum
 					   perform notification */
 };
 
+typedef __uint32_t sigset_t;
+
 typedef void (*_sig_func_ptr)(int);
 
 struct sigaction
@@ -250,6 +270,7 @@ struct sigaction
 #define	SIGPROF	27	/* profiling time alarm */
 #define	SIGWINCH 28	/* window changed */
 #define	SIGLOST 29	/* resource lost (eg, record-lock lost) */
+#define	SIGPWR  SIGLOST	/* power failure */
 #define	SIGUSR1 30	/* user defined signal 1 */
 #define	SIGUSR2 31	/* user defined signal 2 */
 
@@ -260,6 +281,7 @@ struct sigaction
 
 #define SIG_HOLD ((_sig_func_ptr)2)	/* Signal in signal mask */
 
+void psiginfo (const siginfo_t *, const char *);
 int sigwait (const sigset_t *, int *);
 int sigwaitinfo (const sigset_t *, siginfo_t *);
 int sighold (int);
@@ -269,6 +291,14 @@ _sig_func_ptr sigset (int, _sig_func_ptr);
 
 int sigqueue(pid_t, int, const union sigval);
 int siginterrupt (int, int);
+#ifdef __INSIDE_CYGWIN__
+extern const char *sys_sigabbrev[];
+extern const char *sys_siglist[];
+#else
+extern const char __declspec(dllimport) *sys_sigabbrev[];
+extern const char __declspec(dllimport) *sys_siglist[];
+#endif
+
 #ifdef __cplusplus
 }
 #endif

@@ -1,14 +1,42 @@
+/* GDK - The GIMP Drawing Kit
+ * Copyright (C) 1995-1997 Peter Mattis, Spencer Kimball and Josh MacDonald
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the
+ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
+ */
+
+/*
+ * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
+ * file for a list of people on the GTK+ Team.  See the ChangeLog
+ * files for a list of changes.  These files are distributed with
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
+ */
+
 #ifndef __GDK_EVENTS_H__
 #define __GDK_EVENTS_H__
+
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GDK_H_INSIDE__) && !defined (GDK_COMPILATION)
+#error "Only <gdk/gdk.h> can be included directly."
+#endif
 
 #include <gdk/gdkcolor.h>
 #include <gdk/gdktypes.h>
 #include <gdk/gdkdnd.h>
 #include <gdk/gdkinput.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define GDK_TYPE_EVENT          (gdk_event_get_type ())
 
@@ -35,6 +63,7 @@ typedef struct _GdkEventClient	    GdkEventClient;
 typedef struct _GdkEventDND         GdkEventDND;
 typedef struct _GdkEventWindowState GdkEventWindowState;
 typedef struct _GdkEventSetting     GdkEventSetting;
+typedef struct _GdkEventGrabBroken  GdkEventGrabBroken;
 
 typedef union  _GdkEvent	    GdkEvent;
 
@@ -120,7 +149,10 @@ typedef enum
   GDK_SCROLL            = 31,
   GDK_WINDOW_STATE      = 32,
   GDK_SETTING           = 33,
-  GDK_OWNER_CHANGE      = 34
+  GDK_OWNER_CHANGE      = 34,
+  GDK_GRAB_BROKEN       = 35,
+  GDK_DAMAGE            = 36,
+  GDK_EVENT_LAST        /* helper variable for decls */
 } GdkEventType;
 
 /* Event masks. (Used to select what types of events a window
@@ -194,7 +226,10 @@ typedef enum
 {
   GDK_CROSSING_NORMAL,
   GDK_CROSSING_GRAB,
-  GDK_CROSSING_UNGRAB
+  GDK_CROSSING_UNGRAB,
+  GDK_CROSSING_GTK_GRAB,
+  GDK_CROSSING_GTK_UNGRAB,
+  GDK_CROSSING_STATE_CHANGED
 } GdkCrossingMode;
 
 typedef enum
@@ -316,6 +351,7 @@ struct _GdkEventKey
   gchar *string;
   guint16 hardware_keycode;
   guint8 group;
+  guint is_modifier : 1;
 };
 
 struct _GdkEventCrossing
@@ -431,6 +467,15 @@ struct _GdkEventWindowState
   GdkWindowState new_window_state;
 };
 
+struct _GdkEventGrabBroken {
+  GdkEventType type;
+  GdkWindow *window;
+  gint8 send_event;
+  gboolean keyboard;
+  gboolean implicit;
+  GdkWindow *grab_window;
+};
+
 /* Event types for DND */
 
 struct _GdkEventDND {
@@ -465,6 +510,7 @@ union _GdkEvent
   GdkEventDND               dnd;
   GdkEventWindowState       window_state;
   GdkEventSetting           setting;
+  GdkEventGrabBroken        grab_broken;
 };
 
 GType     gdk_event_get_type            (void) G_GNUC_CONST;
@@ -473,32 +519,35 @@ gboolean  gdk_events_pending	 	(void);
 GdkEvent* gdk_event_get			(void);
 
 GdkEvent* gdk_event_peek                (void);
+#ifndef GDK_DISABLE_DEPRECATED
 GdkEvent* gdk_event_get_graphics_expose (GdkWindow 	*window);
-void      gdk_event_put	 		(GdkEvent  	*event);
+#endif
+void      gdk_event_put	 		(const GdkEvent *event);
 
 GdkEvent* gdk_event_new                 (GdkEventType    type);
-GdkEvent* gdk_event_copy     		(GdkEvent 	*event);
+GdkEvent* gdk_event_copy     		(const GdkEvent *event);
 void	  gdk_event_free     		(GdkEvent 	*event);
 
-guint32   gdk_event_get_time            (GdkEvent        *event);
-gboolean  gdk_event_get_state           (GdkEvent        *event,
+guint32   gdk_event_get_time            (const GdkEvent  *event);
+gboolean  gdk_event_get_state           (const GdkEvent  *event,
                                          GdkModifierType *state);
-gboolean  gdk_event_get_coords		(GdkEvent	 *event,
+gboolean  gdk_event_get_coords		(const GdkEvent  *event,
 					 gdouble	 *x_win,
 					 gdouble	 *y_win);
-gboolean  gdk_event_get_root_coords	(GdkEvent	 *event,
+gboolean  gdk_event_get_root_coords	(const GdkEvent  *event,
 					 gdouble	 *x_root,
 					 gdouble	 *y_root);
-gboolean  gdk_event_get_axis            (GdkEvent        *event,
+gboolean  gdk_event_get_axis            (const GdkEvent  *event,
                                          GdkAxisUse       axis_use,
                                          gdouble         *value);
+void      gdk_event_request_motions     (const GdkEventMotion *event);
 void	  gdk_event_handler_set 	(GdkEventFunc    func,
 					 gpointer        data,
 					 GDestroyNotify  notify);
 
-void       gdk_event_set_screen (GdkEvent  *event,
-				 GdkScreen *screen);
-GdkScreen *gdk_event_get_screen (GdkEvent  *event);
+void       gdk_event_set_screen         (GdkEvent        *event,
+                                         GdkScreen       *screen);
+GdkScreen *gdk_event_get_screen         (const GdkEvent  *event);
 
 void	  gdk_set_show_events		(gboolean	 show_events);
 gboolean  gdk_get_show_events		(void);
@@ -512,8 +561,6 @@ gboolean gdk_setting_get (const gchar *name,
 			  GValue      *value); 
 #endif /* GDK_MULTIHEAD_SAFE */
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __GDK_EVENTS_H__ */

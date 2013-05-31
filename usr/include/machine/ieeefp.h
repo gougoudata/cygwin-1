@@ -38,7 +38,7 @@
 	whereby multiple words of an IEEE floating point are in big endian order, but the
 	words themselves are little endian with respect to the bytes.
 
-   _DOUBLE_IS_32_BITS 
+   _DOUBLE_IS_32BITS 
 
         This is used on platforms that support double by using the 32-bit IEEE
         float type.
@@ -69,8 +69,42 @@
 #endif
 #endif
 
+#if defined (__aarch64__)
+#if defined (__AARCH64EL__)
+#define __IEEE_LITTLE_ENDIAN
+#else
+#define __IEEE_BIG_ENDIAN
+#endif
+#endif
+
+#ifdef __epiphany__
+#define __IEEE_LITTLE_ENDIAN
+#define Sudden_Underflow 1
+#endif
+
 #ifdef __hppa__
 #define __IEEE_BIG_ENDIAN
+#endif
+
+#ifdef __SPU__
+#define __IEEE_BIG_ENDIAN
+
+#define isfinite(__y) \
+	(__extension__ ({int __cy; \
+		(sizeof (__y) == sizeof (float))  ? (1) : \
+		(__cy = fpclassify(__y)) != FP_INFINITE && __cy != FP_NAN;}))
+
+#define isinf(__x) ((sizeof (__x) == sizeof (float))  ?  (0) : __isinfd(__x))
+#define isnan(__x) ((sizeof (__x) == sizeof (float))  ?  (0) : __isnand(__x))
+
+/*
+ * Macros for use in ieeefp.h. We can't just define the real ones here
+ * (like those above) as we have name space issues when this is *not*
+ * included via generic the ieeefp.h.
+ */
+#define __ieeefp_isnanf(x)	0
+#define __ieeefp_isinff(x)	0
+#define __ieeefp_finitef(x)	1
 #endif
 
 #ifdef __sparc__
@@ -97,6 +131,13 @@
 #define _FLOAT_ARG float
 #define _DOUBLE_IS_32BITS
 #endif
+
+#if defined (__xc16x__) || defined (__xc16xL__) || defined (__xc16xS__)
+#define __IEEE_LITTLE_ENDIAN
+#define _FLOAT_ARG float
+#define _DOUBLE_IS_32BITS
+#endif
+
 
 #ifdef __sh__
 #ifdef __LITTLE_ENDIAN__
@@ -125,6 +166,10 @@
 #define __IEEE_LITTLE_ENDIAN
 #endif
 
+#ifdef __lm32__
+#define __IEEE_BIG_ENDIAN
+#endif
+
 #ifdef __M32R__
 #define __IEEE_BIG_ENDIAN
 #endif
@@ -132,6 +177,14 @@
 #if defined(_C4x) || defined(_C3x)
 #define __IEEE_BIG_ENDIAN
 #define _DOUBLE_IS_32BITS
+#endif
+
+#ifdef __TMS320C6X__
+#ifdef _BIG_ENDIAN
+#define __IEEE_BIG_ENDIAN
+#else
+#define __IEEE_LITTLE_ENDIAN
+#endif
 #endif
 
 #ifdef __TIC80__
@@ -234,6 +287,14 @@
 #define __IEEE_BIG_ENDIAN
 #endif
 
+#ifdef __moxie__
+#ifdef __MOXIE_BIG_ENDIAN__
+#define __IEEE_BIG_ENDIAN
+#else
+#define __IEEE_LITTLE_ENDIAN
+#endif
+#endif
+
 #ifdef __ia64__
 #ifdef __BIG_ENDIAN__
 #define __IEEE_BIG_ENDIAN
@@ -276,6 +337,55 @@
 
 #ifdef __CRIS__
 #define __IEEE_LITTLE_ENDIAN
+#endif
+
+#ifdef __BFIN__
+#define __IEEE_LITTLE_ENDIAN
+#endif
+
+#ifdef __x86_64__
+#define __IEEE_LITTLE_ENDIAN
+#endif
+
+#ifdef __mep__
+#ifdef __LITTLE_ENDIAN__
+#define __IEEE_LITTLE_ENDIAN
+#else
+#define __IEEE_BIG_ENDIAN
+#endif
+#endif
+
+#ifdef __MICROBLAZE__
+#define __IEEE_BIG_ENDIAN
+#endif
+
+#ifdef __RL78__
+#define __IEEE_LITTLE_ENDIAN
+#define __SMALL_BITFIELDS	/* 16 Bit INT */
+#define _DOUBLE_IS_32BITS
+#endif
+
+#ifdef __RX__
+
+#ifdef __RX_BIG_ENDIAN__
+#define __IEEE_BIG_ENDIAN
+#else
+#define __IEEE_LITTLE_ENDIAN
+#endif
+
+#ifndef __RX_64BIT_DOUBLES__
+#define _DOUBLE_IS_32BITS
+#endif
+
+#ifdef __RX_16BIT_INTS__
+#define __SMALL_BITFIELDS
+#endif
+
+#endif
+
+#if (defined(__CR16__) || defined(__CR16C__) ||defined(__CR16CP__))
+#define __IEEE_LITTLE_ENDIAN
+#define __SMALL_BITFIELDS	/* 16 Bit INT */
 #endif
 
 #ifndef __IEEE_BIG_ENDIAN

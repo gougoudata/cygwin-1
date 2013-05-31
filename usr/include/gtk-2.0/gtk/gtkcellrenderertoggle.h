@@ -20,11 +20,14 @@
 #ifndef __GTK_CELL_RENDERER_TOGGLE_H__
 #define __GTK_CELL_RENDERER_TOGGLE_H__
 
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
 #include <gtk/gtkcellrenderer.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+
+G_BEGIN_DECLS
 
 
 #define GTK_TYPE_CELL_RENDERER_TOGGLE			(gtk_cell_renderer_toggle_get_type ())
@@ -42,9 +45,9 @@ struct _GtkCellRendererToggle
   GtkCellRenderer parent;
 
   /*< private >*/
-  guint active : 1;
-  guint activatable : 1;
-  guint radio : 1;
+  guint GSEAL (active) : 1;
+  guint GSEAL (activatable) : 1;
+  guint GSEAL (radio) : 1;
 };
 
 struct _GtkCellRendererToggleClass
@@ -61,20 +64,22 @@ struct _GtkCellRendererToggleClass
   void (*_gtk_reserved4) (void);
 };
 
-GType            gtk_cell_renderer_toggle_get_type  (void) G_GNUC_CONST;
-GtkCellRenderer *gtk_cell_renderer_toggle_new       (void);
+GType            gtk_cell_renderer_toggle_get_type       (void) G_GNUC_CONST;
+GtkCellRenderer *gtk_cell_renderer_toggle_new            (void);
 
-gboolean         gtk_cell_renderer_toggle_get_radio (GtkCellRendererToggle *toggle);
-void             gtk_cell_renderer_toggle_set_radio (GtkCellRendererToggle *toggle,
-						     gboolean               radio);
+gboolean         gtk_cell_renderer_toggle_get_radio      (GtkCellRendererToggle *toggle);
+void             gtk_cell_renderer_toggle_set_radio      (GtkCellRendererToggle *toggle,
+                                                          gboolean               radio);
 
-gboolean        gtk_cell_renderer_toggle_get_active (GtkCellRendererToggle *toggle);
-void            gtk_cell_renderer_toggle_set_active (GtkCellRendererToggle *toggle,
-                                                     gboolean               setting);
+gboolean        gtk_cell_renderer_toggle_get_active      (GtkCellRendererToggle *toggle);
+void            gtk_cell_renderer_toggle_set_active      (GtkCellRendererToggle *toggle,
+                                                          gboolean               setting);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+gboolean        gtk_cell_renderer_toggle_get_activatable (GtkCellRendererToggle *toggle);
+void            gtk_cell_renderer_toggle_set_activatable (GtkCellRendererToggle *toggle,
+                                                          gboolean               setting);
 
+
+G_END_DECLS
 
 #endif /* __GTK_CELL_RENDERER_TOGGLE_H__ */

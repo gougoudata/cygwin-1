@@ -1,0 +1,10 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$_compiler_outputter_8cpp.html" title="CompilerOutputter.cpp" alt="" coords="5,83,168,112"/>
+<area shape="rect" id="node5" href="$_plug_in_manager_8cpp.html" title="PlugInManager.cpp" alt="" coords="192,83,336,112"/>
+<area shape="rect" id="node7" href="$_test_factory_registry_8cpp.html" title="TestFactoryRegistry.cpp" alt="" coords="360,83,533,112"/>
+<area shape="rect" id="node9" href="$_test_plug_in_default_impl_8cpp.html" title="TestPlugInDefaultImpl.cpp" alt="" coords="557,83,741,112"/>
+<area shape="rect" id="node11" href="$_test_runner_8cpp.html" title="TestRunner.cpp" alt="" coords="765,83,888,112"/>
+<area shape="rect" id="node13" href="$_test_suite_8cpp.html" title="TestSuite.cpp" alt="" coords="912,83,1019,112"/>
+<area shape="rect" id="node15" href="$_text_test_runner_8cpp.html" title="TextTestRunner.cpp" alt="" coords="1043,83,1192,112"/>
+<area shape="rect" id="node17" href="$_xml_document_8cpp.html" title="XmlDocument.cpp" alt="" coords="1216,83,1349,112"/>
+</map>

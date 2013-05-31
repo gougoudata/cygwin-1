@@ -1,6 +1,7 @@
 /* cygwin/socket.h
 
-   Copyright 1999, 2000, 2001, 2005 Red Hat, Inc.
+   Copyright 1999, 2000, 2001, 2002, 2003, 2005, 2006, 2007, 2009, 2010, 2012
+   Red Hat, Inc.
 
 This file is part of Cygwin.
 
@@ -26,6 +27,7 @@ typedef int socklen_t;
 
 typedef uint16_t sa_family_t;
 
+#ifndef __INSIDE_CYGWIN_NET__
 struct sockaddr {
   sa_family_t		sa_family;	/* address family, AF_xxx	*/
   char			sa_data[14];	/* 14 bytes of protocol address	*/
@@ -44,6 +46,7 @@ struct sockaddr_storage {
   int64_t		__ss_align;
   char			_ss_pad2[_SS_PAD2SIZE];
 };
+#endif
 
 #include <asm/socket.h>			/* arch-dependent defines	*/
 #include <cygwin/sockios.h>		/* the SIOCxxx I/O controls	*/
@@ -80,7 +83,8 @@ struct cmsghdr
 };
 
 #define CMSG_ALIGN(len) \
-	(((len) + sizeof (size_t) - 1) & ~(sizeof (size_t) - 1))
+	(((len) + __alignof__ (struct cmsghdr) - 1) \
+	 & ~(__alignof__ (struct cmsghdr) - 1))
 #define CMSG_LEN(len) \
 	(CMSG_ALIGN (sizeof (struct cmsghdr)) + (len))
 #define CMSG_SPACE(len) \
@@ -128,6 +132,14 @@ struct OLD_msghdr
 #define SOCK_RDM	4		/* reliably-delivered message	*/
 #define SOCK_SEQPACKET	5		/* sequential packet socket	*/
 
+/* GNU extension flags.  Or them to the type parameter in calls to
+   socket(2) to mark socket as nonblocking and/or close-on-exec. */
+#define SOCK_NONBLOCK	0x01000000
+#define SOCK_CLOEXEC	0x02000000
+#ifdef __INSIDE_CYGWIN__
+#define _SOCK_FLAG_MASK	0xff000000	/* Bits left for more extensions */
+#endif
+
 /* Supported address families. */
 /*
  * Address families.
@@ -152,9 +164,7 @@ struct OLD_msghdr
 #define AF_HYLINK       15              /* NSC Hyperchannel */
 #define AF_APPLETALK    16              /* AppleTalk */
 #define AF_NETBIOS      17              /* NetBios-style addresses */
-#if 0					/* Not yet */
 #define AF_INET6        23              /* IP version 6 */
-#endif
 
 #define AF_MAX          32
 /*
@@ -180,9 +190,7 @@ struct OLD_msghdr
 #define PF_HYLINK       AF_HYLINK
 #define PF_APPLETALK    AF_APPLETALK
 #define PF_NETBIOS      AF_NETBIOS
-#if 0
 #define PF_INET6        AF_INET6
-#endif
 
 #define PF_MAX          AF_MAX
 
@@ -193,13 +201,18 @@ struct OLD_msghdr
 #define MSG_OOB         0x1             /* process out-of-band data */
 #define MSG_PEEK        0x2             /* peek at incoming message */
 #define MSG_DONTROUTE   0x4             /* send without using routing tables */
-#define MSG_WINMASK     0x7             /* flags understood by WinSock calls */
+#define MSG_WAITALL     0x8             /* wait for all requested bytes */
+#define MSG_DONTWAIT	0x10		/* selective non-blocking operation */
 #define MSG_NOSIGNAL    0x20            /* Don't raise SIGPIPE */
 #define MSG_TRUNC       0x0100          /* Normal data truncated */
 #define MSG_CTRUNC      0x0200          /* Control data truncated */
+/* Windows-specific flag values returned by recvmsg. */
+#define MSG_BCAST	0x0400		/* Broadcast datagram */
+#define MSG_MCAST	0x0800		/* Multicast datagram */
 
 /* Setsockoptions(2) level. Thanks to BSD these must match IPPROTO_xxx */
 #define SOL_IP		0
+#define SOL_IPV6	41
 #define SOL_IPX		256
 #define SOL_AX25	257
 #define SOL_ATALK	258
@@ -235,6 +248,37 @@ struct OLD_msghdr
 #define IP_BLOCK_SOURCE                 17
 #define IP_UNBLOCK_SOURCE               18
 #define IP_PKTINFO                      19
+
+/* IPv6 options for use with getsockopt/setsockopt */
+#define IPV6_HOPOPTS                     1
+#define IPV6_UNICAST_HOPS                4
+#define IPV6_MULTICAST_IF                9
+#define IPV6_MULTICAST_HOPS             10
+#define IPV6_MULTICAST_LOOP             11
+#define IPV6_ADD_MEMBERSHIP             12
+#define IPV6_DROP_MEMBERSHIP            13
+#define IPV6_JOIN_GROUP                 IPV6_ADD_MEMBERSHIP
+#define IPV6_LEAVE_GROUP                IPV6_DROP_MEMBERSHIP
+#define IPV6_DONTFRAG                   14
+#define IPV6_PKTINFO                    19
+#define IPV6_HOPLIMIT                   21
+#define IPV6_CHECKSUM                   26
+#define IPV6_V6ONLY                     27
+#define IPV6_RTHDR                      32
+#define IPV6_RECVRTHDR                  38
+
+/* IP agnostic options for use with getsockopt/setsockopt */
+#define MCAST_JOIN_GROUP                41
+#define MCAST_LEAVE_GROUP               42
+#define MCAST_BLOCK_SOURCE              43
+#define MCAST_UNBLOCK_SOURCE            44
+#define MCAST_JOIN_SOURCE_GROUP         45
+#define MCAST_LEAVE_SOURCE_GROUP        46
+
+#ifndef __INSIDE_CYGWIN_NET__
+#define MCAST_INCLUDE                    0
+#define MCAST_EXCLUDE                    1
+#endif
 
 /* Old WinSock1 values, needed internally */
 #ifdef __INSIDE_CYGWIN__

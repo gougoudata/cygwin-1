@@ -1,0 +1,273 @@
+.TH LGC 5 "JULY 2009" Logiweb "File Formats"
+.SH NAME
+lgc \- the lgs source file format for the lgc compiler
+.SH DESCRIPTION
+Source files of the Logiweb compiler lgc (lgc(1)) are expressed in the LoGiweb Source language (lgs). The lgs language allows to express mathematics in a seminatural style.
+.P
+To learn lgs, simply read the Logiweb source of the 'base' page at http://logiweb.eu/1.0/doc/pages/base/source.lgs. The comments in there give much more details than could reasonably be included here. Then read the 'lgc' page found same place. It documents the lgc compiler including lots of details on lgs.
+.P
+An overview is given in the following, however.
+.SH STANDARDIZATION ISSUES
+The lgc compiler translates lgs into Logiweb vectors, racks, and renderings. The Logiweb standard defines the format of Logiweb vectors and racks, and defines precisely how vectors are translated to racks.
+.P
+The Logiweb standard does not, however, define the lgs format. The lgc compiler is the compiler which happens to come with the Logiweb distribution and the lgs format happens to be the input format of the lgc compiler. But Logiweb does not consider lgs as part of the standard. Any compiler which produduces vectors, racks, and renderings may be used in connection with Logiweb.
+.P
+The Logiweb standard partially defines what a rendering is: A rendering is a file tree rooted at a 'rendering directory'. The rendering directory is supposed to contain a file named vector.lgw which contains the page in vector format, a file named rack.lgr which contains the page in rack format, and a subdirectory named page which contains the rendering of the page. Compilers for Logiweb are free to produce additional contents of the rendering directory such as an index.html file.
+.P
+Logiweb compilers are only required to (1) produce a vector.lgw file in Logiweb vector format, (2) to produce an associated rack.lgr file which is derived from vector.lgw in exactly the same way as lgc does, and (3) a 'page' subdirectory which is derived from rack.lgr in exactly the same way as lgc does.
+.SH CHARACTER SET
+Each lgs file is expressed in Unicode UTF-8. Lines may be terminated by LF (code 10), CR (code 13), CRLF (code 10 followed by code 13), or LFCR (code 13 followed by code 10).
+.P
+Internally, Logiweb uses LF for terminating lines. More specificially, plain text inside Logiweb vectors and Logiweb racks uses LF for terminating lines. The purpose of this is to ensure interoperability between different platforms.
+.P
+lgc translates to LF when reading lgs files and translates to host newline convention when producing renderings.
+.SH MULTIQUOTE AND DIRECTIVES
+The only reserved character in lgs is the double quote character. The lgs language uses double quote characters for many different purposes.
+.P
+We shall refer to a sequence of two or more double quote characters as a 'multiquote' and to an isolated double quote character as a 'lone quote'.
+.P
+We shall refer to a multiquote followed by a non-quote as a 'directive'.
+.SH COMMENTS
+Comments start with ""{ or ""; directives (i.e. with two or more double quote characters followed by a left brace or a semicolon).
+.P
+Comments that start with ""; end at the end of the line.
+.P
+Comments that start with ""{ can span any number of lines. They end at the first ""} directive which has exactly the same number of double quote characters as the opening directive. This is an example of a comment:
+.nf
+   """{ A ""} ends a comment starting with ""{ """}
+.fi
+Note that the comment is enclosed in brace directives with three double quotes. The brace directives with two double quotes are part of the comment.
+.P
+Comments may occur anywhere except after a double quote since if it did then that double quote would be considered to be part of the directive. In particular, comments may occur inside strings and in the middle of keywords.
+.P
+If the first four characters of a file constitute the magic code "";; then the first line of the file is considered to be a 'header'. All hex characters from the magic code and up to the first non-hex character suggests what the reference of the page might be. Whenever a source file with a header is translated, the suggested reference is used if it fits the contents. Otherwise, a new reference is generated and the compiler writes the new reference back into the header. To use this facility, let your source file start with a line containing nothing but "";;. At first translation, a reference will be stored back in the header. After that, whenever you retranslate the source without having done changes to it, the page will get the same reference as last time it was translated. Without a header, the page will get a new time stamp at each translation.
+.SH EXAMPLE
+The following is a wellformed lgs file:
+.nf
+    ""P my page
+    ""R base
+    ""D
+    " square
+    ""B
+    "We have that "[[ 2 square ]]" is four."
+.fi
+.SH PAGE NAME
+Each lgs file must contain one ""P directive which defines the name of the page being defined. The page name comprises all characters from the directive until the end of the line. One may use a newline directive (""n) instead of the end of the line to delimit the page name.
+.P
+Lone quotes after the ""P directive have a special meaning described in the section named QUALIFIERS below.
+.P
+Comments in page names are ignored. Note that if the line defining the page name ends with a ""; comment then the end of line is ignored and the page name effectively continues on the next line. A similar remark holds for ""{ comments which spans several lines.
+.P
+By convention, the ""P directive of an lgs file should occur at the beginning of the file, possibly after a "";; header and a comment about copyright.
+.SH REFERENCES
+Each lgs file may contain zero, one, or more ""R directives. Each ""R directive names a page being referenced. The name of the referenced page comprises all characters from the ""R directive until the end of the line or until the first ""n directive, whatever comes first.
+.P
+The page named by the first ""R directive is reference number 1, the one named by the second is reference number 2, and so on. Implicitly, the page being defined is considered to be 'reference number 0'.
+.P
+Lone quotes after ""R directives have a special meaning described in the section named QUALIFIERS below.
+.P
+By convention, all ""R directives should come right after the ""P directive.
+.P
+Referenced pages may be pointed at in many, different ways. Some examples read:
+.nf
+""R file:/usr/share/logiweb/name/base/vector.lgw
+""R file:~/.logiweb/name/base/vector.lgw
+""R file:../name/base/vector.lgw
+""R http://logiweb.eu/1.0/doc/pages/base/vector.lgw
+""R base
+""R lgw:017451CF6643931035C71796AC493D382EC8357EE9A390D5D6DBCDAA0806
+.fi
+The first three reference Logiweb vectors in the local file system, relative to the root directory, the home directory, and the current directory, respectively. The fourth one references a particular http url. The fifth makes a reference by name which is resolved by the 'namepath' parameter of the lgc compiler. The last one uses a Logiweb reference which is resolved by the 'path' parameter of the lgc compiler.
+.P
+See the 'lgc' Logiweb page or http://logiweb.eu/ for more details on references.
+.SH DEFINITIONS
+Each lgs file may contain zero, one, or more ""D directives. Each ""D directive defines zero, one, or more syntactical constructs.
+.P
+Each line following a ""D directive and until the first ""P, ""R, ""D, or ""B directive defines one syntactical construct (blank lines are ignored, though).
+.P
+In construct definitions, lone quotes serve as placeholders. Three examples of constructs read:
+.nf
+    " square
+    " < "
+    if " then " else "
+.fi
+The constructs above allow to write expressions like
+.nf
+    if 2 square < 3 square then 4 else 5
+.fi
+.P
+Each page has a Logiweb reference of about 30 bytes and each construct defined on a page has an index. The first construct defined has index 1, then second has index 2 and so on. Implicitly, the page name is also considered to be a construct. The page name has index 0.
+.P
+When a page defines a construct, that page is considered to be the 'home page' of the construct. Each Logiweb page is identified by its world wide unique Logiweb reference. Each Logiweb construct is uniquely identified by its index together with the reference of its home page.
+.P
+By convention, ""D sections come after the ""R sections.
+.SH CHARGES
+One may assign a 'charge' to defined constructs. As an example, it is customary to assign a larger charge to addition than to multiplication such that e.g.
+.nf
+    2 * 3 + 4 * 5
+.fi
+means
+.nf
+    ( 2 * 3 ) + ( 4 * 5 )
+.fi
+A charge is the opposite of a priority such that constructs with high charge has low priority and vice versa.
+.P
+Charges are expressed as lists of integers, separated by dots. As an example, 2.-3.4 is an example of a charge.
+.P
+Charges are sorted lexicographically such that e.g.
+.nf
+    1.2.-1 < 1.2 < 1.2.2 < 2.1
+.fi
+When comparing two charges of different length, the shorter one is padded with zeros at the end. As an example 1.2 and 1.2.0 denote the same charge.
+.P
+One may include a charge between a ""D directive and the first newline character after it. The charge applies to all constructs introduced by the given ""D section. As an example, the following definitions assign charge 1.6 to multiplication and 1.8 to addition and subtraction:
+.nf
+    ""D 1.6
+    " * "
+    ""D 1.8
+    " + "
+    " - "
+.fi
+One may also give a charge indirectly. As an example, the following assigns the charge of multiplication to division:
+.nf
+    ""D " * "
+    " / "
+.fi
+By convention, all constructs which neither start nor end by a lone quote should have charge zero. The page symbol always has charge zero. If no charge is given after a ""D directive then all constructs defined by the directive get charge zero.
+.P
+A charge is said to be odd/even if its last, nonzero element is odd/even. As an example, 2.4.6.7.0.0 is odd. As a special case, charge zero is considered to be even.
+.P
+Constructs with even charge are preassociative. A preassociative construct is left associative in text written left to right, right associative in text written right to left, and counterclockwise associative in text written in clockwise spirals. Constructs with odd charge are postassociative. As an example, if subtraction has charge 1.8 then subtraction is preassociative. man pages are written left to right so preassociative means left associative here. Hence,
+.nf
+    6 - 2 - 3
+.fi
+means
+.nf
+    ( 6 - 2 ) - 3
+.fi
+.SH BODY
+The body of a page comprises all of an lgs file except comments, page name, references, and definitions. By convention, the body comes after the ""D sections.
+.P
+The ""B directive may be used to terminate a ""D section. Terminating a ""D section, however, implicitly starts or resumes the body section, so one may think of ""B as a 'body directive'.
+.P
+The body of a page is made up of constructs, strings, and body directives.
+.P
+The constructs may be constructs defined on the page itself or constructs defined on directly referenced pages. Directly referenced pages are those mentioned in ""R directives, as opposed to transitively referenced pages which are the directly referenced pages plus the pages transitively referenced by directly referenced pages.
+.SH SPACES
+The lgs language treats all characters almost equal, the exceptions being the characters in the range 0 to 32 (inclusive). Characters with codes 0-8, 11, and 14-31 are ignored. In the body and outside strings, any sequence of spaces (code 32), vertical tabs (code 9), line feeds (code 10), form feeds (code 12), and carriage returns (code 13) are treated as a single space character. Apart from that, space characters are treated like any other character.
+.P
+As an example, consider addition:
+.nf
+    ""D 1.6
+    " + "
+The definition allows to interpret
+    2   +   3
+as the sum of 2 and 3 whereas
+    2+3
+is unparseable due to missing spaces around the sum sign.
+.fi
+The la
+.SH STRINGS
+Strings are arbitrary sequences of characters enclosed in string delimiters. A string can start with a lone quote or by a ""- directive. A string can end with a lone quote or a "". directive.
+.P
+The empty string, however, cannot be enclosed in lone quotes since that would produce two double quotes in a row which counts as the beginning of a directive. The "". directive, however, may be used both for ending a string and for representing the empty string. One can always tell from context which meaning "". has. The following four lines all represent an emtpy string.
+.nf
+    "".
+    ""-"
+    ""-"".
+    ""-""{Comment""}"
+.fi
+.P
+The lgc compiler applies 'newline translation' to strings: CR, CRLF, LFCR, and FF are translated to LF, TAB characters are translated to space characters, and characters with codes below 32 (Space) other than TAB, LF, FF, and CR are removed. Each TAB character is translated to one and only one space character. To include characters like CR and TAB in strings, one has to use directives.
+.P
+Inside strings, one may use the following directives:
+.nf
+    ""- No character
+    ""! Double quote
+    ""f Form feed
+    ""n Line feed
+    ""r Carriage return
+    ""t Horizontal tab
+    ""x Characters given in hexadecimal (until period)
+.fi
+.P
+As an example of use of the ""x directive, "I""x4A4B4C.M" means "IJKLM".
+.SH BODY DIRECTIVES
+The directives that can be used in the body are:
+.nf
+    ""# (until lone quote) include given file verbatim as a string
+    ""$ (until lone quote) same, but with newline processing
+    ""S include the lgs source text itself as a string
+    ""N include name definitions
+    ""C include charge definitions
+.fi
+.P
+For details on these directives, consult the lgc Logiweb page or http://logiweb.eu/. A short list of examples follow, however:
+.nf
+    ""#logiweb.png"
+.fi
+Include the Logiweb icon as a string of raw bytes. Keep the bytes as they are.
+.nf
+    ""$README"
+.fi
+Include the given README as a string and apply newline translation to it.
+.nf
+    ""S
+.fi
+Include the lgs source file itself as a string. Inclusion is like ""# but with a twist: If the lgs file does not start with a header, a line containing nothing but "";; is prepended. And if the lgs file does start with a header then all hex digits in the header are removed. The latter ensures that an lgs file with a header gives the same result if translated twice. The former ensures that if the source.lgs file generated as part of the rendering is retranslated then the result is identical to the result of the first translation.
+.P
+A README consists of plain text, so it is reasonable to apply newline processing. A png file contains binary data, so translation of CR to LF could corrupt the file.
+.P
+It is debatable how e.g. an html file should be included. An html file is near-plain without being completely plain. Furthermore, the html standard specifies CRLF to be used as line terminator. One may choose to include it with newline processing in which case one should remember to translate back to CRLF if writing it back to disk. Or one may choose to include it raw and consider the CRLFs to be part of the html format.
+.P
+Note that lgs has nothing which resembles #include of the C programming language: The three include directives of Logiweb only allow to include a file as a single string. Beta-test versions of Logiweb had a #include like feature, but the feature has been removed.
+.P
+The ""N directive expands into a list of definitions which records the relationship between construct indexes and construct names. The ""C directive expands into a list of definitions which records the relationship between construct indexes and construct charges. The body of a page should include one ""N and one ""C directive placed in a suitable context. Otherwise, information about construct names and charges are lost in translation. Look at the lgs sources of the pages that come with Logiweb for examples on how to use ""N and ""C.
+.SH QUALIFICATION
+When referencing pages one may run into the problem that two distinct constructs may have the same name. To cope with that, ""R directives allows constructs to be qualified.
+.P
+Qualifiers modify constucts as they are imported. After the ""R directive, one may list an arbitrary number of qualifiers before the reference, separated by lone quotes
+.P
+As an example, suppose the base page defines these constructs:
+.nf
+    if " then " else "
+    " + "
+.fi
+Furhtermore, suppose a page references the base page using the following reference:
+.nf
+    ""R abc " def " base
+.fi
+The reference is to the base page and has qualifiers abc and def.
+.P
+With the reference above, one may refer to the if-then-else and the addition constructs under these names:
+.nf
+    abc if " then " else "
+    def if " then " else "
+    " abc + "
+    " def + "
+.fi
+.P
+One may include the empty qualifier in the list of qualifiers. If the empty qualifier is included, it has to appear first. As an example, the reference
+.nf
+   ""R" abc " def " base
+.fi
+allows to reference the if-then-else construct under these names:
+.nf
+    if " then " else "
+    abc if " then " else "
+    def if " then " else "
+.fi
+.P
+As can be seen, each construct may be known under more than one name and distinct constructs may have the same name. If a name belongs to more than one construct, then lgc will protest if that name is used in the body.
+.P
+For more on qualifiers, including handling of spaces, see the lgc Logiweb page or http://logiweb.eu.
+.SH VECTORS
+The frontend of the lgc compiler translates an lgs source text into a Logiweb vector. The Logiweb vector consists of a bibliography, a dictionary, and a body, c.f. logiweb(5). The bibliography consists of the references of all referenced pages, starting with reference zero (the reference of the page itself). The dictionary records the relationship between construct indexes and construct arities. The arity of a construct equals the number of lone quotes in the construct. The body is no more than the parse tree of the body expressed in Polish prefix.
+.P
+The codifier of the lgc compiler translates the vector to a rack. The renderer of the lgc compiler than translates the rack to a rendering. These translations have little to do with the lgs format.
+.P
+See the lgc Logiweb page or http://logiweb.eu/ for more.
+.SH AUTHOR
+Klaus Grue, http://logiweb.eu/
+.SH SEE ALSO
+lgc(1), logiweb(5), http://logiweb.eu/

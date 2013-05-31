@@ -14,10 +14,10 @@
  * only one ID number.
  *
  *
- * Portions Copyright (c) 1996-2006, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2012, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
- * $PostgreSQL: pgsql/src/include/storage/pg_shmem.h,v 1.21 2006/10/15 22:04:07 tgl Exp $
+ * src/include/storage/pg_shmem.h
  *
  *-------------------------------------------------------------------------
  */
@@ -31,7 +31,7 @@ typedef struct PGShmemHeader	/* standard header for all Postgres shmem */
 	pid_t		creatorPID;		/* PID of creating process */
 	Size		totalsize;		/* total size of segment */
 	Size		freeoffset;		/* offset to first free space */
-	Size		indexoffset;	/* offset to ShmemIndex table */
+	void	   *index;			/* pointer to ShmemIndex table */
 #ifndef WIN32					/* Windows doesn't have useful inode#s */
 	dev_t		device;			/* device data directory is on */
 	ino_t		inode;			/* inode number of data directory */
@@ -40,7 +40,11 @@ typedef struct PGShmemHeader	/* standard header for all Postgres shmem */
 
 
 #ifdef EXEC_BACKEND
+#ifndef WIN32
 extern unsigned long UsedShmemSegID;
+#else
+extern HANDLE UsedShmemSegID;
+#endif
 extern void *UsedShmemSegAddr;
 
 extern void PGSharedMemoryReAttach(void);

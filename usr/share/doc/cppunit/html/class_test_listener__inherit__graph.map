@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_brief_test_progress_listener.html" title="TestListener that prints the name of each test before running it." alt="" coords="5,83,192,112"/>
+<area shape="rect" id="node5" href="$class_test_success_listener.html" title="TestListener that checks if any test case failed." alt="" coords="216,83,368,112"/>
+<area shape="rect" id="node11" href="$class_text_test_progress_listener.html" title="TestListener that show the status of each TestCase test result." alt="" coords="392,83,579,112"/>
+<area shape="rect" id="node7" href="$class_test_result_collector.html" title="Collects test result.A TestResultCollector is a TestListener which collects the results of executing ..." alt="" coords="220,160,364,189"/>
+<area shape="rect" id="node9" href="$class_text_test_result.html" title="Holds printable test result (DEPRECATED).deprecated Use class TextTestProgressListener and TextOutput..." alt="" coords="233,237,351,267"/>
+</map>

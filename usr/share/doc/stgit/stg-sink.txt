@@ -1,0 +1,49 @@
+stg-sink(1)
+===========
+
+NAME
+----
+stg-sink - Send patches deeper down the stack
+
+SYNOPSIS
+--------
+[verse]
+'stg' sink [-t <target patch>] [-n] [--] [<patches>]
+
+DESCRIPTION
+-----------
+
+This is the opposite operation of linkstg:float[]: move the specified
+patches down the stack.  It is for example useful to group stable
+patches near the bottom of the stack, where they are less likely to be
+impacted by the push of another patch, and from where they can be more
+easily committed or pushed.
+
+If no patch is specified on command-line, the current patch gets sunk.
+By default patches are sunk to the bottom of the stack, but the '--to'
+option allows to place them under any applied patch.
+
+Sinking internally involves popping all patches (or all patches
+including <target patch>), then pushing the patches to sink, and then
+(unless '--nopush' is also given) pushing back into place the
+formerly-applied patches.
+
+OPTIONS
+-------
+-n::
+--nopush::
+        Do not push back on the stack the formerly-applied patches.
+        Only the patches to sink are pushed.
+
+-t TARGET::
+--to TARGET::
+        Specify a target patch to place the patches below, instead of
+        sinking them to the bottom of the stack.
+
+-k::
+--keep::
+        Keep the local changes.
+
+StGit
+-----
+Part of the StGit suite - see linkman:stg[1]

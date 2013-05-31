@@ -11,12 +11,12 @@
 (*                                                                     *)
 (***********************************************************************)
 
-(* $Id: gc.mli,v 1.40 2004/06/14 13:27:36 doligez Exp $ *)
+(* $Id: gc.mli 10457 2010-05-21 18:30:12Z doligez $ *)
 
 (** Memory management control and statistics; finalised values. *)
 
 type stat =
-  { minor_words : float; 
+  { minor_words : float;
     (** Number of words allocated in the minor heap since
        the program was started.  This number is accurate in
        byte-code programs, but only an approximation in programs
@@ -70,6 +70,9 @@ type stat =
 
     top_heap_words : int;
     (** Maximum size reached by the major heap, in words. *)
+
+    stack_size: int;
+    (** Current size of the stack, in words. @since 3.12.0 *)
 }
 (** The memory management counters are returned in a [stat] record.
 
@@ -86,7 +89,7 @@ type control =
 
     mutable major_heap_increment : int;
     (** The minimum number of words to add to the
-       major heap when increasing it.  Default: 62k. *)
+       major heap when increasing it.  Default: 124k. *)
 
     mutable space_overhead : int;
     (** The major GC speed is computed from this parameter.
@@ -125,9 +128,20 @@ type control =
     mutable stack_limit : int;
     (** The maximum size of the stack (in words).  This is only
        relevant to the byte-code runtime, as the native code runtime
-       uses the operating system's stack.  Default: 256k. *) 
+       uses the operating system's stack.  Default: 256k. *)
+
+    mutable allocation_policy : int;
+    (** The policy used for allocating in the heap.  Possible
+        values are 0 and 1.  0 is the next-fit policy, which is
+        quite fast but can result in fragmentation.  1 is the
+        first-fit policy, which can be slower in some cases but
+        can be better for programs with fragmentation problems.
+        Default: 0. @since 3.11.0 *)
 }
-(** The GC parameters are given as a [control] record. *)
+(** The GC parameters are given as a [control] record.  Note that
+    these parameters can also be initialised by setting the
+    OCAMLRUNPARAM environment variable.  See the documentation of
+    ocamlrun. *)
 
 external stat : unit -> stat = "caml_gc_stat"
 (** Return the current values of the memory management counters in a
@@ -205,18 +219,19 @@ val finalise : ('a -> unit) -> 'a -> unit
 
    Instead you should write:
    - [ let f = fun x -> ... ;; let v = ... in Gc.finalise f v ]
-     
+
 
    The [f] function can use all features of O'Caml, including
    assignments that make the value reachable again.  It can also
    loop forever (in this case, the other
-   finalisation functions will be called during the execution of f).
+   finalisation functions will not be called during the execution of f,
+   unless it calls [finalise_release]).
    It can call [finalise] on [v] or other values to register other
    functions or even itself.  It can raise an exception; in this case
    the exception will interrupt whatever the program was doing when
    the function was called.
 
-   
+
    [finalise] will raise [Invalid_argument] if [v] is not
    heap-allocated.  Some examples of values that are not
    heap-allocated are integers, constant constructors, booleans,
@@ -230,7 +245,7 @@ val finalise : ('a -> unit) -> 'a -> unit
    stored into arrays, so they can be finalised and collected while
    another copy is still in use by the program.
 
-   
+
    The results of calling {!String.make}, {!String.create},
    {!Array.make}, and {!Pervasives.ref} are guaranteed to be
    heap-allocated and non-constant except when the length argument is [0].

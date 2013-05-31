@@ -1,5 +1,5 @@
 //
-// "$Id: fractals.cxx 5519 2006-10-11 03:12:15Z mike $"
+// "$Id: fractals.cxx 8864 2011-07-19 04:49:30Z greg.ercolano $"
 //
 // Fractal drawing demo for the Fast Light Tool Kit (FLTK).
 //
@@ -7,29 +7,20 @@
 // demonstrate how to add FLTK controls to a GLUT program.   The GLUT
 // code is unchanged except for the end (search for FLTK to find changes).
 //
-// Copyright 1998-2005 by Bill Spitzak and others.
+// Copyright 1998-2010 by Bill Spitzak and others.
 //
-// This library is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Library General Public
-// License as published by the Free Software Foundation; either
-// version 2 of the License, or (at your option) any later version.
+// This library is free software. Distribution and use rights are outlined in
+// the file "COPYING" which should have been included with this file.  If this
+// file is missing or damaged, see the license at:
 //
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-// Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public
-// License along with this library; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
-// USA.
+//     http://www.fltk.org/COPYING.php
 //
 // Please report all bugs and problems on the following page:
 //
 //     http://www.fltk.org/str.php
 //
 
-#include "config.h"
+#include <config.h>
 #if !HAVE_GL || !HAVE_GL_GLU_H
 #include <FL/Fl.H>
 #include <FL/fl_message.H>
@@ -312,10 +303,8 @@ long TreeSeed;   /* for srand48 - remember so we can build "same tree"
  /*
   * recursive tree drawing thing, fleshed out from class notes pseudocode 
   */
-void FractalTree(int level)
+void FractalTree(int level, long level_seed)
 {
-  long savedseed;  /* need to save seeds while building tree too */
-
   if (level == Level) {
       glPushMatrix();
         glRotatef(drand48()*180, 0, 1, 0);
@@ -328,26 +317,25 @@ void FractalTree(int level)
     glTranslatef(0, 1, 0);
     glScalef(0.7, 0.7, 0.7);
 
-      savedseed = (long)((ulong)drand48()*ULONG_MAX);
+      srand48(level_seed+1);
       glPushMatrix();    
         glRotatef(110 + drand48()*40, 0, 1, 0);
         glRotatef(30 + drand48()*20, 0, 0, 1);
-        FractalTree(level + 1);
+        FractalTree(level + 1, level_seed+4);
       glPopMatrix();
 
-      srand48(savedseed);
-      savedseed = (long)((ulong)drand48()*ULONG_MAX);
+      srand48(level_seed+2);
       glPushMatrix();
         glRotatef(-130 + drand48()*40, 0, 1, 0);
         glRotatef(30 + drand48()*20, 0, 0, 1);
-        FractalTree(level + 1);
+        FractalTree(level + 1, level_seed+5);
       glPopMatrix();
 
-      srand48(savedseed);
+      srand48(level_seed+3);
       glPushMatrix();
         glRotatef(-20 + drand48()*40, 0, 1, 0);
         glRotatef(30 + drand48()*20, 0, 0, 1);
-        FractalTree(level + 1);
+        FractalTree(level + 1, level_seed+6);
       glPopMatrix();
 
     glPopMatrix();
@@ -421,7 +409,7 @@ void CreateTree(void)
     glPushAttrib(GL_LIGHTING_BIT);
     glCallList(TREE_MAT);
     glTranslatef(0, -1, 0);
-    FractalTree(0);
+    FractalTree(0, TreeSeed);
     glPopAttrib();
     glPopMatrix();
   glEndList();  
@@ -737,28 +725,28 @@ void MenuInit(void)
   int submenu3, submenu2, submenu1;
 
   submenu1 = glutCreateMenu(setlevel);
-  glutAddMenuEntry("0", 0);  glutAddMenuEntry("1", 1);
-  glutAddMenuEntry("2", 2);  glutAddMenuEntry("3", 3);
-  glutAddMenuEntry("4", 4);  glutAddMenuEntry("5", 5);
-  glutAddMenuEntry("6", 6);  glutAddMenuEntry("7", 7);
-  glutAddMenuEntry("8", 8);
+  glutAddMenuEntry((char *)"0", 0);  glutAddMenuEntry((char *)"1", 1);
+  glutAddMenuEntry((char *)"2", 2);  glutAddMenuEntry((char *)"3", 3);
+  glutAddMenuEntry((char *)"4", 4);  glutAddMenuEntry((char *)"5", 5);
+  glutAddMenuEntry((char *)"6", 6);  glutAddMenuEntry((char *)"7", 7);
+  glutAddMenuEntry((char *)"8", 8);
 
   submenu2 = glutCreateMenu(choosefract);
-  glutAddMenuEntry("Moutain", MOUNTAIN);
-  glutAddMenuEntry("Tree", TREE);
-  glutAddMenuEntry("Island", ISLAND);
+  glutAddMenuEntry((char *)"Moutain", MOUNTAIN);
+  glutAddMenuEntry((char *)"Tree", TREE);
+  glutAddMenuEntry((char *)"Island", ISLAND);
 
   submenu3 = glutCreateMenu(agvSwitchMoveMode);
-  glutAddMenuEntry("Flying", FLYING);
-  glutAddMenuEntry("Polar", POLAR);
+  glutAddMenuEntry((char *)"Flying", FLYING);
+  glutAddMenuEntry((char *)"Polar", POLAR);
 
   glutCreateMenu(handlemenu);
-  glutAddSubMenu("Level", submenu1);
-  glutAddSubMenu("Fractal", submenu2);
-  glutAddSubMenu("Movement", submenu3);
-  glutAddMenuEntry("New Fractal",      MENU_RAND);
-  glutAddMenuEntry("Toggle Axes", MENU_AXES);
-  glutAddMenuEntry("Quit",             MENU_QUIT);
+  glutAddSubMenu((char *)"Level", submenu1);
+  glutAddSubMenu((char *)"Fractal", submenu2);
+  glutAddSubMenu((char *)"Movement", submenu3);
+  glutAddMenuEntry((char *)"New Fractal",      MENU_RAND);
+  glutAddMenuEntry((char *)"Toggle Axes", MENU_AXES);
+  glutAddMenuEntry((char *)"Quit",             MENU_QUIT);
   glutAttachMenu(GLUT_RIGHT_BUTTON);
 }
 
@@ -768,11 +756,11 @@ void MenuInit(void)
 /***************************************************************/
 
 // FLTK-style callbacks to Glut menu callback translators:
-void setlevel(Fl_Widget*, void *value) {setlevel(long(value));}
+void setlevel(Fl_Widget*, void *value) {setlevel(fl_intptr_t(value));}
 
-void choosefract(Fl_Widget*, void *value) {choosefract(long(value));}
+void choosefract(Fl_Widget*, void *value) {choosefract(fl_intptr_t(value));}
 
-void handlemenu(Fl_Widget*, void *value) {handlemenu(long(value));}
+void handlemenu(Fl_Widget*, void *value) {handlemenu(fl_intptr_t(value));}
 
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Group.H>
@@ -838,5 +826,5 @@ int main(int argc, char** argv)
 #endif
 
 //
-// End of "$Id: fractals.cxx 5519 2006-10-11 03:12:15Z mike $".
+// End of "$Id: fractals.cxx 8864 2011-07-19 04:49:30Z greg.ercolano $".
 //

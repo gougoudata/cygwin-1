@@ -5,13 +5,13 @@
  *	  along with the relation's initial contents.
  *
  *
- * Portions Copyright (c) 1996-2006, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2012, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
- * $PostgreSQL: pgsql/src/include/catalog/pg_namespace.h,v 1.20 2006/03/05 15:58:54 momjian Exp $
+ * src/include/catalog/pg_namespace.h
  *
  * NOTES
- *	  the genbki.sh script reads this file and generates .bki
+ *	  the genbki.pl script reads this file and generates .bki
  *	  information from the DATA() statements.
  *
  *-------------------------------------------------------------------------
@@ -19,12 +19,7 @@
 #ifndef PG_NAMESPACE_H
 #define PG_NAMESPACE_H
 
-/* ----------------
- *		postgres.h contains the system type definitions and the
- *		CATALOG(), BKI_BOOTSTRAP and DATA() sugar words so this file
- *		can be read by both genbki.sh and the C compiler.
- * ----------------
- */
+#include "catalog/genbki.h"
 
 /* ----------------------------------------------------------------
  *		pg_namespace definition.
@@ -42,7 +37,10 @@ CATALOG(pg_namespace,2615)
 {
 	NameData	nspname;
 	Oid			nspowner;
-	aclitem		nspacl[1];		/* VARIABLE LENGTH FIELD */
+
+#ifdef CATALOG_VARLEN			/* variable-length fields start here */
+	aclitem		nspacl[1];
+#endif
 } FormData_pg_namespace;
 
 /* ----------------
@@ -69,19 +67,19 @@ typedef FormData_pg_namespace *Form_pg_namespace;
  */
 
 DATA(insert OID = 11 ( "pg_catalog" PGUID _null_ ));
-DESCR("System catalog schema");
+DESCR("system catalog schema");
 #define PG_CATALOG_NAMESPACE 11
 DATA(insert OID = 99 ( "pg_toast" PGUID _null_ ));
-DESCR("Reserved schema for TOAST tables");
+DESCR("reserved schema for TOAST tables");
 #define PG_TOAST_NAMESPACE 99
 DATA(insert OID = 2200 ( "public" PGUID _null_ ));
-DESCR("Standard public schema");
+DESCR("standard public schema");
 #define PG_PUBLIC_NAMESPACE 2200
 
 
 /*
  * prototypes for functions in pg_namespace.c
  */
-extern Oid	NamespaceCreate(const char *nspName, Oid ownerId);
+extern Oid	NamespaceCreate(const char *nspName, Oid ownerId, bool isTemp);
 
 #endif   /* PG_NAMESPACE_H */

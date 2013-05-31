@@ -1,0 +1,68 @@
+cscope
+------------------------------------------
+
+Interactively examine a C program source
+
+A source browsing tool. Although it is primarily designed to search C
+code (including lex and yacc files), it can also be used for C++ code.
+Using cscope, you can easily search for where symbols are used and
+defined.
+
+Runtime requirements:
+  libncurses10
+
+Build requirements:
+  quilt
+  libncurses-devel
+
+Canonical homepage:
+  http://freecode.com/projects/cscope
+  https://sourceforge.net/projects/cscope
+  http://packages.debian.org/cscope
+
+Canonical download:
+  See above
+
+Version control repository:
+  https://sourceforge.net/projects/cscope/develop
+
+Mailing list:
+
+Forum / Wiki:
+
+IRC channel:
+
+Upstream contact:
+  Maintainer: Hans-Bernhard Broeker <broeker@physik.rwth-aachen.de>, <broeker@users.sf.net>
+  Bugs: https://sourceforge.net/tracker/?group_id=4664
+
+License:
+  BSD
+
+Language:
+  C
+
+------------------------------------------
+
+Build instructions:
+  unpack cscope-*-src.tar.bz2
+    if you use setup to install this source package, it will be
+    unpacked under /usr/src automatically
+  cd /usr/src
+  ./cscope*.sh all
+
+------------------------------------------
+
+Files included in the binary distribution:
+  See Cygwin package archive
+
+------------------------------------------
+
+Port Notes:
+
+----- version 15.8.0.1-1 -----
+- Initial release 2012-09-30 Jari Aalto
+- Upstream version 15.8a
+
+Cygwin port maintained by: Jari Aalto <jari.aalto@cante.net>
+Copyright (C) 2012 Jari Aalto; Licensed under GPL v2 or later

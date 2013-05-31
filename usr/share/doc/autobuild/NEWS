@@ -1,0 +1,176 @@
+Autobuild NEWS -- History of user-visible changes.              -*- outline -*-
+Copyright (C) 2004, 2005, 2006, 2008, 2009, 2010 Simon Josefsson
+See the end for copying conditions.
+
+* Version 5.3 (released 2010-07-04)
+
+** autobuild: Recognize libcheck (http://check.sf.net) output.
+Patch from "Jose E. Marchesi" <jemarch@gnu.org>.
+
+* Version 5.2 (released 2009-09-18)
+
+** autobuild: Use "lightgrey" instead of "lightgray" on HTML output.
+Reported by Yang Tse <yangsita@gmail.com>.
+
+* Version 5.1 (released 2009-01-21)
+
+** autobuild: Summary is sorted per build type rather than hostname now.
+
+** autobuild: Generates standard HTML footer/header.
+
+** autobuild: Add new parameter --inline-html to avoid HTML footer/header.
+
+** autobuild: Add new parameter --ignore-files to ignore some filenames.
+Useful when invoking 'autobuild foo/' for directories which contains
+many log files and some unrelated files, e.g., index.html or similar.
+
+** autobuild: The HTML output is now valid according to XHTML 1.0 standard.
+
+** autobuild: Support automake make check output '1 test passed'.
+
+* Version 5.0 (released 2008-11-25)
+
+** autobuild: Always print summary.
+
+** htmlify: Add new parameter --debug.
+
+** abput, abput-sourceforge, abput-testdrive: Remove.
+** abbuild, abbuild-sourceforge: Remove.
+Both the SourceForge and TestDrive systems have been shutdown.  The
+scripts were of questionable value anyway.
+
+** doc: Change license on the manual to GFDLv1.3+.
+
+* Version 4.1 (released 2008-08-21)
+
+** autobuild: Support dejagnu self-test outputs.
+
+** autobuild: Print time in UTC time zone.
+
+** Autobuild is now developed in Git on Savannah.
+The Savannah project page is available from
+<https://savannah.nongnu.org/projects/autobuild/>.  The download area
+has been moved to
+<http://download.savannah.gnu.org/releases/autobuild/>.
+
+* Version 4.0 (released 2008-08-18)
+
+** Quick summary enhanced to contain build status too.
+When autobuild build output files for more than one project, the first
+list of projects now contains status for all hosts and the latest
+revision.
+
+** A new script for uploading files to Compaq Testdrive, abput-testdrive.
+
+** New "status" value "built" to indicate that build succeeded.
+
+** autobuild.m4 now use $AB_PACKAGE and $AB_VERSION for package/versions.
+If the variables are not set, the old default of using autoconf
+$PACKAGE_NAME and $PACKAGE_VERSION (or ultimately $PACKAGE and
+$VERSION) is used instead.
+
+** Change license to the GPLv3.
+
+* Version 3.5 (released 2005-09-19)
+
+** The tools now use cf-shell.sf.net instead of shell.sf.net.
+It seems shell.sf.net does not reach the compile farm at sourceforge,
+only the project shell server.
+
+* Version 3.4 (released 2005-09-19)
+
+** HTML markup fixes in autobuild.
+
+** Added --skip-unknown parameter to autobuild.
+Make autobuild ignore files it cannot parse.
+
+** abput-sourceforge uses shell.sf.net instead of cf-shell.sf.net.
+
+** abput-sourceforge uses rsync instead of scp.
+
+** Typos in the manual fixed.
+
+* Version 3.3 (released 2004-08-26)
+
+** Autobuild.m4 macro project name/version printing improvement.
+
+** Manual now explain abput and abbuild.
+
+* Version 3.2 (released 2004-08-08)
+
+** Improved regexp's for guessing project name, revision, etc.
+
+* Version 3.1 (released 2004-07-31)
+
+** Bug fixes.
+
+* Version 3.0 (released 2004-07-31)
+
+** New commands used to upload files to compile hosts.
+The generic front end "abput", and one backend "abput-sourceforge", is
+included.  By simply writing a new backend, e.g., "abput-myownserver",
+you can introduce new compile hosts that become available via the
+generic front end.
+
+** New commands used to build files on compile hosts.
+The generic front end "abbuild", and one backend
+"abbuild-sourceforge", is included.  Similar to how abput works, you
+can write a new backend easily.
+
+* Version 2.2 (released 2004-07-28)
+
+** Guessing of project name and revision based on *.tar.gz names improved.
+
+** Bug fixes.
+
+* Version 2.1 (released 2004-07-14)
+
+** Htmlize now works in batch mode.
+This was accomplished by using htmlfontify.el by Vivek Dasmohapatra
+instead of htmlize.el.
+
+* Version 2.0 (released 2004-07-09)
+
+** Autobuild and Abindex now combined into one tool "autobuild".
+
+** New script "htmlize" replaces the Autobuild --html parameter.
+
+** A copy of htmlize.el is now included and is installed by default.
+
+* Version 1.5 (released 2004-07-09)
+
+** abindex: Accepts directories as command line argument, not just files.
+This is useful if you have too many files in a directory, so that
+expanding wildcards in the directory overflow command line argument
+size restrictions.
+
+* Version 1.4 (released 2004-07-08)
+
+** Don't include generated files in examples/.
+The file names were too long, which causes problems with tar.  Now you
+have to type 'make example.html' in examples/ yourself.
+
+* Version 1.3 (released 2004-07-08)
+
+** Added proper manual in doc/.
+
+** Added example from the tutorial, in examples/.
+
+* Version 1.2 (released 2004-07-08)
+
+** autobuild: Values specified on the command line are now used for all
+files read, when multiple filenames are supplied on command line,
+instead of just for the first file as was the case before.
+
+* Version 1.1 (released 2004-07-07)
+
+** Fixed minor bugs discovered while writing tutorial web page.
+
+* Version 1.0 (released 2004-07-07)
+
+** Initial release.
+
+----------------------------------------------------------------------
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.

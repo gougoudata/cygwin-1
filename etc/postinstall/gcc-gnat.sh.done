@@ -1,0 +1,25 @@
+#!/bin/bash
+
+prefix=/usr
+bindir=${prefix}/bin
+sbindir=${prefix}/sbin
+infodir=${prefix}/share/info
+
+/usr/sbin/update-alternatives \
+    --install "${bindir}/gnat.exe" "gnat" "${bindir}/gnat-3.exe" 30 \
+  --slave "/usr/bin/gnatbind.exe" "gnatbind" "/usr/bin/gnatbind-3.exe" \
+  --slave "/usr/bin/gnatbl.exe" "gnatbl" "/usr/bin/gnatbl-3.exe" \
+  --slave "/usr/bin/gnatchop.exe" "gnatchop" "/usr/bin/gnatchop-3.exe" \
+  --slave "/usr/bin/gnatclean.exe" "gnatclean" "/usr/bin/gnatclean-3.exe" \
+  --slave "/usr/bin/gnatfind.exe" "gnatfind" "/usr/bin/gnatfind-3.exe" \
+  --slave "/usr/bin/gnatkr.exe" "gnatkr" "/usr/bin/gnatkr-3.exe" \
+  --slave "/usr/bin/gnatlink.exe" "gnatlink" "/usr/bin/gnatlink-3.exe" \
+  --slave "/usr/bin/gnatls.exe" "gnatls" "/usr/bin/gnatls-3.exe" \
+  --slave "/usr/bin/gnatmake.exe" "gnatmake" "/usr/bin/gnatmake-3.exe" \
+  --slave "/usr/bin/gnatname.exe" "gnatname" "/usr/bin/gnatname-3.exe" \
+  --slave "/usr/bin/gnatprep.exe" "gnatprep" "/usr/bin/gnatprep-3.exe" \
+  --slave "/usr/bin/gnatxref.exe" "gnatxref" "/usr/bin/gnatxref-3.exe" \
+  --slave "/usr/bin/gpr2make.exe" "gpr2make" "/usr/bin/gpr2make-3.exe" \
+  --slave "/usr/bin/gprcmd.exe" "gprcmd" "/usr/bin/gprcmd-3.exe" \
+
+

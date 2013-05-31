@@ -1,0 +1,12 @@
+Substantially all of the code in this package (Catgets) is from a file
+downloaded from http://gtp.gnu.org/gnu/glibc by Bryan Henderson in May
+2005, which is ostensibly the GNU C Library.  The Free Software
+Foundation (FSF) appears to be the sole copyright owner of the Catgets
+component of the GNU C Library.  Bryan made some trivial changes to
+the code to make it compile outside of the GNU C library environment,
+and hereby contributes any copyrightable interest in those changes to
+the public domain.  So FSF would appear to be the sole copyright owner
+of the Catgets package.  Bryan copied, modified, and redistributed the
+code, under a Lesser General Public License (LGPL) from FSF.  Others
+redistributed it under a chain of LGPLs going back that original
+FSF-Bryan LGPL, and consequently offer it to you under LGPL.

@@ -21,14 +21,17 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 #ifndef __GTK_TABLE_H__
 #define __GTK_TABLE_H__
 
 
-#include <gdk/gdk.h>
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
 #include <gtk/gtkcontainer.h>
 
 
@@ -50,15 +53,15 @@ typedef struct _GtkTableRowCol	GtkTableRowCol;
 struct _GtkTable
 {
   GtkContainer container;
-  
-  GList *children;
-  GtkTableRowCol *rows;
-  GtkTableRowCol *cols;
-  guint16 nrows;
-  guint16 ncols;
-  guint16 column_spacing;
-  guint16 row_spacing;
-  guint homogeneous : 1;
+
+  GList *GSEAL (children);
+  GtkTableRowCol *GSEAL (rows);
+  GtkTableRowCol *GSEAL (cols);
+  guint16 GSEAL (nrows);
+  guint16 GSEAL (ncols);
+  guint16 GSEAL (column_spacing);
+  guint16 GSEAL (row_spacing);
+  guint GSEAL (homogeneous) : 1;
 };
 
 struct _GtkTableClass
@@ -138,6 +141,9 @@ guint      gtk_table_get_default_col_spacing (GtkTable        *table);
 void	   gtk_table_set_homogeneous  (GtkTable	       *table,
 				       gboolean		homogeneous);
 gboolean   gtk_table_get_homogeneous  (GtkTable        *table);
+void       gtk_table_get_size         (GtkTable        *table,
+                                       guint           *rows,
+                                       guint           *columns);
 
 
 G_END_DECLS

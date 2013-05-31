@@ -1,0 +1,26 @@
+This package contains the Catgets component of the GNU C library.
+The code was extracted from Version 2.3.5 of the GNU C library
+in May 2005.  The purpose of the package is for use in environments
+that don't have the GNU C library, most notably Cygwin.
+
+The Catgets component consists of:
+
+ - The Gencat program, which generates a message catalog.
+
+ - The catopen(), catclose(), and catgets() C programming library
+   routines which access a message catalog.
+
+Many programs written for GNU/Linux use Catgets, so if you want to use
+these programs on Cygwin, you need this package.
+
+Many of the files in the Catgets package have comments saying they
+are part of the GNU C Library.  It's not true, of course -- they are
+just copies of files that are part of the GNU C Library.
+
+
+To build the package, just do a 'make' in the top directory.
+
+'make install' installs the files in likely locations
+('make install --dry-run' to see where).  Set the PREFIX make variable
+to install them in a special install directory.  e.g.
+'make install PREFIX=/tmp/catgets'.

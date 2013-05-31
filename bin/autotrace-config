@@ -205,7 +205,7 @@ fi
 #dummy because this should always be selected
 
 af_cflags="$af_cflags -I${prefix}/include"
-af_libs="-L${exec_prefix}/lib -lautotrace -lpng -lz -lm -L/usr/lib -L/usr/X11R6/lib -lfreetype -lz -L/usr/lib -lMagick -llcms -ltiff -lfreetype -ljpeg -lXext -lSM -lICE -lX11 -lXt -lbz2 -lz -lgdi32 -lpthread -lm -lpthread -lWand -lMagick -lming -lm -lpstoedit -lpng -lz -ldl   $af_libs"
+af_libs="-L${exec_prefix}/lib -lautotrace -lpng -lz -lm -lMagickCore   -lMagickCore   -lming -lm -lpstoedit -lpng -lz -lstdc++ -ldl   $af_libs"
 
 
 

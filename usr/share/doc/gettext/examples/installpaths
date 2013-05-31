@@ -1,9 +1,9 @@
 prefix='/usr'
 exec_prefix="/usr"
-datarootdir="${prefix}/share"
+datarootdir="/usr/share"
 datadir="/usr/share"
-docdir="${datarootdir}/doc/gettext"
+docdir="/usr/share/doc/gettext"
 ACLOCALDIR="${datadir}/aclocal"
 GETTEXTSRCDIR="/usr/share/gettext"
 GETTEXTSRCPODIR="/usr/share/gettext/po"
-EXAMPLESCONFIGDIR="${datarootdir}/doc/gettext/examples/config"
+EXAMPLESCONFIGDIR="/usr/share/doc/gettext/examples/config"

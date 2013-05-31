@@ -13,7 +13,7 @@ U system.rident%s	s-rident.ads		58fe77bf NE PK GE
 W system%s		system.ads		system.ali
 
 D system.ads		20031021134222 6af26689
-D s-rident.ads		20031127114046 320c1136
+D s-rident.ads		20031127114045 320c1136
 X 1 system.ads
 44K9*System 163e11 2|40r9 157r5
 X 2 s-rident.ads

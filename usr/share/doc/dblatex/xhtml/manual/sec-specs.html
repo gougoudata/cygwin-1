@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Dblatex Configuration File</title><link rel="stylesheet" href="manual.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.75.2" /><link rel="home" href="index.html" title="DocBook to LaTeX Publishing" /><link rel="up" href="sec-custom.html" title="Chapter 4. Customization" /><link rel="prev" href="sec-texpost.html" title="Latex post process script" /><link rel="next" href="ch04s07.html" title="Customization Precedence" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Dblatex Configuration File</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="sec-texpost.html">Prev</a> </td><th width="60%" align="center">Chapter 4. Customization</th><td width="20%" align="right"> <a accesskey="n" href="ch04s07.html">Next</a></td></tr></table><hr /></div><div class="section" title="Dblatex Configuration File"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="sec-specs"></a>Dblatex Configuration File</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="sec-specs.html#id3772139">Configuration File Format</a></span></dt><dt><span class="section"><a href="sec-specs.html#sec-conf-path">Configuration Paths</a></span></dt></dl></div><p>
+   A master configuration file, also called a specification file, can be used to list
+   all the customizations and options to apply. Such a file is passed by using the
+   option <code class="option">-S <em class="replaceable"><code>config_file</code></em></code>.
+  </p><div class="section" title="Configuration File Format"><div class="titlepage"><div><div><h3 class="title"><a id="id3772139"></a>Configuration File Format</h3></div></div></div><p>
+   The format of the file is the following:
+  </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+   Every comment starts with a “#”, and is ignored.
+   </p></li><li class="listitem"><p>
+   The file must contain one parameter by line.
+   </p></li><li class="listitem"><p>
+   The format of a parameter is the following:
+   </p><pre class="programlisting">
+&lt;keyword&gt;: &lt;value&gt;
+   </pre></li><li class="listitem"><p>
+   Every parameter is mapped to an option that can be passed to <span class="command"><strong>dblatex</strong></span>.
+   </p></li><li class="listitem"><p>
+   An unknown parameter is silently ignored (the whole line is dropped).
+   </p></li><li class="listitem"><p>
+   The parameters defining a path (a file or a directory) can take absolute or relative paths. A relative path must be defined from the specification file itself. For instance, a specification file under <code class="filename">/the/spec/directory/</code> with a parameter describing the file <code class="filename">../where/this/file/is/myfile</code> points to <code class="filename">/the/spec/where/this/file/is/myfile</code>.
+   </p></li></ul></div><p>
+   The following table lists the supported parameters and the corresponding command line option.
+  </p><div class="informaltable"><table border="1"><colgroup><col align="left" /><col /><col /><col /></colgroup><thead><tr><th align="left">Keyword</th><th align="left">Value</th><th align="left">Corresponding option</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">TexInputs</td><td align="left">Directories</td><td align="left">--texinputs</td><td align="left">Defines extra path to add to TEXINPUTS</td></tr><tr><td align="left">TexStyle</td><td align="left">Latex package name</td><td align="left">--texstyle</td><td align="left">Defines the LaTeX style package to use.</td></tr><tr><td align="left">TexPost</td><td align="left">Script file name</td><td align="left">--texpost</td><td align="left">Defines the LaTeX post process script to use.</td></tr><tr><td align="left">XslParam</td><td align="left">Parameter file name</td><td align="left">-p</td><td align="left">Defines the parameter file to use.</td></tr><tr><td align="left">FigInputs</td><td align="left">Directories</td><td align="left">-I</td><td align="left">Defines the extra figures path.</td></tr><tr><td align="left">Options</td><td align="left">Command line options</td><td align="left">None</td><td align="left">Lists command options to use by default when using the tool. The
+options specified by the parameter are directly passed to
+<span class="command"><strong>dblatex</strong></span></td></tr></tbody></table></div><p>
+   Here is the specification file used for this manual.
+  </p><div class="example"><a id="id3770753"></a><p class="title"><b>Example 4.3. User Manual Configuration File</b></p><div class="example-contents"><pre class="programlisting">#
+# Configuration file for dblatex documentation (manual, release notes)
+#
+TexInputs: ../latex//
+PdfInputs: ../latex/graphics
+TexStyle:  docbook
+XslParam:  manual.xsl
+Options:   -b pdftex
+</pre></div></div><br class="example-break" /></div><div class="section" title="Configuration Paths"><div class="titlepage"><div><div><h3 class="title"><a id="sec-conf-path"></a>Configuration Paths</h3></div></div></div><p>By default <span class="command"><strong>dblatex</strong></span> tries to find the configuration files
+  in the following paths, in respect of the order:</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>The current directory</p></li><li class="listitem"><p><code class="filename">$HOME/.dblatex</code></p></li><li class="listitem"><p><code class="filename">/etc/dblatex</code></p></li><li class="listitem"><p>The dblatex package configuration directories.</p></li></ol></div><p>You can add some extra paths where to look for by setting the
+  <code class="envar">DBLATEX_CONFIG_FILES</code> environment variable. The paths are
+  separated by ":" in Unix like systems, and by ";" on Windows. These paths are used
+  only when nothing is found in the default paths.</p></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="sec-texpost.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="sec-custom.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ch04s07.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Latex post process script </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Customization Precedence</td></tr></table></div></body></html>

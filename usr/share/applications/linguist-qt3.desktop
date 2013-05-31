@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Name=Qt3 Linguist
+Type=Application
+Comment=
+Exec=linguist-qt3
+TryExec=linguist-qt3
+Icon=linguist-qt3.png
+Categories=Development;Translation;Qt;
+

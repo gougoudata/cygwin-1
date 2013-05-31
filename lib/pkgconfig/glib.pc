@@ -1,7 +1,7 @@
 prefix=/usr
 exec_prefix=/usr
-libdir=/usr/lib
-includedir=/usr/include
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
 
 Name: GLib
 Description: C Utility Library

@@ -20,17 +20,17 @@ W system.standard_library%s  s-stalib.adb	s-stalib.ali
 W system.unsigned_types%s  s-unstyp.ads		s-unstyp.ali
 W unchecked_conversion%s
 
-D ada.ads		20030424175358 a0108083
-D a-except.ads		20031021134154 a1717b33
+D ada.ads		20030424175357 a0108083
+D a-except.ads		20031021134153 a1717b33
 D system.ads		20031021134222 6af26689
-D s-auxdec.ads		20031021134214 2cb27c8b
-D s-auxdec.adb		20031021134214 8d8305d8
-D s-exctab.ads		20031021134214 6637f07f
+D s-auxdec.ads		20031021134213 2cb27c8b
+D s-auxdec.adb		20031021134213 8d8305d8
+D s-exctab.ads		20031021134213 6637f07f
 D s-soflin.ads		20031021134214 14059e84
 D s-stache.ads		20031021134214 6135f334
 D s-stalib.ads		20031021134214 e7ad2af0
-D s-stoele.ads		20050603190336 5a73170b
-D s-stoele.adb		20030424175414 792079f8
+D s-stoele.ads		20050603200336 5a73170b
+D s-stoele.adb		20030424175413 792079f8
 D s-traent.ads		20031021134218 e81a0978
 D s-unstyp.ads		20031021134218 0d291e44
 D unchconv.ads		20030424175420 1b7a14c5

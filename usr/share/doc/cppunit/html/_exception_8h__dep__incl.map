@@ -1,0 +1,21 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$_exception_test_case_decorator_8h.html" title="ExceptionTestCaseDecorator.h" alt="" coords="308,315,527,344"/>
+<area shape="rect" id="node7" href="$_test_assert_8h.html" title="TestAssert.h" alt="" coords="304,83,405,112"/>
+<area shape="rect" id="node18" href="$_test_caller_8h.html" title="TestCaller.h" alt="" coords="5,237,104,267"/>
+<area shape="rect" id="node21" href="$_test_case_8cpp.html" title="TestCase.cpp" alt="" coords="424,237,533,267"/>
+<area shape="rect" id="node26" href="$_asserter_8cpp.html" title="Asserter.cpp" alt="" coords="608,83,709,112"/>
+<area shape="rect" id="node28" href="$_compiler_outputter_8cpp.html" title="CompilerOutputter.cpp" alt="" coords="733,83,896,112"/>
+<area shape="rect" id="node30" href="$_default_protector_8cpp.html" title="DefaultProtector.cpp" alt="" coords="920,83,1069,112"/>
+<area shape="rect" id="node32" href="$_exception_8cpp.html" title="Exception.cpp" alt="" coords="1093,83,1203,112"/>
+<area shape="rect" id="node34" href="$_protector_8cpp.html" title="Protector.cpp" alt="" coords="1227,83,1333,112"/>
+<area shape="rect" id="node37" href="$_test_failure_8cpp.html" title="TestFailure.cpp" alt="" coords="1357,83,1475,112"/>
+<area shape="rect" id="node39" href="$_text_outputter_8cpp.html" title="TextOutputter.cpp" alt="" coords="1499,83,1632,112"/>
+<area shape="rect" id="node41" href="$_text_test_result_8cpp.html" title="TextTestResult.cpp" alt="" coords="1656,83,1797,112"/>
+<area shape="rect" id="node43" href="$_xml_outputter_8cpp.html" title="XmlOutputter.cpp" alt="" coords="1821,83,1949,112"/>
+<area shape="rect" id="node5" href="$_helper_macros_8h.html" title="Macros intended to ease the definition of test suites." alt="" coords="181,392,304,421"/>
+<area shape="rect" id="node9" href="$_test_case_8h.html" title="TestCase.h" alt="" coords="308,160,401,189"/>
+<area shape="rect" id="node23" href="$_test_assert_8cpp.html" title="TestAssert.cpp" alt="" coords="169,160,284,189"/>
+<area shape="rect" id="node11" href="$_orthodox_8h.html" title="Orthodox.h" alt="" coords="309,237,400,267"/>
+<area shape="rect" id="node13" href="$_test_case_decorator_8h.html" title="TestCaseDecorator.h" alt="" coords="128,237,285,267"/>
+<area shape="rect" id="node16" href="$_test_case_decorator_8cpp.html" title="TestCaseDecorator.cpp" alt="" coords="113,315,284,344"/>
+</map>

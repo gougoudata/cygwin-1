@@ -1,0 +1,133 @@
+indent
+------------------------------------------
+
+C language source code formatting program
+
+Change layout of a C program by inserting or deleting whitespace.
+Program provides options for controlling the alignment of braces and
+declarations, program indenting, and other stylistic parameters,
+including formatting C comments.
+
+Developer's note:
+
+    "NOTE: Indent is designed to support the C language. It is NOT,
+    repeat NOT, designed to work with C++. It may work with some C++
+    code but you are on your own: usage of indent on C++ is not
+    supported, so DO NOT complain if it doesn't work on your C++ code."
+    <http://mysite.wanadoo-members.co.uk/indent/beautify.html>
+
+Related:
+
+    - Jargon File entry:
+      http://www.tuxedo.org/~esr/jargon/html/entry/indent-style.html
+
+Not related:
+
+    - Indent-O-Meter:
+      http://world.std.com/~mmcirvin/indent.html
+
+Runtime requirements:
+  cygwin
+  libiconv2
+  libintl8
+  libgcc1
+  texinfo	# postinstall.sh uses install-info(1)
+
+Build requirements:
+  cygwin
+  gcc4
+  libiconv2
+  libintl8
+  texi2html
+
+Canonical homepage:
+  http://indent.isidore-it.eu/beautify.html
+  http://www.gnu.org/software/indent
+  http://packages.debian.org/indent
+
+Canonical download:
+  ftp://ftp.gnu.org/gnu/indent
+  http://www.gnu.org/prep/ftp.html
+
+Version control repository:
+
+Mailing list:
+  http://lists.gnu.org/mailman/listinfo/bug-indent
+  http://dir.gmane.org/gmane.comp.gnu.indent.bugs
+
+IRC channel:
+
+Upstream contact:
+  Author: <david.ingamells@telenet.be>
+  Bugs: <bug-indent@gnu.org>
+
+License:
+  GPL, Custom: / University of Illinois, California
+  See http://packages.debian.org/changelogs/pool/main/i/indent/indent_2.2.9-9/indent.copyright
+
+Language:
+  C
+
+------------------------------------
+
+Build instructions:
+  unpack indent-2.2.11-1-src.tar.bz2
+    if you use setup to install this src package, it will be
+    unpacked under /usr/src automatically
+  cd /usr/src
+  ./indent*.sh all
+
+This will create:
+  indent-2.2.11-1.tar.bz2
+  indent-2.2.11-1-src.tar.bz2
+
+-------------------------------------------
+
+Files included in the binary distribution:
+  See Cygwin package archive
+
+------------------
+
+Port Notes:
+
+- texinfo2man.exe is not installed. Is not uspported and does not belong to 
+  package 'indent'. See similar removal message e.g. in Debian
+  http://packages.debian.org/changelogs/pool/main/i/indent/indent_2.2.9-9/changelog#versionversion2.2.8-2
+
+[Testing]
+
+    - A tarball with regression tests is in the source tarball included
+    - Note this comment from the developer:
+
+      "One test fails due to the crappiness of the comment
+       handling code. It is a rare situation that is tested and
+       a lower priority than some more important problems.
+
+       Unpack this in the main indent directory, run a make of indent, 
+       go to the regression directory and run ./TEST."
+
+
+[Build documents]
+
+    - optional (requires texinfo, ghostscript & tetex,
+      texi2html)
+    - Makefile targets currently not working besides 'make ps'
+      which is executed from the script as it is included.
+    - what also works is generating indent.html manually which
+      is done by the script as it is included.
+    - what also works is creating a pdf file from the generated
+      ps file manually which is done by the script as it is
+      included.
+    - please comment these targets from thew script if you
+      don't have installed the tools needed (see above).
+
+----- version 2.2.11-1 -----
+- New upstream release 2010-06-25 Jari Aalto
+
+----- version 2.2.9-2 -----
+- New maintainer, 2006-08-11 Jari Aalto
+
+----- version 2.2.9-1 -----
+- Initial release, 2004-01-14 Gerrit P. Haase, <gerrit@familiehaase.de>
+
+Cygwin port maintained by: Jari Aalto <jari.aalto@cante.net>

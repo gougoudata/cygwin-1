@@ -1,0 +1,11 @@
+--- origsrc/binutils-2.20.51/config.rpath	2008-03-13 14:27:44.000000000 -0500
++++ src/binutils-2.20.51/config.rpath	2010-07-11 23:30:45.209832800 -0500
+@@ -441,7 +441,7 @@ case "$host_os" in
+   bsdi4*)
+     ;;
+   cygwin* | mingw* | pw32*)
+-    shrext=.dll
++    shrext=.dll.a
+     ;;
+   darwin* | rhapsody*)
+     shrext=.dylib

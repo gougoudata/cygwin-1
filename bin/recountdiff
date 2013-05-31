@@ -21,7 +21,7 @@
 use Getopt::Std;
 getopts('-:', \%opts);
 if ($opts{'-'} && $opts{'-'} eq 'version') {
-    print "recountdiff - patchutils version 0.2.31\n";
+    print "recountdiff - patchutils version 0.3.2\n";
     exit 0;
 }
 if ($opts{'-'} && $opts{'-'} eq 'help') {

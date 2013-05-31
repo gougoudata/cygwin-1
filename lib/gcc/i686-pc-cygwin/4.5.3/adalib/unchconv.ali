@@ -1,0 +1,23 @@
+V "GNAT Lib v4.5"
+A -gnatwa
+A -O2
+A -W
+A -Wall
+A -g
+A -gnatp
+A -gnatg
+A -mtune=generic
+A -march=i686
+P ZX
+R nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
+
+U unchecked_conversion%s  unchconv.ads		34860a55 NE OL PU GE
+
+D system.ads		20111023073219 f47f7e1a
+D unchconv.ads		20070406091342 34860a55
+X 2 unchconv.ads
+17+9 Source 20r36
+18+9 Target 20r51
+20v10*Unchecked_Conversion 20>32 21b27 22r14
+20*32 S{17+9}
+

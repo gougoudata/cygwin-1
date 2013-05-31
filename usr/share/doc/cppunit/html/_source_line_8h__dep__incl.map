@@ -1,0 +1,29 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$_asserter_8h.html" title="Asserter.h" alt="" coords="667,83,752,112"/>
+<area shape="rect" id="node28" href="$_exception_8h.html" title="Exception.h" alt="" coords="852,83,945,112"/>
+<area shape="rect" id="node34" href="$_compiler_outputter_8cpp.html" title="CompilerOutputter.cpp" alt="" coords="1528,160,1691,189"/>
+<area shape="rect" id="node45" href="$_text_outputter_8cpp.html" title="TextOutputter.cpp" alt="" coords="1715,160,1848,189"/>
+<area shape="rect" id="node51" href="$_protector_8h.html" title="Protector.h" alt="" coords="216,83,307,112"/>
+<area shape="rect" id="node66" href="$_source_line_8cpp.html" title="SourceLine.cpp" alt="" coords="1071,83,1188,112"/>
+<area shape="rect" id="node5" href="$_test_assert_8h.html" title="TestAssert.h" alt="" coords="659,160,760,189"/>
+<area shape="rect" id="node26" href="$_asserter_8cpp.html" title="Asserter.cpp" alt="" coords="483,160,584,189"/>
+<area shape="rect" id="node7" href="$_test_case_8h.html" title="TestCase.h" alt="" coords="717,237,811,267"/>
+<area shape="rect" id="node24" href="$_test_assert_8cpp.html" title="TestAssert.cpp" alt="" coords="528,237,643,267"/>
+<area shape="rect" id="node9" href="$_orthodox_8h.html" title="Orthodox.h" alt="" coords="467,315,557,344"/>
+<area shape="rect" id="node11" href="$_test_case_decorator_8h.html" title="TestCaseDecorator.h" alt="" coords="581,315,739,344"/>
+<area shape="rect" id="node19" href="$_test_caller_8h.html" title="TestCaller.h" alt="" coords="763,315,861,344"/>
+<area shape="rect" id="node22" href="$_test_case_8cpp.html" title="TestCase.cpp" alt="" coords="333,315,443,344"/>
+<area shape="rect" id="node13" href="$_exception_test_case_decorator_8h.html" title="ExceptionTestCaseDecorator.h" alt="" coords="804,392,1023,421"/>
+<area shape="rect" id="node17" href="$_test_case_decorator_8cpp.html" title="TestCaseDecorator.cpp" alt="" coords="559,392,729,421"/>
+<area shape="rect" id="node15" href="$_helper_macros_8h.html" title="Macros intended to ease the definition of test suites." alt="" coords="779,469,901,499"/>
+<area shape="rect" id="node36" href="$_default_protector_8cpp.html" title="DefaultProtector.cpp" alt="" coords="349,237,499,267"/>
+<area shape="rect" id="node38" href="$_exception_8cpp.html" title="Exception.cpp" alt="" coords="936,160,1045,189"/>
+<area shape="rect" id="node40" href="$_protector_8cpp.html" title="Protector.cpp" alt="" coords="352,160,459,189"/>
+<area shape="rect" id="node43" href="$_test_failure_8cpp.html" title="TestFailure.cpp" alt="" coords="1069,160,1187,189"/>
+<area shape="rect" id="node47" href="$_text_test_result_8cpp.html" title="TextTestResult.cpp" alt="" coords="1211,160,1352,189"/>
+<area shape="rect" id="node49" href="$_xml_outputter_8cpp.html" title="XmlOutputter.cpp" alt="" coords="1376,160,1504,189"/>
+<area shape="rect" id="node53" href="$_default_protector_8h.html" title="DefaultProtector.h" alt="" coords="195,160,328,189"/>
+<area shape="rect" id="node59" href="$_protector_chain_8h.html" title="ProtectorChain.h" alt="" coords="43,160,171,189"/>
+<area shape="rect" id="node56" href="$_test_result_8cpp.html" title="TestResult.cpp" alt="" coords="204,237,319,267"/>
+<area shape="rect" id="node61" href="$_protector_chain_8cpp.html" title="ProtectorChain.cpp" alt="" coords="39,237,180,267"/>
+</map>

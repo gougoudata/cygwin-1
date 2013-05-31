@@ -1,4 +1,3 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* GTK - The GIMP Toolkit
  * Copyright (C) 1995-1997 Peter Mattis, Spencer Kimball and Josh MacDonald
  *
@@ -22,11 +21,15 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 #ifndef __GTK_PANED_H__
 #define __GTK_PANED_H__
+
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
 
 #include <gtk/gtkcontainer.h>
 
@@ -43,50 +46,50 @@ G_BEGIN_DECLS
 typedef struct _GtkPaned        GtkPaned;
 typedef struct _GtkPanedClass   GtkPanedClass;
 typedef struct _GtkPanedPrivate GtkPanedPrivate;
-	
+
 struct _GtkPaned
 {
   GtkContainer container;
-  
-  GtkWidget *child1;
-  GtkWidget *child2;
-  
-  GdkWindow *handle;
-  GdkGC *xor_gc;
-  GdkCursorType cursor_type;
-  
+
+  GtkWidget *GSEAL (child1);
+  GtkWidget *GSEAL (child2);
+
+  GdkWindow *GSEAL (handle);
+  GdkGC *GSEAL (xor_gc);
+  GdkCursorType GSEAL (cursor_type);
+
   /*< private >*/
-  GdkRectangle handle_pos;
+  GdkRectangle GSEAL (handle_pos);
 
-  gint child1_size;
-  gint last_allocation;
-  gint min_position;
-  gint max_position;
+  gint GSEAL (child1_size);
+  gint GSEAL (last_allocation);
+  gint GSEAL (min_position);
+  gint GSEAL (max_position);
 
-  guint position_set : 1;
-  guint in_drag : 1;
-  guint child1_shrink : 1;
-  guint child1_resize : 1;
-  guint child2_shrink : 1;
-  guint child2_resize : 1;
-  guint orientation : 1;
-  guint in_recursion : 1;
-  guint handle_prelit : 1;
+  guint GSEAL (position_set) : 1;
+  guint GSEAL (in_drag) : 1;
+  guint GSEAL (child1_shrink) : 1;
+  guint GSEAL (child1_resize) : 1;
+  guint GSEAL (child2_shrink) : 1;
+  guint GSEAL (child2_resize) : 1;
+  guint GSEAL (orientation) : 1;
+  guint GSEAL (in_recursion) : 1;
+  guint GSEAL (handle_prelit) : 1;
 
-  GtkWidget *last_child1_focus;
-  GtkWidget *last_child2_focus;
-  GtkPanedPrivate *priv;
+  GtkWidget *GSEAL (last_child1_focus);
+  GtkWidget *GSEAL (last_child2_focus);
+  GtkPanedPrivate *GSEAL (priv);
 
-  gint drag_pos;
-  gint original_position;
+  gint GSEAL (drag_pos);
+  gint GSEAL (original_position);
 };
- 
+
 struct _GtkPanedClass
 {
   GtkContainerClass parent_class;
-  
+
   gboolean (* cycle_child_focus)   (GtkPaned      *paned,
-				    gboolean       reverse); 
+				    gboolean       reverse);
   gboolean (* toggle_handle_focus) (GtkPaned      *paned);
   gboolean (* move_handle)         (GtkPaned      *paned,
 				    GtkScrollType  scroll);
@@ -103,34 +106,35 @@ struct _GtkPanedClass
 };
 
 
-GType   gtk_paned_get_type        (void) G_GNUC_CONST;
-void    gtk_paned_add1            (GtkPaned  *paned,
-				   GtkWidget *child);
-void    gtk_paned_add2            (GtkPaned  *paned,
-				   GtkWidget *child);
-void    gtk_paned_pack1           (GtkPaned  *paned,
-				   GtkWidget *child,
-				   gboolean   resize,
-				   gboolean   shrink);
-void    gtk_paned_pack2           (GtkPaned  *paned,
-				   GtkWidget *child,
-				   gboolean   resize,
-				   gboolean   shrink);
-gint    gtk_paned_get_position    (GtkPaned  *paned);
-void    gtk_paned_set_position    (GtkPaned  *paned,
-				   gint       position);
+GType       gtk_paned_get_type     (void) G_GNUC_CONST;
+void        gtk_paned_add1         (GtkPaned       *paned,
+                                    GtkWidget      *child);
+void        gtk_paned_add2         (GtkPaned       *paned,
+                                    GtkWidget      *child);
+void        gtk_paned_pack1        (GtkPaned       *paned,
+                                    GtkWidget      *child,
+                                    gboolean        resize,
+                                    gboolean        shrink);
+void        gtk_paned_pack2        (GtkPaned       *paned,
+                                    GtkWidget      *child,
+                                    gboolean        resize,
+                                    gboolean        shrink);
 
-GtkWidget *gtk_paned_get_child1   (GtkPaned  *paned);
-GtkWidget *gtk_paned_get_child2   (GtkPaned  *paned);
+gint        gtk_paned_get_position (GtkPaned       *paned);
+void        gtk_paned_set_position (GtkPaned       *paned,
+                                    gint            position);
 
-/* Internal function */
-#if !defined (GTK_DISABLE_DEPRECATED) || defined (GTK_COMPILATION)
-void    gtk_paned_compute_position (GtkPaned  *paned,
-				    gint       allocation,
-				    gint       child1_req,
-				    gint       child2_req);
-#endif /* !GTK_DISABLE_DEPRECATED || GTK_COMPILATION */
+GtkWidget * gtk_paned_get_child1   (GtkPaned       *paned);
+GtkWidget * gtk_paned_get_child2   (GtkPaned       *paned);
+
+GdkWindow * gtk_paned_get_handle_window (GtkPaned  *paned);
+
 #ifndef GTK_DISABLE_DEPRECATED
+/* Internal function */
+void    gtk_paned_compute_position (GtkPaned  *paned,
+                                    gint       allocation,
+                                    gint       child1_req,
+                                    gint       child2_req);
 #define	gtk_paned_gutter_size(p,s)		(void) 0
 #define	gtk_paned_set_gutter_size(p,s)		(void) 0
 #endif /* GTK_DISABLE_DEPRECATED */

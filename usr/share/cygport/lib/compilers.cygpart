@@ -1,0 +1,270 @@
+################################################################################
+#
+# compilers.cygpart - cygport compiler settings
+#
+# Copyright (C) 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 Yaakov Selkowitz
+# Provided by the Cygwin Ports project <http://sourceware.org/cygwinports/>
+#
+# cygport is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# cygport is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with cygport.  If not, see <http://www.gnu.org/licenses/>.
+#
+################################################################################
+
+#****d* Compiling/CC
+#  DESCRIPTION
+#  The GCC C compiler.
+#****
+declare -x CC="gcc";
+
+#****v* Compiling/CFLAGS
+#  DESCRIPTION
+#  Flags passed to CC when compiling C code.  Individual packages may append
+#  or override this value if they will not build correctly without it.
+#  DEFAULT VALUE
+#  -ggdb -O2 -pipe
+#****
+declare -x CFLAGS="-ggdb -O2 -pipe";
+
+#****v* Compiling/CPPFLAGS
+#  DESCRIPTION
+#  Flags passed to the preprocessor.  Individual packages may append
+#  or override this value if they will not build correctly without it.
+#****
+declare -x CPPFLAGS="";
+
+#****d* Compiling/CXX
+#  DESCRIPTION
+#  The GCC C++ compiler.
+#****
+declare -x CXX="g++";
+
+#****v* Compiling/CXXFLAGS
+#  DESCRIPTION
+#  Flags passed to CXX when compiling C++ code.  Individual packages may append
+#  or override this value if they will not build correctly without it.
+#  DEFAULT VALUE
+#  -ggdb -O2 -pipe
+#****
+declare -x CXXFLAGS="${CFLAGS}";
+
+#****d* Compiling/F77
+#  DESCRIPTION
+#  The GCC Fortran 77 compiler.
+#  SEE ALSO
+#  FC
+#****
+declare -x F77="gfortran";
+
+#****v* Compiling/FFLAGS
+#  DESCRIPTION
+#  Flags passed to F77 when compiling Fortran 77 code.  Individual packages may
+#  append or override this value if they will not build correctly without it.
+#  DEFAULT VALUE
+#  -ggdb -O2 -pipe
+#****
+declare -x FFLAGS="${CFLAGS}";
+
+#****d* Compiling/FC
+#  DESCRIPTION
+#  The GCC Fortran 95 compiler.
+#  SEE ALSO
+#  F77
+#****
+declare -x FC="gfortran";
+
+#****v* Compiling/FCFLAGS
+#  DESCRIPTION
+#  Flags passed to FC when compiling Fortran 95 code.  Individual packages may
+#  append or override this value if they will not build correctly without it.
+#  DEFAULT VALUE
+#  -ggdb -O2 -pipe
+#****
+declare -x FCFLAGS="${CFLAGS}";
+
+#****d* Compiling/GCJ
+#  DESCRIPTION
+#  The GCC Java native-code compiler.
+#  SEE ALSO
+#  java.cygclass
+#****
+declare -x GCJ="gcj";
+
+#****v* Compiling/GCJFLAGS
+#  DESCRIPTION
+#  Flags passed to GCJ when native-compiling Java code.  Individual packages may
+#  append or override this value if they will not build correctly without it.
+#  DEFAULT VALUE
+#  -ggdb -O2 -pipe
+#****
+declare -x GCJFLAGS="${CFLAGS}";
+
+#****d* Compiling/GOC
+#  DESCRIPTION
+#  The GCC Go native-code compiler.
+#****
+declare -x GOC="gccgo";
+
+#****v* Compiling/GOFLAGS
+#  DESCRIPTION
+#  Flags passed to GOC when native-compiling Go code.  Individual packages may
+#  append or override this value if they will not build correctly without it.
+#  DEFAULT VALUE
+#  -ggdb -O2 -pipe
+#****
+declare -x GOFLAGS="${CFLAGS}";
+
+#****d* Compiling/OBJC
+#  DESCRIPTION
+#  The GCC Objective C compiler.
+#****
+declare -x OBJC="${CC}";
+
+#****v* Compiling/OBJCFLAGS
+#  DESCRIPTION
+#  Flags passed to OBJC when compiling Objective C code.  Individual packages
+#  may append or override this value if they will not build correctly without it.
+#  DEFAULT VALUE
+#  -ggdb -O2 -pipe
+#****
+declare -x OBJCFLAGS="${CFLAGS}";
+
+#****d* Compiling/OBJCXX
+#  DESCRIPTION
+#  The GCC Objective C++ compiler.
+#****
+declare -x OBJCXX="${CXX}";
+
+#****v* Compiling/OBJCXXFLAGS
+#  DESCRIPTION
+#  Flags passed to OBJCXX when compiling Objective C++ code.  Individual packages
+#  may append or override this value if they will not build correctly without it.
+#  DEFAULT VALUE
+#  -ggdb -O2 -pipe
+#****
+declare -x OBJCXXFLAGS="${CFLAGS}";
+
+#****v* Compiling/LDFLAGS
+#  DESCRIPTION
+#  Flags passed to the linker.  Individual packages may append
+#  or override this value if they will not build correctly without it.
+#****
+declare -x LDFLAGS="";
+
+declare -x LIBS="";
+
+#****d* Compiling/AR
+#  DESCRIPTION
+#  The static library archiver for the host platform.
+#****
+AR="ar"
+
+OBJDUMP="objdump"
+
+#****d* Compiling/RANLIB
+#  DESCRIPTION
+#  The static library indexer for the host platform.
+#****
+RANLIB="ranlib"
+
+#****d* Compiling/RC
+#  DESCRIPTION
+#  The Windows resource compiler for the host platform.
+#  NOTE
+#  This tool is available only on Cygwin, Windows, and embedded PE hosts.
+#****
+RC="windres";
+
+#****d* Compiling/STRIP
+#  DESCRIPTION
+#  The symbol remover for the host platform.
+#****
+STRIP="strip"
+
+#****d* Compiling/CC_SYSROOT
+#  DESCRIPTION
+#  The sysroot used by CC, i.e. the output of $CC -print-sysroot.  This is
+#  useful when specifying the location of a package's dependency so that it
+#  will be correct both when building natively or cross-compiling
+#  (e.g. CYGCONF_ARGS="--with-foo-include=${CC_SYSROOT}/usr/include/foo-1").
+#  This is NOT for specifying installation directories for a package being
+#  cross-compiled; see CROSS_SYSROOT instead.
+#****
+declare   CC_SYSROOT="";
+
+# system triplets
+declare    CBUILD=$(${_privgnuconfigdir}/config.guess)
+case ${CBUILD} in
+# http://cygwin.com/ml/cygwin-developers/2013-02/msg00132.html
+x86_64-unknown-cygwin)  CBUILD="x86_64-pc-cygwin" ;&
+*-cygwin)  CHOST="${_host_arch:-${CBUILD%%-*}}-pc-cygwin" ;;
+*)         defined _host_arch || error "Either --32 or --64 flags MUST be passed to cygport"
+           CHOST="${_host_arch}-pc-cygwin" ;;
+esac
+unset _host_arch
+declare    CTARGET=${CHOST};
+declare    CROSS_HOST="";
+declare    CROSS_SYSROOT="";
+declare    TOOLCHAIN_TARGET="";
+
+#****d* Compiling/ARCH
+#  DESCRIPTION
+#  The Cygwin architecture of the binaries being built (i686 or x86_64),
+#  or "noarch" when using cross.cygclass.
+#****
+declare    ARCH=${CHOST%%-*};
+
+#****d* Compiling/ARCH_i686
+#  DESCRIPTION
+#  Defined only when building binaries for i686 (32-bit) Cygwin.
+#****
+#****d* Compiling/ARCH_x86_64
+#  DESCRIPTION
+#  Defined only when building binaries for x86_64 (64-bit) Cygwin.
+#****
+declare    ARCH_${ARCH}=1;
+
+if [ ${CBUILD} != ${CHOST} ]
+then
+	CC=${CHOST}-gcc
+	CXX=${CHOST}-g++
+	F77=${CHOST}-gfortran
+	FC=${CHOST}-gfortran
+	GCJ=${CHOST}-gcj
+	GOC=${CHOST}-gccgo
+	OBJC=${CHOST}-gcc
+	OBJCXX=${CHOST}-g++
+	AR=${CHOST}-ar
+	OBJDUMP=${CHOST}-objdump
+	RANLIB=${CHOST}-ranlib
+	RC=${CHOST}-windres
+	STRIP=${CHOST}-strip
+
+	CC_SYSROOT=$(${CC} -print-sysroot)
+
+	if ! check_tool gcc || ! check_tool strip
+	then
+	        error "Cross-compiling this package requires ${CHOST} binutils and gcc"
+	fi
+
+	# PKG_PROG_PKG_CONFIG looks for $host-pkg-config, but pkg-config is not
+	# a "tool" that is built for each target like binutils or gcc.  Instead,
+	# we set PKG_CONFIG_LIBDIR appropriately.
+	# The PKG_CONFIG override silences a bogus warning during configure:
+	# configure: WARNING: using cross tools not prefixed with host triplet
+	export PKG_CONFIG="$(which pkg-config 2>/dev/null)"
+	export PKG_CONFIG_LIBDIR="$(${CC} -print-sysroot)/usr/lib/pkgconfig:$(${CC} -print-sysroot)/usr/share/pkgconfig:/usr/share/pkgconfig"
+	# since pkg-config 0.26
+	export PKG_CONFIG_SYSTEM_INCLUDE_PATH="$(${CC} -print-sysroot)/usr/include"
+	export PKG_CONFIG_SYSTEM_LIBRARY_PATH="$(${CC} -print-sysroot)/usr/lib"
+
+fi

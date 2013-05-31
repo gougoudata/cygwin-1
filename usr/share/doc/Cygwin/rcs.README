@@ -1,0 +1,107 @@
+rcs
+-------------------------------------------------------------------------------
+The Revision Control System
+
+Runtime requirements:
+  cygwin-1.7.18-1
+
+Build requirements:
+  cygwin-1.7.18-1
+  cygport-0.11.3-1
+  bash-4.1.10-4
+  gcc4-4.5.3-3
+  binutils-2.23.51-1
+  make-3.82.90-1
+  sed-4.2.1-2
+  gawk-4.0.2-1
+  coreutils-8.15-1
+  findutils-4.5.11-1
+  autoconf2.5-2.69-1
+  autoconf-10-1
+  automake1.12-1.12.5-1
+  automake-7-1
+  libtool-2.4-1
+  pkg-config-0.23b-10
+  lndir-1.0.3-1
+  ...
+  and corresponding <XXX>-devel-<y.y.y> packages from the runtime section
+
+Canonical homepage:
+  http://www.gnu.org/software/rcs/rcs.html
+
+Canonical download:
+  ftp://ftp.gnu.org/gnu/rcs/
+
+License:
+  GPL
+
+Language:
+  C
+
+-------------------------------------------------------------------------------
+
+Build instructions:
+  unpack rcs-<Pack-Ver>-<Cyg-Rel>-src.tar.bz2
+    if you use setup to install this src package, it will be
+ unpacked under /usr/src automatically
+  cd /usr/src
+  cygport rcs.cygport all
+
+This will create:
+  /usr/src/rcs-<Pack-Ver>-<Cyg-Rel>-src.tar.bz2
+  /usr/src/rcs-<Pack-Ver>-<Cyg-Rel>.tar.bz2
+  /usr/src/rcs-debuginfo-<Pack-Ver>-<Cyg-Rel>.tar.bz2
+
+Or use 'cygport rcs.cygport prep' to get a patched source directory
+
+To find out the files included in the binary distribution, you can
+use "cygcheck -l rcs rcs-debuginfo", or browse the listing for the appropriate
+version at <http://cygwin.com/packages/>.
+
+-------------------------------------------------------------------------------
+
+Port Notes:
+
+----- version rcs-5.8.2-1 --- Tue 30 Apr 14:06:49 2013 ---
+
+ o Update to latest upstream release
+ o Build for cygwin 1.7.18 with gcc-4.5.3
+
+----- version rcs-5.8.1-1 --- Fri 14 Sep 09:26:49 2012 ---
+
+ o Update to latest upstream release
+ o Build for cygwin 1.7.16 with gcc-4.5.3
+ o Uses cygport-0.11.0 for .hint files generation
+ o debuginfo package included
+
+----- version rcs-5.8-1 --- Wed 16 Nov 22:15:46 2011 ---
+
+ o Update to latest upstream release
+ o Build for cygwin 1.7 with gcc-4
+
+----- version rcs-5.7-11 --- Fri 28 May 14:06:00 2010 ---
+
+ o Fixed bug for rcsdiff not finding co
+   (see http://cygwin.com/ml/cygwin/2010-05/msg00667.html)
+
+----- version rcs-5.7-10 --- Thu 20 May 20:26:26 2010 ---
+
+ o Build for cygwin 1.7 with gcc-4
+
+----- version rcs-5.7-4 --- Mon 10 Dec 15:20:47 2007 ---
+
+ o Maintainer change
+ o Switched to cygport build framework
+ o Doumentation and manual pages now under /usr/share/{man/doc} hierarchy
+ o The patch posted in http://sources.redhat.com/ml/cygwin/2001-07/msg00161.html
+   has been removed as it's not reproducible under latest cygwin
+
+----- version rcs-5.7-3/2/1 ---
+
+ o No previous port notes available
+
+
+Cygwin port maintained by: Dr. Volker Zell  <dr.volker.zell@oracle.com>
+Original port done and maintained by: Stipe Tolj <tolj@wapme-systems.de>
+
+Please address all questions to the Cygwin mailing list at <cygwin@cygwin.com>

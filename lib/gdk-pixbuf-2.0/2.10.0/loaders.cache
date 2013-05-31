@@ -1,0 +1,27 @@
+# GdkPixbuf Image Loader Modules file
+# Automatically generated file, do not edit
+# Created by gdk-pixbuf-query-loaders from gdk-pixbuf-2.26.5
+#
+# LoaderDir = /usr/lib/gdk-pixbuf-2.0/2.10.0/loaders
+#
+"/usr/lib/gdk-pixbuf-2.0/2.10.0/loaders/cygpixbufloader-jasper.dll"
+"jpeg2000" 4 "gdk-pixbuf" "The JPEG 2000 image format" "LGPL"
+"image/jp2" "image/jpeg2000" "image/jpx" ""
+"jp2" "jpc" "jpx" "j2k" "jpf" ""
+"    jP" "!!!!  " 100
+"\377O\377Q" "" 100
+
+"/usr/lib/gdk-pixbuf-2.0/2.10.0/loaders/cygpixbufloader-jpeg.dll"
+"jpeg" 5 "gdk-pixbuf" "The JPEG image format" "LGPL"
+"image/jpeg" ""
+"jpeg" "jpe" "jpg" ""
+"\377\330" "" 100
+
+"/usr/lib/gdk-pixbuf-2.0/2.10.0/loaders/cygpixbufloader-tiff.dll"
+"tiff" 5 "gdk-pixbuf" "The TIFF image format" "LGPL"
+"image/tiff" ""
+"tiff" "tif" ""
+"MM *" "  z " 100
+"II* " "   z" 100
+"II* \020   CR\002 " "   z zzz   z" 0
+

@@ -22,8 +22,8 @@ U ada.characters.handling%s  a-chahan.ads	46d230ec BN NE PR PK
 W ada%s			ada.ads			ada.ali
 W ada.characters%s	a-charac.ads		a-charac.ali
 
-D ada.ads		20030424175358 a0108083
-D a-charac.ads		20031021134154 a61fb5a9
+D ada.ads		20030424175357 a0108083
+D a-charac.ads		20031021134153 a61fb5a9
 D a-chahan.ads		20030424175352 e0cd8545
 D a-chahan.adb		20030424175352 7da8cef0
 D a-chlat1.ads		20030424175352 06a18501
@@ -31,11 +31,11 @@ D a-string.ads		20030424175354 6440c304
 D a-strmap.ads		20030424175354 e6fc9a3a
 D a-stmaco.ads		20030424175354 8b7c2e37
 D system.ads		20031021134222 6af26689
-D s-exctab.ads		20031021134214 6637f07f
+D s-exctab.ads		20031021134213 6637f07f
 D s-secsta.ads		20040105152046 7804722c
 D s-stalib.ads		20031021134214 e7ad2af0
-D s-stoele.ads		20050603190336 5a73170b
-D s-stoele.adb		20030424175414 792079f8
+D s-stoele.ads		20050603200336 5a73170b
+D s-stoele.adb		20030424175413 792079f8
 D s-unstyp.ads		20031021134218 0d291e44
 D unchconv.ads		20030424175420 1b7a14c5
 X 1 ada.ads

@@ -1,0 +1,23 @@
+Mon, 11 Feb 2013 17:52:04 -0600
+lib/json/add/bigdecimal.rb	Mon, 11 Feb 2013 17:51:55 -0600
+lib/json/add/complex.rb	Mon, 11 Feb 2013 17:51:55 -0600
+lib/json/add/core.rb	Mon, 11 Feb 2013 17:51:55 -0600
+lib/json/add/date.rb	Mon, 11 Feb 2013 17:51:55 -0600
+lib/json/add/date_time.rb	Mon, 11 Feb 2013 17:51:55 -0600
+lib/json/add/exception.rb	Mon, 11 Feb 2013 17:51:55 -0600
+lib/json/add/ostruct.rb	Mon, 11 Feb 2013 17:51:55 -0600
+lib/json/add/range.rb	Mon, 11 Feb 2013 17:51:55 -0600
+lib/json/add/rational.rb	Mon, 11 Feb 2013 17:51:55 -0600
+lib/json/add/regexp.rb	Mon, 11 Feb 2013 17:51:55 -0600
+lib/json/add/struct.rb	Mon, 11 Feb 2013 17:51:55 -0600
+lib/json/add/symbol.rb	Mon, 11 Feb 2013 17:51:55 -0600
+lib/json/add/time.rb	Mon, 11 Feb 2013 17:51:55 -0600
+lib/json/common.rb	Mon, 11 Feb 2013 17:51:55 -0600
+lib/json/ext.rb	Mon, 11 Feb 2013 17:51:55 -0600
+lib/json/generic_object.rb	Mon, 11 Feb 2013 17:51:55 -0600
+lib/json/pure/generator.rb	Mon, 11 Feb 2013 17:51:55 -0600
+lib/json/pure/parser.rb	Mon, 11 Feb 2013 17:51:55 -0600
+lib/json/pure.rb	Mon, 11 Feb 2013 17:51:55 -0600
+lib/json/version.rb	Mon, 11 Feb 2013 17:51:55 -0600
+lib/json.rb	Mon, 11 Feb 2013 17:51:55 -0600
+README.rdoc	Mon, 11 Feb 2013 17:51:55 -0600

@@ -1,0 +1,174 @@
+.TH LOGIWEB 5 "JULY 2009" Logiweb "File formats and protocols"
+.SH NAME
+logiweb \- Logiweb file formats and protocols
+.SH DESCRIPTION
+Logiweb is a system for storing, locating, and transmitting Logiweb pages. Logiweb pages may contain free text mixed with machine intelligible objects like computer programs, testsuites, and formal proofs.
+.P
+Logiweb defines a referencing scheme in which each Logiweb page has a unique Logiweb reference. A Logiweb reference is typically around 30 bytes long. A Logiweb reference contains, among other, a RIPEMD-160 hash key of the referenced page.
+.P
+The Logiweb standard comprises the following file formats and network protocols.
+.P
+.nf
+    The Logiweb vector format
+    The Logiweb rack format
+    The Logiweb protocol
+.fi
+.P
+The vector format is a condensed representation suited for transmission over the Internet. Furthermore, the authenticity of a Logiweb page in vector format can be verified using the RIPEMD-160 hash function. Logiweb vectors can be retrieved from untrusted repositories and transmitted over untrusted networks.
+.P
+The rack format is a comprehensive, precompiled representation suited for storing on a local disk. Furthermore, the rack format is a good starting point for conversion to other formats. The Logiweb Abstract Machine lgwam(1) needs pages in rack format in order to execute programs defined on the pages.
+.P
+Earlier versions of Logiweb supported XML, MathML, Lisp S-expressions and several other formats. The current version leaves such support to the user through the capabilities for user defined rendering of the Logiweb compiler lgc(1). Only support for latex(1), bibtex(1), makeindex(1), dvipdfm(1), and cc(1) has survived in the present version.
+.P
+The Logiweb protocol allows to locate a Logiweb page given its Logiweb reference. More specificially, the Logiweb protocol allows to translate a Logiweb reference into an http URL. Then http may be used for retrieving the referenced page and RIPEMD-160 may be used for verifying the authenticity of page.
+.P
+Logiweb version 0.1.1 to 0.1.10 included a Logiweb server which implemented the Logiweb protocol. From Version 1.0.1, the Logiweb server is excluded from the distribution. That is because installation of the Logiweb server requires considerable privileges and network insight.
+.P
+For Version 1.0.1 a Logiweb server does not even exist, and users of the Logiweb compiler lgc(1) are refered to PATH based translation of references to http URLs. Furthermore, the Logiweb protocol will change. That is because it has proved to be too difficult to get an assigned UDP port and thus the protocol will be modified to be channeled via http. That will reduce efficiency but also has some benefits.
+.P
+The Logiweb server will be distributed separately at a later stage. When Logiweb servers are installed in the future, repositories which run a server will appear to lgc(1) users to contain all Logiweb pages in the world. The present but obsolete Logiweb protocol is documented in logiweb(7).
+.SH BITS, BYTES, AND VECTORS
+The file formats and protocols are byte oriented, so we first define bytes and vectors (where 'vector' means 'byte vector').
+.P
+.nf
+    bit           ::= "0" | "1"
+    byte          ::= bit*8
+    vector        ::= byte*
+.fi
+.P
+A byte denotes a value in 0..255. We refer to the least significant bit of a byte as bit zero and to the most significant bit as bit seven.
+.P
+Bytes of vectors are given in network order which is identical to the order in which they are stored on disk. We refer to the first byte of a vector as byte zero.
+.P
+We write vectors in mixed endian binary: each byte is written with the most significant bit first and bytes a written in network order.
+.P
+We refer to bit m of byte n of a vector as bit m+8*n of the vector. Thus, the bits of a two byte vector are given in this order: 7, 6, 5, 4, 3, 2, 1, 0, 15, 14, 13, 12, 11, 10, 9, 8. This order gives rise to the term 'mixed endian'.
+.P
+Mixed endian notation resembles Internet dot notation. Internet dot notation specifies bytes to be written in network order and each byte to be written with the most significant digit first.
+.P
+As an example, mixed endian binary 0000 0010 0000 0011 denotes a two byte followed by a three byte.
+.SH CARDINALS AND STRINGS
+We shall refer to non-negative integers as cardinals. We represent cardinals and byte strings thus:
+.P
+.nf
+    septet        ::= bit*7
+    middle-septet ::= "1" septet
+    end-septet    ::= "0" septet
+    cardinal      ::= middle-septet* end-septet
+    string        ::= length vector
+    length        ::= cardinal
+.fi
+.P
+A middle or end septet denotes a value in 0..127. As examples, the middle septet 1000 0010 and the end septet 0000 0010 both denote two.
+.P
+Cardinals are expressed little endian base 128. As an example,
+.P
+    1000 0011 0000 0010
+.P
+denotes 3+128*2 = 3+256 = 259.
+.P
+A string encodes a sequence of bytes. The length field of the string indicates the number of bytes in the string.
+.P
+The grammar is *not* context free because the strings cannot be expressed in a context free manner.
+.SH VECTOR FORMAT
+The vector format of Logiweb pages has the following syntax:
+.P
+.nf
+    pagevector    ::= bibliography dictionary body
+    bibliography  ::= reference reference* zero
+    reference     ::= string         ; the string must be non-empty
+    zero          ::= cardinal       ; the cardinal must denote zero
+    dictionary    ::= entry* zero
+    entry         ::= index arity
+    index         ::= nonzero
+    nonzero       ::= cardinal       ; the cardinal must be non-zero
+    arity         ::= cardinal
+    body          ::= vector
+.fi
+.P
+The indexes of the dictionary must be strictly decreasing.
+.P
+We refer to the first reference of the bibliography as reference zero. Reference zero must be the reference of the page itself.
+.P
+Above, references are described as strings. The following definition is more precise:
+.P
+.nf
+    reference     ::= length scheme ripemd timestamp
+    scheme        ::= "0000 0001"
+    ripemd        ::= byte*20
+    timestamp     ::= mantissa exponent
+    mantissa      ::= cardinal
+    exponent      ::= cardinal
+.fi
+.P
+The length must equal the total number of bytes in scheme, ripemd, and timestamp.
+.P
+Whenever a Logiweb page is published, the time of publication is included as a timestamp in the reference of the page. The timestamp is given in Logiweb time as M*10^(-E) where M and E are the values of mantissa and exponent, respectively.
+.P
+Logiweb time indicates the number of seconds which have elapsed according to International Atomic Time (TAI) since TAI:00:00:00 of Modified Julian Day (MJD) Zero. MJD-0 corresponds to the Gregorian date GRD-1858-11-17. In 1858, UTC lacked 10 seconds behind TAI (even thought they did not know at that time). Hence, Logiweb time measures the number of seconds according to International Atomic Time since UTC:23:59:50 of GRD-1858-11-16.
+.P
+The ripemd code consists of 20 bytes which corresponds to 160 bits. The ripemd code of a page must be computed using the RIPEMD-160 hash function applied to all bytes following ripemd, including the timestamp of the page itself.
+.P
+The body represents a parse tree whose nodes may be Logiweb symbols or strings. A Logiweb symbol comprises a Logiweb reference and an index where the index is a cardinal. To be a valid symbol, the index of the symbol must occur in the dictionary of the referenced page. The arity of a symbol is the arity assigned to the symbol by that dictionary.
+.P
+Transformation of the body given as a vector to a parse tree is called 'unpacking'. Reference one of a page may define an unpacker, i.e. a user defined unpacking function. See the 'base' and 'lgc' Logiweb pages which come with the distribution for details on this.
+.P
+If reference one of a page does not define an unpacker then the body is in default format which is as follows:
+.P
+.nf
+    body          ::= node*
+    node*         ::= symbol | zero string
+    symbol        ::= nonzero
+.fi
+.P
+The nodes of the body are given in Polish prefix. The arities of each symbol is taken from dictionaries of the relevant page. Strings have arity zero.
+.P
+Each symbol has value 1+R+n*i where i is the index of the symbol, n is the number of references in the bibliography, and R is the relative reference of the symbol. The relative reference R if between 0 and n-1. The reference of a symbol is the R'th element of the bibliography.
+.SH RACK FORMAT
+The rack of a page is a structure which represents a compiled version of the page. See the 'base' and 'lgc' pages which come with the distribution for more on this.
+.P
+A rack is an inhomogeneous array, i.e. and array whose elements may have different types. Indexes of a rack are called hooks. Racks and hooks are to Logiweb what records and record fields are to languages like C.
+.P
+Racks may reside in memory or may be stored to disk. Racks in memory contain more data than racks stored to disk. Hence, racks are pruned when written to disk and the missing parts have to be reconstructed when reading the racks back into memory.
+.P
+Pruning affects three hooks of a rack.
+.P
+First, a rack in memory has a code hook which contains compiled versions of value definitions. To keep disk racks architecture independent, the code hook is removed when writing a rack to disk and value definitions have to be recompiled when reading the rack back. Using racks still represent a great saving in time since no parsing, unpacking, and macro expansion is needed when loading a rack.
+.P
+Second, a rack in memory has a cluster hook which contains racks of all transitively referenced pages. This hook is removed since it contains a lot of data which is fast and easy to reconstruct from the disk versions of transitively referenced pages.
+.P
+Third and finaly, a rack in memory has a diagnose hook. The value of that hook is 'maptagged'. A maptag allows to delay computation of the diagnose in an otherwise eager process. When writing a rack to disk, computation of the diagnose is forced and the maptag is removed. When reading the rack back from disk, a maptag is added to the diagnose hook. Again, see the 'base' and 'lgc' pages that come with the distribution for details.
+.P
+Once a rack is pruned for code hook, cluster hook, and diagnose maptag, it is a data structure which is built up from only three data types: cons, cardinals, and a special value named T which corresponds to NULL in C.
+.P
+Pruned racks are stored in the following format:
+.P
+.nf
+    rack          ::= racknode* count
+    count         ::= cardinal       ; three plus the number of nodes
+    racknode      ::= card1 | card2 | cons
+    card1         ::= zero cardinal
+    card2         ::= two string
+    two           ::= cardinal       ; the cardinal must represent 2
+    cons          ::= head tail
+    head          ::= cardinal
+    tail          ::= cardinal
+.fi
+.P
+A rack with no nodes represents the value T. Racks with at least one node represents the value represented by the last node. Each node represents a value as indicated in the following.
+.P
+A card1 node represents the given cardinal.
+.P
+A card2 node represents a cardinal as follows: Take the given string. Discard the length field to obtain a vector. Append a byte with value one to the vector. Then interpret the vector as a little endian cardinal base 256.
+.P
+A cons represents the pair of the given head and tail. A head whose value is one represents T. A head whose value H is greater than 2 represents the value of node H-3. The tail is interpretted similarly. The head and tail must equal one or reference nodes that appear before the cons.
+.SH RACK WRITING CONVENTIONS
+As can be seen, cardinals can be represented in two ways. All cardinals can be represented as a card1 whereas only some cardinals can be represented as a card2. When writing racks to disk, one should use the card2 representation when possible and the card1 representation otherwise.
+.P
+The representation allows to represent sharing in that a node can be referenced from more than one cons node. When writing a rack to disk, one should traverse the rack left-to-right, root-to-leaves, and depth first. One should maximize sharing such that no two nodes represent the same value.
+.P
+If followed, the rack writing conventions ensure that the same rack will be written the same way on distinct systems. That simplifies testing but is not necessary for reading racks back to memory.
+.SH AUTHOR
+Klaus Grue, http://logiweb.eu/
+.SH SEE ALSO
+lgc(1), lgwam(1), lgc(5), lgc.conf(5), logiweb(7)

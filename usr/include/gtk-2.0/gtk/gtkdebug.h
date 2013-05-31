@@ -21,11 +21,15 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 #ifndef __GTK_DEBUG_H__
 #define __GTK_DEBUG_H__
+
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
 
 #include <glib.h>
 
@@ -41,7 +45,9 @@ typedef enum {
   GTK_DEBUG_MULTIHEAD   = 1 << 6,
   GTK_DEBUG_MODULES     = 1 << 7,
   GTK_DEBUG_GEOMETRY    = 1 << 8,
-  GTK_DEBUG_ICONTHEME   = 1 << 9
+  GTK_DEBUG_ICONTHEME   = 1 << 9,
+  GTK_DEBUG_PRINTING	= 1 << 10,
+  GTK_DEBUG_BUILDER	= 1 << 11
 } GtkDebugFlag;
 
 #ifdef G_ENABLE_DEBUG
@@ -53,7 +59,7 @@ typedef enum {
 #else /* !G_ENABLE_DEBUG */
 
 #define GTK_NOTE(type, action)
-      
+
 #endif /* G_ENABLE_DEBUG */
 
 #ifdef G_OS_WIN32

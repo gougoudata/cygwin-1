@@ -16,6 +16,3 @@ while read f; do
         echo "$0: ${fDest} is already in existance, not overwriting."
     fi
 done < ${manifest}
-/usr/bin/install-info --dir-file=/usr/share/info/dir --info-file=/usr/share/info/coreutils.info.gz
-
-

@@ -1,0 +1,26 @@
+		================================       Updated:
+	        LibGGIMisc EXTENSION README FILE       20010203
+		================================
+
+Introduction
+============
+
+LibGGIMisc is a place to put support for graphics target features
+which are not deserving their own special extensions.  Right
+now this means basically some VGA adaptor features -- 
+getting and waiting for the raster position, using a hardware
+horizontal splitline feature, and loading/unloading font data 
+from hardware text modes.
+
+GGI resources
+=============
+
+Web site: http://www.ggi-project.org/
+FTP site: ftp://ftp.ggi-project.org/pub/ggi
+
+
+Maintainers
+===========
+
+	Brian S. Julin		[bri@calyx.com]
+

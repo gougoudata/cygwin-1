@@ -2,7 +2,7 @@
 (*                                                                     *)
 (*                           Objective Caml                            *)
 (*                                                                     *)
-(*            Xavier Leroy, projet Cristal, INRIA Rocquencourt         *)
+(*  Xavier Leroy and Pierre Weis, projet Cristal, INRIA Rocquencourt   *)
 (*                                                                     *)
 (*  Copyright 1996 Institut National de Recherche en Informatique et   *)
 (*  en Automatique.  All rights reserved.  This file is distributed    *)
@@ -11,24 +11,30 @@
 (*                                                                     *)
 (***********************************************************************)
 
-(* $Id: printf.mli,v 1.37 2003/07/05 11:13:23 xleroy Exp $ *)
+(* $Id: printf.mli 10968 2011-03-06 16:10:59Z weis $ *)
 
 (** Formatted output functions. *)
 
 val fprintf : out_channel -> ('a, out_channel, unit) format -> 'a
 (** [fprintf outchan format arg1 ... argN] formats the arguments
-   [arg1] to [argN] according to the format string [format],
-   and outputs the resulting string on the channel [outchan].
-   
+   [arg1] to [argN] according to the format string [format], and
+   outputs the resulting string on the channel [outchan].
+
    The format is a character string which contains two types of
-   objects:  plain  characters, which are simply copied to the
-   output channel, and conversion specifications, each of which
-   causes  conversion and printing of one argument.
-   
-   Conversion specifications consist in the [%] character, followed
-   by optional flags and field widths, followed by one or two conversion
-   character. The conversion characters and their meanings are:
-   - [d], [i], [n], or [N]: convert an integer argument to signed decimal.
+   objects: plain characters, which are simply copied to the output
+   channel, and conversion specifications, each of which causes
+   conversion and printing of arguments.
+
+   Conversion specifications have the following form:
+
+   [% \[flags\] \[width\] \[.precision\] type]
+
+   In short, a conversion specification consists in the [%] character,
+   followed by optional modifiers and a type which is made of one or
+   two characters. The types and their meanings are:
+
+   - [d], [i], [n], [l], [L], or [N]: convert an integer argument to
+     signed decimal.
    - [u]: convert an integer argument to unsigned decimal.
    - [x]: convert an integer argument to unsigned hexadecimal,
      using lowercase letters.
@@ -41,8 +47,8 @@ val fprintf : out_channel -> ('a, out_channel, unit) format -> 'a
    - [C]: insert a character argument in Caml syntax (single quotes, escapes).
    - [f]: convert a floating-point argument to decimal notation,
      in the style [dddd.ddd].
-   - [F]: convert a floating-point argument in Caml syntax ([dddd.ddd]
-     with a mandatory [.]).
+   - [F]: convert a floating-point argument to Caml syntax ([dddd.]
+     or [dddd.ddd] or [d.ddd e+-dd]).
    - [e] or [E]: convert a floating-point argument to decimal notation,
      in the style [d.ddd e+-dd] (mantissa and exponent).
    - [g] or [G]: convert a floating-point argument to decimal notation,
@@ -56,43 +62,46 @@ val fprintf : out_channel -> ('a, out_channel, unit) format -> 'a
      the format specified by the second letter.
    - [Ld], [Li], [Lu], [Lx], [LX], [Lo]: convert an [int64] argument to
      the format specified by the second letter.
-   - [a]: user-defined printer. Takes two arguments and apply the first
-     one to [outchan] (the current output channel) and to the second
-     argument. The first argument must therefore have type
+   - [a]: user-defined printer. Takes two arguments and applies the
+     first one to [outchan] (the current output channel) and to the
+     second argument. The first argument must therefore have type
      [out_channel -> 'b -> unit] and the second ['b].
-     The output produced by the function is therefore inserted
-     in the output of [fprintf] at the current point.
+     The output produced by the function is inserted in the output of
+     [fprintf] at the current point.
    - [t]: same as [%a], but takes only one argument (with type
      [out_channel -> unit]) and apply it to [outchan].
+   - [\{ fmt %\}]: convert a format string argument. The argument must
+     have the same type as the internal format string [fmt].
+   - [( fmt %)]: format string substitution. Takes a format string
+     argument and substitutes it to the internal format string [fmt]
+     to print following arguments. The argument must have the same
+     type as the internal format string [fmt].
    - [!]: take no argument and flush the output.
    - [%]: take no argument and output one [%] character.
+   - [,]: the no-op delimiter for conversion specifications.
 
-   The optional flags include:
+   The optional [flags] are:
    - [-]: left-justify the output (default is right justification).
    - [0]: for numerical conversions, pad with zeroes instead of spaces.
    - [+]: for numerical conversions, prefix number with a [+] sign if positive.
    - space: for numerical conversions, prefix number with a space if positive.
    - [#]: request an alternate formatting style for numbers.
 
-   The field widths are composed of an optional integer literal
-   indicating the minimal width of the result, possibly followed by
-   a dot [.] and another integer literal indicating how many digits
-   follow the decimal point in the [%f], [%e], and [%E] conversions.
-   For instance, [%6d] prints an integer, prefixing it with spaces to
-   fill at least 6 characters; and [%.4f] prints a float with 4
-   fractional digits.  Each or both of the integer literals can also be
-   specified as a [*], in which case an extra integer argument is taken
-   to specify the corresponding width or precision.
-   
-   Warning: if too few arguments are provided,
-   for instance because the [printf] function is partially
-   applied, the format is immediately printed up to
-   the conversion of the first missing argument; printing
-   will then resume when the missing arguments are provided.
-   For example, [List.iter (printf "x=%d y=%d " 1) [2;3]]
-   prints [x=1 y=2 3] instead of the expected
-   [x=1 y=2 x=1 y=3].  To get the expected behavior, do
-   [List.iter (fun y -> printf "x=%d y=%d " 1 y) [2;3]]. *)
+   The optional [width] is an integer indicating the minimal
+   width of the result. For instance, [%6d] prints an integer,
+   prefixing it with spaces to fill at least 6 characters.
+
+   The optional [precision] is a dot [.] followed by an integer
+   indicating how many digits follow the decimal point in the [%f],
+   [%e], and [%E] conversions. For instance, [%.4f] prints a [float] with
+   4 fractional digits.
+
+   The integer in a [width] or [precision] can also be specified as
+   [*], in which case an extra integer argument is taken to specify
+   the corresponding [width] or [precision]. This integer argument
+   precedes immediately the argument to print.
+   For instance, [%.*f] prints a [float] with as many fractional
+   digits as the value of the argument given before the float. *)
 
 val printf : ('a, out_channel, unit) format -> 'a
 (** Same as {!Printf.fprintf}, but output on [stdout]. *)
@@ -100,25 +109,112 @@ val printf : ('a, out_channel, unit) format -> 'a
 val eprintf : ('a, out_channel, unit) format -> 'a
 (** Same as {!Printf.fprintf}, but output on [stderr]. *)
 
+val ifprintf : 'a -> ('b, 'a, unit) format -> 'b
+(** Same as {!Printf.fprintf}, but does not print anything.
+    Useful to ignore some material when conditionally printing.
+    @since 3.10.0
+*)
+
 val sprintf : ('a, unit, string) format -> 'a
 (** Same as {!Printf.fprintf}, but instead of printing on an output channel,
-   return a string containing the result of formatting
-   the arguments. *)
+   return a string containing the result of formatting the arguments. *)
 
 val bprintf : Buffer.t -> ('a, Buffer.t, unit) format -> 'a
 (** Same as {!Printf.fprintf}, but instead of printing on an output channel,
    append the formatted arguments to the given extensible buffer
    (see module {!Buffer}). *)
 
-val kprintf : (string -> 'a) -> ('b, unit, string, 'a) format4 -> 'b
-(** [kprintf k format arguments] is the same as [sprintf format arguments],
-    except that the resulting string is passed as argument to [k]; the
-    result of [k] is then returned as the result of [kprintf]. *)
+(** Formatted output functions with continuations. *)
+
+val kfprintf : (out_channel -> 'a) -> out_channel ->
+              ('b, out_channel, unit, 'a) format4 -> 'b;;
+(** Same as [fprintf], but instead of returning immediately,
+   passes the out channel to its first argument at the end of printing.
+   @since 3.09.0
+*)
+
+val ksprintf : (string -> 'a) -> ('b, unit, string, 'a) format4 -> 'b;;
+(** Same as [sprintf] above, but instead of returning the string,
+   passes it to the first argument.
+   @since 3.09.0
+*)
+
+val kbprintf : (Buffer.t -> 'a) -> Buffer.t ->
+              ('b, Buffer.t, unit, 'a) format4 -> 'b;;
+(** Same as [bprintf], but instead of returning immediately,
+   passes the buffer to its first argument at the end of printing.
+   @since 3.10.0
+*)
+
+(** Deprecated *)
+
+val kprintf : (string -> 'a) -> ('b, unit, string, 'a) format4 -> 'b;;
+(** A deprecated synonym for [ksprintf]. *)
 
 (**/**)
 
-(* For system use only.  Don't call directly. *)
+(* For Caml system internal use only. Don't call directly. *)
 
-val scan_format :
-  string -> int -> (string -> int -> 'a) -> ('b -> 'c -> int -> 'a) ->
-    ('e -> int -> 'a) -> (int -> 'a) -> 'a
+module CamlinternalPr : sig
+
+  module Sformat : sig
+    type index;;
+
+    val index_of_int : int -> index;;
+    external int_of_index : index -> int = "%identity";;
+    external unsafe_index_of_int : int -> index = "%identity";;
+
+    val succ_index : index -> index;;
+
+    val sub : ('a, 'b, 'c, 'd, 'e, 'f) format6 -> index -> int -> string;;
+    val to_string : ('a, 'b, 'c, 'd, 'e, 'f) format6 -> string;;
+    external length : ('a, 'b, 'c, 'd, 'e, 'f) format6 -> int
+      = "%string_length";;
+    external get : ('a, 'b, 'c, 'd, 'e, 'f) format6 -> int -> char
+      = "%string_safe_get";;
+    external unsafe_to_string : ('a, 'b, 'c, 'd, 'e, 'f) format6 -> string
+      = "%identity";;
+    external unsafe_get : ('a, 'b, 'c, 'd, 'e, 'f) format6 -> int -> char
+      = "%string_unsafe_get";;
+
+  end;;
+
+  module Tformat : sig
+
+    type ac = {
+      mutable ac_rglr : int;
+      mutable ac_skip : int;
+      mutable ac_rdrs : int;
+    };;
+
+    val ac_of_format : ('a, 'b, 'c, 'd, 'e, 'f) format6 -> ac;;
+
+    val sub_format :
+        (('a, 'b, 'c, 'd, 'e, 'f) format6 -> int) ->
+        (('a, 'b, 'c, 'd, 'e, 'f) format6 -> int -> char -> int) ->
+        char ->
+        ('a, 'b, 'c, 'd, 'e, 'f) format6 ->
+        int ->
+        int
+
+    val summarize_format_type : ('a, 'b, 'c, 'd, 'e, 'f) format6 -> string
+
+    val scan_format : ('a, 'b, 'c, 'd, 'e, 'f) format6 ->
+        'g array ->
+        Sformat.index ->
+        int ->
+        (Sformat.index -> string -> int -> 'h) ->
+        (Sformat.index -> 'i -> 'j -> int -> 'h) ->
+        (Sformat.index -> 'k -> int -> 'h) ->
+        (Sformat.index -> int -> 'h) ->
+        (Sformat.index -> ('l, 'm, 'n, 'o, 'p, 'q) format6 -> int -> 'h) ->
+        'h
+
+    val kapr :
+        (('a, 'b, 'c, 'd, 'e, 'f) format6 -> Obj.t array -> 'g) ->
+        ('a, 'b, 'c, 'd, 'e, 'f) format6 ->
+        'g
+
+  end;;
+
+end;;

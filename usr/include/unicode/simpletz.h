@@ -1,6 +1,6 @@
 /*
  ********************************************************************************
- * Copyright (C) 1997-2007, International Business Machines                     *
+ * Copyright (C) 1997-2011, International Business Machines                     *
  * Corporation and others. All Rights Reserved.                                 *
  ********************************************************************************
  *
@@ -49,9 +49,9 @@ class AnnualTimeZoneRule;
  * <P>
  * When specifying daylight-savings-time begin and end dates, use a negative value for
  * <code>dayOfWeekInMonth</code> to indicate that <code>SimpleTimeZone</code> should
- * count from the end of the month backwards. For example, in the U.S., Daylight Savings
- * Time ends at the last (dayOfWeekInMonth = -1) Sunday in October, at 2 AM in standard
- * time.
+ * count from the end of the month backwards. For example, if Daylight Savings
+ * Time starts or ends at the last Sunday a month, use <code>dayOfWeekInMonth = -1</code>
+ * along with <code>dayOfWeek = UCAL_SUNDAY</code> to specify the rule.
  *
  * @see      Calendar
  * @see      GregorianCalendar
@@ -268,9 +268,9 @@ public:
 
     /**
      * Sets the daylight savings starting rule. For example, in the U.S., Daylight Savings
-     * Time starts at the first Sunday in April, at 2 AM in standard time.
+     * Time starts at the second Sunday in March, at 2 AM in standard time.
      * Therefore, you can set the start rule by calling:
-     * setStartRule(TimeFields.APRIL, 1, TimeFields.SUNDAY, 2*60*60*1000);
+     * setStartRule(UCAL_MARCH, 2, UCAL_SUNDAY, 2*60*60*1000);
      * The dayOfWeekInMonth and dayOfWeek parameters together specify how to calculate
      * the exact starting date.  Their exact meaning depend on their respective signs,
      * allowing various types of rules to be constructed, as follows:
@@ -312,9 +312,9 @@ public:
                       int32_t time, UErrorCode& status);
     /**
      * Sets the daylight savings starting rule. For example, in the U.S., Daylight Savings
-     * Time starts at the first Sunday in April, at 2 AM in standard time.
+     * Time starts at the second Sunday in March, at 2 AM in standard time.
      * Therefore, you can set the start rule by calling:
-     * setStartRule(TimeFields.APRIL, 1, TimeFields.SUNDAY, 2*60*60*1000);
+     * setStartRule(UCAL_MARCH, 2, UCAL_SUNDAY, 2*60*60*1000);
      * The dayOfWeekInMonth and dayOfWeek parameters together specify how to calculate
      * the exact starting date.  Their exact meaning depend on their respective signs,
      * allowing various types of rules to be constructed, as follows:
@@ -426,11 +426,11 @@ public:
                       int32_t time, TimeMode mode, UBool after, UErrorCode& status);
 
     /**
-     * Sets the daylight savings ending rule. For example, in the U.S., Daylight
+     * Sets the daylight savings ending rule. For example, if Daylight
      * Savings Time ends at the last (-1) Sunday in October, at 2 AM in standard time.
      * Therefore, you can set the end rule by calling:
      * <pre>
-     * .   setEndRule(TimeFields.OCTOBER, -1, TimeFields.SUNDAY, 2*60*60*1000);
+     *    setEndRule(UCAL_OCTOBER, -1, UCAL_SUNDAY, 2*60*60*1000);
      * </pre>
      * Various other types of rules can be specified by manipulating the dayOfWeek
      * and dayOfWeekInMonth parameters.  For complete details, see the documentation
@@ -451,11 +451,11 @@ public:
                     int32_t time, UErrorCode& status);
 
     /**
-     * Sets the daylight savings ending rule. For example, in the U.S., Daylight
+     * Sets the daylight savings ending rule. For example, if Daylight
      * Savings Time ends at the last (-1) Sunday in October, at 2 AM in standard time.
      * Therefore, you can set the end rule by calling:
      * <pre>
-     * .   setEndRule(TimeFields.OCTOBER, -1, TimeFields.SUNDAY, 2*60*60*1000);
+     *    setEndRule(UCAL_OCTOBER, -1, UCAL_SUNDAY, 2*60*60*1000);
      * </pre>
      * Various other types of rules can be specified by manipulating the dayOfWeek
      * and dayOfWeekInMonth parameters.  For complete details, see the documentation
@@ -617,6 +617,13 @@ public:
                            int32_t& dstOffset, UErrorCode& ec) const;
 
     /**
+     * Get time zone offsets from local wall time.
+     * @internal
+     */
+    virtual void getOffsetFromLocal(UDate date, int32_t nonExistingTimeOpt, int32_t duplicatedTimeOpt,
+        int32_t& rawOffset, int32_t& dstOffset, UErrorCode& status) /*const*/;
+
+    /**
      * Returns the TimeZone's raw GMT offset (i.e., the number of milliseconds to add
      * to GMT to get local time, before taking daylight savings time into account).
      *
@@ -700,7 +707,7 @@ public:
      * @param inclusive Whether the base time is inclusive or not.
      * @param result    Receives the first transition after the base time.
      * @return  TRUE if the transition is found.
-     * @draft ICU 3.8
+     * @stable ICU 3.8
      */
     virtual UBool getNextTransition(UDate base, UBool inclusive, TimeZoneTransition& result) /*const*/;
 
@@ -710,7 +717,7 @@ public:
      * @param inclusive Whether the base time is inclusive or not.
      * @param result    Receives the most recent transition before the base time.
      * @return  TRUE if the transition is found.
-     * @draft ICU 3.8
+     * @stable ICU 3.8
      */
     virtual UBool getPreviousTransition(UDate base, UBool inclusive, TimeZoneTransition& result) /*const*/;
 
@@ -720,7 +727,7 @@ public:
      * <code>InitialTimeZoneRule</code>.  The return value range is 0 or any positive value.
      * @param status    Receives error status code.
      * @return The number of <code>TimeZoneRule</code>s representing time transitions.
-     * @draft ICU 3.8
+     * @stable ICU 3.8
      */
     virtual int32_t countTransitionRules(UErrorCode& status) /*const*/;
 
@@ -738,7 +745,7 @@ public:
      *                      the timezone transition rules.  On output, actual number of
      *                      rules filled in the array will be set.
      * @param status        Receives error status code.
-     * @draft ICU 3.8
+     * @stable ICU 3.8
      */
     virtual void getTimeZoneRules(const InitialTimeZoneRule*& initial,
         const TimeZoneRule* trsrules[], int32_t& trscount, UErrorCode& status) /*const*/;
@@ -800,7 +807,7 @@ private:
      * @param endTime         the time DST ends
      * @param endTimeMode     Whether the end time is local wall time, local
      *                        standard time, or UTC time. Default is local wall time.
-     * @param savingsDST      The number of milliseconds added to standard time
+     * @param dstSavings      The number of milliseconds added to standard time
      *                        to get DST time. Default is one hour.
      * @param status          An UErrorCode to receive the status.
      */

@@ -1,6 +1,5 @@
-# $PostgreSQL: pgsql/src/makefiles/Makefile.cygwin,v 1.9 2006/06/22 23:50:35 tgl Exp $
 DLLTOOL= dlltool
-DLLWRAP= dllwrap
+# src/makefiles/Makefile.cygwin
 ifdef PGXS
 BE_DLLLIBS= -L$(libdir) -lpostgres
 else
@@ -15,14 +14,13 @@ AROPT = crs
 DLSUFFIX = .dll
 CFLAGS_SL =
 
-%.dll: %.o
-	$(DLLTOOL) --export-all --output-def $*.def $<
-	$(DLLWRAP) -o $@ --def $*.def $< $(SHLIB_LINK)
-	rm -f $*.def
-
 ifneq (,$(findstring backend,$(subdir)))
 ifeq (,$(findstring conversion_procs,$(subdir)))
+ifeq (,$(findstring snowball,$(subdir)))
+ifeq (,$(findstring libpqwalreceiver,$(subdir)))
 override CPPFLAGS+= -DBUILDING_DLL
+endif
+endif
 endif
 endif
 
@@ -39,4 +37,6 @@ ifneq (,$(findstring src/pl/plpython,$(subdir)))
 override CPPFLAGS+= -DUSE_DL_IMPORT
 endif
 
-sqlmansect = 7
+# Rule for building a shared library from a single .o file
+%.dll: %.o
+	 $(CC) $(CFLAGS)  -shared -o $@ $<  $(LDFLAGS) $(LDFLAGS_SL) $(BE_DLLLIBS)

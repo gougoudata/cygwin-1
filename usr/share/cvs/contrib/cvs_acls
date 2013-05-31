@@ -235,7 +235,7 @@ It was developed and tested under Red Hat Linux 9.0 using PERL 5.8.0.
 Additionally, it was built and tested under Red Hat Linux 7.3 using 
 PERL 5.6.1.
 
-$Id: cvs_acls.in,v 1.4.4.6 2005/09/01 13:44:49 dprice Exp $
+$Id: cvs_acls.in,v 1.11 2005/09/01 13:48:57 dprice Exp $
 
 This version is based on the 1.11.13 version of cvs_acls
 peter.connolly@cnet.com (Peter Connolly) 

@@ -21,8 +21,12 @@
  * Modified by the GLib Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GLib Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GLib at ftp://ftp.gtk.org/pub/gtk/. 
+ * GLib at ftp://ftp.gtk.org/pub/gtk/.
  */
+
+#if !defined (__GLIB_H_INSIDE__) && !defined (GLIB_COMPILATION)
+#error "Only <glib.h> can be included directly."
+#endif
 
 #ifndef __G_UTILS_H__
 #define __G_UTILS_H__
@@ -31,30 +35,6 @@
 #include <stdarg.h>
 
 G_BEGIN_DECLS
-
-#ifdef G_OS_WIN32
-
-/* On Win32, the canonical directory separator is the backslash, and
- * the search path separator is the semicolon. Note that also the
- * (forward) slash works as directory separator.
- */
-#define G_DIR_SEPARATOR '\\'
-#define G_DIR_SEPARATOR_S "\\"
-#define G_IS_DIR_SEPARATOR(c) ((c) == G_DIR_SEPARATOR || (c) == '/')
-#define G_SEARCHPATH_SEPARATOR ';'
-#define G_SEARCHPATH_SEPARATOR_S ";"
-
-#else  /* !G_OS_WIN32 */
-
-/* Unix */
-
-#define G_DIR_SEPARATOR '/'
-#define G_DIR_SEPARATOR_S "/"
-#define G_IS_DIR_SEPARATOR(c) ((c) == G_DIR_SEPARATOR)
-#define G_SEARCHPATH_SEPARATOR ':'
-#define G_SEARCHPATH_SEPARATOR_S ":"
-
-#endif /* !G_OS_WIN32 */
 
 /* Define G_VA_COPY() to do the right thing for copying va_list variables.
  * glibconfig.h may have already defined G_VA_COPY as va_copy or __va_copy.
@@ -97,59 +77,110 @@ G_BEGIN_DECLS
 #  define G_INLINE_FUNC
 #  undef  G_CAN_INLINE
 #elif defined (__GNUC__) 
-#  define G_INLINE_FUNC extern inline
+#  define G_INLINE_FUNC static __inline __attribute__ ((unused))
 #elif defined (G_CAN_INLINE) 
 #  define G_INLINE_FUNC static inline
 #else /* can't inline */
 #  define G_INLINE_FUNC
 #endif /* !G_INLINE_FUNC */
 
-/* Retrive static string info
- */
+#ifndef __GTK_DOC_IGNORE__
 #ifdef G_OS_WIN32
 #define g_get_user_name g_get_user_name_utf8
 #define g_get_real_name g_get_real_name_utf8
 #define g_get_home_dir g_get_home_dir_utf8
 #define g_get_tmp_dir g_get_tmp_dir_utf8
 #endif
+#endif
 
-G_CONST_RETURN gchar* g_get_user_name        (void);
-G_CONST_RETURN gchar* g_get_real_name        (void);
-G_CONST_RETURN gchar* g_get_home_dir         (void);
-G_CONST_RETURN gchar* g_get_tmp_dir          (void);
-G_CONST_RETURN gchar* g_get_host_name	     (void);
-gchar*                g_get_prgname          (void);
+const gchar *         g_get_user_name        (void);
+const gchar *         g_get_real_name        (void);
+const gchar *         g_get_home_dir         (void);
+const gchar *         g_get_tmp_dir          (void);
+const gchar *         g_get_host_name	     (void);
+gchar *               g_get_prgname          (void);
 void                  g_set_prgname          (const gchar *prgname);
-G_CONST_RETURN gchar* g_get_application_name (void);
+const gchar *         g_get_application_name (void);
 void                  g_set_application_name (const gchar *application_name);
 
-G_CONST_RETURN gchar*    g_get_user_data_dir      (void);
-G_CONST_RETURN gchar*    g_get_user_config_dir    (void);
-G_CONST_RETURN gchar*    g_get_user_cache_dir     (void);
-G_CONST_RETURN gchar* G_CONST_RETURN * g_get_system_data_dirs   (void);
+void      g_reload_user_special_dirs_cache     (void);
+const gchar *         g_get_user_data_dir      (void);
+const gchar *         g_get_user_config_dir    (void);
+const gchar *         g_get_user_cache_dir     (void);
+const gchar * const * g_get_system_data_dirs   (void);
 
 #ifdef G_OS_WIN32
-G_CONST_RETURN gchar* G_CONST_RETURN * g_win32_get_system_data_dirs_for_module (gconstpointer address);
+/* This functions is not part of the public GLib API */
+const gchar * const * g_win32_get_system_data_dirs_for_module (void (*address_of_function)(void));
 #endif
 
 #if defined (G_OS_WIN32) && defined (G_CAN_INLINE) && !defined (__cplusplus)
-static inline G_CONST_RETURN gchar * G_CONST_RETURN *
-g_win32_get_system_data_dirs (void)
+/* This function is not part of the public GLib API either. Just call
+ * g_get_system_data_dirs() in your code, never mind that that is
+ * actually a macro and you will in fact call this inline function.
+ */
+static inline const gchar * const *
+_g_win32_get_system_data_dirs (void)
 {
-  return g_win32_get_system_data_dirs_for_module ((gconstpointer) &g_win32_get_system_data_dirs);
+  return g_win32_get_system_data_dirs_for_module ((void (*)(void)) &_g_win32_get_system_data_dirs);
 }
-#define g_get_system_data_dirs g_win32_get_system_data_dirs
+#define g_get_system_data_dirs _g_win32_get_system_data_dirs
 #endif
 
-G_CONST_RETURN gchar* G_CONST_RETURN * g_get_system_config_dirs (void);
+const gchar * const * g_get_system_config_dirs (void);
 
-G_CONST_RETURN gchar* G_CONST_RETURN * g_get_language_names (void);
+const gchar * g_get_user_runtime_dir (void);
 
-typedef struct _GDebugKey	GDebugKey;
+/**
+ * GUserDirectory:
+ * @G_USER_DIRECTORY_DESKTOP: the user's Desktop directory
+ * @G_USER_DIRECTORY_DOCUMENTS: the user's Documents directory
+ * @G_USER_DIRECTORY_DOWNLOAD: the user's Downloads directory
+ * @G_USER_DIRECTORY_MUSIC: the user's Music directory
+ * @G_USER_DIRECTORY_PICTURES: the user's Pictures directory
+ * @G_USER_DIRECTORY_PUBLIC_SHARE: the user's shared directory
+ * @G_USER_DIRECTORY_TEMPLATES: the user's Templates directory
+ * @G_USER_DIRECTORY_VIDEOS: the user's Movies directory
+ * @G_USER_N_DIRECTORIES: the number of enum values
+ *
+ * These are logical ids for special directories which are defined
+ * depending on the platform used. You should use g_get_user_special_dir()
+ * to retrieve the full path associated to the logical id.
+ *
+ * The #GUserDirectory enumeration can be extended at later date. Not
+ * every platform has a directory for every logical id in this
+ * enumeration.
+ *
+ * Since: 2.14
+ */
+typedef enum {
+  G_USER_DIRECTORY_DESKTOP,
+  G_USER_DIRECTORY_DOCUMENTS,
+  G_USER_DIRECTORY_DOWNLOAD,
+  G_USER_DIRECTORY_MUSIC,
+  G_USER_DIRECTORY_PICTURES,
+  G_USER_DIRECTORY_PUBLIC_SHARE,
+  G_USER_DIRECTORY_TEMPLATES,
+  G_USER_DIRECTORY_VIDEOS,
+
+  G_USER_N_DIRECTORIES
+} GUserDirectory;
+
+const gchar * g_get_user_special_dir (GUserDirectory directory);
+
+/**
+ * GDebugKey:
+ * @key: the string
+ * @value: the flag
+ *
+ * Associates a string with a bit flag.
+ * Used in g_parse_debug_string().
+ */
+typedef struct _GDebugKey GDebugKey;
 struct _GDebugKey
 {
-  gchar *key;
-  guint	 value;
+  const gchar *key;
+  guint	       value;
 };
 
 /* Miscellaneous utility functions
@@ -167,60 +198,35 @@ gint                  g_vsnprintf          (gchar       *string,
 					    gchar const *format,
 					    va_list      args);
 
-/* Check if a file name is an absolute path */
-gboolean              g_path_is_absolute   (const gchar *file_name);
-
-/* In case of absolute paths, skip the root part */
-G_CONST_RETURN gchar* g_path_skip_root     (const gchar *file_name);
-
-#ifndef G_DISABLE_DEPRECATED
-
-/* These two functions are deprecated and will be removed in the next
- * major release of GLib. Use g_path_get_dirname/g_path_get_basename
- * instead. Whatch out! The string returned by g_path_get_basename
- * must be g_freed, while the string returned by g_basename must not.*/
-G_CONST_RETURN gchar* g_basename           (const gchar *file_name);
-#define g_dirname g_path_get_dirname
-
-#endif /* G_DISABLE_DEPRECATED */
-
-#ifdef G_OS_WIN32
-#define g_get_current_dir g_get_current_dir_utf8
-#endif
-
-/* The returned strings are newly allocated with g_malloc() */
-gchar*                g_get_current_dir    (void);
-gchar*                g_path_get_basename  (const gchar *file_name) G_GNUC_MALLOC;
-gchar*                g_path_get_dirname   (const gchar *file_name) G_GNUC_MALLOC;
-
-/* Set the pointer at the specified location to NULL */
 void                  g_nullify_pointer    (gpointer    *nullify_location);
 
-/* return the environment string for the variable. The returned memory
- * must not be freed. */
-#ifdef G_OS_WIN32
-#define g_getenv g_getenv_utf8
-#define g_setenv g_setenv_utf8
-#define g_unsetenv g_unsetenv_utf8
-#define g_find_program_in_path g_find_program_in_path_utf8
-#endif
+typedef enum
+{
+  G_FORMAT_SIZE_DEFAULT     = 0,
+  G_FORMAT_SIZE_LONG_FORMAT = 1 << 0,
+  G_FORMAT_SIZE_IEC_UNITS   = 1 << 1
+} GFormatSizeFlags;
 
-G_CONST_RETURN gchar* g_getenv             (const gchar *variable);
-gboolean              g_setenv             (const gchar *variable,
-					    const gchar *value,
-					    gboolean     overwrite);
-void                  g_unsetenv           (const gchar *variable);
-gchar**               g_listenv            (void);
-const gchar*	     _g_getenv_nomalloc	   (const gchar	*variable,
-					    gchar        buffer[1024]);
+GLIB_AVAILABLE_IN_2_30
+gchar *g_format_size_full   (guint64          size,
+                             GFormatSizeFlags flags);
+GLIB_AVAILABLE_IN_2_30
+gchar *g_format_size        (guint64          size);
 
-/* we try to provide a usefull equivalent for ATEXIT if it is
- * not defined, but use is actually abandoned. people should
- * use g_atexit() instead.
+GLIB_DEPRECATED_FOR(g_format_size)
+gchar *g_format_size_for_display (goffset size);
+
+#ifndef G_DISABLE_DEPRECATED
+/**
+ * GVoidFunc:
+ *
+ * Declares a type of function which takes no arguments
+ * and has no return value. It is used to specify the type
+ * function passed to g_atexit().
  */
-typedef	void		(*GVoidFunc)		(void);
+typedef void (*GVoidFunc) (void);
 #ifndef ATEXIT
-# define ATEXIT(proc)	g_ATEXIT(proc)
+# define ATEXIT(proc) g_ATEXIT(proc)
 #else
 # define G_NATIVE_ATEXIT
 #endif /* ATEXIT */
@@ -229,6 +235,7 @@ typedef	void		(*GVoidFunc)		(void);
  * (if there is any in the implementation) and doesn't encounter
  * missing include files.
  */
+GLIB_DEPRECATED
 void	g_atexit		(GVoidFunc    func);
 
 #ifdef G_OS_WIN32
@@ -238,8 +245,18 @@ void	g_atexit		(GVoidFunc    func);
  * wants the function to be called when it *itself* exits (or is
  * detached, in case the caller, too, is a DLL).
  */
+#if (defined(__MINGW_H) && !defined(_STDLIB_H_)) || (defined(_MSC_VER) && !defined(_INC_STDLIB))
 int atexit (void (*)(void));
+#endif
 #define g_atexit(func) atexit(func)
+#endif
+
+#endif  /* G_DISABLE_DEPRECATED */
+
+#ifndef __GTK_DOC_IGNORE__
+#ifdef G_OS_WIN32
+#define g_find_program_in_path g_find_program_in_path_utf8
+#endif
 #endif
 
 /* Look for an executable in PATH, following execvp() rules */
@@ -248,25 +265,10 @@ gchar*  g_find_program_in_path  (const gchar *program);
 /* Bit tests
  */
 G_INLINE_FUNC gint	g_bit_nth_lsf (gulong  mask,
-				       gint    nth_bit);
+				       gint    nth_bit) G_GNUC_CONST;
 G_INLINE_FUNC gint	g_bit_nth_msf (gulong  mask,
-				       gint    nth_bit);
-G_INLINE_FUNC guint	g_bit_storage (gulong  number);
-
-/* Trash Stacks
- * elements need to be >= sizeof (gpointer)
- */
-typedef struct _GTrashStack     GTrashStack;
-struct _GTrashStack
-{
-  GTrashStack *next;
-};
-
-G_INLINE_FUNC void	g_trash_stack_push	(GTrashStack **stack_p,
-						 gpointer      data_p);
-G_INLINE_FUNC gpointer	g_trash_stack_pop	(GTrashStack **stack_p);
-G_INLINE_FUNC gpointer	g_trash_stack_peek	(GTrashStack **stack_p);
-G_INLINE_FUNC guint	g_trash_stack_height	(GTrashStack **stack_p);
+				       gint    nth_bit) G_GNUC_CONST;
+G_INLINE_FUNC guint	g_bit_storage (gulong  number) G_GNUC_CONST;
 
 /* inline function implementations
  */
@@ -275,33 +277,37 @@ G_INLINE_FUNC gint
 g_bit_nth_lsf (gulong mask,
 	       gint   nth_bit)
 {
-  do
+  if (G_UNLIKELY (nth_bit < -1))
+    nth_bit = -1;
+  while (nth_bit < ((GLIB_SIZEOF_LONG * 8) - 1))
     {
       nth_bit++;
       if (mask & (1UL << nth_bit))
 	return nth_bit;
     }
-  while (nth_bit < ((GLIB_SIZEOF_LONG * 8) - 1));
   return -1;
 }
 G_INLINE_FUNC gint
 g_bit_nth_msf (gulong mask,
 	       gint   nth_bit)
 {
-  if (nth_bit < 0)
+  if (nth_bit < 0 || G_UNLIKELY (nth_bit > GLIB_SIZEOF_LONG * 8))
     nth_bit = GLIB_SIZEOF_LONG * 8;
-  do
+  while (nth_bit > 0)
     {
       nth_bit--;
       if (mask & (1UL << nth_bit))
 	return nth_bit;
     }
-  while (nth_bit > 0);
   return -1;
 }
 G_INLINE_FUNC guint
 g_bit_storage (gulong number)
 {
+#if defined(__GNUC__) && (__GNUC__ >= 4) && defined(__OPTIMIZE__)
+  return G_LIKELY (number) ?
+	   ((GLIB_SIZEOF_LONG * 8U - 1) ^ (guint) __builtin_clzl(number)) + 1 : 1;
+#else
   register guint n_bits = 0;
   
   do
@@ -311,78 +317,21 @@ g_bit_storage (gulong number)
     }
   while (number);
   return n_bits;
-}
-G_INLINE_FUNC void
-g_trash_stack_push (GTrashStack **stack_p,
-		    gpointer      data_p)
-{
-  GTrashStack *data = (GTrashStack *) data_p;
-
-  data->next = *stack_p;
-  *stack_p = data;
-}
-G_INLINE_FUNC gpointer
-g_trash_stack_pop (GTrashStack **stack_p)
-{
-  GTrashStack *data;
-
-  data = *stack_p;
-  if (data)
-    {
-      *stack_p = data->next;
-      /* NULLify private pointer here, most platforms store NULL as
-       * subsequent 0 bytes
-       */
-      data->next = NULL;
-    }
-
-  return data;
-}
-G_INLINE_FUNC gpointer
-g_trash_stack_peek (GTrashStack **stack_p)
-{
-  GTrashStack *data;
-
-  data = *stack_p;
-
-  return data;
-}
-G_INLINE_FUNC guint
-g_trash_stack_height (GTrashStack **stack_p)
-{
-  GTrashStack *data;
-  guint i = 0;
-
-  for (data = *stack_p; data; data = data->next)
-    i++;
-
-  return i;
+#endif
 }
 #endif  /* G_CAN_INLINE || __G_UTILS_C__ */
 
-/* Glib version.
- * we prefix variable declarations so they can
- * properly get exported in windows dlls.
- */
-GLIB_VAR const guint glib_major_version;
-GLIB_VAR const guint glib_minor_version;
-GLIB_VAR const guint glib_micro_version;
-GLIB_VAR const guint glib_interface_age;
-GLIB_VAR const guint glib_binary_age;
-
-const gchar * glib_check_version (guint required_major,
-                                  guint required_minor,
-                                  guint required_micro);
-
-#define GLIB_CHECK_VERSION(major,minor,micro)    \
-    (GLIB_MAJOR_VERSION > (major) || \
-     (GLIB_MAJOR_VERSION == (major) && GLIB_MINOR_VERSION > (minor)) || \
-     (GLIB_MAJOR_VERSION == (major) && GLIB_MINOR_VERSION == (minor) && \
-      GLIB_MICRO_VERSION >= (micro)))
-
 G_END_DECLS
 
+#ifndef G_DISABLE_DEPRECATED
+
 /*
+ * This macro is deprecated. This DllMain() is too complex. It is
+ * recommended to write an explicit minimal DLlMain() that just saves
+ * the handle to the DLL and then use that handle instead, for
+ * instance passing it to
+ * g_win32_get_package_installation_directory_of_module().
+ *
  * On Windows, this macro defines a DllMain function that stores the
  * actual DLL name that the code being compiled will be included in.
  * STATIC should be empty or 'static'. DLL_NAME is the name of the
@@ -393,7 +342,7 @@ G_END_DECLS
  * On non-Windows platforms, expands to nothing.
  */
 
-#ifndef G_PLATFORM_WIN32
+#ifndef G_OS_WIN32
 # define G_WIN32_DLLMAIN_FOR_DLL_NAME(static, dll_name)
 #else
 # define G_WIN32_DLLMAIN_FOR_DLL_NAME(static, dll_name)			\
@@ -405,30 +354,22 @@ DllMain (HINSTANCE hinstDLL,						\
 	 LPVOID    lpvReserved)						\
 {									\
   wchar_t wcbfr[1000];							\
-  char cpbfr[1000];							\
   char *tem;								\
   switch (fdwReason)							\
     {									\
     case DLL_PROCESS_ATTACH:						\
-      if (GetVersion () < 0x80000000)					\
-	{								\
-	  GetModuleFileNameW ((HMODULE) hinstDLL, wcbfr, G_N_ELEMENTS (wcbfr));	\
-	  tem = g_utf16_to_utf8 (wcbfr, -1, NULL, NULL, NULL);		\
-	  dll_name = g_path_get_basename (tem);				\
-	  g_free (tem);							\
-	}								\
-      else								\
-	{								\
-	  GetModuleFileNameA ((HMODULE) hinstDLL, cpbfr, G_N_ELEMENTS (cpbfr));	\
-	  tem = g_locale_to_utf8 (cpbfr, -1, NULL, NULL, NULL);		\
-	  dll_name = g_path_get_basename (tem);				\
-	  g_free (tem);							\
-	}								\
+      GetModuleFileNameW ((HMODULE) hinstDLL, wcbfr, G_N_ELEMENTS (wcbfr)); \
+      tem = g_utf16_to_utf8 (wcbfr, -1, NULL, NULL, NULL);		\
+      dll_name = g_path_get_basename (tem);				\
+      g_free (tem);							\
       break;								\
     }									\
 									\
   return TRUE;								\
 }
-#endif /* G_PLATFORM_WIN32 */
+
+#endif	/* !G_DISABLE_DEPRECATED */
+
+#endif /* G_OS_WIN32 */
 
 #endif /* __G_UTILS_H__ */

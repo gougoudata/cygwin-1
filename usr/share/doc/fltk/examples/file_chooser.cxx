@@ -1,24 +1,15 @@
 //
-// "$Id: file_chooser.cxx 5519 2006-10-11 03:12:15Z mike $"
+// "$Id: file_chooser.cxx 8864 2011-07-19 04:49:30Z greg.ercolano $"
 //
 // File chooser test program.
 //
-// Copyright 1999-2005 by Michael Sweet.
+// Copyright 1999-2010 by Michael Sweet.
 //
-// This library is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Library General Public
-// License as published by the Free Software Foundation; either
-// version 2 of the License, or (at your option) any later version.
+// This library is free software. Distribution and use rights are outlined in
+// the file "COPYING" which should have been included with this file.  If this
+// file is missing or damaged, see the license at:
 //
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-// Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public
-// License along with this library; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
-// USA.
+//     http://www.fltk.org/COPYING.php
 //
 // Please report all bugs and problems on the following page:
 //
@@ -35,6 +26,8 @@
 //                      file.
 //   show_callback()  - Show the file chooser...
 //
+//   extra_callback() - circle extra groups (none,group1,check_button);
+//
 
 //
 // Include necessary headers...
@@ -46,6 +39,7 @@
 #include <FL/Fl_Shared_Image.H>
 #include <FL/Fl_PNM_Image.H>
 #include <FL/Fl_Light_Button.H>
+#include <FL/Fl_Double_Window.H>
 #include <string.h>
 
 
@@ -58,6 +52,13 @@ Fl_File_Browser		*files;
 Fl_File_Chooser		*fc;
 Fl_Shared_Image		*image = 0;
 
+// for choosing extra groups
+Fl_Choice *ch_extra;
+// first extra group
+Fl_Group *encodings = (Fl_Group*)0;
+Fl_Choice *ch_enc;
+// second extra widget
+Fl_Check_Button *version = (Fl_Check_Button*)0;
 
 //
 // Functions...
@@ -72,6 +73,7 @@ Fl_Image	*pdf_check(const char *, uchar *, int);
 Fl_Image	*ps_check(const char *, uchar *, int);
 void		show_callback(void);
 
+void		extra_callback(Fl_Choice*,void*);
 
 //
 // 'main()' - Create a file chooser and wait for a selection to be made.
@@ -81,9 +83,9 @@ int			// O - Exit status
 main(int  argc,		// I - Number of command-line arguments
      char *argv[])	// I - Command-line arguments
 {
-  Fl_Window	*window;// Main window
-  Fl_Button	*button;// Buttons
-  Fl_File_Icon	*icon;	// New file icon
+  Fl_Double_Window	*window;// Main window
+  Fl_Button		*button;// Buttons
+  Fl_File_Icon		*icon;	// New file icon
 
 
   // Make the file chooser...
@@ -98,11 +100,17 @@ main(int  argc,		// I - Number of command-line arguments
   Fl_Shared_Image::add_handler(ps_check);
 
   // Make the main window...
-  window = new Fl_Window(400, 200, "File Chooser Test");
+  window = new Fl_Double_Window(400, 215, "File Chooser Test");
 
   filter = new Fl_Input(50, 10, 315, 25, "Filter:");
-  if (argc > 1)
-    filter->value(argv[1]);
+  int argn = 1;
+#ifdef __APPLE__
+  // OS X may add the process number as the first argument - ignore
+  if (argc>argn && strncmp(argv[1], "-psn_", 5)==0)
+    argn++;
+#endif
+  if (argc > argn)
+    filter->value(argv[argn]);
   else
     filter->value("PDF Files (*.pdf)\t"
                   "PostScript Files (*.ps)\t"
@@ -125,10 +133,16 @@ main(int  argc,		// I - Number of command-line arguments
   button = new Fl_Light_Button(240, 45, 115, 25, "DIRECTORY");
   button->callback((Fl_Callback *)dir_callback);
 
-  files = new Fl_File_Browser(50, 80, 340, 75, "Files:");
+  //
+  ch_extra = new Fl_Choice(150, 75, 150, 25, "Extra Group:");
+  ch_extra->add("none|encodings group|check button");
+  ch_extra->value(0);
+  ch_extra->callback((Fl_Callback *)extra_callback);
+  //
+  files = new Fl_File_Browser(50, 105, 340, 75, "Files:");
   files->align(FL_ALIGN_LEFT);
 
-  button = new Fl_Button(340, 165, 50, 25, "Close");
+  button = new Fl_Button(340, 185, 50, 25, "Close");
   button->callback((Fl_Callback *)close_callback);
 
   window->resizable(files);
@@ -138,6 +152,28 @@ main(int  argc,		// I - Number of command-line arguments
   Fl::run();
 
   return (0);
+}
+
+
+void
+extra_callback(Fl_Choice*w,void*)
+{
+  int val=w->value();
+  if (0 == val) fc->add_extra(NULL);
+  else if (1 == val) {
+    if(!encodings){
+      encodings=new Fl_Group(0,0,254,30);
+      ch_enc=new Fl_Choice(152,2,100,25,"Choose Encoding:");
+      ch_enc->add("ASCII|Koi8-r|win1251|Utf-8");
+      encodings->end();
+    }
+    fc->add_extra(encodings);
+  } else {
+    if (!version) {
+      version = new Fl_Check_Button(5,0,200,25,"Save binary 1.0 version");
+    }
+    fc->add_extra(version);
+  }
 }
 
 
@@ -211,11 +247,11 @@ multi_callback(void)
 Fl_Image *			// O - Page image or NULL
 pdf_check(const char *name,	// I - Name of file
           uchar      *header,	// I - Header data
-	  int        headerlen)	// I - Length of header data
+	  int)			// I - Length of header data (unused)
 {
   const char	*home;		// Home directory
-  char		preview[1024],	// Preview filename
-		command[1024];	// Command
+  char		preview[FL_PATH_MAX],	// Preview filename
+		command[FL_PATH_MAX];	// Command
 
 
   if (memcmp(header, "%PDF", 4) != 0)
@@ -242,12 +278,12 @@ pdf_check(const char *name,	// I - Name of file
 Fl_Image *			// O - Page image or NULL
 ps_check(const char *name,	// I - Name of file
          uchar      *header,	// I - Header data
-	 int        headerlen)	// I - Length of header data
+	 int)			// I - Length of header data (unused)
 {
   const char	*home;		// Home directory
-  char		preview[1024],	// Preview filename
-		outname[1024],	// Preview PS file
-		command[1024];	// Command
+  char		preview[FL_PATH_MAX],	// Preview filename
+		outname[FL_PATH_MAX],	// Preview PS file
+		command[FL_PATH_MAX];	// Command
   FILE		*in,		// Input file
 		*out;		// Output file
   int		page;		// Current page
@@ -265,8 +301,8 @@ ps_check(const char *name,	// I - Name of file
     sprintf(outname, "%s/.preview.ps", home ? home : "");
 
     if (strcmp(name, outname) != 0) {
-      in   = fopen(name, "rb");
-      out  = fopen(outname, "wb");
+      in   = fl_fopen(name, "rb");
+      out  = fl_fopen(outname, "wb");
       page = 0;
 
       while (fgets(line, sizeof(line), in) != NULL) {
@@ -307,7 +343,7 @@ show_callback(void)
 {
   int	i;			// Looping var
   int	count;			// Number of files selected
-  char	relative[1024];		// Relative filename
+  char	relative[FL_PATH_MAX];	// Relative filename
 
 
   if (filter->value()[0])
@@ -315,8 +351,9 @@ show_callback(void)
 
   fc->show();
 
-  while (fc->visible())
+  while (fc->visible()) {
     Fl::wait();
+  }
 
   count = fc->count();
   if (count > 0)
@@ -340,5 +377,5 @@ show_callback(void)
 
 
 //
-// End of "$Id: file_chooser.cxx 5519 2006-10-11 03:12:15Z mike $".
+// End of "$Id: file_chooser.cxx 8864 2011-07-19 04:49:30Z greg.ercolano $".
 //

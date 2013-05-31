@@ -1,5 +1,5 @@
 //
-// "$Id: forms.cxx 5519 2006-10-11 03:12:15Z mike $"
+// "$Id: forms.cxx 8864 2011-07-19 04:49:30Z greg.ercolano $"
 //
 // Another forms demo for the Fast Light Tool Kit (FLTK).
 //
@@ -9,22 +9,13 @@
 // This demo show the different boxtypes. Note that some
 // boxtypes are not appropriate for some objects
 //
-// Copyright 1998-2005 by Bill Spitzak and others.
+// Copyright 1998-2010 by Bill Spitzak and others.
 //
-// This library is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Library General Public
-// License as published by the Free Software Foundation; either
-// version 2 of the License, or (at your option) any later version.
+// This library is free software. Distribution and use rights are outlined in
+// the file "COPYING" which should have been included with this file.  If this
+// file is missing or damaged, see the license at:
 //
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-// Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public
-// License along with this library; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
-// USA.
+//     http://www.fltk.org/COPYING.php
 //
 // Please report all bugs and problems on the following page:
 //
@@ -65,6 +56,8 @@ static VN_struct btypes[]=
    {FL_OVAL3D_DOWNBOX,"oval3d downbox"},
    {FL_PLASTIC_UP_BOX,"plastic upbox"},
    {FL_PLASTIC_DOWN_BOX,"plastic downbox"},
+   {FL_GTK_UP_BOX,"GTK up box"},
+   {FL_GTK_ROUND_UP_BOX,"GTK round up box"},
    /* sentinel */
    {-1}
 };
@@ -233,5 +226,5 @@ main (int argc, char *argv[])
 }
 
 //
-// End of "$Id: forms.cxx 5519 2006-10-11 03:12:15Z mike $".
+// End of "$Id: forms.cxx 8864 2011-07-19 04:49:30Z greg.ercolano $".
 //

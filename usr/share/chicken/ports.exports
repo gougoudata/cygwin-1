@@ -1,0 +1,17 @@
+##sys#standard-error
+##sys#standard-input
+##sys#standard-output
+call-with-input-string
+call-with-output-string
+make-broadcast-port
+make-concatenated-port
+make-input-port
+make-output-port
+port-fold
+port-for-each
+port-map
+with-error-output-to-port
+with-input-from-port
+with-input-from-string
+with-output-to-port
+with-output-to-string

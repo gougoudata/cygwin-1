@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2008 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999-2012 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.
@@ -36,6 +36,9 @@ extern "C" {
 #if defined(_magickcore_inline) && !defined(inline)
 # define inline _magickcore_inline
 #endif
+#if defined(_magickcore_restrict) && !defined(restrict)
+# define restrict  _magickcore_restrict
+#endif
 # if defined(__cplusplus) || defined(c_plusplus)
 #  undef inline
 # endif
@@ -46,108 +49,23 @@ extern "C" {
 #include <stdlib.h>
 #include <sys/types.h>
 
-#if defined(__CYGWIN32__)
-#  if !defined(__CYGWIN__)
-#    define __CYGWIN__ __CYGWIN32__
-#  endif
-#endif
-
-#if defined(_WIN32) || defined(WIN32)
-#  if !defined(__WINDOWS__)
-#    if defined(_WIN32)
-#      define __WINDOWS__ _WIN32
-#    else
-#      if defined(WIN32)
-#        define __WINDOWS__ WIN32
-#      endif
-#    endif
-#  endif
-#endif
-
-#if defined(_WIN64) || defined(WIN64)
-#  if !defined(__WINDOWS__)
-#    if defined(_WIN64)
-#      define __WINDOWS__ _WIN64
-#    else
-#      if !defined(WIN64)
-#        define __WINDOWS__ WIN64
-#      endif
-#    endif
-#  endif
-#endif
-
-#if defined(__WINDOWS__)
-# if defined(_MT) && defined(_DLL) && !defined(_MAGICKDLL_) && !defined(_LIB) && !defined(MAGICK_STATIC_LINK)
-#  define _MAGICKDLL_
-# endif
-# if defined(_MAGICKDLL_)
-#  if defined(_VISUALC_)
-#   pragma warning( disable: 4273 )  /* Disable the dll linkage warnings */
-#  endif
-#  if !defined(_MAGICKLIB_)
-#   define MagickExport  __declspec(dllimport)
-#   if defined(_VISUALC_)
-#    pragma message( "Magick lib DLL import interface" )
-#   endif
-#  else
-#   define MagickExport  __declspec(dllexport)
-#   if defined(_VISUALC_)
-#    pragma message( "Magick lib DLL export interface" )
-#   endif
-#  endif
-# else
-#  define MagickExport
-#  if defined(_VISUALC_)
-#   pragma message( "Magick lib static interface" )
-#  endif
-# endif
-
-# if defined(_DLL) && !defined(_LIB)
-#  define ModuleExport  __declspec(dllexport)
-#  if defined(_VISUALC_)
-#   pragma message( "Magick module DLL export interface" )
-#  endif
-# else
-#  define ModuleExport
-#  if defined(_VISUALC_)
-#   pragma message( "Magick module static interface" )
-#  endif
-
-# endif
-# define MagickGlobal __declspec(thread)
-# if defined(_VISUALC_)
-#  pragma warning(disable : 4018)
-#  pragma warning(disable : 4244)
-#  pragma warning(disable : 4142)
-#  pragma warning(disable : 4800)
-#  pragma warning(disable : 4786)
-# endif
+#if defined(WIN32) || defined(WIN64)
+#  define MAGICKCORE_WINDOWS_SUPPORT
 #else
-# define MagickExport
-# define ModuleExport
-# define MagickGlobal
-#endif
+#  define MAGICKCORE_POSIX_SUPPORT
+#endif 
 
-#if !defined(MaxTextExtent)
-#  define MaxTextExtent  4096
-#endif
-#define MagickSignature  0xabacadabUL
-
-#if !defined(magick_attribute)
-#  if !defined(__GNUC__)
-#    define magick_attribute(x)  /* nothing */
-#  else
-#    define magick_attribute  __attribute__
-#  endif
-#endif
+#include "magick/method-attribute.h"
 
 #if defined(MAGICKCORE_NAMESPACE_PREFIX)
 # include "magick/methods.h"
 #endif
 #include "magick/magick-type.h"
+#include "magick/accelerate.h"
 #include "magick/animate.h"
 #include "magick/annotate.h"
 #include "magick/artifact.h"
+#include "magick/attribute.h"
 #include "magick/blob.h"
 #include "magick/cache.h"
 #include "magick/cache-view.h"
@@ -156,6 +74,7 @@ extern "C" {
 #include "magick/coder.h"
 #include "magick/color.h"
 #include "magick/colorspace.h"
+#include "magick/colormap.h"
 #include "magick/compare.h"
 #include "magick/composite.h"
 #include "magick/compress.h"
@@ -170,12 +89,16 @@ extern "C" {
 #include "magick/effect.h"
 #include "magick/enhance.h"
 #include "magick/exception.h"
+#include "magick/feature.h"
+#include "magick/fourier.h"
 #include "magick/fx.h"
 #include "magick/gem.h"
 #include "magick/geometry.h"
 #include "magick/hashmap.h"
+#include "magick/histogram.h"
 #include "magick/identify.h"
 #include "magick/image.h"
+#include "magick/image-view.h"
 #include "magick/layer.h"
 #include "magick/list.h"
 #include "magick/locale_.h"
@@ -188,9 +111,11 @@ extern "C" {
 #include "magick/mime.h"
 #include "magick/monitor.h"
 #include "magick/montage.h"
+#include "magick/morphology.h"
 #include "magick/option.h"
 #include "magick/paint.h"
 #include "magick/pixel.h"
+#include "magick/policy.h"
 #include "magick/prepress.h"
 #include "magick/profile.h"
 #include "magick/property.h"

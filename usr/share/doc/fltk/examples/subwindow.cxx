@@ -1,5 +1,5 @@
 //
-// "$Id: subwindow.cxx 5519 2006-10-11 03:12:15Z mike $"
+// "$Id: subwindow.cxx 8864 2011-07-19 04:49:30Z greg.ercolano $"
 //
 // Nested window test program for the Fast Light Tool Kit (FLTK).
 //
@@ -8,22 +8,13 @@
 // Buttons and pop-up menu should work, indicating that mouse positions
 // are being correctly translated.
 //
-// Copyright 1998-2005 by Bill Spitzak and others.
+// Copyright 1998-2010 by Bill Spitzak and others.
 //
-// This library is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Library General Public
-// License as published by the Free Software Foundation; either
-// version 2 of the License, or (at your option) any later version.
+// This library is free software. Distribution and use rights are outlined in
+// the file "COPYING" which should have been included with this file.  If this
+// file is missing or damaged, see the license at:
 //
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-// Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public
-// License along with this library; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
-// USA.
+//     http://www.fltk.org/COPYING.php
 //
 // Please report all bugs and problems on the following page:
 //
@@ -39,6 +30,21 @@
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Input.H>
 
+#ifdef DEBUG
+#include <FL/names.h>
+#endif
+
+// Define DEBUG_POS for a subwindow positioning test. This will draw
+// the last typed character at the cursor position, if no input widget
+// currently has the focus.
+// Note: The typed character is saved in the derived testwindow class,
+// regardless of the definition of DEBUG_POS. Only drawing the character
+// depends on this define.
+
+#ifdef DEBUG_POS
+#include <FL/fl_draw.H>
+#endif
+
 class EnterExit : public Fl_Box {
   int handle(int);
 public:
@@ -50,30 +56,6 @@ int EnterExit::handle(int e) {
   else if (e == FL_LEAVE) {color(FL_GRAY); redraw(); return 1;}
   else return 0;
 }
-
-#ifdef DEBUG
-const char *eventnames[] = {
-"zero",
-"FL_PUSH",
-"FL_RELEASE",
-"FL_ENTER",
-"FL_LEAVE",
-"FL_DRAG",
-"FL_FOCUS",
-"FL_UNFOCUS",
-"FL_KEYBOARD",
-"9",
-"FL_MOVE",
-"FL_SHORTCUT",
-"12",
-"FL_DEACTIVATE",
-"FL_ACTIVATE",
-"FL_HIDE",
-"FL_SHOW",
-"FL_PASTE",
-"FL_SELECTIONCLEAR",
-};
-#endif
 
 class testwindow : public Fl_Window {
   int handle(int);
@@ -88,19 +70,19 @@ public:
   void use_cursor(Fl_Cursor c) { crsr = c; }
 };
 
-#include <FL/fl_draw.H>
-
 void testwindow::draw() {
 #ifdef DEBUG
   printf("%s : draw\n",label());
 #endif
   Fl_Window::draw();
+#ifdef DEBUG_POS
   if (key) fl_draw(&key, 1, cx, cy);
+#endif
 }
 
 int testwindow::handle(int e) {
 #ifdef DEBUG
-  if (e != FL_MOVE) printf("%s : %s\n",label(),eventnames[e]);
+  if (e != FL_MOVE) printf("%s : %s\n",label(),fl_eventnames[e]);
 #endif
   if (crsr!=FL_CURSOR_DEFAULT) {
     if (e == FL_ENTER) 
@@ -166,20 +148,22 @@ int main(int argc, char **argv) {
     new testwindow(FL_UP_BOX,400,400,"outer");
   new Fl_Toggle_Button(310,310,80,80,"&outer");
   new EnterExit(10,310,80,80,"enterexit");
-  new Fl_Input(150,310,150,25,"input:");
+  new Fl_Input(160,310,140,25,"input1:");
+  new Fl_Input(160,340,140,25,"input2:");
   (new Fl_Menu_Button(5,150,80,25,"menu&1"))->add(bigmess);
   testwindow *subwindow =
     new testwindow(FL_DOWN_BOX,100,100,200,200,"inner");
   new Fl_Toggle_Button(110,110,80,80,"&inner");
   new EnterExit(10,110,80,80,"enterexit");
-  (new Fl_Menu_Button(50,50,80,25,"menu&2"))->add(bigmess);
-  new Fl_Input(45,80,150,25,"input:");
+  (new Fl_Menu_Button(50,20,80,25,"menu&2"))->add(bigmess);
+  new Fl_Input(55,50,140,25,"input1:");
+  new Fl_Input(55,80,140,25,"input2:");
   subwindow->resizable(subwindow);
   window->resizable(subwindow);
   subwindow->end();
   subwindow->use_cursor(FL_CURSOR_HAND);
   (new Fl_Box(FL_NO_BOX,0,0,400,100,
-	     "A child Fl_Window with children of it's own may "
+	     "A child Fl_Window with children of its own may "
 	     "be useful for imbedding controls into a GL or display "
 	     "that needs a different visual.  There are bugs with the "
 	     "origins being different between drawing and events, "
@@ -194,5 +178,5 @@ int main(int argc, char **argv) {
 }
 
 //
-// End of "$Id: subwindow.cxx 5519 2006-10-11 03:12:15Z mike $".
+// End of "$Id: subwindow.cxx 8864 2011-07-19 04:49:30Z greg.ercolano $".
 //

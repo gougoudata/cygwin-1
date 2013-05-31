@@ -1,0 +1,501 @@
+This is LuaTeX, Version beta-0.70.2-2013052515 (TeX Live 2012/Cygwin) (INITEX)  31 MAY 2013 13:12
+ restricted \write18 enabled.
+**lualatex.ini
+(/usr/share/texmf-dist/tex/latex/latexconfig/lualatex.ini
+(/usr/share/texmf-dist/tex/latex/latexconfig/lualatexiniconfig.tex)
+(/usr/share/texmf/tex/generic/config/pdftexconfig.tex)
+(/usr/share/texmf-dist/tex/latex/base/latex.ltx
+(/usr/share/texmf-dist/tex/latex/base/texsys.cfg)
+./texsys.aux found
+
+
+\@currdir set to: ./.
+
+
+Assuming \openin and \input 
+have the same search path.
+
+
+Defining UNIX/DOS style filename parser.
+
+catcodes, registers,
+\maxdimen=\dimen10
+\hideskip=\skip10
+\p@=\dimen11
+\z@=\dimen12
+\z@skip=\skip11
+\voidb@x=\box10
+ compatibility for TeX 2,  parameters,
+\normalbaselineskip=\skip12
+\normallineskip=\skip13
+\normallineskiplimit=\dimen13
+\interfootnotelinepenalty=\count23
+\strutbox=\box11
+
+LaTeX2e <2011/06/27>
+hacks,
+\@tempcnta=\count24
+\@tempcntb=\count25
+\@tempdima=\dimen14
+\@tempdimb=\dimen15
+\@tempdimc=\dimen16
+\@tempboxa=\box12
+\@tempskipa=\skip14
+\@tempskipb=\skip15
+\@temptokena=\toks10
+\@flushglue=\skip16
+ control, par, spacing,
+\@savsk=\dimen17
+\@savsf=\count26
+\smallskipamount=\skip17
+\medskipamount=\skip18
+\bigskipamount=\skip19
+\fill=\skip20
+ files,
+\@inputcheck=\read0
+\@unused=\write0
+\@mainaux=\write1
+\@partaux=\write2
+\@clubpenalty=\count27
+ font encodings, lengths,
+\everymath=\toks11
+\everydisplay=\toks12
+\every@math@size=\toks13
+\lower@bound=\dimen18
+\upper@bound=\dimen19
+\c@mv@normal=\count28
+\c@mv@bold=\count29
+
+====================================
+
+Local config file fonttext.cfg used
+
+====================================
+(/usr/share/texmf-dist/tex/latex/base/fonttext.cfg
+File: fonttext.cfg 2004/02/04 v2.3a LaTeX Kernel (Uncustomised text font setup)
+
+
+(/usr/share/texmf-dist/tex/latex/base/fonttext.ltx
+File: fonttext.ltx 2004/02/04 v2.3a LaTeX Kernel (Text font setup)
+
+=== Don't modify this file, use a .cfg file instead ===
+
+(/usr/share/texmf-dist/tex/latex/base/omlenc.def
+File: omlenc.def 2005/09/27 v1.99g Standard LaTeX file
+)
+(/usr/share/texmf-dist/tex/latex/base/t1enc.def
+File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
+)
+(/usr/share/texmf-dist/tex/latex/base/ot1enc.def
+File: ot1enc.def 2005/09/27 v1.99g Standard LaTeX file
+)
+(/usr/share/texmf-dist/tex/latex/base/omsenc.def
+File: omsenc.def 2005/09/27 v1.99g Standard LaTeX file
+)
+(/usr/share/texmf-dist/tex/latex/base/t1cmr.fd
+File: t1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+(/usr/share/texmf-dist/tex/latex/base/ot1cmr.fd
+File: ot1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+(/usr/share/texmf-dist/tex/latex/base/ot1cmss.fd
+File: ot1cmss.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+(/usr/share/texmf-dist/tex/latex/base/ot1cmtt.fd
+File: ot1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)))
+====================================
+
+Local config file fontmath.cfg used
+
+====================================
+(/usr/share/texmf-dist/tex/latex/base/fontmath.cfg
+File: fontmath.cfg 2004/02/04 v2.3a LaTeX Kernel (Uncustomised math font setup)
+
+
+(/usr/share/texmf-dist/tex/latex/base/fontmath.ltx
+File: fontmath.ltx 2004/02/04 v2.3a LaTeX Kernel (Math font setup)
+
+=== Don't modify this file, use a .cfg file instead ===
+
+LaTeX Font Info:    Redeclaring font encoding OML on input line 59.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 60.
+(/usr/share/texmf-dist/tex/latex/base/omlcmm.fd
+File: omlcmm.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+(/usr/share/texmf-dist/tex/latex/base/omscmsy.fd
+File: omscmsy.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+(/usr/share/texmf-dist/tex/latex/base/omxcmex.fd
+File: omxcmex.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+(/usr/share/texmf-dist/tex/latex/base/ucmr.fd
+File: ucmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+\symoperators=\mathgroup0
+\symletters=\mathgroup1
+\symsymbols=\mathgroup2
+\symlargesymbols=\mathgroup3
+LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
+(Font)                  OT1/cmr/m/n --> OT1/cmr/bx/n on input line 78.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `bold'
+(Font)                  OML/cmm/m/it --> OML/cmm/b/it on input line 79.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
+(Font)                  OMS/cmsy/m/n --> OMS/cmsy/b/n on input line 80.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
+(Font)                  OT1/cmss/m/n --> OT1/cmss/bx/n on input line 88.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
+(Font)                  OT1/cmr/m/it --> OT1/cmr/bx/it on input line 89.
+))
+====================================
+
+Local config file preload.cfg used
+
+=====================================
+(/usr/share/texmf-dist/tex/latex/base/preload.cfg
+File: preload.cfg 2004/02/04 v2.3a LaTeX Kernel (Uncustomised preload font setu
+p)
+
+(/usr/share/texmf-dist/tex/latex/base/preload.ltx
+File: preload.ltx 1998/08/17 v2.1g LaTeX Kernel (Font Preloading)
+)) page nos., x-ref,
+environments, center,
+\@rightskip=\skip21
+ verbatim, math definitions,
+\jot=\dimen20
+\interdisplaylinepenalty=\count30
+\rootbox=\box13
+\c@equation=\count31
+\@eqcnt=\count32
+\@eqpen=\count33
+\@centering=\skip22
+\topsep=\skip23
+\partopsep=\skip24
+\itemsep=\skip25
+\parsep=\skip26
+\@topsep=\skip27
+\@topsepadd=\skip28
+\@outerparskip=\skip29
+\leftmargin=\dimen21
+\rightmargin=\dimen22
+\listparindent=\dimen23
+\itemindent=\dimen24
+\labelwidth=\dimen25
+\labelsep=\dimen26
+\linewidth=\dimen27
+\@totalleftmargin=\dimen28
+\leftmargini=\dimen29
+\leftmarginii=\dimen30
+\leftmarginiii=\dimen31
+\leftmarginiv=\dimen32
+\leftmarginv=\dimen33
+\leftmarginvi=\dimen34
+\@listdepth=\count34
+\@itempenalty=\count35
+\@beginparpenalty=\count36
+\@endparpenalty=\count37
+\@labels=\box14
+\par@deathcycles=\count38
+\@enumdepth=\count39
+\c@enumi=\count40
+\c@enumii=\count41
+\c@enumiii=\count42
+\c@enumiv=\count43
+\@itemdepth=\count44
+ boxes,
+\fboxrule=\dimen35
+\fboxsep=\dimen36
+\@mplistdepth=\count45
+\@mpfootins=\insert254
+\@gtempa=\dimen37
+\@gtempa=\dimen38
+\@gtempa=\dimen39
+\@gtempa=\dimen40
+\@gtempa=\dimen41
+\@gtempa=\dimen42
+\@gtempa=\dimen43
+\@gtempa=\dimen44
+\@gtempa=\dimen45
+\@gtempa=\dimen46
+\@gtempa=\dimen47
+\@gtempa=\dimen48
+\@gtempa=\dimen49
+\@gtempa=\dimen50
+\@nxttabmar=\count46
+\@curtabmar=\count47
+\@curtab=\count48
+\@hightab=\count49
+\@tabpush=\count50
+\@curline=\box15
+\@curfield=\box16
+\@tabfbox=\box17
+\tabbingsep=\dimen51
+\@chclass=\count51
+\@lastchclass=\count52
+\@chnum=\count53
+\arraycolsep=\dimen52
+\tabcolsep=\dimen53
+\arrayrulewidth=\dimen54
+\doublerulesep=\dimen55
+\@arstrutbox=\box18
+\@wholewidth=\dimen56
+\@halfwidth=\dimen57
+\unitlength=\dimen58
+\@picbox=\box19
+\@picht=\dimen59
+\@ovxx=\dimen60
+\@ovyy=\dimen61
+\@ovdx=\dimen62
+\@ovdy=\dimen63
+\@ovro=\dimen64
+\@ovri=\dimen65
+\@xarg=\count54
+\@yarg=\count55
+\@yyarg=\count56
+\@multicnt=\count57
+\@xdim=\dimen66
+\@ydim=\dimen67
+\@linechar=\box20
+\@linelen=\dimen68
+\@clnwd=\dimen69
+\@clnht=\dimen70
+\@dashdim=\dimen71
+\@dashbox=\box21
+\@dashcnt=\count58
+ title, sectioning,
+\@secpenalty=\count59
+\c@secnumdepth=\count60
+\c@tocdepth=\count61
+
+contents, floats,
+\@floatpenalty=\count62
+ footnotes,
+\footins=\insert253
+\c@footnote=\count63
+\c@mpfootnote=\count64
+\footnotesep=\dimen72
+ index, bibliography, output,
+\bx@A=\insert252
+\bx@B=\insert251
+\bx@C=\insert250
+\bx@D=\insert249
+\bx@E=\insert248
+\bx@F=\insert247
+\bx@G=\insert246
+\bx@H=\insert245
+\bx@I=\insert244
+\bx@J=\insert243
+\bx@K=\insert242
+\bx@L=\insert241
+\bx@M=\insert240
+\bx@N=\insert239
+\bx@O=\insert238
+\bx@P=\insert237
+\bx@Q=\insert236
+\bx@R=\insert235
+\topmargin=\dimen73
+\oddsidemargin=\dimen74
+\evensidemargin=\dimen75
+\headheight=\dimen76
+\headsep=\dimen77
+\footskip=\dimen78
+\textheight=\dimen79
+\textwidth=\dimen80
+\columnwidth=\dimen81
+\columnsep=\dimen82
+\columnseprule=\dimen83
+\marginparwidth=\dimen84
+\marginparsep=\dimen85
+\marginparpush=\dimen86
+\@begindvibox=\box22
+\@maxdepth=\dimen87
+\paperheight=\dimen88
+\paperwidth=\dimen89
+\col@number=\count65
+\@topnum=\count66
+\@toproom=\dimen90
+\@dbltopnum=\count67
+\@dbltoproom=\dimen91
+\@botnum=\count68
+\@botroom=\dimen92
+\@colnum=\count69
+\@textmin=\dimen93
+\@fpmin=\dimen94
+\@colht=\dimen95
+\@colroom=\dimen96
+\@pageht=\dimen97
+\@pagedp=\dimen98
+\@mparbottom=\dimen99
+\@currtype=\count70
+\@outputbox=\box23
+\@leftcolumn=\box24
+\@holdpg=\box25
+\@kludgeins=\insert234
+\@fpstype=\count71
+\@reqcolroom=\dimen100
+\@textfloatsheight=\dimen101
+\c@topnumber=\count72
+\c@bottomnumber=\count73
+\c@totalnumber=\count74
+\c@dbltopnumber=\count75
+\floatsep=\skip30
+\textfloatsep=\skip31
+\intextsep=\skip32
+\dblfloatsep=\skip33
+\dbltextfloatsep=\skip34
+\@fptop=\skip35
+\@fpsep=\skip36
+\@fpbot=\skip37
+\@dblfptop=\skip38
+\@dblfpsep=\skip39
+\@dblfpbot=\skip40
+\@lowpenalty=\count76
+\@medpenalty=\count77
+\@highpenalty=\count78
+
+===========================================
+Local configuration file hyphen.cfg used
+===========================================
+(/usr/share/texmf-dist/tex/luatex/hyph-utf8/hyphen.cfg
+File: hyphen.cfg 2012/04/16 v3.8m-luatex-1.5 Language switching mechanism for L
+uaTeX, adapted from babel v3.8m
+\l@english=\language0
+luatex-hyphen: using data file: /usr/share/texmf/tex/generic/config/language.da
+t.lua
+(/usr/share/texmf/tex/generic/hyphen/hyphen.tex)
+\l@usenglish=\language0
+\l@USenglish=\language0
+\l@american=\language0
+\l@dumylang=\language1
+
+(/usr/share/texmf/tex/generic/hyphen/dumyhyph.tex)
+\l@nohyphenation=\language2
+
+(/usr/share/texmf/tex/generic/hyphen/zerohyph.tex)
+\l@german-x-2012-05-30=\language3
+\l@german-x-latest=\language3
+\l@ngerman-x-2012-05-30=\language4
+\l@ngerman-x-latest=\language4
+\l@afrikaans=\language5
+\l@ancientgreek=\language6
+\l@ibycus=\language7
+\l@arabic=\language8
+\l@armenian=\language9
+\l@basque=\language10
+\l@bulgarian=\language11
+\l@catalan=\language12
+\l@pinyin=\language13
+\l@coptic=\language14
+\l@croatian=\language15
+\l@czech=\language16
+\l@danish=\language17
+\l@dutch=\language18
+\l@ukenglish=\language19
+\l@british=\language19
+\l@UKenglish=\language19
+\l@usenglishmax=\language20
+\l@esperanto=\language21
+\l@estonian=\language22
+\l@ethiopic=\language23
+\l@amharic=\language23
+\l@geez=\language23
+\l@farsi=\language24
+\l@persian=\language24
+\l@finnish=\language25
+\l@french=\language26
+\l@patois=\language26
+\l@francais=\language26
+\l@friulan=\language27
+\l@galician=\language28
+\l@german=\language29
+\l@ngerman=\language30
+\l@swissgerman=\language31
+\l@monogreek=\language32
+\l@greek=\language33
+\l@polygreek=\language33
+\l@hungarian=\language34
+\l@icelandic=\language35
+\l@assamese=\language36
+\l@bengali=\language37
+\l@gujarati=\language38
+\l@hindi=\language39
+\l@kannada=\language40
+\l@malayalam=\language41
+\l@marathi=\language42
+\l@oriya=\language43
+\l@panjabi=\language44
+\l@tamil=\language45
+\l@telugu=\language46
+\l@indonesian=\language47
+\l@interlingua=\language48
+\l@irish=\language49
+\l@italian=\language50
+\l@kurmanji=\language51
+\l@latin=\language52
+\l@latvian=\language53
+\l@lithuanian=\language54
+\l@mongolian=\language55
+\l@mongolianlmc=\language56
+\l@bokmal=\language57
+\l@norwegian=\language57
+\l@norsk=\language57
+\l@nynorsk=\language58
+\l@polish=\language59
+\l@portuguese=\language60
+\l@portuges=\language60
+\l@romanian=\language61
+\l@romansh=\language62
+\l@russian=\language63
+\l@sanskrit=\language64
+\l@serbian=\language65
+\l@serbianc=\language66
+\l@slovak=\language67
+\l@slovenian=\language68
+\l@slovene=\language68
+\l@spanish=\language69
+\l@espanol=\language69
+\l@swedish=\language70
+\l@turkish=\language71
+\l@turkmen=\language72
+\l@ukrainian=\language73
+\l@uppersorbian=\language74
+\l@welsh=\language75
+)
+=================================
+Applying patch file ltpatch.ltx
+=================================
+(/usr/share/texmf-dist/tex/latex/base/ltpatch.ltx)
+) (/usr/share/texmf-dist/tex/latex/latexconfig/lualatex-patch-kernel.tex)
+(/usr/share/texmf-dist/tex/latex/latexconfig/lualatexquotejobname.tex)
+(/usr/share/texmf-dist/tex/latex/latexconfig/lualatex-reset-codes.tex)
+(/usr/share/texmf/tex/generic/config/luatex-unicode-letters.tex
+loading Unicode properties) )
+Beginning to dump on file lualatex.fmt
+ (format=lualatex 2013.5.31)
+5018 strings using 33936 bytes
+150293 memory locations dumped; current usage is 124&47154
+3675 multiletter control sequences
+\font\nullfont=nullfont
+\font\OMX/cmex/m/n/10=cmex10
+\font\tenln=line10
+\font\tenlnw=linew10
+\font\tencirc=lcircle10
+\font\tencircw=lcirclew10
+\font\OT1/cmr/m/n/5=cmr5
+\font\OT1/cmr/m/n/7=cmr7
+\font\OT1/cmr/m/n/10=cmr10
+\font\OML/cmm/m/it/5=cmmi5
+\font\OML/cmm/m/it/7=cmmi7
+\font\OML/cmm/m/it/10=cmmi10
+\font\OMS/cmsy/m/n/5=cmsy5
+\font\OMS/cmsy/m/n/7=cmsy7
+\font\OMS/cmsy/m/n/10=cmsy10
+14 preloaded fonts
+0 words of pdf memory
+0 indirect objects
+No pages of output.
+
+PDF statistics: 0 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 131072)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+

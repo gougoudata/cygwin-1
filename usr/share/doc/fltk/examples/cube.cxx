@@ -1,33 +1,24 @@
 //
-// "$Id: cube.cxx 5519 2006-10-11 03:12:15Z mike $"
+// "$Id: cube.cxx 8864 2011-07-19 04:49:30Z greg.ercolano $"
 //
 // Another forms test program for the Fast Light Tool Kit (FLTK).
 //
 // Modified to have 2 cubes to test multiple OpenGL contexts
 //
-// Copyright 1998-2005 by Bill Spitzak and others.
+// Copyright 1998-2010 by Bill Spitzak and others.
 //
-// This library is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Library General Public
-// License as published by the Free Software Foundation; either
-// version 2 of the License, or (at your option) any later version.
+// This library is free software. Distribution and use rights are outlined in
+// the file "COPYING" which should have been included with this file.  If this
+// file is missing or damaged, see the license at:
 //
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-// Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public
-// License along with this library; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
-// USA.
+//     http://www.fltk.org/COPYING.php
 //
 // Please report all bugs and problems on the following page:
 //
 //     http://www.fltk.org/str.php
 //
 
-#include "config.h"
+#include <config.h>
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
 #include <FL/Fl_Box.H>
@@ -38,7 +29,7 @@
 
 #if !HAVE_GL
 class cube_box : public Fl_Box {
-public:	
+public:
   double lasttime;
   int wire;
   double size;
@@ -157,8 +148,40 @@ void makeform(const char *name) {
   form->end();
 }
 
+// added to demo printing
+#include <FL/Fl_Sys_Menu_Bar.H>
+#include <FL/Fl_Printer.H>
+
+void print_cb(Fl_Widget *w, void *data)
+{
+  Fl_Printer printer;
+  Fl_Window *win = Fl::first_window();
+  if(!win) return;
+  if( printer.start_job(1) ) return;
+  if( printer.start_page() ) return;
+  printer.scale(0.5,0.5);
+  printer.print_widget( win );
+  printer.end_page();
+  printer.end_job();
+}
+// end of printing demo
+
 int main(int argc, char **argv) {
   makeform(argv[0]);
+  // added to demo printing
+  form->begin();
+  static Fl_Menu_Item	items[] = {
+    { "Print", 0, 0, 0, FL_SUBMENU },
+    { "Print window", 0, print_cb, 0, 0 },
+    { 0 },
+    { 0 }
+  };
+  Fl_Sys_Menu_Bar *menubar_;
+  menubar_ = new Fl_Sys_Menu_Bar(0, 0, 60, 20);
+  menubar_->box(FL_FLAT_BOX);
+  menubar_->menu(items);
+  form->end();
+  // end of printing demo
   speed->bounds(4,0);
   speed->value(cube->speed = cube2->speed = 1.0);
   size->bounds(4,0.01);
@@ -195,5 +218,5 @@ int main(int argc, char **argv) {
 }
 
 //
-// End of "$Id: cube.cxx 5519 2006-10-11 03:12:15Z mike $".
+// End of "$Id: cube.cxx 8864 2011-07-19 04:49:30Z greg.ercolano $".
 //

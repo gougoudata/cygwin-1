@@ -1,0 +1,61 @@
+openjade
+------------------------------------------
+Jade is James Clark's implementation of DSSSL -- Document Style 
+Semantics and Specification Language -- an ISO standard for formatting 
+SGML (and XML) documents.
+
+Runtime requirements:
+  cygwin-1.7.0-62
+  libgcc1-4.3.4-1
+  libosp5-1.5.2-2
+  libstdc++6-4.3.4-1
+
+Build requirements:
+(besides corresponding -devel packages)
+  autoconf2.5-2.63-10
+  automake1.10-1.10.2-10
+  binutils-2.19.51-1
+  cygport-0.9.10-1
+  gawk-3.1.7-1
+  gcc4-core-4.3.4-1
+  gcc4-g++-4.3.4-1
+  libtool-2.2.7a-14
+  make-3.81-2
+  sed-4.1.5-2
+
+Canonical website:
+  http://openjade.sourceforge.net/
+
+Canonical download:
+  http://downloads.sourceforge.net/openjade/
+
+-------------------------------------------
+
+Build instructions:
+  unpack openjade-1.4devel1-X-src.tar.bz2
+    if you use setup to install this src package, it will be
+	 unpacked under /usr/src automatically
+  cd /usr/src
+  cygport ./openjade-1.4devel1-X.cygport all
+
+This will create:
+  /usr/src/libostyle-devel-1.4devel1-X.tar.bz2
+  /usr/src/libostyle1-1.4devel1-X.tar.bz2
+  /usr/src/openjade-1.4devel1-X-src.tar.bz2
+  /usr/src/openjade-1.4devel1-X.tar.bz2
+
+-------------------------------------------
+
+Port Notes:
+
+----- version 1.4devel1-2 -----
+Do not register the unicode data with the SGML catalog, as it breaks
+usage with XML DTDs.
+
+----- version 1.4devel1-1 -----
+Initial release for Cygwin 1.7.
+
+
+Cygwin port maintained by:
+http://sourceware.org/cygwinports/
+

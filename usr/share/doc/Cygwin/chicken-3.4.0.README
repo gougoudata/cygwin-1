@@ -1,0 +1,157 @@
+chicken
+------------------------------------------
+CHICKEN is a compiler for the Scheme programming language. CHICKEN
+produces portable, efficient C, supports almost all of the current
+Scheme language standard, R5RS, and includes many enhancements and
+extensions. CHICKEN runs on MacOS X, Windows, and many Unix flavours.
+
+Runtime requirements:
+  cygwin
+  libpcre0
+
+Build requirements:
+(besides corresponding devel packages)
+  cygwin
+  cygport
+
+Canonical website:
+  http://www.call-with-current-continuation.org/
+
+Canonical download:
+  http://chicken.wiki.br/releases/
+
+-------------------------------------------
+
+Build instructions:
+  unpack chicken-X-Y-src.tar.bz2
+    if you use setup to install this src package, it will be
+	 unpacked under /usr/src automatically
+  cd /usr/src
+  cygport chicken-X-Y all
+
+This will create:
+  /usr/src/chicken-X-Y-src.tar.bz2
+  /usr/src/chicken-X-Y.tar.bz2
+
+-------------------------------------------
+
+Files included in the binary package:
+
+  /usr/bin/chicken-bug.exe
+  /usr/bin/chicken-profile.exe
+  /usr/bin/chicken-setup.exe
+  /usr/bin/chicken.exe
+  /usr/bin/csc.exe
+  /usr/bin/csi.exe
+  /usr/bin/cygchicken-0.dll
+  /usr/bin/cyguchicken-0.dll
+  /usr/include/chicken-config.h
+  /usr/include/chicken.h
+  /usr/lib/libchicken.a
+  /usr/lib/libchicken.dll.a
+  /usr/lib/libuchicken.a
+  /usr/lib/libuchicken.dll.a
+  /usr/share/chicken/chicken-ffi-macros.scm
+  /usr/share/chicken/chicken-more-macros.scm
+  /usr/share/chicken/chicken-sys-macros.scm
+  /usr/share/chicken/data-structures.exports
+  /usr/share/chicken/doc/LICENSE
+  /usr/share/chicken/doc/README
+  /usr/share/chicken/doc/chicken.pdf
+  /usr/share/chicken/doc/html/accessing-external-objects.html
+  /usr/share/chicken/doc/html/acknowledgements.html
+  /usr/share/chicken/doc/html/basic-mode-of-operation.html
+  /usr/share/chicken/doc/html/bibliography.html
+  /usr/share/chicken/doc/html/bugs-and-limitations.html
+  /usr/share/chicken/doc/html/c-interface.html
+  /usr/share/chicken/doc/html/callbacks.html
+  /usr/share/chicken/doc/html/chicken-setup.html
+  /usr/share/chicken/doc/html/data-representation.html
+  /usr/share/chicken/doc/html/declarations.html
+  /usr/share/chicken/doc/html/deviations-from-the-standard.html
+  /usr/share/chicken/doc/html/embedding.html
+  /usr/share/chicken/doc/html/extensions-to-the-standard.html
+  /usr/share/chicken/doc/html/faq.html
+  /usr/share/chicken/doc/html/foreign-type-specifiers.html
+  /usr/share/chicken/doc/html/getting-started.html
+  /usr/share/chicken/doc/html/index.html
+  /usr/share/chicken/doc/html/interface-to-external-functions-and-variables.html
+  /usr/share/chicken/doc/html/locations.html
+  /usr/share/chicken/doc/html/non-standard-macros-and-special-forms.html
+  /usr/share/chicken/doc/html/non-standard-read-syntax.html
+  /usr/share/chicken/doc/html/other-support-procedures.html
+  /usr/share/chicken/doc/html/parameters.html
+  /usr/share/chicken/doc/html/pattern-matching.html
+  /usr/share/chicken/doc/html/supported-language.html
+  /usr/share/chicken/doc/html/unit-data-structures.html
+  /usr/share/chicken/doc/html/unit-eval.html
+  /usr/share/chicken/doc/html/unit-extras.html
+  /usr/share/chicken/doc/html/unit-files.html
+  /usr/share/chicken/doc/html/unit-library.html
+  /usr/share/chicken/doc/html/unit-lolevel.html
+  /usr/share/chicken/doc/html/unit-match.html
+  /usr/share/chicken/doc/html/unit-ports.html
+  /usr/share/chicken/doc/html/unit-posix.html
+  /usr/share/chicken/doc/html/unit-regex.html
+  /usr/share/chicken/doc/html/unit-srfi-1.html
+  /usr/share/chicken/doc/html/unit-srfi-13.html
+  /usr/share/chicken/doc/html/unit-srfi-14.html
+  /usr/share/chicken/doc/html/unit-srfi-18.html
+  /usr/share/chicken/doc/html/unit-srfi-4.html
+  /usr/share/chicken/doc/html/unit-srfi-69.html
+  /usr/share/chicken/doc/html/unit-tcp.html
+  /usr/share/chicken/doc/html/unit-utils.html
+  /usr/share/chicken/doc/html/using-the-compiler.html
+  /usr/share/chicken/doc/html/using-the-interpreter.html
+  /usr/share/chicken/eval.exports
+  /usr/share/chicken/extras.exports
+  /usr/share/chicken/files.exports
+  /usr/share/chicken/library.exports
+  /usr/share/chicken/lolevel.exports
+  /usr/share/chicken/ports.exports
+  /usr/share/chicken/posix.exports
+  /usr/share/chicken/regex.exports
+  /usr/share/chicken/scheduler.exports
+  /usr/share/chicken/srfi-1.exports
+  /usr/share/chicken/srfi-13.exports
+  /usr/share/chicken/srfi-14.exports
+  /usr/share/chicken/srfi-18.exports
+  /usr/share/chicken/srfi-4.exports
+  /usr/share/chicken/srfi-69.exports
+  /usr/share/chicken/tcp.exports
+  /usr/share/chicken/utils.exports
+  /usr/share/doc/Cygwin/chicken-3.4.0.README
+  /usr/share/doc/chicken-3.4.0/LICENSE
+  /usr/share/doc/chicken-3.4.0/NEWS
+  /usr/share/doc/chicken-3.4.0/README
+  /usr/share/info/chicken.info.gz
+  /usr/share/man/man1/chicken-bug.1.gz
+  /usr/share/man/man1/chicken-profile.1.gz
+  /usr/share/man/man1/chicken-setup.1.gz
+  /usr/share/man/man1/chicken.1.gz
+  /usr/share/man/man1/csc.1.gz
+  /usr/share/man/man1/csi.1.gz
+
+------------------
+
+Port Notes:
+
+----- version 3.4.0-1 -----
+
+Version bump
+
+----- version 3.3.0-1 -----
+
+Version bump
+
+----- version 3.2.0-2 -----
+
+Cleaned up the cygport a little bit
+
+----- version 3.2.0-1 -----
+
+Initial (unofficial) release for Cygwin.
+Patches some minor (but crucial) errors in Makefile.cygwin
+Makes no attempt to split into compiler, dev & runtime a la debian
+
+by Nathan Thern

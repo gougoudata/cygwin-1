@@ -1,6 +1,7 @@
 #! /usr/bin/perl -w
 # -*- Perl -*-
-# Copyright (C) 1989-2000, 2001, 2002, 2003, 2004, 2005
+# Copyright (C) 1989-2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008,
+#               2009, 2010
 # Free Software Foundation, Inc.
 #      Written by James Clark (jjc@jclark.com)
 #
@@ -8,20 +9,22 @@
 #
 # groff is free software; you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free
-# Software Foundation; either version 2, or (at your option) any later
-# version.
+# Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
 #
 # groff is distributed in the hope that it will be useful, but WITHOUT ANY
 # WARRANTY; without even the implied warranty of MERCHANTABILITY or
 # FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
 # for more details.
 #
-# You should have received a copy of the GNU General Public License along
-# with groff; see the file COPYING.  If not, write to the Free Software
-# Foundation, 51 Franklin St - Fifth Floor, Boston, MA 02110-1301, USA.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 use strict;
 
+# This table has been algorithmically derived from the file
+# UnicodeData.txt, version 4.1.0, available from unicode.org,
+# on 2005-12-09.
 my %unicode_decomposed = (
   "00C0", "0041_0300",
   "00C1", "0041_0301",
@@ -1360,6 +1363,112 @@ my %unicode_decomposed = (
   "FA68", "96E3",
   "FA69", "97FF",
   "FA6A", "983B",
+  "FA70", "4E26",
+  "FA71", "51B5",
+  "FA72", "5168",
+  "FA73", "4F80",
+  "FA74", "5145",
+  "FA75", "5180",
+  "FA76", "52C7",
+  "FA77", "52FA",
+  "FA78", "559D",
+  "FA79", "5555",
+  "FA7A", "5599",
+  "FA7B", "55E2",
+  "FA7C", "585A",
+  "FA7D", "58B3",
+  "FA7E", "5944",
+  "FA7F", "5954",
+  "FA80", "5A62",
+  "FA81", "5B28",
+  "FA82", "5ED2",
+  "FA83", "5ED9",
+  "FA84", "5F69",
+  "FA85", "5FAD",
+  "FA86", "60D8",
+  "FA87", "614E",
+  "FA88", "6108",
+  "FA89", "618E",
+  "FA8A", "6160",
+  "FA8B", "61F2",
+  "FA8C", "6234",
+  "FA8D", "63C4",
+  "FA8E", "641C",
+  "FA8F", "6452",
+  "FA90", "6556",
+  "FA91", "6674",
+  "FA92", "6717",
+  "FA93", "671B",
+  "FA94", "6756",
+  "FA95", "6B79",
+  "FA96", "6BBA",
+  "FA97", "6D41",
+  "FA98", "6EDB",
+  "FA99", "6ECB",
+  "FA9A", "6F22",
+  "FA9B", "701E",
+  "FA9C", "716E",
+  "FA9D", "77A7",
+  "FA9E", "7235",
+  "FA9F", "72AF",
+  "FAA0", "732A",
+  "FAA1", "7471",
+  "FAA2", "7506",
+  "FAA3", "753B",
+  "FAA4", "761D",
+  "FAA5", "761F",
+  "FAA6", "76CA",
+  "FAA7", "76DB",
+  "FAA8", "76F4",
+  "FAA9", "774A",
+  "FAAA", "7740",
+  "FAAB", "78CC",
+  "FAAC", "7AB1",
+  "FAAD", "7BC0",
+  "FAAE", "7C7B",
+  "FAAF", "7D5B",
+  "FAB0", "7DF4",
+  "FAB1", "7F3E",
+  "FAB2", "8005",
+  "FAB3", "8352",
+  "FAB4", "83EF",
+  "FAB5", "8779",
+  "FAB6", "8941",
+  "FAB7", "8986",
+  "FAB8", "8996",
+  "FAB9", "8ABF",
+  "FABA", "8AF8",
+  "FABB", "8ACB",
+  "FABC", "8B01",
+  "FABD", "8AFE",
+  "FABE", "8AED",
+  "FABF", "8B39",
+  "FAC0", "8B8A",
+  "FAC1", "8D08",
+  "FAC2", "8F38",
+  "FAC3", "9072",
+  "FAC4", "9199",
+  "FAC5", "9276",
+  "FAC6", "967C",
+  "FAC7", "96E3",
+  "FAC8", "9756",
+  "FAC9", "97DB",
+  "FACA", "97FF",
+  "FACB", "980B",
+  "FACC", "983B",
+  "FACD", "9B12",
+  "FACE", "9F9C",
+  "FACF", "2284A",
+  "FAD0", "22844",
+  "FAD1", "233D5",
+  "FAD2", "3B9D",
+  "FAD3", "4018",
+  "FAD4", "4039",
+  "FAD5", "25249",
+  "FAD6", "25CD0",
+  "FAD7", "27ED3",
+  "FAD8", "9F43",
+  "FAD9", "9F8E",
   "FB1D", "05D9_05B4",
   "FB1F", "05F2_05B7",
   "FB2A", "05E9_05C1",
@@ -1511,7 +1620,7 @@ my %unicode_decomposed = (
   "2F865", "59D8",
   "2F866", "5A66",
   "2F867", "36EE",
-  "2F868", "2136A",
+  "2F868", "36FC",
   "2F869", "5B08",
   "2F86A", "5B3E",
   "2F86B", "5B3E",
@@ -1523,7 +1632,7 @@ my %unicode_decomposed = (
   "2F871", "21B18",
   "2F872", "5BFF",
   "2F873", "5C06",
-  "2F874", "5F33",
+  "2F874", "5F53",
   "2F875", "5C22",
   "2F876", "3781",
   "2F877", "5C60",
@@ -1694,7 +1803,7 @@ my %unicode_decomposed = (
   "2F91C", "7145",
   "2F91D", "24263",
   "2F91E", "719C",
-  "2F91F", "43AB",
+  "2F91F", "243AB",
   "2F920", "7228",
   "2F921", "7235",
   "2F922", "7250",
@@ -1758,7 +1867,7 @@ my %unicode_decomposed = (
   "2F95C", "2597C",
   "2F95D", "25AA7",
   "2F95E", "25AA7",
-  "2F95F", "7AAE",
+  "2F95F", "7AEE",
   "2F960", "4202",
   "2F961", "25BAB",
   "2F962", "7BC6",
@@ -1854,7 +1963,7 @@ my %unicode_decomposed = (
   "2F9BC", "8728",
   "2F9BD", "876B",
   "2F9BE", "8786",
-  "2F9BF", "4D57",
+  "2F9BF", "45D7",
   "2F9C0", "87E1",
   "2F9C1", "8801",
   "2F9C2", "45F9",
@@ -1951,6 +2060,10 @@ my %unicode_decomposed = (
   "2FA1D", "2A600",
 );
 
+# This table has been algorithmically derived from the file glyphlist.txt,
+# version 2.0, available from partners.adobe.com, on 2005-12-09.  For glyphs
+# `Delta', `Omega', and `mu', the values have been manually changed to the
+# ones from aglfn.txt, version 1.6.
 my %AGL_to_unicode = (
   "A", "0041",
   "AE", "00C6",
@@ -2041,7 +2154,7 @@ my %AGL_to_unicode = (
   "Ddotbelow", "1E0C",
   "Decyrillic", "0414",
   "Deicoptic", "03EE",
-  "Delta", "2206",
+  "Delta", "0394",
   "Deltagreek", "0394",
   "Dhook", "018A",
   "Digammagreek", "03DC",
@@ -2330,7 +2443,7 @@ my %AGL_to_unicode = (
   "Omacron", "014C",
   "Omacronacute", "1E52",
   "Omacrongrave", "1E50",
-  "Omega", "2126",
+  "Omega", "03A9",
   "Omegacyrillic", "0460",
   "Omegagreek", "03A9",
   "Omegaroundcyrillic", "047A",
@@ -4455,7 +4568,7 @@ my %AGL_to_unicode = (
   "mpasquare", "33AB",
   "mssquare", "33B3",
   "mturned", "026F",
-  "mu", "00B5",
+  "mu", "03BC",
   "mu1", "00B5",
   "muasquare", "3382",
   "muchgreater", "226B",
@@ -6043,30 +6156,31 @@ my %AGL_to_unicode = (
   "zukatakana", "30BA",
 );
 
-
 my $prog = $0;
 $prog =~ s@.*/@@;
 
-my $groff_sys_fontdir = "/usr/share/groff/1.19.2/font";
+my $groff_sys_fontdir = "/usr/share/groff/1.21/font";
 
 use Getopt::Std;
-getopts('a:d:e:i:mnsvx');
+getopts('a:cd:e:f:i:kmno:svx');
 
-our ($opt_a, $opt_d, $opt_e, $opt_i, $opt_m, $opt_n, $opt_s, $opt_v, $opt_x);
+our ($opt_a, $opt_c, $opt_d, $opt_e, $opt_f, $opt_i, $opt_k,
+     $opt_m, $opt_n, $opt_o, $opt_s, $opt_v, $opt_x);
 
 if ($opt_v) {
-    print "GNU afmtodit (groff) version 1.19.2\n";
+    print "GNU afmtodit (groff) version 1.21\n";
     exit 0;
 }
 
 if ($#ARGV != 2) {
-    die "usage: $prog [-mnsvx] [-a angle] [-d DESC] [-e encoding]\n" .
-	"       [-i n] afmfile mapfile font\n";
+    die "usage: $prog [-ckmnsvx] [-a angle] [-d DESC] [-e encoding]\n" .
+	"       [-f name] [-i n] [-o outfile] afmfile mapfile font\n";
 }
 
 my $afm = $ARGV[0];
 my $map = $ARGV[1];
 my $font = $ARGV[2];
+my $outfile = $opt_o || $font;
 my $desc = $opt_d || "DESC";
 my $sys_map = $groff_sys_fontdir . "/devps/generate/" . $map;
 my $sys_desc = $groff_sys_fontdir . "/devps/" . $desc;
@@ -6074,6 +6188,7 @@ my $sys_desc = $groff_sys_fontdir . "/devps/" . $desc;
 # read the afm file
 
 my $psname;
+my ($notice, $version, $fullname, $familyname, @comments); 
 my $italic_angle = 0;
 my (@kern1, @kern2, @kernx);
 my (%italic_correction, %left_italic_correction);
@@ -6087,11 +6202,30 @@ my (%left_side_bearing, %right_side_bearing);
 open(AFM, $afm) || die "$prog: can't open \`$ARGV[0]': $!\n";
 
 while (<AFM>) {
-    chop;
+    chomp;
+    s/\x0D$//;
     my @field = split(' ');
     next if $#field < 0;
     if ($field[0] eq "FontName") {
 	$psname = $field[1];
+	if($opt_f) {
+	    $psname = $opt_f;
+	}
+    }
+    elsif($field[0] eq "Notice") {
+	$notice = $_;
+    }
+    elsif($field[0] eq "Version") {
+	$version = $_;
+    }
+    elsif($field[0] eq "FullName") {
+	$fullname = $_;
+    }
+    elsif($field[0] eq "FamilyName") {
+	$familyname = $_;
+    }
+    elsif($field[0] eq "Comment") {
+	push(@comments, $_);
     }
     elsif($field[0] eq "ItalicAngle") {
 	$italic_angle = -$field[1];
@@ -6246,8 +6380,8 @@ while (<MAP>) {
 	    $map{$field[0], $nmap{$field[0]}} = $field[1];
 	    $nmap{$field[0]} += 1;
 
-	    # There is more then one way to make a PS glyph name;
-	    # let us try unicode names with `uni' and `u' prefixes.
+	    # There is more than one way to make a PS glyph name;
+	    # let us try Unicode names with both `uni' and `u' prefixes.
 	    my $utmp = $AGL_to_unicode{$field[0]};
 	    if (defined $utmp && $utmp =~ /^[0-9A-F]{4}$/) {
 		foreach my $unicodepsname ("uni" . $utmp, "u" . $utmp) {
@@ -6306,7 +6440,8 @@ if (!$opt_x) {
 	    #   computation of a character sequence.  It can be used by font
 	    #   designers to indicate some characteristics of the glyph.  The
 	    #   suffix may contain periods or any other permitted characters.
-	    #   Small cap A, for example, could be named `uni0041.sc' or `A.sc'.
+	    #   Small cap A, for example, could be named `uni0041.sc' or
+	    #   `A.sc'.
 
 	    next if $ch =~ /\./;
 
@@ -6364,7 +6499,7 @@ if (!$opt_x) {
 		elsif ($component =~ /^u([0-9A-F]{4,6})$/) {
 		    $nv = hex("0x" . $1);
 		    if ($nv <= 0xD7FF || ($nv >= 0xE000 && $nv <= 0x10FFFF)) {
-			$utmp .= "U+" . $1;
+			$utmp = "U+" . $1;
 		    }
 		}
 
@@ -6414,8 +6549,32 @@ while (my ($lig, $components) = each %default_ligatures) {
 
 # print it all out
 
-open(FONT, ">$font") || die "$prog: can't open \`$font' for output: $!\n";
+open(FONT, ">$outfile") || die "$prog: can't open \`$outfile' for output: $!\n";
 select(FONT);
+
+print("# This file has been generated with " .
+      "GNU afmtodit (groff) version 1.21\n");
+print("#\n");
+print("#   $fullname\n") if defined $fullname;
+print("#   $version\n") if defined $version;
+print("#   $familyname\n") if defined $familyname;
+
+if ($opt_c) {
+    print("#\n");
+    if (defined $notice || @comments) {
+	print("# The original AFM file contains the following comments:\n");
+	print("#\n");
+	print("#   $notice\n") if defined $notice;
+	foreach my $comment (@comments) {
+	    print("#   $comment\n");
+	}
+    }
+    else {
+	print("# The original AFM file contains no comments.\n");
+    }
+}
+
+print("\n");
 
 print("name $font\n");
 print("internalname $psname\n") if $psname;
@@ -6437,13 +6596,15 @@ if (!$opt_n && %ligatures) {
     print(" 0\n");
 }
 
-if ($#kern1 >= 0) {
+if (!$opt_k && $#kern1 >= 0) {
+    print("\n");
     print("kernpairs\n");
 
     for (my $i = 0; $i <= $#kern1; $i++) {
 	my $c1 = $kern1[$i];
 	my $c2 = $kern2[$i];
-	if ($nmap{$c1} != 0 && $nmap{$c2} != 0) {
+	if (defined $nmap{$c1} && $nmap{$c1} != 0
+	    && defined $nmap{$c2} && $nmap{$c2} != 0) {
 	    for (my $j = 0; $j < $nmap{$c1}; $j++) {
 		for (my $k = 0; $k < $nmap{$c2}; $k++) {
 		    if ($kernx[$i] != 0) {
@@ -6490,6 +6651,7 @@ $italic_angle = $italic_angle*3.14159265358979323846/180.0;
 $slant = sin($italic_angle)/cos($italic_angle);
 $slant = 0 if $slant < 0;
 
+print("\n");
 print("charset\n");
 for (my $i = 0; $i <= $#encoding; $i++) {
     my $ch = $encoding[$i];
@@ -6564,3 +6726,5 @@ for (my $i = 0; $i <= $#encoding; $i++) {
 sub conv {
     $_[0]*$unitwidth*$resolution/(72*1000*$sizescale) + ($_[0] < 0 ? -.5 : .5);
 }
+
+# eof

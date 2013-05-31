@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /usr/bin/bash
 
 #  This script is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License version 2 as
@@ -17,70 +17,121 @@ fi
 cd ${SUBDIR:-.}
 
 usage() {
-	echo "Usage: ${0##*/} specfile"
+	echo "Usage: ${0##*/} [--fuzz=N] specfile"
 	exit 1
 }
 
-if [ "$1" = -v ]
-then
-	verbose=1
-	shift
-fi
+options=$(getopt -o v --long sourcedir:,fuzz: -n "${0##*/}" -- "$@") || exit
+
+eval set -- "$options"
+
+sourcedir=
+
+while true
+do
+	case "$1" in
+	-v)
+		verbose=1
+		shift ;;
+	--sourcedir)
+		sourcedir=${2%/}/
+		shift 2 ;;
+	--fuzz)
+		# Only works with rpm 4.6 and later
+		DEFINE_FUZZ="%define _default_patch_fuzz $2"
+		shift 2 ;;
+	--)
+		shift
+		break ;;
+	esac
+done
+
+[ "${sourcedir:0:1}" = / ] || sourcedir=$PWD/$sourcedir
 
 specfile=$1
 if [ $# -ne 1 -o ! -f "$specfile" ]
 then
 	usage
 fi
-
-if [ "${specfile:0:1}"  != / ]
+if [ "${specfile:0:1}"  = / ]
 then
-	specfile="$PWD/$specfile"
+	specdir=$(dirname "$specfile")
+	specfile=${specfile##*/}
+else
+	specdir=$PWD
 fi
-sourcedir=${specfile%/*}
 
-tmpdir="$(gen_tempfile -d ${TMPDIR-/var/tmp}/${0##*/})"
+tmpdir="$(gen_tempfile -d ${VARTMPDIR:-/var/tmp}/${0##*/})"
 mkdir -p $tmpdir || exit 1
-trap "rm -rf $tmpdir" EXIT
+add_exit_handler "rm -rf $tmpdir"
 mkdir -p $tmpdir/build
 mkdir -p $tmpdir/bin
 
 # Redirect file descriptors
+# 5 is used in verbose mode, 4 in non-verbose mode, and 2 for both (real errors)
 if [ -n "$verbose" ]
 then
-	exec 3>&1 4>/dev/null
+	exec 3>&1 5>&2 4>/dev/null
 else
-	exec 3>&1 4>&2 2>/dev/null
+	exec 3>&1 4>&2 5>/dev/null
 fi
 
 # create md5 sums, also for uncompressed files
 echo -n "### md5sum: " >&4
 shopt -s nullglob
-for file in *
+for file in $sourcedir/*
 do
-	file=${file##*/}
-	case "$file" in
+	basename=${file##*/}
+	case "$basename" in
 		ready|bigpack|MD5SUMS|MD5SUMS.meta|*.spec|*.changes)
 			continue
 			;;
 	esac
 	[ -f "$file" ] || continue
 	echo -n "." >&4
-	echo "md5sum < $file" >&2
+	echo "md5sum < $file" >&5
 	set -- $(md5sum < "$file")
-	echo "$1 $file"
-	case "$(file -b "$file")" in
+	echo "$1 $basename"
+
+	case "$file" in
+		*.lzma)
+			# file doesn't reliably recognize lzma-compressed files
+			filetype="lzma"
+			;;
+		*.xz)
+			# old versions of file don't know about xz-compressed
+			# files
+			filetype="xz"
+			;;
+		*)
+			filetype="$(file -b "$file")"
+			;;
+	esac
+
+	case "$filetype" in
 		compress*|gzip*)
 			echo -n "g" >&4
-			echo "gzip -cd $file | md5sum" >&2
+			echo "gzip -cd $file | md5sum" >&5
 			set -- $(gzip -cd "$file" | md5sum)
-			echo "$1 $file"
+			echo "$1 $basename"
 			;;
 		bzip2*)
 			echo -n "b" >&4
-			echo "bzip2 -cd $file | md5sum" >&2
+			echo "bzip2 -cd $file | md5sum" >&5
 			set -- $(bzip2 -cd "$file" | md5sum)
-			echo "$1 $file"
+			echo "$1 $basename"
+			;;
+		xz*|XZ*)
+			echo -n "x" >&4
+			echo "xz -cd $file | md5sum" >&5
+			set -- $(xz -cd "$file" | md5sum)
+			echo "$1 $basename"
+			;;
+		lzma*)
+			echo -n "l" >&4
+			echo "lzma -cd $file | md5sum" >&5
+			set -- $(lzma -cd "$file" | md5sum)
+			echo "$1 $basename"
 			;;
 	esac
 done > $tmpdir/md5sums
@@ -89,7 +140,7 @@ shopt -u nullglob
 
 # wrapper script for patch and tar
 cat <<-'EOF' > $tmpdir/bin/wrapper
-	#! /bin/bash
+	#! /usr/bin/bash
 
 	# find original data file by md5sum
 	original_file() {
@@ -99,7 +150,7 @@ cat <<-'EOF' > $tmpdir/bin/wrapper
 		md5sum=$1
 		while read md5sum_ file_
 		do
-			if [ $md5sum = $md5sum_ ]
+			if [ "$md5sum" = "$md5sum_" ]
 			then
 				echo ${file_#\*}
 				return 0
@@ -118,7 +169,7 @@ cat <<-'EOF' > $tmpdir/bin/wrapper
 		
 		while read md5sum_ file_
 		do
-			if [ $md5sum = $md5sum_ ]
+			if [ "$md5sum" = "$md5sum_" ]
 			then
 				echo ${file_#\*}
 				return 0
@@ -128,17 +179,42 @@ cat <<-'EOF' > $tmpdir/bin/wrapper
 		return 1
 	}
 
-	# Extract the -p option from the command line
-	strip_option() {
-		while [ $# -ne 0 -a "${1:0:2}" != -p ]
+	# Extract a command line option with or without argument
+	cmdline_option() {
+		local letter=$1 no_arg=$2
+		shift
+
+		while [ $# -ne 0 ]
 		do
+			if [ "${1:0:2}" = -$letter ]
+			then
+				if [ -z "$no_arg" ]
+				then
+					[ "$1" = -$letter ] && set -- "$1$2"
+				fi
+				echo $1
+				break
+			fi
 			shift
 		done
-		if [ "${1:0:2}" = -p ]
-		then
-			[ "$1" = -p ] && set -- "$1$2"
-			[ "$1" != -p1 ] && echo $1
-		fi
+	}
+
+	# Extract the -p option from the command line
+	strip_option() {
+		set -- $(cmdline_option p "$@")
+		[ "$1" != -p1 ] && echo $1
+	}
+
+	# Extract the -R option from the command line
+	reverse_option() {
+		set -- $(cmdline_option R no_arg "$@")
+		echo $1
+	}
+
+	patch_opt_d() {
+		local subdir=$(cmdline_option d "$@")
+		[ -z "$subdir" ] || echo "${subdir:2}"
+
 	}
 
 	patch_input_file() {
@@ -165,14 +241,22 @@ cat <<-'EOF' > $tmpdir/bin/wrapper
 	}
 
 	tar_input_file() {
-		while [ $# -gt 0 ]; do
-			if [ -e "$1" ]
-			then
-				echo "$1"
-				return
-			fi
-			shift
-		done
+		case "$1" in
+		*C*f*)
+			echo "$3"
+			;;
+		*f*)
+			echo "$2"
+			;;
+		esac
+	}
+
+	tar_opt_C() {
+		case "$1" in
+		*C*f*)
+			echo "$2"
+			return ;;
+		esac
 	}
 
 	tmpdir=${RPM_BUILD_DIR%/*}
@@ -183,6 +267,8 @@ cat <<-'EOF' > $tmpdir/bin/wrapper
 		;;
 	tar)
 		inputfile=$(tar_input_file "$@")
+		# For tar, file - means read from stdin
+		[ "$inputfile" = "-" ] && inputfile=
 		;;
 	esac
 	if [ -z "$inputfile" ]; then
@@ -193,17 +279,34 @@ cat <<-'EOF' > $tmpdir/bin/wrapper
 	unpackfile="$(original_file ${inputfile:-$tmpdir/data})"
 	if [ -n "$unpackfile" ]
 	then
-		dir=${PWD/$RPM_BUILD_DIR}
-		dir=${dir##/}
-
 		case "${0##*/}" in
 		patch)
 			echo -n p >&4
+			subdir=$(patch_opt_d "$@")
+			if [ -n "$subdir" ]
+			then
+				dir=$(cd "$subdir" && echo $PWD)
+			else
+				dir=$PWD
+			fi
+			dir=${dir/$RPM_BUILD_DIR}
+			dir=${dir##/}
+			dir=${dir// /\\ }
 			echo "${0##*/} ${dir:-.} $unpackfile" \
-			     $(strip_option "$@") >&3
+			     $(strip_option "$@") $(reverse_option "$@") >&3
 			;;
 		tar)
 			echo -n t >&4
+			subdir=$(tar_opt_C "$@")
+			if [ -n "$subdir" ]
+			then
+				dir=$(cd "$subdir" && echo $PWD)
+			else
+				dir=$PWD
+			fi
+			dir=${dir/$RPM_BUILD_DIR}
+			dir=${dir##/}
+			dir=${dir// /\\ }
 			echo "${0##*/} ${dir:-.} $unpackfile" >&3
 			;;
 		esac
@@ -216,7 +319,18 @@ cat <<-'EOF' > $tmpdir/bin/wrapper
 	    ${0##*/} "$@" < $tmpdir/data
 	fi
 EOF
+
 chmod 755 $tmpdir/bin/wrapper
+# If $TMPDIR is mounted with noexec, rpmbuild won't be able to execute
+# our wrapper script
+if [ ! -x $tmpdir/bin/wrapper ]
+then
+	printf "Cannot execute %s; filesystem mounted with noexec?\n" \
+	       $tmpdir/bin/wrapper >&2
+ 	printf "Setting %s in ~/.quiltrc may help\n" "VARTMPDIR" >&2
+	exit 1
+fi
+
 ln -s wrapper $tmpdir/bin/patch
 ln -s wrapper $tmpdir/bin/tar
 
@@ -225,10 +339,13 @@ echo -n "### rpmbuild: " >&4
 
 export PATH="$tmpdir/bin:$PATH"
 rpmbuild --eval "%define _sourcedir $sourcedir" \
-	 --eval "%define _specdir   $sourcedir" \
+	 --eval "%define _specdir   $specdir" \
 	 --eval "%define _builddir  $tmpdir/build" \
+	 --eval "%define __patch    $tmpdir/bin/patch" \
+	 --eval "%define __tar      $tmpdir/bin/tar" \
+	 --eval "$DEFINE_FUZZ" \
 	 --nodeps \
-	 -bp "$specfile" < /dev/null >&2
+	 -bp "$specdir/$specfile" < /dev/null >&5 2>&5
 status=$?
 echo >&4
 exit $status

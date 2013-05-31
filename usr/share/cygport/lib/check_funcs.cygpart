@@ -1,0 +1,679 @@
+################################################################################
+#
+# check_funcs.cygpart - cygport check_prog* and sanity check functions
+#
+# Copyright (C) 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 Yaakov Selkowitz
+# Provided by the Cygwin Ports project <http://sourceware.org/cygwinports/>
+#
+# cygport is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# cygport is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with cygport.  If not, see <http://www.gnu.org/licenses/>.
+#
+################################################################################
+
+#****f* Checks/check_prog
+#  SYNOPSIS
+#  check_prog PROGRAM [PROGRAM2] ...
+#  DESCRIPTION
+#  Checks for the presence of the given program(s) in PATH.  Returns TRUE
+#  if all programs are present, else FALSE.
+#****
+check_prog() {
+	local _prog;
+
+	(( $# < 1 )) && return 1;
+
+	for _prog
+	do
+		if ! hash ${_prog} &> /dev/null
+		then
+			return 1;
+		fi
+	done
+
+	return 0;
+}
+
+#****f* Checks/check_prog_req
+#  SYNOPSIS
+#  check_prog_req PROGRAM [PACKAGE]
+#  DESCRIPTION
+#  Check that the given required program is present in PATH.  If not, call
+#  error() indicating which package contains the program that needs to be
+#  installed.  If only the program name is given, the package is assumed
+#  to be eponymous.
+#****
+check_prog_req() {
+	local prog=${1};
+	local pkg=${2:-${1}};
+
+	if ! check_prog ${prog}
+	then
+		error "${pkg} is required to build this package";
+	fi
+
+	return 0;
+}
+
+#****f* Checks/check_tool
+#  SYNOPSIS
+#  check_tool TOOL [TOOL] ...
+#  DESCRIPTION
+#  Checks for the presence of the given host compiler tool(s) in PATH.
+#  Returns TRUE if all tools are present, else FALSE.
+#****
+check_tool() {
+	local _prog;
+
+	(( $# < 1 )) && return 1;
+
+	for _prog
+	do
+		if ! hash ${CHOST}-${_prog} &> /dev/null
+		then
+			if [ ${CHOST} = ${CBUILD} ] && hash ${_prog} &> /dev/null
+			then
+				:
+			else
+				return 1;
+			fi
+		fi
+	done
+
+	return 0;
+}
+
+#****f* Checks/check_target_tool
+#  SYNOPSIS
+#  check_target_tool TOOL [TOOL] ...
+#  DESCRIPTION
+#  Checks for the presence of the given target compiler tool(s) in PATH.
+#  Returns TRUE if all tools are present, else FALSE.
+#****
+check_target_tool() {
+	local _prog;
+
+	(( $# < 1 )) && return 1;
+
+	for _prog
+	do
+		if ! hash ${CTARGET}-${_prog} &> /dev/null
+		then
+			if [ ${CTARGET} = ${CBUILD} ] && hash ${_prog} &> /dev/null
+			then
+				:
+			else
+				return 1;
+			fi
+		fi
+	done
+
+	return 0;
+}
+
+#****f* Checks/check_pkg_config
+#  SYNOPSIS
+#  check_pkg_config NAME "PKG_CONFIG_SPEC"
+#  DESCRIPTION
+#  Checks for the presence of the given development packages with pkg-config.
+#  If given pkg-config spec is found, return TRUE and defines NAME_CFLAGS
+#  and NAME_LIBS.  If not found, returns FALSE.
+#  REQUIRES
+#  pkg-config
+#****
+check_pkg_config() {
+	local modname=${1};
+	shift;
+
+	check_prog_req pkg-config;
+
+	if ! pkg-config --exists ${*}
+	then
+		return 1;
+	fi
+
+	export ${modname}_CFLAGS="$(pkg-config --cflags ${*})";
+	export ${modname}_LIBS="$(pkg-config --libs ${*})";
+	return 0;
+}
+
+#****f* Checks/check_girepository_module
+#  SYNOPSIS
+#  check_girepository_module MODULE [MODULE2] ...
+#  DESCRIPTION
+#  Checks the presence of the given GObject Introspection module(s).  If all
+#  given module(s) are present, returns TRUE, else FALSE.
+#  NOTE
+#  check_girepository_module does not distinguish how the given module(s) were
+#  installed, whether they are from a Cygwin package or manually.
+#  REQUIRES
+#  gobject-introspection
+#****
+check_girepository_module() {
+	local girdir;
+	local typelibdir;
+	local mod;
+
+	check_prog_req pkg-config;
+
+	if ! pkg-config --exists gobject-introspection-1.0
+	then
+		error "gobject-introspection is required to build this package";
+	fi
+
+	girdir=$(pkg-config --variable=girdir gobject-introspection-1.0);
+	typelibdir=$(pkg-config --variable=typelibdir gobject-introspection-1.0);
+
+	for mod
+	do
+		if [ ! -f ${girdir}/${mod}.gir -o ! -f ${typelibdir}/${mod}.typelib ]
+		then
+			return 2;
+		fi
+	done
+
+	return 0;
+}
+
+#****f* Checks/check_lua_module
+#  SYNOPSIS
+#  check_lua_module MODULE [MODULE2] ...
+#  DESCRIPTION
+#  Checks the presence of the given Lua module(s).  If all given module(s)
+#  are present, returns TRUE, else FALSE.
+#  NOTE
+#  check_lua_module does not distinguish how the given module(s) were
+#  installed, whether they are from a Cygwin package or manually.
+#  REQUIRES
+#  lua
+#****
+check_lua_module() {
+	local mod;
+
+	check_prog_req lua;
+
+	for mod
+	do
+		if ! lua -e "require(\"${mod}\")" &> /dev/null
+		then
+			return 2;
+		fi
+	done
+
+	return 0;
+}
+
+#****f* Checks/check_ocaml_module
+#  SYNOPSIS
+#  check_ocaml_module MODULE [MODULE2] ...
+#  DESCRIPTION
+#  Checks the presence of the given Objective Caml module(s).  If all given
+#  module(s) are present, returns TRUE, else FALSE.
+#  NOTE
+#  check_ocaml_module does not distinguish how the given module(s) were
+#  installed, whether they are from a Cygwin package or manually.
+#  REQUIRES
+#  ocaml, ocaml-findlib
+#****
+check_ocaml_module() {
+	check_prog_req ocamlfind ocaml-findlib;
+
+	if ! ocamlfind query ${*} &> /dev/null
+	then
+		return 2;
+	fi
+
+	return 0;
+}
+
+#****f* Checks/check_perl_module
+#  SYNOPSIS
+#  check_perl_module MODULE [MODULE2] ...
+#  DESCRIPTION
+#  Checks the presence of the given Perl module(s).  If all given module(s)
+#  are present, returns TRUE, else FALSE.
+#  NOTE
+#  check_perl_module does not distinguish how the given module(s) were
+#  installed, whether they are from a Cygwin package or manually.
+#  REQUIRES
+#  perl
+#****
+check_perl_module() {
+	local mod;
+
+	check_prog_req perl;
+
+	for mod
+	do
+		if ! perl -e "require ${mod}" &> /dev/null
+		then
+			return 2;
+		fi
+	done
+
+	return 0;
+}
+
+#****f* Checks/check_python_module
+#  SYNOPSIS
+#  check_python_module MODULE [MODULE2] ...
+#  DESCRIPTION
+#  Checks the presence of the given Python2 module(s).  If all given module(s)
+#  are present, returns TRUE, else FALSE.
+#  NOTES
+#  * check_python_module does not distinguish how the given module(s) were
+#    installed, whether they are from a Cygwin package or manually.
+#  * For Python 3 modules, use check_python3_module.
+#  * For PyPy modules, use check_pypy_module.
+#  REQUIRES
+#  python
+#****
+check_python_module() {
+	local mod;
+
+	check_prog_req python;
+
+	for mod
+	do
+		if ! python -c "import ${mod}" &> /dev/null
+		then
+			return 2;
+		fi
+	done
+
+	return 0;
+}
+
+#****f* Checks/check_python3_module
+#  SYNOPSIS
+#  check_python3_module MODULE [MODULE2] ...
+#  DESCRIPTION
+#  Checks the presence of the given Python3 module(s).  If all given module(s)
+#  are present, returns TRUE, else FALSE.
+#  NOTES
+#  * check_python3_module does not distinguish how the given module(s) were
+#    installed, whether they are from a Cygwin package or manually.
+#  * For Python 2 modules, use check_python_module.
+#  * For PyPy modules, use check_pypy_module.
+#  REQUIRES
+#  python3
+#****
+check_python3_module() {
+	local mod;
+
+	check_prog_req python3;
+
+	for mod
+	do
+		if ! python3 -c "import ${mod}" &> /dev/null
+		then
+			return 2;
+		fi
+	done
+
+	return 0;
+}
+
+#****f* Checks/check_pypy_module
+#  SYNOPSIS
+#  check_pypy_module MODULE [MODULE2] ...
+#  DESCRIPTION
+#  Checks the presence of the given PyPy module(s).  If all given module(s)
+#  are present, returns TRUE, else FALSE.
+#  NOTES
+#  * check_pypy_module does not distinguish how the given module(s) were
+#    installed, whether they are from a Cygwin package or manually.
+#  * For CPython modules, use check_python_module or check_python3_module.
+#  REQUIRES
+#  pypy
+#****
+check_pypy_module() {
+	local mod;
+
+	check_prog_req pypy;
+
+	for mod
+	do
+		if ! pypy -c "import ${mod}" &> /dev/null
+		then
+			return 2;
+		fi
+	done
+
+	return 0;
+}
+
+#****f* Checks/check_R_module
+#  SYNOPSIS
+#  check_R_module MODULE [MODULE2] ...
+#  DESCRIPTION
+#  Checks the presence of the given R module(s).  If all given module(s)
+#  are present, returns TRUE, else FALSE.
+#  NOTE
+#  check_R_module does not distinguish how the given module(s) were
+#  installed, whether they are from a Cygwin package or manually.
+#  REQUIRES
+#  R
+#****
+check_R_module() {
+	local mod;
+
+	check_prog_req R;
+
+	for mod
+	do
+		if ! R -e "library(${mod});q()" &> /dev/null
+		then
+			return 2;
+		fi
+	done
+
+	return 0;
+}
+
+#****f* Checks/check_ruby_module
+#  SYNOPSIS
+#  check_ruby_module MODULE [MODULE2] ...
+#  DESCRIPTION
+#  Checks the presence of the given Ruby module(s).  If all given module(s)
+#  are present, returns TRUE, else FALSE.
+#  NOTE
+#  check_ruby_module does not distinguish how the given module(s) were
+#  installed, whether they are from a Cygwin package or manually.
+#  REQUIRES
+#  ruby
+#****
+check_ruby_module() {
+	local mod;
+
+	check_prog_req ruby;
+
+	for mod
+	do
+		if ! ruby -e "require '${mod}'" &> /dev/null
+		then
+			return 2;
+		fi
+	done
+
+	return 0;
+}
+
+#****f* Checks/check_tcl_module
+#  SYNOPSIS
+#  check_tcl_module MODULE [MODULE2] ...
+#  DESCRIPTION
+#  Checks the presence of the given Tcl module(s).  If all given module(s)
+#  are present, returns TRUE, else FALSE.
+#  NOTE
+#  check_tcl_module does not distinguish how the given module(s) were
+#  installed, whether they are from a Cygwin package or manually.
+#  REQUIRES
+#  tcl
+#****
+check_tcl_module() {
+	local mod;
+
+	check_prog_req tclsh tcl;
+
+	for mod
+	do
+		if echo "package require ${mod}; exit" | tclsh 2>&1 | grep -q "^can't find package"
+		then
+			return 2;
+		fi
+	done
+
+	return 0;
+}
+
+#****f* Checks/check_tex_module
+#  SYNOPSIS
+#  check_tex_module MODULE [MODULE2] ...
+#  DESCRIPTION
+#  Checks the presence of the given TeX module(s).  If all given module(s)
+#  are present, returns TRUE, else FALSE.
+#  NOTE
+#  check_tex_module does not distinguish how the given module(s) were
+#  installed, whether they are from a Cygwin package or manually.
+#  REQUIRES
+#  texlive
+#****
+check_tex_module() {
+	local ret=0;
+
+	check_prog_req kpsewhich texlive;
+
+	if ! kpsewhich $@ &> /dev/null
+	then
+		ret=2
+	fi
+
+	return ${ret};
+}
+
+
+#****f* Checks/check_vala_module
+#  SYNOPSIS
+#  check_vala_module MODULE [MODULE2] ...
+#  DESCRIPTION
+#  Checks the presence of the given Vala module(s).  If all given module(s)
+#  are present, returns TRUE, else FALSE.
+#  NOTE
+#  check_vala_module does not distinguish how the given module(s) were
+#  installed, whether they are from a Cygwin package or manually.
+#  REQUIRES
+#  vala
+#****
+check_vala_module() {
+	local mod;
+	local pkgargs;
+	local ret=0;
+
+	check_prog_req valac vala;
+
+	tmpfile=$(mktemp /tmp/XXXXXXXX.vala)
+
+	echo "void main() {}" > ${tmpfile}
+
+	for mod
+	do
+		pkgargs+="--pkg ${mod} "
+	done
+
+	if ! valac ${pkgargs} -C -d ${tmpfile%/*} ${tmpfile} &> /dev/null
+	then
+		ret=2
+	fi
+
+	rm -f ${tmpfile} ${tmpfile%.vala}.c
+
+	return ${ret};
+}
+
+#****f* Information/DEPEND
+#  SYNOPSIS
+#  DEPEND="ATOM [ATOM] ..."
+#  DESCRIPTION
+#  A list of build-time (not runtime) dependencies to be checked before calling
+#  src_compile.  Each ATOM can be in one of the following forms:
+#  * girepository(Foo-1.0): GObject Introspection modules
+#  * lua(foo): Lua extensions
+#  * ocaml(foo): Objective Caml libraries
+#  * perl(Foo::Bar): Perl modules
+#  * pkgconfig(foo-1.0): A -devel package providing this pkg-config file
+#  * pypy(foo): PyPy modules
+#  * python(foo): Python 2 modules
+#  * python3(foo): Python 3 modules
+#  * R(foo): R packages
+#  * ruby(foo): Ruby modules
+#  * tcl(foo): Tcl/Tk packages
+#  * tex(foo.ext): TeX modules
+#  * vala(foo-1.0): Vala bindings
+#  * foo: A Cygwin package (check skipped on non-Cygwin build systems)
+#****
+__check_depends() {
+	local atom failed_atoms;
+
+	if ! defined DEPEND
+	then
+		return 0;
+	fi
+
+	__deparenthesize() { echo "$@" | sed -e 's|[a-z]*(\([^)]*\))|\1|' ; }
+
+	for atom in ${DEPEND}
+	do
+		case ${atom} in
+		girepository\(*)
+			check_girepository_module $(__deparenthesize ${atom}) \
+				|| failed_atoms+="${atom} "
+			;;
+		lua\(*)
+			check_lua_module $(__deparenthesize ${atom}) \
+				|| failed_atoms+="${atom} "
+			;;
+		ocaml\(*)
+			check_ocaml_module $(__deparenthesize ${atom}) \
+				|| failed_atoms+="${atom} "
+			;;
+		perl\(*)
+			check_perl_module $(__deparenthesize ${atom//-/::}) \
+				|| failed_atoms+="${atom} "
+			;;
+		pkgconfig\(*)
+			check_prog_req pkg-config;
+			pkg-config --exists $(__deparenthesize ${atom}) \
+				|| failed_atoms+="${atom} "
+			;;
+		pypy\(*)
+			check_pypy_module $(__deparenthesize ${atom}) \
+				|| failed_atoms+="${atom} "
+			;;
+		python\(*)
+			check_python_module $(__deparenthesize ${atom}) \
+				|| failed_atoms+="${atom} "
+			;;
+		python3\(*)
+			check_python3_module $(__deparenthesize ${atom}) \
+				|| failed_atoms+="${atom} "
+			;;
+		R\(*)
+			check_R_module $(__deparenthesize ${atom}) \
+				|| failed_atoms+="${atom} "
+			;;
+		ruby\(*)
+			check_ruby_module $(__deparenthesize ${atom}) \
+				|| failed_atoms+="${atom} "
+			;;
+		tcl\(*)
+			check_tcl_module $(__deparenthesize ${atom}) \
+				|| failed_atoms+="${atom} "
+			;;
+		tex\(*)
+			check_tex_module $(__deparenthesize ${atom}) \
+				|| failed_atoms+="${atom} "
+			;;
+		vala\(*)
+			check_vala_module $(__deparenthesize ${atom}) \
+				|| failed_atoms+="${atom} "
+			;;
+		/*)	# undocumented for now
+			test -e ${atom} || failed_atoms+="${atom} "
+			;;
+		*)
+			# package checks not available on other systems
+			if check_prog cygcheck
+			then
+				cygcheck -cd ${atom} | dos2unix | grep -q "^${atom} " || failed_atoms+="${atom} "
+			fi
+			;;
+		esac
+	done
+
+	unset -f __deparenthesize
+
+	if defined failed_atoms
+	then
+		warning "Some build dependencies are not installed."
+		warning "This package may end up missing features, or not build at all."
+		warning "Consider installing these packages first before continuing:"
+		warning "    ${failed_atoms}"
+	fi
+}
+
+__check_function() {
+	(( $# < 1 )) && return 1;
+	declare -F ${1} &> /dev/null
+	return $?
+}
+
+__check_function_ro() {
+	(( $# < 1 )) && return 1;
+	declare -Fr | grep -q " ${1}$"
+	return $?
+}
+
+__check_unstable() {
+	local unstable_var=CYGPORT_USE_UNSTABLE_API
+
+	if defined ${unstable_var}
+	then
+		"${@}"
+		return $?
+	else
+		warning "The ${1} API is not yet stable and is subject to change"
+		warning "You must define ${unstable_var} in order to use it"
+	fi
+}
+
+__version_at_least() {
+	local want_v=${1%-*};
+	local want_r=${1#*-};
+	local have_v=${2%-*};
+	local have_r=${2#*-};
+	local -a want_va=(${want_v//[-\._]/ });
+	local -a have_va=(${have_v//[-\._]/ });
+	local -i n=0;
+
+	while defined want_ver[${n}]
+	do
+		if (( want_ver[n] < ${have_ver[${n}]:-0} ))
+		then
+			return 0;
+		elif (( want_ver[n] > ${have_ver[${n}]:-0} ))
+		then
+			return 1;
+		else
+			n+=1;
+			continue;
+		fi
+	done
+
+	if [ "${want_r}" != "${want_v}" ]
+	then
+		if (( want_r > have_r ))
+		then
+			return 1;
+		fi
+	fi
+
+	return 0;	# equal
+}
+
+readonly -f check_prog check_prog_req check_tool check_target_tool \
+            check_pkg_config check_girepository_module check_lua_module \
+            check_ocaml_module check_perl_module check_python_module \
+            check_python3_module check_pypy_module check_R_module check_ruby_module \
+            check_tcl_module check_vala_module \
+            __check_depends __check_function __check_function_ro \
+            __check_unstable __version_at_least

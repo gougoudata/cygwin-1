@@ -1,0 +1,80 @@
+################################################################################
+#
+# apache.cygclass - wrapper for versioned apache cygclasses
+#
+# Part of cygport - Cygwin packaging application
+# Copyright (C) 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 Yaakov Selkowitz
+# Provided by the Cygwin Ports project <http://sourceware.org/cygwinports/>
+#
+# cygport is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# cygport is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with cygport.  If not, see <http://www.gnu.org/licenses/>.
+#
+################################################################################
+
+#****h* Cygclasses/apache.cygclass
+#  SYNOPSIS
+#  inherit apache
+#  DESCRIPTION
+#  Deprecated compatibility wrapper for apache2.cygclass.
+#  INHERITS
+#  apache2.cygclass
+#****
+
+inherit apache2
+
+#****C* apache.cygclass/apache_compile
+#  DESCRIPTION
+#  Alias for apache2_compile
+#****
+apache_compile() {
+	apache2_compile "$@"
+}
+
+#****C* apache.cygclass/apache_apxs_compile
+#  DESCRIPTION
+#  Alias for apache2_apxs_compile
+#****
+apache_apxs_compile() {
+	apache2_apxs_compile "$@"
+}
+
+apxs_compile() {
+	apache2_apxs_compile "$@"
+}
+
+#****I* apache.cygclass/doapacheconf
+#  DESCRIPTION
+#  Alias for doapache2conf
+#****
+doapacheconf() {
+	doapache2conf "$@"
+}
+
+#****I* apache.cygclass/doapachemod
+#  DESCRIPTION
+#  Alias for doapache2mod
+#****
+doapachemod() {
+	doapache2mod "$@"
+}
+
+#****I* apache.cygclass/apache_postinst
+#  DESCRIPTION
+#  Alias for apache2_postinst
+#****
+apache_postinst() {
+	apache2_postinst
+}
+
+readonly -f apache_compile apache_apxs_compile apxs_compile doapacheconf \
+            doapachemod apache_postinst

@@ -1,0 +1,14 @@
+#!/bin/bash
+
+prefix=/usr
+bindir=${prefix}/bin
+sbindir=${prefix}/sbin
+infodir=${prefix}/share/info
+
+/usr/sbin/update-alternatives \
+    --install "${bindir}/gpc.exe" "gpc" "${bindir}/gpc-3.exe" 30 \
+  --slave "/usr/bin/binobj.exe" "binobj" "/usr/bin/binobj-3.exe" \
+  --slave "/usr/bin/gpidump.exe" "gpidump" "/usr/bin/gpidump-3.exe" \
+  --slave "/usr/share/man/man1/gpc.1.gz" "gpc.1.gz" "/usr/share/man/man1/gpc-3.1.gz" \
+
+

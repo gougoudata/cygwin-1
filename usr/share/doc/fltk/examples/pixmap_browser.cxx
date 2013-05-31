@@ -1,24 +1,15 @@
 //
-// "$Id: pixmap_browser.cxx 5519 2006-10-11 03:12:15Z mike $"
+// "$Id: pixmap_browser.cxx 8864 2011-07-19 04:49:30Z greg.ercolano $"
 //
 // A shared image test program for the Fast Light Tool Kit (FLTK).
 //
-// Copyright 1998-2006 by Bill Spitzak and others.
+// Copyright 1998-2010 by Bill Spitzak and others.
 //
-// This library is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Library General Public
-// License as published by the Free Software Foundation; either
-// version 2 of the License, or (at your option) any later version.
+// This library is free software. Distribution and use rights are outlined in
+// the file "COPYING" which should have been included with this file.  If this
+// file is missing or damaged, see the license at:
 //
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-// Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public
-// License along with this library; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
-// USA.
+//     http://www.fltk.org/COPYING.php
 //
 // Please report all bugs and problems on the following page:
 //
@@ -27,7 +18,7 @@
 
 #include <FL/Fl.H>
 #include <FL/Fl_Box.H>
-#include <FL/Fl_Window.H>
+#include <FL/Fl_Double_Window.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Shared_Image.H>
 #include <string.h>
@@ -36,7 +27,7 @@
 #include <FL/fl_message.H>
 
 Fl_Box *b;
-Fl_Window *w;
+Fl_Double_Window *w;
 Fl_Shared_Image *img;
 
 
@@ -88,7 +79,8 @@ void file_cb(const char *n) {
 
 void button_cb(Fl_Widget *,void *) {
   fl_file_chooser_callback(file_cb);
-  fl_file_chooser("Image file?","*.{bm,bmp,gif,jpg,pbm,pgm,png,ppm,xbm,xpm}", name);
+  const char *fname = fl_file_chooser("Image file?","*.{bm,bmp,gif,jpg,pbm,pgm,png,ppm,xbm,xpm}", name);
+  puts(fname ? fname : "(null)"); fflush(stdout);
   fl_file_chooser_callback(0);
 }
 
@@ -105,7 +97,7 @@ int main(int argc, char **argv) {
 
   Fl::args(argc,argv,i,arg);
 
-  Fl_Window window(400,435); ::w = &window;
+  Fl_Double_Window window(400,435); ::w = &window;
   Fl_Box b(10,45,380,380); ::b = &b;
   b.box(FL_THIN_DOWN_BOX);
   b.align(FL_ALIGN_INSIDE|FL_ALIGN_CENTER);
@@ -119,5 +111,5 @@ int main(int argc, char **argv) {
 }
 
 //
-// End of "$Id: pixmap_browser.cxx 5519 2006-10-11 03:12:15Z mike $".
+// End of "$Id: pixmap_browser.cxx 8864 2011-07-19 04:49:30Z greg.ercolano $".
 //

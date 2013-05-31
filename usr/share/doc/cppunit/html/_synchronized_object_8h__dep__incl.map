@@ -1,0 +1,21 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$_test_result_8h.html" title="TestResult.h" alt="" coords="596,160,695,189"/>
+<area shape="rect" id="node26" href="$_test_success_listener_8h.html" title="TestSuccessListener.h" alt="" coords="900,83,1063,112"/>
+<area shape="rect" id="node41" href="$_synchronized_object_8cpp.html" title="SynchronizedObject.cpp" alt="" coords="1087,83,1260,112"/>
+<area shape="rect" id="node5" href="$_text_test_result_8h.html" title="TextTestResult.h" alt="" coords="1064,237,1192,267"/>
+<area shape="rect" id="node9" href="$_text_test_runner_8cpp.html" title="TextTestRunner.cpp" alt="" coords="705,315,855,344"/>
+<area shape="rect" id="node11" href="$_protector_8cpp.html" title="Protector.cpp" alt="" coords="637,237,744,267"/>
+<area shape="rect" id="node13" href="$_repeated_test_8cpp.html" title="RepeatedTest.cpp" alt="" coords="768,237,907,267"/>
+<area shape="rect" id="node15" href="$_test_case_8cpp.html" title="TestCase.cpp" alt="" coords="931,237,1040,267"/>
+<area shape="rect" id="node17" href="$_test_composite_8cpp.html" title="TestComposite.cpp" alt="" coords="5,237,147,267"/>
+<area shape="rect" id="node19" href="$_test_result_8cpp.html" title="TestResult.cpp" alt="" coords="171,237,285,267"/>
+<area shape="rect" id="node21" href="$_test_runner_8cpp.html" title="TestRunner.cpp" alt="" coords="309,237,432,267"/>
+<area shape="rect" id="node23" href="$_test_suite_8cpp.html" title="TestSuite.cpp" alt="" coords="456,237,563,267"/>
+<area shape="rect" id="node7" href="$_text_test_result_8cpp.html" title="TextTestResult.cpp" alt="" coords="1057,315,1199,344"/>
+<area shape="rect" id="node28" href="$_test_result_collector_8h.html" title="TestResultCollector.h" alt="" coords="1312,160,1467,189"/>
+<area shape="rect" id="node39" href="$_test_success_listener_8cpp.html" title="TestSuccessListener.cpp" alt="" coords="892,160,1071,189"/>
+<area shape="rect" id="node31" href="$_compiler_outputter_8cpp.html" title="CompilerOutputter.cpp" alt="" coords="1720,237,1883,267"/>
+<area shape="rect" id="node33" href="$_test_result_collector_8cpp.html" title="TestResultCollector.cpp" alt="" coords="1216,237,1387,267"/>
+<area shape="rect" id="node35" href="$_text_outputter_8cpp.html" title="TextOutputter.cpp" alt="" coords="1411,237,1544,267"/>
+<area shape="rect" id="node37" href="$_xml_outputter_8cpp.html" title="XmlOutputter.cpp" alt="" coords="1568,237,1696,267"/>
+</map>

@@ -2,17 +2,16 @@
 /*
  * libbrlapi - A library providing access to braille terminals for applications.
  *
- * Copyright (C) 2002-2008 by
+ * Copyright (C) 2002-2010 by
  *   Samuel Thibault <Samuel.Thibault@ens-lyon.org>
- *   Sébastien Hinderer <Sebastien.Hinderer@ens-lyon.org>
+ *   SÃ©bastien Hinderer <Sebastien.Hinderer@ens-lyon.org>
  *
  * libbrlapi comes with ABSOLUTELY NO WARRANTY.
  *
  * This is free software, placed under the terms of the
  * GNU Lesser General Public License, as published by the Free Software
- * Foundation; either version 2.1 of the License,
- * or (at your option) any later version.
- * Please see the file COPYING-API for details.
+ * Foundation; either version 2.1 of the License, or (at your option) any
+ * later version. Please see the file LICENSE-LGPL for details.
  *
  * Web Page: http://mielke.cc/brltty/
  *
@@ -36,7 +35,7 @@ extern "C" {
  * @{ */
 
 /** Library version. */
-#define BRLAPI_RELEASE "0.5.2"
+#define BRLAPI_RELEASE "0.5.5"
 
 /** Library major version. */
 #define BRLAPI_MAJOR 0
@@ -45,7 +44,7 @@ extern "C" {
 #define BRLAPI_MINOR 5
 
 /** Library revision. */
-#define BRLAPI_REVISION 2
+#define BRLAPI_REVISION 5
 
 /** @} */
 
@@ -336,13 +335,6 @@ int BRLAPI_STDCALL brlapi__getDisplaySize(brlapi_handle_t *handle, unsigned int 
  * whereas a driver name means that raw key codes returned by this
  * driver are expected.
  *
- * In an X window environment, WINDOWPATH might be useful. XFree86 >=4.4 defines
- * an XFree86_VT root window property which exactly holds the used VT, so that
- * it should be given to brlapi_enterTtyMode. If it isn't available, one may,
- * right into .xsession and .xinitrc, grep X's log, for instance:
- *
- * WINDOWPATH="$(grep "using VT number" "/var/log/Xorg.$(echo "$DISPLAY" | sed -e "s/^.*::*\([0-9]*\).*$/\1/").log" | sed -e "s/^.*using VT number \([0-9]*\).*$/\1/")"
- *
  * WINDOWPATH and WINDOWID should be propagated when running remote applications
  * via ssh, for instance, along with BRLAPI_HOST and the authorization key (see
  * SendEnv in ssh_config(5) and AcceptEnv in sshd_config(5))
@@ -618,11 +610,6 @@ int BRLAPI_STDCALL brlapi_describeKeyCode (brlapi_keyCode_t code, brlapi_describ
 
 /** Unicode braille row */
 #define BRLAPI_UC_ROW	0x2800UL
-
-/** Maximum keyset size, i.e. maximum number of keys
- * allowed in a key set
- */
-#define BRLAPI_MAXKEYSETSIZE (BRLAPI_MAXPACKETSIZE / sizeof(brlapi_keyCode_t))
 
 /* brlapi_readKey */
 /** Read a key from the braille keyboard

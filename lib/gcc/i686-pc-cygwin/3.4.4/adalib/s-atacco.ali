@@ -16,8 +16,8 @@ U system.address_to_access_conversions%s  s-atacco.ads  1d39b50f BN NE PR PK GE
 W system%s		system.ads		system.ali
 
 D system.ads		20031021134222 6af26689
-D s-atacco.ads		20031021134214 77cbd386
-D s-atacco.adb		20031021134214 e2710e0a
+D s-atacco.ads		20031021134213 77cbd386
+D s-atacco.adb		20031021134213 e2710e0a
 X 1 system.ads
 44K9*System 163e11 2|41r9 62r5 3|34r14 40r5
 70M9*Address 2|54r33 55r56

@@ -1,0 +1,133 @@
+mingw-gcc
+========================================================================
+The mingw-gcc package provides the Gnu Compiler Collection (GCC)
+configured as a cross compiler for generating native win32 binaries
+from cygwin.  It is configured to use the MinGW.org runtime and headers
+(as opposed to the 32bit or 64bit flavors of the mingw64 runtime).
+
+Currently, the mingw-gcc collection includes the following languages:
+  c,c++,fortran,objc,obj-c++
+And is configured with the following ABI-affecting options:
+  --enable-libgomp
+  --disable-sjlj-exceptions (e.g. dw2 exceptions)
+  --enable-version-specific-runtime-libs
+
+Neither java nor ada compilers and runtimes are included. They may
+be added at a later date.
+
+Configuration:
+--------------
+  configure --srcdir=<local dir> \
+    --prefix=/usr --exec-prefix=/usr --bindir=/usr/bin \
+    --sbindir=/usr/sbin --libexecdir=/usr/lib --datadir=/usr/share \
+    --localstatedir=/var --sysconfdir=/etc --datarootdir=/usr/share \
+    --docdir=/usr/share/doc/mingw-gcc -C \
+    --build=i686-pc-cygwin \
+    --host=i686-pc-cygwin \
+    --target=i686-pc-mingw32 \
+    --with-sysroot=/usr/i686-pc-mingw32/sys-root \
+    --with-build-sysroot=/usr/i686-pc-mingw32/sys-root \
+    --disable-multilib \
+    --disable-win32-registry \
+    --enable-languages=c,c++,fortran,objc,obj-c++ \
+    --enable-libgomp \
+    --disable-sjlj-exceptions \
+    --enable-libstdcxx-debug \
+    --enable-version-specific-runtime-libs \
+    --with-dwarf2 \
+    --disable-werror \
+    --enable-lto
+
+  ## MAKEFLAGS: picked up from mingw.org's release, with this explanation:
+  ## * Fix missing symbols in the Objective C export library.
+
+  make 'MAKEFLAGS=TARGET-target-libobjc=all\ LDFLAGS=-Wl,--export-all-symbols'
+
+
+Runtime Requirements:
+  libcloog0
+  libgcc1
+  libgmp3
+  libiconv2
+  libintl8
+  libmpc1
+  libmpfr1
+  libppl
+  mingw-binutils
+  mingw-pthreads
+  mingw-runtime
+  mingw-w32api
+
+Build Requirements:
+  gcc4-core
+  libgmp-devel
+  libcloog-devel
+  libiconv-devel
+  gettext-devel
+  gettext
+  libmpc-devel
+  libmpfr-devel
+  libppl-devel
+  cygport-0.10.4
+  make
+  bash
+  flex
+  bison
+  texinfo
+
+Canonical homepage:
+  http://gcc.gnu.org/
+
+Canonical download:
+  ftp://gcc.gnu.org/pub/gcc/releases/gcc-4.5.1/gcc-ada-4.5.1.tar.bz2
+  ftp://gcc.gnu.org/pub/gcc/releases/gcc-4.5.1/gcc-core-4.5.1.tar.bz2
+  ftp://gcc.gnu.org/pub/gcc/releases/gcc-4.5.1/gcc-fortran-4.5.1.tar.bz2
+  ftp://gcc.gnu.org/pub/gcc/releases/gcc-4.5.1/gcc-g++-4.5.1.tar.bz2
+  ftp://gcc.gnu.org/pub/gcc/releases/gcc-4.5.1/gcc-objc-4.5.1.tar.bz2
+
+License:
+  GPLv3+ with runtime exception
+
+Language:
+  C,C++,Fortran,ObjC,Java,Ada,...
+
+========================================================================
+
+Build instructions:
+  unpack mingw-gcc-VER-REL-src.tar.bz2
+    if you use setup to install this src package, it will be unpacked
+    under /usr/src automatically
+  cd /usr/src
+  cygport mingw-gcc-VER-REL.cygport all
+
+This will create:
+  /usr/src/mingw-gcc-core-VER-REL.tar.bz2
+  /usr/src/mingw-gcc-gfortran-VER-REL.tar.bz2
+  /usr/src/mingw-gcc-g++-VER-REL.tar.bz2
+  /usr/src/mingw-gcc-objc-VER-REL.tar.bz2
+  /usr/src/mingw-gcc-VER-REL-src.tar.bz2
+
+========================================================================
+
+Files included in the packages:
+
+mingw-gcc-core:       cygcheck -l mingw-gcc-core
+mingw-gcc-gfortran:   cygcheck -l mingw-gcc-gfortran
+mingw-gcc-g++:        cygcheck -l mingw-gcc-g++
+mingw-gcc-objc:       cygcheck -l mingw-gcc-objc
+
+========================================================================
+
+Port Notes:
+---------- mingw-gcc-4.5.2-1 -- 2011 May 17 -----------
+* Update to match mingw.org offerings
+* Do *not* use --enable-fully-dynamic-strings, since that changes the
+  C++ ABI, and mingw.org doesn't use it.
+* First cygwin.com release
+
+---------- mingw-gcc-4.5.1-1 -- 2010 Nov 22 -----------
+* Initial release (but only via cygutils.fruitbat.org)
+
+========================================================================
+Cygwin port maintained by: Chuck Wilson <cygwin@cygwin.com>
+

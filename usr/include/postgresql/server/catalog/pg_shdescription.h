@@ -12,13 +12,13 @@
  * across tables.
  *
  *
- * Portions Copyright (c) 1996-2006, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2012, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
- * $PostgreSQL: pgsql/src/include/catalog/pg_shdescription.h,v 1.3 2006/10/04 00:30:08 momjian Exp $
+ * src/include/catalog/pg_shdescription.h
  *
  * NOTES
- *		the genbki.sh script reads this file and generates .bki
+ *		the genbki.pl script reads this file and generates .bki
  *		information from the DATA() statements.
  *
  *		XXX do NOT break up DATA() statements into multiple lines!
@@ -29,12 +29,7 @@
 #ifndef PG_SHDESCRIPTION_H
 #define PG_SHDESCRIPTION_H
 
-/* ----------------
- *		postgres.h contains the system type definitions and the
- *		CATALOG(), BKI_BOOTSTRAP and DATA() sugar words so this file
- *		can be read by both genbki.sh and the C compiler.
- * ----------------
- */
+#include "catalog/genbki.h"
 
 /* ----------------
  *		pg_shdescription definition.	cpp turns this into
@@ -47,7 +42,10 @@ CATALOG(pg_shdescription,2396) BKI_SHARED_RELATION BKI_WITHOUT_OIDS
 {
 	Oid			objoid;			/* OID of object itself */
 	Oid			classoid;		/* OID of table containing object */
+
+#ifdef CATALOG_VARLEN			/* variable-length fields start here */
 	text		description;	/* description of object */
+#endif
 } FormData_pg_shdescription;
 
 /* ----------------
@@ -74,7 +72,7 @@ typedef FormData_pg_shdescription *Form_pg_shdescription;
 /*
  *	Because the contents of this table are taken from the other *.h files,
  *	there is no initialization here.  The initial contents are extracted
- *	by genbki.sh and loaded during initdb.
+ *	by genbki.pl and loaded during initdb.
  */
 
 #endif   /* PG_SHDESCRIPTION_H */

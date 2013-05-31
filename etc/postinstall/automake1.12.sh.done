@@ -1,0 +1,15 @@
+#!/bin/sh
+prefix=/usr
+bindir=${prefix}/bin
+sbindir=${prefix}/sbin
+infodir=${prefix}/share/info
+man1dir=${prefix}/share/man/man1
+
+${sbindir}/update-alternatives \
+	--install ${bindir}/automake automake ${bindir}/automake-1.12 80 \
+	--slave   ${bindir}/aclocal  aclocal  ${bindir}/aclocal-1.12     \
+	--slave   ${infodir}/automake.info.gz automake-info ${infodir}/automake1.12.info.gz \
+	--slave   ${infodir}/automake-history.info.gz automake-history-info ${infodir}/automake-history1.12.info.gz \
+	--slave   ${man1dir}/automake.1.gz automake-man ${man1dir}/automake-1.12.1.gz \
+	--slave   ${man1dir}/aclocal.1.gz aclocal-man ${man1dir}/aclocal-1.12.1.gz
+

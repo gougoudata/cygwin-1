@@ -61,7 +61,7 @@
 { #undef HAVE_TZNAME }
 
 { Define if you have a timezone variable.  }
-{ #undef HAVE_TIMEZONE }
+{$define HAVE_TIMEZONE 1}
 
 { Define if you have a _timezone variable.  }
 {$define HAVE__TIMEZONE 1}
@@ -91,7 +91,7 @@
 {$define TZNAME_DECLARED 1}
 
 { Define if the timezone variable is declared in <time.h>.  }
-{ #undef TIMEZONE_DECLARED }
+{$define TIMEZONE_DECLARED 1}
 
 { Define if the _timezone variable is declared in <time.h>.  }
 {$define _TIMEZONE_DECLARED 1}

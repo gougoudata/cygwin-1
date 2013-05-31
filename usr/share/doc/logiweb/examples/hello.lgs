@@ -1,0 +1,41 @@
+""P hello
+""R base
+""D 0
+hi
+""B
+page ( ""N , ""C )
+title "Hello World"
+bib "
+@techreport{appendix,
+  author    = {Klaus Grue},
+  year      = {2009},
+  title     = {Hello World - appendix},
+  institution={Logiweb},
+  note      =
+{\href{\lgwBlockRelay \lgwBlockThis /page/appendix.pdf}{%
+\lgwBreakRelay \lgwBreakThis /page/appendix.pdf}}}
+"
+main text "
+\title{Hello World}
+\author{Klaus Grue}
+\maketitle
+\nocite{appendix}
+\section{Hello World}
+\begin{statements}
+\item "[[ execute define "hello" as << hi >> end define ]]"
+\item "[[ eager define hi as map ( \ x . << writeln request ( "Hello World" ) >> ) end define ]]"
+\end{statements}
+\bibliography{./page}
+"
+appendix "
+\title{Hello World - appendix}
+\author{Klaus Grue}
+\maketitle
+\section{\TeX\ definitions}
+This document contains no \TeX\ definitions.
+"
+end page
+
+
+
+

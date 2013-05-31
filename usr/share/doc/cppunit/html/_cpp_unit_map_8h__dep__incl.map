@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$_test_suite_builder_context_8h.html" title="TestSuiteBuilderContext.h" alt="" coords="159,83,343,112"/>
+<area shape="rect" id="node9" href="$_xml_outputter_8h.html" title="XmlOutputter.h" alt="" coords="373,83,488,112"/>
+<area shape="rect" id="node13" href="$_test_factory_registry_8cpp.html" title="TestFactoryRegistry.cpp" alt="" coords="512,83,685,112"/>
+<area shape="rect" id="node5" href="$_helper_macros_8h.html" title="Macros intended to ease the definition of test suites." alt="" coords="5,160,128,189"/>
+<area shape="rect" id="node7" href="$_test_suite_builder_context_8cpp.html" title="TestSuiteBuilderContext.cpp" alt="" coords="152,160,349,189"/>
+<area shape="rect" id="node11" href="$_xml_outputter_8cpp.html" title="XmlOutputter.cpp" alt="" coords="373,160,501,189"/>
+</map>

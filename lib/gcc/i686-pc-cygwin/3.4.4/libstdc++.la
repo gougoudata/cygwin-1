@@ -14,7 +14,7 @@ library_names=''
 old_library='libstdc++.a'
 
 # Libraries that this one depends upon.
-dependency_libs=' -L/usr/build/package/orig/test.respin/gcc-3.4.4-3/.build/i686-pc-cygwin/libstdc++-v3/src -L/usr/build/package/orig/test.respin/gcc-3.4.4-3/.build/i686-pc-cygwin/libstdc++-v3/src/.libs -L/usr/build/package/orig/test.respin/gcc-3.4.4-3/.build/gcc -L/usr/i686-pc-cygwin/bin -L/usr/lib/gcc/i686-pc-cygwin/3.4.4 -L/usr/lib/gcc/i686-pc-cygwin/3.4.4/../../.. -lgcc -lcygwin -luser32 -lkernel32 -ladvapi32 -lshell32 -lgcc -lgcc -lcygwin -luser32 -lkernel32 -ladvapi32 -lshell32 -lgcc'
+dependency_libs=' -L/managed/gcc-build/final-v3-bootstrap/gcc-3.4.4-999/.build/i686-pc-cygwin/libstdc++-v3/src -L/managed/gcc-build/final-v3-bootstrap/gcc-3.4.4-999/.build/i686-pc-cygwin/libstdc++-v3/src/.libs -L/managed/gcc-build/final-v3-bootstrap/gcc-3.4.4-999/.build/gcc -L/usr/i686-pc-cygwin/bin -L/usr/lib/gcc/i686-pc-cygwin/3.4.4 -L/usr/lib/gcc/i686-pc-cygwin/3.4.4/../../.. -lgcc -lcygwin -luser32 -lkernel32 -ladvapi32 -lshell32 -lgcc -lgcc -lcygwin -luser32 -lkernel32 -ladvapi32 -lshell32 -lgcc'
 
 # Version information for libstdc++.
 current=6

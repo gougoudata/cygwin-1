@@ -1,0 +1,31 @@
+                      Stacked Git 0.16 released
+                      -------------------------
+
+StGit is a Python application providing functionality similar to Quilt
+(i.e. pushing/popping patches to/from a stack) on top of Git. These
+operations are performed using Git commands, and the patches are
+stored as Git commit objects, allowing easy merging of the StGit
+patches into other repositories using standard Git functionality.
+
+  Download:         http://download.gna.org/stgit/stgit-0.16.tar.gz
+  Main repository:  git://repo.or.cz/stgit.git
+  Project homepage: http://www.procode.org/stgit/
+  Mailing list:     stgit-users@gna.org
+  Bug tracker:      https://gna.org/bugs/?group=stgit
+
+The main changes since release 0.15 are:
+
+  - Several improvements to the Emacs mode (stgit.el).
+  - UI adjustments to better match the Git commands.
+    + "stg status" is an alias for "git status".
+    + "stg reset --hard" behaves similarly to the corresponding git command
+      and option.
+  - "stg branch --cleanup" option to remove the StGit metadata for a given
+    branch.
+  - "stg mail" can use "git send-email" directly.
+  - Vim syntax highlighting for StGit commit messages.
+  - Many bug-fixes.
+
+Many thanks to all the StGit contributors.
+
+[Insert output of "git shortlog v0.15..v0.16" here before sending!]

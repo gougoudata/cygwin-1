@@ -45,12 +45,14 @@ PangoColor *pango_color_copy     (const PangoColor *src);
 void        pango_color_free     (PangoColor       *color);
 gboolean    pango_color_parse    (PangoColor       *color,
 				  const char       *spec);
+gchar      *pango_color_to_string(const PangoColor *color);
+
 
 /* Attributes */
 
 typedef struct _PangoAttribute    PangoAttribute;
 typedef struct _PangoAttrClass    PangoAttrClass;
-				  
+
 typedef struct _PangoAttrString   PangoAttrString;
 typedef struct _PangoAttrLanguage PangoAttrLanguage;
 typedef struct _PangoAttrInt      PangoAttrInt;
@@ -84,9 +86,11 @@ typedef enum
   PANGO_ATTR_SCALE,             /* PangoAttrFloat */
   PANGO_ATTR_FALLBACK,          /* PangoAttrInt */
   PANGO_ATTR_LETTER_SPACING,    /* PangoAttrInt */
-  PANGO_ATTR_UNDERLINE_COLOR,	 /* PangoAttrColor */
-  PANGO_ATTR_STRIKETHROUGH_COLOR, /* PangoAttrColor */
-  PANGO_ATTR_ABSOLUTE_SIZE      /* PangoAttrSize */
+  PANGO_ATTR_UNDERLINE_COLOR,	/* PangoAttrColor */
+  PANGO_ATTR_STRIKETHROUGH_COLOR,/* PangoAttrColor */
+  PANGO_ATTR_ABSOLUTE_SIZE,	/* PangoAttrSize */
+  PANGO_ATTR_GRAVITY,		/* PangoAttrInt */
+  PANGO_ATTR_GRAVITY_HINT	/* PangoAttrInt */
 } PangoAttrType;
 
 typedef enum {
@@ -97,6 +101,9 @@ typedef enum {
   PANGO_UNDERLINE_ERROR
 } PangoUnderline;
 
+#define PANGO_ATTR_INDEX_FROM_TEXT_BEGINNING	0
+#define PANGO_ATTR_INDEX_TO_TEXT_END		G_MAXUINT
+
 struct _PangoAttribute
 {
   const PangoAttrClass *klass;
@@ -104,10 +111,28 @@ struct _PangoAttribute
   guint end_index;	/* in bytes. The character at this index is not included */
 };
 
+/**
+ * PangoAttrFilterFunc:
+ * @attribute: a Pango attribute
+ * @user_data: user data passed to the function
+ *
+ * Type of a function filtering a list of attributes.
+ *
+ * Return value: %TRUE if the attribute should be kept, %FALSE if it should be
+ * filtered out.
+ **/
 typedef gboolean (*PangoAttrFilterFunc) (PangoAttribute *attribute,
-					 gpointer        data);
+					 gpointer        user_data);
 
-typedef gpointer (*PangoAttrDataCopyFunc) (gconstpointer data);
+/**
+ * PangoAttrDataCopyFunc:
+ * @user_data: user data to copy
+ *
+ * Type of a function that can duplicate user data for an attribute.
+ *
+ * Return value: new copy of @user_data.
+ **/
+typedef gpointer (*PangoAttrDataCopyFunc) (gconstpointer user_data);
 
 struct _PangoAttrClass
 {
@@ -160,7 +185,7 @@ struct _PangoAttrShape
   PangoAttribute attr;
   PangoRectangle ink_rect;
   PangoRectangle logical_rect;
-  
+
   gpointer              data;
   PangoAttrDataCopyFunc copy_func;
   GDestroyNotify        destroy_func;
@@ -172,12 +197,15 @@ struct _PangoAttrFontDesc
   PangoFontDescription *desc;
 };
 
-PangoAttrType    pango_attr_type_register (const gchar          *name);
+PangoAttrType         pango_attr_type_register (const gchar        *name);
+const char *          pango_attr_type_get_name (PangoAttrType       type) G_GNUC_CONST;
 
-PangoAttribute * pango_attribute_copy          (const PangoAttribute *attr);
-void             pango_attribute_destroy       (PangoAttribute       *attr);
-gboolean         pango_attribute_equal         (const PangoAttribute *attr1,
-						const PangoAttribute *attr2);
+void             pango_attribute_init        (PangoAttribute       *attr,
+					      const PangoAttrClass *klass);
+PangoAttribute * pango_attribute_copy        (const PangoAttribute *attr);
+void             pango_attribute_destroy     (PangoAttribute       *attr);
+gboolean         pango_attribute_equal       (const PangoAttribute *attr1,
+					      const PangoAttribute *attr2) G_GNUC_PURE;
 
 PangoAttribute *pango_attr_language_new      (PangoLanguage              *language);
 PangoAttribute *pango_attr_family_new        (const char                 *family);
@@ -210,16 +238,19 @@ PangoAttribute *pango_attr_fallback_new      (gboolean                    enable
 PangoAttribute *pango_attr_letter_spacing_new (int                        letter_spacing);
 
 PangoAttribute *pango_attr_shape_new           (const PangoRectangle       *ink_rect,
-					        const PangoRectangle       *logical_rect);
+						const PangoRectangle       *logical_rect);
 PangoAttribute *pango_attr_shape_new_with_data (const PangoRectangle       *ink_rect,
 						const PangoRectangle       *logical_rect,
 						gpointer                    data,
 						PangoAttrDataCopyFunc       copy_func,
 						GDestroyNotify              destroy_func);
 
+PangoAttribute *pango_attr_gravity_new      (PangoGravity     gravity);
+PangoAttribute *pango_attr_gravity_hint_new (PangoGravityHint hint);
+
 GType              pango_attr_list_get_type      (void) G_GNUC_CONST;
 PangoAttrList *    pango_attr_list_new           (void);
-void               pango_attr_list_ref           (PangoAttrList  *list);
+PangoAttrList *    pango_attr_list_ref           (PangoAttrList  *list);
 void               pango_attr_list_unref         (PangoAttrList  *list);
 PangoAttrList *    pango_attr_list_copy          (PangoAttrList  *list);
 void               pango_attr_list_insert        (PangoAttrList  *list,
@@ -240,27 +271,34 @@ PangoAttrList *pango_attr_list_filter (PangoAttrList       *list,
 PangoAttrIterator *pango_attr_list_get_iterator  (PangoAttrList  *list);
 
 void               pango_attr_iterator_range    (PangoAttrIterator     *iterator,
-                                                 gint                  *start,
-                                                 gint                  *end);
+						 gint                  *start,
+						 gint                  *end);
 gboolean           pango_attr_iterator_next     (PangoAttrIterator     *iterator);
 PangoAttrIterator *pango_attr_iterator_copy     (PangoAttrIterator     *iterator);
 void               pango_attr_iterator_destroy  (PangoAttrIterator     *iterator);
 PangoAttribute *   pango_attr_iterator_get      (PangoAttrIterator     *iterator,
-                                                 PangoAttrType          type);
+						 PangoAttrType          type);
 void               pango_attr_iterator_get_font (PangoAttrIterator     *iterator,
-                                                 PangoFontDescription  *desc,
+						 PangoFontDescription  *desc,
 						 PangoLanguage        **language,
-                                                 GSList               **extra_attrs);
+						 GSList               **extra_attrs);
 GSList *          pango_attr_iterator_get_attrs (PangoAttrIterator     *iterator);
 
 
 gboolean pango_parse_markup (const char                 *markup_text,
-                             int                         length,
-                             gunichar                    accel_marker,
-                             PangoAttrList             **attr_list,
-                             char                      **text,
-                             gunichar                   *accel_char,
-                             GError                    **error);
+			     int                         length,
+			     gunichar                    accel_marker,
+			     PangoAttrList             **attr_list,
+			     char                      **text,
+			     gunichar                   *accel_char,
+			     GError                    **error);
+
+GMarkupParseContext * pango_markup_parser_new (gunichar               accel_marker);
+gboolean              pango_markup_parser_finish (GMarkupParseContext   *context,
+                                                  PangoAttrList        **attr_list,
+                                                  char                 **text,
+                                                  gunichar              *accel_char,
+                                                  GError               **error);
 
 G_END_DECLS
 

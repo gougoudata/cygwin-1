@@ -14,6 +14,7 @@ prefix=/usr
 exec_prefix=/usr
 includedir=${prefix}/include
 libdir=${exec_prefix}/lib
+isubdirafter=""
 
 output=""
 
@@ -53,13 +54,19 @@ while test $# -gt 0; do
 	    output="$output $exec_prefix"
 	    ;;
         --version)
-            echo "1.6"
+            echo "1.10"
 	    exit 0
 	    ;;
         --cflags)
 	    if test "x$includedir" != "x/usr/include" -a "x$includedir" != "x/include"; then
 		output="$output -I$includedir"
 	    fi
+            # Note: -idirafter is a gcc extension.  It is only used on
+            #       systems where gcc is the only compiler we support.
+            for i in $isubdirafter; do
+                output="$output -idirafter ${includedir}/${i}"
+            done
+	    output="$output "
 	    ;;
 	--libs)
 	    if test "x$libdir" != "x/usr/lib" -a "x$libdir" != "x/lib"; then

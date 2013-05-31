@@ -88,7 +88,7 @@ if test "$echo_cflags" = "yes"; then
 	if test "$lib_gthread" = "yes"; then
 		cflags="$cflags  -D_REENTRANT"
 	fi
-	echo -I/usr/include/glib-1.2 -I/usr/lib/glib/include $includes $cflags
+	echo -I${prefix}/include/glib-1.2 -I${exec_prefix}/lib/glib/include $includes $cflags
 fi
 if test "$echo_libs" = "yes"; then
 	libsp=""
@@ -104,5 +104,5 @@ if test "$echo_libs" = "yes"; then
 		libsp=" -lgmodule $libsp"
 		libsa="$libsa "
 	fi
-	echo -L/usr/lib $libsp $libsa
+	echo -L${exec_prefix}/lib $libsp $libsa
 fi

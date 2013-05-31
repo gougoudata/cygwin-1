@@ -1,5 +1,4 @@
 #!/bin/sh
-# $Id: unix-lpr.sh 6300 2005-12-28 19:56:24Z giles $
 #
 # Unix lpr filter. The default setup sends output directly to a pipe,
 # which requires the Ghostscript process to fork, and thus may cause 
@@ -20,12 +19,12 @@
 # executable name set in the makefile
 GS_EXECUTABLE=gs
 
-PBMPLUSPATH=/usr/local/bin
-PSFILTERPATH=/usr/local/lib/ghostscript
+PBMPLUSPATH=/usr/bin
+PSFILTERPATH=/usr/share/ghostscript
 LOCALPATH=/usr/local/bin
-X11HOME=/usr/X11R6
+X11HOME=/usr
 
-PATH=/bin:/usr/bin:/usr/ucb:/usr/etc
+PATH=/bin:/usr/bin
 PATH=${PATH}\:${LOCALPATH}\:${PBMPLUSPATH}\:${PSFILTERPATH}
 LD_LIBRARY_PATH=${X11HOME}/lib
 
@@ -153,7 +152,7 @@ echo "\
     } { pop } ifelse
   } if
 quit"
-) | $GS_EXECUTABLE -q -dNOPAUSE -sDEVICE=${device} \
+) | $GS_EXECUTABLE -q -P- -dSAFER -dNOPAUSE -sDEVICE=${device} \
 		-dBitsPerPixel=${bpp} $colorspec \
 		-sOutputFile=\|"${gsoutput}" -
 #		-sOutputFile=${gspipe} -

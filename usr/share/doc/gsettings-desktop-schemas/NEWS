@@ -1,0 +1,202 @@
+Major changes in 3.6.1
+======================
+
+* Translation updates (Russian Uighur, Slovenian, Danish,
+  Norwegian, Czech, Catalan, Catalan (Valencian), Latvian)
+
+Major changes in 3.6.0
+======================
+
+* Translation updates
+
+Major changes in 3.5.92
+=======================
+
+* Change default list of input sources to be empty, so the
+  default layout is inherited from the current settings
+* Translation updates
+
+Major changes in 3.5.91
+=======================
+
+* Add option to show all the available input sources in the UI
+* Translation updates
+
+Major changes in 3.5.90
+=======================
+
+* Add xkb-options key to input-sources
+* Translation updates
+
+Major changes in 3.5.4
+======================
+
+* Add colour saturation setting for the magnifier
+* Change default keyboard shortcut for "Maximise"
+* Translation updates
+
+Major changes in 3.5.3
+======================
+
+* Add show-notifications setting (#677640)
+* Translation updates
+
+Major changes in 3.5.2
+======================
+
+* Change the default mouse-button-modifier to Super (#607797)
+* Add brightness and contrast preferences (#645665)
+* Add input-sources schema (#676101)
+* Translation updates
+
+Major changes in 3.4.1
+======================
+
+* Translation updates
+
+Major changes in 3.4.0
+======================
+
+* Translation updates
+
+Major changes in 3.3.92
+=======================
+
+* Adjust default bindings for maximize/restore
+* Make evolution launch the correct component
+* Update default background URI
+* Updated translations
+
+Major changes in 3.3.90
+=======================
+
+* Update introspection dependency
+* Updated translations
+
+Major changes in 3.3.2
+======================
+
+* Add shared wm schemas
+* Updated translations
+
+Major changes in 3.2.0
+======================
+
+* Updated translations
+
+Major changes in 3.1.92
+=======================
+
+* Enable maintainer mode by default
+* Don't migrate the icon-theme from GConf
+* Updated translations
+
+Major changes in 3.1.91
+=======================
+
+* Add org.gnome.desktop.interface.{clock-show-seconds,clock-show-date}
+* Improve documentation for org.gnome.system.proxy
+* Updated translations
+
+Major changes in 3.1.3
+======================
+
+* Add org.gnome.system.locale schema
+* Remove org.gnome.desktop.default-applications.at remains
+* Add some ranges to magnifier schemas
+* Updated translations
+
+Major changes in 3.0.1
+======================
+
+* Don't migrate background-related keys
+* Don't migrate custom GTK+ color schemes and various GTK+ tweaks keys
+
+Major changes in 3.0.0
+======================
+* Added Japanese translation
+
+Major changes in 2.91.92
+========================
+
+* Use picture-uri instead of picture-filename (#633983)
+* Remove at mobility schema conversion
+* Use seconds instead of minutes in idle and lock times
+* Remove idle and screensaver settings form the conversion
+
+Major changes in 2.91.91
+========================
+
+* Disable toolkit-accessibility by default
+* Add "disable-log-out" to lockdown
+* Remove mobility configuration, we only support caribou's on-screen keyboard
+* Remove default-applications.browser schema from conversion script
+* Remove unused "use-custom-font" setting
+* Add "text-scaling-factor" key
+* Remove obsolete screensaver settings
+
+Major changes in 0.1.7
+======================
+
+* Change org.gnome.desktop.session/idle-delay to a uint
+* Use ACLOCAL_AMFLAGS when building
+* Move gnome-screensaver settings here
+* Remove "status-bar-meter-on-right" setting
+* Remove duplicated "idle-delay" key
+* Remove web browser default preference
+* Make sure all the schemas are translatable
+* Use Cantarell 11pt as the default UI font
+* Add magnifier schemas from gnome-shell
+* Fix schemas path in a11y schemas
+* Add "session-name" to org.gnome.desktop.session
+* Rename "accessibility" key to "toolkit-accessibility"
+* Remove AT visual preference, we only support orca as a screen reader
+* Remove the duplicate on-screen keyboard startup key
+
+Major changes in 0.1.5
+======================
+
+* Add org.gnome.desktop.session schema
+* Add automatic-mnemonics key to org.gnome.desktop.interface
+* Fix paths for org.gnome.desktop.default-applications.office settings
+
+Major changes in 0.1.4
+======================
+
+* Add thumbnailer schemas
+* Don't show icons on the desktop by default
+
+Major changes in 0.1.3
+======================
+
+* Add a key for the clock format
+* Disable migration of GTK+ and cursor themes
+* Change default background gradient colours
+
+Major changes in 0.1.2
+======================
+
+* Add new media-handling schemas taken from Nautilus
+
+Major changes in 0.1.1
+======================
+
+* Misc. schema updates
+
+Major changes in 0.1.0
+======================
+
+* Relicense to LGPLv2+
+* Set things up for translation
+* Add a GConf conversion script
+* Misc. schema updates
+
+
+=============
+Version 0.0.1
+=============
+
+This is the initial release of gsettings-desktop-schemas. The schemas shipped
+here are based on the GConf schemas from libgnome and gnome-vfs.
+
+Note that at this point, there is no guarantee on the stability of the schemas.

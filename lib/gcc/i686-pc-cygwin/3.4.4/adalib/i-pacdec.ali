@@ -18,9 +18,9 @@ U interfaces.packed_decimal%s  i-pacdec.ads	1194f981 NE PK
 W interfaces%s		interfac.ads		interfac.ali
 W system%s		system.ads		system.ali
 
-D interfac.ads		20031021134210 6e859da6
+D interfac.ads		20031021134209 6e859da6
 D i-pacdec.ads		20031021134208 15e302ae
-D i-pacdec.adb		20030424175406 cc353dee
+D i-pacdec.adb		20030424175405 cc353dee
 D system.ads		20031021134222 6af26689
 D unchconv.ads		20030424175420 1b7a14c5
 X 1 interfac.ads

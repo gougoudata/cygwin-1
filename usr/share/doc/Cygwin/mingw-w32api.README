@@ -1,0 +1,68 @@
+mingw-w32api
+========================================================================
+The w32api package provides header files and import libraries for the
+Windows platform.  This package provides a version intended for use
+with a MinGW.org cross compiler toolchain, which generates native (that
+is, non-cygwin) binaries.  It is also used by the (deprecated) gcc3
+compiler in its -mno-cygwin mode.
+
+Runtime requirements:
+
+Build requirements:
+  mingw-gcc
+  mingw-binutils
+  make
+  cygport-0.10.4
+
+Canonical homepage:
+  http://mingw.org/
+
+Canonical download:
+  mirror://sourceforge/mingw/w32api-3.17-2-mingw32-src.tar.lzma
+
+License:
+  Public Domain
+
+Language:
+  C
+
+========================================================================
+
+Build instructions:
+  unpack mingw-w32api-VER-REL-src.tar.bz2
+    if you use setup to install this src package, it will be unpacked
+    under /usr/src automatically
+  cd /usr/src
+  cygport mingw-w32api-VER-REL.cygport all
+
+This will create:
+  /usr/src/mingw-w32api-VER-REL.tar.bz2
+  /usr/src/mingw-w32api-VER-REL-src.tar.bz2
+
+========================================================================
+
+Files included in the packages:
+
+  usr/i686-pc-mingw32/sys-root/mingw/include/GL/gl.h
+  usr/i686-pc-mingw32/sys-root/mingw/include/GL/glext.h
+  usr/i686-pc-mingw32/sys-root/mingw/include/GL/glu.h
+  usr/i686-pc-mingw32/sys-root/mingw/include/*.h
+  usr/i686-pc-mingw32/sys-root/mingw/include/ddk/*.h
+  usr/i686-pc-mingw32/sys-root/mingw/include/gdiplus/*.h
+  usr/i686-pc-mingw32/sys-root/mingw/lib/lib*.a
+  usr/share/doc/Cygwin/mingw-w32api.README
+  usr/share/doc/mingw-w32api/*
+
+========================================================================
+
+Port Notes:
+---------- mingw-w32api-3.17-2 -- 2011 May 01 -----------
+* Update to match mingw.org offerings
+* First cygwin.com release
+
+---------- mingw-w32api-3.15-1 -- 2010 Nov 22 -----------
+* Initial release (but only via cygutils.fruitbat.org)
+
+========================================================================
+Cygwin port maintained by: Chuck Wilson <cygwin@cygwin.com>
+

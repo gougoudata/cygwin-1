@@ -4,6 +4,6 @@
 # to link with libgcj.
 #
 %rename lib liborig
-*lib: -lgcj -lm  -liconv   -lz   %(libgcc) %(liborig)
+*lib: -lgcj -lm  -liconv   -lz   -ldl %(libgcc) %(liborig)
 
 *jc1: -fhash-synchronization -fno-use-divide-subroutine  -fuse-boehm-gc -fnon-call-exceptions -fno-omit-frame-pointer  -fkeep-inline-functions

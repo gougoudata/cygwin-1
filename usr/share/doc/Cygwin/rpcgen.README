@@ -1,0 +1,88 @@
+rpcgen
+========================================================================
+rpcgen is a tool that generates C code to implement an RPC protocol.
+The input to rpcgen is a language similar to C known as RPC Language
+(Remote Procedure Call Language).
+
+rpcgen is normally invoked by passing a single input file; the program
+then generates up to four output files.  If the input file is named
+proto.x, then rpcgen will generate a header file in proto.h, XDR
+routines in proto_xdr.c, server-side stubs in proto_svc.c, and
+client-side stubs in proto_clnt.c.  With the −T option, it will also
+generate the RPC dispatch table in proto_tbl.i.  With the −Sc option,
+it will also generate sample code which would illustrate how to use the
+remote procedures on the client side. This code would be created in
+proto_client.c. With the −Ss option, it will also generate a sample
+server code which would illustrate how to write the remote procedures.
+This code would be created in proto_server.c.
+
+========================================================================
+Runtime requirements
+  cygwin-1.7.6-1
+  libtirpc-devel-0.2.1-1
+  libgcc1-4.3.4-3
+  + some package that provides a C Pre-Processor, such as
+    - gcc-core-3.4.4-999
+    - gcc4-core-4.3.4-3
+
+Build requirements
+  cygport-0.9.85
+  binutils-2.20.51-1
+  gcc4-core-4.3.4-3
+  libtirpc-devel-0.2.1-1
+  curl-7.20.1-1
+  subversion-1.6.12-2
+  bash-3.2.49-23
+  make-3.81-2
+  xz-4.999.9beta-11
+  tar-1.23-1
+
+Canonical homepage:
+  n/a
+
+Canonical download:
+  http://www.eglibc.org/cgi-bin/viewcvs.cgi/trunk/libc/sunrpc/
+
+License:
+  BSD (3-clause)
+
+Language:
+  C
+
+========================================================================
+
+Build instructions:
+  unpack rpcgen-VER-REL-src.tar.bz2
+    if you use setup to install this src package, it will be unpacked
+    under /usr/src automatically
+  cd /usr/src
+  cygport rpcgen-VER-REL.cygport all
+
+This will create:
+  /usr/src/rpcgen-VER-REL.tar.bz2
+  /usr/src/rpcgen-VER-REL-src.tar.bz2
+
+========================================================================
+
+Files included in the package:
+
+usr/bin/rpcgen.exe
+usr/share/doc/Cygwin/rpcgen.README
+usr/share/man/man1/rpcgen.1.gz
+/etc/defaults/etc/rpc
+/etc/postinstall/rpcgen.sh
+/etc/preremove/rpcgen.sh
+
+========================================================================
+
+Port Notes:
+Derived from the eglibc implementation, which itself was
+derived from the original SunRPC version.
+
+---------- rpcgen-2.11.90_20100818-1 -- 2010 Aug 18 -----------
+* Initial cygwin port
+
+========================================================================
+Cygwin port maintained by: Chuck Wilson <cygwin@cygwin.com>
+
+

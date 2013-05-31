@@ -11,7 +11,7 @@
 (*                                                                     *)
 (***********************************************************************)
 
-(* $Id: stream.mli,v 1.24 2001/12/28 23:12:48 guesdon Exp $ *)
+(* $Id: stream.mli 7164 2005-10-25 18:34:07Z doligez $ *)
 
 (** Streams and parsers. *)
 
@@ -31,7 +31,7 @@ exception Error of string
 
    Warning: these functions create streams with fast access; it is illegal
    to mix them with streams built with [[< >]]; would raise [Failure]
-   when accessing such mixed streams. 
+   when accessing such mixed streams.
 *)
 
 val from : (int -> 'a option) -> 'a t

@@ -1,0 +1,37 @@
+stg-files(1)
+============
+
+NAME
+----
+stg-files - Show the files modified by a patch (or the current patch)
+
+SYNOPSIS
+--------
+[verse]
+'stg' files [options] [--] [[<branch>:]<patch>]
+
+DESCRIPTION
+-----------
+
+List the files modified by the given patch (defaulting to the current
+one). Passing the '--stat' option shows the diff statistics for the
+given patch. Note that this command doesn't show the files modified in
+the working tree and not yet included in the patch by a 'refresh'
+command. Use the 'diff' or 'status' commands for these files.
+
+OPTIONS
+-------
+-s::
+--stat::
+        Show the diffstat.
+
+--bare::
+        Bare file names (useful for scripting).
+
+-O OPTIONS::
+--diff-opts OPTIONS::
+        Extra options to pass to "git diff".
+
+StGit
+-----
+Part of the StGit suite - see linkman:stg[1]

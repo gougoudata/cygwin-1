@@ -33,6 +33,18 @@
 # undef  WORDS_BIGENDIAN
 # undef  BITFIELDS_BIGENDIAN
 # define ALLOW_UNALIGNED_ACCESS
+#elif defined(__x86_64__)
+# undef  WORDS_BIGENDIAN
+# undef  BITFIELDS_BIGENDIAN
+# define ALLOW_UNALIGNED_ACCESS
+#elif defined(__alpha__)
+# undef  WORDS_BIGENDIAN
+# undef  BITFIELDS_BIGENDIAN
+# undef  ALLOW_UNALIGNED_ACCESS
+#elif defined(__arm__)
+# undef  WORDS_BIGENDIAN
+# undef  BITFIELDS_BIGENDIAN
+# undef  ALLOW_UNALIGNED_ACCESS
 #elif defined(__sparc__)
 # define WORDS_BIGENDIAN
 # define BITFIELDS_BIGENDIAN
@@ -41,8 +53,23 @@
 # define WORDS_BIGENDIAN
 # define BITFIELDS_BIGENDIAN
 # undef  ALLOW_UNALIGNED_ACCESS
+#elif defined(__s390__)
+# define WORDS_BIGENDIAN
+# define BITFIELDS_BIGENDIAN
+# undef  ALLOW_UNALIGNED_ACCESS
 #elif !defined(RC_INVOKED)
 # error Unknown CPU architecture!
+#endif
+
+
+#ifndef DECLSPEC_ALIGN
+# if defined(_MSC_VER) && (_MSC_VER >= 1300) && !defined(MIDL_PASS)
+#  define DECLSPEC_ALIGN(x) __declspec(align(x))
+# elif defined(__GNUC__)
+#  define DECLSPEC_ALIGN(x) __attribute__((aligned(x)))
+# else
+#  define DECLSPEC_ALIGN(x)
+# endif
 #endif
 
 
@@ -222,8 +249,14 @@ typedef unsigned short  USHORT,     *PUSHORT,  *LPUSHORT;
 typedef unsigned short  WORD,       *PWORD,    *LPWORD;
 typedef int             INT,        *PINT,     *LPINT;
 typedef unsigned int    UINT,       *PUINT,    *LPUINT;
+/* Not sure this is correct. Probably should depend on the compiler, too. */
+#if defined( __LP64__) || defined(__alpha__)
+typedef unsigned int   DWORD,      *PDWORD,   *LPDWORD;
+typedef unsigned int   ULONG,      *PULONG,   *LPULONG;
+#else
 typedef unsigned long   DWORD,      *PDWORD,   *LPDWORD;
 typedef unsigned long   ULONG,      *PULONG,   *LPULONG;
+#endif
 typedef float           FLOAT,      *PFLOAT,   *LPFLOAT;
 typedef double          DOUBLE,     *PDOUBLE,  *LPDOUBLE;
 typedef double          DATE;
@@ -263,7 +296,11 @@ typedef VOID           *PVOID,      *LPVOID;
 typedef BYTE            BOOLEAN,    *PBOOLEAN;
 typedef char            CHAR,       *PCHAR;
 typedef short           SHORT,      *PSHORT;
+#if defined(__LP64__) || defined(__alpha__)
+typedef int             LONG,       *PLONG,    *LPLONG;
+#else
 typedef long            LONG,       *PLONG,    *LPLONG;
+#endif
 
 /* Some systems might have wchar_t, but we really need 16 bit characters */
 #ifndef WINE_WCHAR_DEFINED
@@ -652,8 +689,227 @@ typedef CONTEXT86 CONTEXT;
 
 #endif  /* __i386__ */
 
+/* x86-64 context definitions */
+#if defined(__x86_64__)
+
+#define CONTEXT_AMD64   0x00100000
+
+#define CONTEXT_CONTROL   (CONTEXT_AMD64 | 0x0001)
+#define CONTEXT_INTEGER   (CONTEXT_AMD64 | 0x0002)
+#define CONTEXT_SEGMENTS  (CONTEXT_AMD64 | 0x0004)
+#define CONTEXT_FLOATING_POINT  (CONTEXT_AMD64 | 0x0008L)
+#define CONTEXT_DEBUG_REGISTERS (CONTEXT_AMD64 | 0x0010L)
+#define CONTEXT_FULL (CONTEXT_CONTROL | CONTEXT_INTEGER | CONTEXT_FLOATING_POINT)
+#define CONTEXT_ALL (CONTEXT_CONTROL | CONTEXT_INTEGER | CONTEXT_SEGMENTS | CONTEXT_FLOATING_POINT | CONTEXT_DEBUG_REGISTERS)
+
+#define EXCEPTION_READ_FAULT    0
+#define EXCEPTION_WRITE_FAULT   1
+#define EXCEPTION_EXECUTE_FAULT 8
+
+typedef struct DECLSPEC_ALIGN(16) _M128A {
+    ULONGLONG Low;
+    LONGLONG High;
+} M128A, *PM128A;
+
+typedef struct _XMM_SAVE_AREA32 {
+    WORD ControlWord;        /* 000 */
+    WORD StatusWord;         /* 002 */
+    BYTE TagWord;            /* 004 */
+    BYTE Reserved1;          /* 005 */
+    WORD ErrorOpcode;        /* 006 */
+    DWORD ErrorOffset;       /* 008 */
+    WORD ErrorSelector;      /* 00c */
+    WORD Reserved2;          /* 00e */
+    DWORD DataOffset;        /* 010 */
+    WORD DataSelector;       /* 014 */
+    WORD Reserved3;          /* 016 */
+    DWORD MxCsr;             /* 018 */
+    DWORD MxCsr_Mask;        /* 01c */
+    M128A FloatRegisters[8]; /* 020 */
+    M128A XmmRegisters[16];  /* 0a0 */
+    BYTE Reserved4[96];      /* 1a0 */
+} XMM_SAVE_AREA32, *PXMM_SAVE_AREA32;
+
+typedef struct DECLSPEC_ALIGN(16) _CONTEXT {
+    DWORD64 P1Home;          /* 000 */
+    DWORD64 P2Home;          /* 008 */
+    DWORD64 P3Home;          /* 010 */
+    DWORD64 P4Home;          /* 018 */
+    DWORD64 P5Home;          /* 020 */
+    DWORD64 P6Home;          /* 028 */
+
+    /* Control flags */
+    DWORD ContextFlags;      /* 030 */
+    DWORD MxCsr;             /* 034 */
+
+    /* Segment */
+    WORD SegCs;              /* 038 */
+    WORD SegDs;              /* 03a */
+    WORD SegEs;              /* 03c */
+    WORD SegFs;              /* 03e */
+    WORD SegGs;              /* 040 */
+    WORD SegSs;              /* 042 */
+    DWORD EFlags;            /* 044 */
+
+    /* Debug */
+    DWORD64 Dr0;             /* 048 */
+    DWORD64 Dr1;             /* 050 */
+    DWORD64 Dr2;             /* 058 */
+    DWORD64 Dr3;             /* 060 */
+    DWORD64 Dr6;             /* 068 */
+    DWORD64 Dr7;             /* 070 */
+
+    /* Integer */
+    DWORD64 Rax;             /* 078 */
+    DWORD64 Rcx;             /* 080 */
+    DWORD64 Rdx;             /* 088 */
+    DWORD64 Rbx;             /* 090 */
+    DWORD64 Rsp;             /* 098 */
+    DWORD64 Rbp;             /* 0a0 */
+    DWORD64 Rsi;             /* 0a8 */
+    DWORD64 Rdi;             /* 0b0 */
+    DWORD64 R8;              /* 0b8 */
+    DWORD64 R9;              /* 0c0 */
+    DWORD64 R10;             /* 0c8 */
+    DWORD64 R11;             /* 0d0 */
+    DWORD64 R12;             /* 0d8 */
+    DWORD64 R13;             /* 0e0 */
+    DWORD64 R14;             /* 0e8 */
+    DWORD64 R15;             /* 0f0 */
+
+    /* Counter */
+    DWORD64 Rip;             /* 0f8 */
+
+    /* Floating point */
+    union {
+        XMM_SAVE_AREA32 FltSave;  /* 100 */
+        struct {
+            M128A Header[2];      /* 100 */
+            M128A Legacy[8];      /* 120 */
+            M128A Xmm0;           /* 1a0 */
+            M128A Xmm1;           /* 1b0 */
+            M128A Xmm2;           /* 1c0 */
+            M128A Xmm3;           /* 1d0 */
+            M128A Xmm4;           /* 1e0 */
+            M128A Xmm5;           /* 1f0 */
+            M128A Xmm6;           /* 200 */
+            M128A Xmm7;           /* 210 */
+            M128A Xmm8;           /* 220 */
+            M128A Xmm9;           /* 230 */
+            M128A Xmm10;          /* 240 */
+            M128A Xmm11;          /* 250 */
+            M128A Xmm12;          /* 260 */
+            M128A Xmm13;          /* 270 */
+            M128A Xmm14;          /* 280 */
+            M128A Xmm15;          /* 290 */
+        } DUMMYSTRUCTNAME;
+    } DUMMYUNIONNAME;
+
+    /* Vector */
+    M128A VectorRegister[26];     /* 300 */
+    DWORD64 VectorControl;        /* 4a0 */
+
+    /* Debug control */
+    DWORD64 DebugControl;         /* 4a8 */
+    DWORD64 LastBranchToRip;      /* 4b0 */
+    DWORD64 LastBranchFromRip;    /* 4b8 */
+    DWORD64 LastExceptionToRip;   /* 4c0 */
+    DWORD64 LastExceptionFromRip; /* 4c8 */
+} CONTEXT;
+
+typedef struct _RUNTIME_FUNCTION
+{
+    DWORD BeginAddress;
+    DWORD EndAddress;
+    DWORD UnwindData;
+} RUNTIME_FUNCTION, *PRUNTIME_FUNCTION;
+
+#define UNWIND_HISTORY_TABLE_SIZE 12
+
+typedef struct _UNWIND_HISTORY_TABLE_ENTRY
+{
+    ULONG64 ImageBase;
+    PRUNTIME_FUNCTION FunctionEntry;
+} UNWIND_HISTORY_TABLE_ENTRY, *PUNWIND_HISTORY_TABLE_ENTRY;
+
+#define UNWIND_HISTORY_TABLE_NONE 0
+#define UNWIND_HISTORY_TABLE_GLOBAL 1
+#define UNWIND_HISTORY_TABLE_LOCAL 2
+
+typedef struct _UNWIND_HISTORY_TABLE
+{
+    ULONG Count;
+    UCHAR Search;
+    ULONG64 LowAddress;
+    ULONG64 HighAddress;
+    UNWIND_HISTORY_TABLE_ENTRY Entry[UNWIND_HISTORY_TABLE_SIZE];
+} UNWIND_HISTORY_TABLE, *PUNWIND_HISTORY_TABLE;
+
+typedef struct _KNONVOLATILE_CONTEXT_POINTERS
+{
+    union
+    {
+        PM128A FloatingContext[16];
+        struct
+        {
+            PM128A Xmm0;
+            PM128A Xmm1;
+            PM128A Xmm2;
+            PM128A Xmm3;
+            PM128A Xmm4;
+            PM128A Xmm5;
+            PM128A Xmm6;
+            PM128A Xmm7;
+            PM128A Xmm8;
+            PM128A Xmm9;
+            PM128A Xmm10;
+            PM128A Xmm11;
+            PM128A Xmm12;
+            PM128A Xmm13;
+            PM128A Xmm14;
+            PM128A Xmm15;
+        } DUMMYSTRUCTNAME1;
+    } DUMMYUNIONNAME1;
+
+    union
+    {
+        PULONG64 IntegerContext[16];
+        struct
+        {
+            PULONG64 Rax;
+            PULONG64 Rcx;
+            PULONG64 Rdx;
+            PULONG64 Rbx;
+            PULONG64 Rsp;
+            PULONG64 Rbp;
+            PULONG64 Rsi;
+            PULONG64 Rdi;
+            PULONG64 R8;
+            PULONG64 R9;
+            PULONG64 R10;
+            PULONG64 R11;
+            PULONG64 R12;
+            PULONG64 R13;
+            PULONG64 R14;
+            PULONG64 R15;
+        } DUMMYSTRUCTNAME2;
+    } DUMMYUNIONNAME2;
+} KNONVOLATILE_CONTEXT_POINTERS, *PKNONVOLATILE_CONTEXT_POINTERS;
+
+BOOLEAN CDECL            RtlAddFunctionTable(RUNTIME_FUNCTION*,DWORD,DWORD64);
+BOOLEAN CDECL            RtlDeleteFunctionTable(RUNTIME_FUNCTION*);
+PRUNTIME_FUNCTION WINAPI RtlLookupFunctionEntry(DWORD64,DWORD64*,UNWIND_HISTORY_TABLE*);
+PVOID WINAPI             RtlVirtualUnwind(ULONG,ULONG64,ULONG64,RUNTIME_FUNCTION*,CONTEXT*,PVOID*,ULONG64*,KNONVOLATILE_CONTEXT_POINTERS*);
+
+#define UNW_FLAG_NHANDLER  0
+#define UNW_FLAG_EHANDLER  1
+#define UNW_FLAG_UHANDLER  2
+#define UNW_FLAG_CHAININFO 4
+
+#endif /* __x86_64__ */
+
 /* Alpha context definitions */
-#ifdef _ALPHA_
+#if defined(__alpha__)
 
 #define CONTEXT_ALPHA   0x00020000
  
@@ -1047,6 +1303,128 @@ typedef struct _CONTEXT
 
 #endif  /* __sparc__ */
 
+#ifdef __s390__
+
+/* 
+ * FIXME:  
+ *
+ * There is no official CONTEXT structure defined for the S390
+ * architecture, so I just made one up.
+ *
+ * Note that this structure contains only the 'top-level' registers;
+ * the rest of the register window chain is not visible.
+ *
+ * The layout is based on the sparc one.
+ * 
+ */ 
+
+#define CONTEXT_S390C            0x20000000
+
+#define CONTEXT_CONTROL         (CONTEXT_S390 | 0x00000001)
+#define CONTEXT_FLOATING_POINT  (CONTEXT_S390 | 0x00000002)
+#define CONTEXT_INTEGER         (CONTEXT_S390 | 0x00000004)
+
+#define CONTEXT_FULL (CONTEXT_CONTROL | CONTEXT_FLOATING_POINT | CONTEXT_INTEGER)
+
+typedef struct _CONTEXT
+{
+    DWORD ContextFlags;
+
+    /* These are selected by CONTEXT_INTEGER */
+    DWORD r0;
+    DWORD r1;
+    DWORD r2;
+    DWORD r3;
+    DWORD r4;
+    DWORD r5;
+    DWORD r6;
+    DWORD r7;
+    DWORD r8;
+    DWORD r9;
+    DWORD r10;
+    DWORD r11;
+    DWORD r12;
+    DWORD r13;
+    DWORD r14;
+    DWORD r15;
+
+    /* FIXME: this section is fictional (copied from sparc) */
+    DWORD psr;
+    DWORD pc;
+    DWORD npc;
+    DWORD y;
+    DWORD wim;
+    DWORD tbr;
+
+    /* FIXME: floating point registers missing */
+
+} CONTEXT;
+
+#endif  /* __s390__ */
+
+#ifdef __arm__
+
+/* These definitions are taken directly from wine 
+ * http://source.winehq.org/git/wine.git/blob_plain/HEAD:/include/winnt.h */
+
+/* The following flags control the contents of the CONTEXT structure. */
+
+#define CONTEXT_ARM             0x0200000
+#define CONTEXT_CONTROL         (CONTEXT_ARM | 0x00000001)
+#define CONTEXT_INTEGER         (CONTEXT_ARM | 0x00000002)
+#define CONTEXT_FLOATING_POINT  (CONTEXT_ARM | 0x00000004)
+#define CONTEXT_DEBUG_REGISTERS (CONTEXT_ARM | 0x00000008)
+
+#define CONTEXT_FULL (CONTEXT_CONTROL | CONTEXT_INTEGER)
+
+#define EXCEPTION_READ_FAULT    0
+#define EXCEPTION_WRITE_FAULT   1
+#define EXCEPTION_EXECUTE_FAULT 8
+
+typedef struct _CONTEXT {
+/* The flags values within this flag control the contents of
+ * a CONTEXT record.
+ *
+ * If the context record is used as an input parameter, then
+ * for each portion of the context record controlled by a flag
+ * whose value is set, it is assumed that that portion of the
+ * context record contains valid context. If the context record
+ * is being used to modify a thread's context, then only that
+ * portion of the threads context will be modified.
+ *
+ * If the context record is used as an IN OUT parameter to capture
+ * the context of a thread, then only those portions of the thread's
+ * context corresponding to set flags will be returned.
+ *
+ * The context record is never used as an OUT only parameter. */
+
+ULONG ContextFlags;
+
+/* This section is specified/returned if the ContextFlags word contains
+ *    the flag CONTEXT_INTEGER. */
+ULONG R0;
+ULONG R1;
+ULONG R2;
+ULONG R3;
+ULONG R4;
+ULONG R5;
+ULONG R6;
+ULONG R7;
+ULONG R8;
+ULONG R9;
+ULONG R10;
+ULONG Fp;
+ULONG Ip;
+
+/* These are selected by CONTEXT_CONTROL */
+ULONG Sp;
+ULONG Lr;
+ULONG Pc;
+ULONG Cpsr;
+} CONTEXT;
+
+#endif /* __arm__ */
+
 #if !defined(CONTEXT_FULL) && !defined(RC_INVOKED)
 #error You need to define a CONTEXT for your CPU
 #endif
@@ -1164,6 +1542,33 @@ typedef CONTEXT *PCONTEXT;
   { _GET_CONTEXT; fn( a1, a2, a3, a4, &context ); }
 
 #endif /* __sparc__ */
+
+#ifdef __s390__
+/* FIXME: use getcontext() to retrieve full context */
+#define _GET_CONTEXT \
+    CONTEXT context;   \
+    do { memset(&context, 0, sizeof(CONTEXT));            \
+         context.ContextFlags = CONTEXT_CONTROL;          \
+         context.pc = (DWORD)__builtin_return_address(0); \
+       } while (0)
+
+#define DEFINE_REGS_ENTRYPOINT_0( name, fn ) \
+  void WINAPI name ( void ) \
+  { _GET_CONTEXT; fn( &context ); }
+#define DEFINE_REGS_ENTRYPOINT_1( name, fn, t1 ) \
+  void WINAPI name ( t1 a1 ) \
+  { _GET_CONTEXT; fn( a1, &context ); }
+#define DEFINE_REGS_ENTRYPOINT_2( name, fn, t1, t2 ) \
+  void WINAPI name ( t1 a1, t2 a2 ) \
+  { _GET_CONTEXT; fn( a1, a2, &context ); }
+#define DEFINE_REGS_ENTRYPOINT_3( name, fn, t1, t2, t3 ) \
+  void WINAPI name ( t1 a1, t2 a2, t3 a3 ) \
+  { _GET_CONTEXT; fn( a1, a2, a3, &context ); }
+#define DEFINE_REGS_ENTRYPOINT_4( name, fn, t1, t2, t3, t4 ) \
+  void WINAPI name ( t1 a1, t2 a2, t3 a3, t4 a4 ) \
+  { _GET_CONTEXT; fn( a1, a2, a3, a4, &context ); }
+
+#endif /* __s390__ */
 
 #ifdef __PPC__
 

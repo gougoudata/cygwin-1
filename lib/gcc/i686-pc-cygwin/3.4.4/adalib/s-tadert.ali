@@ -27,9 +27,9 @@ W system%s		system.ads		system.ali
 W system.tasking%s	s-taskin.adb		s-taskin.ali
 W system.tasking.async_delays%s  s-taasde.adb	s-taasde.ali
 
-D ada.ads		20030424175358 a0108083
-D a-except.ads		20031021134154 a1717b33
-D a-reatim.ads		20031021134154 86d4fedf
+D ada.ads		20030424175357 a0108083
+D a-except.ads		20031021134153 a1717b33
+D a-reatim.ads		20031021134153 86d4fedf
 D a-retide.ads		20031021134154 35297797
 D system.ads		20031021134222 6af26689
 D s-osinte.ads		20031021134152 fdceb516
@@ -37,16 +37,16 @@ D s-parame.ads		20031021134214 8479efe6
 D s-soflin.ads		20031021134214 14059e84
 D s-stache.ads		20031021134214 6135f334
 D s-stalib.ads		20031021134214 e7ad2af0
-D s-stoele.ads		20050603190336 5a73170b
-D s-stoele.adb		20030424175414 792079f8
-D s-tasinf.ads		20031021134216 c9aa44b6
+D s-stoele.ads		20050603200336 5a73170b
+D s-stoele.adb		20030424175413 792079f8
+D s-tasinf.ads		20031021134215 c9aa44b6
 D s-taspri.ads		20031021134152 1975c70c
-D s-taprop.ads		20031021134216 69202ccf
-D s-taskin.ads		20031021134216 5af97c3f
-D s-taasde.ads		20031021134216 7a2adbcd
-D s-tadert.ads		20031021134216 8a33a261
-D s-tadert.adb		20031021134216 d0c835e6
-D s-tasini.ads		20031021134216 52595995
+D s-taprop.ads		20031021134215 69202ccf
+D s-taskin.ads		20031021134215 5af97c3f
+D s-taasde.ads		20031021134215 7a2adbcd
+D s-tadert.ads		20031021134215 8a33a261
+D s-tadert.adb		20031021134215 d0c835e6
+D s-tasini.ads		20031021134215 52595995
 D s-traent.ads		20031021134218 e81a0978
 D unchconv.ads		20030424175420 1b7a14c5
 X 1 ada.ads

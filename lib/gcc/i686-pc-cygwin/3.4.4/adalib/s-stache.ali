@@ -22,17 +22,17 @@ U system.stack_checking%s  s-stache.ads		51b482b6 NE PK
 W system%s		system.ads		system.ali
 W system.storage_elements%s  s-stoele.adb	s-stoele.ali
 
-D ada.ads		20030424175358 a0108083
-D a-except.ads		20031021134154 a1717b33
+D ada.ads		20030424175357 a0108083
+D a-except.ads		20031021134153 a1717b33
 D system.ads		20031021134222 6af26689
-D s-crtl.ads		20031217133704 a4a6fa53
+D s-crtl.ads		20031217133703 a4a6fa53
 D s-parame.ads		20031021134214 8479efe6
 D s-soflin.ads		20031021134214 14059e84
 D s-stache.ads		20031021134214 6135f334
 D s-stache.adb		20040113115134 3403b27e
 D s-stalib.ads		20031021134214 e7ad2af0
-D s-stoele.ads		20050603190336 5a73170b
-D s-stoele.adb		20030424175414 792079f8
+D s-stoele.ads		20050603200336 5a73170b
+D s-stoele.adb		20030424175413 792079f8
 D s-traent.ads		20031021134218 e81a0978
 D unchconv.ads		20030424175420 1b7a14c5
 X 1 ada.ads

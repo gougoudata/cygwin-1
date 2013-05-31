@@ -22,18 +22,18 @@ W system.traceback_entries%s  s-traent.adb	s-traent.ali
 U system.memory%s	s-memory.ads		6700b039 EB NE PK
 W system%s		system.ads		system.ali
 
-D ada.ads		20030424175358 a0108083
-D a-except.ads		20031021134154 a1717b33
+D ada.ads		20030424175357 a0108083
+D a-except.ads		20031021134153 a1717b33
 D gnat.ads		20030424175404 6380ea48
 D g-io.ads		20031021134202 261181de
 D system.ads		20031021134222 6af26689
 D s-memory.ads		20031021134214 0df2d6b0
-D memtrack.adb		20040115172418 8b5393bb
+D memtrack.adb		20040115172417 8b5393bb
 D s-soflin.ads		20031021134214 14059e84
 D s-stache.ads		20031021134214 6135f334
 D s-stalib.ads		20031021134214 e7ad2af0
-D s-stoele.ads		20050603190336 5a73170b
-D s-stoele.adb		20030424175414 792079f8
+D s-stoele.ads		20050603200336 5a73170b
+D s-stoele.adb		20030424175413 792079f8
 D s-traceb.ads		20031021134218 f9d1cc43
 D s-traent.ads		20031021134218 e81a0978
 D unchconv.ads		20030424175420 1b7a14c5

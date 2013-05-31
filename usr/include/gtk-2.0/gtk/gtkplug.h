@@ -20,14 +20,17 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 #ifndef __GTK_PLUG_H__
 #define __GTK_PLUG_H__
 
 
-#include <gdk/gdk.h>
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
 #include <gtk/gtksocket.h>
 #include <gtk/gtkwindow.h>
 
@@ -50,12 +53,12 @@ struct _GtkPlug
 {
   GtkWindow window;
 
-  GdkWindow *socket_window;
-  GtkWidget *modality_window;
-  GtkWindowGroup *modality_group;
-  GHashTable *grabbed_keys;
+  GdkWindow *GSEAL (socket_window);
+  GtkWidget *GSEAL (modality_window);
+  GtkWindowGroup *GSEAL (modality_group);
+  GHashTable *GSEAL (grabbed_keys);
 
-  guint same_app : 1;
+  guint GSEAL (same_app) : 1;
 };
 
 struct _GtkPlugClass
@@ -87,6 +90,10 @@ GtkWidget* gtk_plug_new_for_display       (GdkDisplay      *display,
 					   GdkNativeWindow  socket_id);
 
 GdkNativeWindow gtk_plug_get_id (GtkPlug         *plug);
+
+gboolean  gtk_plug_get_embedded (GtkPlug         *plug);
+
+GdkWindow *gtk_plug_get_socket_window (GtkPlug   *plug);
 
 void _gtk_plug_add_to_socket      (GtkPlug   *plug,
 				   GtkSocket *socket_);

@@ -42,11 +42,19 @@ gboolean pango_scan_int       (const char **pos,
 			       int         *out);
 
 #ifdef PANGO_ENABLE_BACKEND
+char *   pango_config_key_get_system (const char *key);
 char *   pango_config_key_get (const char  *key);
+G_DEPRECATED
 void     pango_lookup_aliases (const char   *fontname,
 			       char       ***families,
 			       int          *n_families);
 #endif /* PANGO_ENABLE_BACKEND */
+
+gboolean pango_parse_enum     (GType       type,
+			       const char *str,
+			       int        *value,
+			       gboolean    warn,
+			       char      **possible_values);
 
 /* Functions for parsing textual representations
  * of PangoFontDescription fields. They return TRUE if the input string
@@ -76,25 +84,61 @@ gboolean pango_parse_stretch (const char   *str,
  * stored in the registry). The returned string should not be
  * g_free'd.
  */
-G_CONST_RETURN char *   pango_get_sysconf_subdirectory (void);
+const char *   pango_get_sysconf_subdirectory (void) G_GNUC_PURE;
 
 /* Ditto for LIBDIR/pango. On Win32, use the same Pango
  * installation directory. This returned string should not be
  * g_free'd either.
  */
-G_CONST_RETURN char *   pango_get_lib_subdirectory (void);
+const char *   pango_get_lib_subdirectory (void) G_GNUC_PURE;
 
 #endif /* PANGO_ENABLE_BACKEND */
 
-/* A couple of routines from fribidi that we either wrap or
- * provide ourselves.
+/* Hint line position and thickness.
  */
-gboolean pango_log2vis_get_embedding_levels (gunichar       *str,
-					     int             len,
-					     PangoDirection *pbase_dir,
-					     guint8         *embedding_level_list);
+void pango_quantize_line_geometry (int *thickness,
+				   int *position);
 
-G_CONST_RETURN char *pango_language_get_sample_string (PangoLanguage *language);
+/* A routine from fribidi that we either wrap or provide ourselves.
+ */
+guint8 * pango_log2vis_get_embedding_levels (const gchar    *text,
+					     int             length,
+					     PangoDirection *pbase_dir);
+
+/* Unicode characters that are zero-width and should not be rendered
+ * normally.
+ */
+gboolean pango_is_zero_width (gunichar ch) G_GNUC_CONST;
+
+/* Pango version checking */
+
+/* Encode a Pango version as an integer */
+#define PANGO_VERSION_ENCODE(major, minor, micro) (     \
+	  ((major) * 10000)                             \
+	+ ((minor) *   100)                             \
+	+ ((micro) *     1))
+
+/* Encoded version of Pango at compile-time */
+#define PANGO_VERSION PANGO_VERSION_ENCODE(     \
+	PANGO_VERSION_MAJOR,                    \
+	PANGO_VERSION_MINOR,                    \
+	PANGO_VERSION_MICRO)
+
+/* Check that compile-time Pango is as new as required */
+#define PANGO_VERSION_CHECK(major,minor,micro)    \
+	(PANGO_VERSION >= PANGO_VERSION_ENCODE(major,minor,micro))
+
+
+/* Return encoded version of Pango at run-time */
+int pango_version (void) G_GNUC_CONST;
+
+/* Return run-time Pango version as an string */
+const char * pango_version_string (void) G_GNUC_CONST;
+
+/* Check that run-time Pango is as new as required */
+const char * pango_version_check (int required_major,
+                                  int required_minor,
+                                  int required_micro) G_GNUC_CONST;
 
 G_END_DECLS
 

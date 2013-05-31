@@ -1,6 +1,6 @@
 /* FILE NAME:   objstack.h
 
-   Copyright (C) 1997-2002 Vladimir Makarov.
+   Copyright (C) 1997-2007 Vladimir Makarov.
 
    Written by Vladimir Makarov <vmakarov@users.sourceforge.net>
 
@@ -63,6 +63,7 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include <stddef.h>
 
 #include "allocate.h"
 
@@ -89,8 +90,12 @@ struct _os_auxiliary_struct
 /* It is necessarry for VMS C compiler. */
 #define _OS_ALIGNMENT  4
 #else
+#define _OS_ALIGNMENT offsetof (struct _os_auxiliary_struct, _os_double)
+#if 0
 #define _OS_ALIGNMENT\
-  ((char *) &((struct _os_auxiliary_struct *) 0)->_os_double - (char *) 0)
+  ((char *) &((struct _os_auxiliary_struct *) 64)->_os_double - (char *) 64)
+#else
+#endif
 #endif
 
 /* This macro is auxiliary.  Its value is aligned address nearest to `a'. */
@@ -532,7 +537,6 @@ public:
 
   /* The following function is used only by the package functions. */
 
-private:
   void _OS_expand_memory (size_t additional_length);
 };
 

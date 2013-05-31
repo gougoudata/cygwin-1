@@ -1,60 +1,68 @@
-SUMMARY OF THE HDF5 CONFIGURATION
-=================================
+	    SUMMARY OF THE HDF5 CONFIGURATION
+	    =================================
 
-HDF5 Version:		1.6.7
-Configured on:		Wed Jun 18 16:17:33 WEDT 2008
-Configured by:		itq00146@ITQMOZCAS2NB007
-Configure mode:		production
-Host system:		i686-pc-cygwin
-Byte sex:		little-endian
-Libraries:		static, shared
-Parallel support:	no
-Installation point:	/usr
-Compiler:		/bin/gcc (gcc-3.4.4)
-Compiler switches:	 -O2 -pipe -std=c99 -Wno-long-long -O -fomit-frame-pointer -finline-functions -UH5_DEBUG_API -DNDEBUG 
-Extra libraries:	 -lssl -lcrypto -lz -lm 
-Archiver:		ar
-Ranlib:			ranlib
-Debugged Packages:	
-API Tracing:		no
-File addresses:		large
+General Information:
+-------------------
+		   HDF5 Version: 1.8.10
+		  Configured on: Wed Dec  5 17:40:43 CET 2012
+		  Configured by: marco@MARCOATZERI
+		 Configure mode: production
+		    Host system: i686-pc-cygwin
+	      Uname information: CYGWIN_NT-6.1-WOW64 MARCOATZERI 1.7.17(0.262/5/3) 2012-10-19 14:39 i686 Cygwin
+		       Byte sex: little-endian
+		      Libraries: 
+	     Installation point: /usr
 
-Configure Summary
 Compiling Options:
-               Compilation Mode:  Production
-                     C Compiler:  gcc
-                         CFLAGS:   -O2 -pipe -std=c99 -Wno-long-long -O -fomit-frame-pointer -finline-functions
-                       CPPFLAGS:  -UH5_DEBUG_API -DNDEBUG 
-                        LDFLAGS:  
-                     Debug Mode:  None
-               Shared Libraries:  Yes
-               Static Libraries:  Yes
-  Statically Linked Executables:  No
-                        Tracing:  No
-   Optimization Instrumentation:  No
+------------------
+               Compilation Mode: production
+                     C Compiler: /usr/bin/gcc
+                         CFLAGS: -ggdb -O2 -pipe -fdebug-prefix-map=/pub/devel/hdf5/hdf5-1.8.10-1/build=/usr/src/debug/hdf5-1.8.10-1 -fdebug-prefix-map=/pub/devel/hdf5/hdf5-1.8.10-1/src/hdf5-1.8.10=/usr/src/debug/hdf5-1.8.10-1
+                      H5_CFLAGS: -std=c99 -pedantic -Wall -Wextra -Wundef -Wshadow -Wpointer-arith -Wbad-function-cast -Wcast-qual -Wcast-align -Wwrite-strings -Wconversion -Waggregate-return -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -Wnested-externs -Winline -Wno-long-long -Wfloat-equal -Wmissing-format-attribute -Wmissing-noreturn -Wpacked -Wdisabled-optimization -Wformat=2 -Wendif-labels -Wdeclaration-after-statement -Wold-style-definition -Winvalid-pch -Wvariadic-macros -Wnonnull -Winit-self -Wmissing-include-dirs -Wswitch-default -Wswitch-enum -Wunused-macros -Wunsafe-loop-optimizations -Wc++-compat -Wstrict-overflow -Wlogical-op -Wlarger-than=2048 -Wvla -Wsync-nand -Wframe-larger-than=16384 -Wpacked-bitfield-compat -Wstrict-aliasing -Wstrict-overflow=5 -Wjump-misses-init -Wunsuffixed-float-constants -O3 -fomit-frame-pointer -finline-functions
+                      AM_CFLAGS: 
+                       CPPFLAGS: 
+                    H5_CPPFLAGS:   -DNDEBUG -UH5_DEBUG_API
+                    AM_CPPFLAGS: 
+               Shared C Library: no
+               Static C Library: yes
+  Statically Linked Executables: no
+                        LDFLAGS: -no-undefined
+                     H5_LDFLAGS: 
+                     AM_LDFLAGS: 
+ 	 	Extra libraries:  -lpthread -lz -lm 
+ 		       Archiver: ar
+ 		 	 Ranlib: ranlib
+ 	      Debugged Packages: 
+		    API Tracing: no
 
 Languages:
 ----------
-                            C++:  Yes
-                   C++ Compiler:  g++
-                       CXXFLAGS:   -O2 -pipe 
+                        Fortran: no
 
-                        Fortran:  No
+                            C++: yes
+                   C++ Compiler: /usr/bin/g++
+                      C++ Flags: -ggdb -O2 -pipe -fdebug-prefix-map=/pub/devel/hdf5/hdf5-1.8.10-1/build=/usr/src/debug/hdf5-1.8.10-1 -fdebug-prefix-map=/pub/devel/hdf5/hdf5-1.8.10-1/src/hdf5-1.8.10=/usr/src/debug/hdf5-1.8.10-1
+                   H5 C++ Flags:  
+                   AM C++ Flags: 
+             Shared C++ Library: yes
+             Static C++ Library: yes
 
 Features:
 ---------
-                        dmalloc:  No
-         Function Stack Tracing:  Disabled
-                           GASS:  No
-                           GPFS:  No
-      Strict File Format Checks:  Disabled
-        HDF5 v1.4 Compatibility:  No
-                        hsize_t:  Large
-         I/O filters (external):  deflate
-         I/O filters (internal):  shuffle,fletcher32
- Linux Large File Support (LFS):  Disabled
-                            MPE:  No
-                  Parallel HDF5:  No
-                            SRB:  No
-                   Threadsafety:  Disabled
-             High Level library:  Enabled
+                  Parallel HDF5: no
+             High Level library: yes
+                   Threadsafety: no
+            Default API Mapping: v18
+ With Deprecated Public Symbols: yes
+         I/O filters (external): deflate(zlib)
+         I/O filters (internal): shuffle,fletcher32,nbit,scaleoffset
+                            MPE: no
+                     Direct VFD: yes
+                        dmalloc: no
+Clear file buffers before write: yes
+           Using memory checker: no
+         Function Stack Tracing: no
+                           GPFS: no
+      Strict File Format Checks: no
+   Optimization Instrumentation: no
+       Large File Support (LFS): yes

@@ -1,0 +1,4 @@
+<map id="G" name="G">
+<area shape="rect" id="node2" href="$class_source_line.html" title="Represents a source line location.Used to capture the failure location in assertion." alt="" coords="5,5,99,35"/>
+<area shape="rect" id="node4" href="$class_message.html" title="Message associated to an Exception.A message is composed of two items:" alt="" coords="132,5,212,35"/>
+</map>

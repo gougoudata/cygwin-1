@@ -50,6 +50,10 @@
 #ifndef __GTK_TEXT_MARK_H__
 #define __GTK_TEXT_MARK_H__
 
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
 G_BEGIN_DECLS
 
 /* The GtkTextMark data type */
@@ -68,7 +72,7 @@ struct _GtkTextMark
 {
   GObject parent_instance;
 
-  gpointer segment;
+  gpointer GSEAL (segment);
 };
 
 struct _GtkTextMarkClass
@@ -88,7 +92,9 @@ void           gtk_text_mark_set_visible (GtkTextMark *mark,
                                           gboolean     setting);
 gboolean       gtk_text_mark_get_visible (GtkTextMark *mark);
 
-G_CONST_RETURN gchar* gtk_text_mark_get_name         (GtkTextMark *mark);
+GtkTextMark          *gtk_text_mark_new              (const gchar *name,
+						      gboolean     left_gravity);
+const gchar *         gtk_text_mark_get_name         (GtkTextMark *mark);
 gboolean              gtk_text_mark_get_deleted      (GtkTextMark *mark);
 GtkTextBuffer*        gtk_text_mark_get_buffer       (GtkTextMark *mark);
 gboolean              gtk_text_mark_get_left_gravity (GtkTextMark *mark);

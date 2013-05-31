@@ -1,0 +1,2509 @@
+"";;01DD4F3E59793D77ADC17A8278C2EEC0111F80674EA8F0F0B0C0EDBE0806
+""{ Logiweb, a system for electronic distribution of mathematics
+    Copyright (C) 2004-2010 Klaus Grue
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  021111307  USA
+
+    Contact: Klaus Grue, DIKU, Universitetsparken 1, DK2100 Copenhagen,
+    Denmark, grue@diku.dk, http://logiweb.eu/, http://www.diku.dk/~grue/
+
+    Logiweb is a system for distribution of mathematical definitions,
+    lemmas, and proofs. For more on Logiweb, consult http://logiweb.eu/.
+""}
+
+""P Peano
+
+""R check
+""R base
+
+""D 0
+expand-all ( " )
+expand-all1 ( " , " , " )
+is-meta-term ( " , " )
+unitac-hyp
+unitac-lemma-hyp ( " )
+unitac-rule-hyp ( " )
+unitac-conclude-hyp ( " )
+tactic-hyp ( " )
+tactic-dummyhyp ( " )
+tactic-ded ( " , " )
+tactic-first-hyp ( " , " , " )
+add-first-hyp* ( " , " , " )
+add-first-hyp ( " , " , " )
+tactic-next-hyp ( " , " , " , " )
+add-next-hyp* ( " , " , " )
+add-next-hyp ( " , " , " )
+f.unitac-adapt ( " , " , " )
+f.unitac-adapt-all ( " , " , " , " , " , " , " , " , " )
+f.tacfresh ( " )
+f.unitac-ponens ( " )
+f.unitac-Ponens ( " )
+f.unitac-at ( " )
+f.unitac-At ( " )
+sub ( " , " , " , " )
+sub0 ( " , " , " , " , " )
+sub1 ( " , " , " , " , " )
+sub* ( " , " , " , " , " )
+f.subst ( " , " , " )
+f.subst* ( " , " , " )
+inst ( " , " )
+inst0 ( " , " , " )
+inst1 ( " , " , " )
+inst-strip ( " , " , " )
+inst-zip ( " , " )
+inst2 ( " , " , " , " , " )
+inst2* ( " , " , " , " , " )
+inst3 ( " , " , " )
+inst3* ( " , " , " )
+def ( " , " )
+def0 ( " , " , " )
+def0* ( " , " , " )
+def1 ( " , " , " )
+def2 ( " , " , " )
+def3 ( " , " , " , " )
+def3* ( " , " , " , " )
+defcheck
+checked-def ( " , " )
+defcheck1 ( " )
+defcheck2 ( " , " )
+valid-def ( " , " , " , " )
+valid-def* ( " , " , " , " )
+Prop
+FOL
+PA
+MP
+Gen
+Def
+A1
+A2
+A3
+A4
+AP4
+A5
+tt
+ff
+S1
+S2
+S3
+S4
+S5
+S6
+S7
+S8
+S9
+Mend1.8
+A1'
+A2'
+Mend1.47b
+Mend1.47c
+Mend1.47d
+Mend1.11b
+Mend1.48d
+Mend1.48e
+Lnexthyp
+Lcurry
+LTruth
+LElimHyp
+LA4'
+LAP4'
+MP'
+Gen1
+Gen2
+Gen3
+Induction
+hook-hyp
+tactic-Prop ( " )
+tactic-FOL ( " )
+lemma-x
+lemma-y
+lemma-z
+lemma-u
+lemma-v
+lemma-w
+hyp
+3.2a
+3.2b
+3.2c
+3.2d
+3.2e
+3.2f
+3.2g
+3.2h
+
+""D 2
+
+""D 4
+" First
+" Second
+" suc
+
+""D 6
+
+""D 8
+
+""D 10
+
+""D 12
+
+""D 14
+
+""D 16
+
+""D 17
+
+""D 19
+
+""D 20
+
+""D 22
+not "
+
+""D 24
+" and "
+
+""D 26
+" or "
+
+""D 28
+all " : "
+f.allfunc "
+exist " : "
+f.existfunc "
+
+""D 29
+" imply "
+" when "
+" iff "
+
+""D 30
+
+""D 32
+
+""D 33
+
+""D 34
+
+""D 36
+" avoid "
+
+""D 38
+" f.At
+" Mp
+
+""D 40
+" mp "
+" f.at "
+
+""D 41
+
+""D 42
+
+""D 43
+
+""D 44
+
+""D 45
+line " : Hypothesis >> " ; "
+Line " : Hypothesis >> " ; "
+line " : Deduction ; "
+Line " : Deduction ; "
+
+""D 47
+
+""D 48
+
+""D 49
+
+""D 51
+
+""D 52
+
+""D 54
+
+""D 56
+
+""B
+
+text "index.html" : ""-"";
+
+<head>
+<title>
+Peano arithmetic
+</title>
+</head>
+
+<body>
+<h2>
+Peano arithmetic
+</h2>
+
+<p>
+<a href='../index.html'>Up</a>
+</p>
+
+<p>
+
+Contents:
+<a href='page.pdf'>Main text</a>
+<a href='chores.pdf'>Chores</a>
+</p>
+
+<p><address>Klaus Grue</address></p>
+</body>
+" end text ,,
+
+
+
+text "page.bib" : ""-"";
+
+@article      {berline97,
+  author    = {C. Berline and K. Grue},
+  title     = {A $\kappa$-denotational semantics for {M}ap {T}heory
+               in {ZFC+SI}},
+  journal   = TCS,
+  year      = {1997},
+  volume    = {179},
+  number    = {1--2},
+  pages     = {137--202},
+  month     = {jun}}
+
+@inproceedings{Logiweb,
+  author    = {K. Grue},
+  title     = {Logiweb},
+  editor    = {Fairouz Kamareddine},
+  booktitle = {Mathematical Knowledge Management Symposium 2003},
+  publisher = {Elsevier},
+  series    = {Electronic Notes in Theoretical Computer Science},
+  volume    = {93},
+  year      = {2004},
+  pages     = {70--101}}
+
+@Book         {Mendelson,
+  author    = {E. Mendelson},
+  title     = {Introduction to Mathematical Logic},
+  publisher = {Wadsworth and Brooks},
+  year      = {1987},
+  edition   = {3.}}
+
+@techreport{chores,
+  author    = {K. Grue},
+  year      = {2006},
+  title     = {Peano arithmetic - chores},
+  institution={Logiweb},
+  note      =
+{\href{\lgwBlockRelay \lgwBlockThis /page/appendix.pdf}{%
+\lgwBreakRelay \lgwBreakThis /page/appendix.pdf}}}
+
+@techreport{base,
+  author    = {K. Grue},
+  year      = {2006},
+  title     = {A Logiweb base page},
+  institution={Logiweb},
+  note      =
+{\href{\lgwBlockRelay \lgwBlockbase /page/index.html}{%
+\lgwBreakRelay \lgwBreakbase /page/index.html}}}
+
+" end text ,,
+
+
+
+text "page.tex" : ""-"";
+
+\documentclass[fleqn]{article}
+
+% Include definitions generated by the Logiweb compiler
+\input{lgwinclude}
+
+% Make latexsym characters available
+\usepackage{latexsym}
+
+% Ensure reasonable rendering of strings
+\everymath{\rm}
+\everydisplay{\rm}
+
+% Enable generation of an index
+\usepackage{makeidx}
+\makeindex
+\newcommand{\intro}[1]{\emph{#1}}
+\newcommand{\indexintro}[1]{\index{#1}\intro{#1}}
+
+% Enable generation of a bibliography
+\bibliographystyle{plain}
+
+% Enable hyperlinks
+\usepackage[dvipdfm=true]{hyperref}
+\hypersetup{pdfpagemode=UseNone}
+\hypersetup{pdfstartpage=1}
+\hypersetup{pdfstartview=FitBH}
+\hypersetup{pdfpagescrop={120 80 490 730}}
+\hypersetup{pdftitle=Peano arithmetic}
+\hypersetup{colorlinks=true}
+
+% Construct for listing statements with associated explanations
+\newenvironment{statements}{\begin{list}{}{
+\setlength{\leftmargin}{5em}
+\setlength{\itemindent}{-5em}}}{\end{list}}
+
+\begin{document}
+\title{Peano arithmetic}
+\author{Klaus Grue}
+\maketitle
+\tableofcontents
+
+"[ make macro expanded version ragged right ]"
+"[ prepare proof indentation ]"
+
+
+
+\section{Preliminaries}
+
+\subsection{Quantifiers}
+
+The following macro definition allows to write e.g.\ "[[ all x ,, y ,, z : u ]]" instead of "[[ all x : all y : all z : u ]]".
+
+\begin{statements}
+
+\item "[[ Macro define all u : v as \ x . expand-all ( x ) end define ]]"
+
+\item "[[ eager define expand-all ( x ) as newline
+
+let << t ,, s ,, c >> = x in newline
+
+let << true ,, u ,, v >> = t in newline
+
+let u = stateexpand ( u , s , c ) in newline
+
+let v = stateexpand ( v , s , c ) in newline
+
+expand-all1 ( t , u , v ) end define ]]"
+
+\item "[[ eager define expand-all1 ( t , u , v ) as newline
+
+if .not. u r= quote x ,, y end quote then back t quote f.allfunc \ u unquote . v unquote end quote else newline
+
+expand-all1 ( t , u first , expand-all1 ( t , u second , v ) ) end define ]]"
+
+\end{statements}
+
+
+
+\subsection{First and second argument of quantifier}
+
+\begin{statements}
+
+\item "[[ eager define x First as x first first end define ]]"
+
+\item "[[ eager define x Second as x first second end define ]]"
+
+\end{statements}
+
+
+
+\subsection{Avoidance}
+
+The side condition "[[ x avoid y ]]" expresses that "[[ x ]]" does not occur free in "[[ y ]]". This side condition is useful to express Mendelsons axioms A5 \cite{Mendelson}. We shall also use it in connection with an inference of instantiation defined later.
+
+\begin{statements}
+
+\item "[[ macro define x avoid y as \ c . quote x end quote objectavoid ( c ) quote y end quote end define ]]". This macro quotes its arguments and pass them on to objectavoid which performs the actual computation. During proof checking, "[[ c ]]" is instantiated to the cache of the page on which the proof occurs.
+
+\end{statements}
+
+
+
+\subsection{Instantiation}
+
+The side condition "[[ sub ( a , b , x , t ) ]]" expresses that "[[ a ]]" is equal to the result of replacing "[[ x ]]" by "[[ t ]]" in "[[ b ]]". This side condition is useful for expressing the axiom of induction in which one has to replace the induction variable "[[ x ]]" by "[[ 0 ]]" and "[[ x suc ]]". The side condition requires "[[ x ]]" to be an object variable. The side condition is also useful for expressing axiom A4 (instantiation).
+
+\begin{statements}
+
+\item "[[ macro define sub ( a , b , x , t ) as \ c . sub0 ( quote a end quote , quote b end quote , quote x end quote , quote t end quote , c ) end define ]]". This macro quotes its arguments and pass them on to sub0 which performs the actual computation. During proof checking, "[[ c ]]" is instantiated to the cache of the page on which the proof occurs.
+
+\item "[[ eager define sub0 ( a , b , x , t , c ) as x objectvar ( c ) .and. sub1 ( a , b , x , t , c ) end define ]]". Check that "[[ x ]]" is an object variable and invoke sub1.
+
+\item "[[ eager define sub1 ( a , b , x , t , c ) as newline
+
+if b r= quote all u : v end quote .and. b First t= x then a t= b else newline
+
+if b t= x then a t= t else newline
+
+a r= b .and. sub* ( a tail , b tail , x , t , c ) end define ]]"
+
+\item "[[ eager define sub* ( a , b , x , t , c ) as newline
+
+a atom .or. newline
+
+sub1 ( a head , b head , x , t , c ) .and. newline
+
+sub* ( a tail , b tail , x , t , c ) end define ]]"
+
+\end{statements}
+
+
+
+\subsection{Substitution}
+
+The function "[[ f.subst ( x , s , c ) ]]" defined in the following performs the substitution "[[ s ]]" on "[[ x ]]" without renaming.
+
+\begin{statements}
+
+\item "[[ eager define f.subst ( x , s , c ) as newline
+
+let d = lookup ( x , s , true ) in newline
+
+if .not. d then d else newline
+
+let d = x valuedef ( c ) in newline
+
+if d = 1 then x else newline
+
+if d != 0 then x head :: f.subst* ( x tail , s , c ) else newline
+
+<< x head ,, x first ,, f.subst ( x second , remove ( x first , s ) , c ) >> end define ]]"
+
+\item "[[ eager define f.subst* ( x , s , c ) as newline
+
+if x atom then true else newline
+
+f.subst ( x head , s , c ) :: f.subst* ( x tail , s , c ) end define ]]"
+
+\end{statements}
+
+
+
+\subsection{Parallel instantiation}
+
+\begin{statements}
+
+\item "[[ macro define inst ( x , y ) as \ c . inst0 ( quote x end quote , quote y end quote , c ) end define ]]"
+
+"[[ inst ( x , y ) ]]" is suited as a side condition. The side condition is true if "[[ y ]]" is an instantiation of "[[ x ]]". Multiple instantiation is legal and is done in parallel. Only universal quantifiers which occur in the root can be instantiated. Universal quantifiers which occur in the the root of "[[ x ]]" but which are not instantiated because they also appear in the root of "[[ y ]]" may instead be alpha-converted.
+
+
+
+\item "[[ eager define inst0 ( x , y , c ) as .not. inst1 ( x , y , c ) catch head end define ]]"
+
+Check that "[[ y ]]" is an instance of "[[ x ]]". Return true if it is and false otherwise.
+
+
+
+\item "[[ eager define inst1 ( x , y , c ) as newline
+
+let x :: u = inst-strip ( x , true , c ) in newline
+
+let y :: v = inst-strip ( y , true , c ) in newline
+
+let s = inst-zip ( u , v ) in newline
+
+inst2 ( x , y , s , true , c ) end define ]]"
+
+Remove universal quantifiers from the root of "[[ x ]]" and "[[ y ]]". Accumulate the bound variables in reverse order in "[[ u ]]" and "[[ v ]]". Then  zip "[[ u ]]" and "[[ v ]]" in a way which allows "[[ u ]]" to be longer than "[[ v ]]". In that way, variables which occur both in "[[ u ]]" and "[[ v ]]" are effectively alpha-renamed.
+
+
+
+\item "[[ eager define inst-strip ( x , v , c ) as newline
+
+if .not. x metadef ( c ) then x :: v else newline
+
+if .not. x valuedef ( c ) then x :: v else newline
+
+if x mathdef ( c ) != "all" then x :: v else newline
+
+if x tail then exception else newline
+
+let x = x first in newline
+
+if .not. x metadef ( c ) then exception else newline
+
+if x valuedef ( c ) != 0 then exception else newline
+
+inst-strip ( x second , x first :: v , c ) end define ]]"
+
+Remove universal quantifiers from the root of "[[ x ]]". Accumulate the bound variables in "[[ v ]]".
+
+
+
+\item "[[ eager define inst-zip ( x , y ) as newline
+
+if x then if y then true else exception else newline
+
+( x head :: y head ) :: inst-zip ( x tail , y tail ) end define ]]"
+
+Zip "[[ x ]]" and "[[ y ]]" where "[[ x ]]" is allowed to be longer than "[[ y ]]".
+
+
+
+\item "[[ eager define inst2 ( x , y , s , b , c ) as newline
+
+let d = lookup ( x , s , false ) in newline
+
+if d then ( x :: y ) :: s else newline
+
+if d pairp then if inst3 ( d , b , c ) then s else exception else newline
+
+if .not. x r= y then exception else newline
+
+if .not. x metadef ( c ) then exception else newline
+
+let d = x valuedef ( c ) in newline
+
+if d = 1 then if x first = y first then s else exception else newline
+
+if d != 0 then inst2* ( x tail , y tail , s , b , c ) else newline
+
+let v = x first in newline
+
+if .not. v = y first then exception else newline
+
+if .not. x objectvar ( c ) then exception else newline
+
+let s = remove ( v , s ) in newline
+
+inst2 ( x second , y second , s , b set+ v , c ) end define ]]"
+
+Check that "[[ y ]]" is the result of performing the substitution "[[ s ]]" on "[[ x ]]". The set "[[ b ]]" contains all locally bound variables. The function enriches "[[ s ]]" whenever it meets a variable for which it is not yet known how the variable is instantiated. The function returns the enriched "[[ s ]]" or signals an error.
+
+
+
+\item "[[ eager define inst2* ( x , y , s , b , c ) as newline
+
+if x then s else newline
+
+inst2* ( x tail , y tail , inst2 ( x head , y head , s , b , c ) , b , c ) end define ]]"
+
+Elementwise application of "[[ inst2 ( x , y , s , b , c ) ]]" to lists "[[ x ]]" and "[[ y ]]".
+
+
+
+\item "[[ eager define inst3 ( x , b , c ) as newline
+
+if .not. x metadef ( c ) then false else newline
+
+if .not. x mathdef ( c ) then inst3* ( x tail , b , c ) else newline
+
+let d = x valuedef ( c ) in newline
+
+if d then .not. x member b else newline
+
+if d = 1 then true else newline
+
+if d != 0 then inst3* ( x tail , b , c ) else newline
+
+inst3 ( x second , b set- x first , c ) end define ]]"
+
+Check that "[[ x ]]" is suited for insertion, i.e. that the free variable of "[[ x ]]" do not occur in "[[ b ]]".
+
+
+
+\item "[[ eager define inst3* ( x , b , c ) as newline
+
+if x then true else inst3 ( x head , b , c ) .and. inst3* ( x tail , b , c ) end define ]]"
+
+Elementwise application of "[[ inst3 ( x , b , c ) ]]" to the list "[[ x ]]".
+
+\end{statements}
+
+
+
+\subsection{Definition}
+
+The side condition "[[ def ( a , b ) ]]" allows to formulate a rule of definition which allows to replace definiens by definiendum and vice versa.
+
+\begin{statements}
+
+\item "[[ macro define def ( a , b ) as \ c . def0 ( quote a end quote , quote b end quote , c ) end define ]]".
+
+This macro quotes its arguments and pass them on to def0 which performs the actual computation. During proof checking, "[[ c ]]" is instantiated to the cache of the page on which the proof occurs.
+
+\item "[[ eager define def0 ( a , b , c ) as def1 ( a , b , c ) .or. def2 ( a , b , c ) .or. def2 ( b , a , c ) end define ]]".
+
+Test that "[[ a ]]" and "[[ b ]]" are equal modulo application of definitions.
+
+\item "[[ eager define def0* ( a , b , c ) as a atom .or. def0 ( a head , b head , c ) .and. def0* ( a tail , b tail , c ) end define ]]"
+
+Coordinatewise application of def0 to the lists "[[ a ]]" and "[[ b ]]".
+
+\item "[[ eager define def1 ( a , b , c ) as newline
+
+let v = a metadef ( c ) in newline
+
+if v = "var" then a t= b else newline
+
+if .not. v then false else newline
+
+let v = a valuedef ( c ) in newline
+
+if v = 0 then a first t= b first .and. def0 ( a second , b second , c ) else newline
+
+if v = 1 then a first = b first else newline
+
+a r= b .and. def0* ( a tail , b tail , c ) end define ]]".
+
+def1 is true if "[[ a ]]" and "[[ b ]]" are equal modulo definitions applied to subterms of "[[ a ]]" and "[[ b ]]".
+
+\item "[[ eager define def2 ( a , b , c ) as newline
+
+a metadef ( c ) = true .and. a valuedef ( c ) = true .and. newline
+
+let v = a def ( c , math ) in newline
+
+if v .or. v third ref = 0 .or. .not. checked-def ( a ref , c ) then false else newline
+
+"";if .not. valid-def ( v third , v second tail , << v second >> , c ) then false else newline
+
+let s = zip ( v second tail , a tail ) in newline
+
+def3 ( v third , b , s , c ) end define ]]"
+
+Test that "[[ b ]]" is equal to "[[ a ]]" according to the definition of "[[ a ]]".
+
+\item "[[ eager define def3 ( a , b , s , c ) as newline
+
+if .not. a metadef ( c ) then false else newline
+
+let v = a valuedef ( c ) in newline
+
+if v = 0 then newline
+
+b valuedef ( c ) = 0 .and. def3 ( a second , b second , ( a first :: b first ) :: s , c ) else newline
+
+if v = 1 then false else newline
+
+let w = a mathdef ( c ) in newline
+
+if v .and. ( w .or. w ref = 0 ) then b t= lookup ( a , s , true ) else newline
+
+a r= b .and. def3* ( a tail , b tail , s , c ) end define ]]".
+
+True if the right hand side "[[ a ]]" is identical to "[[ b ]]" after instantiating a as specified by the association list "[[ s ]]".
+
+\item "[[ eager define def3* ( a , b , s , c ) as newline
+
+a atom .or. def3 ( a head , b head , s , c ) .and. def3* ( a tail , b tail , s , c ) end define ]]"
+
+Coordinatewise application of def3 to the lists "[[ a ]]" and "[[ b ]]".
+
+\end{statements}
+
+
+
+\subsection{Soundness of definitions}
+
+\begin{statements}
+
+\item "[[ verifier test1 &c defcheck &c proofcheck end verifier ]]"
+
+When using the present page as bed page, all tests are executed ("[[ test1 ]]"), all proofs are checked ("[[ proofcheck ]]"), and the soundness of all definitions are checked ("[[ defcheck ]]").
+
+\item "[[ value define defcheck as \ c . defcheck1 ( c ) end define ]]"
+
+The "[[ defcheck ]]" conjunct passes the cache "[[ c ]]" on to "[[ defcheck1 ( c ) ]]".
+
+\item "[[ eager define checked-def ( r , c ) as newline
+
+let x = c [[ r ]] [[ "codex" ]] [[ r ]] [[ 0 ]] [[ 0 ]] [[ "claim" ]] third in newline
+
+claiming ( quote defcheck end quote , x ) end define ]]"
+
+True if the soundness of definitions on the page with reference "[[ r ]]" has been checked.
+
+\item "[[ eager define defcheck1 ( c ) as newline
+
+let r = c [[ 0 ]] in newline
+
+let a = c [[ r ]] [[ "codex" ]] [[ r ]] in newline
+
+let e :: v = defcheck2 ( a , c ) catch in newline
+
+if v != true then diagnose v end diagnose else newline
+
+if .not. e then true else newline
+
+diagnose show quote "In definition soundness checker: unprocessed exception" end quote end show end diagnose end define ]]"
+
+Look up the array "[[ a ]]" of all local definitions on the page being checked. Pass it to "[[ defcheck2 ( a , c ) ]]"
+
+\item "[[ eager define defcheck2 ( a , c ) as newline
+
+if a = true then true else newline
+
+if .not. a head intp then newline
+
+defcheck2 ( a head , c ) .and. defcheck2 ( a tail , c ) else newline
+
+let v = a tail [[ 0 ]] [[ math ]] in newline
+
+if v .or. v third ref = 0 then true else newline
+
+if valid-def ( v third , v second tail , << v second >> , c ) then true else newline
+
+error ( v second ,
+diag ( "Definition soundness check of" )
+form ( v second )
+diag ( "failed." )
+diag ( "Error could be in any, transitively used definition" )
+diag ( "or could be that the definition is circular." )
+end diagnose ) end define ]]"
+
+Find all definitions "[[ v ]]". If "[[ v ]]" is "[[ true ]]" then the corresponding construct is undefined which is ok. If "[[ v third ref = 0 ]]" then the right hand side is a string indicating that this is a predefined construct of some sort which is ok. Otherwise, call valid-def. Calling valid-def for each definition is not optimal since non-circularity is checked every time.
+
+\item "[[ eager define valid-def ( a , b , s , c ) as newline
+
+if .not. a metadef ( c ) then false else newline
+
+let v = a valuedef ( c ) in newline
+
+if v = 0 then valid-def ( a second , a first :: b , s , c ) else newline
+
+if v = 1 then false else newline
+
+if .not. v then valid-def* ( a tail , b , s , c ) else newline
+
+let v = a def ( c , math ) in newline
+
+if v then a member b else newline
+
+if .not. valid-def* ( a tail , b , s , c ) then false else newline
+
+if v third ref = 0 then true else newline
+
+if v second ref != c [[ 0 ]] then claiming ( v second ref , c ) else newline
+
+if v second member s then false else newline
+
+valid-def ( v third , v second tail , v second :: s , c ) end define ]]".
+
+"[[ valid-def ( a , b , s , c ) ]]" tests that "[[ a ]]" is a valid right hand side of a definition. "[[ b ]]" is the list of bound variables (parameters plus variables bound by lambdas). "[[ s ]]" is a stack of left hand sides used for spotting circular definitions. "[[ c ]]" is the cache.
+
+\item "[[ eager define valid-def* ( a , b , s , c ) as newline
+
+a atom .or. valid-def ( a head , b , s , c ) .and. valid-def* ( a tail , b , s , c ) end define ]]".
+
+Conjunction of valid-def applied to all elements of the list "[[ a ]]".
+
+
+
+\end{statements}
+
+
+
+\subsection{Connectives and function letters}
+
+The sidecondition above and the inference rule of definition stated later allows to define new concepts from previously defined concepts. Definitions whose right hand side is a string introduce a new construct.
+
+In Propositional calculus we take implication "[[ x imply y ]]" and falsehood "[[ ff ]]" as elementary and then define a number of logical connectives on basis of that:
+
+\begin{statements}
+
+\item "[[ math define x imply y as "imply" end define ]]".
+
+\item "[[ math define ff as "ff" end define ]]".
+
+\item "[[ math define not x as x imply ff end define ]]"
+
+\item "[[ math define tt as ff imply ff end define ]]"
+
+\item "[[ math define x or y as not x imply y end define ]]"
+
+\item "[[ math define x and y as not ( x imply not y ) end define ]]"
+
+\item "[[ math define x when y as y imply x end define ]]"
+
+\item "[[ math define x iff y as ( x imply y ) and ( y imply x ) end define ]]"
+
+\end{statements}
+
+In first order logic we take the universal quantifier as elementary. We have defined "[[ all x : y ]]" to macro expand to "[[ f.allfunc \ x . y ]]" so it is the unary "[[ f.allfunc x ]]" construct which represents the universal quantifier.
+
+\begin{statements}
+
+\item "[[ math define f.allfunc x as "all" end define ]]".
+
+\end{statements}
+
+In Peano arithmetic we use the function letters "[[ 0 ]]", "[[ x + y ]]", "[[ x * y ]]", and "[[ x suc ]]" and the relation sign "[[ x = y ]]". All of these except the successor function "[[ x suc ]]" are value defined on the
+\href{\lgwBlockRelay \lgwBlockbase /page/chores.pdf}{base}
+page. We also give a value definition of the successor function:
+
+\begin{statements}
+
+\item "[[ eager define x suc as x + 1 end define ]]"
+
+\end{statements}
+
+
+
+\section{Theories}
+
+\subsection{Propositional calculus}
+
+The following rules define the propositional calculus "[[ Prop ]]". The axioms "[[ A1 ]]", "[[ A2 ]]", and "[[ A3 ]]" and the inference rule "[[ MP ]]" are taken from Mendelson \cite{Mendelson}.
+
+The "[[ Def ]]" rule is the inference of definition. Due to the inference of definition, we may use e.g.\ "[[ x and y ]]", "[[ x or y ]]", and "[[ x iff y ]]" even though those connectives are not mentioned in the axioms.
+
+Even "[[ not x ]]" is defined: "[[ not x ]]" is defined to mean "[[ x imply ff ]]" where "[[ ff ]]" is falsehood.
+
+Apart from "[[ Def ]]" and the definition of "[[ not x ]]", "[[ Prop ]]" below is defined as in \cite{Mendelson}.
+
+"[ axiom A1 : All #x ,, #y : #x imply #y imply #x end axiom ]"
+
+"[ axiom A2 : All #x ,, #y ,, #z : ( #x imply #y imply #z ) imply ( #x imply #y ) imply #x imply #z end axiom ]"
+
+"[ axiom A3 : All #x ,, #y : ( not #y imply not #x ) imply ( not #y imply #x ) imply #y end axiom ]"
+
+"[ rule MP : All #x ,, #y : #x imply #y infer #x infer #y end rule ]"
+
+"[ rule Def : All #x ,, #y : def ( #x , #y ) endorse #x infer #y end rule ]"
+
+"[ theory Prop : A1 oplus A2 oplus A3 oplus MP oplus Def end theory ]"
+
+
+
+\subsection{First order logic}
+
+First order logic "[[ FOL ]]" is "[[ Prop ]]" extended with "[[ A4 ]]", "[[ AP4 ]]", "[[ A5 ]]", and "[[ Gen ]]". "[[ Gen ]]" is generalization, "[[ A4 ]]" is the opposite, and "[[ A5 ]]" is needed for the theorem of deduction.
+
+"[[ AP4 ]]" is a parallel version of "[[ A4 ]]" which allows to instantiate several quantifiers at the same time. As an example, "[[ all x ,, y : x + y = y + x imply y + x = x + y ]]" is correct according to "[[ AP4 ]]" because "[[ y + x = x + y ]]" arises from "[[ x + y = y + x ]]" by simultaneous replacement of "[[ x ]]" with "[[ y ]]" and "[[ y ]]" with "[[ x ]]". The verification time of the present paper has been reduce by a factor of five by having parallel object instantiation ("[[ AP4 ]]") and by having parallel meta instantiation (parallel "[[ x at y ]]"). Both "[[ A4 ]]" and "[[ AP4 ]]" has been included in "[[ FOL ]]" even though any one of them is sufficient.
+
+Apart from "[[ AP4 ]]" and the definition of "[[ not x ]]", "[[ FOL ]]" below is defined as in \cite{Mendelson}.
+
+"[ rule A4 : All #t ,, #x ,, #a ,, #b : sub ( #b , #a , #x , #t ) endorse all #x : #a imply #b end rule ]"
+
+"[ rule AP4 : All #a ,, #b : inst ( #a , #b ) endorse #a imply #b end rule ]"
+
+"[ rule A5 : All #x ,, #a ,, #b : #x avoid #a endorse all #x : ( #a imply #b ) imply #a imply all #x : #b end rule ]"
+
+"[ rule Gen : All #u ,, #x : #x infer all #u : #x end rule ]"
+
+"[ theory FOL : Prop oplus A4 oplus AP4 oplus A5 oplus Gen end theory ]"
+
+
+
+\subsection{Peano Arithmetic}
+
+Peano arithmetic "[[ PA ]]" is "[[ FOL ]]" extended with "[[ S1 ]]" to "[[ S9 ]]" taken from \cite{Mendelson}.
+
+"[ rule S1 : all x ,, y ,, z : ( x = y imply x = z imply y = z ) end rule ]"
+
+"[ rule S2 : all x ,, y : ( x = y imply x suc = y suc ) end rule ]"
+
+"[ rule S3 : all x : not 0 = x suc end rule ]"
+
+"[ rule S4 : all x : x suc = y suc imply x = y end rule ]"
+
+"[ rule S5 : all x : x + 0 = x end rule ]"
+
+"[ rule S6 : all x ,, y : x + y suc = ( x + y ) suc end rule ]"
+
+"[ rule S7 : all x : x * 0 = 0 end rule ]"
+
+"[ rule S8 : all x ,, y : x * y suc = x * y + x end rule ]"
+
+"[ rule S9 : All #x ,, #a ,, #z ,, #i : sub ( #z , #a , #x , 0 ) endorse sub ( #i , #a , #x , #x suc ) endorse #z imply all #x : ( #a imply #i ) imply #a end rule ]"
+
+"[ theory PA : FOL oplus S1 oplus S2 oplus S3 oplus S4 oplus S5 oplus S6 oplus S7 oplus S8 oplus S9 end theory ]"
+
+
+
+\section{Deduction}
+
+\subsection{Auxiliary lemmas}
+
+We now prove a number of auxiliary lemmas which are needed by the deduction tactic. Later, we define that "[[ Prop ]]", "[[ FOL ]]", and "[[ PA ]]" proofs are tactic expanded by the deduction tactic. We cannot prove the lemmas below using the deduction tactic since the deduction tactic does not work before the lemmas below are proved. For that reason, we disable the deduction tactic in the proofs below by assuming "[[ Prop ]]" and "[[ FOL ]]" as premises rather than stating them in the header of the proof.
+
+Lemma "[[ Mend1.8 ]]" below is Lemma 1.8 in Mendelson: Introduction to Mathematical Logic \cite{Mendelson}. In general, the numbering used in \cite{Mendelson} has been kept. Some of the proofs also come from \cite{Mendelson}. The present text deviates slightly from \cite{Mendelson} in that the present text takes implication "[[ x imply y ]]" and falsehood "[[ ff ]]" as primitive whereas \cite{Mendelson} takes implication "[[ x imply y ]]" and negation "[[ not x ]]" as primitive. All proofs in \cite{Mendelson} carry over to the present framework without change since the axioms and inference rules are taken from \cite{Mendelson}. But the present text can take advantage of an additional feature, namely that "[[ not x ]]" is defined to denote "[[ x imply ff ]]".
+
+
+
+"[ Prop lemma Mend1.8 : All #x : #x imply #x end lemma ]"
+
+"[ proof of Mend1.8 :
+
+line L01 : Premise >> Prop ;
+
+line L02 : Arbitrary >> #x ;
+
+line L03 : A2 >>
+  ( #x imply ( #y imply #x ) imply #x ) imply newline
+  ( #x imply #y imply #x ) imply #x imply #x ;
+
+line L04 : A1 >> #x imply ( #y imply #x ) imply #x ;
+
+line L05 : MP ponens L03 ponens L04 >> ( #x imply #y imply #x ) imply #x imply #x ;
+
+line L06 : A1 >> #x imply #y imply #x ;
+
+line L07 : MP ponens L05 ponens L06 >> #x imply #x qed ]"
+
+
+
+"[ Prop lemma A1' : All #h ,, #a : #a infer #h imply #a end lemma ]"
+
+"[ proof of A1' :
+
+line L01 : Premise >> Prop ;
+
+line L02 : Arbitrary >> #h ,, #a ;
+
+line L03 : Premise >> #a ;
+
+line L04 : MP ponens A1 ponens L03 >> #h imply #a qed ]"
+
+
+
+"[ Prop lemma A2' : All #h ,, #a ,, #b : #h imply #a imply #b infer #h imply #a infer #h imply #b end lemma ]"
+
+"[ proof of A2' :
+
+line L01 : Premise >> Prop ;
+
+line L02 : Arbitrary >> #h ,, #a ,, #b ;
+
+line L03 : Premise >> #h imply #a imply #b ;
+
+line L04 : Premise >> #h imply #a ;
+
+line L05 : MP ponens ( MP ponens A2 ponens L03 ) ponens L04 >> #h imply #b qed ]"
+
+
+
+"[ Prop lemma Mend1.47b : All #a ,, #b ,, #c : #a imply #b infer #b imply #c infer #a imply #c end lemma ]"
+
+"[ proof of Mend1.47b :
+
+line L01 : Premise >> Prop ;
+
+line L02 : Arbitrary >> #a ,, #b ,, #c ;
+
+line L03 : Premise >> #a imply #b ;
+
+line L04 : Premise >> #b imply #c ;
+
+line L05 : A1' ponens L04 >> #a imply #b imply #c ;
+
+line L06 : A2' ponens L05 ponens L03 >> #a imply #c qed ]"
+
+
+
+"[ Prop lemma Mend1.47c : All #a ,, #b ,, #c : #a imply #b imply #c infer #b imply #a imply #c end lemma ]"
+
+"[ proof of Mend1.47c :
+
+line L01 : Premise >> Prop ;
+
+line L02 : Arbitrary >> #a ,, #b ,, #c ;
+
+line L03 : Premise >> #a imply #b imply #c ;
+
+line L04 : MP ponens A2 ponens L03 >> ( #a imply #b ) imply #a imply #c ;
+
+line L05 : A1' ponens L04 >> #b imply ( #a imply #b ) imply #a imply #c ;
+
+line L06 : MP ponens A2 ponens L05 >> ( #b imply #a imply #b ) imply #b imply #a imply #c ;
+
+line L07 : MP ponens L06 ponens A1 Conclude >> #b imply #a imply #c qed ]"
+
+
+
+"[ Prop lemma Mend1.47d : All #a ,, #b : ( not #a imply not #b ) imply #b imply #a end lemma ]"
+
+"[ proof of Mend1.47d :
+
+line L01 : Premise >> Prop ;
+
+line L02 : Arbitrary >> #a ,, #b ;
+
+line L03 : A3 >> ( not #a imply not #b ) imply ( not #a imply #b ) imply #a ;
+
+line L04 : Mend1.47c ponens L03 >> ( not #a imply #b ) imply ( not #a imply not #b ) imply #a ;
+
+line L05 : A1 >> #b imply not #a imply #b ;
+
+line L06 : Mend1.47b ponens L05 ponens L04 >> #b imply ( not #a imply not #b ) imply #a ;
+
+line L07 : Mend1.47c ponens L06 >> ( not #a imply not #b ) imply #b imply #a qed ]"
+
+
+
+"[ Prop lemma Mend1.11b : All #a : #a imply not not #a end lemma ]"
+
+"[ proof of Mend1.11b :
+
+line L01 : Premise >> Prop ;
+
+line L02 : Arbitrary >> #a ;
+
+line L03 : Mend1.8 >> ( #a imply ff ) imply #a imply ff ;
+
+line L04 : Mend1.47c ponens L03 >> #a imply ( #a imply ff ) imply ff ;
+
+line L05 : Def ponens L04 >> #a imply not #a imply ff ;
+
+line L06 : Def ponens L05 >> #a imply not not #a qed ]"
+
+
+
+"[ Prop lemma Mend1.48d : All #h ,, #x : #h and #x imply #h end lemma ]"
+
+"[ proof of Mend1.48d :
+
+line L01 : Premise >> Prop ;
+
+line L02 : Arbitrary >> #h ,, #x ;
+
+line L03 : Mend1.8 >> ff imply ff ;
+
+line L04 : Def ponens L03 >> not ff ;
+
+line L05 : A1' ponens L04 >> not not #x imply not ff ;
+
+line L06 : MP ponens Mend1.47d ponens L05 >> ff imply not #x ;
+
+line L07 : A1' ponens L06 >> #h imply ff imply not #x ;
+
+line L08 : MP ponens A2 ponens L07 >> ( #h imply ff ) imply #h imply not #x ;
+
+line L09 : Def ponens L08 >> not #h imply #h imply not #x ;
+
+line L10 : Mend1.11b >> ( #h imply not #x ) imply not not ( #h imply not #x ) ;
+
+line L11 : Mend1.47b ponens L09 ponens L10 >> not #h imply not not ( #h imply not #x ) ;
+
+line L12 : MP ponens Mend1.47d ponens L11 >> not ( #h imply not #x ) imply #h ;
+
+line L13 : Def ponens L12 >> #h and #x imply #h qed ]"
+
+
+
+"[ Prop lemma Mend1.48e : All #h ,, #x : #h and #x imply #x end lemma ]"
+
+"[ proof of Mend1.48e :
+
+line L01 : Premise >> Prop ;
+
+line L02 : Arbitrary >> #h ,, #x ;
+
+line L03 : A1 >> not #x imply #h imply not #x ;
+
+line L04 : Mend1.11b >> ( #h imply not #x ) imply not not ( #h imply not #x ) ;
+
+line L05 : Mend1.47b ponens L03 ponens L04 >> not #x imply not not ( #h imply not #x ) ;
+
+line L06 : MP ponens Mend1.47d ponens L05 >> not ( #h imply not #x ) imply #x ;
+
+line L07 : Def ponens L06 >> #h and #x imply #x qed ]"
+
+
+
+"[ Prop lemma Lnexthyp : All #h ,, #x ,, #y : #h imply #y infer #h and #x imply #y end lemma ]"
+
+"[ proof of Lnexthyp :
+
+line L01 : Premise >> Prop ;
+
+line L02 : Arbitrary >> #h ,, #x ,, #y ;
+
+line L03 : Premise >> #h imply #y ;
+
+line L04 : Mend1.48d >> #h and #x imply #h ;
+
+line L05 : Mend1.47b ponens L04 ponens L03 >> #h and #x imply #y qed ]"
+
+
+
+"[ Prop lemma Lcurry : All #h ,, #x ,, #y : #h and #x imply #y infer #h imply #x imply #y end lemma ]"
+
+"[ proof of Lcurry :
+
+line L01 : Premise >> Prop ;
+
+line L02 : Arbitrary >> #h ,, #x ,, #y ;
+
+line L03 : Premise >> #h and #x imply #y ;
+
+line L04 : Def ponens L03 >> not ( #h imply not #x ) imply #y ;
+
+line L05 : Mend1.11b >> #y imply not not #y ;
+
+line L06 : Mend1.47b ponens L04 ponens L05 >> not ( #h imply not #x ) imply not not #y ;
+
+line L07 : MP ponens Mend1.47d ponens L06 >> not #y imply #h imply not #x ;
+
+line L08 : Mend1.47c ponens L07 >> #h imply not #y imply not #x ;
+
+line L09 : Mend1.47d >> ( not #y imply not #x ) imply #x imply #y ;
+
+line L10 : Mend1.47b ponens L08 ponens L09 >> #h imply #x imply #y qed ]"
+
+
+
+"[ Prop lemma LTruth : tt end lemma ]"
+
+"[ proof of LTruth :
+
+line L01 : Premise >> Prop ;
+
+line L02 : Mend1.8 >> ff imply ff ;
+
+line L03 : Def ponens L02 >> tt qed ]"
+
+
+
+"[ Prop lemma LElimHyp : All #x : tt imply #x infer #x end lemma ]"
+
+"[ proof of LElimHyp :
+
+line L01 : Premise >> Prop ;
+
+line L02 : Arbitrary >> #x ;
+
+line L03 : Premise >> tt imply #x ;
+
+line L04 : LTruth >> tt ;
+
+line L05 : MP ponens L03 ponens L04 >> #x qed ]"
+
+
+
+"[ FOL lemma LA4' : All #h ,, #t ,, #x ,, #a ,, #b : sub ( #b , #a , #x , #t ) endorse #h imply all #x : #a infer #h imply #b end lemma ]"
+
+"[ proof of LA4' :
+
+line L01 : Premise >> FOL ;
+
+line L02 : Arbitrary >> #h ,, #t ,, #x ,, #a ,, #b ;
+
+line L03 : Condition >> sub ( #b , #a , #x , #t ) ;
+
+line L04 : Premise >> #h imply all #x : #a ;
+
+line L05 : A4 probans L03 >> all #x : #a imply #b ;
+
+line L06 : Mend1.47b ponens L04 ponens L05 >> #h imply #b qed ]"
+
+
+
+"[ FOL lemma LAP4' : All #h ,, #a ,, #b : inst ( #a , #b ) endorse #h imply #a infer #h imply #b end lemma ]"
+
+"[ proof of LAP4' :
+
+line L01 : Premise >> FOL ;
+
+line L02 : Arbitrary >> #h ,, #a ,, #b ;
+
+line L03 : Condition >> inst ( #a , #b ) ;
+
+line L04 : Premise >> #h imply #a ;
+
+line L05 : AP4 probans L03 >> #a imply #b ;
+
+line L06 : Mend1.47b ponens L04 ponens L05 >> #h imply #b qed ]"
+
+
+
+"[ Prop lemma MP' : All #h ,, #a ,, #b : #h imply #a imply #b infer #h imply #a infer #h imply #b end lemma ]"
+
+"[ proof of MP' :
+
+line L01 : Premise >> Prop ;
+
+line L02 : Arbitrary >> #h ,, #a ,, #b ;
+
+line L03 : Premise >> #h imply #a imply #b ;
+
+line L04 : Premise >> #h imply #a ;
+
+line L05 : A2 >> ( #h imply #a imply #b ) imply ( #h imply #a ) imply #h imply #b ;
+
+line L06 : MP ponens L05 ponens L03 >> ( #h imply #a ) imply #h imply #b ;
+
+line L07 : MP ponens L06 ponens L04 >> #h imply #b qed ]"
+
+
+
+"[ FOL lemma Gen1 : All #h ,, #x ,, #a : #x avoid #h endorse #h imply #a infer #h imply all #x : #a end lemma ]"
+
+"[ proof of Gen1 :
+
+line L01 : Premise >> FOL ;
+
+line L02 : Arbitrary >> #h ,, #x ,, #a ;
+
+line L03 : Condition >> #x avoid #h ;
+
+line L04 : Premise >> #h imply #a ;
+
+line L05 : Gen ponens L04 >> all #x : ( #h imply #a ) ;
+
+line L06 : A5 probans L03 >> all #x : ( #h imply #a ) imply ( #h imply all #x : #a ) ;
+
+line L07 : MP ponens L06 ponens L05 >> #h imply all #x : #a qed ]"
+
+
+
+"[ FOL lemma Gen2 : All #h ,, #x ,, #y ,, #a : #x avoid #h endorse #y avoid #h endorse #h imply #a infer #h imply all #x ,, #y : #a end lemma ]"
+
+"[ proof of Gen2 :
+
+line L01 : Premise >> FOL ;
+
+line L02 : Arbitrary >> #h ,, #x ,, #y ,, #a ;
+
+line L03 : Condition >> #x avoid #h ;
+
+line L04 : Condition >> #y avoid #h ;
+
+line L05 : Premise >> #h imply #a ;
+
+line L06 : Gen1 probans L04 ponens L05 >> #h imply all #y : #a ;
+
+line L07 : Gen1 probans L03 ponens L06 >> #h imply all #x ,, #y : #a qed ]"
+
+
+
+"[ FOL lemma Gen3 : All #h ,, #x ,, #y ,, #z ,, #a : #x avoid #h endorse #y avoid #h endorse #z avoid #h endorse #h imply #a infer #h imply all #x ,, #y ,, #z : #a end lemma ]"
+
+"[ proof of Gen3 :
+
+line L01 : Premise >> FOL ;
+
+line L02 : Arbitrary >> #h ,, #x ,, #y ,, #z ,, #a ;
+
+line L03 : Condition >> #x avoid #h ;
+
+line L04 : Condition >> #y avoid #h ;
+
+line L05 : Condition >> #z avoid #h ;
+
+line L06 : Premise >> #h imply #a ;
+
+line L07 : Gen2 probans L04 probans L05 ponens L06 >> #h imply all #y ,, #z : #a ;
+
+line L08 : Gen1 probans L03 ponens L07 >> #h imply all #x ,, #y ,, #z : #a qed ]"
+
+
+
+"[ PA lemma Induction : All #x ,, #h ,, #a ,, #z ,, #i : sub ( #z , #a , #x , 0 ) endorse sub ( #i , #a , #x , #x suc ) endorse #x avoid #h endorse #h imply #z infer #h imply #a imply #i infer #h imply #a end lemma ]"
+
+"[ proof of Induction :
+
+line L01 : Premise >> PA ;
+
+line L02 : Arbitrary >> #x ,, #h ,, #a ,, #z ,, #i ;
+
+line L03 : Condition >> sub ( #z , #a , #x , 0 ) ; 
+
+line L04 : Condition >> sub ( #i , #a , #x , #x suc ) ;
+
+line L05 : Condition >> #x avoid #h ;
+
+line L06 : Premise >> #h imply #z ;
+
+line L07 : Premise >> #h imply #a imply #i ;
+
+line L08 : Gen1 probans L05 ponens L07 >> #h imply all #x : ( #a imply #i ) ;
+
+line L09 : S9 probans L03 probans L04 >> #z imply all #x : ( #a imply #i ) imply #a ;
+
+line L10 : A1' ponens L09 >> #h imply #z imply all #x : ( #a imply #i ) imply #a ;
+
+line L11 : A2' ponens L10 ponens L06 >> #h imply all #x : ( #a imply #i ) imply #a ;
+
+line L12 : A2' ponens L11 ponens L08 >> #h imply #a qed ]"
+
+
+
+\subsection{Hooks for the tactic state}
+
+\begin{statements}
+
+\item "[[ eager define hook-hyp as "hyp" end define ]]"
+
+Hypothesis hook. Contains the ``working hypothesis'' which is the conjunction of all assumed hypotheses (or "[[ true ]]" if no hypotheses are assumed).
+
+\end{statements}
+
+
+
+\subsection{Tactic state for hypothetical reasoning}
+
+During hypothetical reasoning, "[[ unitac-hyp ]]" is installed at the "[[ hook-unitac ]]" hook of the tactic state. The effect is that occurrences of "[[ x conclude y ]]" are changed to "[[ x conclude hyp imply y ]]" where "[[ hyp ]]" is the current hypothesis. References to lemmas and rules are modified likewise. Modification only affects proof lines, lemmas, and rules which conclude on object term. Proof lines, lemmas, and rules which conclude a meta term are unaffected.
+
+\begin{statements}
+
+\item "[[ eager define is-meta-term ( t , c ) as newline
+
+let d = t metadef ( c ) in newline
+
+if d != true .and. d != "var" then true else newline
+
+.not. t stmt-rhs ( c ) end define ]]"
+
+True if "[[ t ]]" is a meta-term (i.e.\ no object term) or if "[[ t ]]" is statement defined to denote some other term.
+
+\item "[[ eager define unitac-hyp as
+
+true
+
+[[ hook-lemma -> quote \ u . unitac-lemma-hyp ( u ) end quote ]]
+
+[[ hook-rule -> quote \ u . unitac-rule-hyp ( u ) end quote ]]
+
+[[ hook-conclude -> quote \ u . unitac-conclude-hyp ( u ) end quote ]] end define ]]"
+
+Structure containing modified lemma, rule, and conclude tactics.
+
+\item "[[ eager define unitac-lemma-hyp ( x ) as newline
+
+let << t ,, s ,, c >> = x in newline
+
+let << true ,, T ,, r >> = t stmt-rhs ( c ) in newline
+
+if is-meta-term ( r , c ) then unitac-lemma-std ( x ) else newline
+
+let h = s [[ hook-hyp ]] in newline
+
+let a prime = unitac-theo ( T , s , c ) in newline
+
+let a = back t quote a prime unquote ;; t unquote Init Deref Ponens end quote in newline
+
+let a = back a quote a unquote ;; ( A1' Init Deref Ponens at h unquote at r unquote ) Ponens end quote in newline
+
+let r = back r quote h unquote imply r unquote end quote in newline
+
+s [[ hook-arg -> a ]] [[ hook-res -> r ]] end define ]]".
+
+Modified lemma tactic. Calls unmodified tactic for meta terms.
+
+
+
+\item "[[ eager define unitac-rule-hyp ( x ) as newline
+
+let << t ,, s ,, c >> = x in newline
+
+let r = t stmt-rhs ( c ) in newline
+
+if is-meta-term ( r , c ) then unitac-rule-std ( x ) else newline
+
+let h = s [[ hook-hyp ]] in newline
+
+let a = unitac-theo ( t , s , c ) in newline
+
+let a = back r quote a unquote Deref end quote in newline
+
+let a = back a quote a unquote ;; ( A1' Init Deref Ponens at h unquote at r unquote ) Ponens end quote in newline
+
+let r = back r quote h unquote imply r unquote end quote in newline
+
+s [[ hook-arg -> a ]] [[ hook-res -> r ]] end define ]]"
+
+Modified rule tactic. Calls unmodified tactic for meta terms.
+
+
+
+\item "[[ eager define unitac-conclude-hyp ( x ) as newline
+
+let << t ,, s ,, c >> = x in newline
+
+let << true ,, q ,, r >> = t in newline
+
+if is-meta-term ( r , c ) then unitac-conclude-std ( x ) else newline
+
+let h = s [[ hook-hyp ]] in newline
+
+let s = unieval ( q , s , c ) in newline
+
+let s = f.unitac-adapt ( r mathdef ( c ) , s , c ) in newline
+
+let r = back r quote h unquote imply r unquote end quote in newline
+
+let u = unify ( s [[ hook-res ]] , r , s [[ hook-uni ]] ) in newline
+
+s [[ hook-uni -> u ]] [[ hook-res -> r ]]
+
+end define ]]"
+
+Modified conclude tactic. Calls unmodified tactic for meta terms.
+
+\end{statements}
+
+
+
+\subsection{Stating hypotheses}
+
+The following constructs allow to add a hypothesis to the working hypothesis of a proof.
+
+\begin{statements}
+
+\item "[[ locate define line asterisk : Hypothesis >> asterisk ; asterisk as "line" :: 1 end define ]]"
+
+The definition above ensures that errors in hypothesis lines are properly located (somewhat academic since hypothesis lines cannot be in error).
+
+\item "[[ macro define line l : Hypothesis >> x ; n as Line l : Hypothesis >> x ; n end define ]]"
+
+\item "[[ tactic define Line l : Hypothesis >> x ; n as \ u . tactic-hyp ( u )  end define ]]"
+
+The tactic definition above adds "[[ x ]]" to the working hypothesis and tactic evaluates "[[ n ]]".
+
+\item "[[ eager define tactic-hyp ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let h = s [[ hook-hyp ]] in newline
+
+if h then tactic-first-hyp ( t , s , c ) else tactic-next-hyp ( h , t , s , c ) end define ]]"
+
+When more hypotheses are assumed, the first hypothesis is treated differently from the next ones.
+
+\end{statements}
+
+
+
+\subsection{Stating a dummy hypothesis}
+
+The following constructs allow to state "[[ tt ]]" as a hypothesis and removes "[[ tt ]]" again afterwards. The construct has no effect when the hypothesis is non-empty. The constructs below are useful in connection with constructs like "[[ x mp y ]]", "[[ x Mp ]]", "[[ x f.at y ]]", and "[[ x f.At ]]" which require the hypothesis to be non-empty.
+
+\begin{statements}
+
+\item "[[ locate define line asterisk : Deduction ; asterisk as "line" :: 1 end define ]]"
+
+\item "[[ locate define tactic-ded ( l , n ) as "line" :: 2 end define ]]"
+
+The definition above ensures that errors in dummy hypothesis lines are properly located (somewhat academic since hypothesis lines cannot be in error).
+
+\item "[[ macro define line l : Deduction ; n as Line l : Deduction ; n end define ]]"
+
+\item "[[ tactic define Line l : Deduction ; n as \ u . tactic-dummyhyp ( u )  end define ]]"
+
+\item "[[ tactic define tactic-ded ( l , n ) as \ u . tactic-dummyhyp ( u )  end define ]]"
+
+The tactic definition above adds "[[ tt ]]" to the working hypothesis, tactic evaluates "[[ n ]]", and removes "[[ tt ]]" again.
+
+\item "[[ eager define tactic-dummyhyp ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let << true ,, true ,, n >> = t in newline
+
+let h = s [[ hook-hyp ]] in newline
+
+if .not. h then taceval ( n , s , c ) else newline
+
+let s = tactic-first-hyp ( << true ,, true ,, quote tt end quote ,, n >> , s , c ) in newline
+
+let r = s [[ hook-res ]] second in newline
+
+let a = s [[ hook-arg ]] in newline
+
+let a = back a quote a unquote ;; ( LElimHyp Init Deref Ponens at r unquote ) Ponens end quote in newline
+
+s [[ hook-arg -> a ]] [[ hook-res -> r second ]] end define ]]"
+
+\end{statements}
+
+
+
+\subsection{Handling the first hypthesis}
+
+\begin{statements}
+
+\item "[[ eager define tactic-first-hyp ( t , s , c ) as newline
+
+let << << r ,, i >> >> = quote x conclude y end quote in newline
+
+let << true ,, l ,, x ,, n >> = t in newline
+
+let s = s [[ hook-hyp -> x ]] in newline
+
+let s = s [[ hook-unitac -> unitac-hyp ]] in newline
+
+let s = s [[ hook-pre -> add-first-hyp* ( x , s [[ hook-pre ]] , c ) ]] in newline
+
+let x prime = back t quote x unquote imply x unquote end quote in newline
+
+let s = tactic-push ( hook-pre , << l ,, x prime ,, back x prime quote x prime unquote Init end quote >> , s ) in newline
+
+let s = taceval ( n , s , c ) in newline
+
+s [[ hook-arg -> back t quote Mend1.8 Init Deref Ponens at x unquote ;; s [[ hook-arg ]] unquote end quote ]] end define ]]"
+
+The definition above first ensures that "[[ x conclude y ]]" adds the working hypothesis to "[[ y ]]". Then it sets the working hypothesis to "[[ x ]]". Then it adds "[[ x ]]" to all previously proved proof lines. Then it associates the label "[[ l ]]" with the conclusion "[[ x imply x ]]". Then it tactic evaluates the remainder of the proof. Finally it adds a proof of "[[ x imply x ]]".
+
+\item "[[ eager define add-first-hyp* ( h , p , c ) as newline
+
+if p then true else add-first-hyp ( h , p head , c ) :: add-first-hyp* ( h , p tail , c ) end define ]]"
+
+\item "[[ eager define add-first-hyp ( h , p , c ) as newline
+
+let << l ,, r ,, a >> = p in newline
+
+if is-meta-term ( r , c ) then p else newline
+
+let a = back a quote A1' Init Deref Ponens at h unquote at r unquote ;; a unquote end quote in newline
+
+let r = back r quote h unquote imply r unquote end quote in newline
+
+<< l ,, r ,, a >> end define ]]"
+
+
+
+\subsection{Handling additional hyptheses}
+
+\item "[[ eager define tactic-next-hyp ( h , t , s , c ) as newline
+
+let << true ,, l ,, x ,, n >> = t in newline
+
+let h prime = back t quote h unquote and x unquote end quote in newline
+
+let s = s [[ hook-hyp -> h prime ]] in newline
+
+let s = s [[ hook-pre -> add-next-hyp* ( x , s [[ hook-pre ]] , c ) ]] in newline
+
+let x prime = back t quote h prime unquote imply x unquote end quote in newline
+
+let s = tactic-push ( hook-pre , << l ,, x prime ,, back x prime quote x prime unquote Init end quote >> , s ) in newline
+
+let s = taceval ( n , s , c ) in newline
+
+let a = s [[ hook-arg ]] in newline
+
+let r = s [[ hook-res ]] in newline
+
+if .not. r r= quote x imply y end quote .or. .not. r first r= quote x and y end quote then newline
+
+error ( x ,
+LocateProofLine ( x , c )
+diag ( "Malformed result of hypothetical reasoning" )
+disp ( r )
+end diagnose ) else newline
+
+let a prime = back t quote Mend1.48e Init Deref Ponens at h unquote at x unquote end quote in newline
+
+let a prime prime = back t quote ( Lcurry Init Deref Ponens at r first first unquote at r first second unquote at r second unquote ) Ponens end quote in newline
+
+let r = back t quote r first first unquote imply r first second unquote imply r second unquote end quote in newline
+
+s [[ hook-arg -> back t quote a prime unquote ;; s [[ hook-arg ]] unquote ;; a prime prime unquote end quote ]] [[ hook-res -> r ]] end define ]]"
+
+The definitions above adds the hypothesis to the working hypothesis. Then it adds "[[ x ]]" to all previously proved proof lines. Then it adds "[[ x ]]" to all previously proved proof lines. Then it associates the label "[[ l ]]" with the conclusion "[[ h and x imply x ]]". Then it tactic evaluates the remainder of the proof. Finally it adds a proof of "[[ h and x imply x ]]" and Curries the result from "[[ h and x imply b ]]" to "[[ h imply x imply b ]]" where "[[ h ]]" was the working hypothesis before the hypothesis "[[ x ]]" was added.
+
+\item "[[ eager define add-next-hyp* ( x , p , c ) as newline
+
+if p then true else add-next-hyp ( x , p head , c ) :: add-next-hyp* ( x , p tail , c ) end define ]]"
+
+\item "[[ eager define add-next-hyp ( x , p , c ) as newline
+
+let << l ,, t ,, a >> = p in newline
+
+if is-meta-term ( t , c ) then p else newline
+
+let << true ,, h ,, r >> = t in newline
+
+let a = back a quote a unquote ;; ( Lnexthyp Init Deref Ponens at h unquote at x unquote at r unquote ) Ponens end quote in newline
+
+let r = back r quote h unquote and x unquote imply r unquote end quote in newline
+
+<< l ,, r ,, a >> end define ]]"
+
+\end{statements}
+
+
+
+\subsection{Adaption}
+
+\begin{statements}
+
+\item "[[ eager define f.unitac-adapt ( t , s , c ) as newline
+
+if t = "var" then s else newline
+
+let r = s [[ hook-res ]] in newline
+
+let d = r metadef ( c ) in newline
+
+if .not. d then s else newline
+
+if .not. r r= quote x imply y end quote then
+
+error ( r ,
+LocateProofLine ( r , c )
+diag ( "Malformed result of hypothetical reasoning" )
+disp ( r )
+end diagnose ) else newline
+
+let h = r first in newline
+
+let r = r second in newline
+
+if .not. r metadef ( c ) then s else newline
+
+let d = r mathdef ( c ) in newline
+
+if d = t then s else newline
+
+let a = s [[ hook-arg ]] in newline
+
+if d = "all" then f.unitac-adapt-all ( t , h , a , r , r , s [[ hook-idx ]] , true , s , c ) else newline
+
+if d = "imply" then newline
+
+let x = r first in newline
+
+let y = r second in newline
+
+let a = back t quote a unquote ;; ( h unquote imply x unquote ) Init ;; ( MP' Init Deref Ponens at h unquote at x unquote at y unquote ) Ponens Ponens end quote in newline
+
+let r = back t quote h unquote imply y unquote end quote in newline
+
+f.unitac-adapt ( t , s [[ hook-arg -> a ]] [[ hook-res -> r ]] , c ) else newline
+
+if t then s else newline
+
+error ( a , newline
+diag ( "Cannot convert" )
+disp ( r ) newline
+diag ( "to type ``" )
+diag ( t )
+diag ( "''" )
+end diagnose ) end define ]]".
+
+Add mp and at operations to the argumentation inside "[[ s ]]" until the root of the conclusion is of type "[[ t ]]". As examples, "[[ t ]]" could be ``imply'', ``all'', ``var'', or "[[ true ]]". In the latter case, a maximum of mp and at operations are added. When "[[ t ]]" is ``var'', a minimum of operators are added (meaning that "[[ s ]]" is returned unchanged).
+
+\item "[[ eager define f.unitac-adapt-all ( t , h , a , R , r , i , b , s , c ) as newline
+
+if r mathdef ( c ) = "all" then newline
+
+let u = r First in newline
+
+let r = r Second in newline
+
+let v = univar ( a , u , i ) in newline
+
+let b = ( u :: v ) :: b in newline
+
+f.unitac-adapt-all ( t , h , a , R , r , i + 1 , b , s , c ) else newline
+
+let s = s [[ hook-idx -> i ]] in newline
+
+let r prime = f.subst ( r , b , c ) in newline
+
+let a = back a quote a unquote ;; ( LAP4' Init Deref Ponens at h unquote at R unquote at r prime unquote ) Verify Ponens end quote in newline
+
+let r = back r prime quote h unquote imply r prime unquote end quote in newline
+
+s [[ hook-arg -> a ]] [[ hook-res -> r ]] end define ]]"
+
+Add at operations to the argumentation inside "[[ s ]]" until the root of the conclusion differs from ``all''. In a call to the functions, "[[ t ]]" indicates what to adapt to, "[[ h ]]" is the hypothesis, "[[ a ]]" is the argumentation, "[[ r ]]" is the result of the argumentation, "[[ R ]]" is the original result which is passed down unchanged, "[[ i ]]" is an index for generating fresh variables, "[[ b ]]" is a substitution, "[[ s ]]" is a tactic state, and "[[ c ]]" is a cache.
+
+\end{statements}
+
+
+
+\subsection{Ponens}
+
+\begin{statements}
+
+\item "[[ unitac define x mp y as \ u . f.unitac-ponens ( u ) end define ]]"
+
+\item "[[ unitac define x Mp as \ u . f.unitac-Ponens ( u ) end define ]]"
+
+\item "[[ eager define f.unitac-ponens ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let s = unieval ( t first , s , c ) in newline
+
+let s = f.unitac-adapt ( "imply" , s , c ) in newline
+
+let a = s [[ hook-arg ]] in newline
+
+let r = s [[ hook-res ]] in newline
+
+if .not. r r= quote x imply y end quote then newline
+
+error ( t ,
+LocateProofLine ( t , c )
+diag ( "Malformed result of hypothetical reasoning" )
+disp ( r )
+end diagnose ) else newline
+
+let h = r first in newline
+
+let r = r second in newline
+
+let x = r first in newline
+
+let y = r second in newline
+
+let s = unieval ( t second , s , c ) in newline
+
+let a prime = s [[ hook-arg ]] in newline
+
+let r prime = s [[ hook-res ]] in newline
+
+if .not. r prime r= quote x imply y end quote then newline
+
+error ( t ,
+LocateProofLine ( t , c )
+diag ( "Malformed result of hypothetical reasoning" )
+disp ( r prime )
+end diagnose ) else newline
+
+let r prime = r prime second in newline
+
+let u = s [[ hook-uni ]] in newline
+
+let u = unify ( x , r prime , u ) in newline
+
+let s = s [[ hook-uni -> u ]] in newline
+
+let a = back t quote a unquote ;; a prime unquote ;; ( MP' Init Deref Ponens at h unquote at x unquote at y unquote ) Ponens Ponens end quote in newline
+
+let r = back t quote h unquote imply y unquote end quote in newline
+
+s [[ hook-arg -> a ]] [[ hook-res -> r ]] end define ]]"
+
+If the argumentation has form "[[ a mp a prime ]]" then convert "[[ a ]]" into something whose result has form "[[ h imply x imply y ]]". Convert "[[ a prime ]]" into something whose result has form "[[ h imply x prime ]]". Unify "[[ x ]]" with "[[ x prime ]]" and return argumentation "[[ ( a ;; a prime ;; A2 at *** ) ]]" and conclusion "[[ h imply y ]]".
+
+\item "[[ eager define f.unitac-Ponens ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let s = unieval ( t first , s , c ) in newline
+
+let s = f.unitac-adapt ( "imply" , s , c ) in newline
+
+let a = s [[ hook-arg ]] in newline
+
+let r = s [[ hook-res ]] in newline
+
+if .not. r r= quote x imply y end quote then newline
+
+error ( t ,
+LocateProofLine ( t , c )
+diag ( "Malformed result of hypothetical reasoning" )
+disp ( r )
+end diagnose ) else newline
+
+let h = r first in newline
+
+let r = r second in newline
+
+let x = r first in newline
+
+let y = r second in newline
+
+let a = back t quote a unquote ;; ( h unquote imply x unquote ) Init ;; ( MP' Init Deref Ponens at h unquote at x unquote at y unquote ) Ponens Ponens end quote in newline
+
+let r = back t quote h unquote imply y unquote end quote in newline
+
+s [[ hook-arg -> a ]] [[ hook-res -> r ]] end define ]]"
+
+\end{statements}
+
+
+
+\subsection{At}
+
+\begin{statements}
+
+\item "[[ unitac define x f.At as \ u . f.unitac-At ( u ) end define ]]"
+
+\item "[[ unitac define x f.at y as \ u . f.unitac-at ( u ) end define ]]"
+
+\item "[[ eager define f.unitac-At ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let s = unieval ( t first , s , c ) in newline
+
+let s = f.unitac-adapt ( "all" , s , c ) in newline
+
+let a = s [[ hook-arg ]] in newline
+
+let r = s [[ hook-res ]] in newline
+
+if .not. r r= quote x imply y end quote then newline
+
+error ( t ,
+LocateProofLine ( t , c )
+diag ( "Malformed result of hypothetical reasoning" )
+disp ( r )
+end diagnose ) else newline
+
+let h = r first in newline
+
+let r = r second in newline
+
+let x = r First in newline
+
+let y = r Second in newline
+
+let i = s [[ hook-idx ]] in newline
+
+let s = s [[ hook-idx -> i + 1 ]] in newline
+
+let v = univar ( a , x , i ) in newline
+
+let r prime = f.subst ( y , << x :: v >> , c ) in newline
+
+let a = back t quote a unquote ;; ( LAP4' Init Deref Ponens at h unquote at r unquote at r prime unquote ) Verify Ponens end quote in newline
+
+let r = back r quote h unquote imply r prime unquote end quote in newline
+
+s [[ hook-arg -> a ]] [[ hook-res -> r ]]
+
+end define ]]"
+
+If the argumentation has form "[[ a f.At ]]" then convert "[[ a ]]" into something whose conclusion is expected to be of form "[[ h imply all x : y ]]". Then replace "[[ x ]]" by a fresh variable "[[ v ]]" in "[[ y ]]" and return conclusion "[[ h imply y ]]" and a suitable argumentation.
+
+\item "[[ eager define f.unitac-at ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let s = unieval ( t first , s , c ) in newline
+
+let s = f.unitac-adapt ( "all" , s , c ) in newline
+
+let a = s [[ hook-arg ]] in newline
+
+let r = s [[ hook-res ]] in newline
+
+if .not. r r= quote x imply y end quote then newline
+
+error ( t ,
+LocateProofLine ( t , c )
+diag ( "Malformed result of hypothetical reasoning" )
+disp ( r )
+end diagnose ) else newline
+
+let h = r first in newline
+
+let r = r second in newline
+
+let x = r First in newline
+
+let y = r Second in newline
+
+let i = s [[ hook-idx ]] in newline
+
+let s = s [[ hook-idx -> i + 1 ]] in newline
+
+let v = univar ( a , x , i ) in newline
+
+let r prime = f.subst ( y , << x :: v >> , c ) in newline
+
+let a = back t quote a unquote ;; ( LAP4' Init Deref Ponens at h unquote at r unquote at r prime unquote ) Verify Ponens end quote in newline
+
+let r = back r quote h unquote imply r prime unquote end quote in newline
+
+let u = s [[ hook-uni ]] in newline
+
+let u = unify ( t second , v , u ) in newline
+
+let s = s [[ hook-uni -> u ]] in newline
+
+s [[ hook-arg -> a ]] [[ hook-res -> r ]]
+
+end define ]]"
+
+If the argumentation has form "[[ a at a prime ]]" then convert "[[ a ]]" into something whose conclusion is expected to be of form "[[ All x : y ]]". Then replace "[[ x ]]" by a fresh meta variable "[[ v ]]" in "[[ y ]]", unify "[[ v ]]" with "[[ a prime ]]", and return argumentation "[[ a at v ]]" and conclusion "[[ y ]]".
+
+\end{statements}
+
+
+
+\subsection{Deduction tactic}
+
+We now state that "[[ Prop ]]", "[[ FOL ]]", and "[[ PA ]]" proofs may use deduction:
+
+\begin{statements}
+
+\item "[[ tactic define Prop as \ u . tactic-Prop ( u ) end define ]]".
+
+\item "[[ tactic define FOL as \ u . tactic-FOL ( u ) end define ]]".
+
+\item "[[ tactic define PA as \ u . tactic-FOL ( u ) end define ]]".
+
+\item "[[ eager define tactic-Prop ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let << true ,, x ,, y >> = t in newline
+
+let t = back t quote x unquote infer ( Prop Rule conclude Prop ;; tactic-ded ( true , y unquote ) ) end quote in newline
+
+taceval ( t , s , c ) end define ]]"
+
+\item "[[ eager define tactic-FOL ( u ) as newline
+
+let << t ,, s ,, c >> = u in newline
+
+let << true ,, x ,, y >> = t in newline
+
+let t = back t quote x unquote infer ( Prop Rule conclude Prop ;; FOL Rule conclude FOL ;; tactic-ded ( true , y unquote ) ) end quote in newline
+
+let r = taceval ( t , s , c ) in newline
+
+"";print ( seqcnt ( r [[ hook-arg ]] , c ) ) .then. newline
+
+"";trace ( r [[ hook-arg ]] ) .then. newline
+
+r end define ]]"
+
+\end{statements}
+
+
+
+\subsection{Test proofs}
+
+Elementary two level deduction. Import of L03 into inner deduction.
+
+"[ FOL lemma lemma-x : x imply y imply x end lemma ]"
+
+"[ proof of lemma-x :
+
+line L01 : Premise >> FOL ;
+
+line L02 : Prop Rule >> Prop ;
+
+line L03 : Hypothesis >> x ;
+
+line L04 : Hypothesis >> y ;
+
+line L05 : L03 >> x qed ]"
+
+
+
+\noindent Import of lemma.
+
+"[ FOL lemma lemma-y : h imply x imply y imply x end lemma ]"
+
+"[ proof of lemma-y :
+
+line L01 : Premise >> FOL ;
+
+line L02 : Prop Rule >> Prop ;
+
+line L03 : Hypothesis >> h ;
+
+line L04 : lemma-x >> x imply y imply x qed ]"
+
+
+
+\noindent Import or rule.
+
+"[ PA lemma lemma-z : h imply i imply x + 0 = x end lemma ]"
+
+"[ proof of lemma-z :
+
+line L01 : Premise >> PA ;
+
+line L02 : FOL Rule >> FOL ;
+
+line L03 : Prop Rule >> Prop ;
+
+line L04 : Hypothesis >> h ;
+
+line L05 : Hypothesis >> i ;
+
+line L06 : S5 >> x + 0 = x qed ]"
+
+
+
+\noindent Proof that contains a dummy hypothesis (Line L04) so that "[[ x mp y ]]" works.
+
+"[ PA lemma lemma-u : x = x end lemma ]"
+
+"[ proof of lemma-u :
+
+line L01 : Premise >> PA ;
+
+line L02 : FOL Rule >> FOL ;
+
+line L03 : Prop Rule >> Prop ;
+
+line L04 : Deduction ;
+
+line L05 : S5 >> x + 0 = x ;
+
+line L06 : S1 mp L05 mp L05 >> x = x qed  ]"
+
+
+
+\noindent Fully specified instantiation.
+
+"[ PA lemma lemma-v : h imply i imply x + 0 = x end lemma ]"
+
+"[ proof of lemma-v :
+
+line L01 : Premise >> PA ;
+
+line L02 : FOL Rule >> FOL ;
+
+line L03 : Prop Rule >> Prop ;
+
+line L04 : Hypothesis >> h ;
+
+line L05 : Hypothesis >> i ;
+
+line L06 : S5 f.at x >> x + 0 = x qed ]"
+
+
+
+\noindent Partially specified instantiation.
+
+"[ PA lemma lemma-w : h imply i imply x + 0 = x end lemma ]"
+
+"[ proof of lemma-w :
+
+line L01 : Premise >> PA ;
+
+line L02 : FOL Rule >> FOL ;
+
+line L03 : Prop Rule >> Prop ;
+
+line L04 : Hypothesis >> h ;
+
+line L05 : Hypothesis >> i ;
+
+line L06 : S5 f.At >> x + 0 = x qed ]"
+
+
+
+\subsection{A proof of "[[ x + y = y + x ]]"}
+
+"[ PA lemma 3.2a : all x : x = x end lemma ]"
+
+"[ PA proof of 3.2a :
+
+line L01 : S5 >> x + 0 = x ;
+
+line L02 : S1 mp L01 mp L01 >> x = x ;
+
+line L03 : Gen1 ponens L02 >> all x : x = x qed  ]"
+
+
+
+"[ PA lemma 3.2b : all x ,, y : ( x = y imply y = x ) end lemma ]"
+
+"[ PA proof of 3.2b :
+
+line L00 : Block >> Begin ;
+
+line L01 : Hypothesis >>  x = y ;
+
+line L02 : 3.2a >> x = x ;
+
+line L03 : S1 mp L01 mp L02 >> y = x ;
+
+line L04 : Block >> End ;
+
+line L05 : Gen2 ponens L04 >> all x ,, y : ( x = y imply y = x ) qed ]"
+
+
+
+"[ PA lemma 3.2c : all x ,, y ,, z : ( x = y imply y = z imply x = z ) end lemma ]"
+
+"[ PA proof of 3.2c :
+
+line L01 : Block >> Begin ;
+
+line L02 : Hypothesis >> x = y ;
+
+line L03 : Hypothesis >> y = z ;
+
+line L04 : 3.2b mp L02 >> y = x ;
+
+line L05 : S1 mp L04 mp L03 >> x = z ;
+
+line L06 : Block >> End ;
+
+line L07 : Gen3 ponens L06 >> all x ,, y ,, z : ( x = y imply y = z imply x = z ) qed ]"
+
+
+
+"[ PA lemma 3.2d : all x ,, y ,, z : ( x = z imply y = z imply x = y ) end lemma ]"
+
+"[ PA proof of 3.2d :
+
+line L00 : Block >> Begin ;
+
+line L01 : Hypothesis >> x = z ;
+
+line L02 : Hypothesis >> y = z ;
+
+line L03 : 3.2b mp L02 >> z = y ;
+
+line L04 : 3.2c mp L01 mp L03 >> x = y ;
+
+line L05 : Block >> End ;
+
+line L06 : Gen3 ponens L05 >> all x ,, y ,, z : ( x = z imply y = z imply x = y ) qed ]"
+
+
+
+"[ PA lemma 3.2e : all x ,, y ,, z : ( x = y imply x + z = y + z ) end lemma ]"
+
+"[ PA proof of 3.2e :
+
+line L01 : Block >> Begin ;
+
+line L02 : Hypothesis >> x = y ;
+
+line L03 : S5 >> x + 0 = x ;
+
+line L04 : 3.2c mp L03 mp L02 >> x + 0 = y ;
+
+line L05 : S5 >> y + 0 = y ;
+
+line L06 : 3.2d mp L04 mp L05 >> x + 0 = y + 0 ;
+
+line L07 : Block >> End ;
+
+line L08 : Block >> Begin ;
+
+line L09 : Hypothesis >> x = y imply x + z = y + z ;
+
+line L10 : Hypothesis >> x = y ;
+
+line L11 : MP' ponens L09 ponens L10 >> x + z = y + z ;
+
+line L12 : S2 mp L11 >> ( x + z ) suc = ( y + z ) suc ;
+
+line L13 : S6 >> x + z suc = ( x + z ) suc ;
+
+line L14 : 3.2c mp L13 mp L12 >> x + z suc = ( y + z ) suc ;
+
+line L15 : S6 >> y + z suc = ( y + z ) suc ;
+
+line L16 : 3.2d mp L14 mp L15 >> x + z suc = y + z suc ;
+
+line L17 : Block >> End ;
+
+line L18 : Induction at z ponens L07 ponens L17 >> x = y imply x + z = y + z ;
+
+line L19 : Gen3 ponens L18 >> all x ,, y ,, z : ( x = y imply x + z = y + z ) qed ]"
+
+
+
+"[ PA lemma 3.2f : all x : x = 0 + x end lemma ]"
+
+"[ PA proof of 3.2f :
+
+line L01 : S5 >> 0 + 0 = 0 ;
+
+line L02 : 3.2b mp L01 >> 0 = 0 + 0 ;
+
+line L03 : Block >> Begin ;
+
+line L04 : Hypothesis >> x = 0 + x ;
+
+line L05 : S2 mp L04 >> x suc = ( 0 + x ) suc ;
+
+line L06 : S6 >> 0 + x suc = ( 0 + x ) suc ;
+
+line L07 : 3.2d mp L05 mp L06 >> x suc = 0 + x suc ;
+
+line L08 : Block >> End ;
+
+line L09 : Induction at x ponens L02 ponens L08 >> x = 0 + x ;
+
+line L10 : Gen1 ponens L09 >> all x : x = 0 + x qed ]"
+
+
+
+"[ PA lemma 3.2g : all x ,, y : x suc + y = ( x + y ) suc end lemma ]"
+
+"[ PA proof of 3.2g :
+
+line L01 : S5 >> x suc + 0 = x suc ;
+
+line L02 : S5 >> x + 0 = x ;
+
+line L03 : S2 mp L02 >> ( x + 0 ) suc = x suc ;
+
+line L04 : 3.2d mp L01 mp L03 >> x suc + 0 = ( x + 0 ) suc ;
+
+line L05 : Block >> Begin ;
+
+line L06 : Hypothesis >> x suc + y = ( x + y ) suc ;
+
+line L07 : S2 mp L06 >> ( x suc + y ) suc = ( x + y ) suc suc ;
+
+line L08 : S6 >> x suc + y suc = ( x suc + y ) suc ;
+
+line L09 : 3.2c mp L08 mp L07 >> x suc + y suc = ( x + y ) suc suc ;
+
+line L10 : S6 >> x + y suc = ( x + y ) suc ;
+
+line L11 : S2 mp L10 >> ( x + y suc ) suc = ( x + y ) suc suc ;
+
+line L12 : 3.2d mp L09 mp L11 >> x suc + y suc = ( x + y suc ) suc ;
+
+line L13 : Block >> End ;
+
+line L14 : Induction at y ponens L04 ponens L13 >> x suc + y = ( x + y ) suc ;
+
+line L15 : Gen2 ponens L14 >> all x ,, y : x suc + y = ( x + y ) suc qed ]"
+
+
+
+"[ PA lemma 3.2h : all x ,, y : x + y = y + x end lemma ]"
+
+"[ PA proof of 3.2h :
+
+line L01 : S5 >> x + 0 = x ;
+
+line L02 : 3.2f >> x = 0 + x ;
+
+line L03 : 3.2c mp L01 mp L02 >> x + 0 = 0 + x ;
+
+line L04 : Block >> Begin ;
+
+line L05 : Hypothesis >> x + y = y + x ;
+
+line L06 : S2 mp L05 >> ( x + y ) suc = ( y + x ) suc ;
+
+line L07 : S6 >> x + y suc = ( x + y ) suc ;
+
+line L08 : 3.2c mp L07 mp L06 >> x + y suc = ( y + x ) suc ;
+
+line L09 : 3.2g >> y suc + x = ( y + x ) suc ;
+
+line L10 : 3.2d mp L08 mp L09 >> x + y suc = y suc + x ;
+
+line L11 : Block >> End ;
+
+line L12 : Induction at y ponens L03 ponens L11 >> x + y = y + x ;
+
+line L13 : Gen2 ponens L12 >> all x ,, y : x + y = y + x qed ]"
+
+
+
+\printindex
+
+
+
+\bibliography{./page}
+
+
+
+\end{document}
+" end text ,,
+
+
+
+latex ( "page" ) ,,
+makeindex ( "page" ) ,,
+bibtex ( "page" ) ,,
+latex ( "page" ) ,,
+makeindex ( "page" ) ,,
+latex ( "page" ) ,,
+dvipdfm ( "page" ) ,,
+
+
+
+text "chores.tex" : ""-"";
+
+\documentclass[fleqn]{article}
+
+% Include definitions generated by the Logiweb compiler
+\input{lgwinclude}
+
+% Make latexsym characters available
+\usepackage{latexsym}
+
+% Ensure reasonable rendering of strings
+\everymath{\rm}
+\everydisplay{\rm}
+
+% Enable generation of an index
+\usepackage{makeidx}
+\makeindex
+\newcommand{\intro}[1]{\emph{#1}}
+\newcommand{\indexintro}[1]{\index{#1}\intro{#1}}
+
+% Enable generation of a bibliography
+\bibliographystyle{plain}
+
+% Enable hyperlinks
+\usepackage[dvipdfm=true]{hyperref}
+\hypersetup{pdfpagemode=UseNone}
+\hypersetup{pdfstartpage=1}
+\hypersetup{pdfstartview=FitBH}
+\hypersetup{pdfpagescrop={120 80 490 730}}
+\hypersetup{pdftitle=Peano arithmetic - chores}
+\hypersetup{colorlinks=true}
+
+% Construct for listing statements with associated explanations
+\newenvironment{statements}{\begin{list}{}{
+\setlength{\leftmargin}{5em}
+\setlength{\itemindent}{-5em}}}{\end{list}}
+
+\begin{document}
+\title{Peano arithmetic - chores}
+\author{Klaus Grue}
+\maketitle
+\tableofcontents
+
+
+
+\section{\TeX\ definitions}
+
+\begin{statements}
+
+\item "[[ tex use define line x : Hypothesis >> z ; u as "
+\newline%
+\makebox[0.1\textwidth]{}%
+\parbox[b]{0.4\textwidth}{\raggedright%
+\makebox[0mm][r]{\makebox[0.1\textwidth][l]{$"[ x ]"{:}$}}%
+$Hypothesis {} \gg {}$}%
+\parbox[t]{0.4\textwidth}{\raggedright\setlength{\leftskip}{\indentation}%
+$"[ z ]"$\hfill
+\makebox[0mm][l]{\quad ;}} "[ u ]"". end define ]]"
+
+\item "[[ tex show define line x : Hypothesis >> z ; u as "
+L "[ x ]"
+\colon Hypothesis
+\gg "[ z ]"
+; "[ u ]"". end define ]]"
+
+\item "[[ tex use define line x : Deduction ; u as "
+\newline%
+\makebox[0.1\textwidth]{}%
+\parbox[b]{0.4\textwidth}{\raggedright%
+\makebox[0mm][r]{\makebox[0.1\textwidth][l]{$"[ x ]"{:}$}}%
+$Deduction$}%
+\parbox[t]{0.4\textwidth}{\raggedright\setlength{\leftskip}{\indentation}%
+{}\hfill
+\makebox[0mm][l]{\quad ;}} "[ u ]"". end define ]]"
+
+\item "[[ tex show define line x : Deduction ; u as "
+L "[ x ]"
+\colon Deduction
+; "[ u ]"". end define ]]"
+
+
+
+\item "[[ tex show define sub ( a , b , x , t ) as "".[ a ]"
+\sim \langle "[ b ]"
+\, | \, "[ x ]"
+\, := "[ t ]"
+\rangle" end define ]]"
+
+\item "[[ tex show define tt as "
+\mathtt{\mathbf{T}}" end define ]]"
+
+\item "[[ tex show define ff as "
+\mathtt{\mathbf{F}}" end define ]]"
+
+
+
+\item "[[ tex show define x First as "".[ x ]"
+{}^{\underline{1}}" end define ]]"
+
+\item "[[ tex show define x Second as "".[ x ]"
+{}^{\underline{2}}" end define ]]"
+
+\item "[[ tex show define x suc as "".[ x ]"
+{}'" end define ]]"
+
+
+
+\item "[[ tex show define not x as "
+\neg "[ x ]"". end define ]]"
+
+
+
+\item "[[ tex show define x and y as "".[ x ]"
+\wedge "[ y ]"". end define ]]"
+
+
+
+\item "[[ tex show define x or y as "".[ x ]"
+\vee "[ y ]"". end define ]]"
+
+
+
+\item "[[ tex show define all x : y as "
+\forall "[ x ]"
+\colon \linebreak[0] "[ y ]"". end define ]]"
+
+\item "[[ tex show define exist x : y as "
+\exists "[ x ]"
+\colon \linebreak[0] "[ y ]"". end define ]]"
+
+
+
+\item "[[ tex show define x imply y as "".[ x ]"
+\Rightarrow "[ y ]"". end define ]]"
+
+\item "[[ tex show define x when y as "".[ x ]"
+\Leftarrow "[ y ]"". end define ]]"
+
+\item "[[ tex show define x iff y as "".[ x ]"
+\Leftrightarrow "[ y ]"". end define ]]"
+
+
+
+\item "[[ tex show define x avoid y as "".[ x ]"
+\# "[ y ]"". end define ]]"
+
+
+
+\item "[[ tex show define x f.At as "".[ x ]"
+{}^{\underline{@}}" end define ]]"
+
+\item "[[ tex show define x Mp as "".[ x ]"
+{}^{\unrhd}" end define ]]"
+
+
+
+\item "[[ tex show define x f.at y as "".[ x ]"
+\mathrel{\underline{@}} "[ y ]"". end define ]]"
+
+\item "[[ tex show define x mp y as "".[ x ]"
+\unrhd "[ y ]"". end define ]]"
+
+\end{statements}
+
+
+
+\section{Name definitions}
+
+"[[ protect ""N end protect ]]"
+
+
+
+\section{Charge definitions}
+
+"[[ protect ""C end protect ]]"
+
+
+
+\end{document}
+" end text ,,
+
+
+
+latex ( "chores" ) ,,
+latex ( "chores" ) ,,
+dvipdfm ( "chores" )
+
+
+
+
+

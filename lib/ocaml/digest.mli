@@ -11,14 +11,14 @@
 (*                                                                     *)
 (***********************************************************************)
 
-(* $Id: digest.mli,v 1.16 2003/12/31 14:20:39 doligez Exp $ *)
+(* $Id: digest.mli 7164 2005-10-25 18:34:07Z doligez $ *)
 
 (** MD5 message digest.
 
    This module provides functions to compute 128-bit ``digests'' of
    arbitrary-length strings or files. The digests are of cryptographic
    quality: it is very hard, given a digest, to forge a string having
-   that digest. The algorithm used is MD5. 
+   that digest. The algorithm used is MD5.
 *)
 
 type t = string

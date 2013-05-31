@@ -20,15 +20,15 @@ U system.wch_wts%s	s-wchwts.ads		5159b488 NE PU PK
 W system%s		system.ads		system.ali
 W system.wch_con%s	s-wchcon.ads		s-wchcon.ali
 
-D interfac.ads		20031021134210 6e859da6
+D interfac.ads		20031021134209 6e859da6
 D system.ads		20031021134222 6af26689
 D s-secsta.ads		20040105152046 7804722c
-D s-stoele.ads		20050603190336 5a73170b
-D s-stoele.adb		20030424175414 792079f8
+D s-stoele.ads		20050603200336 5a73170b
+D s-stoele.adb		20030424175413 792079f8
 D s-wchcon.ads		20031021134218 6002a858
-D s-wchjis.ads		20030424175416 e8de7374
-D s-wchwts.ads		20030424175416 5ba97a59
-D s-wchwts.adb		20030424175416 7df04e3a
+D s-wchjis.ads		20030424175415 e8de7374
+D s-wchwts.ads		20030424175415 5ba97a59
+D s-wchwts.adb		20030424175415 7df04e3a
 D unchconv.ads		20030424175420 1b7a14c5
 X 1 interfac.ads
 43K9*Interfaces 188e15 9|34w6 34r26

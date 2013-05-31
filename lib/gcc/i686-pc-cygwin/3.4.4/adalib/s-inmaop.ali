@@ -16,10 +16,10 @@ U system.interrupt_management.operations%s  s-inmaop.ads  605e3c5f BN NE PK
 W system%s		system.ads		system.ali
 W system.interrupt_management%s  s-intman.adb	s-intman.ali
 
-D interfac.ads		20031021134210 6e859da6
+D interfac.ads		20031021134209 6e859da6
 D i-c.ads		20031021134208 89099b00
 D system.ads		20031021134222 6af26689
-D s-exctab.ads		20031021134214 6637f07f
+D s-exctab.ads		20031021134213 6637f07f
 D s-intman.ads		20031021134214 db001f8d
 D s-inmaop.ads		20031021134214 bb5e23d2
 D s-inmaop.adb		20031021134152 546ac62c

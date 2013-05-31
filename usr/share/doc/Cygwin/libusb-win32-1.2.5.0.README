@@ -1,0 +1,97 @@
+libusb-win32
+------------------------------------------
+It is a library that allows userspace application to access USB 
+devices on Windows operation systems (Win2k, WinXP, win7, Vista). 
+It is derived from and fully API compatible to libusb available at 
+http://libusb.sourceforge.net.
+
+
+Runtime requirements:
+  none
+
+Build requirements:
+  cygwin-1.5.18 or newer
+  gcc-3.4.4-1 or newer
+  binutils-20050610-1 or newer
+  unzip
+
+Canonical homepage:
+  http://libusb-win32.sourceforge.net
+
+Canonical download:
+  http://sourceforge.net/project/showfiles.php?group_id=78138
+
+License:
+  LGPL for the library, GPL for other tools (drivers, example programs)
+
+Language:
+  C
+
+------------------------------------
+
+Build instructions:
+  unpack libusb-win32-1.2.5.0-1-src.tar.bz2
+    if you use setup to install this src package, it will be
+	 unpacked under /usr/src automatically
+  cd /usr/src
+  ./libusb-win32-1.2.5.0-1.sh all
+
+This will create:
+  /usr/src/libusb-win32-1.2.5.0-1.tar.bz2
+  /usr/src/libusb-win32-1.2.5.0-1-src.tar.bz2
+
+Or use './libusb-win32-1.2.5.0-1.sh prep' to get a patched source directory
+
+To find out the files included in the binary distribution, you can
+use "cygcheck -l libusb-win32", or browse the listing for the appropriate version
+at <http://cygwin.com/packages/>.
+
+------------------
+
+Port Notes:
+
+The driver is _not_ installed by default since it is a potential security hole.
+For actually installing the driver, run
+
+/usr/sbin/libusb-install
+
+And run testlibusb-win for checking that it succeded: it should print
+
+DLL version:    1.2.5.0
+Driver version: 1.2.5.0
+
+and a list of your USB devices. Use /usr/sbin/libusb-uninstall for uninstalling
+them (it is performed at package removal).
+
+
+----------  libusb-win32-1.2.5.0-1 -- 2011/08/16 -----------
+New upstream release.  Filter installer is not shipped any more as it does not
+build on cygwin any more.
+
+----------  libusb-win32-1.2.0.0-1 -- 2010/07/27 -----------
+New upstream release, with signed driver which should work on x64.
+
+----------  libusb-win32-1.1.14.0-1 -- 2010/06/01 -----------
+New upstream release, dropped win98 and winME support.
+
+----------  libusb-win32-0.1.12.2-1 -- 2009/07/08 -----------
+New upstream release, handles composite device interfaces.
+
+----------  libusb-win32-0.1.10.1-3 -- 2006/04/15 -----------
+Other information
+
+Since libusb-win32 is a fully API-compatible Windows port of the unix libusb
+package, there is _no_ documentation for the libusb-win32 API at all. For libusb
+API documentation, see
+
+http://libusb.sourceforge.net/documentation.html
+
+
+----------  libusb-win32-0.1.10.1-3 -- 2006/04/15 -----------
+Initial release
+
+For more information about this package, see the upstream documentation in
+/usr/share/doc/libusb-win32-1.2.5.0.
+
+Cygwin port maintained by: Samuel Thibault <samuel.thibault@ens-lyon.org>
+Please address all questions to the Cygwin mailing list at <cygwin@cygwin.com>

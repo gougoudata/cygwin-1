@@ -1,6 +1,6 @@
 ;;; srfi-19.scm --- Time/Date Library
 
-;; 	Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007 Free Software Foundation, Inc.
+;; 	Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007, 2008 Free Software Foundation, Inc.
 ;;
 ;; This library is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU Lesser General Public
@@ -231,7 +231,7 @@
   (let ((port (open-input-file filename))
         (table '()))
     (let loop ((line (read-line port)))
-      (if (not (eq? line eof))
+      (if (not (eof-object? line))
           (begin
             (let* ((data (read (open-input-string
                                 (string-append "(" line ")"))))
@@ -1451,7 +1451,7 @@
 (define (priv:string->date date index format-string str-len port template-string)
   (define (skip-until port skipper)
     (let ((ch (peek-char port)))
-      (if (eof-object? port)
+      (if (eof-object? ch)
           (priv:time-error 'string->date 'bad-date-format-string template-string)
           (if (not (skipper ch))
               (begin (read-char port) (skip-until port skipper))))))

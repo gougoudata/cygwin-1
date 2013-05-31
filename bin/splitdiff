@@ -20,7 +20,7 @@
 use Getopt::Std;
 getopts('p:v-:ad', \%opts);
 if ($opts{'-'} && $opts{'-'} eq 'version') {
-    print "splitdiff - patchutils version 0.2.31\n";
+    print "splitdiff - patchutils version 0.3.2\n";
     exit 0;
 }
 if ($opts{'-'} && $opts{'-'} eq 'help') {

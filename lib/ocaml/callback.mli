@@ -11,13 +11,13 @@
 (*                                                                     *)
 (***********************************************************************)
 
-(* $Id: callback.mli,v 1.5 2001/12/07 13:40:50 xleroy Exp $ *)
+(* $Id: callback.mli 7164 2005-10-25 18:34:07Z doligez $ *)
 
 (** Registering Caml values with the C runtime.
 
    This module allows Caml values to be registered with the C runtime
    under a symbolic name, so that C code can later call back registered
-   Caml functions, or raise registered Caml exceptions. 
+   Caml functions, or raise registered Caml exceptions.
 *)
 
 val register : string -> 'a -> unit

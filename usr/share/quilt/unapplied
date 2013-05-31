@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /usr/bin/bash
 
 #  This script is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License version 2 as
@@ -64,6 +64,8 @@ then
 else
 	patch=$(find_unapplied_patch) || exit 1
 fi
+
+setup_pager
 
 (
 	echo "$patch"

@@ -20,6 +20,10 @@
  *   Boston, MA 02111-1307, USA.
  */
 
+#if !defined (__GLIB_H_INSIDE__) && !defined (GLIB_COMPILATION)
+#error "Only <glib.h> can be included directly."
+#endif
+
 #ifndef __G_KEY_FILE_H__
 #define __G_KEY_FILE_H__
 
@@ -51,6 +55,8 @@ typedef enum
 } GKeyFileFlags;
 
 GKeyFile *g_key_file_new                    (void);
+GKeyFile *g_key_file_ref                    (GKeyFile             *key_file);
+void      g_key_file_unref                  (GKeyFile             *key_file);
 void      g_key_file_free                   (GKeyFile             *key_file);
 void      g_key_file_set_list_separator     (GKeyFile             *key_file,
 					     gchar                 separator);
@@ -63,7 +69,13 @@ gboolean  g_key_file_load_from_data         (GKeyFile             *key_file,
 					     gsize                 length,
 					     GKeyFileFlags         flags,
 					     GError              **error);
-gboolean g_key_file_load_from_data_dirs    (GKeyFile             *key_file,
+gboolean g_key_file_load_from_dirs          (GKeyFile             *key_file,
+					     const gchar	  *file,
+					     const gchar	 **search_dirs,
+					     gchar		 **full_path,
+					     GKeyFileFlags         flags,
+					     GError              **error);
+gboolean g_key_file_load_from_data_dirs     (GKeyFile             *key_file,
 					     const gchar          *file,
 					     gchar               **full_path,
 					     GKeyFileFlags         flags,
@@ -126,6 +138,30 @@ void      g_key_file_set_integer            (GKeyFile             *key_file,
 					     const gchar          *group_name,
 					     const gchar          *key,
 					     gint                  value);
+gint64    g_key_file_get_int64              (GKeyFile             *key_file,
+					     const gchar          *group_name,
+					     const gchar          *key,
+					     GError              **error);
+void      g_key_file_set_int64              (GKeyFile             *key_file,
+					     const gchar          *group_name,
+					     const gchar          *key,
+					     gint64                value);
+guint64   g_key_file_get_uint64             (GKeyFile             *key_file,
+					     const gchar          *group_name,
+					     const gchar          *key,
+					     GError              **error);
+void      g_key_file_set_uint64             (GKeyFile             *key_file,
+					     const gchar          *group_name,
+					     const gchar          *key,
+					     guint64               value);
+gdouble   g_key_file_get_double             (GKeyFile             *key_file,
+                                             const gchar          *group_name,
+                                             const gchar          *key,
+                                             GError              **error);
+void      g_key_file_set_double             (GKeyFile             *key_file,
+                                             const gchar          *group_name,
+                                             const gchar          *key,
+                                             gdouble               value);
 gchar   **g_key_file_get_string_list        (GKeyFile             *key_file,
 					     const gchar          *group_name,
 					     const gchar          *key,
@@ -163,12 +199,22 @@ gint     *g_key_file_get_integer_list       (GKeyFile             *key_file,
 					     const gchar          *key,
 					     gsize                *length,
 					     GError              **error) G_GNUC_MALLOC;
+void      g_key_file_set_double_list        (GKeyFile             *key_file,
+                                             const gchar          *group_name,
+                                             const gchar          *key,
+                                             gdouble               list[],
+                                             gsize                 length);
+gdouble  *g_key_file_get_double_list        (GKeyFile             *key_file,
+                                             const gchar          *group_name,
+                                             const gchar          *key,
+                                             gsize                *length,
+                                             GError              **error) G_GNUC_MALLOC;
 void      g_key_file_set_integer_list       (GKeyFile             *key_file,
 					     const gchar          *group_name,
 					     const gchar          *key,
 					     gint                  list[],
 					     gsize                 length);
-void      g_key_file_set_comment            (GKeyFile             *key_file,
+gboolean  g_key_file_set_comment            (GKeyFile             *key_file,
                                              const gchar          *group_name,
                                              const gchar          *key,
                                              const gchar          *comment,
@@ -178,17 +224,44 @@ gchar    *g_key_file_get_comment            (GKeyFile             *key_file,
                                              const gchar          *key,
                                              GError              **error) G_GNUC_MALLOC;
 
-void      g_key_file_remove_comment         (GKeyFile             *key_file,
+gboolean  g_key_file_remove_comment         (GKeyFile             *key_file,
                                              const gchar          *group_name,
                                              const gchar          *key,
 					     GError              **error);
-void      g_key_file_remove_key             (GKeyFile             *key_file,
+gboolean  g_key_file_remove_key             (GKeyFile             *key_file,
 					     const gchar          *group_name,
 					     const gchar          *key,
 					     GError              **error);
-void      g_key_file_remove_group           (GKeyFile             *key_file,
+gboolean  g_key_file_remove_group           (GKeyFile             *key_file,
 					     const gchar          *group_name,
 					     GError              **error);
+
+/* Defines for handling freedesktop.org Desktop files */
+#define G_KEY_FILE_DESKTOP_GROUP                "Desktop Entry"
+
+#define G_KEY_FILE_DESKTOP_KEY_TYPE             "Type"
+#define G_KEY_FILE_DESKTOP_KEY_VERSION          "Version"
+#define G_KEY_FILE_DESKTOP_KEY_NAME             "Name"
+#define G_KEY_FILE_DESKTOP_KEY_GENERIC_NAME     "GenericName"
+#define G_KEY_FILE_DESKTOP_KEY_NO_DISPLAY       "NoDisplay"
+#define G_KEY_FILE_DESKTOP_KEY_COMMENT          "Comment"
+#define G_KEY_FILE_DESKTOP_KEY_ICON             "Icon"
+#define G_KEY_FILE_DESKTOP_KEY_HIDDEN           "Hidden"
+#define G_KEY_FILE_DESKTOP_KEY_ONLY_SHOW_IN     "OnlyShowIn"
+#define G_KEY_FILE_DESKTOP_KEY_NOT_SHOW_IN      "NotShowIn"
+#define G_KEY_FILE_DESKTOP_KEY_TRY_EXEC         "TryExec"
+#define G_KEY_FILE_DESKTOP_KEY_EXEC             "Exec"
+#define G_KEY_FILE_DESKTOP_KEY_PATH             "Path"
+#define G_KEY_FILE_DESKTOP_KEY_TERMINAL         "Terminal"
+#define G_KEY_FILE_DESKTOP_KEY_MIME_TYPE        "MimeType"
+#define G_KEY_FILE_DESKTOP_KEY_CATEGORIES       "Categories"
+#define G_KEY_FILE_DESKTOP_KEY_STARTUP_NOTIFY   "StartupNotify"
+#define G_KEY_FILE_DESKTOP_KEY_STARTUP_WM_CLASS "StartupWMClass"
+#define G_KEY_FILE_DESKTOP_KEY_URL              "URL"
+
+#define G_KEY_FILE_DESKTOP_TYPE_APPLICATION     "Application"
+#define G_KEY_FILE_DESKTOP_TYPE_LINK            "Link"
+#define G_KEY_FILE_DESKTOP_TYPE_DIRECTORY       "Directory"
 
 G_END_DECLS
 

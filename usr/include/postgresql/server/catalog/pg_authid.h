@@ -7,13 +7,13 @@
  *	  pg_shadow and pg_group are now publicly accessible views on pg_authid.
  *
  *
- * Portions Copyright (c) 1996-2006, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2012, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
- * $PostgreSQL: pgsql/src/include/catalog/pg_authid.h,v 1.5 2006/03/05 15:58:54 momjian Exp $
+ * src/include/catalog/pg_authid.h
  *
  * NOTES
- *	  the genbki.sh script reads this file and generates .bki
+ *	  the genbki.pl script reads this file and generates .bki
  *	  information from the DATA() statements.
  *
  *-------------------------------------------------------------------------
@@ -21,16 +21,17 @@
 #ifndef PG_AUTHID_H
 #define PG_AUTHID_H
 
+#include "catalog/genbki.h"
+
 /*
  * The CATALOG definition has to refer to the type of rolvaliduntil as
  * "timestamptz" (lower case) so that bootstrap mode recognizes it.  But
  * the C header files define this type as TimestampTz.	Since the field is
  * potentially-null and therefore can't be accessed directly from C code,
  * there is no particular need for the C struct definition to show the
- * field type as TimestampTz --- instead we just make it Datum.
+ * field type as TimestampTz --- instead we just make it int.
  */
-
-#define timestamptz Datum
+#define timestamptz int
 
 
 /* ----------------
@@ -39,8 +40,9 @@
  * ----------------
  */
 #define AuthIdRelationId	1260
+#define AuthIdRelation_Rowtype_Id	2842
 
-CATALOG(pg_authid,1260) BKI_SHARED_RELATION
+CATALOG(pg_authid,1260) BKI_SHARED_RELATION BKI_ROWTYPE_OID(2842) BKI_SCHEMA_MACRO
 {
 	NameData	rolname;		/* name of role */
 	bool		rolsuper;		/* read this field via superuser() only! */
@@ -49,12 +51,12 @@ CATALOG(pg_authid,1260) BKI_SHARED_RELATION
 	bool		rolcreatedb;	/* allowed to create databases? */
 	bool		rolcatupdate;	/* allowed to alter catalogs manually? */
 	bool		rolcanlogin;	/* allowed to log in as session user? */
+	bool		rolreplication; /* role used for streaming replication */
 	int4		rolconnlimit;	/* max connections allowed (-1=no limit) */
 
 	/* remaining fields may be null; use heap_getattr to read them! */
 	text		rolpassword;	/* password, if any */
 	timestamptz rolvaliduntil;	/* password expiration time, if any */
-	text		rolconfig[1];	/* GUC settings to apply at login */
 } FormData_pg_authid;
 
 #undef timestamptz
@@ -79,10 +81,10 @@ typedef FormData_pg_authid *Form_pg_authid;
 #define Anum_pg_authid_rolcreatedb		5
 #define Anum_pg_authid_rolcatupdate		6
 #define Anum_pg_authid_rolcanlogin		7
-#define Anum_pg_authid_rolconnlimit		8
-#define Anum_pg_authid_rolpassword		9
-#define Anum_pg_authid_rolvaliduntil	10
-#define Anum_pg_authid_rolconfig		11
+#define Anum_pg_authid_rolreplication	8
+#define Anum_pg_authid_rolconnlimit		9
+#define Anum_pg_authid_rolpassword		10
+#define Anum_pg_authid_rolvaliduntil	11
 
 /* ----------------
  *		initial contents of pg_authid
@@ -91,7 +93,7 @@ typedef FormData_pg_authid *Form_pg_authid;
  * user choices.
  * ----------------
  */
-DATA(insert OID = 10 ( "POSTGRES" t t t t t t -1 _null_ _null_ _null_ ));
+DATA(insert OID = 10 ( "POSTGRES" t t t t t t t -1 _null_ _null_ ));
 
 #define BOOTSTRAP_SUPERUSERID 10
 

@@ -1,6 +1,6 @@
 /* gcrypt.h -  GNU Cryptographic Library Interface              -*- c -*-
    Copyright (C) 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2006
-                 2007  Free Software Foundation, Inc.
+                 2007, 2008, 2009, 2010  Free Software Foundation, Inc.
   
    This file is part of Libgcrypt.
   
@@ -33,20 +33,25 @@
 #if defined _WIN32 || defined __WIN32__
 # include <winsock2.h>
 # include <ws2tcpip.h>
+# include <time.h>
+# ifndef __GNUC__
+  typedef long ssize_t;
+  typedef int  pid_t;
+# endif /*!__GNUC__*/
 #else
 # include <sys/socket.h>
+# include <sys/time.h>
 #endif /*!_WIN32*/
 
 typedef socklen_t gcry_socklen_t;
 
-#include <sys/time.h>
 
 /* This is required for error code compatibility. */
 #define _GCRY_ERR_SOURCE_DEFAULT GPG_ERR_SOURCE_GCRYPT
 
 #ifdef __cplusplus
 extern "C" {
-#if 0 /* keep Emacsens' auto-indent happy */
+#if 0 /* (Keep Emacsens' auto-indent happy.) */
 }
 #endif
 #endif
@@ -56,7 +61,7 @@ extern "C" {
    return the same version.  The purpose of this macro is to let
    autoconf (using the AM_PATH_GCRYPT macro) check that this header
    matches the installed library.  */
-#define GCRYPT_VERSION "1.4.1"
+#define GCRYPT_VERSION "1.4.6"
 
 /* Internal: We can't use the convenience macros for the multi
    precision integer functions when building this library. */
@@ -170,18 +175,35 @@ gcry_error_t gcry_err_make_from_errno (gcry_err_source_t source, int err);
 gcry_err_code_t gcry_error_from_errno (int err);
 
 
+/* This enum is deprecated; it is only declared for the sake of
+   complete API compatibility.  */
 enum gcry_thread_option
   {
-    GCRY_THREAD_OPTION_DEFAULT = 0,
-    GCRY_THREAD_OPTION_USER = 1,
-    GCRY_THREAD_OPTION_PTH = 2,
-    GCRY_THREAD_OPTION_PTHREAD = 3
-  };
+    _GCRY_THREAD_OPTION_DUMMY
+  } _GCRY_GCC_ATTR_DEPRECATED;
+
+
+/* Constants defining the thread model to use.  Used with the OPTION
+   field of the struct gcry_thread_cbs.  */
+#define GCRY_THREAD_OPTION_DEFAULT  0
+#define GCRY_THREAD_OPTION_USER     1
+#define GCRY_THREAD_OPTION_PTH      2
+#define GCRY_THREAD_OPTION_PTHREAD  3
+
+/* The version number encoded in the OPTION field of the struct
+   gcry_thread_cbs.  */
+#define GCRY_THREAD_OPTION_VERSION  0
 
 /* Wrapper for struct ath_ops.  */
 struct gcry_thread_cbs
 {
-  enum gcry_thread_option option;
+  /* The OPTION field encodes the thread model and the version number
+     of this structure.   
+       Bits  7 - 0  are used for the thread model
+       Bits 15 - 8  are used for the version number.
+  */
+  unsigned int option;
+
   int (*init) (void);
   int (*mutex_init) (void **priv);
   int (*mutex_destroy) (void **priv);
@@ -276,8 +298,9 @@ static ssize_t gcry_pth_write (int fd, const void *buf, size_t nbytes)	      \
   { return pth_write (fd, buf, nbytes); }				      \
 _GCRY_THREAD_OPTION_PTH_IMPL_NET                                              \
 									      \
-/* FIXME: GNU Pth is missing pth_sendmsg and pth_recvmsg.  */		      \
-static struct gcry_thread_cbs gcry_threads_pth = { GCRY_THREAD_OPTION_PTH,    \
+/* Note: GNU Pth is missing pth_sendmsg and pth_recvmsg.  */		      \
+static struct gcry_thread_cbs gcry_threads_pth = {                            \
+  (GCRY_THREAD_OPTION_PTH | (GCRY_THREAD_OPTION_VERSION << 8)),               \
   gcry_pth_init, gcry_pth_mutex_init, gcry_pth_mutex_destroy,		      \
   gcry_pth_mutex_lock, gcry_pth_mutex_unlock, gcry_pth_read, gcry_pth_write,  \
   gcry_pth_select, gcry_pth_waitpid, gcry_pth_accept, gcry_pth_connect,       \
@@ -310,9 +333,9 @@ static int gcry_pthread_mutex_lock (void **lock)			      \
 static int gcry_pthread_mutex_unlock (void **lock)			      \
   { return pthread_mutex_unlock ((pthread_mutex_t*)*lock); }		      \
 									      \
-static struct gcry_thread_cbs gcry_threads_pthread =			      \
-{ GCRY_THREAD_OPTION_PTHREAD, NULL,					      \
-  gcry_pthread_mutex_init, gcry_pthread_mutex_destroy,			      \
+static struct gcry_thread_cbs gcry_threads_pthread = {			      \
+  (GCRY_THREAD_OPTION_PTHREAD | (GCRY_THREAD_OPTION_VERSION << 8)),           \
+  NULL, gcry_pthread_mutex_init, gcry_pthread_mutex_destroy,		      \
   gcry_pthread_mutex_lock, gcry_pthread_mutex_unlock,                         \
   NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }
 
@@ -387,7 +410,12 @@ enum gcry_ctl_cmds
     GCRYCTL_USE_RANDOM_DAEMON = 50,
     GCRYCTL_FAKED_RANDOM_P = 51,
     GCRYCTL_SET_RNDEGD_SOCKET = 52,
-    GCRYCTL_PRINT_CONFIG = 53
+    GCRYCTL_PRINT_CONFIG = 53,
+    GCRYCTL_OPERATIONAL_P = 54,
+    GCRYCTL_FIPS_MODE_P = 55,
+    GCRYCTL_FORCE_FIPS_MODE = 56,
+    GCRYCTL_SELFTEST = 57
+    /* Note: 58 .. 62 are used internally.  */
   };
 
 /* Perform various operations defined by CMD. */
@@ -456,7 +484,7 @@ size_t gcry_sexp_canon_len (const unsigned char *buffer, size_t length,
 size_t gcry_sexp_sprint (gcry_sexp_t sexp, int mode, void *buffer,
                          size_t maxlength);
 
-/* Dumps the S-expression object A in a aformat suitable for debugging
+/* Dumps the S-expression object A in a format suitable for debugging
    to Libgcrypt's logging stream.  */
 void gcry_sexp_dump (const gcry_sexp_t a);
 
@@ -525,7 +553,7 @@ gcry_mpi_t gcry_sexp_nth_mpi (gcry_sexp_t list, int number, int mpifmt);
 
 /*******************************************
  *                                         *
- *  multi precision integer functions      *
+ *  Multi Precision Integer Functions      *
  *                                         *
  *******************************************/
 
@@ -533,20 +561,20 @@ gcry_mpi_t gcry_sexp_nth_mpi (gcry_sexp_t list, int number, int mpifmt);
 enum gcry_mpi_format 
   {
     GCRYMPI_FMT_NONE= 0,
-    GCRYMPI_FMT_STD = 1,    /* twos complement stored without length */
-    GCRYMPI_FMT_PGP = 2,    /* As used by OpenPGP (only defined as unsigned)*/
-    GCRYMPI_FMT_SSH = 3,    /* As used by SSH (same as 1 but with length)*/
-    GCRYMPI_FMT_HEX = 4,    /* hex format */
-    GCRYMPI_FMT_USG = 5     /* like STD but this is an unsigned one */
+    GCRYMPI_FMT_STD = 1,    /* Twos complement stored without length.  */
+    GCRYMPI_FMT_PGP = 2,    /* As used by OpenPGP (unsigned only).  */
+    GCRYMPI_FMT_SSH = 3,    /* As used by SSH (like STD but with length).  */
+    GCRYMPI_FMT_HEX = 4,    /* Hex format. */
+    GCRYMPI_FMT_USG = 5     /* Like STD but unsigned. */
   };
 
 /* Flags used for creating big integers.  */
 enum gcry_mpi_flag 
   {
-    GCRYMPI_FLAG_SECURE = 1,  /* Allocate the number in "secure" memory. */
-    GCRYMPI_FLAG_OPAQUE = 2   /* The number is not a real one but just a
-                               way to store some bytes.  This is
-                               useful for encrypted big integers. */
+    GCRYMPI_FLAG_SECURE = 1,  /* Allocate the number in "secure" memory.  */
+    GCRYMPI_FLAG_OPAQUE = 2   /* The number is not a real one but just
+                                 a way to store some bytes.  This is
+                                 useful for encrypted big integers.  */
   };
 
 
@@ -687,6 +715,9 @@ void     gcry_mpi_clear_highbit (gcry_mpi_t a, unsigned int n);
 /* Shift the value of A by N bits to the right and store the result in X. */
 void     gcry_mpi_rshift (gcry_mpi_t x, gcry_mpi_t a, unsigned int n);
 
+/* Shift the value of A by N bits to the left and store the result in X. */
+void     gcry_mpi_lshift (gcry_mpi_t x, gcry_mpi_t a, unsigned int n);
+
 /* Store NBITS of the value P points to in A and mark A as an opaque
    value.  WARNING: Never use an opaque MPI for anything thing else then 
    gcry_mpi_release, gcry_mpi_get_opaque. */
@@ -710,7 +741,7 @@ void gcry_mpi_clear_flag (gcry_mpi_t a, enum gcry_mpi_flag flag);
 int gcry_mpi_get_flag (gcry_mpi_t a, enum gcry_mpi_flag flag);
 
 /* Unless the GCRYPT_NO_MPI_MACROS is used, provide a couple of
-   convenience macors for the big integer functions. */
+   convenience macros for the big integer functions. */
 #ifndef GCRYPT_NO_MPI_MACROS
 #define mpi_new(n)          gcry_mpi_new( (n) )
 #define mpi_secure_new( n ) gcry_mpi_snew( (n) )
@@ -722,28 +753,28 @@ int gcry_mpi_get_flag (gcry_mpi_t a, enum gcry_mpi_flag flag);
     } \
   while (0)
 
-#define mpi_copy( a )       gcry_mpi_copy( (a) )
-#define mpi_set( w, u)      gcry_mpi_set( (w), (u) )
-#define mpi_set_ui( w, u)   gcry_mpi_set_ui( (w), (u) )
-#define mpi_cmp( u, v )     gcry_mpi_cmp( (u), (v) )
-#define mpi_cmp_ui( u, v )  gcry_mpi_cmp_ui( (u), (v) )
-
-#define mpi_add_ui(w,u,v)   gcry_mpi_add_ui((w),(u),(v))
-#define mpi_add(w,u,v)      gcry_mpi_add ((w),(u),(v))
-#define mpi_addm(w,u,v,m)   gcry_mpi_addm ((w),(u),(v),(m))
-#define mpi_sub_ui(w,u,v)   gcry_mpi_sub_ui ((w),(u),(v))
-#define mpi_sub(w,u,v)      gcry_mpi_sub ((w),(u),(v))
-#define mpi_subm(w,u,v,m)   gcry_mpi_subm ((w),(u),(v),(m))
-#define mpi_mul_ui(w,u,v)   gcry_mpi_mul_ui ((w),(u),(v))
-#define mpi_mul_2exp(w,u,v) gcry_mpi_mul_2exp ((w),(u),(v))
-#define mpi_mul(w,u,v)      gcry_mpi_mul ((w),(u),(v))
-#define mpi_mulm(w,u,v,m)   gcry_mpi_mulm ((w),(u),(v),(m))
-#define mpi_powm(w,b,e,m)   gcry_mpi_powm ( (w), (b), (e), (m) )
-#define mpi_tdiv(q,r,a,m)   gcry_mpi_div ( (q), (r), (a), (m), 0)
-#define mpi_fdiv(q,r,a,m)   gcry_mpi_div ( (q), (r), (a), (m), -1)
-#define mpi_mod(r,a,m)      gcry_mpi_mod ((r), (a), (m))
-#define mpi_gcd(g,a,b)      gcry_mpi_gcd ( (g), (a), (b) )
-#define mpi_invm(g,a,b)     gcry_mpi_invm ( (g), (a), (b) )
+#define mpi_copy( a )          gcry_mpi_copy( (a) )
+#define mpi_set( w, u)         gcry_mpi_set( (w), (u) )
+#define mpi_set_ui( w, u)      gcry_mpi_set_ui( (w), (u) )
+#define mpi_cmp( u, v )        gcry_mpi_cmp( (u), (v) )
+#define mpi_cmp_ui( u, v )     gcry_mpi_cmp_ui( (u), (v) )
+                              
+#define mpi_add_ui(w,u,v)      gcry_mpi_add_ui((w),(u),(v))
+#define mpi_add(w,u,v)         gcry_mpi_add ((w),(u),(v))
+#define mpi_addm(w,u,v,m)      gcry_mpi_addm ((w),(u),(v),(m))
+#define mpi_sub_ui(w,u,v)      gcry_mpi_sub_ui ((w),(u),(v))
+#define mpi_sub(w,u,v)         gcry_mpi_sub ((w),(u),(v))
+#define mpi_subm(w,u,v,m)      gcry_mpi_subm ((w),(u),(v),(m))
+#define mpi_mul_ui(w,u,v)      gcry_mpi_mul_ui ((w),(u),(v))
+#define mpi_mul_2exp(w,u,v)    gcry_mpi_mul_2exp ((w),(u),(v))
+#define mpi_mul(w,u,v)         gcry_mpi_mul ((w),(u),(v))
+#define mpi_mulm(w,u,v,m)      gcry_mpi_mulm ((w),(u),(v),(m))
+#define mpi_powm(w,b,e,m)      gcry_mpi_powm ( (w), (b), (e), (m) )
+#define mpi_tdiv(q,r,a,m)      gcry_mpi_div ( (q), (r), (a), (m), 0)
+#define mpi_fdiv(q,r,a,m)      gcry_mpi_div ( (q), (r), (a), (m), -1)
+#define mpi_mod(r,a,m)         gcry_mpi_mod ((r), (a), (m))
+#define mpi_gcd(g,a,b)         gcry_mpi_gcd ( (g), (a), (b) )
+#define mpi_invm(g,a,b)        gcry_mpi_invm ( (g), (a), (b) )
 
 #define mpi_get_nbits(a)       gcry_mpi_get_nbits ((a))
 #define mpi_test_bit(a,b)      gcry_mpi_test_bit ((a),(b))
@@ -752,16 +783,17 @@ int gcry_mpi_get_flag (gcry_mpi_t a, enum gcry_mpi_flag flag);
 #define mpi_clear_bit(a,b)     gcry_mpi_clear_bit ((a),(b))
 #define mpi_clear_highbit(a,b) gcry_mpi_clear_highbit ((a),(b))
 #define mpi_rshift(a,b,c)      gcry_mpi_rshift ((a),(b),(c))
+#define mpi_lshift(a,b,c)      gcry_mpi_lshift ((a),(b),(c))
 
-#define mpi_set_opaque(a,b,c) gcry_mpi_set_opaque( (a), (b), (c) )
-#define mpi_get_opaque(a,b)   gcry_mpi_get_opaque( (a), (b) )
+#define mpi_set_opaque(a,b,c)  gcry_mpi_set_opaque( (a), (b), (c) )
+#define mpi_get_opaque(a,b)    gcry_mpi_get_opaque( (a), (b) )
 #endif /* GCRYPT_NO_MPI_MACROS */
 
 
 
 /************************************
  *                                  *
- *   symmetric cipher functions     *
+ *   Symmetric Cipher Functions     *
  *                                  *
  ************************************/
 
@@ -822,7 +854,8 @@ enum gcry_cipher_modes
     GCRY_CIPHER_MODE_CBC    = 3,  /* Cipher block chaining. */
     GCRY_CIPHER_MODE_STREAM = 4,  /* Used with stream ciphers. */
     GCRY_CIPHER_MODE_OFB    = 5,  /* Outer feedback. */
-    GCRY_CIPHER_MODE_CTR    = 6   /* Counter. */
+    GCRY_CIPHER_MODE_CTR    = 6,  /* Counter. */
+    GCRY_CIPHER_MODE_AESWRAP= 7   /* AES-WRAP algorithm.  */
   };
 
 /* Flags used with the open function. */ 
@@ -882,37 +915,36 @@ gcry_error_t gcry_cipher_decrypt (gcry_cipher_hd_t h,
                                   void *out, size_t outsize,
                                   const void *in, size_t inlen);
 
-/* Set key K of length L for the cipher handle H.  (We have to cast
-   away a const char* here - this catch-all ctl function was probably
-   not the best choice) */
-#define gcry_cipher_setkey(h,k,l)  gcry_cipher_ctl( (h), GCRYCTL_SET_KEY, \
-                                                         (char*)(k), (l) )
+/* Set KEY of length KEYLEN bytes for the cipher handle HD.  */
+gcry_error_t gcry_cipher_setkey (gcry_cipher_hd_t hd,
+                                 const void *key, size_t keylen);
 
-/* Set initialization vector K of length L for the cipher handle H. */
-#define gcry_cipher_setiv(h,k,l)  gcry_cipher_ctl( (h), GCRYCTL_SET_IV, \
-                                                         (char*)(k), (l) )
+
+/* Set initialization vector IV of length IVLEN for the cipher handle HD. */
+gcry_error_t gcry_cipher_setiv (gcry_cipher_hd_t hd,
+                                const void *iv, size_t ivlen);
+
 
 /* Reset the handle to the state after open.  */
 #define gcry_cipher_reset(h)  gcry_cipher_ctl ((h), GCRYCTL_RESET, NULL, 0)
 
-/* Perform the the OpenPGP sync operation if this is enabled for the
+/* Perform the OpenPGP sync operation if this is enabled for the
    cipher handle H. */
-#define gcry_cipher_sync(h)  gcry_cipher_ctl( (h), GCRYCTL_CFB_SYNC, \
-                                                                   NULL, 0 )
+#define gcry_cipher_sync(h)  gcry_cipher_ctl( (h), GCRYCTL_CFB_SYNC, NULL, 0)
 
 /* Enable or disable CTS in future calls to gcry_encrypt(). CBC mode only. */
 #define gcry_cipher_cts(h,on)  gcry_cipher_ctl( (h), GCRYCTL_SET_CBC_CTS, \
                                                                    NULL, on )
 
-/* Set counter for CTR mode.  (K,L) must denote a buffer of block size
-   length, or (NULL,0) to set the CTR to the all-zero block. */
-#define gcry_cipher_setctr(h,k,l)  gcry_cipher_ctl( (h), GCRYCTL_SET_CTR, \
-                                                    (char*)(k), (l) )
+/* Set counter for CTR mode.  (CTR,CTRLEN) must denote a buffer of
+   block size length, or (NULL,0) to set the CTR to the all-zero block. */
+gpg_error_t gcry_cipher_setctr (gcry_cipher_hd_t hd,
+                                const void *ctr, size_t ctrlen);
 
-/* Retrieved the key length used with algorithm A. */
+/* Retrieved the key length in bytes used with algorithm A. */
 size_t gcry_cipher_get_algo_keylen (int algo);
 
-/* Retrieve the block length used with algorithm A. */
+/* Retrieve the block length in bytes used with algorithm A. */
 size_t gcry_cipher_get_algo_blklen (int algo);
 
 /* Return 0 if the algorithm A is available for use. */
@@ -930,21 +962,20 @@ gcry_error_t gcry_cipher_list (int *list, int *list_length);
 
 /************************************
  *                                  *
- *    asymmetric cipher functions   *
+ *    Asymmetric Cipher Functions   *
  *                                  *
  ************************************/
 
 /* The algorithms and their IDs we support. */
 enum gcry_pk_algos 
   {
-    GCRY_PK_RSA = 1,
-    GCRY_PK_RSA_E = 2,      /* deprecated */
-    GCRY_PK_RSA_S = 3,      /* deprecated */
-    GCRY_PK_ELG_E = 16,     /* use only for OpenPGP */
+    GCRY_PK_RSA   = 1,
+    GCRY_PK_RSA_E = 2,      /* (deprecated) */
+    GCRY_PK_RSA_S = 3,      /* (deprecated) */
+    GCRY_PK_ELG_E = 16,
     GCRY_PK_DSA   = 17,
     GCRY_PK_ELG   = 20,
-    GCRY_PK_ECDSA = 301     /* Experimental implementation; not for
-                               production. */
+    GCRY_PK_ECDSA = 301
   };
 
 /* Flags describing usage capabilities of a PK algorithm. */
@@ -1021,7 +1052,7 @@ gcry_error_t gcry_pk_list (int *list, int *list_length);
 
 /************************************
  *                                  *
- *   cryptograhic hash functions    *
+ *   Cryptograhic Hash Functions    *
  *                                  *
  ************************************/
 
@@ -1034,29 +1065,29 @@ enum gcry_md_algos
     GCRY_MD_SHA1    = 2,
     GCRY_MD_RMD160  = 3,
     GCRY_MD_MD2     = 5,
-    GCRY_MD_TIGER   = 6,   /* TIGER/192. */
+    GCRY_MD_TIGER   = 6,   /* TIGER/192 as used by GnuPG <= 1.3.2. */
     GCRY_MD_HAVAL   = 7,   /* HAVAL, 5 pass, 160 bit. */
     GCRY_MD_SHA256  = 8,
     GCRY_MD_SHA384  = 9,
     GCRY_MD_SHA512  = 10,
     GCRY_MD_SHA224  = 11,
     GCRY_MD_MD4     = 301,
-    GCRY_MD_CRC32               = 302,
-    GCRY_MD_CRC32_RFC1510       = 303,
-    GCRY_MD_CRC24_RFC2440       = 304,
-    GCRY_MD_WHIRLPOOL = 305
+    GCRY_MD_CRC32         = 302,
+    GCRY_MD_CRC32_RFC1510 = 303,
+    GCRY_MD_CRC24_RFC2440 = 304,
+    GCRY_MD_WHIRLPOOL = 305,
+    GCRY_MD_TIGER1  = 306, /* TIGER (fixed).  */
+    GCRY_MD_TIGER2  = 307  /* TIGER2 variant.   */
   };
 
 /* Flags used with the open function.  */
 enum gcry_md_flags
   {
-    GCRY_MD_FLAG_SECURE = 1,  /* Allocate all buffers in "secure"
-                                 memory.  */
-    GCRY_MD_FLAG_HMAC   = 2   /* Make an HMAC out of this
-                                 algorithm.  */
+    GCRY_MD_FLAG_SECURE = 1,  /* Allocate all buffers in "secure" memory.  */
+    GCRY_MD_FLAG_HMAC   = 2   /* Make an HMAC out of this algorithm.  */
   };
 
-/* Forward declaration.  */
+/* (Forward declaration.)  */
 struct gcry_md_context;
 
 /* This object is used to hold a handle to a message digest object.
@@ -1142,7 +1173,7 @@ gcry_error_t gcry_md_algo_info (int algo, int what, void *buffer,
                                size_t *nbytes);
 
 /* Map the digest algorithm id ALGO to a string representation of the
-   algorithm name.  For unknown algorithms this functions returns
+   algorithm name.  For unknown algorithms this function returns
    "?". */
 const char *gcry_md_algo_name (int algo) _GCRY_GCC_ATTR_PURE;
 
@@ -1151,7 +1182,7 @@ const char *gcry_md_algo_name (int algo) _GCRY_GCC_ATTR_PURE;
 int gcry_md_map_name (const char* name) _GCRY_GCC_ATTR_PURE;
 
 /* For use with the HMAC feature, the set MAC key to the KEY of
-   KEYLEN. */
+   KEYLEN bytes. */
 gcry_error_t gcry_md_setkey (gcry_md_hd_t hd, const void *key, size_t keylen);
 
 /* Start or stop debugging for digest handle HD; i.e. create a file
@@ -1210,7 +1241,8 @@ gcry_error_t gcry_md_list (int *list, int *list_length);
 
 
 
-/* Alternative interface for asymetric cryptography.  */
+/* Alternative interface for asymmetric cryptography.  This interface
+   is deprecated.  */
 
 /* The algorithm IDs. */
 typedef enum gcry_ac_id
@@ -1584,14 +1616,14 @@ gcry_error_t gcry_ac_name_to_id (const char *name,
 
 /************************************
  *                                  *
- *   random generating functions    *
+ *   Random Generating Functions    *
  *                                  *
  ************************************/
 
 /* The possible values for the random quality.  The rule of thumb is
    to use STRONG for session keys and VERY_STRONG for key material.
-   WEAK is currently an alias for STRONG and should not be used
-   anymore - use gcry_create_nonce instead. */
+   WEAK is usually an alias for STRONG and should not be used anymore
+   (except with gcry_mpi_randomize); use gcry_create_nonce instead. */
 typedef enum gcry_random_level
   {
     GCRY_WEAK_RANDOM = 0,
@@ -1630,7 +1662,8 @@ void *gcry_random_bytes_secure (size_t nbytes, enum gcry_random_level level)
 
 
 /* Set the big integer W to a random value of NBITS using a random
-   generator with quality LEVEL. */
+   generator with quality LEVEL.  Note that by using a level of
+   GCRY_WEAK_RANDOM gcry_create_nonce is used internally. */
 void gcry_mpi_randomize (gcry_mpi_t w,
                          unsigned int nbits, enum gcry_random_level level);
 
@@ -1641,7 +1674,12 @@ void gcry_create_nonce (void *buffer, size_t length);
 
 
 
-/* Prime interface.  */
+
+/*******************************/
+/*                             */
+/*    Prime Number Functions   */
+/*                             */
+/*******************************/
 
 /* Mode values passed to a gcry_prime_check_func_t. */
 #define GCRY_PRIME_CHECK_AT_FINISH      0
@@ -1682,7 +1720,8 @@ gcry_error_t gcry_prime_generate (gcry_mpi_t *prime,
    newly allocated MPI in R_G.  If START_G is not NULL, use this as
    teh start for the search. */
 gcry_error_t gcry_prime_group_generator (gcry_mpi_t *r_g,
-                                         gcry_mpi_t prime, gcry_mpi_t *factors,
+                                         gcry_mpi_t prime,
+                                         gcry_mpi_t *factors,
                                          gcry_mpi_t start_g);
 
 
@@ -1697,14 +1736,14 @@ gcry_error_t gcry_prime_check (gcry_mpi_t x, unsigned int flags);
 
 /************************************
  *                                  *
- *     miscellaneous stuff          *
+ *     Miscellaneous Stuff          *
  *                                  *
  ************************************/
 
 /* Log levels used by the internal logging facility. */
 enum gcry_log_levels 
   {
-    GCRY_LOG_CONT   = 0,    /* continue the last log line */
+    GCRY_LOG_CONT   = 0,    /* (Continue the last log line.) */
     GCRY_LOG_INFO   = 10,
     GCRY_LOG_WARN   = 20,
     GCRY_LOG_ERROR  = 30,
@@ -1784,10 +1823,14 @@ void  gcry_free (void *a);
 /* Return true if A is allocated in "secure" memory. */
 int gcry_is_secure (const void *a) _GCRY_GCC_ATTR_PURE;
 
+/* Return true if Libgcrypt is in FIPS mode.  */
+#define gcry_fips_mode_active()  !!gcry_control (GCRYCTL_FIPS_MODE_P, 0)
+
+
 /* Include support for Libgcrypt modules.  */
 #include <gcrypt-module.h>
 
-#if 0 /* keep Emacsens' auto-indent happy */
+#if 0 /* (Keep Emacsens' auto-indent happy.) */
 {
 #endif
 #ifdef __cplusplus

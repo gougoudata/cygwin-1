@@ -1,0 +1,60 @@
+stg-pick(1)
+===========
+
+NAME
+----
+stg-pick - Import a patch from a different branch or a commit object
+
+SYNOPSIS
+--------
+[verse]
+'stg' pick [options] [--] ([<patch1>] [<patch2>] [<patch3>..<patch4>])|<commit>
+
+DESCRIPTION
+-----------
+
+Import one or more patches from a different branch or a commit object
+into the current series. By default, the name of the imported patch is
+used as the name of the current patch. It can be overridden with the
+'--name' option. A commit object can be reverted with the '--revert'
+option. The log and author information are those of the commit
+object.
+
+OPTIONS
+-------
+-n NAME::
+--name NAME::
+        Use NAME as the patch name.
+
+-B REF-BRANCH::
+--ref-branch REF-BRANCH::
+        Pick patches from BRANCH.
+
+-r::
+--revert::
+        Revert the given commit object.
+
+-p COMMITID::
+--parent COMMITID::
+        Use COMMITID as parent.
+
+-x::
+--expose::
+        Append the imported commit id to the patch log.
+
+--fold::
+        Fold the commit object into the current patch.
+
+--update::
+        Like fold but only update the current patch files.
+
+-f FILE::
+--file FILE::
+        Only fold the given file (can be used multiple times).
+
+--unapplied::
+        Keep the patch unapplied.
+
+StGit
+-----
+Part of the StGit suite - see linkman:stg[1]

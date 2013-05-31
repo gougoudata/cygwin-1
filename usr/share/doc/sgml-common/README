@@ -1,0 +1,29 @@
+Eric Bischoff
+ebisch@cybercable.tm.fr				January 12, 2001
+
+Introduction
+------------
+
+The sgml-common package gathers very basic stuff necessary to
+work with SGML and XML.
+
+They currently contain:
+  - xml.dcl: SGML declaration of XML
+  - iso-entities: the basic SGML ISO entities
+  - install-catalog: a script used to add entries to (or remove
+    entries from) centralized catalogs. These entries are pointers
+    to SGML open catalogs as defined by OASIS (see TR9401:1997 on
+    http://www.oasis-open.org).
+  - sgmlwhich: a small script telling where SGML main configuration file
+    is located (provided for compatibility with non-FHS systems)
+
+
+Compatibility
+-------------
+
+The sgml-common files are inspired by the former scripts from the
+DocBook-Tools distribution (hosted by Cygnus sourceware project).
+
+They comply with FHS and LSB.
+
+

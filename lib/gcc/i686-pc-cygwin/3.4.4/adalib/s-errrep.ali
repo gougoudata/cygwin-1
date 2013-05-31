@@ -16,8 +16,8 @@ U system.error_reporting%s  s-errrep.ads	b62fe7bb NE PR PK
 W system%s		system.ads		system.ali
 
 D system.ads		20031021134222 6af26689
-D s-errrep.ads		20031021134214 dcdd8132
-D s-errrep.adb		20031021134214 da726a8d
+D s-errrep.ads		20031021134213 dcdd8132
+D s-errrep.adb		20031021134213 da726a8d
 X 1 system.ads
 44K9*System 163e11 2|38r9 46r5 3|38r14 40r45 69r5
 70M9*Address 3|40r52

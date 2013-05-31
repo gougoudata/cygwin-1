@@ -13,7 +13,7 @@ U gnat.float_control%s	g-flocon.ads		f3046e5d NE PK
 W gnat%s		gnat.ads		gnat.ali
 
 D gnat.ads		20030424175404 6380ea48
-D g-flocon.ads		20030424175404 90848415
+D g-flocon.ads		20030424175403 90848415
 D system.ads		20031021134222 6af26689
 X 1 gnat.ads
 36K9*GNAT 39e9 2|36r9 61r5

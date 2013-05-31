@@ -11,7 +11,7 @@
 (*                                                                     *)
 (***********************************************************************)
 
-(* $Id: sys.mli,v 1.45 2004/05/04 11:51:13 basile Exp $ *)
+(* $Id: sys.mli 10715 2010-10-12 09:55:46Z doligez $ *)
 
 (** System interface. *)
 
@@ -26,6 +26,13 @@ val executable_name : string
 
 external file_exists : string -> bool = "caml_sys_file_exists"
 (** Test if a file with the given name exists. *)
+
+external is_directory : string -> bool = "caml_sys_is_directory"
+(** Returns [true] if the given name refers to a directory,
+    [false] if it refers to another kind of file.
+    Raise [Sys_error] if no file exists with the given name.
+    @since 3.10.0
+*)
 
 external remove : string -> unit = "caml_sys_remove"
 (** Remove the given file name from the file system. *)
@@ -81,7 +88,9 @@ val max_string_length : int
 (** Maximum length of a string. *)
 
 val max_array_length : int
-(** Maximum length of an array. *)
+(** Maximum length of a normal array.  The maximum length of a float
+    array is [max_array_length/2] on 32-bit machines and
+    [max_array_length] on 64-bit machines. *)
 
 
 (** {6 Signal handling} *)
@@ -89,7 +98,7 @@ val max_array_length : int
 
 type signal_behavior =
     Signal_default
-  | Signal_ignore 
+  | Signal_ignore
   | Signal_handle of (int -> unit)
 (** What to do when receiving a signal:
    - [Signal_default]: take the default behavior
@@ -110,7 +119,7 @@ val set_signal : int -> signal_behavior -> unit
 (** Same as {!Sys.signal} but return value is ignored. *)
 
 
-(** {7 Signal numbers for the standard POSIX signals.} *) 
+(** {7 Signal numbers for the standard POSIX signals.} *)
 
 val sigabrt : int
 (** Abnormal termination *)
@@ -183,7 +192,7 @@ exception Break
 
 val catch_break : bool -> unit
 (** [catch_break] governs whether interactive interrupt (ctrl-C)
-   terminates the program or raises the [Break] exception. 
+   terminates the program or raises the [Break] exception.
    Call [catch_break true] to enable raising [Break],
    and [catch_break false] to let the system
    terminate the program on user interrupt. *)
@@ -191,7 +200,7 @@ val catch_break : bool -> unit
 
 val ocaml_version : string;;
 (** [ocaml_version] is the version of Objective Caml.
-    It is a string of the form ["major.minor[.patchlevel][+additional-info]"]
-    Where [major], [minor], and [patchlevel] are integers, and
-    [additional-info] is an arbitrary string.  The [[.patchlevel]] and
+    It is a string of the form ["major.minor[.patchlevel][+additional-info]"],
+    where [major], [minor], and [patchlevel] are integers, and
+    [additional-info] is an arbitrary string. The [[.patchlevel]] and
     [[+additional-info]] parts may be absent. *)

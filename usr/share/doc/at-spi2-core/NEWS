@@ -1,0 +1,512 @@
+What's new in at-spi2-core 2.6.3:
+
+* Fix a crash when receiving a malformed event.
+
+* Fix atspi_accessible_get_index_in_parent when the parent is not cached
+    
+* Fix crash in atspi_device_listener_new_simple.
+
+* registry: Fix a crash when removing hung processes.
+
+* registry: Fix deregistering of applications.
+
+* registry: Fix crash handling DeregisterKeystrokeListener
+
+* Fix some compiler warnings.
+
+What's new in at-spi2-core 2.6.2:
+
+* Don't output a warning when a p2p connection isn't available.
+
+* Don't distribute dbind-config.h (BGO#688083).
+
+What's new in at-spi2-core 2.6.1:
+
+* Update cache in response to role change notifications (BGO#685469).
+    
+What's new in at-spi2-core 2.5.92:
+
+* Fix some annotations.
+
+* Exit, rather than crash, when unable to open an X display (BGO#660407).
+
+* Fix various memory leaks (BGO#684033).
+
+What's new in at-spi2-core 2.5.91:
+
+* Fix build with -fno-common.
+
+* Add glib-2.0 to requires in at-spi2.pc (BGO#682595)
+
+What's new in at-spi2-core 2.5.5:
+
+* Add atspi_action_get_localized_name (BGO#680598).
+
+* Allow building from out of source directory (BGO#680281)
+
+What's new in at-spi2-core 2.5.4:
+
+* Fix a missing return value.
+
+* Fix a crash when unable to remove a match rule.
+
+What's new in at-spi2-core 2.5.3:
+
+* Fix a memory leak (BGO#678738)
+
+What's new in at-spi2-core 2.5.2:
+
+* Fix a crash when a call to fetch a hyperlink times out.
+
+* Fix C++ compilation.
+
+* Remove a warning that was sometimes logged when a method call timed out.
+
+* Fix crash in atspi_deregister_keystroke_listener (FDO#50578)
+
+What's new in at-spi2-core 2.5.1:
+
+* Add atspi_set_timeout.
+
+* By default, disable method call timeouts until an application has been on
+the bus for 15 seconds (work-around for applications with potentially long
+start-up times). This behavior can be changed with a call to atspi_set_timeout.
+
+* Fix GError sent when receiving a reply of the wrong type
+    
+* Fix typo in atspi_document_get_attribute_value
+    
+* Fix for bug 675004 - object:state-changed:defunct events are emitted as object:state-change:defunct
+
+What's new in at-spi2-core 2.4.0:
+
+* Fix typo in at-spi-dbus-bus.desktop.in (BGO#605662).
+
+What's new in at-spi2-core 2.3.92:
+
+* Some changes to try to prevent at-spi2-registryd from incorrectly
+  thinking that an AT is hung and passing keys meant for it to the application.
+
+* Fix crash fetching an error from a reply when retrieving a property.
+
+What's new in at-spi2-core 2.3.91:
+
+* Invalidate states when receiving a focus event (BGO#663992).
+
+* Fix atspi_table_get_row_column_extents_at_index.
+
+* Expect a signed int for GetIndexInParent, per the spec.
+
+* Send key events to listeners assumed to be hung, but don't block.
+
+* Reduce the method call timeout slightly, so that it will be lower than
+  the keystroke listener timeout.
+
+* Don't cache data for transient objects.
+
+* Enable caching on a call to atspi_accessible_set_cache_mask, even if
+  atspi-event_main() hasn't been called.
+
+What's new in at-spi2-core 2.3.90:
+
+* At-spi-bus-launcher now emits PropertiesChanged signals from the correct
+  interface.
+
+* If a keystroke listener does not respond, disable it until it responds.
+  This prevents the desktop from locking up if an AT hangs or is suspended
+  and has a keyboard listener registered.
+
+* Fix a warning when a NULL object is returned as the detail of an event.
+
+What's new in at-spi2-core 2.3.5:
+
+* Fix for BGO#668334: Set correct end offset in atspi_text_get_attributes.
+
+* Add some type checking on method replies; this should prevent crashes if
+  an application-side AT-SPI implementor returns something unexpected.
+
+* Call g_settings_sync after updating toolkit-accessibility.
+
+* Add ScreenReaderEnabled D-Bus property as a proxy for the GSettings key.
+
+* Fix for BGO#669344: Don't use "restrict" as a variable name, since it can
+  be a keyword.
+
+What's new in at-spi2-core 2.3.4:
+
+* Add some dbus message signature checks.
+
+* Fix a crash if a device listener incorrectly returns a non-bool.
+
+* Fix for BGO#666870: Keystroke listeners do not work unless an event listener
+  is also registered [also needs updated at-spi2-atk]
+
+* Fix for BGO#667254: Some atspi-selection_* functions were broken.
+
+* When a call times out, ping the connection and avoid making subsequent calls
+  until the ping is answered.
+
+What's new in at-spi2-core 2.3.3:
+
+* Handle event detail suffixes (such as :system).
+
+What's new in at-spi2-core 2.3.2:
+
+* Some documentation improvements.
+
+What's new in at-spi2-core 2.3.1:
+
+* Fix return type of org.a11y.Bus.IsEnabled property
+    
+* Declare void functions as such
+
+What's new in at-spi2-core 2.2.1:
+
+* Fix org.a11y.Bus.Enabled property to set its initial state from the
+  GSettings key, if available and an initial property is not given on the
+  command line.
+
+* Fix for BGO#660947: Gracefully exit when already running, rather than
+  triggering a SIGABRT.
+
+What's new in at-spi2-core 2.1.92:
+
+* Fixed a crash when handling event listeners.
+
+* Fix for BGO#659088: Correctly define ATSPI_MODIFIER_NUMLOCK.
+
+* Add some defensive checks to prevent problems with defunct objects.
+
+* BGO#657051: Fix a build error on Solaris.
+
+* Fix some missing return statements.
+
+* Some fixes related to deregistering event listeners.
+
+What's new in at-spi2-core 2.1.91:
+
+* Fixed a crash when deregistering event listeners.
+
+* Made DBus IsEnabled property readwrite.
+
+What's new in at-spi2-core 2.1.90:
+
+* Fixed a memory leak on DBus errors.
+
+* Added org.a11y.Status.IsEnabled (currently a read-only property) to the bus
+  launcher.
+
+* Fix for BGO#656004: atspi_accessible_get_relation_set returns a GArray again.
+
+* Numerous documentation fixes from Aline Bessa.
+
+* CLean up device listeners from disconnected applications.
+
+* Fix for BGO#657585: Do not crash when the bus launcher is unable to open the
+  X display.
+
+What's new in at-spi2-core 2.1.5:
+
+* Propertly free DBus error in atspi_accessible_get_process_id.
+
+* Clean up names of some private functions.
+
+* Move DBus interface name constants into atspi-constants.h and make public.
+
+* Remove support for relocated CORBA.
+
+* Fix for BGO#655127: Avoid Python crash for atspi_accessible_get_relation_set.
+
+What's new in at-spi2-core 2.1.4:
+
+* Some API changes to device and event listeners for compatibility with
+  Javascript.
+
+* Fix for BGO#654314: make role names consistent with atk.
+* FIx for BGO#654921: Run within Unity.
+
+* Added some new roles.
+
+What's new in at-spi2-core 2.1.3:
+
+* use stored values for AT-SPI role names where possible.
+
+* Fix for BGO#652596: Use DBus property to set value.
+
+
+* Fix gtk-doc build cflags/libraries.
+
+* Set error for some DBus errors where this was not being done.
+
+
+* Add atspi_accessible_get_process_id (as a short-cut to help debugging).
+
+* Fix failure to update cache in response to children-changed events in some
+  cases.
+
+What's new in at-spi2-core 2.1.2:
+
+* Fix atspi_table_get_caption|summary.
+
+* Fix introspection for atspi_table_get_row_column_at_index.
+
+* Copy match rule attributes, rather than just ref counting the hash, for
+  compatibility with pygi.
+
+* Rework atspi_accessible_set_cache_mask to make it usable.
+
+* Fix a crash that might happen if a method call times out.
+
+* Disable caching if atspi_event_main has not been called to run the main loop.
+
+* Fix atspi_accessible_get_toolkit_version.
+
+* Add atspi_accessible_get_atspi_version to fetch the version of the AT-SPI
+  specification provided by an application.
+
+* Cache application-wide toolkit name and version.
+
+* Allow caching of attributes, but not enabling by default, as there is no
+  event yet (BGO#649771).
+
+* Make deferred_messages a GQueue rather than a GList for performance reasons.
+
+* Fix accessibility bus breakage when a user runs an administrative app.
+
+What's new in at-spi2-core 2.1.1:
+
+* Fixed a seg fault in at-spi-bus-launcher when ending a session (BGO#648942).
+
+* Fixed a possible crash when an application is short-lived.
+
+* FIxed memory leaks in atspi_accessible_get_toolkit_(name|version).
+
+* AT-SPI will now call g_error if it is unable to find the accessibility bus.
+  This results in aborting but with a somewhat less cryptic error than before.
+
+What's new in at-spi2-core 2.0.1:
+
+* Fix a memory leak when sending events.
+
+* Fix for BGO#648059: get_application should return something w/ROLE_APPLICATION
+    
+* Fix for BGO#648013: Honor aclocal flags
+
+* FIx for BGO#648014: Add intltoolize to autogen.sh
+
+* Fix for BGO#648130: event host_application should return NULL for the desktop
+
+* Added atspi_accessible_get_id to retrieve the id of an application.
+
+* Remove doc about non-existent ATSPI_KEYSET_ALL_KEYS.
+
+What's new in at-spi2-core 2.0.0:
+
+* Fix for BGO#646403: Use correct signature in at-spi2-registryd for
+  EndSessionResponse.
+
+* Remove a Makefile reference to dbus-glib.
+
+What's new in at-spi2-core 1.91.93:
+
+* Removed dbus-glib-related includes, as they are no longer required.
+
+What's new in at-spi2-core 1.91.92:
+
+* Fixed atspi_table_get_column_header and atspi_value_set_current_value.
+
+* Removed dbus-glib dependency; libatspi now includes a copy of dbus-gmain.c
+  modified to fix a crash (FDO#35115).  Session management code has been
+  ported to gdbus.
+
+* Fixed a crash when deregistering a keystroke listener.
+
+* Reworked accessibility bus management (BGO#644851).
+
+* Fixed a possible sign issue with state sets.
+
+What's new in at-spi2-core 1.91.91:
+
+* Changed device event IPC to use uint32 for hw_code and modifiers, to be
+    more consistent with the rest of the API.
+
+* GetNSelections has an out parameter, not an in.
+
+* Fix for BGO#643384: - atspi_register_keystroke_listener() should take a
+  bitmask, not AtspiKeyListenerSyncType.
+
+* Avoid setting enum values to 0x80000000, to prevent a pygi exception.
+    
+* Fix for BGO#643454: Kill the accessibility bus daemon with the GNOME session
+
+* Fix for BGO#643110: Do not allow all users to connect to the accessibility bus.
+
+What's new in at-spi2-core 1.91.90:
+
+* BGO#641164: Fixed several build errors.
+
+* Fixed some memory leaks and possible crashes.
+
+* Fixed atspi_selection_get_selected_child and
+  atspi_selection_get_n_selected_children.
+
+* Fixed wrong introspection information in some places.
+
+* BGO#641869: Removed the --enable-relocate option.
+
+* Avoid returning uninitialized data on error for some methods.
+
+* Use the GSettings rather than GConf key to test that accessibility is
+  enabled.
+
+* Change some enums from 16-bit to 32-bit to match spec.
+
+What's new in at-spi2-core 1.91.6.1:
+
+* Fixed a crash introduced in 1.91.6.
+
+* atspi_accessible_get_interfaces will now explicitly return the Accessible
+  interface.
+
+What's new in at-spi2-core 1.91.6:
+
+* Some build fixes.
+
+ * Several updated translations.
+
+* Added a method to check whether an object implements the Hyperlink interface.
+
+* Fixed a crash in atspi_image_get_image_description.
+
+* Fixed atspi_editable_text_set_text_contents.
+
+* More error-handling fixes.
+
+* Fixed a crash in atspi_event_listener_register_from-callback.
+
+* Method calls now time out after 1 second.
+
+* Added setters for component extents/size/position.
+
+* Added atspi-accessible_set_cache_mask.
+
+What's new in at-spi2-core 1.91.5:
+
+* Fixed several memory leaks.
+
+* Fixed some text methods, methods that return points or rectangles,
+  image locale and description, atspi-accessible_get_description, and some
+  table methods.
+
+* Added a trailing colon for focus events.
+
+* Set the error parameter for dbus errors rather than displaying a warning.
+
+* Fixed the keystroke listener deregister method.
+
+* The cache is now updated before raising an event, not after, so that event
+  handlers that query for cached values will see the updated data.
+
+* The registry daemon now returns an error when a caller requests a property
+  that the desktop does not support.
+
+* Added disposal of objects, and fixed several associated bugs.
+
+* Added i18n.
+
+* Fixed mouse events.
+
+* Libatspi's documentation is now compiled with gtk-doc.
+
+* Fixed building from a separate build directory.
+
+
+What's new in at-spi2-core 1.91.4:
+
+* use peer-to-peer connections when available.
+
+* Fix uninitialized variable in get_index_in_parent.
+
+* Add timeout, and support inspecting our own app.
+
+* Add get_interfaces, and fetch interface and state set over the wire if needed.
+
+* Avoid adding data for an accessible twice if it is referenced prior to an
+  AddAccessible signal being received.
+
+* Fix copying of any_data for an event.
+
+* at-spi-registryd returns ChildCount as a variant, per the DBus spec.
+
+* Hypertext, hyperlink, and table fixes.
+
+* Several cache-related fixes.
+
+* Change some error return values to match AT-SPI-CORBA behavior.
+
+* Some attribute-related fixes.
+
+* Renamed 'text' to 'content' in AtspiTextRange to match original IDL.
+
+What's new in at-spi2-core 1.91.3:
+
+* Added a C-based AT-side binding (libatspi) which can be used in
+  conjunction with GObject introspection to generate bindings for other
+  languages.  However, this release has many bugs and is more of a development
+  snapshot than a usable release.
+
+What's new in at-spi2-core 1.91.2:
+
+* The desktop object now returns ROLE_DESKTOP_FRAME rather than ROLE_UNKNOWN.
+
+
+What's new in at-spi2-core 1.91.0:
+
+* --disable-relocate is the default again.
+
+What's new in at-spi2-core 0.3.92:
+
+* Do not start accessibility bus if at-spi-corba is enabled.
+
+What's new in at-spi2-core 0.3.91:
+
+* Enabled the accessibility bus, so apps should be accessible, for instance,
+if an application becomes setuid root.
+
+* Several build fixes.
+
+* Default to --enable-relocate for now.
+
+What's new in at-spi2-core 0.3.90:
+
+* FDO#29427: Registering for mouse:abs now works.
+
+* Add methods/signals to allow an application to track the events that are
+being listened to to avoid unnecessarily emitting signals.
+
+What's new in at-spi2-core 0.3.4:
+
+* Added GetChildren to the spec.
+
+What's new in at-spi2-core 0.3.3:
+
+* Add return values to some functions that were missing them.
+
+* Make DeviceEventListener notifiers reentrant so that an application can
+query the desktop object while processing a device event.
+
+* Fix for FDO#28300: fails to link with pedantic linkers.
+
+* Fix crash if GetChildAtIndex is called with an invalid index.
+
+What's new in at-spi2-core 0.3.2:
+
+* Make sure that disconnecting applications send their root path in the
+remove applications signal. This was causing applications to not be
+removed from the desktop properly.
+
+What's new in at-spi2-core 0.3.1:
+
+* Set an application's Id when registering it.
+
+* Disabled relocation by default.

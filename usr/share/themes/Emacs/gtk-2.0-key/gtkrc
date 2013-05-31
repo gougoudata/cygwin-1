@@ -1,3 +1,28 @@
+# GTK - The GIMP Toolkit
+# Copyright (C) 2002 Owen Taylor
+#
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 2 of the License, or (at your option) any later version.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public
+# License along with this library; if not, write to the
+# Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+# Boston, MA 02111-1307, USA.
+
+
+# Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
+# file for a list of people on the GTK+ Team.  See the ChangeLog
+# files for a list of changes.  These files are distributed with
+# GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+
+
 #
 # A keybinding set implementing emacs-like keybindings
 #
@@ -70,7 +95,19 @@ binding "gtk-emacs-tree-view"
   bind "<ctrl>b" { "move-cursor" (logical-positions, -1) }
 }
 
+#
+# Bindings for menus
+#
+binding "gtk-emacs-menu"
+{
+  bind "<ctrl>n" { "move-current" (next) }
+  bind "<ctrl>p" { "move-current" (prev) }
+  bind "<ctrl>f" { "move-current" (child) }
+  bind "<ctrl>b" { "move-current" (parent) }
+}
+
 class "GtkEntry" binding "gtk-emacs-text-entry"
 class "GtkTextView" binding "gtk-emacs-text-entry"
 class "GtkTextView" binding "gtk-emacs-text-view"
 class "GtkTreeView" binding "gtk-emacs-tree-view"
+class "GtkMenuShell" binding "gtk-emacs-menu"

@@ -22,19 +22,21 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 /* The GtkHandleBox is to allow widgets to be dragged in and out of
  * their parents.
  */
 
-
 #ifndef __GTK_HANDLE_BOX_H__
 #define __GTK_HANDLE_BOX_H__
 
 
-#include <gdk/gdk.h>
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
 #include <gtk/gtkbin.h>
 
 
@@ -55,23 +57,24 @@ struct _GtkHandleBox
 {
   GtkBin bin;
 
-  GdkWindow      *bin_window;	/* parent window for children */
-  GdkWindow      *float_window;
-  GtkShadowType   shadow_type;
-  guint		  handle_position : 2;
-  guint		  float_window_mapped : 1;
-  guint		  child_detached : 1;
-  guint		  in_drag : 1;
-  guint		  shrink_on_detach : 1;
+  GdkWindow      *GSEAL (bin_window);	/* parent window for children */
+  GdkWindow      *GSEAL (float_window);
+  GtkShadowType   GSEAL (shadow_type);
+  guint           GSEAL (handle_position) : 2;
+  guint           GSEAL (float_window_mapped) : 1;
+  guint           GSEAL (child_detached) : 1;
+  guint           GSEAL (in_drag) : 1;
+  guint           GSEAL (shrink_on_detach) : 1;
 
-  signed int      snap_edge : 3; /* -1 == unset */
-  
+  signed int      GSEAL (snap_edge : 3); /* -1 == unset */
+
   /* Variables used during a drag
    */
-  gint deskoff_x, deskoff_y; /* Offset between root relative coordinates
-			      * and deskrelative coordinates */
-  GtkAllocation   attach_allocation;
-  GtkAllocation   float_allocation;
+  gint            GSEAL (deskoff_x); /* Offset between root relative coords */
+  gint            GSEAL (deskoff_y); /* and deskrelative coords             */
+
+  GtkAllocation   GSEAL (attach_allocation);
+  GtkAllocation   GSEAL (float_allocation);
 };
 
 struct _GtkHandleBoxClass
@@ -102,6 +105,7 @@ GtkPositionType gtk_handle_box_get_handle_position(GtkHandleBox    *handle_box);
 void          gtk_handle_box_set_snap_edge        (GtkHandleBox    *handle_box,
 						   GtkPositionType  edge);
 GtkPositionType gtk_handle_box_get_snap_edge      (GtkHandleBox    *handle_box);
+gboolean      gtk_handle_box_get_child_detached   (GtkHandleBox    *handle_box);
 
 G_END_DECLS
 

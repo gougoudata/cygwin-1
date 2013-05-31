@@ -8,10 +8,10 @@
  *	  Structs that need to be client-visible are in pqcomm.h.
  *
  *
- * Portions Copyright (c) 1996-2006, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2012, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
- * $PostgreSQL: pgsql/src/include/libpq/libpq-be.h,v 1.57 2006/10/04 00:30:08 momjian Exp $
+ * src/include/libpq/libpq-be.h
  *
  *-------------------------------------------------------------------------
  */
@@ -29,15 +29,68 @@
 #include <netinet/tcp.h>
 #endif
 
+#ifdef ENABLE_GSS
+#if defined(HAVE_GSSAPI_H)
+#include <gssapi.h>
+#else
+#include <gssapi/gssapi.h>
+#endif   /* HAVE_GSSAPI_H */
+/*
+ * GSSAPI brings in headers that set a lot of things in the global namespace on win32,
+ * that doesn't match the msvc build. It gives a bunch of compiler warnings that we ignore,
+ * but also defines a symbol that simply does not exist. Undefine it again.
+ */
+#ifdef WIN32_ONLY_COMPILER
+#undef HAVE_GETADDRINFO
+#endif
+#endif   /* ENABLE_GSS */
+
+#ifdef ENABLE_SSPI
+#define SECURITY_WIN32
+#if defined(WIN32) && !defined(WIN32_ONLY_COMPILER)
+#include <ntsecapi.h>
+#endif
+#include <security.h>
+#undef SECURITY_WIN32
+
+#ifndef ENABLE_GSS
+/*
+ * Define a fake structure compatible with GSSAPI on Unix.
+ */
+typedef struct
+{
+	void	   *value;
+	int			length;
+} gss_buffer_desc;
+#endif
+#endif   /* ENABLE_SSPI */
+
+#include "datatype/timestamp.h"
 #include "libpq/hba.h"
 #include "libpq/pqcomm.h"
-#include "utils/timestamp.h"
 
 
 typedef enum CAC_state
 {
-	CAC_OK, CAC_STARTUP, CAC_SHUTDOWN, CAC_RECOVERY, CAC_TOOMANY
+	CAC_OK, CAC_STARTUP, CAC_SHUTDOWN, CAC_RECOVERY, CAC_TOOMANY,
+	CAC_WAITBACKUP
 } CAC_state;
+
+
+/*
+ * GSSAPI specific state information
+ */
+#if defined(ENABLE_GSS) | defined(ENABLE_SSPI)
+typedef struct
+{
+	gss_buffer_desc outbuf;		/* GSSAPI output token buffer */
+#ifdef ENABLE_GSS
+	gss_cred_id_t cred;			/* GSSAPI connection cred's */
+	gss_ctx_id_t ctx;			/* GSSAPI connection context */
+	gss_name_t	name;			/* GSSAPI client name */
+#endif
+} pg_gssinfo;
+#endif
 
 /*
  * This is used by the postmaster in its communication with frontends.	It
@@ -50,11 +103,20 @@ typedef enum CAC_state
 
 typedef struct Port
 {
-	int			sock;			/* File descriptor */
+	pgsocket	sock;			/* File descriptor */
+	bool		noblock;		/* is the socket in non-blocking mode? */
 	ProtocolVersion proto;		/* FE/BE protocol version */
 	SockAddr	laddr;			/* local addr (postmaster) */
 	SockAddr	raddr;			/* remote addr (client) */
 	char	   *remote_host;	/* name (or ip addr) of remote host */
+	char	   *remote_hostname;/* name (not ip addr) of remote host, if
+								 * available */
+	int			remote_hostname_resolv; /* +1 = remote_hostname is known to
+										 * resolve to client's IP address; -1
+										 * = remote_hostname is known NOT to
+										 * resolve to client's IP address; 0 =
+										 * we have not done the forward DNS
+										 * lookup yet */
 	char	   *remote_port;	/* text rep of remote port */
 	CAC_state	canAcceptConnections;	/* postmaster connection status */
 
@@ -71,10 +133,8 @@ typedef struct Port
 	/*
 	 * Information that needs to be held during the authentication cycle.
 	 */
-	UserAuth	auth_method;
-	char	   *auth_arg;
+	HbaLine    *hba;
 	char		md5Salt[4];		/* Password salt */
-	char		cryptSalt[2];	/* Password salt */
 
 	/*
 	 * Information that really has no business at all being in struct Port,
@@ -82,7 +142,6 @@ typedef struct Port
 	 * other members of this struct, we may as well keep it here.
 	 */
 	TimestampTz SessionStartTime;		/* backend start time */
-	time_t		session_start;	/* same, in time_t format */
 
 	/*
 	 * TCP keepalive settings.
@@ -98,6 +157,17 @@ typedef struct Port
 	int			keepalives_interval;
 	int			keepalives_count;
 
+#if defined(ENABLE_GSS) || defined(ENABLE_SSPI)
+
+	/*
+	 * If GSSAPI is supported, store GSSAPI information. Otherwise, store a
+	 * NULL pointer to make sure offsets in the struct remain the same.
+	 */
+	pg_gssinfo *gss;
+#else
+	void	   *gss;
+#endif
+
 	/*
 	 * SSL structures (keep these last so that USE_SSL doesn't affect
 	 * locations of other fields)
@@ -105,8 +175,7 @@ typedef struct Port
 #ifdef USE_SSL
 	SSL		   *ssl;
 	X509	   *peer;
-	char		peer_dn[128 + 1];
-	char		peer_cn[SM_USER + 1];
+	char	   *peer_cn;
 	unsigned long count;
 #endif
 } Port;

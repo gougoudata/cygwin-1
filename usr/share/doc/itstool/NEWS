@@ -1,0 +1,50 @@
+1.2.0
+=====
+* Added new "join mode" for multilingual XML formats
+* Correctly handle ITS version attribute
+* Better handling of multiple localization notes
+* XML path markers are now in dedicated comments
+* Show language code when failing to get translation from PO
+* Added more regression tests
+
+1.1.3
+=====
+* Handle UTF-8 in attribute values
+* Don't output non-translatable external ref messages
+* Better error handling
+
+1.1.2
+=====
+* Better handling of XML errors in PO files
+
+1.1.1
+=====
+* Catch XML parsing errors and exit with error code
+* Fixed placeholder translation when it contains sub-elements
+* Improved autogen.sh for out of tree compilations
+* Commits by Claude Paroz, Javier Jardón
+
+1.1.0
+=====
+* Added itst:context to set msgctxt
+* Added itst:drop to drop context from translations
+* Allow XML attribute to be translated
+* Allow locNotePointer to return a string
+* Allow localization notes to be space-preserving
+* Allow both XLink and child rules on its:rules
+* Fixed Unicode encoding/decoding errors
+* Added automated test suite
+* Added a man page
+* Python 3 fixes
+* Commits by Shaun McCance, Claude Paroz
+
+1.0.1
+=====
+* Convert POSIX-style locales to BCP47
+* Use #. instead of plain # for comments
+* Added PO header to output
+* Added --version
+
+1.0.0
+=====
+* Initial release

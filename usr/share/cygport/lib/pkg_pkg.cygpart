@@ -1,0 +1,707 @@
+################################################################################
+#
+# pkg_pkg.cygpart - cygport packaging functions
+#
+# Copyright (C) 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 Yaakov Selkowitz
+# Provided by the Cygwin Ports project <http://sourceware.org/cygwinports/>
+#
+# cygport is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# cygport is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with cygport.  If not, see <http://www.gnu.org/licenses/>.
+#
+################################################################################
+
+__pkg_binpkg() {
+	local -i n=0;
+	local pkg_contents;
+	local pkg_contents_var;
+	local pkg_docs_var;
+	local pkg_list;
+	local f;
+
+#****v* Packaging/PKG_NAMES
+#  SYNOPSIS
+#  PKG_NAMES="foo libfoo1 libfoo-devel"
+#  DESCRIPTION
+#  A list of binary packages to create from the files installed into D.
+#  The exact contents of these packages are specified in PKG_CONTENTS
+#  variables or .list files.
+#  NOTES
+#  * PN does not need to be listed in PKG_NAMES if there are no files to
+#    go into a corresponding binary package.  This is common with packages
+#    providing only libraries.
+#  * Any packages listed in PKG_NAMES which do not have a corresponding
+#    PKG_CONTENTS variable or .list file will be created as an empty package.
+#    This can be useful to provide upgrade helpers for renamed packages.
+#****
+
+#****v* Packaging/PKG_HINTS
+#  SYNOPSIS
+#  PKG_NAMES="foo libfoo1 libfoo-devel"
+#  PKG_HINTS="setup runtime devel"
+#  DESCRIPTION
+#  A list of unsuffixed .hint files which should be used for each given
+#  binary package in PKG_NAMES.
+#  NOTES
+#  * If PN is not included in PKG_NAMES, a file named $PN.hint or setup.hint
+#    is still required for the source package, but should not be listed in
+#    PKG_HINTS.
+#  * If the .hint filenames (minus the .hint suffix) match PKG_NAMES, PKG_HINTS
+#    need not be defined.
+#****
+
+#****v* Packaging/PKG_CONTENTS
+#  SYNOPSIS
+#  PKG_NAMES="foo libfoo1 libfoo-devel"
+#  foo_CONTENTS="usr/bin/foo.exe usr/share/doc/ usr/share/locale/"
+#  libfoo1_CONTENTS="usr/bin/cygfoo-1.dll"
+#  libfoo_devel_CONTENTS="usr/include/ usr/lib/ usr/share/aclocal/"
+#  DESCRIPTION
+#  A list of files to be included in each binary package.  The PKG_CONTENTS
+#  name is descriptive rather than literal, where "PKG" should be
+#  substituted with the name of the binary package whose contents it
+#  describes.  When a package contains a character which cannot be used
+#  in a shell variable name (namely '+', '-', and '.'), that character
+#  must be substituted with an underscore ('_'), such as libfoo-devel above.
+#  NOTES
+#  * Be sure to omit the leading forward slash from file contents.
+#  * Early versions of cygport only supported a literal PKG_CONTENTS, in
+#    form of an array.  This form should be considered deprecated in favour
+#    of explicitly-named variables as described above.
+#  * If the contents of a package are too many or complicated to easily
+#    describe in this form, a PN.list file can be used instead and placed
+#    in C before the packaging stage.
+#****
+
+	pkg_list=(${PKG_LISTS:-${PKG_NAMES}});
+
+	cd ${D};
+
+	__step "Creating binary package(s)";
+
+	if defined PKG_CONTENTS[*]
+	then
+		while (( n < pkg_count ))
+		do
+			if [ -f ${C}/${pkg_list[${n}]}.list ]
+			then
+				PKG_CONTENTS[${n}]=
+			fi
+			n+=1
+		done
+
+		if (( ${#PKG_CONTENTS[*]} != ${pkg_count} ))
+		then
+			error "PKG_CONTENTS[n] must be defined from 0 through $((pkg_count - 1))"
+		fi
+	fi
+
+	# just in case PKG_NAMES has changed
+	rm -f ${T}/.*.lst
+
+	set -o pipefail
+
+	n=0
+	while (( n < pkg_count ))
+	do
+		__step "${pkg_name[${n}]}-${PVR}.tar.bz2";
+
+		pkg_contents_var=${pkg_name[${n}]//[-+\.]/_}_CONTENTS;
+		pkg_docs_var=${pkg_name[${n}]//[-+\.]/_}_DOCS;
+
+		if defined ${pkg_contents_var}
+		then
+			pkg_contents=${!pkg_contents_var}
+		elif defined PKG_CONTENTS[${n}]
+		then
+			pkg_contents=${PKG_CONTENTS[${n}]}
+		elif [ -f ${C}/${pkg_list[${n}]}.list ]
+		then
+			pkg_contents=$(cat ${C}/${pkg_list[${n}]}.list)
+		elif (( pkg_count == 1 ))
+		then
+			pkg_contents="*"
+		else
+			pkg_contents=
+		fi
+
+		for f in ${!pkg_docs_var}
+		do
+			pkg_contents+=" usr/share/doc/${pkg_name[${n}]}/${f##*/}"
+		done
+
+		if defined pkg_contents
+		then
+			tar jcvf ${top}/${pkg_name[${n}]}-${PVR}.tar.bz2 --exclude=usr/lib/debug --exclude=usr/src ${pkg_contents} \
+				| tee ${T}/.${pkg_name[${n}]}.lst \
+				|| error "Binary package creation failed: ${pkg_name[${n}]}"
+		else
+			inform "Creating empty package"
+			bzip2 < /dev/null > ${top}/${pkg_name[${n}]}-${PVR}.tar.bz2 \
+				|| error "Empty package creation failed"
+			> ${T}/.${pkg_name[${n}]}.lst
+		fi
+		echo;
+		n+=1;
+	done
+
+	if ! defined _CYGPORT_RESTRICT_debuginfo_ && [ -d ${D}/usr/src/debug ]
+	then
+		__step "${PN}-debuginfo-${PVR}.tar.bz2";
+		tar jcvf ${top}/${PN}-debuginfo-${PVR}.tar.bz2 usr/*/debug/ \
+				| tee ${T}/.${PN}-debuginfo.lst \
+				|| error "Debuginfo package creation failed: ${PN}-debuginfo"
+		echo;
+	else
+		inform "No debug files, skipping debuginfo subpackage"
+		echo;
+	fi
+
+	set +o pipefail
+}
+
+__pkg_pkgcheck() {
+	local -i n=0;
+	local tmp1="${T}/tmptar.log";
+	local tmp2="${T}/tmpfind.log";
+
+	cd ${D};
+	__step "Checking packages for missing or duplicate files";
+
+	rm -f ${tmp1} ${tmp2};
+
+	while defined pkg_name[${n}]
+	do
+		grep -Ev "/$" ${T}/.${pkg_name[${n}]}.lst >> ${tmp1}
+		n+=1
+	done
+
+	if ! defined _CYGPORT_RESTRICT_debuginfo_ && [ -f ${top}/${PN}-debuginfo-${PVR}.tar.bz2 ]
+	then
+		grep -Ev "/$" ${T}/.${PN}-debuginfo.lst >> ${tmp1}
+	fi
+
+#****v* Packaging/PKG_IGNORE
+#  DESCRIPTION
+#  A list of files that should not be included in any package, in the same
+#  form as PKG_CONTENTS.  This will silence warnings on these files not
+#  being included in any package, and error if they are included in a package.
+#****
+
+	if defined PKG_IGNORE
+	then
+		find ${PKG_IGNORE} -path 'usr/*/debug' -prune -o ! -type d -print >> ${tmp1}
+	fi
+
+	sort < ${tmp1} > "${tmp1}.sorted";
+	mv -f "${tmp1}.sorted" ${tmp1};
+
+	find * -type f -o -type l | sort > ${tmp2}
+
+	if ! diff -U 0 ${tmp2} ${tmp1} > /dev/null
+	then
+		# detect duplicates and/or missing files
+		diff -U 0 ${tmp2} ${tmp1} | grep -E -v '^(@|\+etc/postinstall/)' > ${T}/pkgcheck.diff
+
+		if grep -E '^-[^\-]' ${T}/pkgcheck.diff > /dev/null
+		then
+			warning "Packages are missing files:";
+			grep -E '^-[^\-]' ${T}/pkgcheck.diff;
+	    fi
+
+		if grep -E '^\+[^\+]' ${T}/pkgcheck.diff > /dev/null
+		then
+			warning "Packages contain duplicate files:";
+			grep -E '^\+[^\+]' ${T}/pkgcheck.diff;
+			error "Packages contain duplicate files:";
+	    fi
+	fi
+
+	rm -f ${tmp1} ${tmp2};
+}
+
+__pkg_diff() {
+	local default_excludes;
+	local diff_excludes_x;
+	local difflevel;
+	local exclude;
+
+	default_excludes="CYGWIN-PATCHES aclocal.m4~ aclocal.m4t autom4te.cache
+		config.cache config.log config.status
+		*SlackBuild* *.egg-info *.dll *.exe *.o *.gch
+		 *.jpg *.png *.qm *.svgz *.tif *.class *.jlc *.pyc *.pyo
+		 *.mo *.gmo *.orig *.rej *.spec *.temp *~ *.stackdump";
+
+	if __config_equals with_aclocal 1
+	then
+		default_excludes+=" aclocal.m4";
+	fi
+
+	if __config_equals with_autoconf 1
+	then
+		default_excludes+=" configure"
+	fi
+
+	if __config_equals with_autoheader 1
+	then
+		# FIXME: get real header names from AC_CONFIG_HEADER
+		default_excludes+=" config.h *.h.in"
+	fi
+
+	if __config_equals with_automake 1
+	then
+		default_excludes+=" COPYING INSTALL ansi2knr.c ar-lib config-ml.in elisp-comp
+			mdate-sh mkinstalldirs py-compile symlink-tree test-driver
+			texinfo.tex ylwrap Makefile.in GNUmakefile.in makefile.in"
+	fi
+
+	if __config_equals with_libtool 1
+	then
+		default_excludes+=" libtool.m4 ltoptions.m4 ltsugar.m4 ltversion.m4
+			lt~obsolete.m4 ltmain.sh"
+	fi
+
+	if __config_equals with_libtool 1 || __config_equals with_automake 1
+	then
+		default_excludes+=" compile config.guess config.sub depcomp install-sh missing"
+	fi
+
+	if __config_equals with_gnu_gettext 1 && [ ${PN} != "gettext" ]
+	then
+		# gettext since 0.18 uses a git archive instead of the previous
+		# CVS, so the file list cannot be simply derived from the tarball
+		default_excludes+=" ABOUT-NLS config.rpath intl codeset.m4
+			fcntl-o.m4 gettext.m4 glibc2.m4 glibc21.m4 iconv.m4
+			intdiv0.m4 intl.m4 intldir.m4 intlmacosx.m4 intmax.m4
+			inttypes-pri.m4 inttypes_h.m4 lcmessage.m4 lib-ld.m4
+			lib-link.m4 lib-prefix.m4 lock.m4 longlong.m4 nls.m4
+			po.m4 printf-posix.m4 progtest.m4 size_max.m4 stdint_h.m4
+			threadlib.m4 uintmax_t.m4 visibility.m4 wchar_t.m4
+			wint_t.m4 xsize.m4 boldquot.sed en@boldquot.header
+			en@quot.header insert-header.sin Makefile.in.in
+			Makevars.template quot.sed remove-potcdate.sin Rules-quot"
+		# gettext-0.15
+		default_excludes+=" inttypes-h.m4 longdouble.m4 signed.m4 ulonglong.m4"
+	fi
+
+	if __config_equals with_glib_gettext 1
+	then
+		default_excludes+=" config.rpath Makefile.in.in"
+	fi
+
+	# gtk-doc
+	if [ -f ${S}/gtk-doc.make -o -f ${S}/common/gtk-doc.mak ]
+	then
+		default_excludes+=" *.stamp *.html *.bak *.sgml \
+			*.tmpl *.txt *.xml *.args *.devhelp* *.css \
+			*.hierarchy *.interfaces *.prerequisites *.signals \
+			*.png *.top *.bottom gtk-doc.mak* gtk-doc.m4";
+	fi
+
+	# GNOME miscellaneous
+	if [ "${PN}" != "gnome-common" ]
+	then
+		default_excludes+=" omf.make xmldocs.make";
+	fi
+
+	if [ "${PN}" != "gnome-doc-utils" ]
+	then
+		default_excludes+=" gnome-doc-utils.make gnome-doc-utils.m4";
+	fi
+
+	if [ "${PN}" != "mate-doc-utils" ]
+	then
+		default_excludes+=" mate-doc-utils.make mate-doc-utils.m4";
+	fi
+
+	if __config_equals with_intltool 1
+	then
+		default_excludes+=" intltool.m4 intltool-extract intltool-extract.in \
+			intltool-merge intltool-merge.in intltool-update intltool-update.in
+			Makefile.in.in";
+	fi
+
+	# KDE3
+	if [ -f ${S}/admin/libtool.m4.in ]
+	then
+		default_excludes+=" libtool.m4.in* configure.bak \
+			configure.files acinclude.m4 subdirs";
+
+		if [ -f ${S}/configure.in.in ]
+		then
+			default_excludes+=" configure.in";
+		fi
+	fi
+
+	if inherited sugar
+	then
+		default_excludes+=" *.linfo";
+	fi
+
+	# cd now so that wildcards aren't mistakenly expanded to match files in
+	# user's directory
+	cd ${workdir};
+
+	for exclude in ${default_excludes}
+	do
+		diff_excludes_x+=" -x ${exclude}";
+	done
+
+#****v* Packaging/DIFF_EXCLUDES
+#  DESCRIPTION
+#  A list of file names, directory names, or glob patterns in S which will
+#  be excluded when creating the .src.patch file.  This should be used for
+#  files automatically generated in S to avoid polluting the patch.
+#  NOTE
+#  Files generated by various buildsystem infrastructures, such as autoconf,
+#  automake, gettext, and libtool are already excluded automatically and
+#  need not be listed here.
+#****
+
+	case ${DIFF_EXCLUDES} in
+		-x*)
+			diff_excludes_x+=" ${DIFF_EXCLUDES}";
+			;;
+		*)
+			for exclude in ${DIFF_EXCLUDES//,/ }
+			do
+				diff_excludes_x+=" -x ${exclude}";
+			done
+			;;
+	esac
+
+	# diff exits >0 when targets differ, hence catch exception with true
+	if [ "${SRC_DIR}" = "." ]
+	then
+		diff -urN -x '*~' \
+			${origsrcdir##*/}/CYGWIN-PATCHES ${srcdir##*/}/CYGWIN-PATCHES \
+			> ${patchdir}/${cygwin_patchfile} || true;
+		difflevel=1;
+	else
+		diff -urN -x '*~' \
+			${origsrcdir##*/}/${SRC_DIR}/CYGWIN-PATCHES ${srcdir##*/}/${SRC_DIR}/CYGWIN-PATCHES \
+			> ${patchdir}/${cygwin_patchfile} || true;
+		difflevel=2;
+	fi
+
+	if defined _CYGPORT_RESTRICT_diff_
+	then
+		rm -f ${patchdir}/${src_patchfile};
+		touch ${patchdir}/${src_patchfile};
+	else
+		diff -uprN ${diff_excludes_x} \
+			${origsrcdir##*/} ${srcdir##*/} \
+			> ${patchdir}/${src_patchfile} || true;
+	fi
+
+	sed -e '/^diff -u/d' -i ${patchdir}/${cygwin_patchfile} ${patchdir}/${src_patchfile};
+
+	diffstat -p${difflevel} ${patchdir}/${cygwin_patchfile} ${patchdir}/${src_patchfile};
+}
+
+__gpg_sign() {
+	echo "${2} signature needs to be updated";
+	rm -f ${1}.sig;
+	# we 'check_prog gpg' in __pkg_srcpkg()
+	gpg --detach-sign ${1};
+}
+
+__pkg_srcpkg() {
+	local src;
+
+	rm -fr ${spkgdir}/*;
+
+	echo;
+	__step "Creating source patches";
+
+	__pkg_diff;
+
+	if [ -s ${patchdir}/${cygwin_patchfile} ]
+	then
+		cp ${patchdir}/${cygwin_patchfile} ${spkgdir};
+	fi
+
+	if [ -s ${patchdir}/${src_patchfile} ]
+	then
+		cp ${patchdir}/${src_patchfile} ${spkgdir};
+	fi
+
+	__step "Creating source package";
+
+	cp ${top}/${cygportfile} ${spkgdir};
+
+	for src in ${_src_orig_pkgs} ${_src_orig_patches}
+	do
+		cp ${top}/${src} ${spkgdir};
+	done
+
+	cd ${spkgdir};
+
+	if __arg_bool SIG
+	then
+		if check_prog gpg
+		then
+			__gpg_sign ${spkgdir}/${cygportfile} "CYGPORT SCRIPT";
+			__gpg_sign ${spkgdir}/${cygwin_patchfile} "CYGWIN PATCH";
+
+			if [ -f ${spkgdir}/${src_patchfile} ]
+			then
+				__gpg_sign ${spkgdir}/${src_patchfile} "SOURCE PATCH";
+			fi
+		else
+			inform "gnupg must be installed in order to make signatures.";
+		fi
+	fi
+
+	tar jcvf ${top}/${PF}-src.tar.bz2 * || error "Source package creation failed"
+	echo;
+}
+
+__pkg_dist() {
+	local -i n;
+	local -a pkg_hint;
+	local distsubdir;
+	local pkg_category_var pkg_requires_var pkg_summary_var;
+	local pkg_description_var pkg_message_var;
+
+	rm -fr ${distdir}/*;
+
+	cd ${top};
+
+	mkdir -p ${distdir}/${PN};
+
+	cp ${top}/${PF}-src.tar.bz2 ${distdir}/${PN};
+
+	if (( pkg_count == 1 )) && [ ${pkg_name[0]} = ${PN} ]
+	then
+		pkg_hint=(${PKG_HINTS:-setup})
+	else
+		pkg_hint=(${PKG_HINTS:-${PKG_NAMES}})
+	fi
+
+	if (( pkg_count != ${#pkg_hint[*]} ))
+	then
+		error "Different number of packages defined in PKG_NAMES and PKG_HINTS";
+	fi
+
+#****v* Packaging/CATEGORY
+#  DESCRIPTION
+#  A string containing one or more setup package categories.  This will be
+#  used as the category: field of auto-generated setup.hint files.
+#  NOTE
+#  A list of official categories is available on the
+#  |html <a href="http://cygwin.com/setup.html#setup.hint">Cygwin website</a>.
+#  SEE ALSO
+#  PKG_CATEGORY
+#****
+#****v* Packaging/PKG_CATEGORY
+#  DESCRIPTION
+#  A string containing one or more setup package categories.  This will be
+#  used as the category: field of the corresponding auto-generated setup.hint
+#  file.
+#
+#  Note that the PKG_CATEGORY name is descriptive rather than literal,
+#  where "PKG" should be substituted with the name of the binary package
+#  whose contents it describes.  When a package contains a character which
+#  cannot be used in a shell variable name (namely '+', '-', and '.'),
+#  that character must be substituted with an underscore ('_'), e.g.
+#  libfoo-devel will use libfoo_devel_CATEGORY.
+#  NOTE
+#  A list of official categories is available on the
+#  |html <a href="http://cygwin.com/setup.html#setup.hint">Cygwin website</a>.
+#****
+#****v* Packaging/SUMMARY
+#  DESCRIPTION
+#  A one-line summary of the package.  This will be used as the sdesc: field
+#  of auto-generated setup.hint files.
+#  SEE ALSO
+#  PKG_SUMMARY
+#****
+#****v* Packaging/PKG_SUMMARY
+#  DESCRIPTION
+#  A one-line summary of the subpackage.  This will be used as the sdesc:
+#  field of the corresponding auto-generated setup.hint file.
+#
+#  Note that the PKG_SUMMARY name is descriptive rather than literal,
+#  where "PKG" should be substituted with the name of the binary package
+#  whose contents it describes.  When a package contains a character which
+#  cannot be used in a shell variable name (namely '+', '-', and '.'),
+#  that character must be substituted with an underscore ('_'), e.g.
+#  libfoo-devel will use libfoo_devel_SUMMARY.
+#****
+#****v* Packaging/DESCRIPTION
+#  DESCRIPTION
+#  A short paragraph description of the package.  This will be used as the
+#  ldesc: field of auto-generated setup.hint files.
+#  SEE ALSO
+#  PKG_DESCRIPTION
+#****
+#****v* Packaging/PKG_DESCRIPTION
+#  DESCRIPTION
+#  A short paragraph description of the subpackage.  This will be used as the
+#  ldesc: field of the corresponding auto-generated setup.hint file.
+#
+#  Note that the PKG_DESCRIPTION name is descriptive rather than literal,
+#  where "PKG" should be substituted with the name of the binary package
+#  whose contents it describes.  When a package contains a character which
+#  cannot be used in a shell variable name (namely '+', '-', and '.'),
+#  that character must be substituted with an underscore ('_'), e.g.
+#  libfoo-devel will use libfoo_devel_DESCRIPTION.
+#****
+#****v* Packaging/REQUIRES
+#  DESCRIPTION
+#  A single-line strings containing a list of packages on which this
+#  package depends. This will be added to the requires: field of the
+#  auto-generated setup.hint file.
+#  NOTES
+#  * cygport attempts to automatically detect many types of package
+#    dependencies, which do not need to be listed in REQUIRES.  This is still
+#    needed for commands called by scripts or in code with fork(), libraries
+#    which are accessed by dlopen(), or data used by your package at runtime.
+#  * If there is more than one package in PKG_NAMES, this variable will be
+#    ignored; you must use PKG_REQUIRES instead.
+#  * Any newlines in this variable must be escaped.
+#  SEE ALSO
+#  PKG_REQUIRES
+#****
+#****v* Packaging/PKG_REQUIRES
+#  DESCRIPTION
+#  A single-line strings containing a list of packages on which this
+#  package depends. This will be added to the requires: field of the
+#  auto-generated setup.hint file.
+#
+#  Note that the PKG_REQUIRES name is descriptive rather than literal,
+#  where "PKG" should be substituted with the name of the binary package
+#  whose contents it describes.  When a package contains a character which
+#  cannot be used in a shell variable name (namely '+', '-', and '.'),
+#  that character must be substituted with an underscore ('_'), e.g.
+#  libfoo-devel will use libfoo_devel_REQUIRES.
+#  NOTES
+#  * cygport attempts to automatically detect many types of package
+#    dependencies, which do not need to be listed in REQUIRES.  This is still
+#    needed for commands called by scripts or in code with fork(), libraries
+#    which are accessed by dlopen(), or data used by your package at runtime.
+#  * Any newlines in this variable must be escaped.
+#****
+
+	n=0;
+	while defined pkg_name[${n}]
+	do
+		pkg_category_var=${pkg_name[${n}]//[-+\.]/_}_CATEGORY;
+		pkg_requires_var=${pkg_name[${n}]//[-+\.]/_}_REQUIRES;
+		pkg_summary_var=${pkg_name[${n}]//[-+\.]/_}_SUMMARY;
+		pkg_description_var=${pkg_name[${n}]//[-+\.]/_}_DESCRIPTION;
+		pkg_message_var=${pkg_name[${n}]//[-+\.]/_}_MESSAGE;
+
+		case ${pkg_name[${n}]} in
+			${PN})  distsubdir="" ;;
+			*)      distsubdir=${pkg_name[${n}]} ;;
+		esac
+
+		# allow REQUIRES only for single packages
+		if [ -z "${distsubdir}${!pkg_requires_var}" -a -n "${REQUIRES+yes}" ]
+		then
+			declare ${pkg_requires_var}="${REQUIRES}"
+		fi
+
+		mkdir -p ${distdir}/${PN}/${distsubdir};
+
+		cp ${top}/${pkg_name[${n}]}-${PVR}.tar.bz2 ${distdir}/${PN}/${distsubdir};
+
+		if [ -f ${C}/${pkg_hint[${n}]%.hint}.hint ]
+		then
+			cp ${C}/${pkg_hint[${n}]%.hint}.hint ${distdir}/${PN}/${distsubdir}/setup.hint;
+		elif [ "${CBUILD##*-}" = "cygwin" -o -n "${!pkg_requires_var+yes}" ] \
+		     && [ -n "${!pkg_category_var:-${CATEGORY}}" -a -n "${!pkg_summary_var:-${SUMMARY}}" ]
+		then
+			if [ "${CBUILD##*-}" = "cygwin" ]
+			then
+				pkg_bin_requires=$(__list_deps $(sort -fu ${T}/.${pkg_name[${n}]}.lst | sed -e '\|/$|d;s| |^_^|g') \
+						   | sort -fu | sed -e "/^cygwin-1/d;/^${pkg_name[${n}]}-[0-9].*$/d;s/-[0-9].*$//g" \
+						   | sed -e ':a;N;$!ba;s/\n/ /g')
+			fi
+
+			__step "${pkg_name[${n}]} requires: ${pkg_bin_requires} ${!pkg_requires_var}"
+
+			cat > ${distdir}/${PN}/${distsubdir}/setup.hint <<-_EOF
+category: ${!pkg_category_var:-${CATEGORY}}
+requires: ${pkg_bin_requires} ${!pkg_requires_var}
+sdesc: "${!pkg_summary_var:-${SUMMARY}}"
+ldesc: "${!pkg_description_var:-${DESCRIPTION:-${!pkg_summary_var:-${SUMMARY}}}}"
+${distsubdir:+external-source: ${PN}}
+_EOF
+			if defined ${pkg_message_var}
+			then
+				cat >> ${distdir}/${PN}/${distsubdir}/setup.hint <<-_EOF
+message: ${pkg_name[${n}]} "${!pkg_message_var}"
+_EOF
+			fi
+		else
+			warning "${pkg_hint[${n}]%.hint}.hint is missing";
+		fi
+
+		n+=1;
+	done
+
+	if ! defined _CYGPORT_RESTRICT_debuginfo_ && [ -f ${top}/${PN}-debuginfo-${PVR}.tar.bz2 ]
+	then
+		mkdir -p ${distdir}/${PN}/${PN}-debuginfo
+		cp ${top}/${PN}-debuginfo-${PVR}.tar.bz2 ${distdir}/${PN}/${PN}-debuginfo/
+
+		if [ -f ${C}/${PN}-debuginfo.hint ]
+		then
+			cp ${C}/${PN}-debuginfo.hint ${distdir}/${PN}/${PN}-debuginfo/setup.hint
+		elif [ -f ${C}/debuginfo.hint ]
+		then
+			cp ${C}/debuginfo.hint ${distdir}/${PN}/${PN}-debuginfo/setup.hint
+		else
+			cat > ${distdir}/${PN}/${PN}-debuginfo/setup.hint <<-_EOF
+category: Debug
+requires: cygwin-debuginfo
+external-source: ${PN}
+sdesc: "Debug info for ${PN}"
+ldesc: "This package contains files necessary for debugging the
+${PN} package with gdb."
+_EOF
+		fi
+	fi
+
+	# e.g. split library package w/o PN in PKG_NAMES
+	if [ ! -f ${distdir}/${PN}/setup.hint ]
+	then
+		pkg_category_var=${PN//[-+\.]/_}_CATEGORY;
+		pkg_summary_var=${PN//[-+\.]/_}_SUMMARY;
+		pkg_description_var=${PN//[-+\.]/_}_DESCRIPTION;
+
+		if [ -f ${C}/${PN}.hint ]
+		then
+			cp ${C}/${PN}.hint ${distdir}/${PN}/setup.hint
+		elif [ -f ${C}/setup.hint ]
+		then
+			cp ${C}/setup.hint ${distdir}/${PN}/setup.hint
+		elif [ -n "${!pkg_category_var:-${CATEGORY}}" \
+			-a -n "${!pkg_summary_var:-${SUMMARY}}${!pkg_description_var:-${DESCRIPTION}}" ]
+		then
+			cat > ${distdir}/${PN}/setup.hint <<-_EOF
+category: ${!pkg_category_var:-${CATEGORY}}
+requires:
+sdesc: "${!pkg_summary_var:-${SUMMARY}}"
+ldesc: "${!pkg_description_var:-${DESCRIPTION:-${!pkg_summary_var:-${SUMMARY}}}}"
+_EOF
+		else
+			warning "${PN}.hint is missing";
+		fi
+	fi
+}
+
+# protect functions
+readonly -f __pkg_binpkg __pkg_diff __gpg_sign __pkg_srcpkg __pkg_dist

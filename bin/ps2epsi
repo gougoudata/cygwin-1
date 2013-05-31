@@ -1,14 +1,13 @@
 #!/bin/sh
-# $Id: ps2epsi 8491 2008-01-18 06:17:02Z alexcher $
 
 # This definition is changed on install to match the
 # executable name set in the makefile
 GS_EXECUTABLE=gs
-gs="`dirname $0`/$GS_EXECUTABLE"
+gs="`dirname \"$0\"`/$GS_EXECUTABLE"
 if test ! -x "$gs"; then
 	gs="$GS_EXECUTABLE"
 fi
-GS_EXECUTABLE=gs
+GS_EXECUTABLE="$gs"
 
 # try to create a temporary file securely
 if test -z "$TMPDIR"; then
@@ -30,7 +29,7 @@ trap "rm -rf \"$tmpfile\"" 0 1 2 3 7 13 15
 export outfile
 
 if [ $# -lt 1 -o $# -gt 2 ]; then
-	echo "Usage: `basename $0` file.ps [file.epsi]" 1>&2
+	echo "Usage: `basename \"$0\"` file.ps [file.epsi]" 1>&2
 	exit 1
 fi
 
@@ -49,6 +48,8 @@ then
 else
 	outfile=$2
 fi
+
+"$GS_EXECUTABLE" -q -dBATCH -dNOPAUSE -P- -dSAFER -dDELAYSAFER -sDEVICE=bbox -sOutputFile=/dev/null "${infile}" 2>${outfile}
 
 ls -l "${infile}" |
 awk 'F==1	{
@@ -70,12 +71,27 @@ awk 'F==1	{
 		print "/epsicreator (" c "\\n) def";
 		print "/epsicrdt (" cd "\\n) def";
 		print "/epsifor (" f "\\n) def";
-		print "end";
 		exit(0);
 		}
 	' U="$USERNAME$LOGNAME"  F=1 - F=2 "${infile}" >"$tmpfile"
 
-"$GS_EXECUTABLE" -q -dNOPAUSE -dSAFER -dDELAYSAFER -r72 -sDEVICE=bit -sOutputFile=/dev/null "$tmpfile" ps2epsi.ps "$tmpfile" <"${infile}" 1>&2
+ls -l "${outfile}" |
+awk 'F==1	{
+		b="%%BoundingBox: 0 0 0 0\\n";
+		}
+		/^%%BoundingBox:/	{b=$0; next;}
+		/^%%HiResBoundingBox:/	{ 
+		hb=$0;
+		print "ps2edict where {pop} {/ps2edict 30 dict def} ifelse";
+		print "ps2edict begin";
+		print "/BBoxString (" b "\\n) def";
+		print "/HiresBBoxString (" hb "\\n) def";
+		print "end";
+		exit(0);
+		}
+	' F=1 - F=2 "${outfile}" >>"$tmpfile"
+
+"$GS_EXECUTABLE" -q -dNOPAUSE -P- -dSAFER -dDELAYSAFER -r72 -sDEVICE=bit -sOutputFile=/dev/null "$tmpfile" ps2epsi.ps "$tmpfile" <"${infile}" 1>&2
 rm -f "$tmpfile"
 rm -rf "$tmpdir"
 

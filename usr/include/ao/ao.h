@@ -1,7 +1,7 @@
 /*
  *
  *  ao.h 
- *    
+ *
  *	Original Copyright (C) Aaron Holtzman - May 1999
  *      Modifications Copyright (C) Stan Seibert - July 2000, July 2001
  *      More Modifications Copyright (C) Jack Moffitt - October 2000
@@ -21,7 +21,7 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
- *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.	
+ *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
  *
  */
 #ifndef __AO_H__
@@ -32,7 +32,7 @@ extern "C"
 {
 #endif /* __cplusplus */
 
-#include <stdio.h>	
+#include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
 #include "os_types.h"
@@ -50,6 +50,7 @@ extern "C"
 #define AO_EOPENDEVICE 5
 #define AO_EOPENFILE   6
 #define AO_EFILEEXISTS 7
+#define AO_EBADFORMAT  8
 
 #define AO_EFAIL       100
 
@@ -72,47 +73,26 @@ typedef struct ao_info {
 	int  option_count;
 } ao_info;
 
-typedef struct ao_functions ao_functions; /* Forward decl to make C happy */
-
-typedef struct ao_device {
-	int  type; /* live output or file output? */
-	int  driver_id;
-	ao_functions *funcs;
-	FILE *file; /* File for output if this is a file driver */
-	int  client_byte_format;
-	int  machine_byte_format;
-	int  driver_byte_format;
-	char *swap_buffer;
-	int  swap_buffer_size; /* Bytes allocated to swap_buffer */
-	void *internal; /* Pointer to driver-specific data */
-} ao_device;
+typedef struct ao_functions ao_functions;
+typedef struct ao_device ao_device;
 
 typedef struct ao_sample_format {
-	int bits; /* bits per sample */
-	int rate; /* samples per second (in a single channel) */
-	int channels; /* number of audio channels */
-	int byte_format; /* Byte ordering in sample, see constants below */
+	int  bits; /* bits per sample */
+	int  rate; /* samples per second (in a single channel) */
+	int  channels; /* number of audio channels */
+	int  byte_format; /* Byte ordering in sample, see constants below */
+        char *matrix; /* input channel location/ordering */
 } ao_sample_format;
-
-struct ao_functions {
-	int (*test)(void);
-	ao_info* (*driver_info)(void);
-	int (*device_init)(ao_device *device);
-	int (*set_option)(ao_device *device, const char *key, 
-			  const char *value);
-	int (*open)(ao_device *device, ao_sample_format *format);
-	int (*play)(ao_device *device, const char *output_samples,
-			   uint_32 num_bytes);
-	int (*close)(ao_device *device);
-	void (*device_clear)(ao_device *device);
-	char* (*file_extension)(void);
-};
 
 typedef struct ao_option {
 	char *key;
 	char *value;
 	struct ao_option *next;
-} ao_option;		
+} ao_option;
+
+#if defined(AO_BUILDING_LIBAO)
+#include "ao_private.h"
+#endif
 
 /* --- Functions --- */
 
@@ -121,26 +101,35 @@ void ao_initialize(void);
 void ao_shutdown(void);
 
 /* device setup/playback/teardown */
-int ao_append_option(ao_option **options, const char *key, 
-		     const char *value);
-void ao_free_options(ao_option *options);
-ao_device* ao_open_live(int driver_id, ao_sample_format *format,
-				ao_option *option);
-ao_device* ao_open_file(int driver_id, const char *filename, int overwrite,
-			ao_sample_format *format, ao_option *option);
+int   ao_append_global_option(const char *key,
+                              const char *value);
+int          ao_append_option(ao_option **options,
+                              const char *key,
+                              const char *value);
+void          ao_free_options(ao_option *options);
+ao_device*       ao_open_live(int driver_id,
+                              ao_sample_format *format,
+                              ao_option *option);
+ao_device*       ao_open_file(int driver_id,
+                              const char *filename,
+                              int overwrite,
+                              ao_sample_format *format,
+                              ao_option *option);
 
-int ao_play(ao_device *device, char *output_samples, uint_32 num_bytes);
-int ao_close(ao_device *device);
+int                   ao_play(ao_device *device,
+                              char *output_samples,
+                              uint_32 num_bytes);
+int                  ao_close(ao_device *device);
 
 /* driver information */
-int ao_driver_id(const char *short_name);
-int ao_default_driver_id(void);
-ao_info *ao_driver_info(int driver_id);
+int              ao_driver_id(const char *short_name);
+int      ao_default_driver_id(void);
+ao_info       *ao_driver_info(int driver_id);
 ao_info **ao_driver_info_list(int *driver_count);
-char *ao_file_extension(int driver_id);
+char       *ao_file_extension(int driver_id);
 
 /* miscellaneous */
-int ao_is_big_endian(void);
+int          ao_is_big_endian(void);
 
 
 #ifdef __cplusplus

@@ -23,9 +23,14 @@
 #ifndef __GTK_TOOL_ITEM_H__
 #define __GTK_TOOL_ITEM_H__
 
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
 #include <gtk/gtkbin.h>
 #include <gtk/gtktooltips.h>
 #include <gtk/gtkmenuitem.h>
+#include <gtk/gtksizegroup.h>
 
 G_BEGIN_DECLS
 
@@ -45,7 +50,7 @@ struct _GtkToolItem
   GtkBin parent;
 
   /*< private >*/
-  GtkToolItemPrivate *priv;
+  GtkToolItemPrivate *GSEAL (priv);
 };
 
 struct _GtkToolItemClass
@@ -55,10 +60,14 @@ struct _GtkToolItemClass
   /* signals */
   gboolean   (* create_menu_proxy)    (GtkToolItem *tool_item);
   void       (* toolbar_reconfigured) (GtkToolItem *tool_item);
+#ifndef GTK_DISABLE_DEPRECATED
   gboolean   (* set_tooltip)	      (GtkToolItem *tool_item,
 				       GtkTooltips *tooltips,
 				       const gchar *tip_text,
 				       const gchar *tip_private);
+#else
+  gpointer _set_tooltip;
+#endif
 
   /* Padding for future expansion */
   void (* _gtk_reserved1) (void);
@@ -78,31 +87,41 @@ void            gtk_tool_item_set_expand               (GtkToolItem *tool_item,
 							gboolean     expand);
 gboolean        gtk_tool_item_get_expand               (GtkToolItem *tool_item);
 
+#ifndef GTK_DISABLE_DEPRECATED
 void            gtk_tool_item_set_tooltip              (GtkToolItem *tool_item,
 							GtkTooltips *tooltips,
 							const gchar *tip_text,
 							const gchar *tip_private);
+#endif /* GTK_DISABLE_DEPRECATED */
+void            gtk_tool_item_set_tooltip_text         (GtkToolItem *tool_item,
+							const gchar *text);
+void            gtk_tool_item_set_tooltip_markup       (GtkToolItem *tool_item,
+							const gchar *markup);
 
-void            gtk_tool_item_set_use_drag_window      (GtkToolItem *toolitem,
+void            gtk_tool_item_set_use_drag_window      (GtkToolItem *tool_item,
 							gboolean     use_drag_window);
-gboolean        gtk_tool_item_get_use_drag_window      (GtkToolItem *toolitem);
+gboolean        gtk_tool_item_get_use_drag_window      (GtkToolItem *tool_item);
 
-void            gtk_tool_item_set_visible_horizontal   (GtkToolItem *toolitem,
+void            gtk_tool_item_set_visible_horizontal   (GtkToolItem *tool_item,
 							gboolean     visible_horizontal);
-gboolean        gtk_tool_item_get_visible_horizontal   (GtkToolItem *toolitem);
+gboolean        gtk_tool_item_get_visible_horizontal   (GtkToolItem *tool_item);
 
-void            gtk_tool_item_set_visible_vertical     (GtkToolItem *toolitem,
+void            gtk_tool_item_set_visible_vertical     (GtkToolItem *tool_item,
 							gboolean     visible_vertical);
-gboolean        gtk_tool_item_get_visible_vertical     (GtkToolItem *toolitem);
+gboolean        gtk_tool_item_get_visible_vertical     (GtkToolItem *tool_item);
 
 gboolean        gtk_tool_item_get_is_important         (GtkToolItem *tool_item);
 void            gtk_tool_item_set_is_important         (GtkToolItem *tool_item,
 							gboolean     is_important);
 
+PangoEllipsizeMode gtk_tool_item_get_ellipsize_mode    (GtkToolItem *tool_item);
 GtkIconSize     gtk_tool_item_get_icon_size            (GtkToolItem *tool_item);
 GtkOrientation  gtk_tool_item_get_orientation          (GtkToolItem *tool_item);
 GtkToolbarStyle gtk_tool_item_get_toolbar_style        (GtkToolItem *tool_item);
 GtkReliefStyle  gtk_tool_item_get_relief_style         (GtkToolItem *tool_item);
+gfloat          gtk_tool_item_get_text_alignment       (GtkToolItem *tool_item);
+GtkOrientation  gtk_tool_item_get_text_orientation     (GtkToolItem *tool_item);
+GtkSizeGroup *  gtk_tool_item_get_text_size_group      (GtkToolItem *tool_item);
 
 GtkWidget *     gtk_tool_item_retrieve_proxy_menu_item (GtkToolItem *tool_item);
 GtkWidget *     gtk_tool_item_get_proxy_menu_item      (GtkToolItem *tool_item,
@@ -112,8 +131,11 @@ void            gtk_tool_item_set_proxy_menu_item      (GtkToolItem *tool_item,
 							GtkWidget   *menu_item);
 void		gtk_tool_item_rebuild_menu	       (GtkToolItem *tool_item);
 
-/* internal function */
-void       _gtk_tool_item_toolbar_reconfigured (GtkToolItem *tool_item);
+void            gtk_tool_item_toolbar_reconfigured     (GtkToolItem *tool_item);
+
+/* private */
+
+gboolean       _gtk_tool_item_create_menu_proxy        (GtkToolItem *tool_item);
 
 G_END_DECLS
 

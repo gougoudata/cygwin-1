@@ -4,10 +4,10 @@
  *		Tablespace management commands (create/drop tablespace).
  *
  *
- * Portions Copyright (c) 1996-2006, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2012, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
- * $PostgreSQL: pgsql/src/include/commands/tablespace.h,v 1.13 2006/03/24 04:32:13 tgl Exp $
+ * src/include/commands/tablespace.h
  *
  *-------------------------------------------------------------------------
  */
@@ -32,17 +32,26 @@ typedef struct xl_tblspc_drop_rec
 	Oid			ts_id;
 } xl_tblspc_drop_rec;
 
+typedef struct TableSpaceOpts
+{
+	int32		vl_len_;		/* varlena header (do not touch directly!) */
+	float8		random_page_cost;
+	float8		seq_page_cost;
+} TableSpaceOpts;
 
 extern void CreateTableSpace(CreateTableSpaceStmt *stmt);
 extern void DropTableSpace(DropTableSpaceStmt *stmt);
 extern void RenameTableSpace(const char *oldname, const char *newname);
 extern void AlterTableSpaceOwner(const char *name, Oid newOwnerId);
+extern void AlterTableSpaceOptions(AlterTableSpaceOptionsStmt *stmt);
 
 extern void TablespaceCreateDbspace(Oid spcNode, Oid dbNode, bool isRedo);
 
-extern Oid	GetDefaultTablespace(void);
+extern Oid	GetDefaultTablespace(char relpersistence);
 
-extern Oid	get_tablespace_oid(const char *tablespacename);
+extern void PrepareTempTablespaces(void);
+
+extern Oid	get_tablespace_oid(const char *tablespacename, bool missing_ok);
 extern char *get_tablespace_name(Oid spc_oid);
 
 extern bool directory_is_empty(const char *path);

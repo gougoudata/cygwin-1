@@ -8,8 +8,8 @@
    This file is part of bzip2/libbzip2, a program and library for
    lossless, block-sorting data compression.
 
-   bzip2/libbzip2 version 1.0.5 of 10 December 2007
-   Copyright (C) 1996-2007 Julian Seward <jseward@bzip.org>
+   bzip2/libbzip2 version 1.0.6 of 6 September 2010
+   Copyright (C) 1996-2010 Julian Seward <jseward@bzip.org>
 
    Please read the WARNING, DISCLAIMER and PATENTS sections in the 
    README file.
@@ -81,20 +81,33 @@ typedef
       /* windows.h define small to char */
 #      undef small
 #   endif
-#   ifdef BZ_EXPORT
-#   define BZ_API(func) WINAPI func
-#   define BZ_EXTERN extern
+#   ifndef __GNUC__
+       /* Use these rules only for non-gcc native win32 */
+#      ifdef BZ_EXPORT
+#      define BZ_API(func) WINAPI func
+#      define BZ_EXTERN extern
+#      else
+       /* import windows dll dynamically */
+#      define BZ_API(func) (WINAPI * func)
+#      define BZ_EXTERN
+#      endif
 #   else
-   /* import windows dll dynamically */
-#   define BZ_API(func) (WINAPI * func)
-#   define BZ_EXTERN
+       /* For gcc on native win32, use import library trampoline       */
+       /* functions on DLL import.  This avoids requiring clients to   */
+       /* use special compilation flags depending on whether eventual  */
+       /* link will be against static libbz2 or against DLL, at the    */
+       /* expense of a small loss of efficiency. */
+
+       /* Because libbz2 does not export any DATA items, GNU ld's      */
+       /* "auto-import" is not a factor; the MinGW-built DLL can be    */
+       /* used by other compilers, provided an import library suitable */
+       /* for that compiler is (manually) constructed using the .def   */
+       /* file and the appropriate tool. */
+#      define BZ_API(func) func
+#      define BZ_EXTERN extern
 #   endif
-#elif defined(__CYGWIN__)
-#   define BZLIB_IMPEXP
-#   define BZLIB_API __cdecl
-#   define BZ_API(func) BZLIB_IMPEXP BZLIB_API func
-#   define BZ_EXTERN extern
 #else
+    /* non-win32 platforms, and cygwin */
 #   define BZ_API(func) func
 #   define BZ_EXTERN extern
 #endif

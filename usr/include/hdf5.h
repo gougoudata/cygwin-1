@@ -24,15 +24,13 @@
 #include "H5public.h"
 #include "H5Apublic.h"		/* Attributes				*/
 #include "H5ACpublic.h"		/* Metadata cache			*/
-#include "H5Bpublic.h"		/* B-trees				*/
 #include "H5Dpublic.h"		/* Datasets				*/
 #include "H5Epublic.h"		/* Errors				*/
 #include "H5Fpublic.h"		/* Files				*/
 #include "H5FDpublic.h"		/* File drivers				*/
 #include "H5Gpublic.h"		/* Groups				*/
-#include "H5HGpublic.h"		/* Global heaps				*/
-#include "H5HLpublic.h"		/* Local heaps				*/
 #include "H5Ipublic.h"		/* ID management			*/
+#include "H5Lpublic.h"		/* Links				*/
 #include "H5MMpublic.h"		/* Memory management			*/
 #include "H5Opublic.h"		/* Object headers			*/
 #include "H5Ppublic.h"		/* Property lists			*/
@@ -44,12 +42,14 @@
 /* Predefined file drivers */
 #include "H5FDcore.h"		/* Files stored entirely in memory	*/
 #include "H5FDfamily.h"		/* File families 			*/
-#include "H5FDgass.h"		/* Remote files using GASS I/O		*/
 #include "H5FDlog.h"        	/* sec2 driver with I/O logging (for debugging) */
 #include "H5FDmpi.h"            /* MPI-based file drivers		*/
 #include "H5FDmulti.h"		/* Usage-partitioned file family	*/
 #include "H5FDsec2.h"		/* POSIX unbuffered file I/O		*/
-#include "H5FDsrb.h"        	/* Remote access using SRB              */
 #include "H5FDstdio.h"		/* Standard C buffered I/O		*/
+#ifdef H5_HAVE_WINDOWS
+#include "H5FDwindows.h"        /* Windows buffered I/O     */
+#endif
+#include "H5FDdirect.h"     	/* Linux direct I/O			*/
 
 #endif

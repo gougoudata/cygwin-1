@@ -11,7 +11,7 @@
 (*                                                                     *)
 (***********************************************************************)
 
-(* $Id: lazy.mli,v 1.10 2002/07/30 13:02:56 xleroy Exp $ *)
+(* $Id: lazy.mli 10394 2010-05-12 14:56:09Z doligez $ *)
 
 (** Deferred computations. *)
 
@@ -27,6 +27,9 @@ type 'a t = 'a lazy_t;;
    for the [lazy] keyword.  You should not use it directly.  Always use
    [Lazy.t] instead.
 
+   Note: [Lazy.force] is not thread-safe.  If you use this module in
+   a multi-threaded program, you will need to add some locks.
+
    Note: if the program is compiled with the [-rectypes] option,
    ill-founded recursive definitions of the form [let rec x = lazy x]
    or [let rec x = lazy(lazy(...(lazy x)))] are accepted by the type-checker
@@ -39,7 +42,8 @@ type 'a t = 'a lazy_t;;
 
 exception Undefined;;
 
-val force : 'a t -> 'a;;
+external force : 'a t -> 'a = "%lazy_force";;
+(* val force : 'a t -> 'a ;; *)
 (** [force x] forces the suspension [x] and returns its result.
    If [x] has already been forced, [Lazy.force x] returns the
    same value again without recomputing it.  If it raised an exception,

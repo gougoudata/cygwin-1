@@ -15,10 +15,15 @@
  * License along with this library; if not, write to the Free
  * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
+
 #ifndef __GTK_SETTINGS_H__
 #define __GTK_SETTINGS_H__
 
-#include	<gtk/gtkrc.h>
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
+#include <gtk/gtkrc.h>
 
 G_BEGIN_DECLS
 
@@ -43,17 +48,18 @@ struct _GtkSettings
 {
   GObject parent_instance;
 
-  GData  *queued_settings;	/* of type GtkSettingsValue* */
-  GtkSettingsPropertyValue *property_values;
+  GData  *GSEAL (queued_settings);	/* of type GtkSettingsValue* */
+  GtkSettingsPropertyValue *GSEAL (property_values);
 
-  GtkRcContext *rc_context;
-  GdkScreen    *screen;
+  GtkRcContext *GSEAL (rc_context);
+  GdkScreen    *GSEAL (screen);
 };
+
 struct _GtkSettingsClass
 {
   GObjectClass parent_class;
-  
 };
+
 struct _GtkSettingsValue
 {
   /* origin should be something like "filename:linenumber" for rc files,
@@ -74,7 +80,7 @@ GType		gtk_settings_get_type		     (void) G_GNUC_CONST;
 GtkSettings*	gtk_settings_get_default	     (void);
 #endif
 GtkSettings*	gtk_settings_get_for_screen	     (GdkScreen *screen);
-  
+
 void		gtk_settings_install_property	     (GParamSpec         *pspec);
 void		gtk_settings_install_property_parser (GParamSpec         *pspec,
 						      GtkRcPropertyParser parser);

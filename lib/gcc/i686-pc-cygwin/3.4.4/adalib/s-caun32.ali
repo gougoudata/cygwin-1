@@ -17,8 +17,8 @@ U system.compare_array_unsigned_32%s  s-caun32.ads  79bb1774 NE PK
 W system%s		system.ads		system.ali
 
 D system.ads		20031021134222 6af26689
-D s-caun32.ads		20031021134214 134971fd
-D s-caun32.adb		20031021134214 10378c1e
+D s-caun32.ads		20031021134213 134971fd
+D s-caun32.adb		20031021134213 10378c1e
 D unchconv.ads		20030424175420 1b7a14c5
 X 1 system.ads
 44K9*System 163e11 2|37r9 44r19 45r19 55r5 3|36r14 60r19 61r19 120r5

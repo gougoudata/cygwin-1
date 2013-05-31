@@ -11,7 +11,7 @@
 (*                                                                     *)
 (***********************************************************************)
 
-(* $Id: ratio.mli,v 1.4 2001/12/07 13:40:16 xleroy Exp $ *)
+(* $Id: ratio.mli 9547 2010-01-22 12:48:24Z doligez $ *)
 
 (* Module [Ratio]: operations on rational numbers *)
 
@@ -85,4 +85,3 @@ val ratio_of_string : string -> ratio
 val float_of_ratio : ratio -> float
 val power_ratio_positive_int : ratio -> int -> ratio
 val power_ratio_positive_big_int : ratio -> big_int -> ratio
-

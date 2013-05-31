@@ -1,2 +1,6 @@
 /usr/lib/perl5/vendor_perl/5.10/Git.pm
+/usr/share/man/man3/Git.3pm
 /usr/lib/perl5/vendor_perl/5.10/Git.pm
+/usr/lib/perl5/vendor_perl/5.10/Git/I18N.pm
+/usr/share/man/man3/Git.3pm
+/usr/share/man/man3/Git.I18N.3pm

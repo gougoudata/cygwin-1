@@ -1,9 +1,14 @@
 /*
 ******************************************************************************
-* Copyright (C) 1996-2007, International Business Machines Corporation and
+* Copyright (C) 1996-2011, International Business Machines Corporation and
 * others. All Rights Reserved.
 ******************************************************************************
 */
+
+/**
+ * \file 
+ * \brief C++ API: RuleBasedCollator class provides the simple implementation of Collator.
+ */
 
 /**
 * File tblcoll.h
@@ -56,10 +61,6 @@
 
 #include "unicode/utypes.h"
 
-/**
- * \file 
- * \brief C++ API: RuleBasedCollator class provides the simple implementation of Collator.
- */
  
 #if !UCONFIG_NO_COLLATION
 
@@ -388,6 +389,21 @@ public:
                                       UErrorCode &status) const;
 
     /**
+     * Compares two strings using the Collator.
+     * Returns whether the first one compares less than/equal to/greater than
+     * the second one.
+     * This version takes UCharIterator input.
+     * @param sIter the first ("source") string iterator
+     * @param tIter the second ("target") string iterator
+     * @param status ICU status
+     * @return UCOL_LESS, UCOL_EQUAL or UCOL_GREATER
+     * @stable ICU 4.2
+     */
+    virtual UCollationResult compare(UCharIterator &sIter,
+                                     UCharIterator &tIter,
+                                     UErrorCode &status) const;
+
+    /**
     * Transforms a specified region of the string into a series of characters
     * that can be compared with CollationKey.compare. Use a CollationKey when
     * you need to do repeated comparisions on the same string. For a single
@@ -650,6 +666,59 @@ public:
     */
     virtual void setStrength(ECollationStrength newStrength);
 
+    /**
+     * Retrieves the reordering codes for this collator.
+     * @param dest The array to fill with the script ordering.
+     * @param destCapacity The length of dest. If it is 0, then dest may be NULL and the function
+     *  will only return the length of the result without writing any of the result string (pre-flighting).
+     * @param status A reference to an error code value, which must not indicate
+     * a failure before the function call.
+     * @return The length of the script ordering array.
+     * @see ucol_setReorderCodes
+     * @see Collator#getEquivalentReorderCodes
+     * @see Collator#setReorderCodes
+     * @draft ICU 4.8 
+     */
+     virtual int32_t U_EXPORT2 getReorderCodes(int32_t *dest,
+                                    int32_t destCapacity,
+                                    UErrorCode& status) const;
+
+    /**
+     * Sets the ordering of scripts for this collator.
+     * @param reorderCodes An array of script codes in the new order. This can be NULL if the 
+     * length is also set to 0. An empty array will clear any reordering codes on the collator.
+     * @param reorderCodesLength The length of reorderCodes.
+     * @param status error code
+     * @see Collator#getReorderCodes
+     * @see Collator#getEquivalentReorderCodes
+     * @draft ICU 4.8 
+     */
+     virtual void U_EXPORT2 setReorderCodes(const int32_t* reorderCodes,
+                                int32_t reorderCodesLength,
+                                UErrorCode& status) ;
+
+    /**
+     * Retrieves the reorder codes that are grouped with the given reorder code. Some reorder
+     * codes will be grouped and must reorder together.
+     * @param reorderCode The reorder code to determine equivalence for. 
+     * @param dest The array to fill with the script equivalene reordering codes.
+     * @param destCapacity The length of dest. If it is 0, then dest may be NULL and the 
+     * function will only return the length of the result without writing any of the result 
+     * string (pre-flighting).
+     * @param status A reference to an error code value, which must not indicate 
+     * a failure before the function call.
+     * @return The length of the of the reordering code equivalence array.
+     * @see ucol_setReorderCodes
+     * @see Collator#getReorderCodes
+     * @see Collator#setReorderCodes
+     * @draft ICU 4.8 
+     */
+    static int32_t U_EXPORT2 getEquivalentReorderCodes(int32_t reorderCode,
+                                int32_t* dest,
+                                int32_t destCapacity,
+                                UErrorCode& status);
+
+
 private:
 
     // private static constants -----------------------------------------------
@@ -786,7 +855,6 @@ private:
     * Hence the responsibility of cleaning up the ucollator is not done by
     * this RuleBasedCollator. The isDataOwned flag is set to FALSE.
     * @param collator new ucollator data
-    * @param rules corresponding collation rules
     */
     void setUCollator(UCollator *collator);
 
@@ -803,9 +871,10 @@ protected:
     * Used internally by registraton to define the requested and valid locales.
     * @param requestedLocale the requsted locale
     * @param validLocale the valid locale
+    * @param actualLocale the actual locale
     * @internal
     */
-    virtual void setLocales(const Locale& requestedLocale, const Locale& validLocale);
+    virtual void setLocales(const Locale& requestedLocale, const Locale& validLocale, const Locale& actualLocale);
 
 private:
 

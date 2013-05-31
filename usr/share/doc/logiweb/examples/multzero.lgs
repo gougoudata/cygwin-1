@@ -1,0 +1,57 @@
+"";;018840010E672664F360E78B5E97DCE2D30C905169E8A386C7C0EDBE0806
+""P multzero
+""R check
+""R Peano
+""R base
+
+""D 0
+3.2l
+
+""B
+page ( ""N , ""C )
+title "Multiplication by zero"
+bib "
+@Book         {Mendelson87,
+  author    = {E. Mendelson},
+  title     = {Introduction to Mathematical Logic},
+  publisher = {Wadsworth and Brooks},
+  year      = {1987},
+  edition   = {3.}}
+"
+main text "
+\title{Multiplication by zero}
+\author{A. U. Thor}
+\maketitle
+\tableofcontents
+"[ make macro expanded version ragged right ]"
+"[ prepare proof indentation ]"
+\section{Theorem}
+We now state Lemma 3.2l of \cite{Mendelson87}:
+"[ PA lemma 3.2l : all x : 0 * x = 0 end lemma ]"
+\section{Proof}
+"[ PA proof of 3.2l :
+line L01 : S7 >> 0 * 0 = 0 ;
+line L02 : Block >> Begin ;
+line L03 : Hypothesis >> 0 * x = 0 ;
+line L04 : S8 >> 0 * x suc = 0 * x + 0 ;
+line L05 : S5 >> 0 * x + 0 = 0 * x ;
+line L06 : 3.2c mp L04 mp L05 >> 0 * x suc = 0 * x ;
+line L07 : 3.2c mp L06 mp L03 >> 0 * x suc = 0 ;
+line L08 : Block >> End ;
+line L09 : Induction at x ponens L01 ponens L08 >> 0 * x = 0 ;
+line L10 : Gen1 ponens L09 >> all x : 0 * x = 0 qed ]"
+\bibliography{./page}
+"
+appendix "
+\title{Multiplication by zero - appendix}
+\author{A. U. Thor}
+\maketitle
+\tableofcontents
+\section{\TeX\ definitions}
+\begin{statements}
+\item "[[ tex show define 3.2l as "
+\mathbf{3.2l}" end define ]]"
+\end{statements}
+"
+end page
+

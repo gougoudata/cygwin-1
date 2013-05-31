@@ -10,10 +10,10 @@
  *	  Over time, this has also become the preferred place for widely known
  *	  resource-limitation stuff, such as work_mem and check_stack_depth().
  *
- * Portions Copyright (c) 1996-2006, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2012, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
- * $PostgreSQL: pgsql/src/include/miscadmin.h,v 1.190.2.1 2008/01/03 21:23:45 tgl Exp $
+ * src/include/miscadmin.h
  *
  * NOTES
  *	  some of the information in this file should be moved to other files.
@@ -23,8 +23,10 @@
 #ifndef MISCADMIN_H
 #define MISCADMIN_H
 
+#include "pgtime.h"				/* for pg_time_t */
 
-#define PG_VERSIONSTR "postgres (PostgreSQL) " PG_VERSION "\n"
+
+#define PG_BACKEND_VERSIONSTR "postgres (PostgreSQL) " PG_VERSION "\n"
 
 
 /*****************************************************************************
@@ -53,6 +55,11 @@
  * course, only if the interrupt holdoff counter is zero).	See the
  * related code for details.
  *
+ * A lost connection is handled similarly, although the loss of connection
+ * does not raise a signal, but is detected when we fail to write to the
+ * socket. If there was a signal for a broken connection, we could make use of
+ * it by setting ClientConnectionLost in the signal handler.
+ *
  * A related, but conceptually distinct, mechanism is the "critical section"
  * mechanism.  A critical section not only holds off cancel/die interrupts,
  * but causes any ereport(ERROR) or ereport(FATAL) to become ereport(PANIC)
@@ -64,14 +71,16 @@
 
 /* in globals.c */
 /* these are marked volatile because they are set by signal handlers: */
-extern DLLIMPORT volatile bool InterruptPending;
+extern PGDLLIMPORT volatile bool InterruptPending;
 extern volatile bool QueryCancelPending;
 extern volatile bool ProcDiePending;
 
+extern volatile bool ClientConnectionLost;
+
 /* these are marked volatile because they are examined by signal handlers: */
 extern volatile bool ImmediateInterruptOK;
-extern DLLIMPORT volatile uint32 InterruptHoldoffCount;
-extern DLLIMPORT volatile uint32 CritSectionCount;
+extern PGDLLIMPORT volatile uint32 InterruptHoldoffCount;
+extern PGDLLIMPORT volatile uint32 CritSectionCount;
 
 /* in tcop/postgres.c */
 extern void ProcessInterrupts(void);
@@ -121,21 +130,25 @@ do { \
  */
 extern pid_t PostmasterPid;
 extern bool IsPostmasterEnvironment;
-extern bool IsUnderPostmaster;
+extern PGDLLIMPORT bool IsUnderPostmaster;
+extern bool IsBinaryUpgrade;
 
 extern bool ExitOnAnyError;
 
-extern DLLIMPORT char *DataDir;
+extern PGDLLIMPORT char *DataDir;
 
-extern DLLIMPORT int NBuffers;
+extern PGDLLIMPORT int NBuffers;
 extern int	MaxBackends;
+extern int	MaxConnections;
 
-extern DLLIMPORT int MyProcPid;
-extern DLLIMPORT struct Port *MyProcPort;
+extern PGDLLIMPORT int MyProcPid;
+extern PGDLLIMPORT pg_time_t MyStartTime;
+extern PGDLLIMPORT struct Port *MyProcPort;
 extern long MyCancelKey;
+extern int	MyPMChildSlot;
 
 extern char OutputFileName[];
-extern DLLIMPORT char my_exec_path[];
+extern PGDLLIMPORT char my_exec_path[];
 extern char pkglib_path[];
 
 #ifdef EXEC_BACKEND
@@ -147,9 +160,9 @@ extern char postgres_exec_path[];
  *
  * extern BackendId    MyBackendId;
  */
-extern DLLIMPORT Oid MyDatabaseId;
+extern PGDLLIMPORT Oid MyDatabaseId;
 
-extern DLLIMPORT Oid MyDatabaseTableSpace;
+extern PGDLLIMPORT Oid MyDatabaseTableSpace;
 
 /*
  * Date/Time Configuration
@@ -178,6 +191,7 @@ extern DLLIMPORT Oid MyDatabaseTableSpace;
 #define USE_ISO_DATES			1
 #define USE_SQL_DATES			2
 #define USE_GERMAN_DATES		3
+#define USE_XSD_DATES			4
 
 /* valid DateOrder values */
 #define DATEORDER_YMD			0
@@ -186,6 +200,20 @@ extern DLLIMPORT Oid MyDatabaseTableSpace;
 
 extern int	DateStyle;
 extern int	DateOrder;
+
+/*
+ * IntervalStyles
+ *	 INTSTYLE_POSTGRES			   Like Postgres < 8.4 when DateStyle = 'iso'
+ *	 INTSTYLE_POSTGRES_VERBOSE	   Like Postgres < 8.4 when DateStyle != 'iso'
+ *	 INTSTYLE_SQL_STANDARD		   SQL standard interval literals
+ *	 INTSTYLE_ISO_8601			   ISO-8601-basic formatted intervals
+ */
+#define INTSTYLE_POSTGRES			0
+#define INTSTYLE_POSTGRES_VERBOSE	1
+#define INTSTYLE_SQL_STANDARD		2
+#define INTSTYLE_ISO_8601			3
+
+extern int	IntervalStyle;
 
 /*
  * HasCTZSet is true if user has set timezone as a numeric offset from UTC.
@@ -200,8 +228,8 @@ extern int	CTimeZone;
 
 extern bool enableFsync;
 extern bool allowSystemTableMods;
-extern DLLIMPORT int work_mem;
-extern DLLIMPORT int maintenance_work_mem;
+extern PGDLLIMPORT int work_mem;
+extern PGDLLIMPORT int maintenance_work_mem;
 
 extern int	VacuumCostPageHit;
 extern int	VacuumCostPageMiss;
@@ -209,18 +237,46 @@ extern int	VacuumCostPageDirty;
 extern int	VacuumCostLimit;
 extern int	VacuumCostDelay;
 
+extern int	VacuumPageHit;
+extern int	VacuumPageMiss;
+extern int	VacuumPageDirty;
+
 extern int	VacuumCostBalance;
 extern bool VacuumCostActive;
 
 
 /* in tcop/postgres.c */
+
+#if defined(__ia64__) || defined(__ia64)
+typedef struct
+{
+	char	   *stack_base_ptr;
+	char	   *register_stack_base_ptr;
+} pg_stack_base_t;
+#else
+typedef char *pg_stack_base_t;
+#endif
+
+extern pg_stack_base_t set_stack_base(void);
+extern void restore_stack_base(pg_stack_base_t base);
 extern void check_stack_depth(void);
 
+/* in tcop/utility.c */
+extern void PreventCommandIfReadOnly(const char *cmdname);
+extern void PreventCommandDuringRecovery(const char *cmdname);
+
+/* in utils/misc/guc.c */
+extern int	trace_recovery_messages;
+extern int	trace_recovery(int trace_level);
 
 /*****************************************************************************
  *	  pdir.h --																 *
  *			POSTGRES directory path definitions.							 *
  *****************************************************************************/
+
+/* flags to be OR'd to form sec_context */
+#define SECURITY_LOCAL_USERID_CHANGE	0x0001
+#define SECURITY_RESTRICTED_OPERATION	0x0002
 
 extern char *DatabasePath;
 
@@ -231,9 +287,12 @@ extern char *GetUserNameFromId(Oid roleid);
 extern Oid	GetUserId(void);
 extern Oid	GetOuterUserId(void);
 extern Oid	GetSessionUserId(void);
+extern void GetUserIdAndSecContext(Oid *userid, int *sec_context);
+extern void SetUserIdAndSecContext(Oid userid, int sec_context);
+extern bool InLocalUserIdChange(void);
+extern bool InSecurityRestrictedOperation(void);
 extern void GetUserIdAndContext(Oid *userid, bool *sec_def_context);
 extern void SetUserIdAndContext(Oid userid, bool sec_def_context);
-extern bool InSecurityDefinerContext(void);
 extern void InitializeSessionUserId(const char *rolename);
 extern void InitializeSessionUserIdStandalone(void);
 extern void SetSessionAuthorization(Oid userid, bool is_superuser);
@@ -269,8 +328,8 @@ extern bool superuser_arg(Oid roleid);	/* given user is superuser */
  * initialization is complete.	Some code behaves differently when executed
  * in this mode to enable system bootstrapping.
  *
- * If a POSTGRES binary is in normal mode, then all code may be executed
- * normally.
+ * If a POSTGRES backend process is in normal mode, then all code may be
+ * executed normally.
  */
 
 typedef enum ProcessingMode
@@ -282,9 +341,11 @@ typedef enum ProcessingMode
 
 extern ProcessingMode Mode;
 
-#define IsBootstrapProcessingMode() ((bool)(Mode == BootstrapProcessing))
-#define IsInitProcessingMode() ((bool)(Mode == InitProcessing))
-#define IsNormalProcessingMode() ((bool)(Mode == NormalProcessing))
+#define IsBootstrapProcessingMode()	(Mode == BootstrapProcessing)
+#define IsInitProcessingMode()		(Mode == InitProcessing)
+#define IsNormalProcessingMode()	(Mode == NormalProcessing)
+
+#define GetProcessingMode() Mode
 
 #define SetProcessingMode(mode) \
 	do { \
@@ -294,7 +355,35 @@ extern ProcessingMode Mode;
 		Mode = (mode); \
 	} while(0)
 
-#define GetProcessingMode() Mode
+
+/*
+ * Auxiliary-process type identifiers.  These used to be in bootstrap.h
+ * but it seems saner to have them here, with the ProcessingMode stuff.
+ * The MyAuxProcType global is defined and set in bootstrap.c.
+ */
+
+typedef enum
+{
+	NotAnAuxProcess = -1,
+	CheckerProcess = 0,
+	BootstrapProcess,
+	StartupProcess,
+	BgWriterProcess,
+	CheckpointerProcess,
+	WalWriterProcess,
+	WalReceiverProcess,
+
+	NUM_AUXPROCTYPES			/* Must be last! */
+} AuxProcType;
+
+extern AuxProcType MyAuxProcType;
+
+#define AmBootstrapProcess()		(MyAuxProcType == BootstrapProcess)
+#define AmStartupProcess()			(MyAuxProcType == StartupProcess)
+#define AmBackgroundWriterProcess()	(MyAuxProcType == BgWriterProcess)
+#define AmCheckpointerProcess()		(MyAuxProcType == CheckpointerProcess)
+#define AmWalWriterProcess()		(MyAuxProcType == WalWriterProcess)
+#define AmWalReceiverProcess()		(MyAuxProcType == WalReceiverProcess)
 
 
 /*****************************************************************************
@@ -303,25 +392,54 @@ extern ProcessingMode Mode;
  *****************************************************************************/
 
 /* in utils/init/postinit.c */
-extern bool InitPostgres(const char *dbname, const char *username);
+extern void pg_split_opts(char **argv, int *argcp, char *optstr);
+extern void InitPostgres(const char *in_dbname, Oid dboid, const char *username,
+			 char *out_dbname);
 extern void BaseInit(void);
 
 /* in utils/init/miscinit.c */
 extern bool IgnoreSystemIndexes;
+extern PGDLLIMPORT bool process_shared_preload_libraries_in_progress;
 extern char *shared_preload_libraries_string;
 extern char *local_preload_libraries_string;
 
-extern void SetReindexProcessing(Oid heapOid, Oid indexOid);
-extern void ResetReindexProcessing(void);
-extern bool ReindexIsProcessingHeap(Oid heapOid);
-extern bool ReindexIsProcessingIndex(Oid indexOid);
+/*
+ * As of 9.1, the contents of the data-directory lock file are:
+ *
+ * line #
+ *		1	postmaster PID (or negative of a standalone backend's PID)
+ *		2	data directory path
+ *		3	postmaster start timestamp (time_t representation)
+ *		4	port number
+ *		5	socket directory path (empty on Windows)
+ *		6	first listen_address (IP address or "*"; empty if no TCP port)
+ *		7	shared memory key (not present on Windows)
+ *
+ * Lines 6 and up are added via AddToDataDirLockFile() after initial file
+ * creation; they have to be ordered according to time of addition.
+ *
+ * The socket lock file, if used, has the same contents as lines 1-5.
+ */
+#define LOCK_FILE_LINE_PID			1
+#define LOCK_FILE_LINE_DATA_DIR		2
+#define LOCK_FILE_LINE_START_TIME	3
+#define LOCK_FILE_LINE_PORT			4
+#define LOCK_FILE_LINE_SOCKET_DIR	5
+#define LOCK_FILE_LINE_LISTEN_ADDR	6
+#define LOCK_FILE_LINE_SHMEM_KEY	7
+
 extern void CreateDataDirLockFile(bool amPostmaster);
 extern void CreateSocketLockFile(const char *socketfile, bool amPostmaster);
 extern void TouchSocketLockFile(void);
-extern void RecordSharedMemoryInLockFile(unsigned long id1,
-							 unsigned long id2);
+extern void AddToDataDirLockFile(int target_line, const char *str);
 extern void ValidatePgVersion(const char *path);
 extern void process_shared_preload_libraries(void);
 extern void process_local_preload_libraries(void);
+extern void pg_bindtextdomain(const char *domain);
+extern bool has_rolreplication(Oid roleid);
+
+/* in access/transam/xlog.c */
+extern bool BackupInProgress(void);
+extern void CancelBackup(void);
 
 #endif   /* MISCADMIN_H */

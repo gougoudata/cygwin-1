@@ -1,0 +1,194 @@
+doxygen
+------------------------------------------
+Doxygen is a documentation system for C++, C, Java, Objective-C, Python,
+IDL (Corba and Microsoft flavors), Fortran, VHDL, PHP, C#, and to some
+extent D.  It extracts the documentation from specially-formatted code
+comments in the source files in these languages.  Primary output formats
+for the generated documentation are HTML and LaTeX.  It can also output
+PDF, PostScript, compressed HTML, RTF and Unix man pages.
+
+Runtime requirements:
+  cygwin-1.7
+  xorg-server
+
+Build requirements:
+  binutils
+  bison-2.3 or newer
+  cygport
+  gcc-core-4
+  flex-2.5 or newer
+  libQtCore4-devel-4.3 or newer
+  libQtGui4-devel-4.3 or newer
+  libQtXml4-devel-4.3 or newer
+  libclang-devel
+  libiconv-devel
+  make-3.81 or newer
+  perl-5.8 or newer
+  python
+  sed-4.1 or newer
+  texlive
+  texlive-collection-fontutils
+  texlive-collection-latexextra
+
+Canonical website:
+  http://doxygen.org/
+
+Canonical download:
+  http://doxygen.org/download.html
+
+-------------------------------------------
+
+Build instructions:
+  unpack doxygen-1.8.4-1-src.tar.bz2
+    if you use setup to install this src package, it will be
+	unpacked under /usr/src automatically
+  cd /usr/src
+  cygport ./doxygen.cygport all
+
+This will create:
+  /usr/src/doxygen-1.8.4-1.tar.bz2
+  /usr/src/doxygen-debuginfo-1.8.4-1.tar.bz2
+  /usr/src/doxygen-doxywizard-1.8.4-1.tar.bz2
+  /usr/src/doxygen-1.8.4-1-src.tar.bz2
+
+-------------------------------------------
+
+Files included in the binary packages:
+
+(doxygen)
+  /usr/bin/doxygen.exe
+  /usr/share/doc/Cygwin/doxygen.README
+  /usr/share/doc/doxygen/LICENSE
+  /usr/share/doc/doxygen/README
+  /usr/share/doc/doxygen/html/arch.html
+  /usr/share/doc/doxygen/html/archoverview.gif
+  /usr/share/doc/doxygen/html/autolink.html
+  /usr/share/doc/doxygen/html/bc_s.png
+  /usr/share/doc/doxygen/html/bdwn.png
+  /usr/share/doc/doxygen/html/changelog.html
+  /usr/share/doc/doxygen/html/closed.png
+  /usr/share/doc/doxygen/html/commands.html
+  /usr/share/doc/doxygen/html/config.html
+  /usr/share/doc/doxygen/html/custcmd.html
+  /usr/share/doc/doxygen/html/customize.html
+  /usr/share/doc/doxygen/html/diagrams.html
+  /usr/share/doc/doxygen/html/docblocks.html
+  /usr/share/doc/doxygen/html/doxygen.png
+  /usr/share/doc/doxygen/html/doxygen_logo.gif
+  /usr/share/doc/doxygen/html/doxygen_logo_low.gif
+  /usr/share/doc/doxygen/html/doxygen_manual.css
+  /usr/share/doc/doxygen/html/doxygen_usage.html
+  /usr/share/doc/doxygen/html/doxywizard_expert.png
+  /usr/share/doc/doxygen/html/doxywizard_main.png
+  /usr/share/doc/doxygen/html/doxywizard_menu.png
+  /usr/share/doc/doxygen/html/doxywizard_page1.png
+  /usr/share/doc/doxygen/html/doxywizard_page2.png
+  /usr/share/doc/doxygen/html/doxywizard_page3.png
+  /usr/share/doc/doxygen/html/doxywizard_page4.png
+  /usr/share/doc/doxygen/html/doxywizard_usage.html
+  /usr/share/doc/doxygen/html/dynsections.js
+  /usr/share/doc/doxygen/html/external.html
+  /usr/share/doc/doxygen/html/extsearch.html
+  /usr/share/doc/doxygen/html/extsearch_flow.png
+  /usr/share/doc/doxygen/html/faq.html
+  /usr/share/doc/doxygen/html/features.html
+  /usr/share/doc/doxygen/html/form_0.png
+  /usr/share/doc/doxygen/html/form_1.png
+  /usr/share/doc/doxygen/html/form_10.png
+  /usr/share/doc/doxygen/html/form_11.png
+  /usr/share/doc/doxygen/html/form_12.png
+  /usr/share/doc/doxygen/html/form_2.png
+  /usr/share/doc/doxygen/html/form_3.png
+  /usr/share/doc/doxygen/html/form_4.png
+  /usr/share/doc/doxygen/html/form_5.png
+  /usr/share/doc/doxygen/html/form_6.png
+  /usr/share/doc/doxygen/html/form_7.png
+  /usr/share/doc/doxygen/html/form_8.png
+  /usr/share/doc/doxygen/html/form_9.png
+  /usr/share/doc/doxygen/html/formula.repository
+  /usr/share/doc/doxygen/html/formulas.html
+  /usr/share/doc/doxygen/html/ftv2blank.png
+  /usr/share/doc/doxygen/html/ftv2cl.png
+  /usr/share/doc/doxygen/html/ftv2doc.png
+  /usr/share/doc/doxygen/html/ftv2folderclosed.png
+  /usr/share/doc/doxygen/html/ftv2folderopen.png
+  /usr/share/doc/doxygen/html/ftv2lastnode.png
+  /usr/share/doc/doxygen/html/ftv2link.png
+  /usr/share/doc/doxygen/html/ftv2mlastnode.png
+  /usr/share/doc/doxygen/html/ftv2mnode.png
+  /usr/share/doc/doxygen/html/ftv2mo.png
+  /usr/share/doc/doxygen/html/ftv2node.png
+  /usr/share/doc/doxygen/html/ftv2ns.png
+  /usr/share/doc/doxygen/html/ftv2plastnode.png
+  /usr/share/doc/doxygen/html/ftv2pnode.png
+  /usr/share/doc/doxygen/html/ftv2splitbar.png
+  /usr/share/doc/doxygen/html/ftv2vertline.png
+  /usr/share/doc/doxygen/html/grouping.html
+  /usr/share/doc/doxygen/html/htmlcmds.html
+  /usr/share/doc/doxygen/html/index.html
+  /usr/share/doc/doxygen/html/infoflow.png
+  /usr/share/doc/doxygen/html/install.html
+  /usr/share/doc/doxygen/html/jquery.js
+  /usr/share/doc/doxygen/html/langhowto.html
+  /usr/share/doc/doxygen/html/lists.html
+  /usr/share/doc/doxygen/html/markdown.html
+  /usr/share/doc/doxygen/html/nav_f.png
+  /usr/share/doc/doxygen/html/nav_g.png
+  /usr/share/doc/doxygen/html/nav_h.png
+  /usr/share/doc/doxygen/html/navtree.css
+  /usr/share/doc/doxygen/html/navtree.js
+  /usr/share/doc/doxygen/html/navtreeindex0.js
+  /usr/share/doc/doxygen/html/navtreeindex1.js
+  /usr/share/doc/doxygen/html/open.png
+  /usr/share/doc/doxygen/html/output.html
+  /usr/share/doc/doxygen/html/pages.html
+  /usr/share/doc/doxygen/html/perlmod.html
+  /usr/share/doc/doxygen/html/perlmod_tree.html
+  /usr/share/doc/doxygen/html/preprocessing.html
+  /usr/share/doc/doxygen/html/resize.js
+  /usr/share/doc/doxygen/html/searching.html
+  /usr/share/doc/doxygen/html/searching.js
+  /usr/share/doc/doxygen/html/starting.html
+  /usr/share/doc/doxygen/html/sync_off.png
+  /usr/share/doc/doxygen/html/sync_on.png
+  /usr/share/doc/doxygen/html/tab_a.png
+  /usr/share/doc/doxygen/html/tab_b.png
+  /usr/share/doc/doxygen/html/tab_h.png
+  /usr/share/doc/doxygen/html/tab_s.png
+  /usr/share/doc/doxygen/html/tabs.css
+  /usr/share/doc/doxygen/html/trouble.html
+  /usr/share/doc/doxygen/html/xmlcmds.html
+  /usr/share/doc/doxygen/pdf/doxygen_manual.pdf
+  /usr/share/man/man1/doxygen.1.gz
+
+(doxygen-doxywizard)
+  /usr/bin/doxywizard.exe
+  /usr/share/man/man1/doxywizard.1.gz
+
+------------------
+
+Port Notes:
+
+----- version 1.8.4-1 -----
+Version bump
+
+----- version 1.8.3.1-1 -----
+Version bump
+
+----- version 1.8.2-1 -----
+Version bump
+
+----- version 1.8.0-1 -----
+First version maintained by Dave Stacey, built with Cygport.
+
+----- version 1.7.4-1 -----
+Version bump
+
+----- version 1.6.1-1 -----
+Version bump
+
+----- version 1.5.5-1 -----
+First version maintained by Warren Young, built with Cygport.
+
+
+Cygwin port maintained by Dave Stacey

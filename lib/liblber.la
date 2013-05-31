@@ -5,7 +5,7 @@
 # It is necessary for linking the library.
 
 # The name that we can dlopen(3).
-dlname='../bin/cyglber-2-3-0.dll'
+dlname='../bin/cyglber-2-4-2.dll'
 
 # Names of this library.
 library_names='liblber.dll.a'
@@ -17,9 +17,9 @@ old_library=''
 dependency_libs=''
 
 # Version information for liblber.
-current=2
-age=2
-revision=31
+current=11
+age=9
+revision=1
 
 # Is this an already installed library?
 installed=yes

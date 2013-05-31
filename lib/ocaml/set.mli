@@ -11,7 +11,7 @@
 (*                                                                     *)
 (***********************************************************************)
 
-(* $Id: set.mli,v 1.32 2004/04/23 10:01:54 xleroy Exp $ *)
+(* $Id: set.mli 6974 2005-07-21 14:52:45Z doligez $ *)
 
 (** Sets over ordered types.
 
@@ -20,10 +20,10 @@
    are purely applicative (no side-effects).
    The implementation uses balanced binary trees, and is therefore
    reasonably efficient: insertion and membership take time
-   logarithmic in the size of the set, for instance. 
+   logarithmic in the size of the set, for instance.
 *)
 
-module type OrderedType = 
+module type OrderedType =
   sig
     type t
       (** The type of the set elements. *)
@@ -103,7 +103,7 @@ module type S =
     val exists: (elt -> bool) -> t -> bool
     (** [exists p s] checks if at least one element of
        the set satisfies the predicate [p]. *)
-        
+
     val filter: (elt -> bool) -> t -> t
     (** [filter p s] returns the set of all elements in [s]
        that satisfy predicate [p]. *)

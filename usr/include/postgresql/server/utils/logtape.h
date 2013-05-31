@@ -5,10 +5,10 @@
  *
  * See logtape.c for explanations.
  *
- * Portions Copyright (c) 1996-2006, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2012, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
- * $PostgreSQL: pgsql/src/include/utils/logtape.h,v 1.15 2006/03/07 19:06:50 tgl Exp $
+ * src/include/utils/logtape.h
  *
  *-------------------------------------------------------------------------
  */

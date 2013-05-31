@@ -1,0 +1,9 @@
+DESCRIPTION="Unicode string library"
+HOMEPAGE="http://www.gnu.org/s/libunistring/"
+SRC_URI="mirror://gnu/libunistring/${P}.tar.gz"
+
+PKG_NAMES="libunistring0 libunistring-devel libunistring-doc"
+PKG_CONTENTS[0]="usr/bin/cygunistring-0.dll"
+PKG_CONTENTS[1]="usr/include/ usr/lib/"
+PKG_CONTENTS[2]="usr/share/doc/ usr/share/info/"
+

@@ -1,0 +1,17 @@
+absolute-pathname?
+create-temporary-file
+decompose-pathname
+delete-file*
+directory-null?
+file-copy
+file-move
+make-absolute-pathname
+make-pathname
+pathname-directory
+pathname-extension
+pathname-file
+pathname-replace-directory
+pathname-replace-extension
+pathname-replace-file
+pathname-strip-directory
+pathname-strip-extension

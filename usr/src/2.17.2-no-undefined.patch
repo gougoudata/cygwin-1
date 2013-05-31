@@ -1,0 +1,22 @@
+--- origsrc/util-linux-ng-2.17.2/libblkid/src/Makefile.am	2010-03-18 17:11:23.000000000 -0500
++++ src/util-linux-ng-2.17.2/libblkid/src/Makefile.am	2010-06-24 14:34:59.640699000 -0500
+@@ -43,7 +43,7 @@ libblkid_la_LIBADD = superblocks/libblki
+ libblkid_la_DEPENDENCIES = $(libblkid_la_LIBADD) blkid.sym blkid.h.in
+ 
+ libblkid_la_LDFLAGS = -Wl,--version-script=$(ul_libblkid_srcdir)/blkid.sym \
+-                      -version-info $(LIBBLKID_VERSION_INFO)
++                      -version-info $(LIBBLKID_VERSION_INFO) -no-undefined
+ 
+ tests = test_cache test_config test_dev test_devname test_devno test_getsize \
+ 	test_read test_resolve test_save test_tag test_verify test_evaluate
+--- origsrc/util-linux-ng-2.17.2/libuuid/src/Makefile.am	2010-02-04 05:53:58.000000000 -0600
++++ src/util-linux-ng-2.17.2/libuuid/src/Makefile.am	2010-06-24 04:08:04.816254100 -0500
+@@ -17,7 +17,7 @@ libuuid_la_SOURCES = clear.c compare.c c
+ libuuid_la_DEPENDENCIES = uuid.sym
+ 
+ libuuid_la_LDFLAGS = -Wl,--version-script=$(ul_libuuid_srcdir)/uuid.sym \
+-                     -version-info $(LIBUUID_VERSION_INFO)
++                     -version-info $(LIBUUID_VERSION_INFO) -no-undefined
+ 
+ EXTRA_DIST = uuid.sym gen_uuid_nt.c
+ 

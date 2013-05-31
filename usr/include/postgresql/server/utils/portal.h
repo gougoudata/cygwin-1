@@ -12,7 +12,7 @@
  * to let the client suspend an update-type query partway through!	Because
  * the query rewriter does not allow arbitrary ON SELECT rewrite rules,
  * only queries that were originally update-type could produce multiple
- * parse/plan trees; so the restriction to a single query is not a problem
+ * plan trees; so the restriction to a single query is not a problem
  * in practice.
  *
  * For SQL cursors, we support three kinds of scroll behavior:
@@ -36,19 +36,19 @@
  * to look like NO SCROLL cursors.
  *
  *
- * Portions Copyright (c) 1996-2006, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2012, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
- * $PostgreSQL: pgsql/src/include/utils/portal.h,v 1.71 2006/10/04 00:30:10 momjian Exp $
+ * src/include/utils/portal.h
  *
  *-------------------------------------------------------------------------
  */
 #ifndef PORTAL_H
 #define PORTAL_H
 
+#include "datatype/timestamp.h"
 #include "executor/execdesc.h"
 #include "utils/resowner.h"
-#include "utils/timestamp.h"
 
 /*
  * We have several execution strategies for Portals, depending on what
@@ -71,6 +71,11 @@
  * can't cope, and also because we don't want to risk failing to execute
  * all the auxiliary queries.)
  *
+ * PORTAL_ONE_MOD_WITH: the portal contains one single SELECT query, but
+ * it has data-modifying CTEs.	This is currently treated the same as the
+ * PORTAL_ONE_RETURNING case because of the possibility of needing to fire
+ * triggers.  It may act more like PORTAL_ONE_SELECT in future.
+ *
  * PORTAL_UTIL_SELECT: the portal contains a utility statement that returns
  * a SELECT-like result (for example, EXPLAIN or SHOW).  On first execution,
  * we run the statement and dump its results into the portal tuplestore;
@@ -83,6 +88,7 @@ typedef enum PortalStrategy
 {
 	PORTAL_ONE_SELECT,
 	PORTAL_ONE_RETURNING,
+	PORTAL_ONE_MOD_WITH,
 	PORTAL_UTIL_SELECT,
 	PORTAL_MULTI_QUERY
 } PortalStrategy;
@@ -94,17 +100,15 @@ typedef enum PortalStrategy
  */
 typedef enum PortalStatus
 {
-	PORTAL_NEW,					/* in process of creation */
+	PORTAL_NEW,					/* freshly created */
+	PORTAL_DEFINED,				/* PortalDefineQuery done */
 	PORTAL_READY,				/* PortalStart complete, can run it */
 	PORTAL_ACTIVE,				/* portal is running (can't delete it) */
 	PORTAL_DONE,				/* portal is finished (don't re-run it) */
 	PORTAL_FAILED				/* portal got error (can't re-run it) */
 } PortalStatus;
 
-/*
- * Note: typedef Portal is declared in tcop/dest.h as
- *		typedef struct PortalData *Portal;
- */
+typedef struct PortalData *Portal;
 
 typedef struct PortalData
 {
@@ -122,19 +126,10 @@ typedef struct PortalData
 	 */
 
 	/* The query or queries the portal will execute */
-	const char *sourceText;		/* text of query, if known (may be NULL) */
+	const char *sourceText;		/* text of query (as of 8.4, never NULL) */
 	const char *commandTag;		/* command tag for original query */
-	List	   *parseTrees;		/* parse tree(s) */
-	List	   *planTrees;		/* plan tree(s) */
-	MemoryContext queryContext; /* where the parse trees live */
-
-	/*
-	 * Note: queryContext effectively identifies which prepared statement the
-	 * portal depends on, if any.  The queryContext is *not* owned by the
-	 * portal and is not to be deleted by portal destruction.  (But for a
-	 * cursor it is the same as "heap", and that context is deleted by portal
-	 * destruction.)  The plan trees may be in either queryContext or heap.
-	 */
+	List	   *stmts;			/* PlannedStmts and/or utility statements */
+	CachedPlan *cplan;			/* CachedPlan, if stmts are from one */
 
 	ParamListInfo portalParams; /* params to pass to query */
 
@@ -144,6 +139,7 @@ typedef struct PortalData
 
 	/* Status data */
 	PortalStatus status;		/* see above */
+	bool		portalPinned;	/* a pinned portal can't be dropped */
 
 	/* If not NULL, Executor is active; call ExecutorEnd eventually: */
 	QueryDesc  *queryDesc;		/* info needed for executor invocation */
@@ -178,7 +174,7 @@ typedef struct PortalData
 	/* Presentation data, primarily used by the pg_cursors system view */
 	TimestampTz creation_time;	/* time at which this portal was defined */
 	bool		visible;		/* include this portal in pg_cursors? */
-} PortalData;
+}	PortalData;
 
 /*
  * PortalIsValid
@@ -191,14 +187,12 @@ typedef struct PortalData
  */
 #define PortalGetQueryDesc(portal)	((portal)->queryDesc)
 #define PortalGetHeapMemory(portal) ((portal)->heap)
-#define PortalGetPrimaryQuery(portal) PortalListGetPrimaryQuery((portal)->parseTrees)
+#define PortalGetPrimaryStmt(portal) PortalListGetPrimaryStmt((portal)->stmts)
 
 
 /* Prototypes for functions in utils/mmgr/portalmem.c */
 extern void EnablePortalManager(void);
-extern bool CommitHoldablePortals(void);
-extern bool PrepareHoldablePortals(void);
-extern void AtCommit_Portals(void);
+extern bool PreCommit_Portals(bool isPrepare);
 extern void AtAbort_Portals(void);
 extern void AtCleanup_Portals(void);
 extern void AtSubCommit_Portals(SubTransactionId mySubid,
@@ -210,17 +204,20 @@ extern void AtSubAbort_Portals(SubTransactionId mySubid,
 extern void AtSubCleanup_Portals(SubTransactionId mySubid);
 extern Portal CreatePortal(const char *name, bool allowDup, bool dupSilent);
 extern Portal CreateNewPortal(void);
+extern void PinPortal(Portal portal);
+extern void UnpinPortal(Portal portal);
+extern void MarkPortalDone(Portal portal);
+extern void MarkPortalFailed(Portal portal);
 extern void PortalDrop(Portal portal, bool isTopCommit);
-extern void DropDependentPortals(MemoryContext queryContext);
 extern Portal GetPortalByName(const char *name);
 extern void PortalDefineQuery(Portal portal,
 				  const char *prepStmtName,
 				  const char *sourceText,
 				  const char *commandTag,
-				  List *parseTrees,
-				  List *planTrees,
-				  MemoryContext queryContext);
-extern Query *PortalListGetPrimaryQuery(List *parseTrees);
+				  List *stmts,
+				  CachedPlan *cplan);
+extern Node *PortalListGetPrimaryStmt(List *stmts);
 extern void PortalCreateHoldStore(Portal portal);
+extern void PortalHashTableDeleteAll(void);
 
 #endif   /* PORTAL_H */

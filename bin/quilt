@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /usr/bin/bash
 
 #  This script is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License version 2 as
@@ -6,11 +6,15 @@
 #
 #  See the COPYING and AUTHORS files for more details.
 
+# unset posix strict conformance variable since patch cannot be run
+# non-interactively when it's set.
+unset POSIXLY_CORRECT
+
 export TEXTDOMAIN=quilt
 export TEXTDOMAINDIR=/usr/share/locale
 
-: ${QUILT_DIR=/usr/share/quilt} ${QUILT_LIB=/usr/lib/quilt}
-export QUILT_DIR QUILT_LIB
+: ${QUILT_DIR=/usr/share/quilt}
+export QUILT_DIR
 
 if [ -z "$QUILTRC" ]
 then
@@ -69,7 +73,7 @@ quilt_commands()
 
 if [ $# -eq 1 -a "$1" == "--version" ]
 then
-	echo '0.46'
+	echo '0.60'
 	exit
 fi
 

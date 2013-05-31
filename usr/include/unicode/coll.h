@@ -1,10 +1,15 @@
 /*
 ******************************************************************************
-*   Copyright (C) 1996-2007, International Business Machines                 *
+*   Copyright (C) 1996-2011, International Business Machines                 *
 *   Corporation and others.  All Rights Reserved.                            *
 ******************************************************************************
 */
 
+/**
+ * \file 
+ * \brief C++ API: Collation Service.
+ */
+ 
 /**
 * File coll.h
 *
@@ -46,11 +51,6 @@
 
 #include "unicode/utypes.h"
 
-/**
- * \file 
- * \brief C++ API: Collation Service.
- */
- 
 #if !UCONFIG_NO_COLLATION
 
 #include "unicode/uobject.h"
@@ -59,6 +59,8 @@
 #include "unicode/locid.h"
 #include "unicode/uniset.h"
 #include "unicode/umisc.h"
+#include "unicode/uiter.h"
+#include "unicode/stringpiece.h"
 
 U_NAMESPACE_BEGIN
 
@@ -438,6 +440,38 @@ public:
                                       UErrorCode &status) const = 0;
 
     /**
+     * Compares two strings using the Collator.
+     * Returns whether the first one compares less than/equal to/greater than
+     * the second one.
+     * This version takes UCharIterator input.
+     * @param sIter the first ("source") string iterator
+     * @param tIter the second ("target") string iterator
+     * @param status ICU status
+     * @return UCOL_LESS, UCOL_EQUAL or UCOL_GREATER
+     * @stable ICU 4.2
+     */
+    virtual UCollationResult compare(UCharIterator &sIter,
+                                     UCharIterator &tIter,
+                                     UErrorCode &status) const;
+
+    /**
+     * Compares two UTF-8 strings using the Collator.
+     * Returns whether the first one compares less than/equal to/greater than
+     * the second one.
+     * This version takes UTF-8 input.
+     * Note that a StringPiece can be implicitly constructed
+     * from a std::string or a NUL-terminated const char * string.
+     * @param source the first UTF-8 string
+     * @param target the second UTF-8 string
+     * @param status ICU status
+     * @return UCOL_LESS, UCOL_EQUAL or UCOL_GREATER
+     * @stable ICU 4.2
+     */
+    virtual UCollationResult compareUTF8(const StringPiece &source,
+                                         const StringPiece &target,
+                                         UErrorCode &status) const;
+
+    /**
      * Transforms the string into a series of characters that can be compared
      * with CollationKey::compareTo. It is not possible to restore the original
      * string from the chars in the sort key.  The generated sort key handles
@@ -564,6 +598,58 @@ public:
     virtual void setStrength(ECollationStrength newStrength) = 0;
 
     /**
+     * Retrieves the reordering codes for this collator.
+     * @param dest The array to fill with the script ordering.
+     * @param destCapacity The length of dest. If it is 0, then dest may be NULL and the function
+     *  will only return the length of the result without writing any of the result string (pre-flighting).
+     * @param status A reference to an error code value, which must not indicate
+     * a failure before the function call.
+     * @return The length of the script ordering array.
+     * @see ucol_setReorderCodes
+     * @see Collator#getEquivalentReorderCodes
+     * @see Collator#setReorderCodes
+     * @draft ICU 4.8 
+     */
+     virtual int32_t U_EXPORT2 getReorderCodes(int32_t *dest,
+                                    int32_t destCapacity,
+                                    UErrorCode& status) const;
+
+    /**
+     * Sets the ordering of scripts for this collator.
+     * @param reorderCodes An array of script codes in the new order. This can be NULL if the 
+     * length is also set to 0. An empty array will clear any reordering codes on the collator.
+     * @param reorderCodesLength The length of reorderCodes.
+     * @see Collator#getReorderCodes
+     * @see Collator#getEquivalentReorderCodes
+     * @param status error code
+     * @draft ICU 4.8 
+     */
+     virtual void U_EXPORT2 setReorderCodes(const int32_t* reorderCodes,
+                                int32_t reorderCodesLength,
+                                UErrorCode& status) ;
+
+    /**
+     * Retrieves the reorder codes that are grouped with the given reorder code. Some reorder
+     * codes will be grouped and must reorder together.
+     * @param reorderCode The reorder code to determine equivalence for. 
+     * @param dest The array to fill with the script equivalene reordering codes.
+     * @param destCapacity The length of dest. If it is 0, then dest may be NULL and the 
+     * function will only return the length of the result without writing any of the result 
+     * string (pre-flighting).
+     * @param status A reference to an error code value, which must not indicate 
+     * a failure before the function call.
+     * @return The length of the of the reordering code equivalence array.
+     * @see ucol_setReorderCodes
+     * @see Collator#getReorderCodes
+     * @see Collator#setReorderCodes
+     * @draft ICU 4.8 
+     */
+    static int32_t U_EXPORT2 getEquivalentReorderCodes(int32_t reorderCode,
+                                int32_t* dest,
+                                int32_t destCapacity,
+                                UErrorCode& status);
+
+    /**
      * Get name of the object for the desired Locale, in the desired langauge
      * @param objectLocale must be from getAvailableLocales
      * @param displayLocale specifies the desired locale for output
@@ -633,6 +719,25 @@ public:
      * @stable ICU 3.0
      */
     static StringEnumeration* U_EXPORT2 getKeywordValues(const char *keyword, UErrorCode& status);
+
+    /**
+     * Given a key and a locale, returns an array of string values in a preferred
+     * order that would make a difference. These are all and only those values where
+     * the open (creation) of the service with the locale formed from the input locale
+     * plus input keyword and that value has different behavior than creation with the
+     * input locale alone.
+     * @param keyword        one of the keys supported by this service.  For now, only
+     *                      "collation" is supported.
+     * @param locale        the locale
+     * @param commonlyUsed  if set to true it will return only commonly used values
+     *                      with the given locale in preferred order.  Otherwise,
+     *                      it will return all the available values for the locale.
+     * @param status ICU status
+     * @return a string enumeration over keyword values for the given key and the locale.
+     * @stable ICU 4.2
+     */
+    static StringEnumeration* U_EXPORT2 getKeywordValuesForLocale(const char* keyword, const Locale& locale,
+                                                                    UBool commonlyUsed, UErrorCode& status);
 
     /**
      * Return the functionally equivalent locale for the given
@@ -916,11 +1021,12 @@ protected:
 
    /**
     * Used internally by registraton to define the requested and valid locales.
-    * @param requestedLocale the requsted locale
+    * @param requestedLocale the requested locale
     * @param validLocale the valid locale
+    * @param actualLocale the actual locale
     * @internal
     */
-    virtual void setLocales(const Locale& requestedLocale, const Locale& validLocale);
+    virtual void setLocales(const Locale& requestedLocale, const Locale& validLocale, const Locale& actualLocale);
 
 public:
 #if !UCONFIG_NO_SERVICE

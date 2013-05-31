@@ -205,11 +205,25 @@ glib_DEFUN([GLIB_WITH_NLS],
           glib_save_LIBS="$LIBS"
           LIBS="$LIBS $INTLLIBS"
 	  AC_CHECK_FUNCS(dcgettext)
+	  MSGFMT_OPTS=
+	  AC_MSG_CHECKING([if msgfmt accepts -c])
+	  GLIB_RUN_PROG([$MSGFMT -c -o /dev/null],[
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Project-Id-Version: test 1.0\n"
+"PO-Revision-Date: 2007-02-15 12:01+0100\n"
+"Last-Translator: test <foo@bar.xx>\n"
+"Language-Team: C <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Transfer-Encoding: 8bit\n"
+], [MSGFMT_OPTS=-c; AC_MSG_RESULT([yes])], [AC_MSG_RESULT([no])])
+	  AC_SUBST(MSGFMT_OPTS)
 	  AC_PATH_PROG(GMSGFMT, gmsgfmt, $MSGFMT)
 	  GLIB_PATH_PROG_WITH_TEST(XGETTEXT, xgettext,
 	    [test -z "`$ac_dir/$ac_word -h 2>&1 | grep '(HELP)'`"], :)
-	  AC_TRY_LINK(, [extern int _nl_msg_cat_cntr;
-			 return _nl_msg_cat_cntr],
+	  AC_TRY_LINK([extern int _nl_msg_cat_cntr;],
+		      [return _nl_msg_cat_cntr],
 	    [CATOBJEXT=.gmo 
              DATADIRNAME=share],
 	    [case $host in
@@ -224,6 +238,10 @@ glib_DEFUN([GLIB_WITH_NLS],
                DATADIRNAME=share],
 	      [CATOBJEXT=.mo
                DATADIRNAME=lib])
+	    ;;
+	    *-*-openbsd*)
+	    CATOBJEXT=.mo
+            DATADIRNAME=share
 	    ;;
 	    *)
 	    CATOBJEXT=.mo
@@ -266,7 +284,7 @@ glib_DEFUN([GLIB_WITH_NLS],
 
     dnl These rules are solely for the distribution goal.  While doing this
     dnl we only have to keep exactly one list of the available catalogs
-    dnl in configure.in.
+    dnl in configure.ac.
     for lang in $ALL_LINGUAS; do
       GMOFILES="$GMOFILES $lang.gmo"
       POFILES="$POFILES $lang.po"
@@ -376,8 +394,10 @@ glib_DEFUN([GLIB_DEFINE_LOCALEDIR],
 [glib_REQUIRE([GLIB_GNU_GETTEXT])dnl
 glib_save_prefix="$prefix"
 glib_save_exec_prefix="$exec_prefix"
+glib_save_datarootdir="$datarootdir"
 test "x$prefix" = xNONE && prefix=$ac_default_prefix
 test "x$exec_prefix" = xNONE && exec_prefix=$prefix
+datarootdir=`eval echo "${datarootdir}"`
 if test "x$CATOBJEXT" = "x.mo" ; then
   localedir=`eval echo "${libdir}/locale"`
 else
@@ -385,6 +405,7 @@ else
 fi
 prefix="$glib_save_prefix"
 exec_prefix="$glib_save_exec_prefix"
+datarootdir="$glib_save_datarootdir"
 AC_DEFINE_UNQUOTED($1, "$localedir",
   [Define the location where the catalogs will be installed])
 ])
@@ -392,7 +413,24 @@ AC_DEFINE_UNQUOTED($1, "$localedir",
 dnl
 dnl Now the definitions that aclocal will find
 dnl
-ifdef(glib_configure_in,[],[
+ifdef(glib_configure_ac,[],[
 AC_DEFUN([AM_GLIB_GNU_GETTEXT],[GLIB_GNU_GETTEXT($@)])
 AC_DEFUN([AM_GLIB_DEFINE_LOCALEDIR],[GLIB_DEFINE_LOCALEDIR($@)])
 ])dnl
+
+# GLIB_RUN_PROG(PROGRAM, TEST-FILE, [ACTION-IF-PASS], [ACTION-IF-FAIL])
+# 
+# Create a temporary file with TEST-FILE as its contents and pass the
+# file name to PROGRAM.  Perform ACTION-IF-PASS if PROGRAM exits with
+# 0 and perform ACTION-IF-FAIL for any other exit status.
+AC_DEFUN([GLIB_RUN_PROG],
+[cat >conftest.foo <<_ACEOF
+$2
+_ACEOF
+if AC_RUN_LOG([$1 conftest.foo]); then
+  m4_ifval([$3], [$3], [:])
+m4_ifvaln([$4], [else $4])dnl
+echo "$as_me: failed input was:" >&AS_MESSAGE_LOG_FD
+sed 's/^/| /' conftest.foo >&AS_MESSAGE_LOG_FD
+fi])
+

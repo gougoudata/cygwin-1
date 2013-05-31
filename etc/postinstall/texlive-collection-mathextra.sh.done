@@ -1,0 +1,10 @@
+/usr/bin/mktexlsr
+/usr/bin/updmap-sys --nohash --nomkmap --enable MixedMap=stmaryrd.map
+/usr/bin/updmap-sys --nohash --nomkmap --enable MixedMap=yhmath.map
+/usr/bin/updmap-sys --nohash --syncwithtrees
+/usr/bin/updmap-sys --nohash
+/usr/bin/mktexlsr
+/usr/bin/fmtutil-sys --enablefmt amstex
+/usr/bin/fmtutil-sys --byfmt amstex
+/usr/bin/mktexlsr
+/usr/bin/fc-cache -f /usr/share/texmf-dist/fonts/type1

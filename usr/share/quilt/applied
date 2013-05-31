@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /usr/bin/bash
 
 #  This script is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License version 2 as
@@ -58,6 +58,8 @@ then
 fi
 
 patch=$(find_applied_patch "$1") || exit 1
+
+setup_pager
 
 for patch in $(applied_before "$patch") $patch
 do

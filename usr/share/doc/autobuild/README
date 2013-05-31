@@ -1,0 +1,16 @@
+Autobuild README -- Important introductory notes.
+Copyright (C) 2004, 2008 Simon Josefsson
+See the end for copying conditions.
+
+Autobuild is a package that process build logs generated when building
+software.  Autobuild is primarily focused on packages using Autoconf
+and Automake, but can be used with other build systems too.  Autobuild
+generates an HTML summary file, containing links to each build log.
+The summary include project name, version, build hostname, host type
+(cross compile aware), date of build, and indication of success or
+failure.  The output is indexed in many ways to simplify browsing.
+
+----------------------------------------------------------------------
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.

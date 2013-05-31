@@ -1,14 +1,14 @@
 prefix=/usr
 exec_prefix=/usr
-libdir=/usr/lib
-includedir=/usr/include
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
 
-pango_module_version=1.4.0
+pango_module_version=1.8.0
 
 Name: Pango
 Description: Internationalized text handling
-Version: 1.8.1
-Requires: glib-2.0,gobject-2.0,gmodule-no-export-2.0
+Version: 1.32.5
+Requires: glib-2.0 gobject-2.0
+Requires.private: gmodule-no-export-2.0
 Libs: -L${libdir} -lpango-1.0 -lm
 Cflags: -I${includedir}/pango-1.0
-

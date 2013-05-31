@@ -1,0 +1,90 @@
+libtirpc
+========================================================================
+This package contains SunLib's implementation of transport-independent
+RPC (TI-RPC) documentation.  This library forms a piece of the base of
+Open Network Computing (ONC), and is derived directly from the Solaris
+2.3 source.
+
+TI-RPC is an enhanced version of TS-RPC that requires the UNIX System V
+Transport Layer Interface (TLI) or an equivalent X/Open Transport
+Interface (XTI).  TI-RPC is on-the-wire compatible with the TS-RPC,
+which is supported by almost 70 vendors on all major operating systems.
+TS-RPC source code (RPCSRC 4.0) remains available from several internet
+sites.
+
+This version is compiled without XDR routines, as cygwin-1.7.2+ provides
+those routines internally.
+========================================================================
+
+Runtime requirements
+  cygwin-1.7.6-1
+
+Build requirements
+  cygport-0.9.85
+  binutils-2.20.51-2
+  gcc4-core-4.3.4-3
+  bash-3.2.49-23
+  make-3.81-2
+  autoconf2.5
+  automake1.11
+  libtool
+
+Canonical homepage:
+  http://nfsv4.bullopensource.org/doc/tirpc_rpcbind.php
+
+Canonical download:
+  http://downloads.sourceforge.net/libtirpc/
+
+License:
+  Sun Industry Standards Source License 1.0
+  BSD (3-clause)
+
+Language:
+  C, XDR
+
+========================================================================
+
+Build instructions:
+  unpack libtirpc-VER-REL-src.tar.bz2
+    if you use setup to install this src package, it will be unpacked
+    under /usr/src automatically
+  cd /usr/src
+  cygport libtirpc-VER-REL.cygport all
+
+This will create:
+  /usr/src/libtirpc-VER-REL.tar.bz2
+  /usr/src/libtirpc-devel-VER-REL.tar.bz2
+  /usr/src/libtirpc1-VER-REL.tar.bz2
+  /usr/src/libtirpc-VER-REL-src.tar.bz2
+
+========================================================================
+
+Files included in the packages:
+
+Files in libtirpc1:          /usr/bin/cygtirpc-1.dll
+Files in libtirpc-devel:     see 'cygcheck -l libtirpc-devel' output 
+Files in libtirpc:           see 'cygcheck -l libtirpc' output
+
+========================================================================
+
+Port Notes:
+
+Uses the XDR implementation provided by cygwin-1.7.2 and above;
+rather than providing its own implementation.
+
+Compiled without AUTH_DES support (that is, cygwin libtirpc is not
+NIS-aware, because there is not yet any cygwin NIS server or client.
+
+Compiled without GSS_API support, because the official cygwin
+distribution does not yet contain any Kerboros implementation.
+
+Thus, this version of libtirpc supports only unencrypted
+communication.
+
+---------- libtirpc-0.2.1-1 -- 2010 Aug 18 -----------
+* Initial cygwin port
+
+========================================================================
+Cygwin port maintained by: Chuck Wilson <cygwin@cygwin.com>
+
+

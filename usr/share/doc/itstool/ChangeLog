@@ -1,0 +1,1048 @@
+commit 6fce21cd7b4417d8ea8cff3a8f2c79063d5353a3
+Merge: f951a0f 470b52a
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Sun Jun 24 10:26:00 2012 -0400
+
+    Merge branch '1.1'
+
+commit f951a0f451451acaa3ffdd8d1e8e598615ab2d21
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Sat Jun 23 11:17:25 2012 -0400
+
+    Always use nsProp(), not prop()
+
+ itstool.in |   94 ++++++++++++++++++++++++++++++------------------------------
+ 1 files changed, 47 insertions(+), 47 deletions(-)
+
+commit 5c47aea87ecd67b69cc7596a61db0ff950e71063
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Wed May 16 11:12:19 2012 -0400
+
+    Be much more strict (and correct) about the version attribute
+
+ its/docbook.its |    2 +-
+ its/its.its     |    2 +-
+ its/mallard.its |    2 +-
+ its/ttml.its    |    2 +-
+ its/xhtml.its   |    2 +-
+ itstool.in      |   38 ++++++++++++++++++++++++++++++++++++--
+ 6 files changed, 41 insertions(+), 7 deletions(-)
+
+commit f53cb2b28fafaf6488f283020bc4de6c86f75c0a
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Sat May 12 12:21:02 2012 -0400
+
+    Show language code when failing to get translation from PO
+    
+    Otherwise you have no idea which translation is causing problems
+    when using join mode.
+
+ itstool.in |   13 +++++++------
+ 1 files changed, 7 insertions(+), 6 deletions(-)
+
+commit a3b94bef85d9a96aec2656987d0910cc928573dc
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Fri May 11 15:13:46 2012 -0400
+
+    Try to maintain indentation in join mode
+
+ itstool.in             |    7 +++++++
+ tests/IT-join-1.ll.xml |   30 ++++++++++++++++++++++++------
+ 2 files changed, 31 insertions(+), 6 deletions(-)
+
+commit 4690db4df453dd79cc8df1bdf0ba49475fb6c83c
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Fri May 11 13:06:22 2012 -0400
+
+    tests: Adding regression test for join mode
+
+ tests/IT-join-1.cs.po  |   46 ++++++++++++++++++++++++++++++++++++++++++++++
+ tests/IT-join-1.de.po  |   46 ++++++++++++++++++++++++++++++++++++++++++++++
+ tests/IT-join-1.fr.po  |   46 ++++++++++++++++++++++++++++++++++++++++++++++
+ tests/IT-join-1.ll.xml |   18 ++++++++++++++++++
+ tests/IT-join-1.pot    |   46 ++++++++++++++++++++++++++++++++++++++++++++++
+ tests/IT-join-1.xml    |   19 +++++++++++++++++++
+ tests/run_tests.py     |   27 +++++++++++++++++++++++++++
+ 7 files changed, 248 insertions(+), 0 deletions(-)
+
+commit 124f58219a33677f010f4e56fe09d0fb389d2b52
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Tue May 8 12:55:29 2012 -0400
+
+    Adding new join mode for multi-lingual XML files
+
+ itstool.in |  106 +++++++++++++++++++++++++++++++++++++++++++++++++++--------
+ 1 files changed, 91 insertions(+), 15 deletions(-)
+
+commit 470b52ad6d4f55b32a56d95671d608c483dbeae7
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Mon May 7 16:40:21 2012 -0400
+
+    Version 1.1.3
+
+ NEWS         |    6 ++++++
+ configure.ac |    2 +-
+ 2 files changed, 7 insertions(+), 1 deletions(-)
+
+commit 7daf5389b1b6f2d82e86d2a9aa8289f4c1aa5d12
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Sun May 6 20:10:03 2012 -0400
+
+    tests: Added two more tests
+    
+    Already had these XML files from W3C, but I didn't have POT files
+    to test them against
+
+ tests/EX-locNote-element-1.pot      |   18 ++++++++++++++++++
+ tests/EX-locNoteRef-attribute-1.pot |   17 +++++++++++++++++
+ tests/run_tests.py                  |    6 ++++++
+ 3 files changed, 41 insertions(+), 0 deletions(-)
+
+commit 2548f4006f064caf2d6ecd0402f723f650b135d6
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Sun May 6 20:05:53 2012 -0400
+
+    tests: msgmerge po files to have new syntax from pot files
+
+ tests/IT-attributes-1.ll.po  |   10 ++++---
+ tests/IT-context-1.ll.po     |   19 ++++++++-----
+ tests/IT-dropRule-1.ll.po    |    7 +++--
+ tests/IT-placeholder-1.ll.po |   17 ++++++++----
+ tests/Translate1.ll.po       |   28 +++++++++++++-------
+ tests/Translate2.ll.po       |   10 ++++---
+ tests/Translate3.ll.po       |   18 ++++++++----
+ tests/Translate3.ll.wrong.po |   18 ++++++++----
+ tests/Translate4.ll.po       |   18 ++++++++----
+ tests/Translate5.ll.po       |   18 ++++++++----
+ tests/Translate6.ll.po       |   27 +++++++++++++------
+ tests/Translate7.ll.po       |   10 ++++---
+ tests/TranslateGlobal.ll.po  |   13 ++++++---
+ tests/WithinText1.ll.po      |   22 ++++++++++------
+ tests/WithinText2.ll.po      |   58 +++++++++++++++++++++++++++++-------------
+ 15 files changed, 191 insertions(+), 102 deletions(-)
+
+commit 2c153716eaf5650077741a46ae4bc91365c08e02
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Sun May 6 13:24:50 2012 -0400
+
+    Renamed itstool-specific tests to use IT- prefix
+
+ tests/Attributes1.ll.po       |   19 -------------------
+ tests/Attributes1.ll.xml      |   10 ----------
+ tests/Attributes1.pot         |   21 ---------------------
+ tests/Attributes1.xml         |   10 ----------
+ tests/Context.ll.po           |   35 -----------------------------------
+ tests/Context.ll.xml          |   15 ---------------
+ tests/Context.pot             |   40 ----------------------------------------
+ tests/Context.xml             |   14 --------------
+ tests/Droprule.ll.po          |   15 ---------------
+ tests/Droprule.ll.xml         |   11 -----------
+ tests/Droprule.pot            |   16 ----------------
+ tests/Droprule.xml            |   12 ------------
+ tests/IT-attributes-1.ll.po   |   19 +++++++++++++++++++
+ tests/IT-attributes-1.ll.xml  |   10 ++++++++++
+ tests/IT-attributes-1.pot     |   21 +++++++++++++++++++++
+ tests/IT-attributes-1.xml     |   10 ++++++++++
+ tests/IT-context-1.ll.po      |   35 +++++++++++++++++++++++++++++++++++
+ tests/IT-context-1.ll.xml     |   15 +++++++++++++++
+ tests/IT-context-1.pot        |   40 ++++++++++++++++++++++++++++++++++++++++
+ tests/IT-context-1.xml        |   14 ++++++++++++++
+ tests/IT-dropRule-1.ll.po     |   15 +++++++++++++++
+ tests/IT-dropRule-1.ll.xml    |   11 +++++++++++
+ tests/IT-dropRule-1.pot       |   16 ++++++++++++++++
+ tests/IT-dropRule-1.xml       |   12 ++++++++++++
+ tests/IT-malformed.xml        |    6 ++++++
+ tests/IT-placeholder-1.ll.po  |   19 +++++++++++++++++++
+ tests/IT-placeholder-1.ll.xml |    6 ++++++
+ tests/IT-placeholder-1.pot    |   21 +++++++++++++++++++++
+ tests/IT-placeholder-1.xml    |    5 +++++
+ tests/Malformed.xml           |    6 ------
+ tests/Placeholder.ll.po       |   19 -------------------
+ tests/Placeholder.ll.xml      |    6 ------
+ tests/Placeholder.pot         |   21 ---------------------
+ tests/Placeholder.xml         |    5 -----
+ tests/run_tests.py            |   20 ++++++++++----------
+ 35 files changed, 285 insertions(+), 285 deletions(-)
+
+commit d67907f3269ab5bbebae9267ec43df023591c520
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Sat May 5 21:49:54 2012 -0400
+
+    tests: Changed test names to match file names
+
+ tests/run_tests.py |   52 ++++++++++++++++++++++++++--------------------------
+ 1 files changed, 26 insertions(+), 26 deletions(-)
+
+commit 9c5e6b9d2d90c9f5fc4693acd727f45d4512e687
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Sat May 5 20:07:00 2012 -0400
+
+    Better handling of comments, new XML path markers
+    
+    Comments were getting lost if they weren't specified at exactly
+    the same level as translation units were taken from. This commit
+    changes how comments are handled to prevent that.
+    
+    I also moved path markers from the file context comment, because
+    it's wrong and messes up some tools.
+
+ itstool.in                                 |  167 ++++++++++++++++++++--------
+ tests/Attributes1.pot                      |    8 +-
+ tests/Context.pot                          |   17 ++-
+ tests/Droprule.pot                         |    5 +-
+ tests/EX-locNote-selector-2.pot            |   37 ++++++
+ tests/EX-locNotePointer-attribute-1.pot    |    8 +-
+ tests/EX-locNoteRefPointer-attribute-1.pot |   12 +-
+ tests/IT-locNote-inline.pot                |   20 ++++
+ tests/IT-locNote-inline.xml                |   15 +++
+ tests/IT-locNote-multiples.pot             |   28 +++++
+ tests/IT-locNote-multiples.xml             |   19 +++
+ tests/LocNote1.pot                         |   11 +-
+ tests/LocNote2.pot                         |   11 +-
+ tests/LocNote3.pot                         |   18 ++-
+ tests/LocNote4.pot                         |   19 ++-
+ tests/Placeholder.pot                      |   21 ++++
+ tests/Translate1.pot                       |   23 +++--
+ tests/Translate2.pot                       |    8 +-
+ tests/Translate3.pot                       |   21 ++++
+ tests/Translate4.pot                       |   21 ++++
+ tests/Translate5.pot                       |    8 +-
+ tests/Translate6.pot                       |   36 ++++++
+ tests/Translate7.pot                       |    8 +-
+ tests/TranslateGlobal.pot                  |   11 +-
+ tests/WithinText1.pot                      |   11 +-
+ tests/WithinText2.pot                      |   32 ++++--
+ tests/run_tests.py                         |    9 ++-
+ 27 files changed, 481 insertions(+), 123 deletions(-)
+
+commit 63e2b5739977a99a70898e6c78798b7eaa66293e
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Wed Apr 4 12:39:06 2012 -0400
+
+    Don't error out when invalid msgstr is non-ascii
+
+ itstool.in |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
+
+commit 367d347cfc0d7bfcc25ab5b83c59e8824af4ae27
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Mon Apr 2 10:16:29 2012 -0400
+
+    Proper error message when source XML file can't be read
+
+ itstool.in |    6 +++++-
+ 1 files changed, 5 insertions(+), 1 deletions(-)
+
+commit 3ff47350b0386c971e4fb1955f87fefc2c5aafd1
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Mon Apr 2 09:51:30 2012 -0400
+
+    Handle UTF-8 in attribute values
+
+ itstool.in |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
+
+commit 1e0fa47194bbfcbd30e402a4897a0856a6045b73
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Fri Mar 23 10:09:55 2012 -0400
+
+    Don't output external ref messages under its:translate="no"
+
+ itstool.in |    9 +++++++++
+ 1 files changed, 9 insertions(+), 0 deletions(-)
+
+commit 80b34e2870abd08cb96f2929d8ee32acab3d89e9
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Sun Feb 5 11:53:41 2012 -0500
+
+    Version 1.1.2
+
+ NEWS         |    4 ++++
+ configure.ac |    2 +-
+ 2 files changed, 5 insertions(+), 1 deletions(-)
+
+commit ed24c8ab3b22a085daea614638cbc15796011f15
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Tue Sep 27 10:16:55 2011 -0400
+
+    Better handling of XML errors in PO files
+    
+    Rather than let an exception kill itstool, just issue a warning
+    and use the original-language node. Added --strict to error out
+    for XML errors in PO files.
+    
+    https://bugs.freedesktop.org/show_bug.cgi?id=41254
+
+ itstool.in                    |   38 ++++++++++++++++++++++++++++++--------
+ tests/Translate3.ll.wrong.xml |   12 ++++++++++++
+ tests/run_tests.py            |   23 +++++++++++++++++------
+ 3 files changed, 59 insertions(+), 14 deletions(-)
+
+commit e5c3be76682a1e1d224ad89fa3798cf3a7b81900
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Mon Sep 19 09:12:30 2011 -0400
+
+    Version 1.1.1
+
+ NEWS         |    7 +++++++
+ configure.ac |    2 +-
+ 2 files changed, 8 insertions(+), 1 deletions(-)
+
+commit 0520144626db679e81725aebfaba273a52fd0bf4
+Merge: 092a264 7e07396
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Sat Sep 3 13:21:09 2011 -0400
+
+    Merge: Proper XML error catching [claude]
+
+commit 092a26470a5032c85ba8a40570ee6fd6c9fe9b30
+Merge: c3566db 48e4257
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Sat Sep 3 13:10:19 2011 -0400
+
+    Merge commit '48e4257421beb439f23a78507f43aae694775974'
+
+commit c3566dbec79ecd2d0bbef5b42044d7b12380c034
+Merge: 6e6ca0d 6411b09
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Sat Sep 3 10:56:58 2011 -0400
+
+    Merge commit 'refs/merge-requests/2' of git://gitorious.org/itstool/itstool
+
+commit 7e0739641507d92e1d2ec7e9b7f5e5c7c09a940a
+Author: Claude Paroz <claude@2xlibre.net>
+Date:   Wed Aug 17 13:32:42 2011 +0200
+
+    Catch XML errors in translated content
+
+ itstool.in                   |    1 +
+ tests/Translate3.ll.wrong.po |   19 +++++++++++++++++++
+ tests/run_tests.py           |   24 ++++++++++++++++++------
+ 3 files changed, 38 insertions(+), 6 deletions(-)
+
+commit 1abdf1b0d83b37a9f298563e139c118c9a62629b
+Author: Claude Paroz <claude@2xlibre.net>
+Date:   Wed Aug 17 12:10:36 2011 +0200
+
+    Catch XML parsing errors so itstool does properly exit with error code
+
+ itstool.in          |   10 ++++++++++
+ tests/Malformed.xml |    6 ++++++
+ tests/run_tests.py  |   18 ++++++++++++------
+ 3 files changed, 28 insertions(+), 6 deletions(-)
+
+commit 6411b09431eb72ed5426d40a0142e7479c486d3b
+Author: Claude Paroz <claude@2xlibre.net>
+Date:   Wed Jun 29 21:15:46 2011 +0200
+
+    Fix placeholder translation when it contains sub-elements
+
+ itstool.in               |   12 ++++++++++--
+ tests/Placeholder.ll.po  |   19 +++++++++++++++++++
+ tests/Placeholder.ll.xml |    6 ++++++
+ tests/Placeholder.xml    |    5 +++++
+ tests/run_tests.py       |    4 +++-
+ 5 files changed, 43 insertions(+), 3 deletions(-)
+
+commit 6e6ca0daf4084aaa94268f062461e1ec712698fa
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Mon Jun 27 14:59:56 2011 -0400
+
+    Version 1.1.0
+
+ NEWS         |   14 ++++++++++++++
+ configure.ac |    2 +-
+ 2 files changed, 15 insertions(+), 1 deletions(-)
+
+commit 187fcbe585560f128c7436e66f6b8e3a789a73b0
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Sun Jun 26 12:28:10 2011 -0400
+
+    mallard.its: Set msgctxt on info titles
+
+ its/mallard.its |    3 +++
+ 1 files changed, 3 insertions(+), 0 deletions(-)
+
+commit b57dfa4327da4d889dbfc5d26d824482fd7b2f54
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Sun Jun 26 12:27:46 2011 -0400
+
+    Don't bomb if a locNotePointer returns a string
+
+ itstool.in |   22 +++++++++++++---------
+ 1 files changed, 13 insertions(+), 9 deletions(-)
+
+commit 8d97758ac43f2079d252fedf2a9666b33a751fd0
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Sat Jun 25 14:49:53 2011 -0400
+
+    Added itst:context to specify a msgctxt for a node
+
+ itstool.in           |   35 ++++++++++++++++++++++++++++++++++-
+ tests/Context.ll.po  |   35 +++++++++++++++++++++++++++++++++++
+ tests/Context.ll.xml |   15 +++++++++++++++
+ tests/Context.pot    |   35 +++++++++++++++++++++++++++++++++++
+ tests/Context.xml    |   14 ++++++++++++++
+ tests/run_tests.py   |    3 +++
+ 6 files changed, 136 insertions(+), 1 deletions(-)
+
+commit e84f296dd21de75b9244896be9d2acc6aeed4dea
+Author: Claude Paroz <claude@2xlibre.net>
+Date:   Fri Jun 24 12:25:17 2011 -0400
+
+    Fixes for Python 3
+
+ itstool.in         |    2 +-
+ tests/run_tests.py |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+commit b13436f2a75ffded500e5f26028237d337510394
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Fri Jun 24 11:21:38 2011 -0400
+
+    Use #!/usr/bin/python -s for shebang, RH bug #702989
+
+ itstool.in |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit d8b399ae628e822ee9a9762657969361c5aebc93
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Fri Jun 24 10:19:54 2011 -0400
+
+    Make itst:drop work on non-inline nodes
+
+ itstool.in         |   15 ++++++++++++++-
+ tests/Droprule.xml |    2 ++
+ 2 files changed, 16 insertions(+), 1 deletions(-)
+
+commit 56cd8382ae979fab1a4a4a25f052d93d1070fc6d
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Thu Jun 23 17:51:40 2011 -0400
+
+    Made dropRule take a drop attribute, like other rules
+
+ itstool.in            |    6 +++---
+ tests/Droprule.ll.xml |    2 +-
+ tests/Droprule.xml    |    2 +-
+ 3 files changed, 5 insertions(+), 5 deletions(-)
+
+commit 333218d4978a7b203252d35e7979f64cfb3b0c1c
+Author: Claude Paroz <claude@2xlibre.net>
+Date:   Tue May 31 22:46:29 2011 +0200
+
+    Add itst drop rule
+    
+    The itst Droprule is a rule allowing to ignore completely a tag from
+    the translation, including its content. The resulting xml will not
+    have the tag either.
+
+ itstool.in            |    7 ++++++-
+ tests/Droprule.ll.po  |   15 +++++++++++++++
+ tests/Droprule.ll.xml |   11 +++++++++++
+ tests/Droprule.pot    |   15 +++++++++++++++
+ tests/Droprule.xml    |   10 ++++++++++
+ tests/run_tests.py    |    4 ++++
+ 6 files changed, 61 insertions(+), 1 deletions(-)
+
+commit 7cda8e16e2281e0e6c42f1e47bfc98ee5e4fe4ae
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Thu Jun 23 17:45:16 2011 -0400
+
+    Renamed attribute test files
+
+ tests/Attributes1.ll.po  |   19 +++++++++++++++++++
+ tests/Attributes1.ll.xml |   10 ++++++++++
+ tests/Attributes1.pot    |   19 +++++++++++++++++++
+ tests/Attributes1.xml    |   10 ++++++++++
+ tests/README             |    2 --
+ tests/run_tests.py       |    4 ++--
+ tests/x-attr1.ll.po      |   19 -------------------
+ tests/x-attr1.ll.xml     |   10 ----------
+ tests/x-attr1.pot        |   19 -------------------
+ tests/x-attr1.xml        |   10 ----------
+ 10 files changed, 60 insertions(+), 62 deletions(-)
+
+commit 4334f863ae6ab636b3e7c905e15693a188e4bee1
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Thu Jun 23 16:11:42 2011 -0400
+
+    Handled translatable attributes in non-translatable elements
+
+ itstool.in           |   25 +++++++++++++++----------
+ tests/README         |    4 +++-
+ tests/run_tests.py   |    3 +++
+ tests/x-attr1.ll.po  |   19 +++++++++++++++++++
+ tests/x-attr1.ll.xml |   10 ++++++++++
+ tests/x-attr1.pot    |   19 +++++++++++++++++++
+ tests/x-attr1.xml    |   10 ++++++++++
+ 7 files changed, 79 insertions(+), 11 deletions(-)
+
+commit 7ecd70b27d5cc22f8d6b35fc68aa9fe9cd3a7def
+Author: Claude Paroz <claude@2xlibre.net>
+Date:   Sun Jun 12 21:40:36 2011 +0200
+
+    Extract and translate node attributes
+
+ itstool.in                   |   41 ++++++++++++++++++++++++++++++++++++-----
+ tests/Translate1.ll.po       |    4 ++++
+ tests/Translate1.ll.xml      |    2 +-
+ tests/Translate1.pot         |    4 ++++
+ tests/Translate2.ll.po       |    4 ++++
+ tests/Translate2.ll.xml      |    2 +-
+ tests/Translate2.pot         |    4 ++++
+ tests/TranslateGlobal.ll.po  |   23 +++++++++++++++++++++++
+ tests/TranslateGlobal.ll.xml |   13 +++++++++++++
+ tests/TranslateGlobal.pot    |   23 +++++++++++++++++++++++
+ tests/run_tests.py           |    7 +++----
+ 11 files changed, 116 insertions(+), 11 deletions(-)
+
+commit fadb43fc37dbe18d9b1204bb13fb5ccea492b649
+Merge: 43a518a 1ebcc2a
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Wed Jun 1 09:22:03 2011 -0400
+
+    Merge branch 'testsuite'
+
+commit 1ebcc2af7fa4d6e12687199e173720b44eb823a3
+Author: Claude Paroz <claude@2xlibre.net>
+Date:   Wed Jun 1 15:11:51 2011 +0200
+
+    Fix LocNote2 test and add README in tests
+
+ tests/LocNote2.pot |   25 +++++++++++++++++++++++++
+ tests/README       |    5 +++++
+ tests/run_tests.py |    4 ++--
+ 3 files changed, 32 insertions(+), 2 deletions(-)
+
+commit 43a518a2da4eb11f78b23cbca6291f9cd7c2f4ab
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Wed Jun 1 08:59:26 2011 -0400
+
+    Adding copyright and license info to itstool
+
+ itstool.in |   17 +++++++++++++++++
+ 1 files changed, 17 insertions(+), 0 deletions(-)
+
+commit 480a2531c9b8ba0249f9326e8d043de309486e5b
+Author: Claude Paroz <claude@2xlibre.net>
+Date:   Wed Jun 1 13:45:51 2011 +0200
+
+    Add remaining tests
+
+ itstool.in                                 |    5 ++-
+ tests/EX-locNotePointer-attribute-1.pot    |   21 +++++++++++
+ tests/EX-locNoteRefPointer-attribute-1.pot |   21 +++++++++++
+ tests/LocNote1.pot                         |   25 +++++++++++++
+ tests/LocNote3.pot                         |   29 ++++++++++++++++
+ tests/LocNote4.pot                         |   30 ++++++++++++++++
+ tests/WithinText1.ll.po                    |   23 ++++++++++++
+ tests/WithinText1.ll.xml                   |   14 ++++++++
+ tests/WithinText1.pot                      |   23 ++++++++++++
+ tests/WithinText2.ll.po                    |   51 ++++++++++++++++++++++++++++
+ tests/WithinText2.ll.xml                   |   21 +++++++++++
+ tests/WithinText2.pot                      |   51 ++++++++++++++++++++++++++++
+ tests/run_tests.py                         |   40 ++++++++++++++++++++-
+ 13 files changed, 350 insertions(+), 4 deletions(-)
+
+commit 66f3fdd0d678bfffefef4b26e0c6812e3a9b8bb8
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Wed Jun 1 08:07:42 2011 -0400
+
+    itstool: Allow both XLink and child rules on its:rules
+    
+    We weren't handling tests/WithinText2.xml correctly
+
+ itstool.in |    3 +--
+ 1 files changed, 1 insertions(+), 2 deletions(-)
+
+commit 2ffe1d30ea1d5925a75955bc9b88c3d4c14b7b46
+Author: Claude Paroz <claude@2xlibre.net>
+Date:   Tue May 31 22:05:00 2011 +0200
+
+    Add tests for the Translate* series
+
+ tests/Translate2.ll.po  |   15 +++++++++++++++
+ tests/Translate2.ll.xml |   10 ++++++++++
+ tests/Translate2.pot    |   15 +++++++++++++++
+ tests/Translate3.ll.po  |   19 +++++++++++++++++++
+ tests/Translate3.ll.xml |   10 ++++++++++
+ tests/Translate4.ll.po  |   19 +++++++++++++++++++
+ tests/Translate4.ll.xml |   10 ++++++++++
+ tests/Translate5.ll.po  |   19 +++++++++++++++++++
+ tests/Translate5.ll.xml |   19 +++++++++++++++++++
+ tests/Translate5.pot    |   19 +++++++++++++++++++
+ tests/Translate6.ll.po  |   31 +++++++++++++++++++++++++++++++
+ tests/Translate6.ll.xml |   19 +++++++++++++++++++
+ tests/Translate7.ll.po  |   19 +++++++++++++++++++
+ tests/Translate7.ll.xml |   29 +++++++++++++++++++++++++++++
+ tests/Translate7.pot    |   19 +++++++++++++++++++
+ tests/run_tests.py      |   41 +++++++++++++++++++++++++++++++++++------
+ 16 files changed, 307 insertions(+), 6 deletions(-)
+
+commit d3177444660bac67265ba9cf17d586fd1b0b2907
+Author: Claude Paroz <claude@2xlibre.net>
+Date:   Tue May 31 20:41:13 2011 +0200
+
+    Fix xml iteration when constructing translated subnodes
+
+ itstool.in              |    3 ++-
+ tests/Translate1.ll.xml |    2 +-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+
+commit 6c7b6bb9db8e77ec142fac2c9b514ec1769df65b
+Author: Claude Paroz <claude@2xlibre.net>
+Date:   Tue May 31 16:33:48 2011 +0200
+
+    Use unicode strings inside of Message class
+
+ itstool.in |   40 +++++++++++++++++++++-------------------
+ 1 files changed, 21 insertions(+), 19 deletions(-)
+
+commit f4635d084d93212af73221de5165c3fa92f834cd
+Author: Claude Paroz <claude@2xlibre.net>
+Date:   Mon May 30 21:23:15 2011 +0200
+
+    Initial test infrastructure
+
+ tests/Translate1.ll.po  |   35 +++++++++++++++++++++++++
+ tests/Translate1.ll.xml |   39 +++++++++++++++++++++++++++
+ tests/Translate1.pot    |   35 +++++++++++++++++++++++++
+ tests/run_tests.py      |   66 +++++++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 175 insertions(+), 0 deletions(-)
+
+commit 00a8df54545a66aa70c20ceecb19709ca0b811a7
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Fri May 27 12:09:10 2011 -0400
+
+    Include installation dir in search path if XDG_DATA_DIRS not set
+
+ configure.ac |    9 +++++++++
+ itstool.in   |    5 ++++-
+ 2 files changed, 13 insertions(+), 1 deletions(-)
+
+commit abd3afc9bd7066658d295de3a39c5c0b287d0644
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Mon May 9 21:26:42 2011 -0400
+
+    itstool: Allow localization notes to be space-preserving
+
+ itstool.in |   32 ++++++++++++++++++++++----------
+ 1 files changed, 22 insertions(+), 10 deletions(-)
+
+commit 04a706ae1057d0a9ed4b36c7e20292d44e97ad80
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Mon May 9 16:32:25 2011 -0400
+
+    itstool.1: Added a man page
+
+ .gitignore   |    1 +
+ Makefile.am  |   10 +++++++-
+ configure.ac |    1 +
+ itstool.1.in |   77 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 88 insertions(+), 1 deletions(-)
+
+commit 69db1ded268af460d31b6ab2d86172873468890f
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Mon May 9 11:15:02 2011 -0400
+
+    Catch XPath exceptions and warn
+
+ itstool.in |   30 +++++++++++++++++++-----------
+ 1 files changed, 19 insertions(+), 11 deletions(-)
+
+commit 6fdaea81bf70023612202cadcd7d9995e571f23e
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Fri May 6 17:02:13 2011 -0400
+
+    Version 1.0.1
+
+ NEWS         |    7 +++++++
+ configure.ac |    2 +-
+ 2 files changed, 8 insertions(+), 1 deletions(-)
+
+commit e9344508508112ecd177232ba49b5664e860bc9f
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Tue May 3 12:48:53 2011 -0400
+
+    itstool: Convert posixy locale strings to BCP47
+
+ itstool.in |   29 ++++++++++++++++++++++++++++-
+ 1 files changed, 28 insertions(+), 1 deletions(-)
+
+commit 81af5ab154bf68b1e267e1f4c1ecea760a19706f
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Sat Apr 30 14:57:48 2011 -0400
+
+    Fixed --help string for --version
+
+ itstool.in |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 4aac006a9f0350f3dbd6588cdb4254e8b895ec78
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Sat Apr 30 14:56:07 2011 -0400
+
+    Added --version
+
+ .gitignore   |    1 +
+ Makefile.am  |    2 +-
+ configure.ac |    1 +
+ itstool      |  786 ---------------------------------------------------------
+ itstool.in   |  797 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 800 insertions(+), 787 deletions(-)
+
+commit 6d60e6e1d14bc6b62e0c43cb0781d562d23dd684
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Tue Apr 26 17:27:22 2011 -0400
+
+    Use #. for comments. Plain # is for notes written by translators
+
+ itstool |    6 +++---
+ 1 files changed, 3 insertions(+), 3 deletions(-)
+
+commit e091a4736f972b6de8a62dd934ea7a38b089078a
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Tue Apr 26 16:22:24 2011 -0400
+
+    Adding the PO header, at Claude's request
+
+ itstool |   12 ++++++++++++
+ 1 files changed, 12 insertions(+), 0 deletions(-)
+
+commit 48e4257421beb439f23a78507f43aae694775974
+Author: Javier Jardón <jjardon@gnome.org>
+Date:   Tue Apr 26 17:00:23 2011 +0100
+
+    autogen.sh: Improve script to handle out of tree compilations
+    
+    Also handle the option to not run the configure step
+
+ autogen.sh |    7 +++++--
+ 1 files changed, 5 insertions(+), 2 deletions(-)
+
+commit 65ecbc8856e91b991d812e08dfa10300504bfb1b
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Tue Apr 26 11:33:03 2011 -0400
+
+    Version 1.0.0
+
+ NEWS         |    3 +++
+ configure.ac |    2 +-
+ 2 files changed, 4 insertions(+), 1 deletions(-)
+
+commit f3d1ea105a2f99a3c5732d10d03011208cf7ed66
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Tue Apr 26 11:22:51 2011 -0400
+
+    Makefile.am: Added itstool to EXTRA_DIST
+
+ Makefile.am |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit c9fe5e91ae0096d655377e44fa1328f5bf544978
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Tue Apr 26 11:21:03 2011 -0400
+
+    xhtml.its: Preserve space on <pre>
+
+ its/xhtml.its |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
+
+commit 93733013d34ed106108e327d9828d5156b9793e2
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Mon Apr 25 20:06:54 2011 -0400
+
+    Switched itst namespace to itstool.org
+
+ its/docbook.its |    2 +-
+ its/mallard.its |    2 +-
+ its/xhtml.its   |    2 +-
+ itstool         |    4 ++--
+ 4 files changed, 5 insertions(+), 5 deletions(-)
+
+commit 749005fbafe481fd7c468db5739d6927f95b637b
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Mon Apr 25 12:28:06 2011 -0400
+
+    xhtml.its: Added a basic XHTML ITS file
+
+ its/Makefile.am |    2 +-
+ its/xhtml.its   |   44 ++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 45 insertions(+), 1 deletions(-)
+
+commit cb91fbb7fe9bbc543e64723d82c3d00c60f0d313
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Mon Apr 25 11:56:36 2011 -0400
+
+    docbook.its: Some updates
+
+ its/docbook.its |  327 +------------------------------------------------------
+ 1 files changed, 6 insertions(+), 321 deletions(-)
+
+commit aeec20e8f3d7f0e2fc00b9e47c7e7331be6d588b
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Mon Apr 25 09:45:16 2011 -0400
+
+    Implement external refs, also msgctxt "_" for auto stuff
+
+ its/docbook.its |    5 +++++
+ its/mallard.its |    2 ++
+ itstool         |   43 +++++++++++++++++++++++++++++++++++++++++--
+ 3 files changed, 48 insertions(+), 2 deletions(-)
+
+commit 26d4de24ba90a96c33328f1a59a1204ed891ff11
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Mon Apr 11 14:33:20 2011 -0400
+
+    UTF-8 encode translator credit information
+
+ itstool |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+
+commit a4726b62b145ecc30dea58f07ad391a3f2ad3a0b
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Mon Apr 11 14:30:45 2011 -0400
+
+    Only add translator-credits once, avoid dup comment
+
+ itstool |   15 +++++++++++----
+ 1 files changed, 11 insertions(+), 4 deletions(-)
+
+commit dd54d86c4e72f443b8134350e83be8243905851c
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Mon Apr 11 14:19:42 2011 -0400
+
+    Don't translate Mallard credit/email
+
+ its/mallard.its |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+
+commit 0d10c022365240c382666a97c6fe8d5a4f777cab
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Mon Apr 11 14:06:20 2011 -0400
+
+    Only add translator-credits if itst:credits matched
+
+ itstool |    9 +++++----
+ 1 files changed, 5 insertions(+), 4 deletions(-)
+
+commit f2a60e4c0880b8a3111db3aeddd41865b1044162
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Mon Apr 11 14:04:45 2011 -0400
+
+    Support XLink on its:rules
+
+ itstool |   12 ++++++++++--
+ 1 files changed, 10 insertions(+), 2 deletions(-)
+
+commit b30a771b03adca4da26d5a21879c5fcd562f67b4
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Mon Apr 11 10:39:57 2011 -0400
+
+    Implemented translator credits
+
+ its/docbook.its |   20 +++++-------------
+ its/mallard.its |   18 +++++-----------
+ itstool         |   59 ++++++++++++++++++++++++++++++++++++++++++++++++++++--
+ 3 files changed, 68 insertions(+), 29 deletions(-)
+
+commit 1a2343bc6164ffe87dad0eb61221c49abb99d544
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Thu Dec 23 12:33:25 2010 -0500
+
+    Read and set language attributes
+
+ its/docbook.its |    3 +
+ its/mallard.its |    4 ++
+ itstool         |  130 +++++++++++++++++++++++++++++++++++++------------------
+ 3 files changed, 95 insertions(+), 42 deletions(-)
+
+commit be53ea2c55a64b5362c739552cfef3d164b0066b
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Wed Dec 22 11:43:00 2010 -0500
+
+    [itstool] Got rid of all the redundant extra ns defs
+
+ itstool |   28 +++++++++++++++++++++++++---
+ 1 files changed, 25 insertions(+), 3 deletions(-)
+
+commit f20dad00869457d2918ca98f04d0d16c4e15b635
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Tue Dec 21 09:11:25 2010 -0500
+
+    [itstool] Fixed up some of the -o handling
+
+ itstool |   19 +++++++++++++------
+ 1 files changed, 13 insertions(+), 6 deletions(-)
+
+commit 1ff349b299d0acefd6f006c1835afe9f691d1610
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Mon Nov 8 11:05:55 2010 -0500
+
+    [its/ttml.its] Adding basic TTML ITS, tt:span = withinText
+
+ its/Makefile.am |    2 +-
+ its/ttml.its    |    6 ++++++
+ 2 files changed, 7 insertions(+), 1 deletions(-)
+
+commit e780a5098352dfc4864701a3568017432fd3fe3c
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Wed Oct 27 13:44:23 2010 -0400
+
+    [its] Don't translate DocBook remark or Mallard comment
+
+ its/docbook.its |    4 +++-
+ its/mallard.its |    4 +++-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
+
+commit 854b53dd84d345239fde4e2c26c224c6c81d91b9
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Wed Oct 27 13:37:52 2010 -0400
+
+    [itstool] Implement its:span/@translate & preserve space more greedily
+    
+    Sometimes messages get merged. Sometimes one of them is no-wrap, and
+    another isn't. In this case, prefer no-wrap. Better safe than sorry.
+
+ itstool |   14 +++++++++++---
+ 1 files changed, 11 insertions(+), 3 deletions(-)
+
+commit 166fd8dae7aaf3774efedab8ebf6fdc254b5bd9c
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Wed Oct 27 11:33:09 2010 -0400
+
+    [itstool] Fixed a few references of things that don't exist
+
+ itstool |    6 +++---
+ 1 files changed, 3 insertions(+), 3 deletions(-)
+
+commit 83199f895d2d8257f0d2752ac40b920ea34dfa70
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Wed Oct 27 11:18:53 2010 -0400
+
+    [itstool] Set the xpath context node when evaluating locNotePointer
+
+ itstool |    6 ++++++
+ 1 files changed, 6 insertions(+), 0 deletions(-)
+
+commit 8906f85e0252895bc425dd8d629c20d2f533595f
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Wed Oct 27 11:10:00 2010 -0400
+
+    [itstool] Stop encoding/decoding UTF-8
+    
+    This was just causing errors because I wasn't keeping close enough
+    track of when I had unicode objects and when I had byte strings.
+    Turns out we can just treat it all as byte strings.
+
+ itstool |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+commit ca20cb53d62873f1e884018c69359e217061721f
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Wed Oct 27 10:17:45 2010 -0400
+
+    [itstool] Use itst:match to determine if we should apply rules
+    
+    We scan all installed ITS rules files. Applying all the rules for a
+    format as large as DocBook can slow down everything. This allows us
+    to skip rules for non-matching formats.
+
+ its/its.its |    4 ----
+ itstool     |   31 +++++++++++++++++++++++++++----
+ 2 files changed, 27 insertions(+), 8 deletions(-)
+
+commit 42ab65c65358d946b811358e355f6e04faf70e37
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Wed Oct 27 09:53:20 2010 -0400
+
+    [its.its] ITS rule to prevent translation of its:locNote elements
+
+ its/Makefile.am |    2 +-
+ its/its.its     |    9 +++++++++
+ 2 files changed, 10 insertions(+), 1 deletions(-)
+
+commit ff882e3b433fc98bb5595d9af226775a12c87770
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Wed Oct 27 09:52:56 2010 -0400
+
+    [itstool] Implement localization notes
+
+ itstool |   78 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++----
+ 1 files changed, 73 insertions(+), 5 deletions(-)
+
+commit e8c9277a233c64ad80d379168f478ef526f81093
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Tue Oct 26 15:56:57 2010 -0400
+
+    [itstool] Adding -i option to load in additional ITS rules
+
+ itstool |   16 ++++++++++++++--
+ 1 files changed, 14 insertions(+), 2 deletions(-)
+
+commit bb185efafced05984c99656afca5adabccb45f90
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Tue Oct 26 13:19:26 2010 -0400
+
+    [tests] Add W3C ITS test files
+
+ tests/EX-locNote-element-1.xml             |   14 ++++++++++
+ tests/EX-locNote-selector-2.xml            |   10 +++++++
+ tests/EX-locNotePointer-attribute-1.xml    |   19 +++++++++++++
+ tests/EX-locNoteRef-attribute-1.xml        |   12 ++++++++
+ tests/EX-locNoteRefPointer-attribute-1.xml |   16 +++++++++++
+ tests/LocNote1.xml                         |   21 +++++++++++++++
+ tests/LocNote2.xml                         |   15 ++++++++++
+ tests/LocNote2_LinkedRules.xml             |    9 ++++++
+ tests/LocNote3.xml                         |   17 ++++++++++++
+ tests/LocNote4.xml                         |    8 +++++
+ tests/Translate1.xml                       |   39 ++++++++++++++++++++++++++++
+ tests/Translate2.xml                       |   10 +++++++
+ tests/Translate2_LinkedRules.xml           |    5 +++
+ tests/Translate3.xml                       |   13 +++++++++
+ tests/Translate4.xml                       |   10 +++++++
+ tests/Translate5.xml                       |   19 +++++++++++++
+ tests/Translate6.xml                       |   19 +++++++++++++
+ tests/Translate7.xml                       |   28 ++++++++++++++++++++
+ tests/TranslateGlobal.xml                  |   13 +++++++++
+ tests/TranslateGlobal_LinkedRules.xml      |    6 ++++
+ tests/WithinText1.xml                      |   12 ++++++++
+ tests/WithinText2.xml                      |   25 ++++++++++++++++++
+ tests/WithinText2_LinkedRules.xml          |    6 ++++
+ 23 files changed, 346 insertions(+), 0 deletions(-)
+
+commit dd06cccc33e029be8154500b9ada406ca9c0008c
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Tue Oct 26 13:18:53 2010 -0400
+
+    [itstool] Allow translatable elements inside untranslatable elements
+
+ itstool |   57 +++++++++++++++++++++++++++++++++++----------------------
+ 1 files changed, 35 insertions(+), 22 deletions(-)
+
+commit 9de7d8245dcf82f79ea7a041ee097fbf79757cc5
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Tue Oct 26 08:12:25 2010 -0400
+
+    Adding build files and other miscellanea
+
+ .gitignore      |   15 ++
+ COPYING         |   19 ++
+ COPYING.GPL3    |  674 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ INSTALL         |  365 ++++++++++++++++++++++++++++++
+ Makefile.am     |   13 +
+ autogen.sh      |    3 +
+ configure.ac    |    9 +
+ its/Makefile.am |    5 +
+ 8 files changed, 1103 insertions(+), 0 deletions(-)
+
+commit 943cec6e34112cbaf15eee5597e3123b70b9724d
+Author: Shaun McCance <shaunm@gnome.org>
+Date:   Mon Oct 25 22:45:00 2010 -0400
+
+    Initial commit of itstool with docbook and mallard defs
+
+ its/docbook.its |  525 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ its/mallard.its |   36 ++++
+ itstool         |  460 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 1021 insertions(+), 0 deletions(-)

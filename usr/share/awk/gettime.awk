@@ -1,4 +1,4 @@
-# gettimeofday.awk --- get the time of day in a usable format
+# getlocaltime.awk --- get the time of day in a usable format
 #
 # Arnold Robbins, arnold@skeeve.com, Public Domain, May 1993
 #
@@ -25,13 +25,13 @@
 #    time["weeknum"]      -- week number, Sunday first day
 #    time["altweeknum"]   -- week number, Monday first day
 
-function gettimeofday(time,    ret, now, i)
+function getlocaltime(time,    ret, now, i)
 {
     # get time once, avoids unnecessary system calls
     now = systime()
 
     # return date(1)-style output
-    ret = strftime("%a %b %d %H:%M:%S %Z %Y", now)
+    ret = strftime("%a %b %e %H:%M:%S %Z %Y", now)
 
     # clear out target array
     delete time

@@ -11,7 +11,7 @@
 (*                                                                     *)
 (***********************************************************************)
 
-(* $Id: sort.mli,v 1.13 2001/12/07 13:40:58 xleroy Exp $ *)
+(* $Id: sort.mli 7164 2005-10-25 18:34:07Z doligez $ *)
 
 (** Sorting and merging lists.
 
@@ -39,4 +39,3 @@ val merge : ('a -> 'a -> bool) -> 'a list -> 'a list -> 'a list
    predicate, [merge] returns a sorted list containing the elements
    from the two lists. The behavior is undefined if the two
    argument lists were not sorted. *)
-

@@ -21,11 +21,15 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 #ifndef __GTK_BUTTON_BOX_H__
 #define __GTK_BUTTON_BOX_H__
+
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
 
 #include <gtk/gtkbox.h>
 
@@ -48,11 +52,11 @@ typedef struct _GtkButtonBoxClass  GtkButtonBoxClass;
 struct _GtkButtonBox
 {
   GtkBox box;
-  gint child_min_width;
-  gint child_min_height;
-  gint child_ipad_x;
-  gint child_ipad_y;
-  GtkButtonBoxStyle layout_style;
+  gint GSEAL (child_min_width);
+  gint GSEAL (child_min_height);
+  gint GSEAL (child_ipad_x);
+  gint GSEAL (child_ipad_y);
+  GtkButtonBoxStyle GSEAL (layout_style);
 };
 
 struct _GtkButtonBoxClass
@@ -99,5 +103,3 @@ void _gtk_button_box_child_requisition (GtkWidget *widget,
 G_END_DECLS
 
 #endif /* __GTK_BUTTON_BOX_H__ */
-
-

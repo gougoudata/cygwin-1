@@ -1,0 +1,97 @@
+
+libelf0-0.8.13-2
+------------------------------------------
+
+This is a Cygwin package of Michael "Tired" Riepe's libelf library.  It
+is required in order to build cross-compiler versions of GCC-4.5.0 and
+above targeted at ELF-based platforms (such as Linux) from source if you
+want to enable the new LTO (Link-Time-Optimisation) feature; GCC uses
+the system's native object format as a container for LTO information when
+compiling, and relies on libelf support to do so for ELF-based targets.
+
+It's good for general purpose ELF file reading and writing too!
+
+    ------------------------------ooOOOoo------------------------------
+    PLEASE SEND BUG REPORTS, PROBLEMS, ETC. TO THE CYGWIN MAILING LIST.
+    ------------------------------ooOOOoo------------------------------
+
+------------------------------------------
+
+Cygport package information
+    Package name:     libelf0
+    Package version:  0.8.13
+    Cygwin release:   1
+    Homepage:         http://www.mr511.de/software/
+    Description:      Libelf - ELF object file access library.
+
+Runtime requirements:
+  cygwin-1.7.0 or newer
+
+Build requirements:
+
+  Up-to-date binutils, gcc, cygport, make, fileutils, bash, grep, etc.
+  autoconf-2.13 specifically.
+
+Build instructions:
+
+  tar -xfvj libelf0-0.8.13-2-src.tar.bz2
+      if you use setup to install this src package, it will be
+	 unpacked under /usr/src automatically
+
+  cd /usr/src (if needed)
+      or you can build in another directory if you unpacked there
+
+  cygport libelf0-0.8.13-2 all
+      or whatever other cygport option may be required
+
+This will create:
+
+  libelf0-devel-0.8.13-2.tar.bz2
+  libelf0-0.8.13-2.tar.bz2
+  libelf0-0.8.13-2-src.tar.bz2
+
+containing:
+
+  libelf0-0.8.13-2.tar.bz2:
+  /usr/bin/cygelf-0.dll
+  /usr/share/doc/Cygwin/libelf0.README
+  /usr/share/doc/libelf0/COPYING.LIB
+  /usr/share/doc/libelf0/ChangeLog
+  /usr/share/doc/libelf0/README
+
+  libelf0-devel-0.8.13-2.tar.bz2:
+  /usr/lib/libelf.a
+  /usr/lib/libelf.dll.a
+  /usr/lib/pkgconfig/libelf.pc
+  /usr/include/libelf/elf_repl.h
+  /usr/include/libelf/gelf.h
+  /usr/include/libelf/libelf.h
+  /usr/include/libelf/nlist.h
+  /usr/include/libelf/sys_elf.h
+
+Language:
+  C
+  
+License:
+  LGPL v2 or later.
+
+------------------
+
+Port Notes:
+
+----------  libelf0-0.8.13-2 -- 20100602 -----------
+
+ - Also export missing elf_getaroff, nlist functions.
+ - Corrected -1 release date in this README.
+
+----------  libelf0-0.8.13-1 -- 20100531 -----------
+
+ - Initial release.
+
+ - Added support for building as shared library on Cygwin.
+ - Added missing exports to DEF file.
+ - Fixed makefile support for DESTDIR installs.
+ - Tightened config test to avoid false positive on Cygwin's own elf.h header.
+
+Cygwin port maintained by: Dave Korn  <dave.korn.cygwin@gmail.com.use.the.list.please>
+Please address all questions to the Cygwin mailing list at <cygwin@cygwin.com>

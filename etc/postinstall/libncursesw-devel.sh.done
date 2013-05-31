@@ -1,0 +1,60 @@
+#!/bin/sh
+# This script will create symbolic links in the toplevel include
+# directory, pointing to files 'hidden' in the ncursesw subdirectory.
+prefix=/usr
+bindir=${prefix}/bin
+incdir=${prefix}/include
+libdir=${prefix}/lib
+
+(cd ${incdir}/ncursesw;
+  ln -fs curses.h ncurses.h
+)
+(cd ${libdir}; 
+  mkdir -p ncursesw
+  cd ncursesw
+  mkdir -p pkgconfig
+  for f in form menu ncurses++ ncurses panel tic
+  do
+    ln -fs ../lib${f}w.a     .
+    ln -fs ../lib${f}w.la    .
+    ln -fs ../lib${f}w.dll.a .
+    ln -fs ../lib${f}w.a     lib$f.a
+    ln -fs ../lib${f}w.la    lib$f.la
+    ln -fs ../lib${f}w.dll.a lib$f.dll.a
+    ln -fs ../../pkgconfig/${f}w.pc pkgconfig/${f}w.pc
+    ln -fs ../../pkgconfig/${f}w.pc pkgconfig/$f.pc
+  done
+  ln -fs ../libncursesw.dll.a libcurses.dll.a
+  ln -fs ../libncursesw.a     libcurses.a
+)
+(cd ${bindir}; ln -fs ncursesw6-config ncursesw5-config)
+#!/bin/sh
+# This script will create symbolic links in the toplevel include
+# directory, pointing to files 'hidden' in the ncursesw subdirectory.
+prefix=/usr
+bindir=${prefix}/bin
+incdir=${prefix}/include
+libdir=${prefix}/lib
+
+(cd ${incdir}/ncursesw;
+  ln -fs curses.h ncurses.h
+)
+(cd ${libdir}; 
+  mkdir -p ncursesw
+  cd ncursesw
+  mkdir -p pkgconfig
+  for f in form menu ncurses++ ncurses panel tic
+  do
+    ln -fs ../lib${f}w.a     .
+    ln -fs ../lib${f}w.la    .
+    ln -fs ../lib${f}w.dll.a .
+    ln -fs ../lib${f}w.a     lib$f.a
+    ln -fs ../lib${f}w.la    lib$f.la
+    ln -fs ../lib${f}w.dll.a lib$f.dll.a
+    ln -fs ../../pkgconfig/${f}w.pc pkgconfig/${f}w.pc
+    ln -fs ../../pkgconfig/${f}w.pc pkgconfig/$f.pc
+  done
+  ln -fs ../libncursesw.dll.a libcurses.dll.a
+  ln -fs ../libncursesw.a     libcurses.a
+)
+(cd ${bindir}; ln -fs ncursesw6-config ncursesw5-config)

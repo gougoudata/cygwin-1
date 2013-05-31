@@ -1,24 +1,15 @@
 //
-// "$Id: mandelbrot.cxx 5519 2006-10-11 03:12:15Z mike $"
+// "$Id: mandelbrot.cxx 9325 2012-04-05 05:12:30Z fabien $"
 //
 // Mandelbrot set demo for the Fast Light Tool Kit (FLTK).
 //
-// Copyright 1998-2005 by Bill Spitzak and others.
+// Copyright 1998-2010 by Bill Spitzak and others.
 //
-// This library is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Library General Public
-// License as published by the Free Software Foundation; either
-// version 2 of the License, or (at your option) any later version.
+// This library is free software. Distribution and use rights are outlined in
+// the file "COPYING" which should have been included with this file.  If this
+// file is missing or damaged, see the license at:
 //
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-// Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public
-// License along with this library; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
-// USA.
+//     http://www.fltk.org/COPYING.php
 //
 // Please report all bugs and problems on the following page:
 //
@@ -27,24 +18,48 @@
 
 #include "mandelbrot_ui.h"
 #include <FL/fl_draw.H>
+#include <FL/Fl_Button.H>
+#include <FL/Fl_Printer.H>
 #include <stdio.h>
 #include <stdlib.h>
 
 Drawing_Window mbrot;
 Drawing_Window jbrot;
 
-void idle() {
-  if (!mbrot.d->idle() && !(jbrot.d && jbrot.d->idle())) Fl::set_idle(0);
+void idle(void*) {
+  if (!mbrot.d->idle() && !(jbrot.d && jbrot.d->idle())) Fl::remove_idle(idle);
 }
 
 void set_idle() {
-  Fl::set_idle(idle);
+  Fl::add_idle(idle);
 }
 
 static void window_callback(Fl_Widget*, void*) {exit(0);}
 
+static void print(Fl_Widget *o, void *data)
+{
+  Fl_Printer printer;
+  Fl_Window *win = o->window();
+  if(!win->visible()) return;
+  win->make_current();
+  uchar *image_data = fl_read_image(NULL, 0, 0, win->w(), win->h(), 0);
+  if( printer.start_job(1) ) return;
+  if( printer.start_page() ) return;
+  printer.scale(.7f,.7f);
+  fl_draw_image(image_data, 0,0, win->w(), win->h());
+  printer.end_page();
+  delete image_data;
+  printer.end_job();
+}
+
 int main(int argc, char **argv) {
   mbrot.make_window();
+    mbrot.window->begin();
+    Fl_Button* o = new Fl_Button(0, 0, 0, 0, NULL);
+    o->callback(print,NULL);
+    o->shortcut(FL_CTRL+'p');
+    mbrot.window->end();
+
   mbrot.d->X = -.75;
   mbrot.d->scale = 2.5;
   mbrot.update_label();
@@ -199,5 +214,5 @@ void Drawing_Area::resize(int XX,int YY,int WW,int HH) {
 }
 
 //
-// End of "$Id: mandelbrot.cxx 5519 2006-10-11 03:12:15Z mike $".
+// End of "$Id: mandelbrot.cxx 9325 2012-04-05 05:12:30Z fabien $".
 //

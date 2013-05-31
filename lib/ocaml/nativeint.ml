@@ -11,7 +11,7 @@
 (*                                                                     *)
 (***********************************************************************)
 
-(* $Id: nativeint.ml,v 1.10 2004/01/01 16:42:40 doligez Exp $ *)
+(* $Id: nativeint.ml 7818 2007-01-30 09:34:36Z xleroy $ *)
 
 (* Module [Nativeint]: processor-native integers *)
 
@@ -52,4 +52,4 @@ external of_string: string -> nativeint = "caml_nativeint_of_string"
 
 type t = nativeint
 
-let compare = (Pervasives.compare: t -> t -> int)
+let compare (x: t) (y: t) = Pervasives.compare x y

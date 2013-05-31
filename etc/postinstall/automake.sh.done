@@ -5,5 +5,5 @@ sbindir=${prefix}/sbin
 wrapper=${prefix}/share/autotools/am-wrapper.sh
 
 ${sbindir}/update-alternatives \
-    --install ${bindir}/automake automake ${wrapper} 100 \
+    --install ${bindir}/automake automake ${wrapper} 999 \
     --slave   ${bindir}/aclocal  aclocal  ${wrapper}

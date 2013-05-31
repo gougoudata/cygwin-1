@@ -16,10 +16,10 @@ U system.crc32%s	s-crc32.ads		f4bd4f13 BN NE PK
 W interfaces%s		interfac.ads		interfac.ali
 W system%s		system.ads		system.ali
 
-D interfac.ads		20031021134210 6e859da6
+D interfac.ads		20031021134209 6e859da6
 D system.ads		20031021134222 6af26689
-D s-crc32.ads		20031021134214 f0cab43c
-D s-crc32.adb		20031021134214 c363fff5
+D s-crc32.ads		20031021134213 f0cab43c
+D s-crc32.adb		20031021134213 c363fff5
 X 1 interfac.ads
 43K9*Interfaces 188e15 3|59w6 63r22 76r42 4|113r42 115r14
 64M9*Unsigned_32 3|63r33 76r53 4|113r53 115r25

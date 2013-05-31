@@ -23,6 +23,9 @@
 #define CHECK_H
 
 #include <stddef.h>
+#include <string.h>
+
+#include <check_stdint.h>
 
 /* Check: a unit test framework for C
 
@@ -34,10 +37,33 @@
    can be used within source code editors and IDEs.
 
    Unit tests are created with the START_TEST/END_TEST macro
-   pair. The fail_unless and fail macros are used for creating
-   checks within unit tests; the mark_point macro is useful for
-   trapping the location of signals and/or early exits.
-
+   pair. The mark_point macro is useful for trapping the location 
+   of signals and/or early exits. The following calls are used for
+   creating checks within unit tests, where ... represents arguments
+   given to a printf:
+      Asserting an expression:
+         ck_assert(expr)
+         ck_assert_msg(expr, ...)
+      Aborting a test:
+         ck_abort()
+         ck_abort_msg(...)
+      Check the relationship between two integers:
+         ck_assert_int_eq
+         ck_assert_int_ne
+         ck_assert_int_lt
+         ck_assert_int_le
+         ck_assert_int_gt
+         ck_assert_int_ge
+      Check the relationship between two strings:
+         ck_assert_str_eq
+         ck_assert_str_ne
+         ck_assert_str_lt
+         ck_assert_str_le
+         ck_assert_str_gt
+         ck_assert_str_ge
+      Check the relationship between two pointers:
+         ck_assert_ptr_eq
+         ck_assert_ptr_ne
 
    Test cases are created with tcase_create, unit tests are added
    with tcase_add_test
@@ -53,25 +79,47 @@
 
    Use srunner_run_all to run a suite and print results.
 
+   Macros and functions starting with _ (underscore) are internal and
+   may change without notice. You have been warned!.
+
 */
 
 
 #ifdef __cplusplus
 #define CK_CPPSTART extern "C" {
+#define CK_CPPEND }
 CK_CPPSTART
 #endif
 
+#if defined(__GNUC__) && defined(__GNUC_MINOR__)
+#define GCC_VERSION_AT_LEAST(major, minor) \
+((__GNUC__ > (major)) || \
+ (__GNUC__ == (major) && __GNUC_MINOR__ >= (minor)))
+#else
+#define GCC_VERSION_AT_LEAST(major, minor) 0
+#endif
+
+#if GCC_VERSION_AT_LEAST(2,95)
+#define CK_ATTRIBUTE_UNUSED __attribute__ ((unused))
+#else
+#define CK_ATTRIBUTE_UNUSED              
+#endif /* GCC 2.95 */
+
 #include <sys/types.h>
 
-/* check version numbers */
+/* Used to create the linker script for hiding lib-local symbols. Shall
+   be put directly in front of the exported symbol. */
+#define CK_EXPORT
 
+/* check version numbers */
+  
 #define CHECK_MAJOR_VERSION (0)
 #define CHECK_MINOR_VERSION (9)
-#define CHECK_MICRO_VERSION (5)
+#define CHECK_MICRO_VERSION (10)
 
-extern int check_major_version;
-extern int check_minor_version;
-extern int check_micro_version;
+extern int CK_EXPORT check_major_version;
+extern int CK_EXPORT check_minor_version;
+extern int CK_EXPORT check_micro_version;
 
 #ifndef NULL
 #define NULL ((void*)0)
@@ -95,20 +143,28 @@ typedef void (*SFun) (void);
 typedef struct Suite Suite;
  
 /* Creates a test suite with the given name */
-Suite *suite_create (const char *name);
+Suite * CK_EXPORT suite_create (const char *name);
+
+/* Determines whether a given test suite contains a case named after a
+   given string.  */
+int suite_tcase (Suite *s, const char *tcname);
 
 /* Add a test case to a suite */
-void suite_add_tcase (Suite *s, TCase *tc);
+void CK_EXPORT suite_add_tcase (Suite *s, TCase *tc);
 
 /* Create a test case */
-TCase *tcase_create (const char *name);
+TCase * CK_EXPORT tcase_create (const char *name);
 
 /* Add a test function to a test case (macro version) */
 #define tcase_add_test(tc,tf) tcase_add_test_raise_signal(tc,tf,0)
 
 /* Add a test function with signal handling to a test case (macro version) */
 #define tcase_add_test_raise_signal(tc,tf,signal) \
-   _tcase_add_test((tc),(tf),"" # tf "",(signal), 0, 1)
+   _tcase_add_test((tc),(tf),"" # tf "",(signal), 0, 0, 1)
+
+/* Add a test function with an expected exit value to a test case (macro version) */
+#define tcase_add_exit_test(tc, tf, expected_exit_value) \
+  _tcase_add_test((tc),(tf),"" # tf "",0,(expected_exit_value),0,1)
 
 /* Add a looping test function to a test case (macro version)
 
@@ -117,18 +173,22 @@ TCase *tcase_create (const char *name);
    available in the test.
  */
 #define tcase_add_loop_test(tc,tf,s,e) \
-   _tcase_add_test((tc),(tf),"" # tf "",0,(s),(e))
+  _tcase_add_test((tc),(tf),"" # tf "",0,0,(s),(e))
  
 /* Signal version of loop test.  
    FIXME: add a test case; this is untested as part of Check's tests.
  */
 #define tcase_add_loop_test_raise_signal(tc,tf,signal,s,e) \
-   _tcase_add_test((tc),(tf),"" # tf "",(signal),(s),(e))
+  _tcase_add_test((tc),(tf),"" # tf "",(signal),0,(s),(e))
+
+/* allowed exit value version of loop test. */
+#define tcase_add_loop_exit_test(tc,tf,expected_exit_value,s,e) \
+  _tcase_add_test((tc),(tf),"" # tf "",0,(expected_exit_value),(s),(e))
 
 /* Add a test function to a test case
   (function version -- use this when the macro won't work
 */
-void _tcase_add_test (TCase *tc, TFun tf, const char *fname, int signal, int start, int end);
+void CK_EXPORT _tcase_add_test (TCase *tc, TFun tf, const char *fname, int _signal, int allowed_exit_value, int start, int end);
 
 /* Add unchecked fixture setup/teardown functions to a test case
 
@@ -142,7 +202,7 @@ void _tcase_add_test (TCase *tc, TFun tf, const char *fname, int signal, int sta
    lead to different unit test behavior IF unit tests change data
    setup by the fixture functions.
 */
-void tcase_add_unchecked_fixture (TCase *tc, SFun setup, SFun teardown);
+void CK_EXPORT tcase_add_unchecked_fixture (TCase *tc, SFun setup, SFun teardown);
 
 /* Add fixture setup/teardown functions to a test case
 
@@ -158,54 +218,116 @@ void tcase_add_unchecked_fixture (TCase *tc, SFun setup, SFun teardown);
    test, they should not be expensive code.
 
 */ 
-void tcase_add_checked_fixture (TCase *tc, SFun setup, SFun teardown);
+void CK_EXPORT tcase_add_checked_fixture (TCase *tc, SFun setup, SFun teardown);
 
 /* Set the timeout for all tests in a test case. A test that lasts longer
    than the timeout (in seconds) will be killed and thus fail with an error.
    The timeout can also be set globaly with the environment variable
    CK_DEFAULT_TIMEOUT, the specific setting always takes precedence.
 */
-void tcase_set_timeout (TCase *tc, int timeout);
+void CK_EXPORT tcase_set_timeout (TCase *tc, double timeout);
  
 /* Internal function to mark the start of a test function */
-void tcase_fn_start (const char *fname, const char *file, int line);
+void CK_EXPORT tcase_fn_start (const char *fname, const char *file, int line);
 
 /* Start a unit test with START_TEST(unit_name), end with END_TEST
    One must use braces within a START_/END_ pair to declare new variables
 */ 
 #define START_TEST(__testname)\
-static void __testname (int _i __attribute__((unused)))\
+static void __testname (int _i CK_ATTRIBUTE_UNUSED)\
 {\
   tcase_fn_start (""# __testname, __FILE__, __LINE__);
 
 /* End a unit test */
 #define END_TEST }
 
-/* Fail the test case unless expr is true */
+/* Old check fail API, use new check fail API for newly written code. */
+
+/* Fail the test case unless expr is false */
+#define fail_unless ck_assert_msg
+
+/* Fail the test case if expr is false */
 /* The space before the comma sign before ## is essential to be compatible
    with gcc 2.95.3 and earlier.
+   FIXME: these macros may conflict with C89 if expr is
+   FIXME:   strcmp (str1, str2) due to excessive string length.
 */
-#define fail_unless(expr, ...)\
-        _fail_unless(expr, __FILE__, __LINE__,\
-        "Assertion '"#expr"' failed" , ## __VA_ARGS__, NULL)
-
-/* Fail the test case if expr is true */
-/* The space before the comma sign before ## is essential to be compatible
-   with gcc 2.95.3 and earlier.
-*/
-
-/* FIXME: these macros may conflict with C89 if expr is 
-   FIXME:   strcmp (str1, str2) due to excessive string length. */
 #define fail_if(expr, ...)\
-        _fail_unless(!(expr), __FILE__, __LINE__,\
-        "Failure '"#expr"' occured" , ## __VA_ARGS__, NULL)
+  _ck_assert_msg(!(expr), __FILE__, __LINE__,\
+    "Failure '"#expr"' occured" , ## __VA_ARGS__, NULL)
+
+#define fail ck_abort_msg
+
+/* Non macro version of #ck_assert_msg, with more complicated interface */
+void CK_EXPORT _ck_assert_msg (int result, const char *file,
+                             int line, const char *expr, ...);
+
+/* New check fail API. */
+
+/* Fail the test case if expr is false */
+/* The space before the comma sign before ## is essential to be compatible
+   with gcc 2.95.3 and earlier.
+*/
+#define ck_assert(C) ck_assert_msg(C, NULL)
+#define ck_assert_msg(expr, ...) \
+  _ck_assert_msg(expr, __FILE__, __LINE__,\
+    "Assertion '"#expr"' failed" , ## __VA_ARGS__, NULL)
 
 /* Always fail */
-#define fail(...) _fail_unless(0, __FILE__, __LINE__, "Failed" , ## __VA_ARGS__, NULL)
+#define ck_abort() ck_abort_msg(NULL)
+#define ck_abort_msg(...) _ck_assert_msg(0, __FILE__, __LINE__, "Failed" , ## __VA_ARGS__, NULL)
 
-/* Non macro version of #fail_unless, with more complicated interface */
-void _fail_unless (int result, const char *file,
-                   int line, const char *expr, ...);
+/* Signed and unsigned integer comparsion macros with improved output compared to ck_assert(). */
+/* OP may be any comparion operator. */
+#define _ck_assert_int(X, OP, Y) do { \
+  intmax_t _ck_x = (X); \
+  intmax_t _ck_y = (Y); \
+  ck_assert_msg(_ck_x OP _ck_y, "Assertion '"#X#OP#Y"' failed: "#X"==%jd, "#Y"==%jd", _ck_x, _ck_y); \
+} while (0)
+#define ck_assert_int_eq(X, Y) _ck_assert_int(X, ==, Y)
+#define ck_assert_int_ne(X, Y) _ck_assert_int(X, !=, Y)
+#define ck_assert_int_lt(X, Y) _ck_assert_int(X, <, Y)
+#define ck_assert_int_le(X, Y) _ck_assert_int(X, <=, Y)
+#define ck_assert_int_gt(X, Y) _ck_assert_int(X, >, Y)
+#define ck_assert_int_ge(X, Y) _ck_assert_int(X, >=, Y)
+
+#define _ck_assert_uint(X, OP, Y) do { \
+  uintmax_t _ck_x = (X); \
+  uintmax_t _ck_y = (Y); \
+  ck_assert_msg(_ck_x OP _ck_y, "Assertion '"#X#OP#Y"' failed: "#X"==%ju, "#Y"==%ju", _ck_x, _ck_y); \
+} while (0)
+#define ck_assert_uint_eq(X, Y) _ck_assert_uint(X, ==, Y)
+#define ck_assert_uint_ne(X, Y) _ck_assert_uint(X, !=, Y)
+#define ck_assert_uint_lt(X, Y) _ck_assert_uint(X, <, Y)
+#define ck_assert_uint_le(X, Y) _ck_assert_uint(X, <=, Y)
+#define ck_assert_uint_gt(X, Y) _ck_assert_uint(X, >, Y)
+#define ck_assert_uint_ge(X, Y) _ck_assert_uint(X, >=, Y)
+
+/* String comparsion macros with improved output compared to ck_assert() */
+/* OP might be any operator that can be used in '0 OP strcmp(X,Y)' comparison */
+/* The x and y parameter swap in strcmp() is needed to handle >, >=, <, <= operators */
+#define _ck_assert_str(X, OP, Y) do { \
+  const char* _ck_x = (X); \
+  const char* _ck_y = (Y); \
+  ck_assert_msg(0 OP strcmp(_ck_y, _ck_x), \
+    "Assertion '"#X#OP#Y"' failed: "#X"==\"%s\", "#Y"==\"%s\"", _ck_x, _ck_y); \
+} while (0)
+#define ck_assert_str_eq(X, Y) _ck_assert_str(X, ==, Y)
+#define ck_assert_str_ne(X, Y) _ck_assert_str(X, !=, Y)
+#define ck_assert_str_lt(X, Y) _ck_assert_str(X, <, Y)
+#define ck_assert_str_le(X, Y) _ck_assert_str(X, <=, Y)
+#define ck_assert_str_gt(X, Y) _ck_assert_str(X, >, Y)
+#define ck_assert_str_ge(X, Y) _ck_assert_str(X, >=, Y)
+
+/* Pointer comparsion macros with improved output compared to ck_assert(). */
+/* OP may only be == or !=  */
+#define _ck_assert_ptr(X, OP, Y) do { \
+  void* _ck_x = (X); \
+  void* _ck_y = (Y); \
+  ck_assert_msg(_ck_x OP _ck_y, "Assertion '"#X#OP#Y"' failed: "#X"==%p, "#Y"==%p", _ck_x, _ck_y); \
+} while (0)
+#define ck_assert_ptr_eq(X, Y) _ck_assert_ptr(X, ==, Y)
+#define ck_assert_ptr_ne(X, Y) _ck_assert_ptr(X, !=, Y)
 
 /* Mark the last point reached in a unit test
    (useful for tracking down where a segfault, etc. occurs)
@@ -213,10 +335,11 @@ void _fail_unless (int result, const char *file,
 #define mark_point() _mark_point(__FILE__,__LINE__)
 
 /* Non macro version of #mark_point */
-void _mark_point (const char *file, int line);
+void CK_EXPORT _mark_point (const char *file, int line);
 
 /* Result of a test */
 enum test_result {
+  CK_TEST_RESULT_INVALID, /* Default value; should not encounter this */
   CK_PASS, /* Test passed*/
   CK_FAILURE, /* Test completed but failed */
   CK_ERROR /* Test failed to complete
@@ -230,6 +353,9 @@ enum print_output {
   CK_NORMAL, /* All failed tests */
   CK_VERBOSE, /* All tests */
   CK_ENV, /* Look at environment var */
+#if 0
+  CK_SUBUNIT, /* Run as a subunit child process */
+#endif
   CK_LAST
 };
 
@@ -240,49 +366,55 @@ typedef struct SRunner SRunner;
 typedef struct TestResult TestResult;
 
 /* accessors for tr fields */
- enum ck_result_ctx {
+enum ck_result_ctx {
+  CK_CTX_INVALID, /* Default value; should not encounter this */
   CK_CTX_SETUP,
   CK_CTX_TEST,
   CK_CTX_TEARDOWN
 };
 
 /* Type of result */
-int tr_rtype (TestResult *tr);
+int CK_EXPORT tr_rtype (TestResult *tr);
 /* Context in which the result occurred */ 
-enum ck_result_ctx tr_ctx (TestResult *tr); 
+enum ck_result_ctx CK_EXPORT tr_ctx (TestResult *tr); 
 /* Failure message */
-const char *tr_msg (TestResult *tr);
+const char * CK_EXPORT tr_msg (TestResult *tr);
 /* Line number at which failure occured */
-int tr_lno (TestResult *tr);
+int CK_EXPORT tr_lno (TestResult *tr);
 /* File name at which failure occured */
-const char *tr_lfile (TestResult *tr);
+const char * CK_EXPORT tr_lfile (TestResult *tr);
 /* Test case in which unit test was run */
-const char *tr_tcname (TestResult *tr);
+const char * CK_EXPORT tr_tcname (TestResult *tr);
 
 /* Creates an SRunner for the given suite */
-SRunner *srunner_create (Suite *s);
+SRunner * CK_EXPORT srunner_create (Suite *s);
 
 /* Adds a Suite to an SRunner */
-void srunner_add_suite (SRunner *sr, Suite *s);
+void CK_EXPORT srunner_add_suite (SRunner *sr, Suite *s);
 
 /* Frees an SRunner, all suites added to it and all contained test cases */
-void srunner_free (SRunner *sr);
+void CK_EXPORT srunner_free (SRunner *sr);
 
  
 /* Test running */
 
 /* Runs an SRunner, printing results as specified (see enum print_output) */
-void srunner_run_all (SRunner *sr, enum print_output print_mode);
+void CK_EXPORT srunner_run_all (SRunner *sr, enum print_output print_mode);
+
+/* Runs an SRunner specifying test suite and test case by name,
+   printing results as specified (see enum print_output).  A NULL
+   value means "any test suite" or "any test case".  */
+void CK_EXPORT srunner_run (SRunner *sr, const char *sname, const char *tcname, enum print_output print_mode);
 
  
 /* Next functions are valid only after the suite has been
    completely run, of course */
 
 /* Number of failed tests in a run suite. Includes failures + errors */
-int srunner_ntests_failed (SRunner *sr);
+int CK_EXPORT srunner_ntests_failed (SRunner *sr);
 
 /* Total number of tests run in a run suite */
-int srunner_ntests_run (SRunner *sr);
+int CK_EXPORT srunner_ntests_run (SRunner *sr);
 
 /* Return an array of results for all failures
   
@@ -290,7 +422,7 @@ int srunner_ntests_run (SRunner *sr);
    the array is malloc'ed and must be freed, but individual TestResults
    must not
 */
-TestResult **srunner_failures (SRunner *sr);
+TestResult ** CK_EXPORT srunner_failures (SRunner *sr);
 
 /* Return an array of results for all run tests
 
@@ -300,13 +432,13 @@ TestResult **srunner_failures (SRunner *sr);
    Memory is malloc'ed and must be freed, but individual TestResults
    must not
 */  
-TestResult **srunner_results (SRunner *sr);
+TestResult ** CK_EXPORT srunner_results (SRunner *sr);
 
  
 /* Printing */
 
 /* Print the results contained in an SRunner */
-void srunner_print (SRunner *sr, enum print_output print_mode);
+void CK_EXPORT srunner_print (SRunner *sr, enum print_output print_mode);
   
   
 /* Set a log file to which to write during test running.
@@ -315,13 +447,13 @@ void srunner_print (SRunner *sr, enum print_output print_mode);
   done immediatly after SRunner creation, and the log file can't be
   changed after being set.
 */
-void srunner_set_log (SRunner *sr, const char *fname);
+void CK_EXPORT srunner_set_log (SRunner *sr, const char *fname);
 
 /* Does the SRunner have a log file? */
-int srunner_has_log (SRunner *sr);
+int CK_EXPORT srunner_has_log (SRunner *sr);
 
 /* Return the name of the log file, or NULL if none */
-const char *srunner_log_fname (SRunner *sr);
+const char * CK_EXPORT srunner_log_fname (SRunner *sr);
 
 /* Set a xml file to which to write during test running.
 
@@ -329,35 +461,35 @@ const char *srunner_log_fname (SRunner *sr);
   done immediatly after SRunner creation, and the XML file can't be
   changed after being set.
 */
-void srunner_set_xml (SRunner *sr, const char *fname);
+void CK_EXPORT srunner_set_xml (SRunner *sr, const char *fname);
 
 /* Does the SRunner have an XML log file? */
-int srunner_has_xml (SRunner *sr);
+int CK_EXPORT srunner_has_xml (SRunner *sr);
 
 /* Return the name of the XML file, or NULL if none */
-const char *srunner_xml_fname (SRunner *sr);
+const char * CK_EXPORT srunner_xml_fname (SRunner *sr);
 
 
 /* Control forking */
 enum fork_status {
-  CK_FORK,
-  CK_NOFORK
+  CK_FORK_GETENV, /* look in the environment for CK_FORK */
+  CK_FORK,        /* call fork to run tests */
+  CK_NOFORK       /* don't call fork */
 };
  
 /* Get the current fork status */
-enum fork_status srunner_fork_status (SRunner *sr);
+enum fork_status CK_EXPORT srunner_fork_status (SRunner *sr);
 
 /* Set the current fork status */
-void srunner_set_fork_status (SRunner *sr, enum fork_status fstat); 
+void CK_EXPORT srunner_set_fork_status (SRunner *sr, enum fork_status fstat); 
   
 /* Fork in a test and make sure messaging and tests work. */
-pid_t check_fork(void);
+pid_t CK_EXPORT check_fork(void);
 
 /* Wait for the pid and exit. If pid is zero, just exit. */
-void check_waitpid_and_exit(pid_t pid);
+void CK_EXPORT check_waitpid_and_exit(pid_t pid);
 
 #ifdef __cplusplus 
-#define CK_CPPEND }
 CK_CPPEND
 #endif
 

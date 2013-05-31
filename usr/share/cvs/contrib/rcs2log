@@ -415,11 +415,24 @@ EOF
 	: ;;
 esac >$llogout || exit
 
+# the date format in 'cvs -q log' changed
+# it was
+# date: 2003/05/06 21:23:30;  author: rousseau;  state: Exp;  lines: +29 -31
+# it is now
+# date: 2003-05-06 21:23:30 +0000;  author: rousseau;  state: Exp;  lines: +29 -31
 output_authors='/^date: / {
-	if ($2 ~ /^[0-9]*[-\/][0-9][0-9][-\/][0-9][0-9]$/ && $3 ~ /^[0-9][0-9]:[0-9][0-9]:[0-9][0-9][-+0-9:]*;$/ && $4 == "author:" && $5 ~ /^[^;]*;$/) {
-		print substr($5, 1, length($5)-1)
-	}
+       # old date format
+       if ($2 ~ /^[0-9]*[-\/][0-9][0-9][-\/][0-9][0-9]$/ && $3 ~ /^[0-9][0-9]:[0-9][0-9]:[0-9][0-9][-+0-9:]*;$/ && $4 == "author:" && $5 ~ /^[^;]*;$/) {
+               print substr($5, 1, length($5)-1)
+       }
+       else {
+               # new date format
+               if ($2 ~ /^[0-9]*[-\/][0-9][0-9][-\/][0-9][0-9]$/ && $3 ~ /^[0-9][0-9]:[0-9][0-9]:[0-9][0-9][-+0-9:]*$/ && $5 == "author:" && $6 ~ /^[^;]*;$/) {
+                       print substr($6, 1, length($6)-1)
+               }
+        }
 }'
+
 authors=`
 	$AWK "$output_authors" <"$rlogfile" | sort -u | comm -23 - $llogout
 `
@@ -610,7 +623,11 @@ $AWK '
 				date = newdate date
 			}
 			time = substr($3, 1, length($3) - 1)
-			author = substr($5, 1, length($5)-1)
+            author = substr($5, 1, length($5)-1)
+            if (author ~ /author/) {
+                # new date format
+                author = substr($6, 1, length($6)-1)
+            }
 			printf "%s%s%s%s%s%s%s%s%s%s", filename, SOH, rev, SOH, date, SOH, time, SOH, author, SOH
 			rev = "?"
 			next
@@ -631,7 +648,7 @@ $AWK '
 # Sort the log entries, first by date+time (in reverse order),
 # then by author, then by log entry, and finally by file name and revision
 # (just in case).
-sort -t"$SOH" +2 -4r +4 +0 |
+sort -t"$SOH" -k 3,4r -k 5 -k 1 |
 
 # Finally, reformat the sorted log entries.
 $AWK -F"$SOH" '

@@ -22,26 +22,25 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
-#ifndef GTK_DISABLE_DEPRECATED
+#if !defined (GTK_DISABLE_DEPRECATED) || defined (__GTK_CLIST_C__) || defined (__GTK_CTREE_C__)
 
 #ifndef __GTK_CLIST_H__
 #define __GTK_CLIST_H__
 
-#include <gdk/gdk.h>
+
 #include <gtk/gtksignal.h>
 #include <gtk/gtkalignment.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkbutton.h>
 #include <gtk/gtkhscrollbar.h>
 #include <gtk/gtkvscrollbar.h>
-#include <gtk/gtkenums.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+
+G_BEGIN_DECLS
+
 
 /* clist flags */
 enum {
@@ -56,7 +55,7 @@ enum {
   GTK_CLIST_USE_DRAG_ICONS      = 1 <<  8,
   GTK_CLIST_DRAW_DRAG_LINE      = 1 <<  9,
   GTK_CLIST_DRAW_DRAG_RECT      = 1 << 10
-}; 
+};
 
 /* cell types */
 typedef enum
@@ -85,11 +84,11 @@ typedef enum
 } GtkButtonAction;
 
 #define GTK_TYPE_CLIST            (gtk_clist_get_type ())
-#define GTK_CLIST(obj)            (GTK_CHECK_CAST ((obj), GTK_TYPE_CLIST, GtkCList))
-#define GTK_CLIST_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), GTK_TYPE_CLIST, GtkCListClass))
-#define GTK_IS_CLIST(obj)         (GTK_CHECK_TYPE ((obj), GTK_TYPE_CLIST))
-#define GTK_IS_CLIST_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), GTK_TYPE_CLIST))
-#define GTK_CLIST_GET_CLASS(obj)  (GTK_CHECK_GET_CLASS ((obj), GTK_TYPE_CLIST, GtkCListClass))
+#define GTK_CLIST(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTK_TYPE_CLIST, GtkCList))
+#define GTK_CLIST_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GTK_TYPE_CLIST, GtkCListClass))
+#define GTK_IS_CLIST(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GTK_TYPE_CLIST))
+#define GTK_IS_CLIST_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GTK_TYPE_CLIST))
+#define GTK_CLIST_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GTK_TYPE_CLIST, GtkCListClass))
 
 
 #define GTK_CLIST_FLAGS(clist)             (GTK_CLIST (clist)->flags)
@@ -151,13 +150,12 @@ struct _GtkCList
   
   guint16 flags;
   
-  /* mem chunks */
-  GMemChunk *row_mem_chunk;
-  GMemChunk *cell_mem_chunk;
+  gpointer reserved1;
+  gpointer reserved2;
 
   guint freeze_count;
   
-  /* allocation rectangle after the conatiner_border_width
+  /* allocation rectangle after the container_border_width
    * and the width of the shadow border */
   GdkRectangle internal_allocation;
   
@@ -354,7 +352,7 @@ struct _GtkCListRow
   GtkStyle *style;
 
   gpointer data;
-  GtkDestroyNotify destroy;
+  GDestroyNotify destroy;
   
   guint fg_set     : 1;
   guint bg_set     : 1;
@@ -442,7 +440,7 @@ struct _GtkCell
   } u;
 };
 
-GtkType gtk_clist_get_type (void) G_GNUC_CONST;
+GType gtk_clist_get_type (void) G_GNUC_CONST;
 
 /* create a new GtkCList */
 GtkWidget* gtk_clist_new             (gint   columns);
@@ -701,10 +699,10 @@ void gtk_clist_set_row_data (GtkCList *clist,
 			     gpointer  data);
 
 /* sets a data pointer for a given row with destroy notification */
-void gtk_clist_set_row_data_full (GtkCList         *clist,
-			          gint              row,
-			          gpointer          data,
-				  GtkDestroyNotify  destroy);
+void gtk_clist_set_row_data_full (GtkCList       *clist,
+			          gint            row,
+			          gpointer        data,
+				  GDestroyNotify  destroy);
 
 /* returns the data set for a row */
 gpointer gtk_clist_get_row_data (GtkCList *clist,
@@ -785,9 +783,9 @@ PangoLayout *_gtk_clist_create_cell_layout (GtkCList       *clist,
 					    GtkCListRow    *clist_row,
 					    gint            column);
 
-#ifdef __cplusplus
-}
-#endif				/* __cplusplus */
+
+G_END_DECLS
+
 
 #endif				/* __GTK_CLIST_H__ */
 

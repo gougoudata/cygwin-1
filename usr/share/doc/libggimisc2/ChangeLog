@@ -1,0 +1,1518 @@
+2007-01-16 19:51  cegger
+
+	* configure.in: Next bugfix release is 2.2.2. Bump version.
+
+2007-01-09 21:28  cegger
+
+	* checkversion.sh: pull up the following revision(s) (requested by
+	  cegger):  checkversion.sh: 1.4 - 1.5
+
+	  Check and accept version numbers that are greater than the
+	  required one. Now we can use automake 1.10.
+
+2006-12-30 21:07  cegger
+
+	* doc/man/: ggiGetRayPos.3, ggiSetSplitline.3, ggiWaitRayPos.3,
+	  libggimisc.7: regen.
+
+2006-02-25 19:43  cegger
+
+	* ChangeLog: update for libggimisc 2.2.1
+
+2006-02-25 19:39  cegger
+
+	* configure.in: welcome to libggimisc 2.2.1
+
+2006-02-24 21:10  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: pull up the following
+	  revision(s) (requested by cegger):
+	  lowlevel/libggimisc/ltmain.sh: 1.51 - 1.71
+	  lowlevel/libggimisc/m4/libtool.m4: 1.48 - 1.63
+	  lowlevel/libggimisc/m4/ltoptions.m4: 1.8 - 1.10
+	  lowlevel/libggimisc/m4/ltsugar.m4: 1.5 - 1.7
+	  lowlevel/libggimisc/m4/ltversion.m4: 1.41 - 1.61
+
+	  sync with HEAD
+
+2006-02-24 19:29  cegger
+
+	* display/pseudo_stubs/init.c: pull up the following revision(s)
+	  (requested by pekberg):  display/pseudo_stubs/init.c: 1.9 - 1.10
+
+	  kill leftover (debug) printf
+
+2006-01-18 19:08  cegger
+
+	* ggimisc/init.c: pull up the following revision(s) (requested by
+	  pekberg):  ggimisc/init.c: 1.18 - 1.19 Clear config handle
+	  variable on last exit
+
+2006-01-18 18:35  cegger
+
+	* ggimisc/init.c: pull up the following revision(s) (requested by
+	  pekberg):  ggimisc/init.c: 1.17 - 1.18 Clean up properly on
+	  failure in init function
+
+2005-12-10 15:22  cegger
+
+	* ChangeLog: update for final libggimisc 2.2.0
+
+2005-12-10 15:21  cegger
+
+	* configure.in: welcome to final libggimisc 2.2.0
+
+2005-11-28 19:22  cegger
+
+	* ChangeLog: welcome to libggimisc 2.2.0 release candidate 2
+
+2005-11-28 19:15  cegger
+
+	* configure.in: welcome to libggimisc 2.2.0 release candidate 2
+
+2005-11-20 20:38  cegger
+
+	* m4/ltversion.m4: pull up revisions 1.41 - 1.52 (requested by
+	  cegger):
+
+	  sync with libtool cvs head to version 1.2197
+
+2005-11-20 20:37  cegger
+
+	* m4/ltsugar.m4: pull up revisions 1.5 - 1.7 (requested by cegger):
+
+	  sync with libtool cvs head to version 1.2197
+
+2005-11-20 20:37  cegger
+
+	* m4/ltoptions.m4: pull up revisions 1.8 - 1.10 (requested by
+	  cegger):
+
+	  sync with libtool cvs head to version 1.2197
+
+2005-11-20 20:36  cegger
+
+	* m4/libtool.m4: pull up revisions 1.48 - 1.56 (requested by
+	  cegger):
+
+	  sync with libtool cvs head to version 1.2197
+
+2005-11-20 20:36  cegger
+
+	* ltmain.sh: pull up revisions 1.51 - 1.62 (requested by cegger):
+
+	  sync with libtool cvs head to version 1.2197
+
+2005-10-30 09:32  cegger
+
+	* autogen.sh: pull up revisions 1.12 - 1.13 (requested by cegger):
+
+	  fix syntax error on solaris
+
+2005-09-21 21:15  cegger
+
+	* doc/man/: ggiGetRayPos.3, ggiSetSplitline.3, ggiWaitRayPos.3,
+	  libggimisc.7: regen.
+
+2005-09-21 12:47  cegger
+
+	* configure.in: welcome to 2.2.0 release candidate 1
+
+2005-09-21 08:39  cegger
+
+	* configure.in: the release is 2.2.0, 2.2 is the branch
+
+2005-09-21 08:26  cegger
+
+	* ChangeLog: update for libggimisc 2.2.0
+
+2005-09-20 21:14  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync with libtool cvs
+	  head to version 1.2081
+
+2005-09-20 20:54  cegger
+
+	* include/ggi/internal/debug_macros.h: #define DMESSAGE also when
+	  DEBUG is not defines. Fixes build error reported by Bernhard
+	  Fischer
+
+2005-09-20 19:50  cegger
+
+	* include/ggi/internal/debug_macros.h: trim some whitespace
+
+2005-09-20 12:31  cegger
+
+	* display/pseudo_stubs/init.c: check if priv pointer is valid
+	  before dereferencing it. Fixes crash on exit.
+
+2005-09-20 12:12  cegger
+
+	* libggimisc.conf.in: add entries for builtins
+
+2005-09-20 12:07  cegger
+
+	* ggimisc/init.c: whitespace
+
+2005-09-19 08:01  cegger
+
+	* ggimisc/init.c: use new ggiExtensionLoadDL() semantic. builtin
+	  targets work now
+
+2005-09-18 21:20  cegger
+
+	* display/fbdev/init.c: need <ggi/internal/misc_debug.h>. Makes
+	  this compile again. Issue found by autobuilder
+
+2005-09-15 08:47  cegger
+
+	* ggimisc/EXPSYMS: export _miscDebug for the targets
+
+2005-09-15 08:38  cegger
+
+	* display/X/funcs.c, display/X/init.c, display/fbdev/init.c,
+	  ggimisc/builtins.c, ggimisc/init.c: implement missing part of
+	  debugging infrastructure and activate it
+
+2005-09-14 23:05  cegger
+
+	* Makefile.am, configure.in, display/X/Makefile.am,
+	  display/directx/Makefile.am, display/fbdev/Makefile.am,
+	  display/pseudo_stubs/Makefile.am, display/svgalib/Makefile.am,
+	  ggimisc/Makefile.am, ggimisc/builtins.am, ggimisc/builtins.c,
+	  ggimisc/init.c, display-shared/.cvsignore,
+	  display-shared/Makefile.am: support for static linking
+
+2005-09-14 22:57  cegger
+
+	* display/svgalib/init.c: mark prototype for exported function as
+	  this
+
+2005-09-14 22:55  cegger
+
+	* display/X/init.c: add prototype for exported function
+
+2005-09-14 21:34  cegger
+
+	* configure.in: sort target initialization
+
+2005-09-14 09:48  cegger
+
+	* Makefile.am: remove config.lt when run 'make distclean'
+
+2005-09-13 11:33  pekberg
+
+	* m4/Makefile.am: Libltdl isn't needed, can't be used (LGPL) and
+	  isn't used, so zap ltdl.m4.
+
+2005-09-13 09:45  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltoptions.m4, m4/ltversion.m4: sync
+	  with libtool cvs head to version 1.2073
+
+2005-09-08 14:33  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync with libtool cvs
+	  head to version 1.2066
+
+2005-09-07 12:01  pekberg
+
+	* configure.in: Use new GGI_NEED_INTTYPES macro
+
+2005-09-07 11:45  pekberg
+
+	* m4/common.m4: Add macro to centralize C99 inttypes detection.
+
+2005-09-07 08:58  pekberg
+
+	* configure.in: Add modern autoconf init macro that specifies name
+	  of package and bug report address etc. Specify the m4 macro dir.
+
+2005-09-06 15:21  pekberg
+
+	* display/: X/init.c, directx/init.c, fbdev/init.c, svgalib/init.c:
+	  add flag to not be unloaded on setmode
+
+2005-09-05 18:43  cegger
+
+	* include/ggi/internal/debug_macros.h: update mail address in
+	  Copyright
+
+2005-09-05 13:21  pekberg
+
+	* autogen.sh: Add --force option that disables version checks.
+
+2005-09-04 14:33  cegger
+
+	* config.guess, install-sh: update to version shipped with libtool
+	  1.5.20
+
+2005-09-03 08:02  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltoptions.m4, m4/ltversion.m4: sync
+	  with libtool cvs head to version 1.2057
+
+2005-09-02 18:48  cegger
+
+	* ggimisc/init.c: replace ggMatchConfig() with config iterator
+
+2005-08-31 09:15  cegger
+
+	* autogen.sh, ltmain.sh, m4/libtool.m4, m4/ltoptions.m4,
+	  m4/ltversion.m4: sync with libtool cvs head to version 1.2049
+	  This requires autoconf 2.59 and automake 1.9.6
+
+2005-08-31 08:39  cegger
+
+	* checkversion.sh: error properly out when where autotools are
+	  missing
+
+2005-08-28 15:15  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 to version 1.1667.2.298
+
+2005-08-22 10:45  cegger
+
+	* Makefile.am: remove genlibtool from EXTRA_DIST and *CLEANFILES
+
+2005-08-19 09:26  cegger
+
+	* autogen.sh: Change message 'Running autoconf - generating
+	  configure...' to 'Running autoconf...' as suggested by Peter
+	  Ekberg
+
+2005-08-19 09:11  cegger
+
+	* autogen.sh, m4/common.m4: do not generate genlibtool, remove
+	  GGI_GENLIBTOOL, step 2
+
+2005-08-19 08:54  cegger
+
+	* .cvsignore, configure.in: Zap genlibtool, step 1
+
+2005-08-18 19:20  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 to version 1.1667.2.292
+
+2005-08-10 11:41  cegger
+
+	* INSTALL.autoconf: match autoconf 2.59
+
+2005-08-10 07:22  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 to version 1.1667.2.283
+
+2005-08-08 12:05  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 to version 1.1667.2.281
+
+2005-07-31 11:27  cegger
+
+	* doc/man/: ggiGetRayPos.3, ggiSetSplitline.3, ggiWaitRayPos.3,
+	  libggimisc.7: regen.
+
+2005-07-30 17:52  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 to version 1.1667.2.274
+
+2005-07-30 12:51  cegger
+
+	* doc/libggimisc-functions.txt: use C99 types
+
+2005-07-30 12:48  cegger
+
+	* demos/ggimisctest.c, display/X/funcs.c, display/X/init.c,
+	  display/directx/funcs.c, display/directx/init.c,
+	  display/fbdev/funcs.c, display/fbdev/init.c,
+	  display/pseudo_stubs/funcs.c, display/pseudo_stubs/init.c,
+	  display/svgalib/funcs.c, display/svgalib/init.c, ggimisc/stubs.c,
+	  include/ggi/misc.h, include/ggi/internal/misc.h,
+	  include/ggi/internal/misc_debug.h: use C99 inttypes
+
+2005-07-28 11:30  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 to version 1.1667.2.272
+
+2005-07-14 06:06  cegger
+
+	* compile, config.guess, config.sub, depcomp, install-sh, missing,
+	  mkinstalldirs: update to the versions shipped with automake 1.9.6
+
+2005-07-08 18:19  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 to version 1.1667.2.262
+
+2005-06-28 11:49  cegger
+
+	* Makefile.am: add genlibtool.cache to DISTCLEANFILES
+
+2005-06-28 11:47  cegger
+
+	* include/ggi/internal/Makefile.am: add debug_macros.h and
+	  misc_debug.h to noinst_HEADERS
+
+2005-06-28 05:29  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltoptions.m4, m4/ltsugar.m4,
+	  m4/ltversion.m4: sync up with libtool cvs branch-2-0 to version
+	  1.1667.2.252
+
+2005-06-18 22:54  cegger
+
+	* demos/ggimisctest.c, ggimisc/init.c: #include
+	  <ggi/internal/gg_replace.h> and zap HAVE_SNPRINTF
+
+2005-06-13 09:17  cegger
+
+	* demos/ggimisctest.c: appease -Wcast-qual
+
+2005-06-13 09:15  cegger
+
+	* display/fbdev/init.c: printf %p expects void *, so cast arguments
+	  to void *.
+
+2005-06-12 11:45  cegger
+
+	* m4/ltsugar.m4: This libtool change fixes an infinite m4 loop in
+	  CVS autoconf, but causes one in autoconf 2.59. Since we use the
+	  stable version we downgrade...
+
+2005-06-12 08:52  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltoptions.m4, m4/ltsugar.m4,
+	  m4/ltversion.m4: sync up with libtool cvs branch-2-0 to version
+	  1.1167.2.245
+
+2005-06-10 12:26  cegger
+
+	* m4/common.m4: add GGI_CHECK_LIB, like AC_CHECK_LIB, but uses
+	  libtool as a compiler
+
+2005-06-09 20:07  cegger
+
+	* configure.in: use -Wuninitialized, -Wcast-qual and
+	  -Wwrite-strings on gcc
+
+2005-06-02 20:07  cegger
+
+	* ltmain.sh, m4/ltversion.m4: sync up with libtool cvs branch-2-0
+	  to version 1.1167.2.239
+
+2005-05-22 08:22  cegger
+
+	* display/svgalib/init.c: don't cast on lvalue.
+
+2005-05-22 08:13  cegger
+
+	* display/svgalib/init.c: add missing prototype for exported
+	  function hook
+
+2005-05-22 08:10  cegger
+
+	* display/svgalib/init.c: needs config.h
+
+2005-05-22 08:07  cegger
+
+	* ggimisc/stubs.c, display/pseudo_stubs/funcs.c,
+	  display/pseudo_stubs/init.c: needs config.h
+
+2005-05-16 15:10  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 to version 1.1167.2.236
+
+2005-04-29 16:18  cegger
+
+	* m4/: common.m4, libtool.m4: Quote all arguments to AC_DEFINE and
+	  AC_DEFINE_UNQUOTED consistently. Patch from libtool branch-2-0
+
+2005-04-29 08:53  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 to version 1.1167.2.229
+
+2005-04-29 08:37  cegger
+
+	* configure.in: use new GGI_GENLIBTOOL macro introduced in
+	  m4/common.m4, rev 1.2
+
+2005-04-29 08:30  cegger
+
+	* m4/common.m4: new macro: GGI_GENLIBTOOL. It generates libtool for
+	  use of configure. Implementation copied from
+	  ggi-core/libgii/configure.in, rev 1.160
+
+2005-04-29 07:54  cegger
+
+	* m4/Makefile.am: consolidate m4 macros into one common.m4 file
+	  each GGI lib or extension needs anyway.
+
+2005-04-29 07:28  cegger
+
+	* m4/common.m4: consolidate m4 macros into one common.m4 file each
+	  GGI lib or extension needs anyway.
+
+2005-04-24 09:36  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 to version 1.1167.2.219
+
+2005-04-16 20:27  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 to version 1.1167.2.211
+
+2005-04-11 18:45  cegger
+
+	* doc/man/: Makefile.am, ggiGetRayPos.3, ggiSetSplitline.3,
+	  ggiWaitRayPos.3, libggimisc.7: regen.
+
+2005-04-07 21:40  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 to version 1.1167.2.207
+
+2005-03-20 09:01  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 to version 1.1167.2.193
+
+2005-03-11 21:23  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 to verison 1.1667.2.175
+
+2005-02-26 18:30  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 to version 1.1667.2.166
+
+2005-02-17 23:30  cegger
+
+	* ltmain.sh: pass -pthread like flags to the linker when linking
+	  executables too. Now libtool tracks -pthread dependency correctly
+
+2005-02-15 06:30  cegger
+
+	* autogen.sh: We now require automake 1.9.5 to benefit from
+	  bugfixes and a license change:
+
+	  All m4 files have been relicensed under an all-permissive
+	  license.
+
+	  Previously they used a GPL license, and an all-permissive license
+	  was prepended when they were copied into aclocal.m4, leading to
+	  some confusion.
+
+2005-02-15 06:11  cegger
+
+	* compile, config.guess, config.sub, depcomp, install-sh, missing,
+	  mkinstalldirs: update to versions shipped with automake 1.9.5
+
+2005-02-09 06:23  cegger
+
+	* ltmain.sh, m4/ltversion.m4: sync up with libtool cvs branch-2-0
+	  to version 1.1667.2.158
+
+2005-02-01 21:20  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 to version 1.1667.2.149
+
+2005-01-27 20:19  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 to version 1.1667.2.141
+
+2005-01-27 08:56  pekberg
+
+	* demos/ggimisctest.c: ggiFlush every once in a while, a must in
+	  async mode.  Wait for user input at the end, so that the user can
+	  study the output.
+
+2005-01-27 08:17  pekberg
+
+	* display/directx/funcs.c: Change locking in the directx target to
+	  use a mutex instead of a critical section. The ordinary ggLock
+	  can't be used as the ggLock is not reentrant by the thread that
+	  owns the lock, a feature required by the window procedure.  The
+	  reentrance feature *could* be supplied by ggLocks, but only by
+	  introducing more locks, which would hurt performance. Critical
+	  sections can't be used as the entry point TryEnterCriticalSection
+	  does not exist on Win9x/ME.
+
+2005-01-26 11:09  pekberg
+
+	* demos/ggimisctest.c: Fall back on sprintf if snprintf is not
+	  there.
+
+2005-01-24 22:27  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 version 1.1667.2.137
+
+2005-01-13 11:54  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltoptions.m4, m4/ltsugar.m4,
+	  m4/ltversion.m4: sync up with libtool cvs branch-2-0 version
+	  1.1667.2.129
+
+2005-01-12 00:04  cegger
+
+	* ltmain.sh, m4/ltversion.m4: sync up with libtool cvs branch-2-0
+	  version 1.1667.2.127
+
+2005-01-05 13:44  soyt
+
+	* include/ggi/internal/misc_debug.h: use my personal email address
+
+2004-12-28 18:57  cegger
+
+	* config.guess, config.sub, install-sh: update to the versions
+	  shipped with automake 1.9.4
+
+2004-12-28 18:36  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 version 1.1667.2.118
+
+2004-12-22 13:18  cegger
+
+	* checkversion.sh: use 'head -n 1' than 'head -1'. Last form is
+	  depricated. Patch from Tobias Hunger.
+
+2004-12-13 17:52  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 version 1.1667.2.100
+
+2004-12-08 08:39  cegger
+
+	* include/ggi/internal/debug_macros.h: sync up with revision 1.6 of
+	  tools/buildframework/include/ggi/internal/debug_macros.h:
+
+	  'fmt' becomes 'form'. Finally, it is in a working state again.
+
+2004-12-08 07:28  cegger
+
+	* include/ggi/internal/debug_macros.h: sync up with revision 1.5 of
+	  tools/buildframework/include/ggi/internal/debug_macros.h:
+
+	  disable DPRINTIF that is meant for compatibility. Fixes build
+	  problems due to re-declaration.
+
+2004-12-07 09:04  cegger
+
+	* include/ggi/internal/debug_macros.h: sync with rev. 1.4:
+
+	  More work on the debug framework - multiple debug level - macros
+	  for defining debug context
+
+2004-12-06 22:24  cegger
+
+	* doc/man/: ggiGetRayPos.3, ggiSetSplitline.3, ggiWaitRayPos.3,
+	  libggimisc.7: regen.
+
+2004-12-04 20:19  neiljp
+
+	* doc/: libggimisc-functions.txt, libggimisc-libraries.txt: Small
+	  formatting fixes.
+
+2004-11-30 15:01  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 version 1.1667.2.95
+
+2004-11-29 19:57  soyt
+
+	* display/X/Makefile.am, display/directx/Makefile.am,
+	  display/fbdev/Makefile.am, display/pseudo_stubs/Makefile.am,
+	  display/svgalib/Makefile.am, ggimisc/Makefile.am: - change
+	  AM_CFLAGS to AM_CPPFLAGS - use '.' rather than ':' in
+	  DEBUG_NAMESPACE
+
+2004-11-27 23:45  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 version 1.1667.2.88
+
+2004-11-27 23:21  soyt
+
+	* include/ggi/: misc-defs.h, misc.h, internal/misc.h,
+	  internal/misc_debug.h: use coherent notation for header
+	  protection
+
+2004-11-27 19:38  soyt
+
+	* display/X/Makefile.am, display/X/funcs.c, display/X/init.c,
+	  display/directx/Makefile.am, display/fbdev/Makefile.am,
+	  display/fbdev/init.c, display/pseudo_stubs/Makefile.am,
+	  display/svgalib/Makefile.am, ggimisc/Makefile.am, ggimisc/init.c,
+	  include/ggi/internal/debug_macros.h,
+	  include/ggi/internal/misc_debug.h: moved to new debug scheme
+
+2004-11-19 21:57  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 version 1.1667.2.78
+
+2004-11-18 19:07  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync up with libtool
+	  cvs branch-2-0 version 1.1667.2.73
+
+2004-11-15 20:54  cegger
+
+	* doc/man/: ggiGetRayPos.3, ggiSetSplitline.3, ggiWaitRayPos.3:
+	  regen.
+
+2004-11-15 20:53  cegger
+
+	* doc/libggimisc-functions.txt: reference to ggi-error(3) when
+	  talking about error codes
+
+2004-11-14 23:14  cegger
+
+	* display/: X/funcs.c, svgalib/funcs.c: use macros: -
+	  LIBGGI_MODE(vis)->visible.y  ->  LIBGGI_Y(vis) -
+	  LIBGGI_MODE(vis)->virt.y  -> LIBGGI_VIRTY(vis)
+
+2004-11-14 23:10  cegger
+
+	* display/X/funcs.c, display/directx/funcs.c,
+	  display/pseudo_stubs/init.c, display/svgalib/funcs.c,
+	  ggimisc/init.c: use proper defines for return value if applicable
+
+2004-11-14 21:29  cegger
+
+	* configure.in: - use -std=gnu99 flag when gcc has it - also use
+	  -W* flags when we don't compile debug code
+
+2004-11-11 14:18  cegger
+
+	* configure.in: - use GGI_CHECK_STRING_FUNCS - use
+	  GGI_CC_CHECK4_OPTION for -pedantic  $CC option - use
+	  GGI_CHECK_IMPLICIT_DECLARATIONS
+
+2004-11-10 20:11  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltoptions.m4, m4/ltversion.m4: -
+	  sync up with libtool cvs branch-2-0 version 1.1667.2.67 - Add
+	  -pthread and other thread flags to inherited_linker_flags.
+
+2004-11-03 19:19  cegger
+
+	* display/pseudo_stubs/: init.c, pseudostubsggimisc.h: add a
+	  LIBGGI_MISCPRIVATE macro as an equivalent to LIBGGI_PRIVATE. Use
+	  it to initialize the private structure.
+
+	  Fixes compiler error: 'invalid lvalue in assignment'
+
+2004-11-03 18:06  cegger
+
+	* ltmain.sh, m4/ltversion.m4: sync with libtool branch-2-0 cvs
+	  branch, version 1.1667.2.55
+
+2004-11-03 08:17  cegger
+
+	* doc/man/: Makefile.am, ggiGetRayPos.3, ggiSetSplitline.3,
+	  ggiWaitRayPos.3, libggimisc.7: regenerate manpages
+
+2004-11-01 22:44  cegger
+
+	* compile, config.guess, install-sh: sync with
+	  tools/buildframework:
+
+	  update to versions shipped with automake 1.9.3
+
+2004-11-01 18:56  cegger
+
+	* ltmain.sh, m4/libtool.m4, m4/ltversion.m4: sync with libtool
+	  branch-2-0 cvs branch, version 1.1667.2.53
+
+2004-10-31 18:20  cegger
+
+	* display/X/funcs.c, display/X/init.c, display/fbdev/init.c,
+	  ggimisc/init.c: disable debug code until libggimisc has its own.
+	  For now, this makes libggimisc compile again.
+
+2004-10-28 07:14  pekberg
+
+	* configure.in: Zap dlopen from LT_INIT, we're not using the
+	  -dlopen or -dlpreopen libtool flags anywhere.
+
+2004-10-27 13:30  pekberg
+
+	* configure.in: It appears that using _LT_SET_OPTION multiple times
+	  do not work as expected.
+
+2004-10-27 12:56  cegger
+
+	* doc/man/libggimisc.7: regen.
+
+2004-10-27 10:22  pekberg
+
+	* doc/libggimisc-libraries.txt: Mention GGI_CONFDIR.
+
+2004-10-27 10:10  pekberg
+
+	* ggimisc/init.c: Don't allow overiding the compiled in path on
+	  Cygwin.
+
+2004-10-26 14:30  cegger
+
+	* .cvsignore: sync with ggi-core/libggi/.cvsignore, rev 1.3
+
+2004-10-25 12:36  cegger
+
+	* ggimisc/Makefile.am: bump to devel version. better late than
+	  never...
+
+2004-10-23 17:58  cegger
+
+	* Makefile.am, configure.in: add genlibtool and genlibtool.in to
+	  distribtution run genlibtool from srcdir, not cwd.
+
+	  'make distcheck' works again
+
+2004-10-23 15:00  cegger
+
+	* configure.in: update via autoupdate with slight modifications by
+	  me
+
+2004-10-23 14:30  cegger
+
+	* configure.in: libtool 1.4.3 generated the platform dependent
+	  libtool script at configure time when AM_PROG_LIBTOOL was
+	  invoked.
+
+	  With libtool 2.0, config.status generates the platform dependent
+	  libtool script. config.status is invoked by configure _after_
+	  configure finished.
+
+	  This arises the problem, that library checks via AC_CHECK_LIB
+	  fail. We wrap around CC with '/bin/tcsh ./libtool ' to easily
+	  track somewhat hidden library dependencies that may even differ
+	  from platform to platform. This way assumes that libtool exists
+	  and has been generated before.  Unfortunately, with libtool 2.0
+	  this is no longer true.
+
+	  The solution is to add a minimalistic configure script called
+	  genlibtool. genlibtool only performs the checks required to
+	  generate the libtool script.
+
+	  configure invokes genlibtool right after AM_PROG_LIBTOOL (which
+	  will be renamed to the new name LT_INIT later), to ensure that
+	  libtool exists _before_ performing the library checks via
+	  AC_CHECK_LIB as described above.
+
+	  Now, since configure calls another 'embedded' configure don't get
+	  confused when some checks seem to be done twice.
+
+	  configure creates a confdefs.h file for internal use and deletes
+	  it after exiting. We make a safety copy of it _before_ calling
+	  genlibtool. When genlibtool finishs, we restore it to not break
+	  following checks assuming confdefs.h to be there.
+
+2004-10-23 14:06  cegger
+
+	* ltmain.sh, m4/ltversion.m4: sync with libtool-2-0 branch
+
+2004-10-23 13:44  cegger
+
+	* m4/check4libggi.m4: libtool 2.0 requires --mode=link option
+
+2004-10-23 13:28  cegger
+
+	* autogen.sh: libtool 1.4.3 generated the platform dependent
+	  libtool script at configure time when AM_PROG_LIBTOOL was
+	  invoked.
+
+	  With libtool 2.0, config.status generates the platform dependent
+	  libtool script. config.status is invoked by configure _after_
+	  configure finished.
+
+	  This arises the problem, that library checks via AC_CHECK_LIB
+	  fail. We wrap around CC with '/bin/tcsh ./libtool ' to easily
+	  track somewhat hidden library dependencies that may even differ
+	  from platform to platform. This way assumes that libtool exists
+	  and has been generated before.  Unfortunately, with libtool 2.0
+	  this is no longer true.
+
+	  The solution is to add a minimalistic configure script called
+	  genlibtool. genlibtool only performs the checks required to
+	  generate the libtool script.
+
+	  configure invokes genlibtool right after AM_PROG_LIBTOOL (which
+	  will be renamed to the new name LT_INIT later), to ensure that
+	  libtool exists _before_ performing the library checks via
+	  AC_CHECK_LIB as described above.
+
+	  Now, since configure calls another 'embedded' configure don't get
+	  confused when some checks seem to be done twice.
+
+	  configure creates a confdefs.h file for internal use and deletes
+	  it after exiting. We make a safety copy of it _before_ calling
+	  genlibtool. When genlibtool finishs, we restore it to not break
+	  following checks assuming confdefs.h to be there.
+
+2004-10-22 05:30  cegger
+
+	* ltmain.sh, m4/ltversion.m4: sync with libtool-2-0 cvs branch
+
+2004-10-20 23:45  cegger
+
+	* m4/libtool.m4: incorporate latest libtool 2.0 pre-release fixes
+
+2004-10-19 20:10  cegger
+
+	* configure.in: make use of AC_DEFINE's third argument. This get us
+	  rid from acconfig.h and fixes the autoheader warnings.
+
+2004-10-18 21:18  cegger
+
+	* configure.in: Build update process, part 3: We now require
+	  autoconf 2.59
+
+2004-10-18 21:05  cegger
+
+	* m4/: ltoptions.m4, ltsugar.m4, ltversion.m4: Build process
+	  update, part 2b: Update to libtool 2.0 pre-release
+
+2004-10-18 20:53  cegger
+
+	* ltmain.sh, m4/libtool.m4: Build process update, part 2a: Update
+	  to libtool 2.0 pre-release
+
+2004-10-18 20:41  cegger
+
+	* autogen.sh: Build process update, part 1: We now require autoconf
+	  2.59 and automake 1.9.2
+
+2004-10-18 15:33  cegger
+
+	* display/Makefile.am: add directx to distribution
+
+2004-10-18 15:26  cegger
+
+	* display/Makefile.am: add pseudo_stubs to distribution
+
+2004-10-18 11:51  cegger
+
+	* configure.in: bump to devel version
+
+2004-10-14 17:26  cegger
+
+	* doc/man/: ggiGetRayPos.3, ggiSetSplitline.3, ggiWaitRayPos.3,
+	  libggimisc.7: regen.
+
+2004-10-14 17:25  cegger
+
+	* doc/Makefile.am: add libggimisc-libraries.txt
+
+2004-10-14 17:23  cegger
+
+	* doc/: libggimisc-functions.txt, libggimisc-libraries.txt,
+	  libggimisc.txt: move library docutil manual into
+	  libggimisc-libraries.txt
+
+2004-10-14 17:19  cegger
+
+	* doc/: Makefile.am, libggimisc-functions.txt, libggimisc.txt:
+	  Follow the scheme: move function documentation into
+	  libggimisc-functions.txt
+
+2004-10-14 17:16  cegger
+
+	* doc/retrace.txt: remove trailing empty lines
+
+2004-10-14 17:15  cegger
+
+	* doc/libggimisc.txt: whitespace cleanup, sort 'See Also' section
+
+2004-09-30 12:57  cegger
+
+	* config.guess, config.sub, depcomp, install-sh, missing: sync with
+	  tools/buildframework: update to the version shipped with automake
+	  1.9.2
+
+2004-09-25 09:51  cegger
+
+	* Makefile.am: autogen.sh requires checkversion.sh. So distribute
+	  it, too
+
+2004-09-22 17:28  cegger
+
+	* display/fbdev/funcs.c: fix warning about comparison between
+	  signed and unsigned
+
+2004-09-22 17:24  cegger
+
+	* display/fbdev/: fbdevggimisc.h, funcs.c, init.c: indent -kr -i8
+
+2004-09-19 08:05  cegger
+
+	* display/fbdev/init.c: add missing prototype for
+	  GGIMISCdl_fbdev_ggimisc
+
+2004-09-19 08:02  cegger
+
+	* display/fbdev/funcs.c: #include <string> to get declaration for
+	  memcpy
+
+2004-09-18 11:55  cegger
+
+	* display/: X/funcs.c, X/init.c, X/xggimisc.h,
+	  directx/directxggimisc.h, directx/funcs.c, directx/init.c,
+	  fbdev/fbdevggimisc.h, fbdev/funcs.c, fbdev/init.c,
+	  pseudo_stubs/funcs.c, pseudo_stubs/init.c,
+	  pseudo_stubs/pseudostubsggimisc.h, svgalib/funcs.c,
+	  svgalib/init.c, svgalib/svgalibggimisc.h: add rcs identifer
+
+2004-09-18 11:49  cegger
+
+	* demos/ggimisctest.c, ggimisc/init.c, ggimisc/stubs.c,
+	  include/ggi/misc.h, include/ggi/internal/misc.h: add rcs
+	  identifer
+
+2004-09-10 05:42  cegger
+
+	* configure.in: use same CFLAGS as libggi\'s configure rev 1.130
+
+2004-09-10 05:38  cegger
+
+	* ggimisc/init.c: use string bounded op
+
+2004-09-08 14:09  cegger
+
+	* m4/libtool.m4: sync with tools/buildframework/m4/libtool.m4 rev
+	  1.3:
+
+	  Use 'gcc -shared' on both cygwin and mingw.  Optimize out dlltool
+	  and dllwrap.
+
+2004-08-17 06:55  pekberg
+
+	* configure.in, libggimisc.conf.in, m4/Makefile.am: Use relative
+	  paths in the configuration file on mingw.
+
+2004-08-13 19:14  cegger
+
+	* ltmain.sh: sync with tools/buildframework/ltmain.sh, rev 1.2:
+
+	  Install core dlls in bin instead of in lib on mingw.	No longer
+	  needed to have the lib dir in the path.
+
+2004-08-11 10:30  cegger
+
+	* m4/libtool.m4:
+	  sync with tools/buildframework/m4/libtool.m4 rev 1.2:
+
+	  Make libtool build functional dlls on cygwin
+
+2004-07-28 08:10  cegger
+
+	* autogen.sh: echo -n only works on linux, *BSD and darwin. Use
+	  printf to make it work on all platforms including System V
+
+2004-07-11 12:09  cegger
+
+	* configure.in: explicit linking against threadlibs is no longer
+	  needed since libtool handles dependencies correctly
+
+2004-06-06 20:51  cegger
+
+	* m4/check4libggi.m4: sync with new versions from
+	  tools/buildframework/
+
+2004-06-06 20:17  cegger
+
+	* m4/gii_paths.m4: sync with new versions from
+	  tools/buildframework/
+
+2004-06-06 07:05  cegger
+
+	* doc/man/: Makefile.am, ggiGetRayPos.3, ggiSetSplitline.3,
+	  ggiWaitRayPos.3, libggimisc.7: regeneration
+
+2004-06-05 00:20  aldot
+
+	* display/fbdev/funcs.c: correct a few typos
+
+2004-05-28 11:26  cegger
+
+	* m4/check4libggi.m4: sync with new versions from
+	  tools/buildframework/
+
+2004-05-25 09:40  pekberg
+
+	* demos/Makefile.am: Remove explicit references to $(THREADLIBS) as
+	  they are no longer needed.  This is taken care of implicitly by
+	  the recent ltmain.sh update.
+
+2004-05-24 17:04  cegger
+
+	* ltmain.sh: sync with new versions from tools/buildframework/
+
+2004-05-10 19:14  aldot
+
+	* configure.in: add extra-paths
+
+2004-05-09 21:01  aldot
+
+	* demos/Makefile.am: threadlibs are needed for FreeBSD
+
+2004-05-09 20:39  cegger
+
+	* configure.in: use new GGI_CHECKLIB macro
+
+2004-05-09 20:36  cegger
+
+	* m4/: Makefile.am, check4libggi.m4: move over to new libggi
+	  detection
+
+2004-05-09 20:17  cegger
+
+	* config.guess, config.sub: sync with new versions from
+	  tools/buildscripts/
+
+2004-05-09 12:52  cegger
+
+	* config.guess, config.sub, depcomp, install-sh: sync with new
+	  versions from tools/buildscripts/
+
+2004-05-06 19:17  pekberg
+
+	* configure.in: There should be no need for extra ld flags when
+	  linking with libtool
+
+2004-05-06 06:35  pekberg
+
+	* configure.in: blast, missed a line when copy-pasting
+
+2004-05-06 06:30  pekberg
+
+	* configure.in: locate ggi using libtool, as ggi detects gii
+
+2004-04-28 04:30  pekberg
+
+	* include/ggi/Makefile.am: install the new header file
+
+2004-04-27 10:03  pekberg
+
+	* display/pseudo_stubs/.cvsignore: ignore Makefile.in
+
+2004-04-27 10:02  pekberg
+
+	* configure.in, libggimisc.conf.in, display/pseudo_stubs/EXPSYMS,
+	  display/pseudo_stubs/Makefile.am, display/pseudo_stubs/funcs.c,
+	  display/pseudo_stubs/init.c,
+	  display/pseudo_stubs/pseudostubsggimisc.h: add support for
+	  pseudo_stubs targets (palemu/trueemu)
+
+2004-04-27 10:01  pekberg
+
+	* demos/ggimisctest.c: pretty print GGI_RP_DONTCARE
+
+2004-04-27 08:19  pekberg
+
+	* display/directx/funcs.c: return GGI_RP_DONTCARE instead of zero
+	  for the x position for the directx ggiGetRayPos (the x position
+	  isn't available)
+
+2004-04-27 06:20  cegger
+
+	* autogen.sh: return an exit code
+
+2004-04-26 23:46  cegger
+
+	* .cvsignore: ignore autom4te.cache
+
+2004-04-26 10:44  pekberg
+
+	* configure.in, libggimisc.conf.in, display/directx/.cvsignore,
+	  display/directx/EXPSYMS, display/directx/Makefile.am,
+	  display/directx/directxggimisc.h, display/directx/funcs.c,
+	  display/directx/init.c: add support for the directx target
+
+2004-04-26 10:32  pekberg
+
+	* demos/ggimisctest.c: break out of splitline loop early if
+	  splitline not supported
+
+2004-04-26 10:31  pekberg
+
+	* ggimisc/init.c: remove EXPORTVAR from variable definition
+
+2004-04-25 20:19  pekberg
+
+	* configure.in, demos/ggimisctest.c, ggimisc/EXPSYMS,
+	  ggimisc/init.c, include/ggi/misc-defs.h, include/ggi/misc.h,
+	  include/ggi/internal/misc.h: make it build on win32
+
+2004-04-09 22:41  cegger
+
+	* config.guess, config.sub: update to version shipped with libtool
+	  1.5.4
+
+2004-04-09 22:40  cegger
+
+	* install-sh, mkinstalldirs: update to version shipped with
+	  automake 1.8.3
+
+2004-03-01 10:48  soyt
+
+	* doc/man/: ggiGetRayPos.3, ggiSetSplitline.3, ggiWaitRayPos.3,
+	  libggimisc.7: added ovl manpages and fixed admonitions
+
+2004-02-26 12:25  cegger
+
+	* m4/libtool.m4: sync with libgii's revision 1.15
+
+2004-02-10 06:40  cegger
+
+	* m4/libtool.m4: make install works on mingw. Patch from Peter
+	  Ekberg.
+
+2004-01-31 11:22  cegger
+
+	* checkversion.sh: sync with libgii's latest revision 1.4
+
+2004-01-31 10:38  cegger
+
+	* autogen.sh, checkversion.sh: make autogen.sh checking for
+	  required autoconf & automake version
+
+2004-01-31 10:14  cegger
+
+	* m4/libtool.m4: sync with libgii's revision 1.12
+
+2004-01-29 20:28  cegger
+
+	* m4/libtool.m4: sync libtool with libgii (revision 1.11)
+
+2004-01-24 23:11  cegger
+
+	* ltmain.sh, m4/libtool.m4: merge libgii's libtool update
+
+	  ltmain.sh (revisions 1.11-1.13) m4/ltdl.m4 (revision 1.3)
+	  m4/libtool.m4 (revision 1.10)
+
+2004-01-24 22:44  cegger
+
+	* compile, config.guess, config.sub, depcomp, install-sh, missing,
+	  mkinstalldirs: update to version shipped with automake 1.8.2
+
+2003-12-13 14:56  cegger
+
+	* config.guess, config.sub, depcomp, missing: update to version
+	  shipped by automake 1.7.9
+
+2003-09-22 19:55  cegger
+
+	* depcomp, install-sh: update to version shipped by automake 1.7.6
+
+2003-07-14 16:33  cegger
+
+	* autogen.sh: synchronize with libgii
+
+2003-07-09 09:00  cegger
+
+	* config.guess, config.sub: update from
+	  ftp://ftp.gnu.org/gnu/config/
+
+2003-06-12 08:11  cegger
+
+	* config.guess, config.sub, install-sh: update to the version
+	  shipped by automake 1.7.5
+
+2003-05-09 22:10  cegger
+
+	* configure.in: warn on incomplete switch/case handling
+
+2003-04-22 20:43  cegger
+
+	* configure.in: make gcc more silence and warn about more serious
+	  things
+
+2003-04-01 14:58  soyt
+
+	* doc/libggimisc.txt: added ReST file
+
+2003-03-01 12:24  soyt
+
+	* doc/man/: Makefile.am, ggiGetRayPos.3, ggiSetSplitline.3,
+	  ggiWaitRayPos.3, libggimisc.7: improved manpages
+
+2003-02-28 22:57  soyt
+
+	* doc/man/: Makefile.am, ggiGetRayPos.3, ggiSetSplitline.3,
+	  ggiWaitRayPos.3: manpages must look much much better now.
+
+2003-02-26 21:47  cegger
+
+	* config.guess, config.sub, depcomp: update to the version shipped
+	  by automake 1.7.3
+
+2003-02-04 20:28  cegger
+
+	* ggimisc/EXPSYMS, ggimisc/stubs.c, include/ggi/misc.h: undo
+	  "namespace cleanup". Brian doesn't like this idea.
+
+2003-02-03 22:12  cegger
+
+	* ggimisc/EXPSYMS, ggimisc/stubs.c, include/ggi/misc.h: namespace
+	  cleanup
+
+2003-01-28 15:27  cegger
+
+	* ltmain.sh: merge OpenBSD fixes from libggi
+
+2003-01-06 15:10  cegger
+
+	* ggimisc/EXPSYMS: empty lines breakes linking on Solaris
+
+2002-12-21 00:48  cegger
+
+	* ReleaseNote: Update download link
+
+2002-12-17 20:22  cegger
+
+	* ReleaseNote: update
+
+2002-12-17 20:20  cegger
+
+	* configure.in: bump version to 2.0.2
+
+2002-12-17 18:24  cegger
+
+	* config.guess, config.sub, install-sh: update to the version
+	  coming along with autoconf 2.57/automake 1.7.2
+
+2002-12-10 21:21  cegger
+
+	* configure.in: disable X-target until someone updated it
+
+2002-12-10 20:35  cegger
+
+	* configure.in: let configure fail, when libggi not found
+
+2002-12-08 21:40  cegger
+
+	* ltmain.sh: add fixes from debian
+
+2002-11-27 21:57  cegger
+
+	* configure.in, m4/gii_paths.m4: configure cleanup
+
+2002-11-27 09:21  cegger
+
+	* configure.in: fixes to find libggi on Darwin
+
+2002-11-25 14:45  cegger
+
+	* config.guess, config.sub, install-sh, mkinstalldirs: update to
+	  the versions shipped with autoconf 2.55
+
+2002-10-24 15:25  cegger
+
+	* config.guess, ltmain.sh, m4/libtool.m4: update to libtool 1.4.3
+
+2002-10-17 21:09  cegger
+
+	* config.guess, config.sub: update to versions shipped with
+	  automake 1.7. This let configure recognize more CPU variants
+	  (i.e. of mips, powerpc64 and athlon (XP))
+
+2002-10-07 21:19  cegger
+
+	* config.guess, config.sub, depcomp, install-sh, missing,
+	  mkinstalldirs: update to the version shipped with automake 1.6.3
+
+2002-10-05 23:26  cegger
+
+	* compile, config.guess, config.sub, depcomp, install-sh, missing,
+	  mkinstalldirs, m4/libtool.m4: merge build system update from
+	  libgii
+
+2002-09-28 15:44  cegger
+
+	* Makefile.am: merge automake 1.6 fix from libgii
+
+2002-09-15 10:51  cegger
+
+	* ggimisc/init.c: compiler fix
+
+2001-11-15 18:13  soyt
+
+	* README, ReleaseNote: README and ReleaseNote formated for new
+	  siteupdate
+
+2001-08-25 22:01  skids
+
+	* ChangeLog:
+	  Release notes.
+
+2001-08-25 21:44  soyt
+
+	* INSTALL.autoconf: added INSTALL.autoconf
+
+2001-08-25 16:08  skids
+
+	* TODO, configure.in, ggimisc/Makefile.am:
+	  Release back to 2.0.1, sorry about that folks.  Added code to
+	  check for version-specific fb.h macros.
+
+2001-08-25 14:13  cegger
+
+	* dist/rpm/libggimisc.spec.in: added changelog comment
+
+2001-08-25 14:02  cegger
+
+	* TODO, dist/rpm/libggimisc.spec.in: updated TODO file, added
+	  'man9' in dist/rpm/libggimisc.spec.in
+
+2001-08-25 13:58  cegger
+
+	* configure.in, doc/Makefile.am: Change makefile so that the sgml
+	  files don't go in the tarballs.
+
+2001-08-25 12:15  cegger
+
+	* display/Makefile.am: make sure, that all targets are in the
+	  source tarball
+
+2001-08-25 11:31  cegger
+
+	* TODO: forget to mark, who did it :)
+
+2001-08-25 08:38  cegger
+
+	* TODO, configure.in, ggimisc/Makefile.am: moved build process to
+	  3-number versioning scheme
+
+2001-08-22 16:46  soyt
+
+	* TODO: TODO base for next release
+
+2001-08-22 05:47  thayne
+
+	* Makefile.am, configure.in, dist/.cvsignore, dist/Makefile.am,
+	  dist/rpm/.cvsignore, dist/rpm/Makefile.am,
+	  dist/rpm/libggimisc.spec.in: add dist dir and files to build rpm
+
+2001-08-21 17:12  cegger
+
+	* configure.in: use GGIMISCCONFFILE instead of GGIMISCCONFDIR
+
+2001-07-16 15:08  thayne
+
+	* configure.in: revert to AM_PROG_LIBTOOL and AM_DISABLE_STATIC to
+	  fix "LIBTOOL no set in configure.in" bug and inconsistency with
+	  LIBTOOL docs.
+
+2001-07-10 05:22  thayne
+
+	* configure.in: AM_PROG_LIBTOOL and AM_DISABLE_STATIC are
+	  deprecated - use 'AC_' names.
+
+2001-07-09 14:49  thayne
+
+	* m4/libtool.m4: libtool 1.4 has moved tests from ltconfig to
+	  libtool.m4.  Delete unecessary ltconfig and update libtool.m4.
+
+2001-07-07 17:26  thayne
+
+	* Makefile.am, configure.in, libggimisc.conf.in: Update
+	  configure.in and associated files to be consistent across libs
+
+2001-07-07 15:05  thayne
+
+	* ltmain.sh: Fixing bug in libtool 1.4 where it won't find
+	  interdependency libraries during install to a packaging dir
+
+2001-07-07 08:13  thayne
+
+	* config.guess, config.sub, ltmain.sh: Updating to libtool 1.4
+
+2001-07-04 00:05  cegger
+
+	* ggimisc/EXPSYMS: fixed typo error
+
+2001-07-03 19:34  cegger
+
+	* Makefile.am, configure.in, libggimisc.conf.in, ggimisc/EXPSYMS:
+	  confdir fixes for libovl/libblt/libggimisc
+
+2001-06-13 18:03  cegger
+
+	* include/ggi/internal/Makefile.am: prepared for no-installed
+	  headers
+
+2001-05-22 12:54  cegger
+
+	* include/.cvsignore: ignore autogenerated files
+
+2001-05-21 22:37  skids
+
+	* display/fbdev/: Makefile.am, fbdevggimisc.h, funcs.c, init.c:
+	  Some files that got missed during first commit of Christoph's
+	  cleanups
+
+2001-05-21 22:32  skids
+
+	* include/: Makefile.am, ggi/.cvsignore, ggi/Makefile.am,
+	  ggi/misc.h, ggi/internal/.cvsignore, ggi/internal/Makefile.am,
+	  ggi/internal/misc.h:
+	  Move of main includes into own subdir
+
+2001-05-21 22:25  skids
+
+	* display/X/: .cvsignore, EXPSYMS, Makefile.am, funcs.c, init.c,
+	  xggimisc.h:
+	  Rename of display/x to display/X
+
+2001-05-21 22:18  skids
+
+	* Makefile.am, configure.in, demos/Makefile.am,
+	  demos/ggimisctest.c, display/svgalib/Makefile.am,
+	  display/svgalib/init.c, display/svgalib/svgalibggimisc.h,
+	  ggimisc/Makefile.am, ggimisc/init.c, ggimisc/stubs.c:
+	  Some cleanups from Christoph
+
+2001-05-21 02:53  skids
+
+	* doc/docbook/.cvsignore:
+	  Ignore autogen manpage.* links
+
+2001-05-21 02:50  skids
+
+	* README, ltmain.sh, autogen.sh, config.guess, config.sub,
+	  configure.in, install-sh, missing, .cvsignore, ChangeLog,
+	  Makefile.am, TODO, libggimisc.conf.in, mkinstalldirs,
+	  demos/Makefile.am, demos/ggimisctest.c, display/Makefile.am,
+	  display/fbdev/Makefile.am, display/fbdev/fbdevggimisc.h,
+	  display/fbdev/funcs.c, display/fbdev/init.c,
+	  display/svgalib/Makefile.am, display/svgalib/funcs.c,
+	  display/svgalib/init.c, display/svgalib/svgalibggimisc.h,
+	  doc/Makefile.am, doc/retrace.txt, doc/docbook/.cvsignore,
+	  doc/man/Makefile.am, ggimisc/EXPSYMS, ggimisc/Makefile.am,
+	  ggimisc/init.c, ggimisc/stubs.c, m4/Makefile.am, m4/libtool.m4:
+	  Initial revision
+
+2001-05-21 02:50  skids
+
+	* COPYING, demos/.cvsignore, display/.cvsignore,
+	  display/fbdev/.cvsignore, display/fbdev/EXPSYMS,
+	  display/svgalib/.cvsignore, display/svgalib/EXPSYMS,
+	  doc/.cvsignore, doc/ggimisc.txt, doc/docbook/Makefile.am,
+	  doc/man/.cvsignore, ggimisc/.cvsignore, m4/.cvsignore: initial
+	  import
+

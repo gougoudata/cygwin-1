@@ -1,0 +1,51 @@
+sgml-common
+-------------------------------------------
+The sgml-common package gathers very basic stuff necessary to
+work with SGML and XML.
+
+They currently contain:
+  - xml.dcl: SGML declaration of XML
+  - iso-entities: the basic SGML ISO entities
+  - install-catalog: a script used to add entries to (or remove
+    entries from) centralized catalogs. These entries are pointers
+    to SGML open catalogs as defined by OASIS (see TR9401:1997 on
+    http://www.oasis-open.org).
+  - sgmlwhich: a small script telling where SGML main configuration file
+    is located (provided for compatibility with non-FHS systems)
+
+Build requirements:
+  autoconf2.5-2.63-10
+  automake1.4-1.4p6-10
+  cygport-0.9.10-1
+  make-3.81-2
+  sed-4.1.5-2
+
+Canonical homepage:
+  http://www.iso.ch/cate/3524030.html
+
+Canonical download:
+  ftp://ftp.kde.org/pub/kde/devel/docbook/SOURCES/
+
+-------------------------------------------
+
+Build instructions:
+  unpack sgml-common-0.6.3-X-src.tar.bz2
+    if you use setup to install this src package, it will be
+	 unpacked under /usr/src automatically
+  cd /usr/src
+  cygport ./sgml-common-0.6.3-X.cygport all
+
+This will create:
+  /usr/src/sgml-common-0.6.3-X-src.tar.bz2
+  /usr/src/sgml-common-0.6.3-X.tar.bz2
+
+-------------------------------------------
+
+Port Notes:
+
+----- version 0.6.3-3 -----
+Initial release for Cygwin 1.7.
+
+
+Cygwin port maintained by:
+http://sourceware.org/cygwinports/

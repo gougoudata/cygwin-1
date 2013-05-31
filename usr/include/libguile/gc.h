@@ -242,6 +242,7 @@ void scm_i_expensive_validation_check (SCM cell);
 #endif
 
 SCM_API scm_i_pthread_mutex_t scm_i_gc_admin_mutex;
+SCM_API int scm_i_terminating;
 
 #define scm_gc_running_p (SCM_I_CURRENT_THREAD->gc_running_p)
 SCM_API scm_i_pthread_mutex_t scm_i_sweep_mutex;
@@ -276,7 +277,12 @@ SCM_API scm_i_pthread_key_t scm_i_freelist;
 SCM_API scm_i_pthread_key_t scm_i_freelist2;
 SCM_API struct scm_t_cell_type_statistics scm_i_master_freelist;
 SCM_API struct scm_t_cell_type_statistics scm_i_master_freelist2;
-
+#ifdef __MINGW32__
+SCM_API scm_i_pthread_key_t *scm_i_freelist_ptr;
+SCM_API scm_i_pthread_key_t *scm_i_freelist2_ptr;
+SCM_API struct scm_t_cell_type_statistics *scm_i_master_freelist_ptr;
+SCM_API struct scm_t_cell_type_statistics *scm_i_master_freelist2_ptr;
+#endif
 
 SCM_API unsigned long scm_gc_cells_swept;
 SCM_API unsigned long scm_gc_cells_collected;

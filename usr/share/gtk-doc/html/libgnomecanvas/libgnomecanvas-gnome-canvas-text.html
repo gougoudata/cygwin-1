@@ -1,0 +1,413 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>GnomeCanvasText</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.77.1">
+<link rel="home" href="index.html" title="GNOME Canvas Library Reference Manual">
+<link rel="up" href="ch02.html" title="GNOME Canvas Library (libgnomecanvas)">
+<link rel="prev" href="GnomeCanvasShape.html" title="GnomeCanvasShape">
+<link rel="next" href="GnomeCanvasWidget.html" title="GnomeCanvasWidget">
+<meta name="generator" content="GTK-Doc V1.18 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="GnomeCanvasShape.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch02.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">GNOME Canvas Library Reference Manual</th>
+<td><a accesskey="n" href="GnomeCanvasWidget.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#libgnomecanvas-gnome-canvas-text.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#libgnomecanvas-gnome-canvas-text.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#libgnomecanvas-gnome-canvas-text.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                   | 
+                  <a href="#libgnomecanvas-gnome-canvas-text.properties" class="shortcut">Properties</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="libgnomecanvas-gnome-canvas-text"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="libgnomecanvas-gnome-canvas-text.top_of_page"></a>GnomeCanvasText</span></h2>
+<p>GnomeCanvasText</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="libgnomecanvas-gnome-canvas-text.synopsis"></a><h2>Synopsis</h2>
+<a name="GnomeCanvasText"></a><pre class="synopsis">
+#include &lt;libgnomecanvas/libgnomecanvas.h&gt;
+
+struct              <a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText-struct" title="struct GnomeCanvasText">GnomeCanvasText</a>;
+</pre>
+</div>
+<div class="refsect1">
+<a name="libgnomecanvas-gnome-canvas-text.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  <a href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+   +----<a href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GInitiallyUnowned">GInitiallyUnowned</a>
+         +----<a href="/usr/share/gtk-doc/html/gtk2/GtkObject.html">GtkObject</a>
+               +----<a class="link" href="GnomeCanvasItem.html" title="GnomeCanvasItem">GnomeCanvasItem</a>
+                     +----GnomeCanvasText
+</pre>
+</div>
+<div class="refsect1">
+<a name="libgnomecanvas-gnome-canvas-text.properties"></a><h2>Properties</h2>
+<pre class="synopsis">
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--anchor" title='The "anchor" property'>anchor</a>"                   <a href="/usr/share/gtk-doc/html/gtk2/gtk2-Standard-Enumerations.html#GtkAnchorType"><span class="type">GtkAnchorType</span></a>         : Read / Write
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--attributes" title='The "attributes" property'>attributes</a>"               <a href="/usr/share/gtk-doc/html/pango/pango-Text-Attributes.html#PangoAttrList"><span class="type">PangoAttrList</span></a>*        : Read / Write
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--clip" title='The "clip" property'>clip</a>"                     <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--clip-height" title='The "clip-height" property'>clip-height</a>"              <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a>               : Read / Write
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--clip-width" title='The "clip-width" property'>clip-width</a>"               <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a>               : Read / Write
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--family" title='The "family" property'>family</a>"                   <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--family-set" title='The "family-set" property'>family-set</a>"               <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--fill-color" title='The "fill-color" property'>fill-color</a>"               <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--fill-color-gdk" title='The "fill-color-gdk" property'>fill-color-gdk</a>"           <a href="/usr/share/gtk-doc/html/gdk3/gdk3-Colors.html#GdkColor"><span class="type">GdkColor</span></a>*             : Read / Write
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--fill-color-rgba" title='The "fill-color-rgba" property'>fill-color-rgba</a>"          <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="type">guint</span></a>                 : Read / Write
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--fill-stipple" title='The "fill-stipple" property'>fill-stipple</a>"             <a href="/usr/share/gtk-doc/html/gdk2/gdk2-Drawing-Primitives.html#GdkDrawable"><span class="type">GdkDrawable</span></a>*          : Read / Write
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--font" title='The "font" property'>font</a>"                     <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--font-desc" title='The "font-desc" property'>font-desc</a>"                <a href="/usr/share/gtk-doc/html/pango/pango-Fonts.html#PangoFontDescription"><span class="type">PangoFontDescription</span></a>*  : Read / Write
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--justification" title='The "justification" property'>justification</a>"            <a href="/usr/share/gtk-doc/html/gtk3/gtk3-Standard-Enumerations.html#GtkJustification"><span class="type">GtkJustification</span></a>      : Read / Write
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--markup" title='The "markup" property'>markup</a>"                   <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Write
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--rise" title='The "rise" property'>rise</a>"                     <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a>                  : Read / Write
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--rise-set" title='The "rise-set" property'>rise-set</a>"                 <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--scale" title='The "scale" property'>scale</a>"                    <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a>               : Read / Write
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--scale-set" title='The "scale-set" property'>scale-set</a>"                <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--size" title='The "size" property'>size</a>"                     <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a>                  : Read / Write
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--size-points" title='The "size-points" property'>size-points</a>"              <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a>               : Read / Write
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--size-set" title='The "size-set" property'>size-set</a>"                 <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--stretch" title='The "stretch" property'>stretch</a>"                  <a href="/usr/share/gtk-doc/html/pango/pango-Fonts.html#PangoStretch"><span class="type">PangoStretch</span></a>          : Read / Write
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--stretch-set" title='The "stretch-set" property'>stretch-set</a>"              <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--strikethrough" title='The "strikethrough" property'>strikethrough</a>"            <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--strikethrough-set" title='The "strikethrough-set" property'>strikethrough-set</a>"        <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--style" title='The "style" property'>style</a>"                    <a href="/usr/share/gtk-doc/html/pango/pango-Fonts.html#PangoStyle"><span class="type">PangoStyle</span></a>            : Read / Write
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--style-set" title='The "style-set" property'>style-set</a>"                <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--text" title='The "text" property'>text</a>"                     <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--text-height" title='The "text-height" property'>text-height</a>"              <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a>               : Read
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--text-width" title='The "text-width" property'>text-width</a>"               <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a>               : Read
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--underline" title='The "underline" property'>underline</a>"                <a href="/usr/share/gtk-doc/html/pango/pango-Text-Attributes.html#PangoUnderline"><span class="type">PangoUnderline</span></a>        : Read / Write
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--underline-set" title='The "underline-set" property'>underline-set</a>"            <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--variant" title='The "variant" property'>variant</a>"                  <a href="/usr/share/gtk-doc/html/pango/pango-Fonts.html#PangoVariant"><span class="type">PangoVariant</span></a>          : Read / Write
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--variant-set" title='The "variant-set" property'>variant-set</a>"              <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--weight" title='The "weight" property'>weight</a>"                   <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a>                  : Read / Write
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--weight-set" title='The "weight-set" property'>weight-set</a>"               <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--x" title='The "x" property'>x</a>"                        <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a>               : Read / Write
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--x-offset" title='The "x-offset" property'>x-offset</a>"                 <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a>               : Read / Write
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--y" title='The "y" property'>y</a>"                        <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a>               : Read / Write
+  "<a class="link" href="libgnomecanvas-gnome-canvas-text.html#GnomeCanvasText--y-offset" title='The "y-offset" property'>y-offset</a>"                 <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a>               : Read / Write
+</pre>
+</div>
+<div class="refsect1">
+<a name="libgnomecanvas-gnome-canvas-text.description"></a><h2>Description</h2>
+</div>
+<div class="refsect1">
+<a name="libgnomecanvas-gnome-canvas-text.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="GnomeCanvasText-struct"></a><h3>struct GnomeCanvasText</h3>
+<pre class="programlisting">struct GnomeCanvasText;</pre>
+</div>
+</div>
+<div class="refsect1">
+<a name="libgnomecanvas-gnome-canvas-text.property-details"></a><h2>Property Details</h2>
+<div class="refsect2">
+<a name="GnomeCanvasText--anchor"></a><h3>The <code class="literal">"anchor"</code> property</h3>
+<pre class="programlisting">  "anchor"                   <a href="/usr/share/gtk-doc/html/gtk2/gtk2-Standard-Enumerations.html#GtkAnchorType"><span class="type">GtkAnchorType</span></a>         : Read / Write</pre>
+<p></p>
+<p>Default value: GTK_ANCHOR_CENTER</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasText--attributes"></a><h3>The <code class="literal">"attributes"</code> property</h3>
+<pre class="programlisting">  "attributes"               <a href="/usr/share/gtk-doc/html/pango/pango-Text-Attributes.html#PangoAttrList"><span class="type">PangoAttrList</span></a>*        : Read / Write</pre>
+<p></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasText--clip"></a><h3>The <code class="literal">"clip"</code> property</h3>
+<pre class="programlisting">  "clip"                     <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write</pre>
+<p></p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasText--clip-height"></a><h3>The <code class="literal">"clip-height"</code> property</h3>
+<pre class="programlisting">  "clip-height"              <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a>               : Read / Write</pre>
+<p></p>
+<p>Default value: 0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasText--clip-width"></a><h3>The <code class="literal">"clip-width"</code> property</h3>
+<pre class="programlisting">  "clip-width"               <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a>               : Read / Write</pre>
+<p></p>
+<p>Default value: 0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasText--family"></a><h3>The <code class="literal">"family"</code> property</h3>
+<pre class="programlisting">  "family"                   <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
+<p>Name of the font family, e.g. Sans, Helvetica, Times, Monospace.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasText--family-set"></a><h3>The <code class="literal">"family-set"</code> property</h3>
+<pre class="programlisting">  "family-set"               <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write</pre>
+<p>Whether this tag affects the font family.</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasText--fill-color"></a><h3>The <code class="literal">"fill-color"</code> property</h3>
+<pre class="programlisting">  "fill-color"               <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
+<p>Text color, as string.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasText--fill-color-gdk"></a><h3>The <code class="literal">"fill-color-gdk"</code> property</h3>
+<pre class="programlisting">  "fill-color-gdk"           <a href="/usr/share/gtk-doc/html/gdk3/gdk3-Colors.html#GdkColor"><span class="type">GdkColor</span></a>*             : Read / Write</pre>
+<p>Text color, as a GdkColor.</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasText--fill-color-rgba"></a><h3>The <code class="literal">"fill-color-rgba"</code> property</h3>
+<pre class="programlisting">  "fill-color-rgba"          <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="type">guint</span></a>                 : Read / Write</pre>
+<p>Text color, as an R/G/B/A combined integer.</p>
+<p>Default value: 0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasText--fill-stipple"></a><h3>The <code class="literal">"fill-stipple"</code> property</h3>
+<pre class="programlisting">  "fill-stipple"             <a href="/usr/share/gtk-doc/html/gdk2/gdk2-Drawing-Primitives.html#GdkDrawable"><span class="type">GdkDrawable</span></a>*          : Read / Write</pre>
+<p></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasText--font"></a><h3>The <code class="literal">"font"</code> property</h3>
+<pre class="programlisting">  "font"                     <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
+<p>Font description as a string.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasText--font-desc"></a><h3>The <code class="literal">"font-desc"</code> property</h3>
+<pre class="programlisting">  "font-desc"                <a href="/usr/share/gtk-doc/html/pango/pango-Fonts.html#PangoFontDescription"><span class="type">PangoFontDescription</span></a>*  : Read / Write</pre>
+<p>Font description as a PangoFontDescription struct.</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasText--justification"></a><h3>The <code class="literal">"justification"</code> property</h3>
+<pre class="programlisting">  "justification"            <a href="/usr/share/gtk-doc/html/gtk3/gtk3-Standard-Enumerations.html#GtkJustification"><span class="type">GtkJustification</span></a>      : Read / Write</pre>
+<p></p>
+<p>Default value: GTK_JUSTIFY_LEFT</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasText--markup"></a><h3>The <code class="literal">"markup"</code> property</h3>
+<pre class="programlisting">  "markup"                   <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Write</pre>
+<p>Marked up text to render.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasText--rise"></a><h3>The <code class="literal">"rise"</code> property</h3>
+<pre class="programlisting">  "rise"                     <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a>                  : Read / Write</pre>
+<p>Offset of text above the baseline (below the baseline if rise is negative).</p>
+<p>Allowed values: &gt;= -2147483647</p>
+<p>Default value: 0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasText--rise-set"></a><h3>The <code class="literal">"rise-set"</code> property</h3>
+<pre class="programlisting">  "rise-set"                 <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write</pre>
+<p>Whether this tag affects the rise.</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasText--scale"></a><h3>The <code class="literal">"scale"</code> property</h3>
+<pre class="programlisting">  "scale"                    <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a>               : Read / Write</pre>
+<p>Size of font, relative to default size.</p>
+<p>Allowed values: &gt;= 0</p>
+<p>Default value: 1</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasText--scale-set"></a><h3>The <code class="literal">"scale-set"</code> property</h3>
+<pre class="programlisting">  "scale-set"                <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write</pre>
+<p>Whether this tag affects font scaling.</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasText--size"></a><h3>The <code class="literal">"size"</code> property</h3>
+<pre class="programlisting">  "size"                     <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a>                  : Read / Write</pre>
+<p>Font size (as a multiple of PANGO_SCALE, eg. 12*PANGO_SCALE for a 12pt font size).</p>
+<p>Allowed values: &gt;= 0</p>
+<p>Default value: 0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasText--size-points"></a><h3>The <code class="literal">"size-points"</code> property</h3>
+<pre class="programlisting">  "size-points"              <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a>               : Read / Write</pre>
+<p>Font size in points (eg. 12 for a 12pt font size).</p>
+<p>Allowed values: &gt;= 0</p>
+<p>Default value: 0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasText--size-set"></a><h3>The <code class="literal">"size-set"</code> property</h3>
+<pre class="programlisting">  "size-set"                 <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write</pre>
+<p>Whether this tag affects the font size.</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasText--stretch"></a><h3>The <code class="literal">"stretch"</code> property</h3>
+<pre class="programlisting">  "stretch"                  <a href="/usr/share/gtk-doc/html/pango/pango-Fonts.html#PangoStretch"><span class="type">PangoStretch</span></a>          : Read / Write</pre>
+<p>Font stretch.</p>
+<p>Default value: PANGO_STRETCH_NORMAL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasText--stretch-set"></a><h3>The <code class="literal">"stretch-set"</code> property</h3>
+<pre class="programlisting">  "stretch-set"              <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write</pre>
+<p>Whether this tag affects the font stretch.</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasText--strikethrough"></a><h3>The <code class="literal">"strikethrough"</code> property</h3>
+<pre class="programlisting">  "strikethrough"            <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write</pre>
+<p>Whether to strike through the text.</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasText--strikethrough-set"></a><h3>The <code class="literal">"strikethrough-set"</code> property</h3>
+<pre class="programlisting">  "strikethrough-set"        <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write</pre>
+<p>Whether this tag affects strikethrough.</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasText--style"></a><h3>The <code class="literal">"style"</code> property</h3>
+<pre class="programlisting">  "style"                    <a href="/usr/share/gtk-doc/html/pango/pango-Fonts.html#PangoStyle"><span class="type">PangoStyle</span></a>            : Read / Write</pre>
+<p>Font style.</p>
+<p>Default value: PANGO_STYLE_NORMAL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasText--style-set"></a><h3>The <code class="literal">"style-set"</code> property</h3>
+<pre class="programlisting">  "style-set"                <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write</pre>
+<p>Whether this tag affects the font style.</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasText--text"></a><h3>The <code class="literal">"text"</code> property</h3>
+<pre class="programlisting">  "text"                     <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
+<p>Text to render.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasText--text-height"></a><h3>The <code class="literal">"text-height"</code> property</h3>
+<pre class="programlisting">  "text-height"              <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a>               : Read</pre>
+<p>Height of the rendered text.</p>
+<p>Allowed values: &gt;= 0</p>
+<p>Default value: 0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasText--text-width"></a><h3>The <code class="literal">"text-width"</code> property</h3>
+<pre class="programlisting">  "text-width"               <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a>               : Read</pre>
+<p>Width of the rendered text.</p>
+<p>Allowed values: &gt;= 0</p>
+<p>Default value: 0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasText--underline"></a><h3>The <code class="literal">"underline"</code> property</h3>
+<pre class="programlisting">  "underline"                <a href="/usr/share/gtk-doc/html/pango/pango-Text-Attributes.html#PangoUnderline"><span class="type">PangoUnderline</span></a>        : Read / Write</pre>
+<p>Style of underline for this text.</p>
+<p>Default value: PANGO_UNDERLINE_NONE</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasText--underline-set"></a><h3>The <code class="literal">"underline-set"</code> property</h3>
+<pre class="programlisting">  "underline-set"            <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write</pre>
+<p>Whether this tag affects underlining.</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasText--variant"></a><h3>The <code class="literal">"variant"</code> property</h3>
+<pre class="programlisting">  "variant"                  <a href="/usr/share/gtk-doc/html/pango/pango-Fonts.html#PangoVariant"><span class="type">PangoVariant</span></a>          : Read / Write</pre>
+<p>Font variant.</p>
+<p>Default value: PANGO_VARIANT_NORMAL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasText--variant-set"></a><h3>The <code class="literal">"variant-set"</code> property</h3>
+<pre class="programlisting">  "variant-set"              <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write</pre>
+<p>Whether this tag affects the font variant.</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasText--weight"></a><h3>The <code class="literal">"weight"</code> property</h3>
+<pre class="programlisting">  "weight"                   <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a>                  : Read / Write</pre>
+<p>Font weight.</p>
+<p>Allowed values: &gt;= 0</p>
+<p>Default value: 400</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasText--weight-set"></a><h3>The <code class="literal">"weight-set"</code> property</h3>
+<pre class="programlisting">  "weight-set"               <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write</pre>
+<p>Whether this tag affects the font weight.</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasText--x"></a><h3>The <code class="literal">"x"</code> property</h3>
+<pre class="programlisting">  "x"                        <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a>               : Read / Write</pre>
+<p></p>
+<p>Default value: 0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasText--x-offset"></a><h3>The <code class="literal">"x-offset"</code> property</h3>
+<pre class="programlisting">  "x-offset"                 <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a>               : Read / Write</pre>
+<p></p>
+<p>Default value: 0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasText--y"></a><h3>The <code class="literal">"y"</code> property</h3>
+<pre class="programlisting">  "y"                        <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a>               : Read / Write</pre>
+<p></p>
+<p>Default value: 0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasText--y-offset"></a><h3>The <code class="literal">"y-offset"</code> property</h3>
+<pre class="programlisting">  "y-offset"                 <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a>               : Read / Write</pre>
+<p></p>
+<p>Default value: 0</p>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.18</div>
+</body>
+</html>

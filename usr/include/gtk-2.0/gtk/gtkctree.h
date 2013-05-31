@@ -25,10 +25,10 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
-#ifndef GTK_DISABLE_DEPRECATED
+#if !defined (GTK_DISABLE_DEPRECATED) || defined (__GTK_CLIST_C__) || defined (__GTK_CTREE_C__)
 
 #ifndef __GTK_CTREE_H__
 #define __GTK_CTREE_H__
@@ -38,11 +38,11 @@
 G_BEGIN_DECLS
 
 #define GTK_TYPE_CTREE            (gtk_ctree_get_type ())
-#define GTK_CTREE(obj)            (GTK_CHECK_CAST ((obj), GTK_TYPE_CTREE, GtkCTree))
-#define GTK_CTREE_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), GTK_TYPE_CTREE, GtkCTreeClass))
-#define GTK_IS_CTREE(obj)         (GTK_CHECK_TYPE ((obj), GTK_TYPE_CTREE))
-#define GTK_IS_CTREE_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), GTK_TYPE_CTREE))
-#define GTK_CTREE_GET_CLASS(obj)  (GTK_CHECK_GET_CLASS ((obj), GTK_TYPE_CTREE, GtkCTreeClass))
+#define GTK_CTREE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTK_TYPE_CTREE, GtkCTree))
+#define GTK_CTREE_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GTK_TYPE_CTREE, GtkCTreeClass))
+#define GTK_IS_CTREE(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GTK_TYPE_CTREE))
+#define GTK_IS_CTREE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GTK_TYPE_CTREE))
+#define GTK_CTREE_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GTK_TYPE_CTREE, GtkCTreeClass))
 
 #define GTK_CTREE_ROW(_node_) ((GtkCTreeRow *)(((GList *)(_node_))->data))
 #define GTK_CTREE_NODE(_node_) ((GtkCTreeNode *)((_node_)))
@@ -172,7 +172,7 @@ struct _GtkCTreeNode {
  *           Creation, insertion, deletion                 *
  ***********************************************************/
 
-GtkType gtk_ctree_get_type                       (void) G_GNUC_CONST;
+GType   gtk_ctree_get_type                       (void) G_GNUC_CONST;
 GtkWidget * gtk_ctree_new_with_titles            (gint          columns, 
 						  gint          tree_column,
 						  gchar        *titles[]);
@@ -392,7 +392,7 @@ void gtk_ctree_node_set_row_data                 (GtkCTree     *ctree,
 void gtk_ctree_node_set_row_data_full            (GtkCTree     *ctree,
 						  GtkCTreeNode *node,
 						  gpointer      data,
-						  GtkDestroyNotify destroy);
+						  GDestroyNotify destroy);
 gpointer gtk_ctree_node_get_row_data             (GtkCTree     *ctree,
 						  GtkCTreeNode *node);
 void gtk_ctree_node_moveto                       (GtkCTree     *ctree,

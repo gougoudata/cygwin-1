@@ -26,8 +26,7 @@
 
 G_BEGIN_DECLS
 
-#define _XFT_NO_COMPAT
-#define _XFTCOMPAT_H_
+#define _XFT_NO_COMPAT_
 #include <X11/Xlib.h>
 #include <X11/Xft/Xft.h>
 #if defined(XftVersion) && XftVersion >= 20000
@@ -47,7 +46,7 @@ typedef struct _PangoXftRendererPrivate PangoXftRendererPrivate;
 #define PANGO_XFT_RENDERER_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), PANGO_TYPE_XFT_RENDERER, PangoXftRendererClass))
 
 /**
- * PangoXftRenderer
+ * PangoXftRenderer:
  *
  * #PangoXftRenderer is a subclass of #PangoRenderer used for rendering
  * with Pango's Xft backend. It can be used directly, or it can be
@@ -58,7 +57,7 @@ typedef struct _PangoXftRendererPrivate PangoXftRendererPrivate;
  */
 struct _PangoXftRenderer
 {
-  /*< private >*/	
+  /*< private >*/
   PangoRenderer parent_instance;
 
   Display *display;
@@ -69,12 +68,12 @@ struct _PangoXftRenderer
 };
 
 /**
- * PangoXftRendererClass
+ * PangoXftRendererClass:
  * @composite_trapezoids: draw the specified trapezoids using
  *   the current color and other attributes for @part
  * @composite_glyphs: draw the specified glyphs using
  *   the current foreground color and other foreground
- *   attributes 
+ *   attributes
  *
  * The class structure for #PangoXftRenderer
  *
@@ -82,7 +81,7 @@ struct _PangoXftRenderer
  */
 struct _PangoXftRendererClass
 {
-  /*< private >*/	
+  /*< private >*/
   PangoRendererClass parent_class;
 
   /*< public >*/
@@ -96,7 +95,7 @@ struct _PangoXftRendererClass
 				int               n_glyphs);
 };
 
-GType pango_xft_renderer_get_type    (void);
+GType pango_xft_renderer_get_type    (void) G_GNUC_CONST;
 
 PangoRenderer *pango_xft_renderer_new                 (Display          *display,
 						       int               screen);

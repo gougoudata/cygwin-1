@@ -1,7 +1,7 @@
-This is guile-procedures.txt, produced by makeinfo version 4.8 from
+This is guile-procedures.txt, produced by makeinfo version 4.13 from
 guile-procedures.texi.
 
-   acons
+acons
 
  -- Scheme Procedure: acons key value alist
      Add a new key-value pair to ALIST.  A new pair is created whose
@@ -156,7 +156,7 @@ guile-procedures.texi.
 
  -- Scheme Procedure: system-async thunk
      This function is deprecated.  You can use THUNK directly instead
-     of explicitely creating an async object.
+     of explicitly creating an async object.
 
 
    system-async-mark
@@ -2115,7 +2115,7 @@ guile-procedures.texi.
      Return a new port based on the file descriptor FDES.  Modes are
      given by the string MODES.  The revealed count of the port is
      initialized to zero.  The modes string is the same as that
-     accepted by *Note open-file: File Ports.
+     accepted by *note open-file: File Ports.
 
    primitive-move->fdes
 
@@ -2831,9 +2831,9 @@ guile-procedures.texi.
 
    make-rectangular
 
- -- Scheme Procedure: make-rectangular real imaginary
-     Return a complex number constructed of the given REAL and
-     IMAGINARY parts.
+ -- Scheme Procedure: make-rectangular real_part imaginary_part
+     Return a complex number constructed of the given REAL-PART and
+     IMAGINARY-PART parts.
 
    make-polar
 
@@ -2847,8 +2847,16 @@ guile-procedures.texi.
 
    rationalize
 
- -- Scheme Procedure: rationalize x err
-     Return an exact number that is within ERR of X.
+ -- Scheme Procedure: rationalize x eps
+     Returns the _simplest_ rational number differing from X by no more
+     than EPS.
+
+     As required by R5RS, `rationalize' only returns an exact result
+     when both its arguments are exact.  Thus, you might need to use
+     `inexact->exact' on the arguments.
+
+          (rationalize (inexact->exact 1.2) 1/100)
+          => 6/5
 
    log
 
@@ -3060,7 +3068,7 @@ guile-procedures.texi.
      Close the specified port object.  Return `#t' if it successfully
      closes a port or `#f' if it was already closed.  An exception may
      be raised if an error occurs, for example when flushing buffered
-     output.  See also *Note close: Ports and File Descriptors, for a
+     output.  See also *note close: Ports and File Descriptors, for a
      procedure which can close file descriptors.
 
    close-input-port
@@ -3070,7 +3078,7 @@ guile-procedures.texi.
      if the file has already been closed.  An exception may be raised
      if an error occurs.  The value returned is unspecified.
 
-     See also *Note close: Ports and File Descriptors, for a procedure
+     See also *note close: Ports and File Descriptors, for a procedure
      which can close file descriptors.
 
    close-output-port
@@ -3080,7 +3088,7 @@ guile-procedures.texi.
      if the file has already been closed.  An exception may be raised
      if an error occurs.  The value returned is unspecified.
 
-     See also *Note close: Ports and File Descriptors, for a procedure
+     See also *note close: Ports and File Descriptors, for a procedure
      which can close file descriptors.
 
    port-for-each
@@ -3184,13 +3192,13 @@ guile-procedures.texi.
 
      One of the following variables should be supplied for WHENCE:
 
-      -- Variabele: SEEK_SET
+      -- Variable: SEEK_SET
           Seek from the beginning of the file.
 
-      -- Variabele: SEEK_CUR
+      -- Variable: SEEK_CUR
           Seek from the current position.
 
-      -- Variabele: SEEK_END
+      -- Variable: SEEK_END
           Seek from the end of the file.
      If FD/PORT is a file descriptor, the underlying system call is
      `lseek'.  PORT may be a string port.
@@ -3267,7 +3275,7 @@ guile-procedures.texi.
  -- Scheme Procedure: %make-void-port mode
      Create and return a new void port.  A void port acts like
      `/dev/null'.  The MODE argument specifies the input/output modes
-     for this port: see the documentation for `open-file' in *Note File
+     for this port: see the documentation for `open-file' in *note File
      Ports::.
 
    print-options-interface
@@ -3465,8 +3473,7 @@ guile-procedures.texi.
 
  -- Scheme Procedure: random:exp [state]
      Return an inexact real in an exponential distribution with mean 1.
-     For an exponential distribution with mean u use (* u
-     (random:exp)).
+     For an exponential distribution with mean u use (* u (random:exp)).
 
    %read-delimited!
 
@@ -3637,10 +3644,8 @@ guile-procedures.texi.
      specified, that procedure will run in the given THREAD.   When no
      thread has been given, the thread that made this call to
      `sigaction' is used.  Flags can optionally be specified for the
-     new handler (`SA_RESTART' will always be added if it's available
-     and the system is using restartable system calls.)  The return
-     value is a pair with information about the old handler as
-     described above.
+     new handler.  The return value is a pair with information about the
+     old handler as described above.
 
      This interface does not provide access to the "signal blocking"
      facility.  Maybe this is not needed, since the thread support may
@@ -3891,6 +3896,11 @@ guile-procedures.texi.
      Set the source property of object OBJ, which is specified by KEY
      to DATUM.  Normally, the key will be a symbol.
 
+   %get-stack-size
+
+ -- Scheme Procedure: %get-stack-size
+     Return the current thread's C stack size (in Scheme objects).
+
    stack?
 
  -- Scheme Procedure: stack? obj
@@ -4101,7 +4111,7 @@ guile-procedures.texi.
      formatted according to the given FORMAT string.
 
      FORMAT contains field specifications introduced by a `%'
-     character.  See *Note Formatting Calendar Time: (libc)Formatting
+     character.  See *note Formatting Calendar Time: (libc)Formatting
      Calendar Time, or `man 3 strftime', for the available formatting.
 
           (strftime "%c" (localtime (current-time)))
@@ -7269,19 +7279,19 @@ guile-procedures.texi.
      FLAGS can be constructed by combining variables using `logior'.
      Basic flags are:
 
-      -- Variabele: O_RDONLY
+      -- Variable: O_RDONLY
           Open the file read-only.
 
-      -- Variabele: O_WRONLY
+      -- Variable: O_WRONLY
           Open the file write-only.
 
-      -- Variabele: O_RDWR
+      -- Variable: O_RDWR
           Open the file read/write.
 
-      -- Variabele: O_APPEND
+      -- Variable: O_APPEND
           Append to the file instead of truncating.
 
-      -- Variabele: O_CREAT
+      -- Variable: O_CREAT
           Create the file if it does not already exist.
 
      See the Unix documentation of the `open' system call for
@@ -7638,10 +7648,10 @@ guile-procedures.texi.
      SIG should be specified using a variable corresponding to the Unix
      symbolic name, e.g.,
 
-      -- Variabele: SIGHUP
+      -- Variable: SIGHUP
           Hang-up signal.
 
-      -- Variabele: SIGINT
+      -- Variable: SIGINT
           Interrupt signal.
 
    waitpid
@@ -7672,11 +7682,11 @@ guile-procedures.texi.
      The OPTIONS argument, if supplied, should be the bitwise OR of the
      values of zero or more of the following variables:
 
-      -- Variabele: WNOHANG
+      -- Variable: WNOHANG
           Return immediately even if there are no child processes to be
           collected.
 
-      -- Variabele: WUNTRACED
+      -- Variable: WUNTRACED
           Report status information for stopped processes as well as
           terminated processes.
 
@@ -7941,16 +7951,16 @@ guile-procedures.texi.
      HOW is an integer which is one of the following values, or a
      bitwise-OR (`logior') of multiple values.
 
-      -- Variabele: R_OK
+      -- Variable: R_OK
           Test for read permission.
 
-      -- Variabele: W_OK
+      -- Variable: W_OK
           Test for write permission.
 
-      -- Variabele: X_OK
+      -- Variable: X_OK
           Test for execute permission.
 
-      -- Variabele: F_OK
+      -- Variable: F_OK
           Test for existence of the file.  This is implied by each of
           the other tests, so there's no need to combine it with them.
 
@@ -8103,18 +8113,18 @@ guile-procedures.texi.
      Apply or remove an advisory lock on an open file.  OPERATION
      specifies the action to be done:
 
-      -- Variabele: LOCK_SH
+      -- Variable: LOCK_SH
           Shared lock.  More than one process may hold a shared lock
           for a given file at a given time.
 
-      -- Variabele: LOCK_EX
+      -- Variable: LOCK_EX
           Exclusive lock.  Only one process may hold an exclusive lock
           for a given file at a given time.
 
-      -- Variabele: LOCK_UN
+      -- Variable: LOCK_UN
           Unlock the file.
 
-      -- Variabele: LOCK_NB
+      -- Variable: LOCK_NB
           Don't block when locking.  This is combined with one of the
           other operations using `logior'.  If `flock' would block an
           `EWOULDBLOCK' error is thrown.
@@ -8247,6 +8257,29 @@ guile-procedures.texi.
 
           (inet-makeaddr 127 1) => 2130706433
 
+   inet-pton
+
+ -- Scheme Procedure: inet-pton family address
+     Convert a string containing a printable network address to an
+     integer address.  Note that unlike the C version of this function,
+     the result is an integer with normal host byte ordering.  FAMILY
+     can be `AF_INET' or `AF_INET6'.  E.g.,
+
+          (inet-pton AF_INET "127.0.0.1") => 2130706433
+          (inet-pton AF_INET6 "::1") => 1
+
+   inet-ntop
+
+ -- Scheme Procedure: inet-ntop family address
+     Convert a network address into a printable string.  Note that
+     unlike the C version of this function, the input is an integer
+     with normal host byte ordering.  FAMILY can be `AF_INET' or
+     `AF_INET6'.  E.g.,
+
+          (inet-ntop AF_INET 2130706433) => "127.0.0.1"
+          (inet-ntop AF_INET6 (- (expt 2 128) 1)) =>
+          ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff
+
    socket
 
  -- Scheme Procedure: socket family style proto
@@ -8280,34 +8313,34 @@ guile-procedures.texi.
      the `IPPROTO' constants or `getprotoent' (*note Network
      Databases::).
 
-      -- Variabele: SOL_SOCKET
-      -- Variabele: IPPROTO_IP
-      -- Variabele: IPPROTO_TCP
-      -- Variabele: IPPROTO_UDP
+      -- Variable: SOL_SOCKET
+      -- Variable: IPPROTO_IP
+      -- Variable: IPPROTO_TCP
+      -- Variable: IPPROTO_UDP
 
      OPTNAME is an integer specifying an option within the protocol
      layer.
 
      For `SOL_SOCKET' level the following OPTNAMEs are defined (when
-     provided by the system).  For their meaning see *Note Socket-Level
+     provided by the system).  For their meaning see *note Socket-Level
      Options: (libc)Socket-Level Options, or `man 7 socket'.
 
-      -- Variabele: SO_DEBUG
-      -- Variabele: SO_REUSEADDR
-      -- Variabele: SO_STYLE
-      -- Variabele: SO_TYPE
-      -- Variabele: SO_ERROR
-      -- Variabele: SO_DONTROUTE
-      -- Variabele: SO_BROADCAST
-      -- Variabele: SO_SNDBUF
-      -- Variabele: SO_RCVBUF
-      -- Variabele: SO_KEEPALIVE
-      -- Variabele: SO_OOBINLINE
-      -- Variabele: SO_NO_CHECK
-      -- Variabele: SO_PRIORITY
+      -- Variable: SO_DEBUG
+      -- Variable: SO_REUSEADDR
+      -- Variable: SO_STYLE
+      -- Variable: SO_TYPE
+      -- Variable: SO_ERROR
+      -- Variable: SO_DONTROUTE
+      -- Variable: SO_BROADCAST
+      -- Variable: SO_SNDBUF
+      -- Variable: SO_RCVBUF
+      -- Variable: SO_KEEPALIVE
+      -- Variable: SO_OOBINLINE
+      -- Variable: SO_NO_CHECK
+      -- Variable: SO_PRIORITY
           The value returned is an integer.
 
-      -- Variabele: SO_LINGER
+      -- Variable: SO_LINGER
           The VALUE returned is a pair of integers `(ENABLE .
           TIMEOUT)'.  On old systems without timeout support (ie.
           without `struct linger'), only ENABLE has an effect but the
@@ -8324,34 +8357,34 @@ guile-procedures.texi.
      the `IPPROTO' constants or `getprotoent' (*note Network
      Databases::).
 
-      -- Variabele: SOL_SOCKET
-      -- Variabele: IPPROTO_IP
-      -- Variabele: IPPROTO_TCP
-      -- Variabele: IPPROTO_UDP
+      -- Variable: SOL_SOCKET
+      -- Variable: IPPROTO_IP
+      -- Variable: IPPROTO_TCP
+      -- Variable: IPPROTO_UDP
 
      OPTNAME is an integer specifying an option within the protocol
      layer.
 
      For `SOL_SOCKET' level the following OPTNAMEs are defined (when
-     provided by the system).  For their meaning see *Note Socket-Level
+     provided by the system).  For their meaning see *note Socket-Level
      Options: (libc)Socket-Level Options, or `man 7 socket'.
 
-      -- Variabele: SO_DEBUG
-      -- Variabele: SO_REUSEADDR
-      -- Variabele: SO_STYLE
-      -- Variabele: SO_TYPE
-      -- Variabele: SO_ERROR
-      -- Variabele: SO_DONTROUTE
-      -- Variabele: SO_BROADCAST
-      -- Variabele: SO_SNDBUF
-      -- Variabele: SO_RCVBUF
-      -- Variabele: SO_KEEPALIVE
-      -- Variabele: SO_OOBINLINE
-      -- Variabele: SO_NO_CHECK
-      -- Variabele: SO_PRIORITY
+      -- Variable: SO_DEBUG
+      -- Variable: SO_REUSEADDR
+      -- Variable: SO_STYLE
+      -- Variable: SO_TYPE
+      -- Variable: SO_ERROR
+      -- Variable: SO_DONTROUTE
+      -- Variable: SO_BROADCAST
+      -- Variable: SO_SNDBUF
+      -- Variable: SO_RCVBUF
+      -- Variable: SO_KEEPALIVE
+      -- Variable: SO_OOBINLINE
+      -- Variable: SO_NO_CHECK
+      -- Variable: SO_PRIORITY
           VALUE is an integer.
 
-      -- Variabele: SO_LINGER
+      -- Variable: SO_LINGER
           VALUE is a pair of integers `(ENABLE . TIMEOUT)'.  On old
           systems without timeout support (ie. without `struct
           linger'), only ENABLE has an effect but the value in Guile is
@@ -8360,8 +8393,8 @@ guile-procedures.texi.
      For IP level (`IPPROTO_IP') the following OPTNAMEs are defined
      (when provided by the system).  See `man ip' for what they mean.
 
-      -- Variabele: IP_ADD_MEMBERSHIP
-      -- Variabele: IP_DROP_MEMBERSHIP
+      -- Variable: IP_ADD_MEMBERSHIP
+      -- Variable: IP_DROP_MEMBERSHIP
           These can be used only with `setsockopt', not `getsockopt'.
           VALUE is a pair `(MULTIADDR . INTERFACEADDR)' of IPv4
           addresses (*note Network Address Conversion::).  MULTIADDR is
@@ -8435,16 +8468,16 @@ guile-procedures.texi.
 
      The values of the following variables can also be used for ADDRESS:
 
-      -- Variabele: INADDR_ANY
+      -- Variable: INADDR_ANY
           Allow connections from any address.
 
-      -- Variabele: INADDR_LOOPBACK
+      -- Variable: INADDR_LOOPBACK
           The address of the local host using the loopback device.
 
-      -- Variabele: INADDR_BROADCAST
+      -- Variable: INADDR_BROADCAST
           The broadcast address on the local network.
 
-      -- Variabele: INADDR_NONE
+      -- Variable: INADDR_NONE
           No address.
 
      For a socket of family `AF_INET6', ADDRESS must be an integer IPv6

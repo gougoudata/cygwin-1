@@ -21,11 +21,15 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 #ifndef __GTK_INVISIBLE_H__
 #define __GTK_INVISIBLE_H__
+
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
 
 #include <gtk/gtkwidget.h>
 
@@ -45,8 +49,9 @@ typedef struct _GtkInvisibleClass  GtkInvisibleClass;
 struct _GtkInvisible
 {
   GtkWidget widget;
-  gboolean has_user_ref_count;
-  GdkScreen *screen;
+
+  gboolean   GSEAL (has_user_ref_count);
+  GdkScreen *GSEAL (screen);
 };
 
 struct _GtkInvisibleClass
@@ -63,7 +68,7 @@ struct _GtkInvisibleClass
 GType gtk_invisible_get_type (void) G_GNUC_CONST;
 
 GtkWidget* gtk_invisible_new            (void);
-GtkWidget* gtk_invisible_new_for_screen (GdkScreen *screen);
+GtkWidget* gtk_invisible_new_for_screen (GdkScreen    *screen);
 void	   gtk_invisible_set_screen	(GtkInvisible *invisible,
 					 GdkScreen    *screen);
 GdkScreen* gtk_invisible_get_screen	(GtkInvisible *invisible);

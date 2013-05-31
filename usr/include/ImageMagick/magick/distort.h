@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2008 ImageMagick Studio LLC, a non-profit organization
+  Copyright 1999-2012 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
   
   You may not use this file except in compliance with the License.
@@ -22,23 +22,61 @@
 extern "C" {
 #endif
 
-#include <magick/draw.h>
+/*
+  These two enum are linked, with common enumerated values.  Both
+  DistortImages() and SparseColor() often share code to determine functional
+  coefficients for common methods.
 
+  Caution should be taken to ensure that only the common methods contain the
+  same enumerated value, while all others remain unique across both
+  enumerations.
+*/
 typedef enum
 {
   UndefinedDistortion,
   AffineDistortion,
   AffineProjectionDistortion,
-  ArcDistortion,
-  BilinearDistortion,
+  ScaleRotateTranslateDistortion,
   PerspectiveDistortion,
   PerspectiveProjectionDistortion,
-  ScaleRotateTranslateDistortion
+  BilinearForwardDistortion,
+  BilinearDistortion = BilinearForwardDistortion,
+  BilinearReverseDistortion,
+  PolynomialDistortion,
+  ArcDistortion,
+  PolarDistortion,
+  DePolarDistortion,
+  Cylinder2PlaneDistortion,
+  Plane2CylinderDistortion,
+  BarrelDistortion,
+  BarrelInverseDistortion,
+  ShepardsDistortion,
+  ResizeDistortion,
+  SentinelDistortion
 } DistortImageMethod;
 
+typedef enum
+{
+  UndefinedColorInterpolate = UndefinedDistortion,
+  BarycentricColorInterpolate = AffineDistortion,
+  BilinearColorInterpolate = BilinearReverseDistortion,
+  PolynomialColorInterpolate = PolynomialDistortion,
+  ShepardsColorInterpolate = ShepardsDistortion,
+  /*
+    Methods unique to SparseColor().
+  */
+  VoronoiColorInterpolate = SentinelDistortion,
+  InverseColorInterpolate
+} SparseColorMethod;
+
 extern MagickExport Image
-  *DistortImage(Image *image,const DistortImageMethod,const unsigned long,
-    const double *,MagickBooleanType,ExceptionInfo *exception);
+  *AffineTransformImage(const Image *,const AffineMatrix *,ExceptionInfo *),
+  *DistortImage(const Image *,const DistortImageMethod,const size_t,
+    const double *,MagickBooleanType,ExceptionInfo *exception),
+  *DistortResizeImage(const Image *,const size_t,const size_t,ExceptionInfo *),
+  *RotateImage(const Image *,const double,ExceptionInfo *),
+  *SparseColorImage(const Image *,const ChannelType,const SparseColorMethod,
+    const size_t,const double *,ExceptionInfo *);
 
 #if defined(__cplusplus) || defined(c_plusplus)
 }

@@ -19,12 +19,12 @@ W system%s		system.ads		system.ali
 W system.exception_table%s  s-exctab.adb	s-exctab.ali
 W system.standard_library%s  s-stalib.adb	s-stalib.ali
 
-D ada.ads		20030424175358 a0108083
-D a-except.ads		20031021134154 a1717b33
+D ada.ads		20030424175357 a0108083
+D a-except.ads		20031021134153 a1717b33
 D system.ads		20031021134222 6af26689
-D s-assert.ads		20031021134214 8f256779
-D s-assert.adb		20031021134214 00cae105
-D s-exctab.ads		20031021134214 6637f07f
+D s-assert.ads		20031021134213 8f256779
+D s-assert.adb		20031021134213 00cae105
+D s-exctab.ads		20031021134213 6637f07f
 D s-stalib.ads		20031021134214 e7ad2af0
 D s-traent.ads		20031021134218 e81a0978
 D unchconv.ads		20030424175420 1b7a14c5

@@ -1,0 +1,111 @@
+yasm
+------------------------------------------
+Yasm is a complete rewrite of the NASM assembler under the 'new' BSD
+License.
+Yasm currently supports the x86 and AMD64 instruction sets, accepts
+NASM and GAS assembler syntaxes, outputs binary, ELF32, ELF64, 32 and
+64-bit Mach-O, RDOFF2, COFF, Win32, and Win64 object formats, and
+generates source debugging information in STABS, DWARF 2, and CodeView 8
+formats.
+
+Runtime requirements:
+  cygwin-1.7
+  libintl8
+
+Build requirements:
+  binutils
+  cygport
+  gawk
+  gcc-core-4
+  grep
+  libiconv
+  make-3.81 or newer
+  python-2.4 or newer
+  xmlto
+
+Canonical website:
+  http://yasm.tortall.net/
+
+Canonical download:
+  http://yasm.tortall.net/Download.html
+
+-------------------------------------------
+
+Build instructions:
+  unpack yasm-1.2.0-1-src.tar.bz2
+    if you use setup to install this src package, it will be
+	unpacked under /usr/src automatically
+  cd /usr/src
+  cygport ./yasm-1.2.0-1.cygport all
+
+This will create:
+  /usr/src/yasm-1.2.0-1.tar.bz2
+  /usr/src/yasm-devel-1.2.0-1.tar.bz2
+  /usr/src/yasm-debuginfo-1.2.0-1.tar.bz2
+  /usr/src/yasm-1.2.0-1-src.tar.bz2
+
+-------------------------------------------
+
+Files included in the binary packages:
+
+(yasm)
+  /usr/bin/tasm.exe
+  /usr/bin/vsyasm.exe
+  /usr/bin/yasm.exe
+  /usr/bin/ytasm.exe
+  /usr/share/doc/Cygwin/yasm.README
+  /usr/share/doc/yasm/AUTHORS
+  /usr/share/doc/yasm/Artistic.txt
+  /usr/share/doc/yasm/BSD.txt
+  /usr/share/doc/yasm/COPYING
+  /usr/share/doc/yasm/GNU_GPL-2.0
+  /usr/share/doc/yasm/GNU_LGPL-2.0
+  /usr/share/man/man1/tasm.1.gz
+  /usr/share/man/man1/vsyasm.1.gz
+  /usr/share/man/man1/yasm.1.gz
+  /usr/share/man/man1/ytasm.1.gz
+
+(yasm-devel)
+  /usr/include/libyasm-stdint.h
+  /usr/include/libyasm.h
+  /usr/include/libyasm/arch.h
+  /usr/include/libyasm/assocdat.h
+  /usr/include/libyasm/bitvect.h
+  /usr/include/libyasm/bytecode.h
+  /usr/include/libyasm/compat-queue.h
+  /usr/include/libyasm/coretype.h
+  /usr/include/libyasm/dbgfmt.h
+  /usr/include/libyasm/errwarn.h
+  /usr/include/libyasm/expr.h
+  /usr/include/libyasm/file.h
+  /usr/include/libyasm/floatnum.h
+  /usr/include/libyasm/hamt.h
+  /usr/include/libyasm/insn.h
+  /usr/include/libyasm/intnum.h
+  /usr/include/libyasm/inttree.h
+  /usr/include/libyasm/linemap.h
+  /usr/include/libyasm/listfmt.h
+  /usr/include/libyasm/md5.h
+  /usr/include/libyasm/module.h
+  /usr/include/libyasm/objfmt.h
+  /usr/include/libyasm/parser.h
+  /usr/include/libyasm/phash.h
+  /usr/include/libyasm/preproc.h
+  /usr/include/libyasm/section.h
+  /usr/include/libyasm/symrec.h
+  /usr/include/libyasm/valparam.h
+  /usr/include/libyasm/value.h
+  /usr/lib/libyasm.a
+  /usr/share/man/man7/yasm_arch.7.gz
+  /usr/share/man/man7/yasm_dbgfmts.7.gz
+  /usr/share/man/man7/yasm_objfmts.7.gz
+  /usr/share/man/man7/yasm_parsers.7.gz
+
+------------------
+
+Port Notes:
+
+----- version 1.2.0-1 -----
+First version maintained by Dave Stacey, built with Cygport.
+
+Cygwin port maintained by Dave Stacey

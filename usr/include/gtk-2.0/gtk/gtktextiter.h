@@ -27,6 +27,10 @@
 #ifndef __GTK_TEXT_ITER_H__
 #define __GTK_TEXT_ITER_H__
 
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
 #include <gtk/gtktexttag.h>
 #include <gtk/gtktextchild.h>
 
@@ -188,6 +192,13 @@ gboolean gtk_text_iter_forward_word_ends    (GtkTextIter *iter,
                                              gint         count);
 gboolean gtk_text_iter_backward_word_starts (GtkTextIter *iter,
                                              gint         count);
+                                             
+gboolean gtk_text_iter_forward_visible_line   (GtkTextIter *iter);
+gboolean gtk_text_iter_backward_visible_line  (GtkTextIter *iter);
+gboolean gtk_text_iter_forward_visible_lines  (GtkTextIter *iter,
+                                               gint         count);
+gboolean gtk_text_iter_backward_visible_lines (GtkTextIter *iter,
+                                               gint         count);
 
 gboolean gtk_text_iter_forward_visible_word_end     (GtkTextIter *iter);
 gboolean gtk_text_iter_backward_visible_word_start  (GtkTextIter *iter);

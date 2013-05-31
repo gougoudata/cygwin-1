@@ -1,0 +1,22 @@
+stg-init(1)
+===========
+
+NAME
+----
+stg-init - Initialise the current branch for use with StGIT
+
+SYNOPSIS
+--------
+[verse]
+'stg' init 
+
+DESCRIPTION
+-----------
+
+Initialise the current git branch to be used as an StGIT stack. The
+branch (and the git repository it is in) must already exist and
+contain at least one commit.
+
+StGit
+-----
+Part of the StGit suite - see linkman:stg[1]

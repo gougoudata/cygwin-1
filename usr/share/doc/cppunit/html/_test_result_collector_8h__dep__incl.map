@@ -1,0 +1,9 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$_text_test_result_8h.html" title="TextTestResult.h" alt="" coords="96,83,224,112"/>
+<area shape="rect" id="node9" href="$_compiler_outputter_8cpp.html" title="CompilerOutputter.cpp" alt="" coords="248,83,411,112"/>
+<area shape="rect" id="node11" href="$_test_result_collector_8cpp.html" title="TestResultCollector.cpp" alt="" coords="435,83,605,112"/>
+<area shape="rect" id="node13" href="$_text_outputter_8cpp.html" title="TextOutputter.cpp" alt="" coords="629,83,763,112"/>
+<area shape="rect" id="node15" href="$_xml_outputter_8cpp.html" title="XmlOutputter.cpp" alt="" coords="787,83,915,112"/>
+<area shape="rect" id="node5" href="$_text_test_result_8cpp.html" title="TextTestResult.cpp" alt="" coords="5,160,147,189"/>
+<area shape="rect" id="node7" href="$_text_test_runner_8cpp.html" title="TextTestRunner.cpp" alt="" coords="171,160,320,189"/>
+</map>

@@ -1,0 +1,48 @@
+hicolor-icon-theme
+------------------------------------------
+This is the default fallback theme used by implementations of the icon 
+theme specification.
+
+Build requirements:
+  cygwin-1.7.5-1
+  cygport-0.9.84-1
+  make-3.81-2
+
+Canonical homepage:
+  http://icon-theme.freedesktop.org/wiki/HicolorTheme
+
+Canonical download:
+  http://icon-theme.freedesktop.org/releases/
+
+-------------------------------------------
+
+Build instructions:
+  unpack hicolor-icon-theme-0.12-X-src.tar.bz2
+    if you use setup to install this src package, it will be
+	 unpacked under /usr/src automatically
+  cd /usr/src
+  cygport ./hicolor-icon-theme-0.12-X.cygport all
+
+This will create:
+  /usr/src/hicolor-icon-theme-0.12-X-src.tar.bz2
+  /usr/src/hicolor-icon-theme-0.12-X.tar.bz2
+
+-------------------------------------------
+
+Port Notes:
+
+----- version 0.12-1 -----
+Version bump.
+
+----- version 0.11-1 -----
+Version bump.
+
+----- version 0.10-1 -----
+Long overdue version bump.
+
+----- version 0.5-1 -----
+Initial release for Cygwin.
+
+
+Cygwin port maintained by:
+http://sourceware.org/cygwinports/

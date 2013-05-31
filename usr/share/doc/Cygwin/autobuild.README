@@ -1,0 +1,85 @@
+autobuild
+========================================================================
+Autobuild is a package that processes output from building software,
+primarily focused on packages using Autoconf and Automake, and then
+generates a HTML summary file, containing links to each build log. The
+output includes project name, version, build host types (cross compile
+aware), compiler host name, date of build, and indication of success or
+failure. The output is indexed in many ways to simplify browsing.
+
+Runtime requirements:
+  cygwin-1.7.6-1
+  perl-5.10.1-3
+  bash-3.2.49-23
+
+Build requirements:
+  cygwin-1.7.6-1
+  cygport-0.9.85
+  autoconf
+  autoconf2.5
+  automake
+  automake1.11
+  gawk-3.1.7-2
+  make-3.81-2
+  sed-4.1.5-2
+  texinfo-4.13-3
+
+Canonical website:
+  http://josefsson.org/autobuild/
+
+Canonical download:
+  http://mirror.its.uidaho.edu/pub/savannah/autobuild/
+
+License:
+  GPLv3+
+
+Language:
+  perl, sh
+
+========================================================================
+
+Build instructions:
+  unpack autobuild-5.3-X-src.tar.bz2
+    if you use setup to install this src package, it will be
+	 unpacked under /usr/src automatically
+  cd /usr/src
+  cygport ./autobuild-5.3-X.cygport all
+
+This will create:
+  /usr/src/autobuild-5.3-X-src.tar.bz2
+  /usr/src/autobuild-5.3-X.tar.bz2
+
+Also, 'cygport ./autobuild-5.3-X.cygport check' will test the package
+
+========================================================================
+
+Files included:
+
+  /usr/bin/autobuild
+  /usr/bin/htmlize
+  /usr/share/aclocal/autobuild.m4
+  /usr/share/doc/Cygwin/autobuild.README
+  /usr/share/doc/autobuild/AUTHORS
+  /usr/share/doc/autobuild/COPYING
+  /usr/share/doc/autobuild/ChangeLog
+  /usr/share/doc/autobuild/NEWS
+  /usr/share/doc/autobuild/README
+  /usr/share/doc/autobuild/THANKS
+  /usr/share/emacs/site-lisp/hfy-cmap.el
+  /usr/share/emacs/site-lisp/hfy-emacs20.el
+  /usr/share/emacs/site-lisp/htmlfontify.el
+  /usr/share/info/autobuild.info.gz
+  /usr/share/info/htmlfontify.info.gz
+  /usr/share/man/man1/autobuild.1.gz
+  /usr/share/man/man1/htmlize.1.gz
+
+========================================================================
+
+Port Notes:
+
+---------- autobuild-5.3-1 -- 2010 Aug 22 -----------
+* Initial cygwin package
+
+--
+Cygwin port maintained by:  Charles Wilson  <cygwin@cygwn.com>
+

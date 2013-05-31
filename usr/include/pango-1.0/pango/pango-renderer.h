@@ -2,7 +2,7 @@
  * pango-renderer.h: Base class for rendering
  *
  * Copyright (C) 2004, Red Hat, Inc.
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
  * License as published by the Free Software Foundation; either
@@ -76,10 +76,10 @@ struct _PangoRenderer
   PangoUnderline underline;
   gboolean strikethrough;
   int active_count;
-  
+
   /*< public >*/
   PangoMatrix *matrix;		/* May be NULL */
-  
+
   /*< private >*/
   PangoRendererPrivate *priv;
 };
@@ -90,7 +90,7 @@ struct _PangoRenderer
  * @draw_rectangle: draws a rectangle
  * @draw_error_underline: draws a squiggly line that approximately
  * covers the given rectangle in the style of an underline used to
- * indicate a spelling error. 
+ * indicate a spelling error.
  * @draw_shape: draw content for a glyph shaped with #PangoAttrShape.
  *   @x, @y are the coordinates of the left edge of the baseline,
  *   in user coordinates.
@@ -101,6 +101,7 @@ struct _PangoRenderer
  * @begin: Do renderer-specific initialization before drawing
  * @end: Do renderer-specific cleanup after drawing
  * @prepare_run: updates the renderer for a new run
+ * @draw_glyph_item: draws a #PangoGlyphItem
  *
  * Class structure for #PangoRenderer.
  *
@@ -172,16 +173,24 @@ struct _PangoRendererClass
   void (*prepare_run) (PangoRenderer  *renderer,
 		       PangoLayoutRun *run);
 
+  /* All of the following have default implementations
+   * and take as coordinates user coordinates in Pango units
+   */
+  void (*draw_glyph_item) (PangoRenderer     *renderer,
+			   const char        *text,
+			   PangoGlyphItem    *glyph_item,
+			   int                x,
+			   int                y);
+
   /*< private >*/
-  
+
   /* Padding for future expansion */
-  void (*_pango_reserved1) (void);
   void (*_pango_reserved2) (void);
   void (*_pango_reserved3) (void);
   void (*_pango_reserved4) (void);
 };
 
-GType pango_renderer_get_type    (void);
+GType pango_renderer_get_type    (void) G_GNUC_CONST;
 
 void pango_renderer_draw_layout          (PangoRenderer    *renderer,
 					  PangoLayout      *layout,
@@ -194,6 +203,11 @@ void pango_renderer_draw_layout_line     (PangoRenderer    *renderer,
 void pango_renderer_draw_glyphs          (PangoRenderer    *renderer,
 					  PangoFont        *font,
 					  PangoGlyphString *glyphs,
+					  int               x,
+					  int               y);
+void pango_renderer_draw_glyph_item      (PangoRenderer    *renderer,
+					  const char       *text,
+					  PangoGlyphItem   *glyph_item,
 					  int               x,
 					  int               y);
 void pango_renderer_draw_rectangle       (PangoRenderer    *renderer,
@@ -235,7 +249,10 @@ PangoColor *pango_renderer_get_color (PangoRenderer    *renderer,
 
 void                        pango_renderer_set_matrix (PangoRenderer     *renderer,
 						       const PangoMatrix *matrix);
-G_CONST_RETURN PangoMatrix *pango_renderer_get_matrix (PangoRenderer     *renderer);
+const PangoMatrix          *pango_renderer_get_matrix (PangoRenderer     *renderer);
+
+PangoLayout     *pango_renderer_get_layout      (PangoRenderer     *renderer);
+PangoLayoutLine *pango_renderer_get_layout_line (PangoRenderer     *renderer);
 
 G_END_DECLS
 

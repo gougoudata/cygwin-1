@@ -1,51 +1,29 @@
 # This file is part of Autoconf.			-*- Autoconf -*-
 # Checking for headers.
 #
-# Copyright (C) 1988, 1999, 2000, 2001, 2002, 2003, 2004, 2006 Free Software
+# Copyright (C) 1988, 1999-2004, 2006, 2008-2012 Free Software
 # Foundation, Inc.
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2, or (at your option)
-# any later version.
+
+# This file is part of Autoconf.  This program is free
+# software; you can redistribute it and/or modify it under the
+# terms of the GNU General Public License as published by the
+# Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
+# Under Section 7 of GPL version 3, you are granted additional
+# permissions described in the Autoconf Configure Script Exception,
+# version 3.0, as published by the Free Software Foundation.
+#
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-# 02110-1301, USA.
-#
-# As a special exception, the Free Software Foundation gives unlimited
-# permission to copy, distribute and modify the configure scripts that
-# are the output of Autoconf.  You need not follow the terms of the GNU
-# General Public License when using or distributing such scripts, even
-# though portions of the text of Autoconf appear in them.  The GNU
-# General Public License (GPL) does govern all other use of the material
-# that constitutes the Autoconf program.
-#
-# Certain portions of the Autoconf source text are designed to be copied
-# (in certain cases, depending on the input) into the output of
-# Autoconf.  We call these the "data" portions.  The rest of the Autoconf
-# source text consists of comments plus executable code that decides which
-# of the data portions to output in any given case.  We call these
-# comments and executable code the "non-data" portions.  Autoconf never
-# copies any of the non-data portions into its output.
-#
-# This special exception to the GPL applies to versions of Autoconf
-# released by the Free Software Foundation.  When you make and
-# distribute a modified version of Autoconf, you may extend this special
-# exception to the GPL to apply to your modified version as well, *unless*
-# your modified version has the potential to copy into its output some
-# of the text that was the non-data portion of the version that you started
-# with.  (In other words, unless your change moves or copies text from
-# the non-data portions to the data portions.)  If your modification has
-# such potential, you must delete any notice of this special exception
-# to the GPL from your modified version.
-#
+# and a copy of the Autoconf Configure Script Exception along with
+# this program; see the files COPYINGv3 and COPYING.EXCEPTION
+# respectively.  If not, see <http://www.gnu.org/licenses/>.
+
 # Written by David MacKenzie, with help from
 # Franc,ois Pinard, Karl Berry, Richard Pixley, Ian Lance Taylor,
 # Roland McGrath, Noah Friedman, david d zuhn, and many others.
@@ -84,13 +62,59 @@
 #
 # If INCLUDES is specified and different from `-', then use the new
 # semantics only.
+#
+# The m4_indir allows for fewer expansions of $@.
 AC_DEFUN([AC_CHECK_HEADER],
-[m4_case([$4],
-	 [],  [_AC_CHECK_HEADER_MONGREL($@)],
-	 [-], [_AC_CHECK_HEADER_OLD($@)],
-	      [_AC_CHECK_HEADER_NEW($@)])
+[m4_indir(m4_case([$4],
+		  [],  [[_AC_CHECK_HEADER_MONGREL]],
+		  [-], [[_AC_CHECK_HEADER_PREPROC]],
+		       [[_AC_CHECK_HEADER_COMPILE]]), $@)
 ])# AC_CHECK_HEADER
 
+
+# _AC_CHECK_HEADER_MONGREL_BODY
+# -----------------------------
+# Shell function body for _AC_CHECK_HEADER_MONGREL
+m4_define([_AC_CHECK_HEADER_MONGREL_BODY],
+[  AS_LINENO_PUSH([$[]1])
+  AS_VAR_SET_IF([$[]3],
+		[AC_CACHE_CHECK([for $[]2], [$[]3], [])],
+		[# Is the header compilable?
+AC_MSG_CHECKING([$[]2 usability])
+AC_COMPILE_IFELSE([AC_LANG_SOURCE([$[]4
+@%:@include <$[]2>])],
+		  [ac_header_compiler=yes],
+		  [ac_header_compiler=no])
+AC_MSG_RESULT([$ac_header_compiler])
+
+# Is the header present?
+AC_MSG_CHECKING([$[]2 presence])
+AC_PREPROC_IFELSE([AC_LANG_SOURCE([@%:@include <$[]2>])],
+		  [ac_header_preproc=yes],
+		  [ac_header_preproc=no])
+AC_MSG_RESULT([$ac_header_preproc])
+
+# So?  What about this header?
+case $ac_header_compiler:$ac_header_preproc:$ac_[]_AC_LANG_ABBREV[]_preproc_warn_flag in #((
+  yes:no: )
+    AC_MSG_WARN([$[]2: accepted by the compiler, rejected by the preprocessor!])
+    AC_MSG_WARN([$[]2: proceeding with the compiler's result])
+    ;;
+  no:yes:* )
+    AC_MSG_WARN([$[]2: present but cannot be compiled])
+    AC_MSG_WARN([$[]2:     check for missing prerequisite headers?])
+    AC_MSG_WARN([$[]2: see the Autoconf documentation])
+    AC_MSG_WARN([$[]2:     section "Present But Cannot Be Compiled"])
+    AC_MSG_WARN([$[]2: proceeding with the compiler's result])
+m4_ifset([AC_PACKAGE_BUGREPORT],
+[m4_n([( AS_BOX([Report this to ]AC_PACKAGE_BUGREPORT)
+     ) | sed "s/^/$as_me: WARNING:     /" >&2])])dnl
+    ;;
+esac
+  AC_CACHE_CHECK([for $[]2], [$[]3],
+		 [AS_VAR_SET([$[]3], [$ac_header_compiler])])])
+  AS_LINENO_POP
+])#_AC_CHECK_HEADER_MONGREL_BODY
 
 # _AC_CHECK_HEADER_MONGREL(HEADER-FILE,
 #			   [ACTION-IF-FOUND], [ACTION-IF-NOT-FOUND],
@@ -99,127 +123,160 @@ AC_DEFUN([AC_CHECK_HEADER],
 # Check using both the compiler and the preprocessor.  If they disagree,
 # warn, and the preproc wins.
 #
-# This is not based on _AC_CHECK_HEADER_NEW and _AC_CHECK_HEADER_OLD
+# This is not based on _AC_CHECK_HEADER_COMPILE and _AC_CHECK_HEADER_PREPROC
 # because it obfuscate the code to try to factor everything, in particular
-# because of the cache variables, and the `checking...' messages.
-m4_define([_AC_CHECK_HEADER_MONGREL],
-[AS_VAR_PUSHDEF([ac_Header], [ac_cv_header_$1])dnl
-AS_VAR_SET_IF([ac_Header],
-	      [AC_CACHE_CHECK([for $1], [ac_Header], [])],
-	      [# Is the header compilable?
-AC_MSG_CHECKING([$1 usability])
-AC_COMPILE_IFELSE([AC_LANG_SOURCE([AC_INCLUDES_DEFAULT([$4])
-@%:@include <$1>])],
-		  [ac_header_compiler=yes],
-		  [ac_header_compiler=no])
-AC_MSG_RESULT([$ac_header_compiler])
-
-# Is the header present?
-AC_MSG_CHECKING([$1 presence])
-AC_PREPROC_IFELSE([AC_LANG_SOURCE([@%:@include <$1>])],
-		  [ac_header_preproc=yes],
-		  [ac_header_preproc=no])
-AC_MSG_RESULT([$ac_header_preproc])
-
-# So?  What about this header?
-case $ac_header_compiler:$ac_header_preproc:$ac_[]_AC_LANG_ABBREV[]_preproc_warn_flag in
-  yes:no: )
-    AC_MSG_WARN([$1: accepted by the compiler, rejected by the preprocessor!])
-    AC_MSG_WARN([$1: proceeding with the compiler's result])
-    ac_header_preproc=yes
-    ;;
-  no:yes:* )
-    AC_MSG_WARN([$1: present but cannot be compiled])
-    AC_MSG_WARN([$1:     check for missing prerequisite headers?])
-    AC_MSG_WARN([$1: see the Autoconf documentation])
-    AC_MSG_WARN([$1:     section "Present But Cannot Be Compiled"])
-    AC_MSG_WARN([$1: proceeding with the preprocessor's result])
-    AC_MSG_WARN([$1: in the future, the compiler will take precedence])
-    m4_ifset([AC_PACKAGE_BUGREPORT],
-    [( AS_BOX([Report this to ]AC_PACKAGE_BUGREPORT)
-     ) | sed "s/^/$as_me: WARNING:     /" >&2])
-    ;;
-esac
-AC_CACHE_CHECK([for $1], [ac_Header],
-	       [AS_VAR_SET([ac_Header], [$ac_header_preproc])])
-])dnl ! set ac_HEADER
-AS_IF([test AS_VAR_GET([ac_Header]) = yes], [$2], [$3])[]dnl
-AS_VAR_POPDEF([ac_Header])dnl
-])# _AC_CHECK_HEADER_MONGREL
+# because of the cache variables, and the `checking ...' messages.
+AC_DEFUN([_AC_CHECK_HEADER_MONGREL],
+[AC_REQUIRE_SHELL_FN([ac_fn_]_AC_LANG_ABBREV[_check_header_mongrel],
+  [AS_FUNCTION_DESCRIBE([ac_fn_]_AC_LANG_ABBREV[_check_header_mongrel],
+    [LINENO HEADER VAR INCLUDES],
+    [Tests whether HEADER exists, giving a warning if it cannot be compiled
+     using the include files in INCLUDES and setting the cache variable VAR
+     accordingly.])],
+  [$0_BODY])]dnl
+[AS_VAR_PUSHDEF([ac_Header], [ac_cv_header_$1])]dnl
+[ac_fn_[]_AC_LANG_ABBREV[]_check_header_mongrel ]dnl
+["$LINENO" "$1" "ac_Header" "AS_ESCAPE([AC_INCLUDES_DEFAULT([$4])], [""])"
+AS_VAR_IF([ac_Header], [yes], [$2], [$3])
+AS_VAR_POPDEF([ac_Header])])# _AC_CHECK_HEADER_MONGREL
 
 
-# _AC_CHECK_HEADER_NEW(HEADER-FILE,
+# _AC_CHECK_HEADER_COMPILE_BODY
+# -----------------------------
+# Shell function body for _AC_CHECK_HEADER_COMPILE
+m4_define([_AC_CHECK_HEADER_COMPILE_BODY],
+[  AS_LINENO_PUSH([$[]1])
+  AC_CACHE_CHECK([for $[]2], [$[]3],
+		 [AC_COMPILE_IFELSE([AC_LANG_SOURCE([$[]4
+@%:@include <$[]2>])],
+				    [AS_VAR_SET([$[]3], [yes])],
+				    [AS_VAR_SET([$[]3], [no])])])
+  AS_LINENO_POP
+])# _AC_CHECK_HEADER_COMPILE_BODY
+
+# _AC_CHECK_HEADER_COMPILE(HEADER-FILE,
 #		       [ACTION-IF-FOUND], [ACTION-IF-NOT-FOUND],
 #		       [INCLUDES = DEFAULT-INCLUDES])
 # --------------------------------------------------------------
 # Check the compiler accepts HEADER-FILE.  The INCLUDES are defaulted.
-m4_define([_AC_CHECK_HEADER_NEW],
-[AS_VAR_PUSHDEF([ac_Header], [ac_cv_header_$1])dnl
-AC_CACHE_CHECK([for $1], [ac_Header],
-	       [AC_COMPILE_IFELSE([AC_LANG_SOURCE([AC_INCLUDES_DEFAULT([$4])
-@%:@include <$1>])],
-				  [AS_VAR_SET([ac_Header], [yes])],
-				  [AS_VAR_SET([ac_Header], [no])])])
-AS_IF([test AS_VAR_GET([ac_Header]) = yes], [$2], [$3])[]dnl
-AS_VAR_POPDEF([ac_Header])dnl
-])# _AC_CHECK_HEADER_NEW
+AC_DEFUN([_AC_CHECK_HEADER_COMPILE],
+[AC_REQUIRE_SHELL_FN([ac_fn_]_AC_LANG_ABBREV[_check_header_compile],
+  [AS_FUNCTION_DESCRIBE([ac_fn_]_AC_LANG_ABBREV[_check_header_compile],
+    [LINENO HEADER VAR INCLUDES],
+    [Tests whether HEADER exists and can be compiled using the include files
+     in INCLUDES, setting the cache variable VAR accordingly.])],
+  [$0_BODY])]dnl
+[AS_VAR_PUSHDEF([ac_Header], [ac_cv_header_$1])]dnl
+[ac_fn_[]_AC_LANG_ABBREV[]_check_header_compile ]dnl
+["$LINENO" "$1" "ac_Header" "AS_ESCAPE([AC_INCLUDES_DEFAULT([$4])], [""])"
+AS_VAR_IF([ac_Header], [yes], [$2], [$3])
+AS_VAR_POPDEF([ac_Header])])# _AC_CHECK_HEADER_COMPILE
+
+# _AC_CHECK_HEADER_PREPROC_BODY
+# -----------------------------
+# Shell function body for _AC_CHECK_HEADER_PREPROC.
+m4_define([_AC_CHECK_HEADER_PREPROC_BODY],
+[  AS_LINENO_PUSH([$[]1])
+  AC_CACHE_CHECK([for $[]2], [$[]3],
+  [AC_PREPROC_IFELSE([AC_LANG_SOURCE([@%:@include <$[]2>])],
+		     [AS_VAR_SET([$[]3], [yes])],
+		     [AS_VAR_SET([$[]3], [no])])])
+  AS_LINENO_POP
+])# _AC_CHECK_HEADER_PREPROC_BODY
 
 
-# _AC_CHECK_HEADER_OLD(HEADER-FILE,
+
+# _AC_CHECK_HEADER_PREPROC(HEADER-FILE,
 #		       [ACTION-IF-FOUND], [ACTION-IF-NOT-FOUND])
 # --------------------------------------------------------------
 # Check the preprocessor accepts HEADER-FILE.
-m4_define([_AC_CHECK_HEADER_OLD],
-[AS_VAR_PUSHDEF([ac_Header], [ac_cv_header_$1])dnl
-AC_CACHE_CHECK([for $1], [ac_Header],
-	       [AC_PREPROC_IFELSE([AC_LANG_SOURCE([@%:@include <$1>])],
-					 [AS_VAR_SET([ac_Header], [yes])],
-					 [AS_VAR_SET([ac_Header], [no])])])
-AS_IF([test AS_VAR_GET([ac_Header]) = yes], [$2], [$3])[]dnl
+AC_DEFUN([_AC_CHECK_HEADER_PREPROC],
+[AC_REQUIRE_SHELL_FN([ac_fn_]_AC_LANG_ABBREV[_check_header_preproc],
+  [AS_FUNCTION_DESCRIBE([ac_fn_]_AC_LANG_ABBREV[_check_header_preproc],
+    [LINENO HEADER VAR],
+    [Tests whether HEADER is present, setting the cache variable VAR accordingly.])],
+  [$0_BODY])]dnl
+[AS_VAR_PUSHDEF([ac_Header], [ac_cv_header_$1])]dnl
+[ac_fn_[]_AC_LANG_ABBREV[]_check_header_preproc "$LINENO" "$1" "ac_Header"
+AS_VAR_IF([ac_Header], [yes], [$2], [$3])
 AS_VAR_POPDEF([ac_Header])dnl
-])# _AC_CHECK_HEADER_OLD
+])# _AC_CHECK_HEADER_PREPROC
+
+# _AC_CHECK_HEADER_OLD(HEADER-FILE, [ACTION-IF-FOUND],
+#                      [ACTION-IF-NOT-FOUND])
+# _AC_CHECK_HEADER_NEW(HEADER-FILE, [ACTION-IF-FOUND],
+#                      [ACTION-IF-NOT-FOUND])
+# ----------------------------------------------------
+# Some packages used these undocumented macros.  Even worse, gcc
+# redefined AC_CHECK_HEADER in terms of _AC_CHECK_HEADER_OLD, so we
+# can't do the simpler:
+#   AU_DEFUN([_AC_CHECK_HEADER_OLD],
+#     [AC_CHECK_HEADER([$1], [$2], [$3], [-])])
+AC_DEFUN([_AC_CHECK_HEADER_OLD],
+[AC_DIAGNOSE([obsolete], [The macro `$0' is obsolete.
+You should use AC_CHECK_HEADER with a fourth argument.])]dnl
+[_AC_CHECK_HEADER_PREPROC($@)])
+
+AC_DEFUN([_AC_CHECK_HEADER_NEW],
+[AC_DIAGNOSE([obsolete], [The macro `$0' is obsolete.
+You should use AC_CHECK_HEADER with a fourth argument.])]dnl
+[_AC_CHECK_HEADER_COMPILE($@)])
+
+
+# _AH_CHECK_HEADER(HEADER-FILE)
+# -----------------------------
+# Prepare the autoheader snippet for HEADER-FILE.
+m4_define([_AH_CHECK_HEADER],
+[AH_TEMPLATE(AS_TR_CPP([HAVE_$1]),
+  [Define to 1 if you have the <$1> header file.])])
 
 
 # AH_CHECK_HEADERS(HEADER-FILE...)
 # --------------------------------
 m4_define([AH_CHECK_HEADERS],
-[m4_foreach_w([AC_Header], [$1],
-  [AH_TEMPLATE(AS_TR_CPP([HAVE_]m4_defn([AC_Header])),
-     [Define to 1 if you have the <]m4_defn([AC_Header])[> header file.])])])
+[m4_foreach_w([AC_Header], [$1], [_AH_CHECK_HEADER(m4_defn([AC_Header]))])])
 
 
 # AC_CHECK_HEADERS(HEADER-FILE...,
 #		   [ACTION-IF-FOUND], [ACTION-IF-NOT-FOUND],
 #		   [INCLUDES])
 # ----------------------------------------------------------
+# Check for each whitespace-separated HEADER-FILE (omitting the <> or
+# ""), and perform ACTION-IF-FOUND or ACTION-IF-NOT-FOUND for each
+# header.  INCLUDES is as for AC_CHECK_HEADER.  Additionally, make the
+# preprocessor definition HAVE_HEADER_FILE available for each found
+# header.  Either ACTION may include `break' to stop the search.
 AC_DEFUN([AC_CHECK_HEADERS],
-[AH_CHECK_HEADERS([$1])dnl
-for ac_header in $1
-do
-AC_CHECK_HEADER($ac_header,
-		[AC_DEFINE_UNQUOTED(AS_TR_CPP(HAVE_$ac_header)) $2],
-		[$3],
-		[$4])dnl
-done
+[m4_map_args_w([$1], [_AH_CHECK_HEADER(], [)])]dnl
+[AS_FOR([AC_header], [ac_header], [$1],
+[AC_CHECK_HEADER(AC_header,
+		 [AC_DEFINE_UNQUOTED(AS_TR_CPP([HAVE_]AC_header)) $2],
+		 [$3], [$4])dnl])
 ])# AC_CHECK_HEADERS
+
+
+# _AC_CHECK_HEADER_ONCE(HEADER-FILE)
+# ----------------------------------
+# Check for a single HEADER-FILE once.
+m4_define([_AC_CHECK_HEADER_ONCE],
+[_AH_CHECK_HEADER([$1])AC_DEFUN([_AC_Header_]m4_translit([[$1]],
+    [./-], [___]),
+  [m4_divert_text([INIT_PREPARE], [AS_VAR_APPEND([ac_header_list], [" $1"])])
+_AC_HEADERS_EXPANSION])AC_REQUIRE([_AC_Header_]m4_translit([[$1]],
+    [./-], [___]))])
 
 
 # AC_CHECK_HEADERS_ONCE(HEADER-FILE...)
 # -------------------------------------
+# Add each whitespace-separated name in HEADER-FILE to the list of
+# headers to check once.
 AC_DEFUN([AC_CHECK_HEADERS_ONCE],
-[
-  AH_CHECK_HEADERS([$1])
-  m4_foreach_w([AC_Header], [$1],
-    [AC_DEFUN([_AC_Header_]m4_quote(m4_translit(AC_Header, [./-], [___])),
-       [m4_divert_text([INIT_PREPARE],
-	  [ac_header_list="$ac_header_list AC_Header"])
-	_AC_HEADERS_EXPANSION])
-     AC_REQUIRE([_AC_Header_]m4_quote(m4_translit(AC_Header, [./-], [___])))])
-])
+[m4_map_args_w([$1], [_AC_CHECK_HEADER_ONCE(], [)])])
+
 m4_define([_AC_HEADERS_EXPANSION],
 [
   m4_divert_text([DEFAULTS], [ac_header_list=])
-  AC_CHECK_HEADERS([$ac_header_list])
+  AC_CHECK_HEADERS([$ac_header_list], [], [], [AC_INCLUDES_DEFAULT])
   m4_define([_AC_HEADERS_EXPANSION], [])
 ])
 
@@ -377,14 +434,21 @@ AN_HEADER([wctype.h],           [AC_CHECK_HEADERS])
 # AC_HEADER_ASSERT
 # ----------------
 # Check whether to enable assertions.
-AC_DEFUN([AC_HEADER_ASSERT],
+AC_DEFUN_ONCE([AC_HEADER_ASSERT],
 [
   AC_MSG_CHECKING([whether to enable assertions])
   AC_ARG_ENABLE([assert],
-    [  --disable-assert        turn off assertions],
-    [AC_MSG_RESULT([no])
-     AC_DEFINE(NDEBUG, 1, [Define to 1 if assertions should be disabled.])],
-    [AC_MSG_RESULT(yes)])
+    [AS_HELP_STRING([--disable-assert], [turn off assertions])],
+    [ac_enable_assert=$enableval
+     AS_IF(dnl
+      [test "x$enableval" = xno],
+	[AC_DEFINE([NDEBUG], [1],
+	  [Define to 1 if assertions should be disabled.])],
+      [test "x$enableval" != xyes],
+	[AC_MSG_WARN([invalid argument supplied to --enable-assert])
+	ac_enable_assert=yes])],
+    [ac_enable_assert=yes])
+  AC_MSG_RESULT([$ac_enable_assert])
 ])
 
 
@@ -403,29 +467,25 @@ AC_CACHE_CHECK([for $1 that defines DIR], [ac_Header],
 return 0;])],
 		   [AS_VAR_SET([ac_Header], [yes])],
 		   [AS_VAR_SET([ac_Header], [no])])])
-AS_IF([test AS_VAR_GET([ac_Header]) = yes], [$2], [$3])[]dnl
+AS_VAR_IF([ac_Header], [yes], [$2], [$3])
 AS_VAR_POPDEF([ac_Header])dnl
 ])# _AC_CHECK_HEADER_DIRENT
 
 
-# AH_CHECK_HEADERS_DIRENT(HEADERS...)
-# -----------------------------------
-m4_define([AH_CHECK_HEADERS_DIRENT],
-[m4_foreach_w([AC_Header], [$1],
-  [AH_TEMPLATE(AS_TR_CPP([HAVE_]m4_defn([AC_Header])),
-	       [Define to 1 if you have the <]m4_defn([AC_Header])[> header file, and
-		it defines `DIR'.])])])
+# _AH_CHECK_HEADER_DIRENT(HEADERS)
+# --------------------------------
+# Like _AH_CHECK_HEADER, but tuned to a dirent provider.
+m4_define([_AH_CHECK_HEADER_DIRENT],
+[AH_TEMPLATE(AS_TR_CPP([HAVE_$1]),
+  [Define to 1 if you have the <$1> header file, and it defines `DIR'.])])
 
 
 # AC_HEADER_DIRENT
 # ----------------
-AN_HEADER([dirent.h],   [AC_HEADER_DIRENT])
-AN_HEADER([ndir.h],     [AC_HEADER_DIRENT])
-AN_HEADER([sys/dir.h],  [AC_HEADER_DIRENT])
-AN_HEADER([sys/ndir.h], [AC_HEADER_DIRENT])
 AC_DEFUN([AC_HEADER_DIRENT],
-[AH_CHECK_HEADERS_DIRENT(dirent.h sys/ndir.h sys/dir.h ndir.h)
-ac_header_dirent=no
+[m4_map_args([_AH_CHECK_HEADER_DIRENT], [dirent.h], [sys/ndir.h],
+	     [sys/dir.h], [ndir.h])]dnl
+[ac_header_dirent=no
 for ac_hdr in dirent.h sys/ndir.h sys/dir.h ndir.h; do
   _AC_CHECK_HEADER_DIRENT($ac_hdr,
 			  [AC_DEFINE_UNQUOTED(AS_TR_CPP(HAVE_$ac_hdr), 1)
@@ -501,13 +561,6 @@ AC_DEFUN([AC_HEADER_RESOLV],
 # AC_HEADER_STAT
 # --------------
 # FIXME: Shouldn't this be named AC_HEADER_SYS_STAT?
-AN_IDENTIFIER([S_ISBLK], [AC_HEADER_STAT])
-AN_IDENTIFIER([S_ISCHR], [AC_HEADER_STAT])
-AN_IDENTIFIER([S_ISDIR], [AC_HEADER_STAT])
-AN_IDENTIFIER([S_ISFIFO], [AC_HEADER_STAT])
-AN_IDENTIFIER([S_ISLNK], [AC_HEADER_STAT])
-AN_IDENTIFIER([S_ISREG], [AC_HEADER_STAT])
-AN_IDENTIFIER([S_ISSOCK], [AC_HEADER_STAT])
 AC_DEFUN([AC_HEADER_STAT],
 [AC_CACHE_CHECK(whether stat file-mode macros are broken,
   ac_cv_header_stat_broken,
@@ -538,88 +591,81 @@ fi
 ])# AC_HEADER_STAT
 
 
-# AC_HEADER_STDBOOL
+# AC_CHECK_HEADER_STDBOOL
 # -----------------
 # Check for stdbool.h that conforms to C99.
-AN_IDENTIFIER([bool], [AC_HEADER_STDBOOL])
-AN_IDENTIFIER([true], [AC_HEADER_STDBOOL])
-AN_IDENTIFIER([false],[AC_HEADER_STDBOOL])
+AN_IDENTIFIER([bool], [AC_CHECK_HEADER_STDBOOL])
+AN_IDENTIFIER([true], [AC_CHECK_HEADER_STDBOOL])
+AN_IDENTIFIER([false],[AC_CHECK_HEADER_STDBOOL])
+AC_DEFUN([AC_CHECK_HEADER_STDBOOL],
+  [AC_CACHE_CHECK([for stdbool.h that conforms to C99],
+     [ac_cv_header_stdbool_h],
+     [AC_COMPILE_IFELSE(
+        [AC_LANG_PROGRAM(
+           [[
+             #include <stdbool.h>
+             #ifndef bool
+              "error: bool is not defined"
+             #endif
+             #ifndef false
+              "error: false is not defined"
+             #endif
+             #if false
+              "error: false is not 0"
+             #endif
+             #ifndef true
+              "error: true is not defined"
+             #endif
+             #if true != 1
+              "error: true is not 1"
+             #endif
+             #ifndef __bool_true_false_are_defined
+              "error: __bool_true_false_are_defined is not defined"
+             #endif
+
+             struct s { _Bool s: 1; _Bool t; } s;
+
+             char a[true == 1 ? 1 : -1];
+             char b[false == 0 ? 1 : -1];
+             char c[__bool_true_false_are_defined == 1 ? 1 : -1];
+             char d[(bool) 0.5 == true ? 1 : -1];
+             /* See body of main program for 'e'.  */
+             char f[(_Bool) 0.0 == false ? 1 : -1];
+             char g[true];
+             char h[sizeof (_Bool)];
+             char i[sizeof s.t];
+             enum { j = false, k = true, l = false * true, m = true * 256 };
+             /* The following fails for
+                HP aC++/ANSI C B3910B A.05.55 [Dec 04 2003]. */
+             _Bool n[m];
+             char o[sizeof n == m * sizeof n[0] ? 1 : -1];
+             char p[-1 - (_Bool) 0 < 0 && -1 - (bool) 0 < 0 ? 1 : -1];
+             /* Catch a bug in an HP-UX C compiler.  See
+                http://gcc.gnu.org/ml/gcc-patches/2003-12/msg02303.html
+                http://lists.gnu.org/archive/html/bug-coreutils/2005-11/msg00161.html
+              */
+             _Bool q = true;
+             _Bool *pq = &q;
+           ]],
+           [[
+             bool e = &s;
+             *pq |= q;
+             *pq |= ! q;
+             /* Refer to every declared value, to avoid compiler optimizations.  */
+             return (!a + !b + !c + !d + !e + !f + !g + !h + !i + !!j + !k + !!l
+                     + !m + !n + !o + !p + !q + !pq);
+           ]])],
+        [ac_cv_header_stdbool_h=yes],
+        [ac_cv_header_stdbool_h=no])])
+   AC_CHECK_TYPES([_Bool])
+])# AC_CHECK_HEADER_STDBOOL
+
+
+# AC_HEADER_STDBOOL
+# -----------------
+# Define HAVE_STDBOOL_H if tdbool.h that conforms to C99.
 AC_DEFUN([AC_HEADER_STDBOOL],
-[AC_CACHE_CHECK([for stdbool.h that conforms to C99],
-   [ac_cv_header_stdbool_h],
-   [AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
-      [[
-#include <stdbool.h>
-#ifndef bool
- "error: bool is not defined"
-#endif
-#ifndef false
- "error: false is not defined"
-#endif
-#if false
- "error: false is not 0"
-#endif
-#ifndef true
- "error: true is not defined"
-#endif
-#if true != 1
- "error: true is not 1"
-#endif
-#ifndef __bool_true_false_are_defined
- "error: __bool_true_false_are_defined is not defined"
-#endif
-
-	struct s { _Bool s: 1; _Bool t; } s;
-
-	char a[true == 1 ? 1 : -1];
-	char b[false == 0 ? 1 : -1];
-	char c[__bool_true_false_are_defined == 1 ? 1 : -1];
-	char d[(bool) 0.5 == true ? 1 : -1];
-	bool e = &s;
-	char f[(_Bool) 0.0 == false ? 1 : -1];
-	char g[true];
-	char h[sizeof (_Bool)];
-	char i[sizeof s.t];
-	enum { j = false, k = true, l = false * true, m = true * 256 };
-	_Bool n[m];
-	char o[sizeof n == m * sizeof n[0] ? 1 : -1];
-	char p[-1 - (_Bool) 0 < 0 && -1 - (bool) 0 < 0 ? 1 : -1];
-#	if defined __xlc__ || defined __GNUC__
-	 /* Catch a bug in IBM AIX xlc compiler version 6.0.0.0
-	    reported by James Lemley on 2005-10-05; see
-	    http://lists.gnu.org/archive/html/bug-coreutils/2005-10/msg00086.html
-	    This test is not quite right, since xlc is allowed to
-	    reject this program, as the initializer for xlcbug is
-	    not one of the forms that C requires support for.
-	    However, doing the test right would require a runtime
-	    test, and that would make cross-compilation harder.
-	    Let us hope that IBM fixes the xlc bug, and also adds
-	    support for this kind of constant expression.  In the
-	    meantime, this test will reject xlc, which is OK, since
-	    our stdbool.h substitute should suffice.  We also test
-	    this with GCC, where it should work, to detect more
-	    quickly whether someone messes up the test in the
-	    future.  */
-	 char digs[] = "0123456789";
-	 int xlcbug = 1 / (&(digs + 5)[-2 + (bool) 1] == &digs[4] ? 1 : -1);
-#	endif
-	/* Catch a bug in an HP-UX C compiler.  See
-	   http://gcc.gnu.org/ml/gcc-patches/2003-12/msg02303.html
-	   http://lists.gnu.org/archive/html/bug-coreutils/2005-11/msg00161.html
-	 */
-	_Bool q = true;
-	_Bool *pq = &q;
-      ]],
-      [[
-	*pq |= q;
-	*pq |= ! q;
-	/* Refer to every declared value, to avoid compiler optimizations.  */
-	return (!a + !b + !c + !d + !e + !f + !g + !h + !i + !!j + !k + !!l
-		+ !m + !n + !o + !p + !q + !pq);
-      ]])],
-      [ac_cv_header_stdbool_h=yes],
-      [ac_cv_header_stdbool_h=no])])
-AC_CHECK_TYPES([_Bool])
+[AC_CHECK_HEADER_STDBOOL
 if test $ac_cv_header_stdbool_h = yes; then
   AC_DEFINE(HAVE_STDBOOL_H, 1, [Define to 1 if stdbool.h conforms to C99.])
 fi
@@ -628,28 +674,6 @@ fi
 
 # AC_HEADER_STDC
 # --------------
-# FIXME: I find this list very strange.  It comes from the original
-# autoscan list, but I don't think it is useful for the same reason
-# that we don't bind AC_PROG_CC to finding a C function calls: if the
-# user uses bcmp, then she will certainly have the `#include', and
-# therefore, we will trigger AC_HEADER_STDC elsewhere.  --akim 2002-09-28
-# FIXME: Err... index and rindex are _not_ to be used... --akim 2002-09-28
-AN_FUNCTION([bcmp],     [AC_HEADER_STDC])
-AN_FUNCTION([bcopy],    [AC_HEADER_STDC])
-AN_FUNCTION([bzero],    [AC_HEADER_STDC])
-AN_FUNCTION([index],    [AC_HEADER_STDC])
-AN_FUNCTION([memchr],   [AC_HEADER_STDC])
-AN_FUNCTION([memcpy],   [AC_HEADER_STDC])
-AN_FUNCTION([memmove],  [AC_HEADER_STDC])
-AN_FUNCTION([memset],   [AC_HEADER_STDC])
-AN_FUNCTION([rindex],   [AC_HEADER_STDC])
-
-AN_HEADER([float.h],    [AC_HEADER_STDC])
-AN_HEADER([stdarg.h],   [AC_HEADER_STDC])
-AN_HEADER([stddef.h],   [AC_HEADER_STDC])
-AN_HEADER([stdlib.h],   [AC_HEADER_STDC])
-AN_HEADER([string.h],   [AC_HEADER_STDC])
-
 AC_DEFUN([AC_HEADER_STDC],
 [AC_CACHE_CHECK(for ANSI C header files, ac_cv_header_stdc,
 [AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <stdlib.h>
@@ -707,7 +731,6 @@ fi
 
 # AC_HEADER_SYS_WAIT
 # ------------------
-AN_HEADER([sys/wait.h], [AC_HEADER_SYS_WAIT])
 AC_DEFUN([AC_HEADER_SYS_WAIT],
 [AC_CACHE_CHECK([for sys/wait.h that is POSIX.1 compatible],
   ac_cv_header_sys_wait_h,
@@ -735,7 +758,6 @@ fi
 
 # AC_HEADER_TIME
 # --------------
-AN_IDENTIFIER([timeval],  [AC_HEADER_TIME])
 AC_DEFUN([AC_HEADER_TIME],
 [AC_CACHE_CHECK([whether time.h and sys/time.h may both be included],
   ac_cv_header_time,

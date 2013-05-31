@@ -1,3 +1,4 @@
-#!/bin/sh
+/usr/bin/rm -f /etc/xml/docbook
+/usr/bin/rm -f /usr/share/sgml/docbook/xsl-stylesheets/*docbook*.dtd
+/usr/bin/build-docbook-catalog
 
-xmlcatalog --noout --del http://docbook.sourceforge.net/release/xsl/current/ /etc/xml/catalog

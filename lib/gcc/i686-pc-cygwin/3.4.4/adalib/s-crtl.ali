@@ -14,7 +14,7 @@ W system%s		system.ads		system.ali
 W system.parameters%s	s-parame.adb		s-parame.ali
 
 D system.ads		20031021134222 6af26689
-D s-crtl.ads		20031217133704 a4a6fa53
+D s-crtl.ads		20031217133703 a4a6fa53
 D s-parame.ads		20031021134214 8479efe6
 X 1 system.ads
 44K9*System 163e11 2|37r6 38r9 41r21 44r21 49r31 50r18 56r23 86r26 106r40

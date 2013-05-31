@@ -14,7 +14,7 @@
 # General.
 prefix="/usr"
 exec_prefix="/usr"
-version="1.4.1"
+version="1.4.6"
 includedir="${prefix}/include"
 libdir="${exec_prefix}/lib"
 gpg_error_libs="-lgpg-error"

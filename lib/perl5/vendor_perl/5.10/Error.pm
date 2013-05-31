@@ -15,7 +15,7 @@ use strict;
 use vars qw($VERSION);
 use 5.004;
 
-$VERSION = "0.17014"; 
+$VERSION = "0.17016"; 
 
 use overload (
 	'""'	   =>	'stringify',
@@ -613,6 +613,13 @@ __END__
 
 Error - Error/exception handling in an OO-ish way
 
+=head1 WARNING
+
+Using the "Error" module is B<no longer recommended> due to the black-magical
+nature of its syntactic sugar, which often tends to break. Its maintainers 
+have stopped actively writing code that uses it, and discourage people
+from doing so. See the "SEE ALSO" section below for better recommendations.
+
 =head1 SYNOPSIS
 
     use Error qw(:try);
@@ -725,6 +732,19 @@ finally block will be executed and the error will be re-thrown.
 Only one finally block may be specified per try block
 
 =back
+
+=head1 COMPATIBILITY
+
+L<Moose> exports a keyword called C<with> which clashes with Error's. This
+example returns a prototype mismatch error:
+
+    package MyTest;
+
+    use warnings;
+    use Moose;
+    use Error qw(:try);
+
+(Thanks to C<maik.hentsche@amd.com> for the report.).
 
 =head1 CLASS INTERFACE
 
@@ -968,6 +988,20 @@ into
          main::outer('undef') called at examples/warndie.pl line 23
 
 =cut
+
+=head1 SEE ALSO
+
+See L<Exception::Class> for a different module providing Object-Oriented
+exception handling, along with a convenient syntax for declaring hierarchies
+for them. It doesn't provide Error's syntactic sugar of C<try { ... }>,
+C<catch { ... }>, etc. which may be a good thing or a bad thing based
+on what you want. (Because Error's syntactic sugar tends to break.)
+
+L<Error::Exception> aims to combine L<Error> and L<Exception::Class>
+"with correct stringification".
+
+L<TryCatch> and L<Try::Tiny> are similar in concept to Error.pm only providing 
+a syntax that hopefully breaks less.
 
 =head1 KNOWN BUGS
 

@@ -21,8 +21,8 @@ W system%s		system.ads		system.ali
 D system.ads		20031021134222 6af26689
 D s-pack03.ads		20030424175410 4f771c2a
 D s-pack03.adb		20030424175410 16be1fba
-D s-stoele.ads		20050603190336 5a73170b
-D s-stoele.adb		20030424175414 792079f8
+D s-stoele.ads		20050603200336 5a73170b
+D s-stoele.adb		20030424175413 792079f8
 D s-unstyp.ads		20031021134218 0d291e44
 D unchconv.ads		20030424175420 1b7a14c5
 X 1 system.ads

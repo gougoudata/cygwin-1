@@ -1,10 +1,24 @@
 #!/bin/sh
-[ -f /etc/postinstall/gcc-mingw-g++-3.4.4-20050522-1.tgz ] || exit 0
-[ -d /usr/include ] || exit 0
-/bin/mkdir -p /usr/i686-pc-mingw32 /usr/include/mingw /usr/lib/mingw /usr/i686-pc-cygwin/bin
+[ -f /etc/postinstall/gcc-mingw-g++-3.4.4-20050522-3.tar.xz ] || exit 0
+/bin/mkdir -p /usr/i686-pc-mingw32
 cd /usr/i686-pc-mingw32
-[ ! -e /usr/i686-pc-mingw32/include -a -d "../include/mingw" ] && ln -s "../include/mingw" /usr/i686-pc-mingw32/include
-[ ! -e /usr/i686-pc-mingw32/lib -a -d "../lib/mingw" ] && ln -s "../lib/mingw" /usr/i686-pc-mingw32/lib
-[ ! -e /usr/i686-pc-mingw32/bin -a -d "../i686-pc-cygwin/bin" ] && ln -s "../i686-pc-cygwin/bin" /usr/i686-pc-mingw32/bin
-echo "*** Unpacking /etc/postinstall/gcc-mingw-g++-3.4.4-20050522-1.tgz.  Please wait. ***"
-/bin/tar -xzvf /etc/postinstall/gcc-mingw-g++-3.4.4-20050522-1.tgz -C /usr > /etc/preremove/gcc-mingw-g++-manifest.lst
+for d in include lib bin
+do
+  if [ -e /usr/i686-pc-mingw32/$d -a -h /usr/i686-pc-mingw32/$d ]
+  then
+    rm -f /usr/i686-pc-mingw32/$d
+  fi
+done
+echo "*** Unpacking /etc/postinstall/gcc-mingw-g++-3.4.4-20050522-3.tar.xz.  Please wait. ***"
+/bin/tar -xvJf /etc/postinstall/gcc-mingw-g++-3.4.4-20050522-3.tar.xz -C /usr |\
+	/bin/sort -r > /etc/preremove/gcc-mingw-g++-manifest.tmp
+
+echo "*** Creating symbolic link for cc1plus.exe.  Please wait. ***"
+cd /usr/lib/gcc/i686-pc-mingw32/3.4.4
+ln -fs ../../i686-pc-cygwin/3.4.4/cc1plus.exe .
+
+echo lib/gcc/i686-pc-mingw32/3.4.4/cc1plus.exe >> /etc/preremove/gcc-mingw-g++-manifest.tmp
+
+cat /etc/preremove/gcc-mingw-g++-manifest.tmp | sort -r > /etc/preremove/gcc-mingw-g++-manifest.lst
+rm -f /etc/preremove/gcc-mingw-g++-manifest.tmp
+

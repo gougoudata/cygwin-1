@@ -21,20 +21,21 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 #ifndef __GTK_FRAME_H__
 #define __GTK_FRAME_H__
 
 
-#include <gdk/gdk.h>
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
 #include <gtk/gtkbin.h>
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 
 #define GTK_TYPE_FRAME                  (gtk_frame_get_type ())
@@ -52,12 +53,12 @@ struct _GtkFrame
 {
   GtkBin bin;
 
-  GtkWidget *label_widget;
-  gint16 shadow_type;
-  gfloat label_xalign;
-  gfloat label_yalign;
+  GtkWidget *GSEAL (label_widget);
+  gint16 GSEAL (shadow_type);
+  gfloat GSEAL (label_xalign);
+  gfloat GSEAL (label_yalign);
 
-  GtkAllocation child_allocation;
+  GtkAllocation GSEAL (child_allocation);
 };
 
 struct _GtkFrameClass
@@ -73,7 +74,7 @@ GtkWidget* gtk_frame_new              (const gchar   *label);
 
 void                  gtk_frame_set_label (GtkFrame    *frame,
 					   const gchar *label);
-G_CONST_RETURN gchar *gtk_frame_get_label (GtkFrame    *frame);
+const gchar *gtk_frame_get_label      (GtkFrame    *frame);
 
 void       gtk_frame_set_label_widget (GtkFrame      *frame,
 				       GtkWidget     *label_widget);
@@ -88,9 +89,8 @@ void       gtk_frame_set_shadow_type  (GtkFrame      *frame,
 				       GtkShadowType  type);
 GtkShadowType gtk_frame_get_shadow_type (GtkFrame    *frame);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+
+G_END_DECLS
 
 
 #endif /* __GTK_FRAME_H__ */

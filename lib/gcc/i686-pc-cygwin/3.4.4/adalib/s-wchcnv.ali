@@ -19,12 +19,12 @@ U system.wch_cnv%s	s-wchcnv.ads		023fec78 BN NE PU PK
 W system%s		system.ads		system.ali
 W system.wch_con%s	s-wchcon.ads		s-wchcon.ali
 
-D interfac.ads		20031021134210 6e859da6
+D interfac.ads		20031021134209 6e859da6
 D system.ads		20031021134222 6af26689
 D s-wchcnv.ads		20031021134218 08cf22a9
-D s-wchcnv.adb		20030424175416 3fbab54c
+D s-wchcnv.adb		20030424175415 3fbab54c
 D s-wchcon.ads		20031021134218 6002a858
-D s-wchjis.ads		20030424175416 e8de7374
+D s-wchjis.ads		20030424175415 e8de7374
 X 1 interfac.ads
 43K9*Interfaces 188e15 4|38w6 38r26
 61M9*Unsigned_16 4|55r12 56r12 133r21 137r24 147r24 154r24 217r16 265r18

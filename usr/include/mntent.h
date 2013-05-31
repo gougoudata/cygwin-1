@@ -1,6 +1,6 @@
 /* mntent.h
 
-   Copyright 1996, 1998, 1999, 2000, 2001, 2006 Red Hat, Inc.
+   Copyright 1996, 1998, 1999, 2000, 2001, 2006, 2009, 2010, 2012 Red Hat, Inc.
 
 This file is part of Cygwin.
 
@@ -29,18 +29,31 @@ struct mntent
 #include <stdio.h>
 FILE *setmntent (const char *__filep, const char *__type);
 struct mntent *getmntent (FILE *__filep);
-int addmntent (FILE *__filep, const struct mntent *__mnt);
+struct mntent *getmntent_r (FILE *, struct mntent *, char *, int);
 int endmntent (FILE *__filep);
-char *hasmntopt (const struct mntent *__mnt, const char *__opt);
 #endif
 
-/* This next file doesn't exist, it is in the registry,
-   however applications need the define to pass to
-   the above calls.
+#ifdef __CYGWIN__
+/* Only include paths.h if building for Cygwin.  This avoids including
+   newlib headers when building the native tools in winsup/utils. */
+
+#include <paths.h>
+
+/* The following two defines are deprecated.  Use the equivalent
+   names from paths.h instead. */
+#ifndef MNTTAB
+#define MNTTAB _PATH_MNTTAB
+#endif
+/* This next file does exist, but the implementation of these
+   functions does not actually use it.
+   However, applications need the define to pass to setmntent().
 */
 #ifndef MOUNTED
-#define MOUNTED "/etc/mtab"
+#define MOUNTED _PATH_MOUNTED
 #endif
+
+#endif /* __CYGWIN__ */
+
 #ifdef __cplusplus
 };
 #endif

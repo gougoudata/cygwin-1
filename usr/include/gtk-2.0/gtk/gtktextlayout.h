@@ -89,8 +89,7 @@
 #error "You are not supposed to be including this file; the equivalent public API is in gtktextview.h"
 #endif
 
-#include <gtk/gtktextbuffer.h>
-#include <gtk/gtktextiter.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 
@@ -174,6 +173,8 @@ struct _GtkTextLayout
   PangoAttrList *preedit_attrs;
   gint preedit_len;
   gint preedit_cursor;
+
+  guint overwrite_mode : 1;
 };
 
 struct _GtkTextLayoutClass
@@ -209,11 +210,14 @@ struct _GtkTextLayoutClass
                                  gint               x,
                                  gint               y);
 
+  void (*invalidate_cursors)    (GtkTextLayout     *layout,
+                                 const GtkTextIter *start,
+                                 const GtkTextIter *end);
+
   /* Padding for future expansion */
   void (*_gtk_reserved1) (void);
   void (*_gtk_reserved2) (void);
   void (*_gtk_reserved3) (void);
-  void (*_gtk_reserved4) (void);
 };
 
 struct _GtkTextAttrAppearance
@@ -252,6 +256,13 @@ struct _GtkTextLineDisplay
 
   gboolean size_only;
   GtkTextLine *line;
+  
+  GdkColor *pg_bg_color;
+
+  GdkRectangle block_cursor;
+  guint cursors_invalid : 1;
+  guint has_block_cursor : 1;
+  guint cursor_at_line_end : 1;
 };
 
 extern PangoAttrType gtk_text_attr_appearance_type;
@@ -269,6 +280,8 @@ void               gtk_text_layout_set_contexts          (GtkTextLayout     *lay
 							  PangoContext      *rtl_context);
 void               gtk_text_layout_set_cursor_direction  (GtkTextLayout     *layout,
                                                           GtkTextDirection   direction);
+void		   gtk_text_layout_set_overwrite_mode	 (GtkTextLayout     *layout,
+							  gboolean           overwrite);
 void               gtk_text_layout_set_keyboard_direction (GtkTextLayout     *layout,
 							   GtkTextDirection keyboard_dir);
 void               gtk_text_layout_default_style_changed (GtkTextLayout     *layout);
@@ -325,6 +338,9 @@ void gtk_text_layout_get_iter_at_position (GtkTextLayout     *layout,
 void gtk_text_layout_invalidate        (GtkTextLayout     *layout,
                                         const GtkTextIter *start,
                                         const GtkTextIter *end);
+void gtk_text_layout_invalidate_cursors(GtkTextLayout     *layout,
+                                        const GtkTextIter *start,
+                                        const GtkTextIter *end);
 void gtk_text_layout_free_line_data    (GtkTextLayout     *layout,
                                         GtkTextLine       *line,
                                         GtkTextLineData   *line_data);
@@ -351,6 +367,10 @@ void     gtk_text_layout_changed              (GtkTextLayout     *layout,
                                                gint               y,
                                                gint               old_height,
                                                gint               new_height);
+void     gtk_text_layout_cursors_changed      (GtkTextLayout     *layout,
+                                               gint               y,
+                                               gint               old_height,
+                                               gint               new_height);
 void     gtk_text_layout_get_iter_location    (GtkTextLayout     *layout,
                                                const GtkTextIter *iter,
                                                GdkRectangle      *rect);
@@ -366,6 +386,8 @@ void     gtk_text_layout_get_cursor_locations (GtkTextLayout     *layout,
                                                GtkTextIter       *iter,
                                                GdkRectangle      *strong_pos,
                                                GdkRectangle      *weak_pos);
+gboolean _gtk_text_layout_get_block_cursor    (GtkTextLayout     *layout,
+					       GdkRectangle      *pos);
 gboolean gtk_text_layout_clamp_iter_to_vrange (GtkTextLayout     *layout,
                                                GtkTextIter       *iter,
                                                gint               top,

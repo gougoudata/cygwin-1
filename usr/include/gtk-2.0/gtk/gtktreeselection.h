@@ -20,12 +20,14 @@
 #ifndef __GTK_TREE_SELECTION_H__
 #define __GTK_TREE_SELECTION_H__
 
-#include <glib-object.h>
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
 #include <gtk/gtktreeview.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
+
 
 #define GTK_TYPE_TREE_SELECTION			(gtk_tree_selection_get_type ())
 #define GTK_TREE_SELECTION(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), GTK_TYPE_TREE_SELECTION, GtkTreeSelection))
@@ -49,12 +51,12 @@ struct _GtkTreeSelection
   GObject parent;
 
   /*< private >*/
-  
-  GtkTreeView *tree_view;
-  GtkSelectionMode type;
-  GtkTreeSelectionFunc user_func;
-  gpointer user_data;
-  GtkDestroyNotify destroy;
+
+  GtkTreeView *GSEAL (tree_view);
+  GtkSelectionMode GSEAL (type);
+  GtkTreeSelectionFunc GSEAL (user_func);
+  gpointer GSEAL (user_data);
+  GDestroyNotify GSEAL (destroy);
 };
 
 struct _GtkTreeSelectionClass
@@ -79,9 +81,11 @@ GtkSelectionMode gtk_tree_selection_get_mode        (GtkTreeSelection           
 void             gtk_tree_selection_set_select_function (GtkTreeSelection            *selection,
 							 GtkTreeSelectionFunc         func,
 							 gpointer                     data,
-							 GtkDestroyNotify             destroy);
+							 GDestroyNotify               destroy);
 gpointer         gtk_tree_selection_get_user_data       (GtkTreeSelection            *selection);
 GtkTreeView*     gtk_tree_selection_get_tree_view       (GtkTreeSelection            *selection);
+
+GtkTreeSelectionFunc gtk_tree_selection_get_select_function (GtkTreeSelection        *selection);
 
 /* Only meaningful if GTK_SELECTION_SINGLE or GTK_SELECTION_BROWSE is set */
 /* Use selected_foreach or get_selected_rows for GTK_SELECTION_MULTIPLE */
@@ -116,10 +120,6 @@ void             gtk_tree_selection_unselect_range      (GtkTreeSelection       
 							 GtkTreePath                 *end_path);
 
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
-
+G_END_DECLS
 
 #endif /* __GTK_TREE_SELECTION_H__ */
-

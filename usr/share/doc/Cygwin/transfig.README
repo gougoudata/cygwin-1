@@ -1,0 +1,130 @@
+transfig
+-------------------------------------------------------------------------------
+TransFig is a set of tools for creating TeX documents with
+graphics which are portable, in the sense that they can be printed in
+a wide variety of environments.
+
+Runtime requirements:
+  cygwin-1.7.17-1
+  libgcc1-4.5.3-3
+  libpng15-1.5.12-1
+  libX11_6-1.5.0-1
+  libXau6-1.0.7-1
+  libxcb1-1.9-1
+  libXdmcp6-1.1.1-1
+  libXpm4-3.5.10-1
+  zlib0-1.2.7-1
+  +
+  bash-4.1.10-4
+  grep-2.6.3-1
+  netpbm-10.59.02-1
+  ghostscript-9.06-1
+  bc-1.06-2
+  sed-4.2.1-2
+
+Build requirements:
+  cygwin-1.7.17-1
+  cygport-0.11.2-1
+  bash-4.1.10-4
+  gcc4-4.5.3-3
+  binutils-2.22.51-2
+  make-3.82.90-1
+  sed-4.2.1-2
+  gawk-4.0.1-1
+  coreutils-8.15-1
+  findutils-4.5.9-2
+  autoconf2.5-2.68-1
+  autoconf-10-1
+  automake1.11-1.11.6-1
+  automake-7-1
+  libtool-2.4-1
+  pkg-config-0.23b-10
+  lndir-1.0.3-1
+  ...
+  and corresponding <XXX>-devel-<y.y.y> packages from the runtime section
+  +
+  texlive-collection-latex-20120628-1
+  imake-1.0.5-1
+
+Canonical homepage:
+  http://xfig.org/
+
+Canonical download:
+  http://xfig.org/art17.html
+
+License:
+  GPL
+
+Language:
+  C
+
+-------------------------------------------------------------------------------
+
+Build instructions:
+  unpack transfig-<Pack-Ver>-<Cyg-Rel>-src.tar.bz2
+    if you use setup to install this src package, it will be
+ unpacked under /usr/src automatically
+  cd /usr/src
+  cygport ./transfig-<Pack-Ver>-<Cyg-Rel>.cygport all
+
+This will create:
+  /usr/src/transfig-<Pack-Ver>-<Cyg-Rel>-src.tar.bz2
+  /usr/src/transfig-<Pack-Ver>-<Cyg-Rel>.tar.bz2
+  /usr/src/transfig-debuginfo-<Pack-Ver>-<Cyg-Rel>.tar.bz2
+
+Or use 'cygport ./transfig-<Pack-Ver>-<Cyg-Rel>.cygport prep' to get a patched source directory
+
+To find out the files included in the binary distribution, you can
+use "cygcheck -l transfig transfig-debuginfo", or browse the listing
+for the appropriate version at <http://cygwin.com/packages/>.
+
+-------------------------------------------------------------------------------
+
+Port Notes:
+
+----- version transfig-3.2.5d-3 --- Fri 23 Nov 16:12:30 2012 ---
+
+ o Build for cygwin 1.7.17 with gcc-4.5.3
+ o debuginfo package included
+
+----- version transfig-3.2.5d-2 --- Wed 05 Sep 07:59:25 2012 ---
+
+ o Build for cygwin 1.7.16 with gcc-4.5.3
+ o Uses cygport-0.11.0 for .hint files generation
+ o Build against libpng15
+ o Added patches from gentoo
+   -> http://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo-x86/media-gfx/transfig/files/
+
+----- version transfig-3.2.5d-1 --- Mon 14 Nov 21:37:26 2011 ---
+
+ o Updated to latest upstream release
+ o Build for cygwin 1.7.9 with gcc-4.5.3
+
+----- version transfig-3.2.5c-1 --- Thu 20 May 19:25:19 2010 ---
+
+ o Updated to latest upstream release
+ o Build for cygwin 1.7 with gcc-4
+
+----- version transfig-3.2.5-1 --- Mon 07 Apr 08:00:54 2008 ---
+
+ o Maintainer change
+ o Switched to cygport build framework
+ o Changed layout from /usr/X11R6 to /usr hierarchy
+ o Included Debian patch for fig2dev:
+     Remove debug messages on stderr, which irritate xfig
+
+----- version 3.2.4-2 -----
+
+ * Rebuild package.
+ * Include package build script and source code package.
+ * Include Cygwin-specific README and setup.hint.
+
+----- version 3.2.4-1 -----
+
+ * Initial Cygwin release.
+
+
+Cygwin port maintained by: Dr. Volker Zell  <dr.volker.zell@oracle.com>
+Original Cygwin port maintained by: Harold L Hunt II <huntharo@msu.edu>
+
+Please address all questions to the Cygwin mailing list at <cygwin@cygwin.com>

@@ -16,8 +16,8 @@ U gnat.spelling_checker%s  g-speche.ads		4ea82060 NE PU PK
 W gnat%s		gnat.ads		gnat.ali
 
 D gnat.ads		20030424175404 6380ea48
-D g-speche.ads		20031021134206 2d28ca28
-D g-speche.adb		20031021134206 b1b29c80
+D g-speche.ads		20031021134205 2d28ca28
+D g-speche.adb		20031021134205 b1b29c80
 D system.ads		20031021134222 6af26689
 X 1 gnat.ads
 36K9*GNAT 39e9 2|38r9 57r5 3|34r14 155r5

@@ -1803,6 +1803,8 @@ VOID        WINAPI SetLastError(DWORD);
 #endif  /* __i386__ && __GNUC__ */
 
 /* FIXME: should handle platforms where sizeof(void*) != sizeof(long) */
+#if 0
+  /* Unused in libEMF */
 static inline PVOID WINAPI InterlockedCompareExchangePointer( PVOID *dest, PVOID xchg, PVOID compare )
 {
     return (PVOID)InterlockedCompareExchange( (PLONG)dest, (LONG)xchg, (LONG)compare );
@@ -1812,7 +1814,7 @@ static inline PVOID WINAPI InterlockedExchangePointer( PVOID *dest, PVOID val )
 {
     return (PVOID)InterlockedExchange( (PLONG)dest, (LONG)val );
 }
-
+#endif
 #ifdef __WINE__
 #define GetCurrentProcess() ((HANDLE)0xffffffff)
 #define GetCurrentThread()  ((HANDLE)0xfffffffe)

@@ -20,11 +20,13 @@
 #ifndef __GDK_PANGO_H__
 #define __GDK_PANGO_H__
 
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GDK_H_INSIDE__) && !defined (GDK_COMPILATION)
+#error "Only <gdk/gdk.h> can be included directly."
+#endif
+
 #include <gdk/gdktypes.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 /* Pango interaction */
 
@@ -121,12 +123,12 @@ void          gdk_pango_context_set_colormap   (PangoContext *context,
 GdkRegion    *gdk_pango_layout_line_get_clip_region (PangoLayoutLine *line,
                                                      gint             x_origin,
                                                      gint             y_origin,
-                                                     gint            *index_ranges,
+                                                     const gint      *index_ranges,
                                                      gint             n_ranges);
 GdkRegion    *gdk_pango_layout_get_clip_region      (PangoLayout     *layout,
                                                      gint             x_origin,
                                                      gint             y_origin,
-                                                     gint            *index_ranges,
+                                                     const gint      *index_ranges,
                                                      gint             n_ranges);
 
 
@@ -135,6 +137,7 @@ GdkRegion    *gdk_pango_layout_get_clip_region      (PangoLayout     *layout,
 
 typedef struct _GdkPangoAttrStipple GdkPangoAttrStipple;
 typedef struct _GdkPangoAttrEmbossed GdkPangoAttrEmbossed;
+typedef struct _GdkPangoAttrEmbossColor GdkPangoAttrEmbossColor;
 
 struct _GdkPangoAttrStipple
 {
@@ -148,11 +151,16 @@ struct _GdkPangoAttrEmbossed
   gboolean embossed;
 };
 
+struct _GdkPangoAttrEmbossColor
+{
+  PangoAttribute attr;
+  PangoColor color;
+};
+
 PangoAttribute *gdk_pango_attr_stipple_new  (GdkBitmap *stipple);
 PangoAttribute *gdk_pango_attr_embossed_new (gboolean embossed);
+PangoAttribute *gdk_pango_attr_emboss_color_new (const GdkColor *color);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __GDK_FONT_H__ */

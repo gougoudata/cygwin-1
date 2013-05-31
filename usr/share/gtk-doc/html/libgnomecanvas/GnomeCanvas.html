@@ -1,0 +1,1063 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>GnomeCanvas</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.77.1">
+<link rel="home" href="index.html" title="GNOME Canvas Library Reference Manual">
+<link rel="up" href="ch02.html" title="GNOME Canvas Library (libgnomecanvas)">
+<link rel="prev" href="ch02.html" title="GNOME Canvas Library (libgnomecanvas)">
+<link rel="next" href="GnomeCanvasBpath.html" title="GnomeCanvasBpath">
+<meta name="generator" content="GTK-Doc V1.18 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="ch02.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch02.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">GNOME Canvas Library Reference Manual</th>
+<td><a accesskey="n" href="GnomeCanvasBpath.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#GnomeCanvas.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#GnomeCanvas.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#GnomeCanvas.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                   | 
+                  <a href="#GnomeCanvas.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
+                   | 
+                  <a href="#GnomeCanvas.properties" class="shortcut">Properties</a>
+                   | 
+                  <a href="#GnomeCanvas.signals" class="shortcut">Signals</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="GnomeCanvas"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="GnomeCanvas.top_of_page"></a>GnomeCanvas</span></h2>
+<p>GnomeCanvas</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="GnomeCanvas.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+#include &lt;libgnomecanvas/libgnomecanvas.h&gt;
+
+struct              <a class="link" href="GnomeCanvas.html#GnomeCanvas-struct" title="struct GnomeCanvas">GnomeCanvas</a>;
+#define             <a class="link" href="GnomeCanvas.html#GNOME-CANVAS-EPSILON:CAPS" title="GNOME_CANVAS_EPSILON">GNOME_CANVAS_EPSILON</a>
+#define             <a class="link" href="GnomeCanvas.html#GNOME-CANVAS-COLOR:CAPS" title="GNOME_CANVAS_COLOR()">GNOME_CANVAS_COLOR</a>                  (r,
+                                                         g,
+                                                         b)
+#define             <a class="link" href="GnomeCanvas.html#GNOME-CANVAS-COLOR-A:CAPS" title="GNOME_CANVAS_COLOR_A()">GNOME_CANVAS_COLOR_A</a>                (r,
+                                                         g,
+                                                         b,
+                                                         a)
+                    <a class="link" href="GnomeCanvas.html#GnomeCanvasBuf" title="GnomeCanvasBuf">GnomeCanvasBuf</a>;
+<a href="/usr/share/gtk-doc/html/gtk3/GtkWidget.html"><span class="returnvalue">GtkWidget</span></a> *         <a class="link" href="GnomeCanvas.html#gnome-canvas-new" title="gnome_canvas_new ()">gnome_canvas_new</a>                    (<em class="parameter"><code><span class="type">void</span></code></em>);
+<a href="/usr/share/gtk-doc/html/gtk3/GtkWidget.html"><span class="returnvalue">GtkWidget</span></a> *         <a class="link" href="GnomeCanvas.html#gnome-canvas-new-aa" title="gnome_canvas_new_aa ()">gnome_canvas_new_aa</a>                 (<em class="parameter"><code><span class="type">void</span></code></em>);
+<a class="link" href="GnomeCanvasGroup.html" title="GnomeCanvasGroup"><span class="returnvalue">GnomeCanvasGroup</span></a> *  <a class="link" href="GnomeCanvas.html#gnome-canvas-root" title="gnome_canvas_root ()">gnome_canvas_root</a>                   (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="GnomeCanvas.html#gnome-canvas-set-scroll-region" title="gnome_canvas_set_scroll_region ()">gnome_canvas_set_scroll_region</a>      (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> x1</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> y1</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> x2</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> y2</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="GnomeCanvas.html#gnome-canvas-get-scroll-region" title="gnome_canvas_get_scroll_region ()">gnome_canvas_get_scroll_region</a>      (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> *x1</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> *y1</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> *x2</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> *y2</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="GnomeCanvas.html#gnome-canvas-set-center-scroll-region" title="gnome_canvas_set_center_scroll_region ()">gnome_canvas_set_center_scroll_region</a>
+                                                        (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>,
+                                                         <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> center_scroll_region</code></em>);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="GnomeCanvas.html#gnome-canvas-get-center-scroll-region" title="gnome_canvas_get_center_scroll_region ()">gnome_canvas_get_center_scroll_region</a>
+                                                        (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="GnomeCanvas.html#gnome-canvas-set-pixels-per-unit" title="gnome_canvas_set_pixels_per_unit ()">gnome_canvas_set_pixels_per_unit</a>    (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> n</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="GnomeCanvas.html#gnome-canvas-scroll-to" title="gnome_canvas_scroll_to ()">gnome_canvas_scroll_to</a>              (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> cx</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> cy</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="GnomeCanvas.html#gnome-canvas-get-scroll-offsets" title="gnome_canvas_get_scroll_offsets ()">gnome_canvas_get_scroll_offsets</a>     (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> *cx</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> *cy</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="GnomeCanvas.html#gnome-canvas-update-now" title="gnome_canvas_update_now ()">gnome_canvas_update_now</a>             (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>);
+<a class="link" href="GnomeCanvasItem.html" title="GnomeCanvasItem"><span class="returnvalue">GnomeCanvasItem</span></a> *   <a class="link" href="GnomeCanvas.html#gnome-canvas-get-item-at" title="gnome_canvas_get_item_at ()">gnome_canvas_get_item_at</a>            (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> x</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> y</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="GnomeCanvas.html#gnome-canvas-request-redraw-uta" title="gnome_canvas_request_redraw_uta ()">gnome_canvas_request_redraw_uta</a>     (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>,
+                                                         <em class="parameter"><code><span class="type">ArtUta</span> *uta</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="GnomeCanvas.html#gnome-canvas-request-redraw" title="gnome_canvas_request_redraw ()">gnome_canvas_request_redraw</a>         (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> x1</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> y1</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> x2</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> y2</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="GnomeCanvas.html#gnome-canvas-w2c-affine" title="gnome_canvas_w2c_affine ()">gnome_canvas_w2c_affine</a>             (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> affine[6]</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="GnomeCanvas.html#gnome-canvas-w2c" title="gnome_canvas_w2c ()">gnome_canvas_w2c</a>                    (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> wx</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> wy</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> *cx</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> *cy</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="GnomeCanvas.html#gnome-canvas-w2c-d" title="gnome_canvas_w2c_d ()">gnome_canvas_w2c_d</a>                  (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> wx</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> wy</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> *cx</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> *cy</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="GnomeCanvas.html#gnome-canvas-c2w" title="gnome_canvas_c2w ()">gnome_canvas_c2w</a>                    (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> cx</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> cy</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> *wx</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> *wy</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="GnomeCanvas.html#gnome-canvas-window-to-world" title="gnome_canvas_window_to_world ()">gnome_canvas_window_to_world</a>        (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> winx</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> winy</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> *worldx</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> *worldy</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="GnomeCanvas.html#gnome-canvas-world-to-window" title="gnome_canvas_world_to_window ()">gnome_canvas_world_to_window</a>        (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> worldx</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> worldy</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> *winx</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> *winy</code></em>);
+<span class="returnvalue">int</span>                 <a class="link" href="GnomeCanvas.html#gnome-canvas-get-color" title="gnome_canvas_get_color ()">gnome_canvas_get_color</a>              (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *spec</code></em>,
+                                                         <em class="parameter"><code><a href="/usr/share/gtk-doc/html/gdk3/gdk3-Colors.html#GdkColor"><span class="type">GdkColor</span></a> *color</code></em>);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gulong"><span class="returnvalue">gulong</span></a>              <a class="link" href="GnomeCanvas.html#gnome-canvas-get-color-pixel" title="gnome_canvas_get_color_pixel ()">gnome_canvas_get_color_pixel</a>        (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>,
+                                                         <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="type">guint</span></a> rgba</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="GnomeCanvas.html#gnome-canvas-set-stipple-origin" title="gnome_canvas_set_stipple_origin ()">gnome_canvas_set_stipple_origin</a>     (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>,
+                                                         <em class="parameter"><code><a href="/usr/share/gtk-doc/html/gdk2/gdk2-Graphics-Contexts.html#GdkGC"><span class="type">GdkGC</span></a> *gc</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="GnomeCanvas.html#gnome-canvas-set-dither" title="gnome_canvas_set_dither ()">gnome_canvas_set_dither</a>             (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>,
+                                                         <em class="parameter"><code><a href="/usr/share/gtk-doc/html/gdk2/gdk2-GdkRGB.html#GdkRgbDither"><span class="type">GdkRgbDither</span></a> dither</code></em>);
+<a href="/usr/share/gtk-doc/html/gdk2/gdk2-GdkRGB.html#GdkRgbDither"><span class="returnvalue">GdkRgbDither</span></a>        <a class="link" href="GnomeCanvas.html#gnome-canvas-get-dither" title="gnome_canvas_get_dither ()">gnome_canvas_get_dither</a>             (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="GnomeCanvas.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  <a href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+   +----<a href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GInitiallyUnowned">GInitiallyUnowned</a>
+         +----<a href="/usr/share/gtk-doc/html/gtk2/GtkObject.html">GtkObject</a>
+               +----<a href="/usr/share/gtk-doc/html/gtk3/GtkWidget.html">GtkWidget</a>
+                     +----<a href="/usr/share/gtk-doc/html/gtk3/GtkContainer.html">GtkContainer</a>
+                           +----<a href="/usr/share/gtk-doc/html/gtk3/GtkLayout.html">GtkLayout</a>
+                                 +----GnomeCanvas
+</pre>
+</div>
+<div class="refsect1">
+<a name="GnomeCanvas.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
+<p>
+GnomeCanvas implements
+ AtkImplementorIface and  <a href="/usr/share/gtk-doc/html/gtk3/GtkBuildable.html">GtkBuildable</a>.</p>
+</div>
+<div class="refsect1">
+<a name="GnomeCanvas.properties"></a><h2>Properties</h2>
+<pre class="synopsis">
+  "<a class="link" href="GnomeCanvas.html#GnomeCanvas--aa" title='The "aa" property'>aa</a>"                       <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write / Construct Only
+  "<a class="link" href="GnomeCanvas.html#GnomeCanvas--focused-item" title='The "focused-item" property'>focused-item</a>"             <a class="link" href="GnomeCanvasItem.html" title="GnomeCanvasItem"><span class="type">GnomeCanvasItem</span></a>*      : Read / Write
+</pre>
+</div>
+<div class="refsect1">
+<a name="GnomeCanvas.signals"></a><h2>Signals</h2>
+<pre class="synopsis">
+  "<a class="link" href="GnomeCanvas.html#GnomeCanvas-draw-background" title='The "draw-background" signal'>draw-background</a>"                                : <a href="/usr/share/gtk-doc/html/gobject/gobject-Signals.html#G-SIGNAL-RUN-LAST:CAPS"><code class="literal">Run Last</code></a>
+  "<a class="link" href="GnomeCanvas.html#GnomeCanvas-render-background" title='The "render-background" signal'>render-background</a>"                              : <a href="/usr/share/gtk-doc/html/gobject/gobject-Signals.html#G-SIGNAL-RUN-LAST:CAPS"><code class="literal">Run Last</code></a>
+</pre>
+</div>
+<div class="refsect1">
+<a name="GnomeCanvas.description"></a><h2>Description</h2>
+</div>
+<div class="refsect1">
+<a name="GnomeCanvas.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="GnomeCanvas-struct"></a><h3>struct GnomeCanvas</h3>
+<pre class="programlisting">struct GnomeCanvas;</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GNOME-CANVAS-EPSILON:CAPS"></a><h3>GNOME_CANVAS_EPSILON</h3>
+<pre class="programlisting">#define GNOME_CANVAS_EPSILON 1e-10
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GNOME-CANVAS-COLOR:CAPS"></a><h3>GNOME_CANVAS_COLOR()</h3>
+<pre class="programlisting">#define             GNOME_CANVAS_COLOR(r, g, b)</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GNOME-CANVAS-COLOR-A:CAPS"></a><h3>GNOME_CANVAS_COLOR_A()</h3>
+<pre class="programlisting">#define             GNOME_CANVAS_COLOR_A(r, g, b, a)</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvasBuf"></a><h3>GnomeCanvasBuf</h3>
+<pre class="programlisting">typedef struct {
+	/* 24-bit RGB buffer for rendering */
+	guchar *buf;
+
+	/* Rectangle describing the rendering area */
+	ArtIRect rect;
+
+	/* Rowstride for the buffer */
+	int buf_rowstride;
+
+	/* Background color, given as 0xrrggbb */
+	guint32 bg_color;
+
+	/* Invariant: at least one of the following flags is true. */
+
+	/* Set when the render rectangle area is the solid color bg_color */
+	unsigned int is_bg : 1;
+
+	/* Set when the render rectangle area is represented by the buf */
+	unsigned int is_buf : 1;
+} GnomeCanvasBuf;
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gnome-canvas-new"></a><h3>gnome_canvas_new ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/gtk3/GtkWidget.html"><span class="returnvalue">GtkWidget</span></a> *         gnome_canvas_new                    (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+Creates a new empty canvas in non-antialiased mode.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>A newly-created canvas.</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gnome-canvas-new-aa"></a><h3>gnome_canvas_new_aa ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/gtk3/GtkWidget.html"><span class="returnvalue">GtkWidget</span></a> *         gnome_canvas_new_aa                 (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+Creates a new empty canvas in antialiased mode.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>A newly-created antialiased canvas.</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gnome-canvas-root"></a><h3>gnome_canvas_root ()</h3>
+<pre class="programlisting"><a class="link" href="GnomeCanvasGroup.html" title="GnomeCanvasGroup"><span class="returnvalue">GnomeCanvasGroup</span></a> *  gnome_canvas_root                   (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>);</pre>
+<p>
+Queries the root group of a canvas.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>canvas</code></em> :</span></p></td>
+<td>A canvas.</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>The root group of the specified canvas.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gnome-canvas-set-scroll-region"></a><h3>gnome_canvas_set_scroll_region ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gnome_canvas_set_scroll_region      (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> x1</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> y1</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> x2</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> y2</code></em>);</pre>
+<p>
+Sets the scrolling region of a canvas to the specified rectangle.  The canvas
+will then be able to scroll only within this region.  The view of the canvas
+is adjusted as appropriate to display as much of the new region as possible.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>canvas</code></em> :</span></p></td>
+<td>A canvas.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>x1</code></em> :</span></p></td>
+<td>Leftmost limit of the scrolling region.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>y1</code></em> :</span></p></td>
+<td>Upper limit of the scrolling region.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>x2</code></em> :</span></p></td>
+<td>Rightmost limit of the scrolling region.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>y2</code></em> :</span></p></td>
+<td>Lower limit of the scrolling region.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gnome-canvas-get-scroll-region"></a><h3>gnome_canvas_get_scroll_region ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gnome_canvas_get_scroll_region      (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> *x1</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> *y1</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> *x2</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> *y2</code></em>);</pre>
+<p>
+Queries the scrolling region of a canvas.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>canvas</code></em> :</span></p></td>
+<td>A canvas.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>x1</code></em> :</span></p></td>
+<td>Leftmost limit of the scrolling region (return value).</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>y1</code></em> :</span></p></td>
+<td>Upper limit of the scrolling region (return value).</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>x2</code></em> :</span></p></td>
+<td>Rightmost limit of the scrolling region (return value).</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>y2</code></em> :</span></p></td>
+<td>Lower limit of the scrolling region (return value).</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gnome-canvas-set-center-scroll-region"></a><h3>gnome_canvas_set_center_scroll_region ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gnome_canvas_set_center_scroll_region
+                                                        (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>,
+                                                         <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> center_scroll_region</code></em>);</pre>
+<p>
+When the scrolling region of the canvas is smaller than the canvas window,
+e.g.  the allocation of the canvas, it can be either centered on the window
+or simply made to be on the upper-left corner on the window.  This function
+lets you configure this property.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>canvas</code></em> :</span></p></td>
+<td>A canvas.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>center_scroll_region</code></em> :</span></p></td>
+<td>Whether to center the scrolling region in the canvas
+window when it is smaller than the canvas' allocation.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gnome-canvas-get-center-scroll-region"></a><h3>gnome_canvas_get_center_scroll_region ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gnome_canvas_get_center_scroll_region
+                                                        (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>);</pre>
+<p>
+Returns whether the canvas is set to center the scrolling region in the window
+if the former is smaller than the canvas' allocation.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>canvas</code></em> :</span></p></td>
+<td>A canvas.</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>Whether the scroll region is being centered in the canvas window.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gnome-canvas-set-pixels-per-unit"></a><h3>gnome_canvas_set_pixels_per_unit ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gnome_canvas_set_pixels_per_unit    (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> n</code></em>);</pre>
+<p>
+Sets the zooming factor of a canvas by specifying the number of pixels that
+correspond to one canvas unit.
+</p>
+<p>
+The anchor point for zooming, i.e. the point that stays fixed and all others
+zoom inwards or outwards from it, depends on whether the canvas is set to
+center the scrolling region or not.  You can control this using the
+<a class="link" href="GnomeCanvas.html#gnome-canvas-set-center-scroll-region" title="gnome_canvas_set_center_scroll_region ()"><code class="function">gnome_canvas_set_center_scroll_region()</code></a> function.  If the canvas is set to
+center the scroll region, then the center of the canvas window is used as the
+anchor point for zooming.  Otherwise, the upper-left corner of the canvas
+window is used as the anchor point.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>canvas</code></em> :</span></p></td>
+<td>A canvas.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>n</code></em> :</span></p></td>
+<td>The number of pixels that correspond to one canvas unit.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gnome-canvas-scroll-to"></a><h3>gnome_canvas_scroll_to ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gnome_canvas_scroll_to              (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> cx</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> cy</code></em>);</pre>
+<p>
+Makes a canvas scroll to the specified offsets, given in canvas pixel units.
+The canvas will adjust the view so that it is not outside the scrolling
+region.  This function is typically not used, as it is better to hook
+scrollbars to the canvas layout's scrolling adjusments.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>canvas</code></em> :</span></p></td>
+<td>A canvas.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cx</code></em> :</span></p></td>
+<td>Horizontal scrolling offset in canvas pixel units.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cy</code></em> :</span></p></td>
+<td>Vertical scrolling offset in canvas pixel units.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gnome-canvas-get-scroll-offsets"></a><h3>gnome_canvas_get_scroll_offsets ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gnome_canvas_get_scroll_offsets     (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> *cx</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> *cy</code></em>);</pre>
+<p>
+Queries the scrolling offsets of a canvas.  The values are returned in canvas
+pixel units.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>canvas</code></em> :</span></p></td>
+<td>A canvas.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cx</code></em> :</span></p></td>
+<td>Horizontal scrolling offset (return value).</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cy</code></em> :</span></p></td>
+<td>Vertical scrolling offset (return value).</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gnome-canvas-update-now"></a><h3>gnome_canvas_update_now ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gnome_canvas_update_now             (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>);</pre>
+<p>
+Forces an immediate update and redraw of a canvas.  If the canvas does not
+have any pending update or redraw requests, then no action is taken.  This is
+typically only used by applications that need explicit control of when the
+display is updated, like games.  It is not needed by normal applications.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>canvas</code></em> :</span></p></td>
+<td>A canvas.</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gnome-canvas-get-item-at"></a><h3>gnome_canvas_get_item_at ()</h3>
+<pre class="programlisting"><a class="link" href="GnomeCanvasItem.html" title="GnomeCanvasItem"><span class="returnvalue">GnomeCanvasItem</span></a> *   gnome_canvas_get_item_at            (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> x</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> y</code></em>);</pre>
+<p>
+Looks for the item that is under the specified position, which must be
+specified in world coordinates.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>canvas</code></em> :</span></p></td>
+<td>A canvas.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>x</code></em> :</span></p></td>
+<td>X position in world coordinates.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>y</code></em> :</span></p></td>
+<td>Y position in world coordinates.</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>The sought item, or NULL if no item is at the specified
+coordinates.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gnome-canvas-request-redraw-uta"></a><h3>gnome_canvas_request_redraw_uta ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gnome_canvas_request_redraw_uta     (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>,
+                                                         <em class="parameter"><code><span class="type">ArtUta</span> *uta</code></em>);</pre>
+<p>
+Informs a canvas that the specified area, given as a microtile array, needs
+to be repainted.  To be used only by item implementations.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>canvas</code></em> :</span></p></td>
+<td>A canvas.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uta</code></em> :</span></p></td>
+<td>Microtile array that specifies the area to be redrawn.  It will
+be freed by this function, so the argument you pass will be invalid
+after you call this function.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gnome-canvas-request-redraw"></a><h3>gnome_canvas_request_redraw ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gnome_canvas_request_redraw         (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> x1</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> y1</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> x2</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> y2</code></em>);</pre>
+<p>
+Convenience function that informs a canvas that the specified rectangle needs
+to be repainted.  This function converts the rectangle to a microtile array
+and feeds it to <a class="link" href="GnomeCanvas.html#gnome-canvas-request-redraw-uta" title="gnome_canvas_request_redraw_uta ()"><code class="function">gnome_canvas_request_redraw_uta()</code></a>.  The rectangle includes
+<em class="parameter"><code>x1</code></em> and <em class="parameter"><code>y1</code></em>, but not <em class="parameter"><code>x2</code></em> and <em class="parameter"><code>y2</code></em>.  To be used only by item implementations.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>canvas</code></em> :</span></p></td>
+<td>A canvas.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>x1</code></em> :</span></p></td>
+<td>Leftmost coordinate of the rectangle to be redrawn.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>y1</code></em> :</span></p></td>
+<td>Upper coordinate of the rectangle to be redrawn.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>x2</code></em> :</span></p></td>
+<td>Rightmost coordinate of the rectangle to be redrawn, plus 1.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>y2</code></em> :</span></p></td>
+<td>Lower coordinate of the rectangle to be redrawn, plus 1.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gnome-canvas-w2c-affine"></a><h3>gnome_canvas_w2c_affine ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gnome_canvas_w2c_affine             (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> affine[6]</code></em>);</pre>
+<p>
+Gets the affine transform that converts from world coordinates to canvas
+pixel coordinates.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>canvas</code></em> :</span></p></td>
+<td>A canvas.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>affine</code></em> :</span></p></td>
+<td>An affine transformation matrix (return value).</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gnome-canvas-w2c"></a><h3>gnome_canvas_w2c ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gnome_canvas_w2c                    (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> wx</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> wy</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> *cx</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> *cy</code></em>);</pre>
+<p>
+Converts world coordinates into canvas pixel coordinates.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>canvas</code></em> :</span></p></td>
+<td>A canvas.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>wx</code></em> :</span></p></td>
+<td>World X coordinate.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>wy</code></em> :</span></p></td>
+<td>World Y coordinate.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cx</code></em> :</span></p></td>
+<td>X pixel coordinate (return value).</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cy</code></em> :</span></p></td>
+<td>Y pixel coordinate (return value).</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gnome-canvas-w2c-d"></a><h3>gnome_canvas_w2c_d ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gnome_canvas_w2c_d                  (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> wx</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> wy</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> *cx</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> *cy</code></em>);</pre>
+<p>
+Converts world coordinates into canvas pixel coordinates.  This
+version returns coordinates in floating point coordinates, for
+greater precision.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>canvas</code></em> :</span></p></td>
+<td>A canvas.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>wx</code></em> :</span></p></td>
+<td>World X coordinate.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>wy</code></em> :</span></p></td>
+<td>World Y coordinate.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cx</code></em> :</span></p></td>
+<td>X pixel coordinate (return value).</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cy</code></em> :</span></p></td>
+<td>Y pixel coordinate (return value).</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gnome-canvas-c2w"></a><h3>gnome_canvas_c2w ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gnome_canvas_c2w                    (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> cx</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> cy</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> *wx</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> *wy</code></em>);</pre>
+<p>
+Converts canvas pixel coordinates to world coordinates.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>canvas</code></em> :</span></p></td>
+<td>A canvas.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cx</code></em> :</span></p></td>
+<td>Canvas pixel X coordinate.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cy</code></em> :</span></p></td>
+<td>Canvas pixel Y coordinate.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>wx</code></em> :</span></p></td>
+<td>X world coordinate (return value).</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>wy</code></em> :</span></p></td>
+<td>Y world coordinate (return value).</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gnome-canvas-window-to-world"></a><h3>gnome_canvas_window_to_world ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gnome_canvas_window_to_world        (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> winx</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> winy</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> *worldx</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> *worldy</code></em>);</pre>
+<p>
+Converts window-relative coordinates into world coordinates.  You can use
+this when you need to convert mouse coordinates into world coordinates, for
+example.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>canvas</code></em> :</span></p></td>
+<td>A canvas.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>winx</code></em> :</span></p></td>
+<td>Window-relative X coordinate.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>winy</code></em> :</span></p></td>
+<td>Window-relative Y coordinate.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>worldx</code></em> :</span></p></td>
+<td>X world coordinate (return value).</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>worldy</code></em> :</span></p></td>
+<td>Y world coordinate (return value).</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gnome-canvas-world-to-window"></a><h3>gnome_canvas_world_to_window ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gnome_canvas_world_to_window        (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> worldx</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> worldy</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> *winx</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> *winy</code></em>);</pre>
+<p>
+Converts world coordinates into window-relative coordinates.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>canvas</code></em> :</span></p></td>
+<td>A canvas.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>worldx</code></em> :</span></p></td>
+<td>World X coordinate.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>worldy</code></em> :</span></p></td>
+<td>World Y coordinate.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>winx</code></em> :</span></p></td>
+<td>X window-relative coordinate.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>winy</code></em> :</span></p></td>
+<td>Y window-relative coordinate.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gnome-canvas-get-color"></a><h3>gnome_canvas_get_color ()</h3>
+<pre class="programlisting"><span class="returnvalue">int</span>                 gnome_canvas_get_color              (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *spec</code></em>,
+                                                         <em class="parameter"><code><a href="/usr/share/gtk-doc/html/gdk3/gdk3-Colors.html#GdkColor"><span class="type">GdkColor</span></a> *color</code></em>);</pre>
+<p>
+Allocates a color based on the specified X color specification.  As a
+convenience to item implementations, it returns TRUE if the color was
+allocated, or FALSE if the specification was NULL.  A NULL color
+specification is considered as "transparent" by the canvas.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>canvas</code></em> :</span></p></td>
+<td>A canvas.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>spec</code></em> :</span></p></td>
+<td>X color specification, or NULL for "transparent".</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>color</code></em> :</span></p></td>
+<td>Returns the allocated color.</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>TRUE if <em class="parameter"><code>spec</code></em> is non-NULL and the color is allocated.  If <em class="parameter"><code>spec</code></em>
+is NULL, then returns FALSE.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gnome-canvas-get-color-pixel"></a><h3>gnome_canvas_get_color_pixel ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gulong"><span class="returnvalue">gulong</span></a>              gnome_canvas_get_color_pixel        (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>,
+                                                         <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="type">guint</span></a> rgba</code></em>);</pre>
+<p>
+Allocates a color from the RGBA value passed into this function.  The alpha
+opacity value is discarded, since normal X colors do not support it.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>canvas</code></em> :</span></p></td>
+<td>A canvas.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>rgba</code></em> :</span></p></td>
+<td>RGBA color specification.</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>Allocated pixel value corresponding to the specified color.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gnome-canvas-set-stipple-origin"></a><h3>gnome_canvas_set_stipple_origin ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gnome_canvas_set_stipple_origin     (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>,
+                                                         <em class="parameter"><code><a href="/usr/share/gtk-doc/html/gdk2/gdk2-Graphics-Contexts.html#GdkGC"><span class="type">GdkGC</span></a> *gc</code></em>);</pre>
+<p>
+Sets the stipple origin of the specified GC as is appropriate for the canvas,
+so that it will be aligned with other stipple patterns used by canvas items.
+This is typically only needed by item implementations.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>canvas</code></em> :</span></p></td>
+<td>A canvas.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gc</code></em> :</span></p></td>
+<td>GC on which to set the stipple origin.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gnome-canvas-set-dither"></a><h3>gnome_canvas_set_dither ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gnome_canvas_set_dither             (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>,
+                                                         <em class="parameter"><code><a href="/usr/share/gtk-doc/html/gdk2/gdk2-GdkRGB.html#GdkRgbDither"><span class="type">GdkRgbDither</span></a> dither</code></em>);</pre>
+<p>
+Controls dithered rendering for antialiased canvases. The value of
+dither should be <a href="/usr/share/gtk-doc/html/gdk2/gdk2-GdkRGB.html#GDK-RGB-DITHER-NONE:CAPS"><span class="type">GDK_RGB_DITHER_NONE</span></a>, <a href="/usr/share/gtk-doc/html/gdk2/gdk2-GdkRGB.html#GDK-RGB-DITHER-NORMAL:CAPS"><span class="type">GDK_RGB_DITHER_NORMAL</span></a>, or
+<a href="/usr/share/gtk-doc/html/gdk2/gdk2-GdkRGB.html#GDK-RGB-DITHER-MAX:CAPS"><span class="type">GDK_RGB_DITHER_MAX</span></a>. The default canvas setting is
+<a href="/usr/share/gtk-doc/html/gdk2/gdk2-GdkRGB.html#GDK-RGB-DITHER-NORMAL:CAPS"><span class="type">GDK_RGB_DITHER_NORMAL</span></a>.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>canvas</code></em> :</span></p></td>
+<td>A canvas.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dither</code></em> :</span></p></td>
+<td>Type of dithering used to render an antialiased canvas.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gnome-canvas-get-dither"></a><h3>gnome_canvas_get_dither ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/gdk2/gdk2-GdkRGB.html#GdkRgbDither"><span class="returnvalue">GdkRgbDither</span></a>        gnome_canvas_get_dither             (<em class="parameter"><code><a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas</code></em>);</pre>
+<p>
+Returns the type of dithering used to render an antialiased canvas.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>canvas</code></em> :</span></p></td>
+<td>A canvas.</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>The dither setting.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1">
+<a name="GnomeCanvas.property-details"></a><h2>Property Details</h2>
+<div class="refsect2">
+<a name="GnomeCanvas--aa"></a><h3>The <code class="literal">"aa"</code> property</h3>
+<pre class="programlisting">  "aa"                       <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write / Construct Only</pre>
+<p>The antialiasing mode of the canvas.</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvas--focused-item"></a><h3>The <code class="literal">"focused-item"</code> property</h3>
+<pre class="programlisting">  "focused-item"             <a class="link" href="GnomeCanvasItem.html" title="GnomeCanvasItem"><span class="type">GnomeCanvasItem</span></a>*      : Read / Write</pre>
+<p></p>
+</div>
+</div>
+<div class="refsect1">
+<a name="GnomeCanvas.signal-details"></a><h2>Signal Details</h2>
+<div class="refsect2">
+<a name="GnomeCanvas-draw-background"></a><h3>The <code class="literal">"draw-background"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas,
+                                                        <a href="/usr/share/gtk-doc/html/gdk2/gdk2-Drawing-Primitives.html#GdkDrawable"><span class="type">GdkDrawable</span></a> *arg1,
+                                                        <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a>         arg2,
+                                                        <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a>         arg3,
+                                                        <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a>         arg4,
+                                                        <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a>         arg5,
+                                                        <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>     user_data)      : <a href="/usr/share/gtk-doc/html/gobject/gobject-Signals.html#G-SIGNAL-RUN-LAST:CAPS"><code class="literal">Run Last</code></a></pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GnomeCanvas-render-background"></a><h3>The <code class="literal">"render-background"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="GnomeCanvas.html" title="GnomeCanvas"><span class="type">GnomeCanvas</span></a> *canvas,
+                                                        <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>     arg1,
+                                                        <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>     user_data)      : <a href="/usr/share/gtk-doc/html/gobject/gobject-Signals.html#G-SIGNAL-RUN-LAST:CAPS"><code class="literal">Run Last</code></a></pre>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.18</div>
+</body>
+</html>

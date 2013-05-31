@@ -31,14 +31,22 @@
 #define CPPUNIT_HAVE_DLFCN_H  1 
 #endif
 
-/* define if the compiler supports GCC C++ ABI name demangling */
-#ifndef CPPUNIT_HAVE_GCC_ABI_DEMANGLE 
-#define CPPUNIT_HAVE_GCC_ABI_DEMANGLE  1 
+/* Define to 1 if you have the `finite' function. */
+#ifndef CPPUNIT_HAVE_FINITE 
+#define CPPUNIT_HAVE_FINITE  1 
 #endif
+
+/* define if the compiler supports GCC C++ ABI name demangling */
+/* #undef CPPUNIT_HAVE_GCC_ABI_DEMANGLE */
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 #ifndef CPPUNIT_HAVE_INTTYPES_H 
 #define CPPUNIT_HAVE_INTTYPES_H  1 
+#endif
+
+/* define if compiler has isfinite */
+#ifndef CPPUNIT_HAVE_ISFINITE 
+#define CPPUNIT_HAVE_ISFINITE  1 
 #endif
 
 /* Define if you have the libdl library or equivalent. */
@@ -109,6 +117,12 @@
 #define CPPUNIT_HAVE_UNISTD_H  1 
 #endif
 
+/* Define to the sub-directory in which libtool stores uninstalled libraries.
+   */
+#ifndef CPPUNIT_LT_OBJDIR 
+#define CPPUNIT_LT_OBJDIR  ".libs/" 
+#endif
+
 /* Name of package */
 #ifndef CPPUNIT_PACKAGE 
 #define CPPUNIT_PACKAGE  "cppunit" 
@@ -134,6 +148,11 @@
 #define CPPUNIT_PACKAGE_TARNAME  "" 
 #endif
 
+/* Define to the home page for this package. */
+#ifndef CPPUNIT_PACKAGE_URL 
+#define CPPUNIT_PACKAGE_URL  "" 
+#endif
+
 /* Define to the version of this package. */
 #ifndef CPPUNIT_PACKAGE_VERSION 
 #define CPPUNIT_PACKAGE_VERSION  "" 
@@ -151,7 +170,7 @@
 
 /* Version number of package */
 #ifndef CPPUNIT_VERSION 
-#define CPPUNIT_VERSION  "1.12.0" 
+#define CPPUNIT_VERSION  "1.12.1" 
 #endif
  
 /* _INCLUDE_CPPUNIT_CONFIG_AUTO_H */

@@ -1,0 +1,187 @@
+NEWS - list of user-visible changes between releases of LibGII
+
+New in 0.9.0: 2004-11-30:
+- Documentation updates
+- KII target improvements
+    - minor fixes to button and symbol handling
+    - handle labels correctly now
+    - merge improvements from the FreeBSD ports tree
+- works on Windows using MinGW w/o requiring special Makefiles.
+- task scheduler as an abstraction for platform independent threads.
+- DirectX target improvements
+    - Tries to use the actual keyboard layout, and only fall back
+      to the hardcoded defines when that does not work.
+    - Makes shift and caps lock bring you capital letters.
+    - Dead keys support (GIIK_VOID in sym, synthetic press/release
+      events if non-matching key is hit after the dead key).
+    - Renamed Caps, Num and Scroll to CapsLock, NumLock etc.
+    - Mouse wheel support.
+    - Support for up to 8 mouse buttons (2 previously).
+    - Support for emPtrRelative.
+    - Preliminary support for emPtrRelative.
+    - Fixed a bug so that a lot of surplus emPtrAbsolute events are
+      killed.
+    - Support for various game controllers.
+    - The mouse and the keyboard are separated into two devices.
+    - Emulates key repeat messages.
+^L
+
+New in 0.8.7: 2004-11-30:
+* hotfix: input-linux-evdev: fix compiling error where KEY_103RD is not defined (SuSE 9.1)
+* minor buildsystem update
+* use more length bounded string operations
+^L
+
+New in 0.8.6: 2004-09-14:
+* ggGetUserDir(3): Eliminate race condition
+* ggGetUserDir(3): Fix memory leak on Darwin when $HOME is not set
+* Bugfix: ensure aligned memory access in event handling. Fixes crash on NetBSD/sparc64
+* giiSplitInputs(3): make it work - finds the actual input
+* config file parsing fixes
+^L
+
+New in 0.8.5: 2004-05-29:
+* add hotfix to make libgii compile for linux users,
+  who uses kernel 2.6 headers to compile their userland. Fixes Debian bug #224802
+* libtool update. Fixes Debian bug #208288.
+* add 'See Also' section to libgii(7) manpage and lots of other documentation updates
+* build system updates
+* linux_kbd fix: read unicode symbols correctly. Patch from Aurelien Reynaud.
+* focus pulling fix in xwin/x: Key focus should
+  no longer get lost, when the mouse is NOT over the window.
+  Note, input-x need to know some little more information from libggi's
+  display-X. So don't forget to update libggi's display-X as well,
+  otherwise you may experience everything from strange input behaviour to crashes.
+^L
+
+New in 0.8.4: 2003-12-21:
+* gcc 3.3 warning fix (warnings caused by <ggi/gg.h>:194 fixed)
+* hotfixes for libgii 0.8.3
+* fixed memory leak on unloading modules under Darwin
+^L
+
+New in 0.8.3: 2003-03-19;
+* The two hotfixes for libgii 0.8.2
+* manpage fixes
+* several minor fixes
+^L
+
+New in 0.8.2: 2002-12-26;
+* Misc bugfixes (see ChangeLog).
+* Huge Documentation update.
+* Threadsafety fixes
+* LibGG: New supported platform: Darwin
+* Major build system update
+  - autoconf 2.5x works now
+  - build fixes for many platforms
+* input-kii
+  - new input target. Works for many KGI users, but
+    still not for everyone.
+  - still very experimental, thus disabled by default
+* input-x/input-xwin
+  - handle GraphicExpose events
+* input-ipaq
+  - new touchscreen input for Compaq iPaq from Tobias
+* input-zaurus
+  - new touchscreen input for Sharp Zaurus from Tobias
+^L
+
+New in 0.8.1: 2001-08-26;
+* Nothing much in the code except the usual minor fixes.
+* The build process is improved.
+^L
+
+New in 0.8: 2001-07-10;
+* Misc bugfixes (see ChangeLog).
+* Huge Documentation update.
+* New API: giiSplitInputs()
+* input-linux-evdev
+  - Bugfixes from Stephan
+* input-directx
+  - Update
+* input-vgl
+  - small build fix for FreeBSD
+^L
+
+New in 0.7: 2000-12-18;
+* Portability fixes for non-Linux platforms.
+* Preliminary Win32 support.
+* All headers should be C++ compatible now.
+* Misc bugfixes (see ChangeLog).
+* Documentation updates.
+* Renamed GGI_ELOCKBUSY to GGI_EBUSY.
+* New LibGG functions ggCurTime() and ggConfigExpandAlias().
+* LibGG now uses it's own mutexes when compiled with gcc - no more
+  pthreads and dynamic linker bugs.
+* Support compiler type checking on gii_input_t.
+* New command events GII_CMDCODE_PREFER_ABSPTR and GII_CMDCODE_PREFER_RELPTR.
+
+* input-linux-evdev
+  - New target to support the new evdev input API present in Linux 2.4 and
+    2.2.18. Should handle mice, joysticks and keyboards.
+* input-linux-mouse
+  - Improved autodetection of mousetype.
+* input-mouse
+  - 3 button support for MS protocol.
+  - 4 button support for IMPS/2 protocol.
+* input-x/input-xwin
+  - Prevent events from lagging in the socket queue in apps that don't call
+    XFLush/XSync frequently.
+* input-vgl
+  - New inputlib for FreeBSD's VGL library.
+* input-directx
+  - New inputlib for DirectInput on Win32.
+* filter-keytrans
+  - Added new filter to arbitrarily remap key events.
+
+
+New in 0.6: 1999-05-17;
+* Portability fixes for non-Linux platforms.
+* Misc bugfixes (see ChangeLog).
+* Minor documentation updates.
+* New API function giiQueryDeviceInfoByNumber().
+* New GII_EV_TARGET_QUEUE value for "target" in giiSendEvent().
+* Thread fixes for event queues - now it's possible to have one thread
+  block with giiEventPoll/Read, feed events with giiSendEvent() from another
+  thread, and have the first thread unblock.
+* Fixes and improvements for the cleanup stuff in LibGG.
+
+* input-linux-kbd
+  - Fixed to compile on pre 2.2 kernels.
+  - Pressing dead key+space now works properly.
+  - Better handling of Backspace/Delete.
+  - PrintScreen now works.
+  - If Win* keys are not mapped to anything by the kernel we map them to
+    Left/Right Meta and GIIK_Menu respectively.
+
+
+New in 0.5: 1999-04-01;
+* Portability fixes for non-Linux platforms.
+* Lots of bugfixes.
+* Documentation updates.
+* Optimized the event handling.
+* Option values in ggParseOption() are allowed to be quoted (with ") and have
+  escapes (using \) (but no special escapes like \n yet).
+* New API functions giiEventSelect()
+* giiGetSelectFdset() removed
+* Much more consisten keyboard handling between Linux-console and X.
+* Added support for dead keys, CapsLock, NumLock and keyboard LEDs.
+* Hack to tell left/right shift and control from eachother.
+* Unified filter/input handling, now filters are much nicer.
+* Support for querying device info without  using events.
+
+* input-linux-kbd
+  - Make sure keys does not get stuck when the VT is switched away.
+  - Fixed shift-state bug.
+* input-linux-mouse
+  - Improved autodetection of mousetype.
+* input-xwin/input-x
+  - Fixed missing key-release bug.
+* input-x
+  - Fixed to work with WMs that use interactive placement of windows.
+* input-file
+  - New inputlib which will read events from a file saved by filter-save.
+    Can be used to replay demos of LibGGI applications.
+* filter-mouse
+  - Support for mouse acceleration.
+

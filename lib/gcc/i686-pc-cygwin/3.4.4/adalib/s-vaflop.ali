@@ -21,8 +21,8 @@ W system.string_ops%s	s-strops.adb		s-strops.ali
 U system.vax_float_operations%s  s-vaflop.ads	e5c3fe8b BN NE PK
 W system%s		system.ads		system.ali
 
-D ada.ads		20030424175358 a0108083
-D a-except.ads		20031021134154 a1717b33
+D ada.ads		20030424175357 a0108083
+D a-except.ads		20031021134153 a1717b33
 D system.ads		20031021134222 6af26689
 D s-imgrea.ads		20030424175410 c794931b
 D s-io.ads		20030424175410 3125a6e8
@@ -30,12 +30,12 @@ D s-secsta.ads		20040105152046 7804722c
 D s-soflin.ads		20031021134214 14059e84
 D s-stache.ads		20031021134214 6135f334
 D s-stalib.ads		20031021134214 e7ad2af0
-D s-stoele.ads		20050603190336 5a73170b
-D s-stoele.adb		20030424175414 792079f8
+D s-stoele.ads		20050603200336 5a73170b
+D s-stoele.adb		20030424175413 792079f8
 D s-strops.ads		20031021134214 ef352bfb
-D s-sopco3.ads		20030424175414 fb5c3964
-D s-sopco4.ads		20030424175414 3cc42ca6
-D s-sopco5.ads		20030424175414 57309ce3
+D s-sopco3.ads		20030424175413 fb5c3964
+D s-sopco4.ads		20030424175413 3cc42ca6
+D s-sopco5.ads		20030424175413 57309ce3
 D s-traent.ads		20031021134218 e81a0978
 D s-vaflop.ads		20031021134218 8f319802
 D s-vaflop.adb		20030424175414 7535139d

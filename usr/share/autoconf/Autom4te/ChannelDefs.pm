@@ -1,9 +1,10 @@
-# Copyright (C) 2002, 2003, 2006 Free Software Foundation, Inc.
+# Copyright (C) 2002-2003, 2006, 2008-2012 Free Software Foundation,
+# Inc.
 
-# This program is free software; you can redistribute it and/or modify
+# This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2, or (at your option)
-# any later version.
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
 
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -11,9 +12,7 @@
 # GNU General Public License for more details.
 
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-# 02110-1301, USA.
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package Autom4te::ChannelDefs;
 
@@ -36,19 +35,19 @@ Autom4te::ChannelDefs - channel definitions for Automake and helper functions
   verb ($MESSAGE, [%OPTIONS]);
   switch_warning ($CATEGORY);
   parse_WARNINGS ();
-  parse_warnings ($OPTION, $ARGUMENT);
+  parse_warnings ($OPTION, @ARGUMENT);
   Autom4te::ChannelDefs::set_strictness ($STRICTNESS_NAME);
 
 =head1 DESCRIPTION
 
-This packages defines channels that can be used in Automake to
+This package defines channels that can be used in Automake to
 output diagnostics and other messages (via C<msg()>).  It also defines
 some helper function to enable or disable these channels, and some
 shorthand function to output on specific channels.
 
 =cut
 
-use 5.005;
+use 5.006;
 use strict;
 use Exporter;
 
@@ -72,7 +71,7 @@ Fatal errors.  Use C<&fatal> to send messages over this channel.
 
 =item C<error>
 
-Common errors.   Use C<&error> to send messages over this channel.
+Common errors.  Use C<&error> to send messages over this channel.
 
 =item C<error-gnu>
 
@@ -113,7 +112,7 @@ Warnings about non-portable constructs.
 
 =item C<syntax>
 
-Warnings about weird syntax, unused variables, typos...
+Warnings about weird syntax, unused variables, typos ...
 
 =item C<unsupported>
 
@@ -135,7 +134,7 @@ Informative messages.
 # Do not forget to update &usage and the manual
 # if you add or change a warning channel.
 
-register_channel 'fatal', type => 'fatal';
+register_channel 'fatal', type => 'fatal', ordered => 0;
 register_channel 'error', type => 'error';
 register_channel 'error-gnu', type => 'error';
 register_channel 'error-gnu/warn', type => 'error';
@@ -144,7 +143,8 @@ register_channel 'automake', type => 'fatal', backtrace => 1,
   header => ("####################\n" .
 	     "## Internal Error ##\n" .
 	     "####################\n"),
-  footer => "\nPlease contact <bug-automake\@gnu.org>.";
+  footer => "\nPlease contact <bug-automake\@gnu.org>.",
+  ordered => 0;
 
 register_channel 'cross', type => 'warning', silent => 1;
 register_channel 'gnu', type => 'warning';
@@ -154,7 +154,7 @@ register_channel 'portability', type => 'warning', silent => 1;
 register_channel 'syntax', type => 'warning';
 register_channel 'unsupported', type => 'warning';
 
-register_channel 'verb', type => 'debug', silent => 1;
+register_channel 'verb', type => 'debug', silent => 1, ordered => 0;
 register_channel 'note', type => 'debug', silent => 0;
 
 =head2 FUNCTIONS
@@ -305,7 +305,7 @@ Parse the argument of C<--warning=CATEGORY> or C<-WCATEGORY>.
 C<$OPTIONS> is C<"--warning"> or C<"-W">, C<@ARGUMENT> is a list of
 C<CATEGORY>.
 
-This can be used as a argument to C<Getopt>.
+This can be used as an argument to C<Getopt>.
 
 =cut
 

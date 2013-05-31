@@ -1,0 +1,11 @@
+prefix=/usr/x86_64-pc-cygwin/sys-root/usr
+exec_prefix=/usr/x86_64-pc-cygwin/sys-root/usr
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: ICE
+Description: X Inter Client Exchange Library
+Version: 1.0.8
+Requires: xproto
+Cflags: -I${includedir}
+Libs: -L${libdir} -lICE

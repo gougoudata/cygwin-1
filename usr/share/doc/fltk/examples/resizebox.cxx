@@ -1,24 +1,15 @@
 //
-// "$Id: resizebox.cxx 5519 2006-10-11 03:12:15Z mike $"
+// "$Id: resizebox.cxx 8864 2011-07-19 04:49:30Z greg.ercolano $"
 //
 // Resize box test program for the Fast Light Tool Kit (FLTK).
 //
-// Copyright 1998-2005 by Bill Spitzak and others.
+// Copyright 1998-2010 by Bill Spitzak and others.
 //
-// This library is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Library General Public
-// License as published by the Free Software Foundation; either
-// version 2 of the License, or (at your option) any later version.
+// This library is free software. Distribution and use rights are outlined in
+// the file "COPYING" which should have been included with this file.  If this
+// file is missing or damaged, see the license at:
 //
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-// Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public
-// License along with this library; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
-// USA.
+//     http://www.fltk.org/COPYING.php
 //
 // Please report all bugs and problems on the following page:
 //
@@ -30,13 +21,13 @@
 #define W3 (5*W1+6*B)
 
 #include <FL/Fl.H>
-#include <FL/Fl_Single_Window.H>
+#include <FL/Fl_Double_Window.H>
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Radio_Button.H>
 #include <FL/fl_draw.H>
 #include <FL/fl_message.H>
 
-Fl_Single_Window *window;
+Fl_Double_Window *window;
 Fl_Box *box;
 
 int big = 0;
@@ -64,7 +55,7 @@ void b_cb(Fl_Widget *,long w) {
 }
 
 int main(int argc, char **argv) {
-  window = new Fl_Single_Window(W3,W3);
+  window = new Fl_Double_Window(W3,W3);
   window->box(FL_NO_BOX);
   Fl_Box *n;
   for (int x = 0; x<4; x++) for (int y = 0; y<4; y++) {
@@ -98,5 +89,5 @@ int main(int argc, char **argv) {
 }
 
 //
-// End of "$Id: resizebox.cxx 5519 2006-10-11 03:12:15Z mike $".
+// End of "$Id: resizebox.cxx 8864 2011-07-19 04:49:30Z greg.ercolano $".
 //

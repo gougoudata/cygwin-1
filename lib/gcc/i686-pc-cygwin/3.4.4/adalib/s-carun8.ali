@@ -17,8 +17,8 @@ U system.compare_array_unsigned_8%s  s-carun8.ads  c4794f40 NE PK
 W system%s		system.ads		system.ali
 
 D system.ads		20031021134222 6af26689
-D s-carun8.ads		20031021134214 ae8b29c9
-D s-carun8.adb		20031021134214 065391c5
+D s-carun8.ads		20031021134213 ae8b29c9
+D s-carun8.adb		20031021134213 065391c5
 D unchconv.ads		20030424175420 1b7a14c5
 X 1 system.ads
 44K9*System 163e11 2|37r9 44r19 45r19 57r19 58r19 66r5 3|36r14 53r28 56r28

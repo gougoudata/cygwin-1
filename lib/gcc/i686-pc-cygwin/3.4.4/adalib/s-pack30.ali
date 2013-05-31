@@ -19,10 +19,10 @@ U system.pack_30%s	s-pack30.ads		71a973f5 NE PR PK
 W system%s		system.ads		system.ali
 
 D system.ads		20031021134222 6af26689
-D s-pack30.ads		20030424175412 1b5b157c
-D s-pack30.adb		20030424175412 71c749e9
-D s-stoele.ads		20050603190336 5a73170b
-D s-stoele.adb		20030424175414 792079f8
+D s-pack30.ads		20030424175411 1b5b157c
+D s-pack30.adb		20030424175411 71c749e9
+D s-stoele.ads		20050603200336 5a73170b
+D s-stoele.adb		20030424175413 792079f8
 D s-unstyp.ads		20031021134218 0d291e44
 D unchconv.ads		20030424175420 1b7a14c5
 X 1 system.ads

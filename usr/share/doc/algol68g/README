@@ -1,0 +1,40 @@
+ALGOL68G - Algol 68 Genie
+*************************
+
+Algol68G is a nearly fully featured implementation of Algol 68 as defined by 
+the Revised Report.
+
+Algol68G is free software, you can redistribute it and/or modify it under the 
+terms of the GNU General Public License. This software is distributed in the 
+hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied 
+warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. The author of 
+this software does not accept responsibility to anyone for the consequences of 
+using it or for whether it serves any particular purpose or works at all. See 
+the GNU General Public License for more details. The GNU General Public License
+does not permit this software to be redistributed in proprietary programs.
+
+Author of Algol68G is Marcel van der Veer <algol68g@xs4all.nl>.
+Web pages for Algol68G are at <http://jmvdveer.home.xs4all.nl/>.
+
+
+Documentation
+=============
+
+Documentation is available from the web pages for Algol68G at <http://jmvdveer.home.xs4all.nl/>.
+
+
+Installation
+============
+
+Please refer to file INSTALL or the manual for detailed instructions.
+Since Algol 68 Genie complies with the GNU build system, a reasonably 
+experienced Unix/Linux user can execute:
+
+tar -xzf algol68g-VERSION.tgz
+cd algol68g-VERSION
+./configure
+make
+make check
+[su]
+make install
+

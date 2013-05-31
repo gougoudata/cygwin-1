@@ -1,5 +1,5 @@
-# csharpcomp.m4 serial 6 (gettext-0.15)
-dnl Copyright (C) 2003-2005 Free Software Foundation, Inc.
+# csharpcomp.m4 serial 8
+dnl Copyright (C) 2003-2005, 2007, 2009-2010 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
 dnl with or without modifications, as long as this notice is preserved.
@@ -17,9 +17,9 @@ AC_DEFUN([gt_CSHARPCOMP],
   pushdef([AC_MSG_CHECKING],[:])dnl
   pushdef([AC_CHECKING],[:])dnl
   pushdef([AC_MSG_RESULT],[:])dnl
-  AC_CHECK_PROG(HAVE_CSCC_IN_PATH, cscc, yes)
-  AC_CHECK_PROG(HAVE_MCS_IN_PATH, mcs, yes)
-  AC_CHECK_PROG(HAVE_CSC_IN_PATH, csc, yes)
+  AC_CHECK_PROG([HAVE_CSCC_IN_PATH], [cscc], [yes])
+  AC_CHECK_PROG([HAVE_MCS_IN_PATH], [mcs], [yes])
+  AC_CHECK_PROG([HAVE_CSC_IN_PATH], [csc], [yes])
   popdef([AC_MSG_RESULT])dnl
   popdef([AC_CHECKING])dnl
   popdef([AC_MSG_CHECKING])dnl
@@ -43,7 +43,8 @@ AC_DEFUN([gt_CSHARPCOMP],
         ;;
       mono)
         if test -n "$HAVE_MCS_IN_PATH" \
-           && mcs --version >/dev/null 2>/dev/null; then
+           && mcs --version >/dev/null 2>/dev/null \
+           && mcs --version 2>/dev/null | grep Mono >/dev/null; then
           HAVE_MCS=1
           ac_result="mcs"
           break
@@ -66,12 +67,12 @@ AC_DEFUN([gt_CSHARPCOMP],
     esac
   done
   AC_MSG_RESULT([$ac_result])
-  AC_SUBST(HAVE_CSCC)
-  AC_SUBST(HAVE_MCS)
-  AC_SUBST(HAVE_CSC)
+  AC_SUBST([HAVE_CSCC])
+  AC_SUBST([HAVE_MCS])
+  AC_SUBST([HAVE_CSC])
   dnl Provide a default for CSHARPCOMPFLAGS.
   if test -z "${CSHARPCOMPFLAGS+set}"; then
     CSHARPCOMPFLAGS="-O -g"
   fi
-  AC_SUBST(CSHARPCOMPFLAGS)
+  AC_SUBST([CSHARPCOMPFLAGS])
 ])

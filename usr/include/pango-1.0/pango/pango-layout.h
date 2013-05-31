@@ -1,5 +1,5 @@
 /* Pango
- * pango-layout.h: Highlevel layout driver
+ * pango-layout.h: High-level layout driver
  *
  * Copyright (C) 2000 Red Hat Software
  *
@@ -33,7 +33,6 @@ typedef struct _PangoLayout      PangoLayout;
 typedef struct _PangoLayoutClass PangoLayoutClass;
 typedef struct _PangoLayoutLine  PangoLayoutLine;
 
-/* For backwards compatiblity */
 typedef PangoGlyphItem PangoLayoutRun;
 
 typedef enum {
@@ -49,12 +48,12 @@ typedef enum {
 } PangoWrapMode;
 
 /**
- * PangoEllipsizeMode
+ * PangoEllipsizeMode:
  * @PANGO_ELLIPSIZE_NONE: No ellipsization
  * @PANGO_ELLIPSIZE_START: Omit characters at the start of the text
  * @PANGO_ELLIPSIZE_MIDDLE: Omit characters in the middle of the text
  * @PANGO_ELLIPSIZE_END: Omit characters at the end of the text
- * 
+ *
  * The #PangoEllipsizeMode type describes what sort of (if any)
  * ellipsization should be applied to a line of text. In
  * the ellipsization process characters are removed from the
@@ -74,8 +73,8 @@ struct _PangoLayoutLine
   gint         start_index;     /* start of line as byte index into layout->text */
   gint         length;		/* length of line in bytes */
   GSList      *runs;
-  guint        is_paragraph_start : 1;  /* TRUE if this is the first line of the paragraph */ 
-  guint        resolved_dir : 3;  /* Resolved direction of line */
+  guint        is_paragraph_start : 1;  /* TRUE if this is the first line of the paragraph */
+  guint        resolved_dir : 3;  /* Resolved PangoDirection of line */
 };
 
 #define PANGO_TYPE_LAYOUT              (pango_layout_get_type ())
@@ -86,7 +85,7 @@ struct _PangoLayoutLine
 #define PANGO_LAYOUT_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS ((obj), PANGO_TYPE_LAYOUT, PangoLayoutClass))
 
 /* The PangoLayout and PangoLayoutClass structs are private; if you
- * need to create a subclass of these, mail otaylor@redhat.com
+ * need to create a subclass of these, file a bug.
  */
 
 GType        pango_layout_get_type       (void) G_GNUC_CONST;
@@ -104,27 +103,33 @@ void           pango_layout_set_text       (PangoLayout    *layout,
 					    int             length);
 const char    *pango_layout_get_text       (PangoLayout    *layout);
 
+gint           pango_layout_get_character_count (PangoLayout *layout);
+
 void           pango_layout_set_markup     (PangoLayout    *layout,
-                                            const char     *markup,
-                                            int             length);
+					    const char     *markup,
+					    int             length);
 
 void           pango_layout_set_markup_with_accel (PangoLayout    *layout,
-                                                   const char     *markup,
-                                                   int             length,
-                                                   gunichar        accel_marker,
-                                                   gunichar       *accel_char);
+						   const char     *markup,
+						   int             length,
+						   gunichar        accel_marker,
+						   gunichar       *accel_char);
 
 void           pango_layout_set_font_description (PangoLayout                *layout,
 						  const PangoFontDescription *desc);
 
-G_CONST_RETURN PangoFontDescription *pango_layout_get_font_description (PangoLayout *layout);
+const PangoFontDescription *pango_layout_get_font_description (PangoLayout *layout);
 
 void           pango_layout_set_width            (PangoLayout                *layout,
 						  int                         width);
 int            pango_layout_get_width            (PangoLayout                *layout);
+void           pango_layout_set_height           (PangoLayout                *layout,
+						  int                         height);
+int            pango_layout_get_height           (PangoLayout                *layout);
 void           pango_layout_set_wrap             (PangoLayout                *layout,
-                                                  PangoWrapMode               wrap);
+						  PangoWrapMode               wrap);
 PangoWrapMode  pango_layout_get_wrap             (PangoLayout                *layout);
+gboolean       pango_layout_is_wrapped           (PangoLayout                *layout);
 void           pango_layout_set_indent           (PangoLayout                *layout,
 						  int                         indent);
 int            pango_layout_get_indent           (PangoLayout                *layout);
@@ -134,35 +139,47 @@ int            pango_layout_get_spacing          (PangoLayout                *la
 void           pango_layout_set_justify          (PangoLayout                *layout,
 						  gboolean                    justify);
 gboolean       pango_layout_get_justify          (PangoLayout                *layout);
-void           pango_layout_set_auto_dir          (PangoLayout                *layout,
+void           pango_layout_set_auto_dir         (PangoLayout                *layout,
 						  gboolean                    auto_dir);
-gboolean       pango_layout_get_auto_dir          (PangoLayout                *layout);
+gboolean       pango_layout_get_auto_dir         (PangoLayout                *layout);
 void           pango_layout_set_alignment        (PangoLayout                *layout,
 						  PangoAlignment              alignment);
 PangoAlignment pango_layout_get_alignment        (PangoLayout                *layout);
 
 void           pango_layout_set_tabs             (PangoLayout                *layout,
-                                                  PangoTabArray              *tabs);
+						  PangoTabArray              *tabs);
 
 PangoTabArray* pango_layout_get_tabs             (PangoLayout                *layout);
 
 void           pango_layout_set_single_paragraph_mode (PangoLayout                *layout,
-                                                       gboolean                    setting);
+						       gboolean                    setting);
 gboolean       pango_layout_get_single_paragraph_mode (PangoLayout                *layout);
 
 void               pango_layout_set_ellipsize (PangoLayout        *layout,
 					       PangoEllipsizeMode  ellipsize);
 PangoEllipsizeMode pango_layout_get_ellipsize (PangoLayout        *layout);
+gboolean           pango_layout_is_ellipsized (PangoLayout        *layout);
 
-void           pango_layout_context_changed (PangoLayout    *layout);
+int      pango_layout_get_unknown_glyphs_count (PangoLayout    *layout);
+
+void     pango_layout_context_changed (PangoLayout    *layout);
+guint    pango_layout_get_serial      (PangoLayout    *layout);
 
 void     pango_layout_get_log_attrs (PangoLayout    *layout,
 				     PangoLogAttr  **attrs,
 				     gint           *n_attrs);
 
+const PangoLogAttr *pango_layout_get_log_attrs_readonly (PangoLayout *layout,
+							 gint        *n_attrs);
+
 void     pango_layout_index_to_pos         (PangoLayout    *layout,
 					    int             index_,
 					    PangoRectangle *pos);
+void     pango_layout_index_to_line_x      (PangoLayout    *layout,
+					    int             index_,
+					    gboolean        trailing,
+					    int            *line,
+					    int            *x_pos);
 void     pango_layout_get_cursor_pos       (PangoLayout    *layout,
 					    int             index_,
 					    PangoRectangle *strong_pos,
@@ -191,14 +208,24 @@ void     pango_layout_get_size             (PangoLayout    *layout,
 void     pango_layout_get_pixel_size       (PangoLayout    *layout,
 					    int            *width,
 					    int            *height);
+int      pango_layout_get_baseline         (PangoLayout    *layout);
 
 int              pango_layout_get_line_count       (PangoLayout    *layout);
 PangoLayoutLine *pango_layout_get_line             (PangoLayout    *layout,
 						    int             line);
+PangoLayoutLine *pango_layout_get_line_readonly    (PangoLayout    *layout,
+						    int             line);
 GSList *         pango_layout_get_lines            (PangoLayout    *layout);
+GSList *         pango_layout_get_lines_readonly   (PangoLayout    *layout);
 
-void     pango_layout_line_ref          (PangoLayoutLine  *line);
-void     pango_layout_line_unref        (PangoLayoutLine  *line);
+
+#define PANGO_TYPE_LAYOUT_LINE (pango_layout_line_get_type ())
+
+GType    pango_layout_line_get_type     (void) G_GNUC_CONST;
+
+PangoLayoutLine *pango_layout_line_ref   (PangoLayoutLine *line);
+void             pango_layout_line_unref (PangoLayoutLine *line);
+
 gboolean pango_layout_line_x_to_index   (PangoLayoutLine  *line,
 					 int               x_pos,
 					 int              *index_,
@@ -223,15 +250,19 @@ typedef struct _PangoLayoutIter PangoLayoutIter;
 
 #define PANGO_TYPE_LAYOUT_ITER         (pango_layout_iter_get_type ())
 
-GType            pango_layout_iter_get_type (void);
+GType            pango_layout_iter_get_type (void) G_GNUC_CONST;
 
 PangoLayoutIter *pango_layout_get_iter  (PangoLayout     *layout);
+PangoLayoutIter *pango_layout_iter_copy (PangoLayoutIter *iter);
 void             pango_layout_iter_free (PangoLayoutIter *iter);
 
-int              pango_layout_iter_get_index (PangoLayoutIter *iter);
-PangoLayoutRun  *pango_layout_iter_get_run   (PangoLayoutIter *iter);
-PangoLayoutLine *pango_layout_iter_get_line  (PangoLayoutIter *iter);
+int              pango_layout_iter_get_index  (PangoLayoutIter *iter);
+PangoLayoutRun  *pango_layout_iter_get_run    (PangoLayoutIter *iter);
+PangoLayoutRun  *pango_layout_iter_get_run_readonly   (PangoLayoutIter *iter);
+PangoLayoutLine *pango_layout_iter_get_line   (PangoLayoutIter *iter);
+PangoLayoutLine *pango_layout_iter_get_line_readonly  (PangoLayoutIter *iter);
 gboolean         pango_layout_iter_at_last_line (PangoLayoutIter *iter);
+PangoLayout     *pango_layout_iter_get_layout (PangoLayoutIter *iter);
 
 gboolean pango_layout_iter_next_char    (PangoLayoutIter *iter);
 gboolean pango_layout_iter_next_cluster (PangoLayoutIter *iter);
@@ -239,25 +270,25 @@ gboolean pango_layout_iter_next_run     (PangoLayoutIter *iter);
 gboolean pango_layout_iter_next_line    (PangoLayoutIter *iter);
 
 void pango_layout_iter_get_char_extents    (PangoLayoutIter *iter,
-                                            PangoRectangle  *logical_rect);
+					    PangoRectangle  *logical_rect);
 void pango_layout_iter_get_cluster_extents (PangoLayoutIter *iter,
-                                            PangoRectangle  *ink_rect,
-                                            PangoRectangle  *logical_rect);
+					    PangoRectangle  *ink_rect,
+					    PangoRectangle  *logical_rect);
 void pango_layout_iter_get_run_extents     (PangoLayoutIter *iter,
-                                            PangoRectangle  *ink_rect,
-                                            PangoRectangle  *logical_rect);
+					    PangoRectangle  *ink_rect,
+					    PangoRectangle  *logical_rect);
 void pango_layout_iter_get_line_extents    (PangoLayoutIter *iter,
-                                            PangoRectangle  *ink_rect,
-                                            PangoRectangle  *logical_rect);
+					    PangoRectangle  *ink_rect,
+					    PangoRectangle  *logical_rect);
 /* All the yranges meet, unlike the logical_rect's (i.e. the yranges
  * assign between-line spacing to the nearest line)
  */
 void pango_layout_iter_get_line_yrange     (PangoLayoutIter *iter,
-                                            int             *y0_,
-                                            int             *y1_);
+					    int             *y0_,
+					    int             *y1_);
 void pango_layout_iter_get_layout_extents  (PangoLayoutIter *iter,
-                                            PangoRectangle  *ink_rect,
-                                            PangoRectangle  *logical_rect);
+					    PangoRectangle  *ink_rect,
+					    PangoRectangle  *logical_rect);
 int  pango_layout_iter_get_baseline        (PangoLayoutIter *iter);
 
 G_END_DECLS

@@ -1,0 +1,101 @@
+# StGIT configuration file. Copy it to any of ~/.gitconfig or
+# .git/config and modify as needed. Note that the latter overrides
+# the former. The "git config" command can be used as well
+
+[user]
+	# Default author/committer details (standard GIT variables)
+	name = Your Name
+	email = your.name@yourcompany.com
+
+[stgit]
+	# E-mail sender (added to the "From: " header)
+	#sender = Your Name <your.name@yourcompany.com>
+
+	# Automatically Bcc the address below
+	#autobcc = your.name@yourcompany.com
+
+	# Automatically sign newly created patches
+	#autosign = Signed-off-by
+
+	# SMTP server for sending patches
+	#smtpserver = /usr/sbin/sendmail -t -i
+	#smtpserver = localhost:25
+
+	# Set to 'yes' to use SMTP over TLS
+	#smtptls = no
+
+	# Username for SMTP authentication, required if TLS is used
+	#smtpuser = username
+
+	# Password for SMTP.  If not provided, it will be asked
+	#smtppassword = password
+
+	# delay between messages in seconds (defaults to 5)
+	#smtpdelay = 5
+
+	# stg will look for this first, then look for the EDITOR environmental
+	# variable, then default to using 'vi'
+	#editor = /usr/bin/vi
+
+	# this value overrides the default PAGER environment variable
+	#pager = less -FRSX
+	#pager = filterdiff --annotate | colordiff | less -FRSX
+
+	# GIT pull and fetch commands (should take the same arguments as
+	# git fetch or git pull).  By default:
+	#pullcmd = git pull
+	#fetchcmd = git fetch
+
+	# Rebase command. Note that this command is internally implemented in
+	# a different way. Only define this option if a different rebase
+	# is needed (i.e. 'git svn rebase')
+	#rebasecmd = git reset
+
+	# "stg pull" policy.  This is the repository default, which can be
+	# overriden on a per-branch basis using branch.*.stgit.pull-policy
+	# By default:
+	#pull-policy = pull
+	# To support remote rewinding parent branches:
+	#pull-policy = fetch-rebase
+	# To support local parent branches:
+	#pull-policy = rebase
+
+	# Automatically invoke the interactive merger (git mergetool) in case
+	# of conflicts
+	#autoimerge = no
+
+	# Optimize (repack) the object store after every pull
+	#keepoptimized = yes
+
+	# Extensions for the files involved in a three-way merge (ancestor,
+	# current, patched)
+	#extensions = .ancestor .current .patched
+
+	# The number of patches to be listed before and after the
+	# current one by the 'series --short' command
+	#shortnr = 5
+
+	# The maximum length of an automatically generated patch name
+	#namelength = 30
+
+	# Extra options to pass to "git diff" (extend/override with
+	# -O/--diff-opts). For example, -M turns on rename detection.
+	#diff-opts = -M
+
+	# Behave as if the --keep option is always passed
+	#autokeep = no
+
+[stgit "alias"]
+	# Command aliases.
+	#add = git add
+
+[mail "alias"]
+	# E-mail aliases used with the 'mail' command
+	git = git@vger.kernel.org
+
+[stgit "color"]
+	# Specify output colors for series commands
+	applied = green_foreground
+	current = red_foreground
+	unapplied = white_foreground
+	hidden = cyan_foreground

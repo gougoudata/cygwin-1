@@ -1,0 +1,31 @@
+/usr/bin/texlive_fix_updmap.sh
+
+/usr/bin/mktexlsr
+/usr/bin/updmap-sys --nohash --nomkmap --enable MixedMap=cm.map
+/usr/bin/updmap-sys --nohash --nomkmap --enable MixedMap=cmextra.map
+/usr/bin/updmap-sys --nohash --nomkmap --enable MixedMap=cyrillic.map
+/usr/bin/updmap-sys --nohash --nomkmap --enable Map=euler.map
+/usr/bin/updmap-sys --nohash --nomkmap --enable MixedMap=latxfont.map
+/usr/bin/updmap-sys --nohash --nomkmap --enable MixedMap=symbols.map
+/usr/bin/updmap-sys --nohash --nomkmap --enable MixedMap=cmtext-bsr-interpolated.map
+/usr/bin/updmap-sys --nohash --nomkmap --enable MixedMap=mflogo.map
+/usr/bin/updmap-sys --nohash --nomkmap --enable Map=mathpple.map
+/usr/bin/updmap-sys --nohash --syncwithtrees
+/usr/bin/updmap-sys --nohash
+/usr/bin/mktexlsr
+/usr/bin/fmtutil-sys --enablefmt luatex
+/usr/bin/fmtutil-sys --byfmt luatex
+/usr/bin/fmtutil-sys --enablefmt dviluatex
+/usr/bin/fmtutil-sys --byfmt dviluatex
+/usr/bin/fmtutil-sys --enablefmt mf
+/usr/bin/fmtutil-sys --byfmt mf
+/usr/bin/fmtutil-sys --enablefmt pdftex
+/usr/bin/fmtutil-sys --byfmt pdftex
+/usr/bin/fmtutil-sys --enablefmt etex
+/usr/bin/fmtutil-sys --byfmt etex
+/usr/bin/fmtutil-sys --enablefmt pdfetex
+/usr/bin/fmtutil-sys --byfmt pdfetex
+/usr/bin/fmtutil-sys --enablefmt tex
+/usr/bin/fmtutil-sys --byfmt tex
+/usr/bin/mktexlsr
+/usr/bin/fc-cache -f /usr/share/texmf-dist/fonts/type1

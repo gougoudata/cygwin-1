@@ -7,7 +7,7 @@
 #  Copyright (C) 2000-2003 Free Software Foundation.
 #
 #  Intltool is free software; you can redistribute it and/or
-#  modify it under the terms of the GNU General Public License 
+#  modify it under the terms of the GNU General Public License
 #  version 2 published by the Free Software Foundation.
 #
 #  Intltool is distributed in the hope that it will be useful,
@@ -30,7 +30,7 @@
 
 ## Release information
 my $PROGRAM = "intltool-update";
-my $VERSION = "0.40.3";
+my $VERSION = "0.50.2";
 my $PACKAGE = "intltool";
 
 ## Loaded modules
@@ -64,14 +64,14 @@ my $xml_support =
 "ui|".			# Bonobo specific - User Interface desc. files
 "lang|".		# ?
 "glade2?(?:\\.in)*|".	# Glade specific - User Interface desc. files (Note: .in is not required)
-"scm(?:\\.in)*|".	# ? (Note: .in is not required)
-"oaf(?:\\.in)+|".	# DEPRECATED: Replaces by Bonobo .server files 
+"oaf(?:\\.in)+|".	# DEPRECATED: Replaces by Bonobo .server files
 "etspec|".		# ?
 "server(?:\\.in)+|".	# Bonobo specific
 "sheet(?:\\.in)+|".	# ?
 "schemas(?:\\.in)+|".	# GConf specific
+"gschema.xml|".         # GLib schema (ie: GSettings) specific
 "pong(?:\\.in)+|".	# DEPRECATED: PONG is not used [by GNOME] any longer.
-"kbd(?:\\.in)+|".	# GOK specific. 
+"kbd(?:\\.in)+|".	# GOK specific.
 "policy(?:\\.in)+";	# PolicyKit files
 
 my $ini_support =
@@ -84,8 +84,11 @@ my $ini_support =
 "theme(?:\\.in)+|".	# http://www.freedesktop.org/Standards/icon-theme-spec
 "service(?:\\.in)+";    # DBus specific
 
-my $buildin_gettext_support = 
-"c|y|cs|cc|cpp|c\\+\\+|h|hh|gob|py";
+my $tlk_support =
+"tlk(?:\\.in)+";        # Bioware Aurora Talk Table Format
+
+my $buildin_gettext_support =
+"c|y|cs|cc|cpp|c\\+\\+|h|hh|gob|py|scm(?:\\.in)*";
 
 ## Always flush buffer when printing
 $| = 1;
@@ -99,7 +102,7 @@ $POTFILES_in = "<$SRCDIR/POTFILES.in";
 my $devnull = ($^O eq 'MSWin32' ? 'NUL:' : '/dev/null');
 
 ## Handle options
-GetOptions 
+GetOptions
 (
  "help" 	       => \$HELP_ARG,
  "version" 	       => \$VERSION_ARG,
@@ -162,8 +165,8 @@ elsif ((defined $ARGV[0]) && $ARGV[0] =~ /^[a-z]/)
     }
     &POFile_Update ($lang, $OUTPUT_FILE);
     &Console_Write_TranslationStatus ($lang, $OUTPUT_FILE);
-} 
-else 
+}
+else
 {
     &Console_Write_IntltoolHelp;
 }
@@ -209,8 +212,7 @@ Examples of use:
 ${PROGRAM} --pot    just create a new PO template
 ${PROGRAM} xy       create new PO template and merge xy.po with it
 
-Report bugs to http://bugzilla.gnome.org/ (product name "$PACKAGE")
-or send email to <xml-i18n-tools\@gnome.org>.
+Report bugs to http://bugs.launchpad.net/intltool
 _EOF_
     exit;
 }
@@ -225,59 +227,68 @@ sub echo_n
     return $ret;
 }
 
-sub POFile_DetermineType ($) 
+sub POFile_DetermineType ($)
 {
    my $type = $_;
    my $gettext_type;
 
    my $xml_regex     = "(?:" . $xml_support . ")";
    my $ini_regex     = "(?:" . $ini_support . ")";
+   my $tlk_regex     = "(?:" . $tlk_support . ")";
    my $buildin_regex = "(?:" . $buildin_gettext_support . ")";
 
-   if ($type =~ /\[type: gettext\/([^\]].*)]/) 
+   if ($type =~ /\[type: gettext\/([^\]].*)]/)
    {
 	$gettext_type=$1;
    }
-   elsif ($type =~ /schemas(\.in)+$/) 
+   elsif ($type =~ /gschema.xml$/)
+   {
+	$gettext_type="gsettings";
+   }
+   elsif ($type =~ /schemas(\.in)+$/)
    {
 	$gettext_type="schemas";
    }
-   elsif ($type =~ /glade2?(\.in)*$/) 
+   elsif ($type =~ /glade2?(\.in)*$/)
    {
        $gettext_type="glade";
    }
-   elsif ($type =~ /scm(\.in)*$/) 
+   elsif ($type =~ /scm(\.in)*$/)
    {
        $gettext_type="scheme";
    }
-   elsif ($type =~ /keys(\.in)+$/) 
+   elsif ($type =~ /keys(\.in)+$/)
    {
        $gettext_type="keys";
    }
 
    # bucket types
 
-   elsif ($type =~ /$xml_regex$/) 
+   elsif ($type =~ /$xml_regex$/)
    {
        $gettext_type="xml";
    }
-   elsif ($type =~ /$ini_regex$/) 
-   { 
+   elsif ($type =~ /$ini_regex$/)
+   {
        $gettext_type="ini";
    }
-   elsif ($type =~ /$buildin_regex$/) 
+   elsif ($type =~ /$tlk_regex$/)
+   {
+       $gettext_type="tlk";
+   }
+   elsif ($type =~ /$buildin_regex$/)
    {
        $gettext_type="buildin";
    }
    else
-   { 
-       $gettext_type="unknown"; 
+   {
+       $gettext_type="unknown";
    }
 
    return "gettext\/$gettext_type";
 }
 
-sub TextFile_DetermineEncoding ($) 
+sub TextFile_DetermineEncoding ($)
 {
     my $gettext_code="UTF-8"; # All files are UTF-8 by default
     my $filetype=`file $_ | cut -d ' ' -f 2`;
@@ -300,9 +311,42 @@ sub TextFile_DetermineEncoding ($)
 sub isNotValidMissing
 {
     my ($file) = @_;
+    my $package_name = "";
+    my $version = "";
+    $package_name = $varhash{"PACKAGE"} if (defined $varhash{"PACKAGE"});
+    $version = $varhash{"VERSION"} if (defined $varhash{"VERSION"});
 
     return if $file =~ /^\{arch\}\/.*$/;
-    return if $file =~ /^$varhash{"PACKAGE"}-$varhash{"VERSION"}\/.*$/;
+    return if $file =~ /^$package_name-$version\/.*$/;
+}
+
+sub removeFromArray
+{
+    my ($file, @array) = @_;
+
+    my $i = 0;
+    foreach my $potfile (@array) {
+        delete $array[$i] if $potfile =~ m/$file/;
+        $i++;
+    }
+}
+
+sub AddFileToListIfMissing
+{
+    my ($file, $list) = @_;
+
+    my $name_pattern;
+    if ($file =~ /^\.\.\//) {
+        $name_pattern = "x3 A*";
+    } else {
+        $name_pattern = "A*";
+    }
+
+    my $file_name = unpack($name_pattern, $file);
+    if (defined isNotValidMissing ($file_name)) {
+        ## Remove the first 3 chars if needed and add newline
+        push @$list, $file_name . "\n";
+    }
 }
 
 sub FindLeftoutFiles
@@ -320,13 +364,17 @@ sub FindLeftoutFiles
     );
 
     ## Search and find all translatable files
-    find sub { 
+    find sub {
+	# Ignore hidden files
+	return if "$File::Find::name" =~ /\/\./;
 	push @buf_i18n_plain,        "$File::Find::name" if /\.($buildin_gettext_support)$/;
 	push @buf_i18n_xml,          "$File::Find::name" if /\.($xml_support)$/;
 	push @buf_i18n_ini,          "$File::Find::name" if /\.($ini_support)$/;
 	push @buf_i18n_xml_unmarked, "$File::Find::name" if /\.(schemas(\.in)+)$/;
 	}, "..";
-    find sub { 
+    find sub {
+	# Ignore hidden files
+	return if "$File::Find::name" =~ /\/\.[^.]/;
 	push @buf_i18n_plain,        "$File::Find::name" if /\.($buildin_gettext_support)$/;
 	push @buf_i18n_xml,          "$File::Find::name" if /\.($xml_support)$/;
 	push @buf_i18n_ini,          "$File::Find::name" if /\.($ini_support)$/;
@@ -357,7 +405,7 @@ sub FindLeftoutFiles
 
 	print "Found $ignore: Ignoring files...\n" if $VERBOSE;
 	open FILE, "<$SRCDIR/$ignore" or die "ERROR: Failed to open $SRCDIR/$ignore!\n";
-	    
+
 	while (<FILE>)
 	{
             next if (/^$/);
@@ -382,10 +430,19 @@ sub FindLeftoutFiles
                     $ignored =~ s/^$SRCDIR\///g;
                     $ignored =~ s/^..\///g;
                     $ignored =~ s/$/\n/g;
+
+                    removeFromArray ($ignored, @buf_i18n_plain);
+                    removeFromArray ($ignored, @buf_i18n_xml);
+                    removeFromArray ($ignored, @buf_i18n_ini);
+                    removeFromArray ($ignored, @buf_i18n_xml_unmarked);
                     push @buf_potfiles_ignore, $ignored;
                 }
                 next;
             }
+            removeFromArray ($_, @buf_i18n_plain);
+            removeFromArray ($_, @buf_i18n_xml);
+            removeFromArray ($_, @buf_i18n_ini);
+            removeFromArray ($_, @buf_i18n_xml_unmarked);
             push @buf_potfiles_ignore, $_;
 	}
 	close FILE;
@@ -397,16 +454,39 @@ sub FindLeftoutFiles
     {
 	my $in_comment = 0;
 	my $in_macro = 0;
+        my $in_string = 0;
+        my @multiline_quotes;
+        if ($file =~ /\.scm/) {
+            @multiline_quotes = ('"');
+        } else {
+            @multiline_quotes = ("'''", '"""');
+        }
 
 	open FILE, "<$file";
 	while (<FILE>)
 	{
+            if ($file =~ /\.scm/) {
+                # Strip single quotes from .scm files.
+                s-\'--g;
+            }
+
 	    # Handle continued multi-line comment.
 	    if ($in_comment)
 	    {
 		next unless s-.*\*/--;
 		$in_comment = 0;
 	    }
+
+            # Handle continued multi-line string.
+            if ($in_string)
+            {
+                my $pattern = join '|', @multiline_quotes;
+                if (!s/.*$pattern//) {
+                    s///s;
+                    next;
+                };
+                $in_string = 0;
+            }
 
 	    # Handle continued macro.
 	    if ($in_macro)
@@ -420,10 +500,10 @@ sub FindLeftoutFiles
 	    {
 		$in_macro = 1 if /^([^\\]|\\.)*\\$/;
 		next;
-	    }
+            }
 
 	    # Handle comments and quoted text.
-	    while (m-(/\*|//|\'|\")-) # \' and \" keep emacs perl mode happy
+	    while (m-(/\*|//|\'\'\'|\"\"\"|\'|\")-) # \' and \" keep emacs perl mode happy
 	    {
 		my $match = $1;
 		if ($match eq "/*")
@@ -438,50 +518,62 @@ sub FindLeftoutFiles
 		{
 		    s-//.*--;
 		}
+                elsif (grep($match, @multiline_quotes))
+                {
+                    if (!s-$match(\\$match|[^$match])*$match-QUOTEDTEXT-g)
+                    {
+                        s-$match.*-QUOTEDTEXT-s;
+                        $in_string = 1;
+                    }
+                }
 		else # ' or "
 		{
-		    if (!s-$match([^\\]|\\.)*?$match-QUOTEDTEXT-)
+		    s-$match(\\$match|[^$match])*$match-QUOTEDTEXT-g;
+
+                    # Handle inline # comments.
+                    s/^([^$match]+)\#.*/$1/;
+
+		    if (m-$match-)
 		    {
 			warn "mismatched quotes at line $. in $file\n";
 			s-$match.*--;
 		    }
 		}
-	    }	    
+	    }
 
 	    if (/\w\.GetString *\(QUOTEDTEXT/)
 	    {
-                if (defined isNotValidMissing (unpack("x3 A*", $file))) {
-                    ## Remove the first 3 chars and add newline
-                    push @buf_allfiles, unpack("x3 A*", $file) . "\n";
-                }
+                AddFileToListIfMissing($file, \@buf_allfiles);
 		last;
 	    }
 
             ## C_ N_ NC_ Q_ and _ are the macros defined in gi8n.h
-	    if (/(NC|[CNQ]?)_ *\(QUOTEDTEXT/)
+	    if (/(NC_|[NCQ]_|[^_]_|(^|$)[_]) *\(?QUOTEDTEXT/m)
 	    {
-                if (defined isNotValidMissing (unpack("x3 A*", $file))) {
-                    ## Remove the first 3 chars and add newline
-                    push @buf_allfiles, unpack("x3 A*", $file) . "\n";
-                }
+                AddFileToListIfMissing($file, \@buf_allfiles);
 		last;
 	    }
+
+            # Check for direct calls to the glib gettext wrappers
+            if (/g_d[np]?gettext[2]? *\(QUOTEDTEXT/)
+            {
+                AddFileToListIfMissing($file, \@buf_allfiles);
+                last;
+            }
 	}
 	close FILE;
     }
 
-    foreach my $file (@buf_i18n_xml) 
+    foreach my $file (@buf_i18n_xml)
     {
 	open FILE, "<$file";
-	
-	while (<FILE>) 
+
+	while (<FILE>)
 	{
 	    # FIXME: share the pattern matching code with intltool-extract
 	    if (/\s_[-A-Za-z0-9._:]+\s*=\s*\"([^"]+)\"/ || /<_[^>]+>/ || /translatable=\"yes\"/)
 	    {
-                if (defined isNotValidMissing (unpack("x3 A*", $file))) {
-                    push @buf_allfiles, unpack("x3 A*", $file) . "\n";
-                }
+                AddFileToListIfMissing($file, \@buf_allfiles);
 		last;
 	    }
 	}
@@ -491,13 +583,11 @@ sub FindLeftoutFiles
     foreach my $file (@buf_i18n_ini)
     {
 	open FILE, "<$file";
-	while (<FILE>) 
+	while (<FILE>)
 	{
 	    if (/_(.*)=/)
 	    {
-                if (defined isNotValidMissing (unpack("x3 A*", $file))) {
-                    push @buf_allfiles, unpack("x3 A*", $file) . "\n";
-                }
+                AddFileToListIfMissing($file, \@buf_allfiles);
 		last;
 	    }
 	}
@@ -506,9 +596,7 @@ sub FindLeftoutFiles
 
     foreach my $file (@buf_i18n_xml_unmarked)
     {
-        if (defined isNotValidMissing (unpack("x3 A*", $file))) {
-            push @buf_allfiles, unpack("x3 A*", $file) . "\n";
-        }
+        AddFileToListIfMissing($file, \@buf_allfiles);
     }
 
 
@@ -516,14 +604,14 @@ sub FindLeftoutFiles
     @buf_potfiles_sorted = sort (@buf_potfiles);
 
     my %in2;
-    foreach (@buf_potfiles_sorted) 
+    foreach (@buf_potfiles_sorted)
     {
         s#^$SRCDIR/../##;
         s#^$SRCDIR/##;
 	$in2{$_} = 1;
     }
 
-    foreach (@buf_potfiles_ignore_sorted) 
+    foreach (@buf_potfiles_ignore_sorted)
     {
         s#^$SRCDIR/../##;
         s#^$SRCDIR/##;
@@ -562,19 +650,20 @@ sub FindLeftoutFiles
     ## if any, and give information about this procedure.
     if (@result + @buf_potfiles_notexist > 0)
     {
-	if (@result) 
+	if (@result)
 	{
 	    print "\n" if $VERBOSE;
 	    unlink "missing";
 	    open OUT, ">missing";
 	    print OUT @result;
 	    close OUT;
-	    warn "\e[1mThe following files contain translations and are currently not in use. Please\e[0m\n".
-	         "\e[1mconsider adding these to the POTFILES.in file, located in the po/ directory.\e[0m\n\n";
+	    warn "The following files contain translations and are currently not in use. Please\n".
+	         "consider adding these to the POTFILES.in file, located in the po/ directory.\n\n";
 	    print STDERR @result, "\n";
 	    warn "If some of these files are left out on purpose then please add them to\n".
-		 "POTFILES.skip instead of POTFILES.in. A file \e[1m'missing'\e[0m containing this list\n".
+		 "POTFILES.skip instead of POTFILES.in. A file 'missing' containing this list\n".
 		 "of left out files has been written in the current directory.\n";
+            warn "Please report to ". $varhash{"PACKAGE_BUGREPORT"} ."\n" if (defined $varhash{"PACKAGE_BUGREPORT"});
 	}
 	if (@buf_potfiles_notexist)
 	{
@@ -583,10 +672,11 @@ sub FindLeftoutFiles
 	    print OUT @buf_potfiles_notexist;
 	    close OUT;
 	    warn "\n" if ($VERBOSE or @result);
-	    warn "\e[1mThe following files do not exist anymore:\e[0m\n\n";
+	    warn "The following files do not exist anymore:\n\n";
 	    warn @buf_potfiles_notexist, "\n";
-	    warn "Please remove them from POTFILES.in. A file \e[1m'notexist'\e[0m\n".
-		 "containing this list of absent files has been written in the current directory.\n";
+	    warn "Please remove them from POTFILES.in. A file 'notexist'\n".
+                "containing this list of absent files has been written in the current directory.\n";
+            warn "Please report to ". $varhash{"PACKAGE_BUGREPORT"} ."\n" if (defined $varhash{"PACKAGE_BUGREPORT"});
 	}
     }
 
@@ -606,8 +696,11 @@ sub Console_WriteError_InvalidOption
 sub isProgramInPath
 {
     my ($file) = @_;
-    # If either a file exists, or when run it returns 0 exit status
-    return 1 if ((-x $file) or (system("$file --version >$devnull") == 0));
+    # If a file is executable (or exists on Windows),
+    # or when it returns 0 exit status.
+    return 1 if (
+        ((-x $file) or ($^O eq 'MSWin32' and (-e $file))) or
+        (system("$file --version >$devnull") == 0));
     return 0;
 }
 
@@ -627,8 +720,6 @@ sub GenerateHeaders
 {
     my $EXTRACT = $ENV{"INTLTOOL_EXTRACT"} || "intltool-extract";
 
-    $EXTRACT = "$^X $EXTRACT" if ($^O eq 'MSWin32' && !($EXTRACT =~ /perl/));
-
     ## Generate the .h header files, so we can allow glade and
     ## xml translation support
     if (! isProgramInPath ("$EXTRACT"))
@@ -640,8 +731,8 @@ sub GenerateHeaders
     else
     {
 	open (FILE, $POTFILES_in) or die "$PROGRAM: POTFILES.in not found.\n";
-	
-	while (<FILE>) 
+
+	while (<FILE>)
 	{
 	   chomp;
 	   next if /^\[\s*encoding/;
@@ -651,22 +742,19 @@ sub GenerateHeaders
 
 	   my $gettext_type= &POFile_DetermineType ($1);
 
-	   if (/\.($xml_support|$ini_support)$/ || /^\[/)
+	   if (/\.($xml_support|$ini_support|$tlk_support)$/ || /^\[/)
 	   {
 	       s/^\[[^\[].*]\s*//;
 
-	       my $filename = "../$_";
+	       my @cmd = ($EXTRACT, "--update", "--type=$gettext_type",
+	                  "--srcdir=$SRCDIR");
 
-	       if ($VERBOSE)
-	       {
-		   system ($EXTRACT, "--update", "--srcdir=$SRCDIR",
-			   "--type=$gettext_type", $filename);
-	       } 
-	       else 
-	       {
-	 	   system ($EXTRACT, "--update", "--type=$gettext_type", 
-			   "--srcdir=$SRCDIR", "--quiet", $filename);
-	       }
+	       unshift (@cmd, $^X) if ($^O eq 'MSWin32' && !($EXTRACT =~ /perl/));
+
+	       push (@cmd, "--quiet") if (! $VERBOSE);
+	       push (@cmd, "../$_");
+
+	       system (@cmd);
 	   }
        }
        close FILE;
@@ -714,7 +802,7 @@ sub GeneratePOTemplate
     my @temp_headers;
     my $encoding_problem_is_reported = 0;
 
-    while (<INFILE>) 
+    while (<INFILE>)
     {
 	next if (/^#/ or /^\s*$/);
 
@@ -726,14 +814,14 @@ sub GeneratePOTemplate
 	{
 	    $forced_gettext_code=$1;
 	}
-	elsif (/\.($xml_support|$ini_support)$/ || /^\[/)
+	elsif (/\.($xml_support|$ini_support|$tlk_support)$/ || /^\[/)
 	{
 	    s/^\[.*]\s*//;
             print OUTFILE "../$_.h\n";
 	    push @temp_headers, "../$_.h";
 	    $gettext_code = &TextFile_DetermineEncoding ("../$_.h") if ($gettext_support_nonascii and not defined $forced_gettext_code);
-	} 
-	else 
+	}
+	else
 	{
             print OUTFILE "$SRCDIR/../$_\n";
 	    $gettext_code = &TextFile_DetermineEncoding ("$SRCDIR/../$_") if ($gettext_support_nonascii and not defined $forced_gettext_code);
@@ -760,7 +848,7 @@ sub GeneratePOTemplate
 				 "         but $PROGRAM thinks that most of the source files are in\n".
 				 "         $encoding encoding, while \"$_\" is (likely) in\n".
 		       		 "         $gettext_code encoding. If you are sure that all translatable strings\n".
-				 "         are in same encoding (say UTF-8), please \e[1m*prepend*\e[0m the following\n".
+				 "         are in same encoding (say UTF-8), please *prepend* the following\n".
 				 "         line to POTFILES.in:\n\n".
 				 "                 [encoding: UTF-8]\n\n".
 				 "         and make sure that configure.in/ac checks for $PACKAGE >= 0.27 .\n".
@@ -899,7 +987,7 @@ sub GatherPOFiles
 
     @languages = map (&POFile_GetLanguage, @po_files);
 
-    foreach my $lang (@languages) 
+    foreach my $lang (@languages)
     {
 	$po_files_by_lang{$lang} = shift (@po_files);
     }
@@ -941,7 +1029,7 @@ sub Console_Write_CoverageReport
 
     &GatherPOFiles;
 
-    foreach my $lang (@languages) 
+    foreach my $lang (@languages)
     {
 	print STDERR "$lang: ";
 	&POFile_Update ($lang, "");
@@ -959,7 +1047,7 @@ sub Console_Write_CoverageReport
 sub SubstituteVariable
 {
     my ($str) = @_;
-    
+
     # always need to rewind file whenever it has been accessed
     seek (CONF, 0, 0);
 
@@ -972,7 +1060,7 @@ sub SubstituteVariable
 	    ($varhash{$1} = $2) =~  s/^["'](.*)["']$/$1/;
 	}
     }
-    
+
     if ($str =~ /^(.*)\${?([A-Z_]+)}?(.*)$/)
     {
 	my $rest = $3;
@@ -983,8 +1071,8 @@ sub SubstituteVariable
 
 	return SubstituteVariable ("$untouched$sub$rest");
     }
-    
-    # We're using Perl backticks ` and "echo -n" here in order to 
+
+    # We're using Perl backticks ` and "echo -n" here in order to
     # expand any shell escapes (such as backticks themselves) in every variable
     return echo_n ($str);
 }
@@ -996,18 +1084,18 @@ sub CONF_Handle_Open
 
     my ($conf_in, $src_dir);
 
-    if ($base_dirname =~ /^po(-.+)?$/) 
+    if ($base_dirname =~ /^po(-.+)?$/)
     {
-	if (-f "Makevars") 
+	if (-f "Makevars")
 	{
 	    my $makefile_source;
 
 	    local (*IN);
 	    open (IN, "<Makevars") || die "can't open Makevars: $!";
 
-	    while (<IN>) 
+	    while (<IN>)
 	    {
-		if (/^top_builddir[ \t]*=/) 
+		if (/^top_builddir[ \t]*=/)
 		{
 		    $src_dir = $_;
 		    $src_dir =~ s/^top_builddir[ \t]*=[ \t]*([^ \t\n\r]*)/$1/;
@@ -1025,26 +1113,26 @@ sub CONF_Handle_Open
 
 	    $conf_in || die "Cannot find top_builddir in Makevars.";
 	}
-	elsif (-f "$SRCDIR/../configure.ac") 
+	elsif (-f "$SRCDIR/../configure.ac")
 	{
 	    $conf_in = "$SRCDIR/../configure.ac";
-	} 
-	elsif (-f "$SRCDIR/../configure.in") 
+	}
+	elsif (-f "$SRCDIR/../configure.in")
 	{
 	    $conf_in = "$SRCDIR/../configure.in";
-	} 
-	else 
+	}
+	else
 	{
 	    my $makefile_source;
 
 	    local (*IN);
 	    open (IN, "<Makefile") || return;
 
-	    while (<IN>) 
+	    while (<IN>)
 	    {
-		if (/^top_srcdir[ \t]*=/) 
+		if (/^top_srcdir[ \t]*=/)
 		{
-		    $src_dir = $_;		    
+		    $src_dir = $_;
 		    $src_dir =~ s/^top_srcdir[ \t]*=[ \t]*([^ \t\n\r]*)/$1/;
 
 		    chomp $src_dir;
@@ -1073,6 +1161,7 @@ sub FindPackageName
     my $version;
     my $domain = &FindMakevarsDomain;
     my $name = $domain || "untitled";
+    my $bugurl;
 
     &CONF_Handle_Open;
 
@@ -1090,7 +1179,7 @@ sub FindPackageName
     # 2. first argument of AC_INIT (with >= 2 arguments)
     # 3. first argument of AM_INIT_AUTOMAKE (with >= 2 argument)
 
-    # /^AM_INIT_AUTOMAKE\([\s\[]*([^,\)\s\]]+)/m 
+    # /^AM_INIT_AUTOMAKE\([\s\[]*([^,\)\s\]]+)/m
     # the \s makes this not work, why?
     if ($conf_source =~ /^AM_INIT_AUTOMAKE\(([^,\)]+),([^,\)]+)/m)
     {
@@ -1105,24 +1194,40 @@ sub FindPackageName
 	$varhash{"PACKAGE_VERSION"} = $version if (not $name =~ /\${?AC_PACKAGE_VERSION}?/);
 	$varhash{"VERSION"} = $version if (not $name =~ /\${?VERSION}?/);
     }
-    
-    if ($conf_source =~ /^AC_INIT\(([^,\)]+),([^,\)]+)/m) 
+
+    if ($conf_source =~ /^AC_INIT\(([^,\)]+),([^,\)]+)[,]?([^,\)]+)?/m)
     {
 	($name, $version) = ($1, $2);
+        $bugurl = $3 if (defined $3);
+
+        # Handle m4_esyscmd
+        # FIXME: We should do this in a more generic way that works for all vars
+        if ($version =~ /m4_esyscmd\([\[]?([^\)\]]+)/)
+        {
+            my $cwd = getcwd ();
+            chdir ("$SRCDIR/..");
+            $version = qx($1);
+            chdir ($cwd);
+        }
+
+
 	$name    =~ s/[\[\]\s]//g;
 	$version =~ s/[\[\]\s]//g;
+        $bugurl  =~ s/[\[\]\s]//g if (defined $bugurl);
 	$name    =~ s/\(+$//g;
 	$version =~ s/\(+$//g;
+        $bugurl  =~ s/\(+$//g if (defined $bugurl);
 
 	$varhash{"PACKAGE_NAME"} = $name if (not $name =~ /\${?AC_PACKAGE_NAME}?/);
 	$varhash{"PACKAGE"} = $name if (not $name =~ /\${?PACKAGE}?/);
 	$varhash{"PACKAGE_VERSION"} = $version if (not $name =~ /\${?AC_PACKAGE_VERSION}?/);
 	$varhash{"VERSION"} = $version if (not $name =~ /\${?VERSION}?/);
+        $varhash{"PACKAGE_BUGREPORT"} = $bugurl if (defined $bugurl and not $bugurl =~ /\${?\w+}?/);
     }
 
     # \s makes this not work, why?
     $name = $1 if $conf_source =~ /^GETTEXT_PACKAGE=\[?([^\n\]]+)/m;
-    
+
     # m4 macros AC_PACKAGE_NAME, AC_PACKAGE_VERSION etc. have same value
     # as corresponding $PACKAGE_NAME, $PACKAGE_VERSION etc. shell variables.
     $name =~ s/\bAC_PACKAGE_/\$PACKAGE_/g;
@@ -1139,7 +1244,7 @@ sub FindPackageName
 sub FindPOTKeywords
 {
 
-    my $keywords = "--keyword=_ --keyword=N_ --keyword=C_:1c,2 --keyword=NC_:1c,2 --keyword=Q_";
+    my $keywords = "--keyword=_ --keyword=N_ --keyword=C_:1c,2 --keyword=NC_:1c,2 --keyword=Q_ --keyword=g_dgettext:2 --keyword=g_dngettext:2,3 --keyword=g_dpgettext:2 --keyword=g_dpgettext2=2c,3";
     my $varname = "XGETTEXT_OPTIONS";
     my $make_source; {
 	local (*IN);
@@ -1153,7 +1258,7 @@ sub FindPOTKeywords
     # unwrap lines split with a trailing \
     $make_source =~  s/\\ $ \n/ /mxg;
     $keywords = $1 if $make_source =~ /^$varname[ ]*=\[?([^\n\]]+)/m;
-    
+
     return $keywords;
 }
 
@@ -1161,7 +1266,7 @@ sub FindMakevarsDomain
 {
 
     my $domain = "";
-    my $makevars_source; { 
+    my $makevars_source; {
 	local (*IN);
 	open (IN, "<Makevars") || return $domain;
 	seek (IN, 0, 0);
@@ -1173,7 +1278,7 @@ sub FindMakevarsDomain
     $domain = $1 if $makevars_source =~ /^DOMAIN[ ]*=\[?([^\n\]\$]+)/m;
     $domain =~ s/^\s+//;
     $domain =~ s/\s+$//;
-    
+
     return $domain;
 }
 
@@ -1181,7 +1286,7 @@ sub FindMakevarsBugAddress
 {
 
     my $address = "";
-    my $makevars_source; { 
+    my $makevars_source; {
 	local (*IN);
 	open (IN, "<Makevars") || return undef;
 	seek (IN, 0, 0);
@@ -1193,6 +1298,6 @@ sub FindMakevarsBugAddress
     $address = $1 if $makevars_source =~ /^MSGID_BUGS_ADDRESS[ ]*=\[?([^\n\]\$]+)/m;
     $address =~ s/^\s+//;
     $address =~ s/\s+$//;
-    
+
     return $address;
 }

@@ -1,0 +1,87 @@
+stgit
+------------------------------------------
+
+Quilt functionality on top of git
+
+Offer similar functionality to quilt i.e. pushing/popping patches
+to/from a stack) on top of git. These operations are performed using
+git commands and the patches are stored as git commit objects,
+allowing easy merging of the stgit patches into other repositories
+using standard git functionality.
+
+Runtime requirements:
+  cygwin
+  python
+  git
+
+Build requirements:
+  cygwin
+  asciidoc
+  python
+
+Canonical homepage:
+  http://procode.org/stgit
+  http://packages.debian.org/stgit
+
+Canonical download:
+  See above
+
+Version control repository:
+  http://homepage.ntlworld.com/cmarinas/stgit.git
+
+Mailing list:
+
+Forum / Wiki:
+
+IRC channel:
+
+Upstream contact:
+  Author: Cataling Marinas <catalin.marinas@gmail.com>
+  Bugs: Cataling Marinas <catalin.marinas@gmail.com>
+
+License:
+  GPL
+
+Language:
+  Python
+
+------------------------------------
+
+Build instructions:
+  unpack stgit-0.16-1-src.tar.bz2
+    if you use setup to install this src package, it will be
+    unpacked under /usr/src automatically
+  cd /usr/src
+  ./stgit*.sh all
+
+This will create:
+  stgit-0.16-1.tar.bz2
+  stgit-0.16-1-src.tar.bz2
+
+-------------------------------------------
+
+Files included in the binary distribution:
+  See Cygwin package archive
+
+------------------
+
+Port Notes:
+- stgit.1 was copied from Debian (not included in sources)
+
+----- version 0.16-2 -----
+- Python 2.7 2013-01-26 Jari Aalto
+
+----- version 0.16-1 -----
+- New upstream release 2012-09-15 Jari Aalto
+
+----- version 0.15-2 -----
+- Python 2.6 2010-06-17 Jari Aalto
+
+----- version 0.15-1 -----
+- New upstream release 2010-01-15 Jari Aalto
+
+----- version 0.13-1 -----
+- Initial release 2007-09-07 Jari Aalto
+
+Cygwin port maintained by: Jari Aalto <jari.aalto@cante.net>
+Copyright (C) 2007-2013 Jari Aalto; Licenced under GPL v2 or later

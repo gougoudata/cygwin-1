@@ -1,0 +1,32 @@
+stg-clean(1)
+============
+
+NAME
+----
+stg-clean - Delete the empty patches in the series
+
+SYNOPSIS
+--------
+[verse]
+'stg' clean 
+
+DESCRIPTION
+-----------
+
+Delete the empty patches in the whole series or only those applied or
+unapplied. A patch is considered empty if the two commit objects
+representing its boundaries refer to the same tree object.
+
+OPTIONS
+-------
+-a::
+--applied::
+        Delete the empty applied patches.
+
+-u::
+--unapplied::
+        Delete the empty unapplied patches.
+
+StGit
+-----
+Part of the StGit suite - see linkman:stg[1]

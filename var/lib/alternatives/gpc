@@ -1,0 +1,14 @@
+auto
+/usr/bin/gpc.exe
+binobj
+/usr/bin/binobj.exe
+gpidump
+/usr/bin/gpidump.exe
+gpc.1.gz
+/usr/share/man/man1/gpc.1.gz
+
+/usr/bin/gpc-3.exe
+30
+/usr/bin/binobj-3.exe
+/usr/bin/gpidump-3.exe
+/usr/share/man/man1/gpc-3.1.gz

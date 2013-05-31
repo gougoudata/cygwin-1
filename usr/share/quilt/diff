@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /usr/bin/bash
 
 #  This script is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License version 2 as
@@ -80,7 +80,8 @@ included.
 }
 
 colorize() {
-	if [ -n "$opt_color" ]; then
+	if [ -n "$opt_color" ]
+	then
 		sed -e '
 		    s/^\(Index:\|---\|+++\|\*\*\*\) .*/'$color_diff_hdr'&'$color_clear'/
 		t ; s/^+.*/'$color_diff_add'&'$color_clear'/
@@ -109,15 +110,15 @@ do_diff()
 	then
 		[ -s "$old_file" ] || old_file=/dev/null
 		[ -s "$new_file" ] || new_file=/dev/null
-		if ! diff -q $old_file $new_file >/dev/null
+		if ! diff -q "$old_file" "$new_file" >/dev/null
 		then
 			export LANG=$ORIGINAL_LANG
-			$opt_diff $old_file $new_file
+			$opt_diff "$old_file" "$new_file"
 			export LANG=POSIX
 			true
 		fi
 	else
-		diff_file $file $old_file $new_file
+		diff_file "$file" "$old_file" "$new_file" | colorize
 	fi
 }
 
@@ -228,11 +229,18 @@ case "$opt_strip_level" in
 0 | 1 | ab)
 	;;
 *)
-	printf $"Cannot diff patches with -p%s, please specify -p0 or -p1 instead\n" \
+	printf $"Cannot diff patches with -p%s, please specify -p0, -p1, or -pab instead\n" \
 	       "$opt_strip_level" >&2
 	die 1
 	;;
 esac
+
+# If diffing against snapshot, ensure that snapshot is actually present
+if [ -n "$opt_snapshot" ] && [ ! -d "$QUILT_PC/$snap_subdir" ]
+then
+	printf $"No snapshot to diff against\n" >&2
+	die 1
+fi
 
 trap "die 1" SIGTERM
 
@@ -273,6 +281,10 @@ else
 	patches=( $last_patch )
 fi
 
+# Properly handle spaces in file names
+saved_IFS=$IFS
+IFS=$'\n'
+
 for patch in ${patches[@]}
 do
 	for file in $(files_in_patch_ordered $patch)
@@ -302,45 +314,16 @@ else
 	files=( $(sort -u $tmp_files) )
 fi
 
+IFS=$saved_IFS
+
 if [ -n "$opt_relative" ]
 then
-	patch_file=$(patch_file_name $last_patch)
-	patch_args=$(patch_args $last_patch)
 	workdir=$(gen_tempfile -d $PWD/quilt)
-
-	if [ ${#files[@]} -gt 0 ] \
-	   && ! ( cd $QUILT_PC/$last_patch &&
-		  cp -l --parents "${files[@]}" $workdir/ )
-	then
-		printf $"Failed to copy files to temporary directory\n" >&2
-		die 1
-	fi
-	# Now we may have some zero-size files that have no permissions
-	# (which represent files that the patch creates). Those may have
-	# been created in the meantime, but patch would refuse to touch
-	# them: We must remove them here.
-	find $workdir -type f -size 0 -exec rm -f '{}' ';'
-
-	if [ -s $patch_file ]
-	then
-		if ! cat_file $patch_file \
-		     | patch -d $workdir $QUILT_PATCH_OPTS $patch_args \
-		     	     --no-backup-if-mismatch -Ef \
-			     >/dev/null 2>/dev/null
-		then
-			# Generating a relative diff for a subset of files in
-			# the patch will fail. Also, if a patch was force
-			# applied, we know that it won't apply cleanly. In
-			# all other cases, print a warning.
-
-			if [ ! -e $QUILT_PC/$last_patch~refresh -a \
-			       ${#opt_files[@]} -eq 0 ]
-			then
-				printf $"Failed to patch temporary files\n" >&2
-			fi
-		fi
-	fi
+	apply_patch_temporarily "$workdir" "$last_patch" "${files[@]}" \
+	|| die 1
 fi
+
+setup_pager
 
 for file in "${files[@]}"
 do
@@ -351,27 +334,26 @@ do
 	then
 		old_file="$workdir/$file"
 	else
-		patch="$(first_modified_by $file ${patches[@]})"
+		patch=$(first_modified_by "$file" "${patches[@]}")
 		if [ -z "$patch" ]
 		then
 			[ -z "$opt_snapshot" ] \
 			&& printf $"File %s is not being modified\n" "$file" >&2
 			continue
 		fi
-		old_file="$(backup_file_name $patch $file)"
+		old_file=$(backup_file_name "$patch" "$file")
 	fi
 
-	next_patch=$(next_patch_for_file $last_patch $file)
+	next_patch=$(next_patch_for_file "$last_patch" "$file")
 	if [ -z "$next_patch" ]
 	then
 		new_file="$file"
 	else
-		new_file="$(backup_file_name $next_patch $file)"
+		new_file=$(backup_file_name "$next_patch" "$file")
 		files_were_shadowed=1
 	fi
 
-	do_diff "$file" "$old_file" "$new_file" \
-	| colorize
+	do_diff "$file" "$old_file" "$new_file"
 
 	if [ $? -ne 0 ]
 	then

@@ -1,17 +1,22 @@
 /**
  * @copyright
  * ====================================================================
- * Copyright (c) 2006-2008 CollabNet.  All rights reserved.
+ *    Licensed to the Apache Software Foundation (ASF) under one
+ *    or more contributor license agreements.  See the NOTICE file
+ *    distributed with this work for additional information
+ *    regarding copyright ownership.  The ASF licenses this file
+ *    to you under the Apache License, Version 2.0 (the
+ *    "License"); you may not use this file except in compliance
+ *    with the License.  You may obtain a copy of the License at
  *
- * This software is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at http://subversion.tigris.org/license-1.html.
- * If newer versions of this license are posted there, you may use a
- * newer version instead, at your option.
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * This software consists of voluntary contributions made by many
- * individuals.  For exact contribution history, see the revision
- * history and logs, available at http://subversion.tigris.org/.
+ *    Unless required by applicable law or agreed to in writing,
+ *    software distributed under the License is distributed on an
+ *    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ *    KIND, either express or implied.  See the License for the
+ *    specific language governing permissions and limitations
+ *    under the License.
  * ====================================================================
  * @endcopyright
  *
@@ -24,10 +29,11 @@
 #define SVN_MERGEINFO_H
 
 #include <apr_pools.h>
-#include <apr_tables.h>         /* for apr_array_header_t */
+#include <apr_tables.h>  /* for apr_array_header_t */
 #include <apr_hash.h>
 
-#include "svn_error.h"
+#include "svn_types.h"
+#include "svn_string.h"  /* for svn_string_t */
 
 
 #ifdef __cplusplus
@@ -51,11 +57,11 @@ extern "C" {
  * merge.  If a path's parent does not have any @c SVN_PROP_MERGEINFO set,
  * the path's mergeinfo can elide to its nearest grand-parent,
  * great-grand-parent, etc. that has equivalent @c SVN_PROP_MERGEINFO set
- * on it.  
+ * on it.
  *
  * If a path has no @c SVN_PROP_MERGEINFO of its own, it inherits mergeinfo
  * from its nearest parent that has @c SVN_PROP_MERGEINFO set.  The
- * exception to this is @c SVN_PROP_MERGEINFO with non-ineritable revision
+ * exception to this is @c SVN_PROP_MERGEINFO with non-inheritable revision
  * ranges.  These non-inheritable ranges apply only to the path which they
  * are set on.
  *
@@ -107,25 +113,28 @@ extern "C" {
  *
  * (a) Strings (@c svn_string_t *) containing "unparsed mergeinfo".
  *
- * (b) Hashes mapping merge source paths (@c const char *, starting
- *     with slashes) to non-empty arrays (@c apr_array_header_t *) of
- *     merge ranges (@c svn_merge_range_t *), ordered from smallest
- *     revision range to largest.  These hashes are called "mergeinfo"
- *     and are represented by @c svn_mergeinfo_t.  The sorted arrays
- *     are called "rangelists".  A @c NULL hash is used to represent
+ * (b) A "rangelist".  An array (@c apr_array_header_t *) of non-overlapping
+ *     merge ranges (@c svn_merge_range_t *), sorted as said by
+ *     @c svn_sort_compare_ranges().  An empty range list is represented by
+ *     an empty array.  Unless specifically noted otherwise, all APIs require
+ *     rangelists that describe only forward ranges, i.e. the range's start
+ *     revision is less than its end revision.
+ *
+ * (c) @c svn_mergeinfo_t, called "mergeinfo".  A hash mapping merge
+ *     source paths (@c const char *, starting with slashes) to
+ *     non-empty rangelist arrays.  A @c NULL hash is used to represent
  *     no mergeinfo and an empty hash is used to represent empty
  *     mergeinfo.
  *
- * (c) Hashes mapping paths (@c const char *, starting with slashes)
- *     to @c svn_mergeinfo_t.  These hashes are called "mergeinfo
- *     catalogs" and are represented by @c svn_mergeinfo_catalog_t.
+ * (d) @c svn_mergeinfo_catalog_t, called a "mergeinfo catalog".  A hash
+ *     mapping paths (@c const char *) to @c svn_mergeinfo_t.
  *
  * Both @c svn_mergeinfo_t and @c svn_mergeinfo_catalog_t are just
  * typedefs for @c apr_hash_t *; there is no static type-checking, and
  * you still use standard @c apr_hash_t functions to interact with
  * them.
  *
- * Note that while the keys of mergeinfos are always relative to the
+ * Note that while the keys of mergeinfos are always absolute from the
  * repository root, the keys of a catalog may be relative to something
  * else, such as an RA session root.
  */
@@ -138,10 +147,18 @@ typedef apr_hash_t *svn_mergeinfo_catalog_t;
  * Perform temporary allocations in @a pool.
  *
  * If @a input is not a grammatically correct @c SVN_PROP_MERGEINFO
- * property, contains overlapping or unordered revision ranges, or revision
- * ranges with a start revision greater than or equal to its end revision,
- * or contains paths mapped to empty revision ranges, then return
- * @c SVN_ERR_MERGEINFO_PARSE_ERROR.
+ * property, contains overlapping revision ranges of differing
+ * inheritability, or revision ranges with a start revision greater
+ * than or equal to its end revision, or contains paths mapped to empty
+ * revision ranges, then return  @c SVN_ERR_MERGEINFO_PARSE_ERROR.
+ * Unordered revision ranges are  allowed, but will be sorted when
+ * placed into @a *mergeinfo.  Overlapping revision ranges of the same
+ * inheritability are also allowed, but will be combined into a single
+ * range when placed into @a *mergeinfo.
+ *
+ * @a input may contain relative merge source paths, but these are
+ * converted to absolute paths in @a *mergeinfo.
+ *
  * @since New in 1.5.
  */
 svn_error_t *
@@ -156,7 +173,7 @@ svn_mergeinfo_parse(svn_mergeinfo_t *mergeinfo, const char *input,
  * hashes are compared for equality.  If @a consider_inheritance is FALSE,
  * then the start and end revisions of the @c svn_merge_range_t's being
  * compared are the only factors considered when determining equality.
- * 
+ *
  *  e.g. '/trunk: 1,3-4*,5' == '/trunk: 1,3-5'
  *
  * If @a consider_inheritance is TRUE, then the inheritability of the
@@ -175,8 +192,8 @@ svn_mergeinfo_diff(svn_mergeinfo_t *deleted, svn_mergeinfo_t *added,
                    svn_boolean_t consider_inheritance,
                    apr_pool_t *pool);
 
-/** Merge one mergeinfo, @a changes, into another mergeinfo @a
- * mergeinfo.
+/** Merge a shallow copy of one mergeinfo, @a changes, into another mergeinfo
+ * @a mergeinfo.
  *
  * When intersecting rangelists for a path are merged, the inheritability of
  * the resulting svn_merge_range_t depends on the inheritability of the
@@ -192,29 +209,63 @@ svn_error_t *
 svn_mergeinfo_merge(svn_mergeinfo_t mergeinfo, svn_mergeinfo_t changes,
                     apr_pool_t *pool);
 
-/** Removes @a eraser (the subtrahend) from @a whiteboard (the
- * minuend), and places the resulting difference in @a *mergeinfo.
+/** Combine one mergeinfo catalog, @a changes_catalog, into another mergeinfo
+ * catalog @a mergeinfo_catalog.  If both catalogs have mergeinfo for the same
+ * key, use svn_mergeinfo_merge() to combine the mergeinfos.
  *
- * @since New in 1.5.
+ * Additions to @a mergeinfo_catalog are deep copies allocated in
+ * @a result_pool.  Temporary allocations are made in @a scratch_pool.
+ *
+ * @since New in 1.7.
  */
+svn_error_t *
+svn_mergeinfo_catalog_merge(svn_mergeinfo_catalog_t mergeinfo_catalog,
+                            svn_mergeinfo_catalog_t changes_catalog,
+                            apr_pool_t *result_pool,
+                            apr_pool_t *scratch_pool);
+
+/** Like svn_mergeinfo_remove2, but always considers inheritance.
+ *
+ * @deprecated Provided for backward compatibility with the 1.6 API.
+ */
+SVN_DEPRECATED
 svn_error_t *
 svn_mergeinfo_remove(svn_mergeinfo_t *mergeinfo, svn_mergeinfo_t eraser,
                      svn_mergeinfo_t whiteboard, apr_pool_t *pool);
 
+/** Removes @a eraser (the subtrahend) from @a whiteboard (the
+ * minuend), and places the resulting difference in @a *mergeinfo.
+ * Allocates @a *mergeinfo in @a result_pool.  Temporary allocations
+ * will be performed in @a scratch_pool.
+ *
+ * @a consider_inheritance determines how to account for the inheritability
+ * of the two mergeinfo's ranges when calculating the range equivalence,
+ * as described for svn_mergeinfo_diff().
+ *
+ * @since New in 1.7.
+ */
+svn_error_t *
+svn_mergeinfo_remove2(svn_mergeinfo_t *mergeinfo,
+                      svn_mergeinfo_t eraser,
+                      svn_mergeinfo_t whiteboard,
+                      svn_boolean_t consider_inheritance,
+                      apr_pool_t *result_pool,
+                      apr_pool_t *scratch_pool);
+
 /** Calculate the delta between two rangelists consisting of @c
  * svn_merge_range_t * elements (sorted in ascending order), @a from
- * and @a to, and place the result in @a deleted and @a added (neither
- * output argument will ever be @c NULL).
+ * and @a to, and place the result in @a *deleted and @a *added
+ * (neither output argument will ever be @c NULL).
  *
  * @a consider_inheritance determines how to account for the inheritability
  * of the two rangelist's ranges when calculating the diff,
- * @see svn_mergeinfo_diff().
+ * as described for svn_mergeinfo_diff().
  *
  * @since New in 1.5.
  */
 svn_error_t *
 svn_rangelist_diff(apr_array_header_t **deleted, apr_array_header_t **added,
-                   apr_array_header_t *from, apr_array_header_t *to,
+                   const apr_array_header_t *from, const apr_array_header_t *to,
                    svn_boolean_t consider_inheritance,
                    apr_pool_t *pool);
 
@@ -224,7 +275,7 @@ svn_rangelist_diff(apr_array_header_t **deleted, apr_array_header_t **added,
  *
  * When intersecting rangelists are merged, the inheritability of
  * the resulting svn_merge_range_t depends on the inheritability of the
- * operands, @see svn_mergeinfo_merge().
+ * operands: see svn_mergeinfo_merge().
  *
  * Note: @a *rangelist and @a changes must be sorted as said by @c
  * svn_sort_compare_ranges().  @a *rangelist is guaranteed to remain
@@ -235,7 +286,7 @@ svn_rangelist_diff(apr_array_header_t **deleted, apr_array_header_t **added,
  */
 svn_error_t *
 svn_rangelist_merge(apr_array_header_t **rangelist,
-                    apr_array_header_t *changes,
+                    const apr_array_header_t *changes,
                     apr_pool_t *pool);
 
 /** Removes @a eraser (the subtrahend) from @a whiteboard (the
@@ -247,22 +298,40 @@ svn_rangelist_merge(apr_array_header_t **rangelist,
  *
  * @a consider_inheritance determines how to account for the
  * @c svn_merge_range_t inheritable field when comparing @a whiteboard's
- * and @a *eraser's rangelists for equality.  @See svn_mergeinfo_diff().
+ * and @a *eraser's rangelists for equality.  @see svn_mergeinfo_diff().
  *
  * @since New in 1.5.
  */
 svn_error_t *
-svn_rangelist_remove(apr_array_header_t **output, apr_array_header_t *eraser,
-                     apr_array_header_t *whiteboard,
+svn_rangelist_remove(apr_array_header_t **output, const apr_array_header_t *eraser,
+                     const apr_array_header_t *whiteboard,
                      svn_boolean_t consider_inheritance,
                      apr_pool_t *pool);
 
 /** Find the intersection of two mergeinfos, @a mergeinfo1 and @a
  * mergeinfo2, and place the result in @a *mergeinfo, which is (deeply)
- * allocated in @a pool.
+ * allocated in @a result_pool.  Temporary allocations will be performed
+ * in @a scratch_pool.
  *
- * @since New in 1.5.
+ * @a consider_inheritance determines how to account for the inheritability
+ * of the two mergeinfo's ranges when calculating the range equivalence,
+ * @see svn_rangelist_intersect().
+ *
+ * @since New in 1.7.
  */
+svn_error_t *
+svn_mergeinfo_intersect2(svn_mergeinfo_t *mergeinfo,
+                         svn_mergeinfo_t mergeinfo1,
+                         svn_mergeinfo_t mergeinfo2,
+                         svn_boolean_t consider_inheritance,
+                         apr_pool_t *result_pool,
+                         apr_pool_t *scratch_pool);
+
+/** Like svn_mergeinfo_intersect2, but always considers inheritance.
+ *
+ * @deprecated Provided for backward compatibility with the 1.6 API.
+ */
+SVN_DEPRECATED
 svn_error_t *
 svn_mergeinfo_intersect(svn_mergeinfo_t *mergeinfo,
                         svn_mergeinfo_t mergeinfo1,
@@ -275,7 +344,12 @@ svn_mergeinfo_intersect(svn_mergeinfo_t *mergeinfo,
  *
  * @a consider_inheritance determines how to account for the inheritability
  * of the two rangelist's ranges when calculating the intersection,
- * @see svn_mergeinfo_diff().
+ * @see svn_mergeinfo_diff().  If @a consider_inheritance is FALSE then
+ * ranges with different inheritance can intersect, but the the resulting
+ * @a *rangelist is non-inheritable only if the corresponding ranges from
+ * both @a rangelist1 and @a rangelist2 are non-inheritable.
+ * If @a consider_inheritance is TRUE, then ranges with different
+ * inheritance can never intersect.
  *
  * Note: @a rangelist1 and @a rangelist2 must be sorted as said by @c
  * svn_sort_compare_ranges(). @a *rangelist is guaranteed to be in sorted
@@ -284,8 +358,8 @@ svn_mergeinfo_intersect(svn_mergeinfo_t *mergeinfo,
  */
 svn_error_t *
 svn_rangelist_intersect(apr_array_header_t **rangelist,
-                        apr_array_header_t *rangelist1,
-                        apr_array_header_t *rangelist2,
+                        const apr_array_header_t *rangelist1,
+                        const apr_array_header_t *rangelist2,
                         svn_boolean_t consider_inheritance,
                         apr_pool_t *pool);
 
@@ -314,31 +388,68 @@ svn_rangelist_to_string(svn_string_t **output,
                         apr_pool_t *pool);
 
 /** Return a deep copy of @c svn_merge_range_t *'s in @a rangelist excluding
- * all non-inheritable @c svn_merge_range_t.  If @a start and @a end are valid
- * revisions and @a start is less than or equal to @a end, then exclude only the
- * non-inheritable revision ranges that intersect inclusively with the range
- * defined by @a start and @a end.  If @a rangelist contains no elements, return
- * an empty array.  Allocate the copy in @a pool.
+ * all non-inheritable @c svn_merge_range_t if @a inheritable is TRUE or
+ * excluding all inheritable @c svn_merge_range_t otherwise.  If @a start and
+ * @a end are valid revisions and @a start is less than or equal to @a end,
+ * then exclude only the non-inheritable revision ranges that intersect
+ * inclusively with the range defined by @a start and @a end.  If
+ * @a rangelist contains no elements, return an empty array.  Allocate the
+ * copy in @a result_pool, use @a scratch_pool for temporary allocations.
  *
- * @since New in 1.5.
+ * @since New in 1.7.
  */
 svn_error_t *
+svn_rangelist_inheritable2(apr_array_header_t **inheritable_rangelist,
+                           const apr_array_header_t *rangelist,
+                           svn_revnum_t start,
+                           svn_revnum_t end,
+                           svn_boolean_t inheritable,
+                           apr_pool_t *result_pool,
+                           apr_pool_t *scratch_pool);
+
+/** Like svn_rangelist_inheritable2, but always finds inheritable ranges.
+ *
+ * @since New in 1.5.
+ * @deprecated Provided for backward compatibility with the 1.6 API.
+ */
+SVN_DEPRECATED
+svn_error_t *
 svn_rangelist_inheritable(apr_array_header_t **inheritable_rangelist,
-                          apr_array_header_t *rangelist,
+                          const apr_array_header_t *rangelist,
                           svn_revnum_t start,
                           svn_revnum_t end,
                           apr_pool_t *pool);
 
 /** Return a deep copy of @a mergeinfo, excluding all non-inheritable
- * @c svn_merge_range_t.  If @a start and @a end are valid revisions
- * and @a start is less than or equal to @a end, then exclude only the
- * non-inheritable revisions that intersect inclusively with the range
- * defined by @a start and @a end.  If @a path is not NULL remove
- * non-inheritable ranges only for @a path.  Allocate the copy in @a
- * pool.
+ * @c svn_merge_range_t if @a inheritable is TRUE or excluding all
+ * inheritable @c svn_merge_range_t otherwise.  If @a start and @a end
+ * are valid revisions and @a start is less than or equal to @a end,
+ * then exclude only the non-inheritable revisions that intersect
+ * inclusively with the range defined by @a start and @a end.  If @a path
+ * is not NULL remove non-inheritable ranges only for @a path.  If all
+ * ranges are removed for a given path then remove that path as well.
+ * If all paths are removed or @a rangelist is empty then set
+ * @a *inheritable_rangelist to an empty array.  Allocate the copy in
+ * @a result_pool, use @a scratch_pool for temporary allocations.
+ *
+ * @since New in 1.7.
+ */
+svn_error_t *
+svn_mergeinfo_inheritable2(svn_mergeinfo_t *inheritable_mergeinfo,
+                           svn_mergeinfo_t mergeinfo,
+                           const char *path,
+                           svn_revnum_t start,
+                           svn_revnum_t end,
+                           svn_boolean_t inheritable,
+                           apr_pool_t *result_pool,
+                           apr_pool_t *scratch_pool);
+
+/** Like svn_mergeinfo_inheritable2, but always finds inheritable mergeinfo.
  *
  * @since New in 1.5.
+ * @deprecated Provided for backward compatibility with the 1.6 API.
  */
+SVN_DEPRECATED
 svn_error_t *
 svn_mergeinfo_inheritable(svn_mergeinfo_t *inheritable_mergeinfo,
                           svn_mergeinfo_t mergeinfo,
@@ -347,9 +458,12 @@ svn_mergeinfo_inheritable(svn_mergeinfo_t *inheritable_mergeinfo,
                           svn_revnum_t end,
                           apr_pool_t *pool);
 
-/** Take a mergeinfo in MERGEINPUT, and convert it back to unparsed
- *  mergeinfo in *OUTPUT.  If INPUT contains no elements, return the
- *  empty string.
+/** Take a mergeinfo in @a mergeinput, and convert it to unparsed
+ *  mergeinfo. Set @a *output to the result, allocated in @a pool.
+ *  If @a input contains no elements, set @a *output to the empty string.
+ *
+ * @a mergeinput may contain relative merge source paths, but these are
+ * converted to absolute paths in @a *output.
  *
  * @since New in 1.5.
 */
@@ -369,6 +483,14 @@ svn_mergeinfo_to_string(svn_string_t **output,
 svn_error_t *
 svn_mergeinfo_sort(svn_mergeinfo_t mergeinfo, apr_pool_t *pool);
 
+/** Return a deep copy of @a mergeinfo_catalog, allocated in @a pool.
+ *
+ * @since New in 1.6.
+ */
+svn_mergeinfo_catalog_t
+svn_mergeinfo_catalog_dup(svn_mergeinfo_catalog_t mergeinfo_catalog,
+                          apr_pool_t *pool);
+
 /** Return a deep copy of @a mergeinfo, allocated in @a pool.
  *
  * @since New in 1.5.
@@ -381,7 +503,7 @@ svn_mergeinfo_dup(svn_mergeinfo_t mergeinfo, apr_pool_t *pool);
  * @since New in 1.5.
  */
 apr_array_header_t *
-svn_rangelist_dup(apr_array_header_t *rangelist, apr_pool_t *pool);
+svn_rangelist_dup(const apr_array_header_t *rangelist, apr_pool_t *pool);
 
 
 /**
@@ -389,18 +511,18 @@ svn_rangelist_dup(apr_array_header_t *rangelist, apr_pool_t *pool);
  *
  * @since New in 1.5.
  */
-typedef enum
+typedef enum svn_mergeinfo_inheritance_t
 {
   /** Explicit mergeinfo only. */
   svn_mergeinfo_explicit,
 
   /** Explicit mergeinfo, or if that doesn't exist, the inherited
       mergeinfo from a target's nearest (path-wise, not history-wise)
-      ancestor. */ 
+      ancestor. */
   svn_mergeinfo_inherited,
 
   /** Mergeinfo on target's nearest (path-wise, not history-wise)
-      ancestor, regardless of whether target has explict mergeinfo. */
+      ancestor, regardless of whether target has explicit mergeinfo. */
   svn_mergeinfo_nearest_ancestor
 } svn_mergeinfo_inheritance_t;
 

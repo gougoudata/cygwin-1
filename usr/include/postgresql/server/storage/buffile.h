@@ -15,10 +15,10 @@
  * but currently we have no need for oversize temp files without buffered
  * access.
  *
- * Portions Copyright (c) 1996-2006, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2012, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
- * $PostgreSQL: pgsql/src/include/storage/buffile.h,v 1.19 2006/03/05 15:58:59 momjian Exp $
+ * src/include/storage/buffile.h
  *
  *-------------------------------------------------------------------------
  */
@@ -38,8 +38,8 @@ extern BufFile *BufFileCreateTemp(bool interXact);
 extern void BufFileClose(BufFile *file);
 extern size_t BufFileRead(BufFile *file, void *ptr, size_t size);
 extern size_t BufFileWrite(BufFile *file, void *ptr, size_t size);
-extern int	BufFileSeek(BufFile *file, int fileno, long offset, int whence);
-extern void BufFileTell(BufFile *file, int *fileno, long *offset);
+extern int	BufFileSeek(BufFile *file, int fileno, off_t offset, int whence);
+extern void BufFileTell(BufFile *file, int *fileno, off_t *offset);
 extern int	BufFileSeekBlock(BufFile *file, long blknum);
 
 #endif   /* BUFFILE_H */

@@ -1,0 +1,48 @@
+Moving files according to regular expression matches
+============================================================
+
+
+Motivation
+----------
+
+Occasionally, a vendor will decide to make moves that are difficult to
+go through a file at a time.  For instance, consider a project that
+originally had all of its graphics in its src/ directory, and later
+decided to make an images/ directory and move all of its graphics out of
+the src/ directory and into the images/ directory.  If there are many
+images, it's tedious to manually go through each file and decide where
+each one was moved.
+
+Often, it's easier simply to ignore the moves, treating them as deletes
+and new files.  Unfortunately, this wastes a lot of space.  Instead,
+why not map the moves with a regular expression?  Here, the pattern
+
+  ^src/(?P<filename>.+\.(gif|jpg|png))$
+
+matches any .gif, .jpg, or .png in src, with the filename in the named
+group "filename".  To actually map the filename to a new filename, we
+need a function that takes the regular expression object as its only
+argument and returns the new filename as a string.  The following Python
+lambda function fits the bill:
+
+  lambda m: "images/%s" % m.group("filename")
+
+
+Implementation
+--------------
+
+svn-load has a simple move-map file format: one map per line, each line
+starts with an absolute (i.e. contains ^ and $) pattern and a Python
+lambda function of an _sre.SRE_Match object (the type returned by
+re.match) which returns a string.  So, the above example would look like
+
+  ^src/(?P<filename>.+\.(gif|jpg|png))$    lambda m: "images/%s" % m.group("filename")
+
+You don't have to use named groups in your regular expressions; however,
+to refer to numbered group n, you will need to use the value of
+m.group(n) (assuming m is the name of the argument).
+
+If you save this file to a file called 'move-images.move-map', you can
+run svn-load as usual, adding '--move-map move-images.move-map' to the
+command-line, and it will correctly move all those images before asking
+you to interactively map any other file moves.

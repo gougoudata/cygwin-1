@@ -13,8 +13,8 @@ U ada.characters.latin_1%s  a-chlat1.ads	a0be30a8 NE PU PK
 W ada%s			ada.ads			ada.ali
 W ada.characters%s	a-charac.ads		a-charac.ali
 
-D ada.ads		20030424175358 a0108083
-D a-charac.ads		20031021134154 a61fb5a9
+D ada.ads		20030424175357 a0108083
+D a-charac.ads		20031021134153 a61fb5a9
 D a-chlat1.ads		20030424175352 06a18501
 D system.ads		20031021134222 6af26689
 X 1 ada.ads

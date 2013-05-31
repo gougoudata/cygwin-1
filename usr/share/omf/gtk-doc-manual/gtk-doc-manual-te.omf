@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<omf>
+  <resource>
+    <creator>(క్రిస్ లిట్టిల్)</creator>
+    <creator>(డాన్ ముయెత్)</creator>
+    <creator>(స్టిఫెన్ కోస్ట్)</creator>
+    <maintainer> (GTK-Doc ప్రోజెక్ట్)</maintainer>
+    <title>GTK-Doc మాన్యుయల్</title>
+    <date>16 నవంబర్ 2008</date>
+    <version identifier="1.11" date="16 నవంబర్ 2008"/>
+    <subject category="GNOME|Development"/>
+    <description>GTK-Doc వినియోగపు సూచనలతో అభివృద్దికారుల కొరకు వినియోగదారి మాన్యుయల్.</description>
+    <type>manual</type>
+    <format mime="text/xml" dtd="-//OASIS//DTD DocBook XML V4.3//EN"/>
+    <identifier url="file:///usr/share/gnome/help/gtk-doc-manual/te/gtk-doc-manual.xml"/>
+    <language code="te"/>
+    <relation seriesid="04ecd20e-775e-11d9-81af-a7c5a5fa91f6"/>
+    <rights type="GNU FDL" license.version="1.1" holder="gtk-doc developer team"/>
+  </resource>
+</omf>

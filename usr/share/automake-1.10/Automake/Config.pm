@@ -29,7 +29,7 @@ our @EXPORT = qw ($APIVERSION $PACKAGE $VERSION $libdir);
 # VERSION as string so that e.g. version 0.30 will print correctly.
 our $APIVERSION = '1.10';
 our $PACKAGE = 'automake';
-our $VERSION = '1.10.1';
+our $VERSION = '1.10.3';
 our $libdir = '/usr/share/automake-1.10';
 
 1;;

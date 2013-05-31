@@ -12,7 +12,7 @@
 /*
  * LCLint ISO C + POSIX Library
  *
- * $Id: posix.h,v 1.17 2003/04/20 20:07:53 evans1629 Exp $
+ * $Id: posix.h,v 1.19 2004/05/21 12:57:21 evans1629 Exp $
  */
 
 /*
@@ -318,10 +318,38 @@ typedef /*@abstract@*/ /*@mutable@*/ void *sigjmp_buf;
 int sigsetjmp (/*@out@*/ sigjmp_buf env, int savemask) /*@modifies env@*/;
 
 /*
-** signal.h
+** moved up from signal.h
 */
 
 typedef /*@abstract@*/ sigset_t;
+
+typedef struct {
+  void *ss_sp;
+  size_t ss_size;
+  int ss_flags;
+} stack_t;
+
+/*
+** ucontext.h
+*/
+
+typedef /*@abstract@*/ mcontext_t;
+
+typedef struct s_ucontext_t {
+  /*@null@*/ struct s_ucontext_t *uc_link;
+  sigset_t uc_sigmask;
+  stack_t uc_stack;
+  mcontext_t uc_mcontext;
+} ucontext_t;
+
+int  getcontext(ucontext_t *);
+int  setcontext(const ucontext_t *);
+void makecontext(ucontext_t *, void (*)(void), int, ...);
+int  swapcontext(ucontext_t *restrict, const ucontext_t *restrict);
+
+/*
+** signal.h
+*/
 
 /*@constant int SA_NOCLDSTOP@*/
 /*@constant int SIG_BLOCK@*/
@@ -341,10 +369,33 @@ typedef /*@abstract@*/ sigset_t;
 /*@constant int SIGUSR1@*/
 /*@constant int SIGUSR2@*/
 
+struct sigstack {
+  int ss_onstack;
+  void *ss_sp;
+} ;
+
+typedef struct {
+  int si_signo;
+  int si_errno;
+  int si_code;
+  pid_t si_pid;
+  uid_t si_uid;
+  void *si_addr;
+  int si_status;
+  long si_band;
+  union sigval si_value;
+} siginfo_t;
+
+typedef union {
+  int    sival_int;
+  void  *sival_ptr;    
+} sigval;
+
 struct sigaction {
   void (*sa_handler)();
   sigset_t sa_mask;
   int sa_flags;
+  void (*sa_sigaction)(int, siginfo_t *, void *); /* Added 2003-06-13: Noticed by Jerry James */
 } ;
  
 	extern /*@mayexit@*/ int
@@ -416,6 +467,10 @@ struct stat {
   time_t st_mtime; /* evans 2001-08-23 - these were previously st_st_mtime - POSIX spec says st_mtime */
   time_t st_ctime; /* evans 2001-08-23 - these were previously st_st_ctime - POSIX spec says st_ctime */
 } ;
+/*
+** evans 2004-05-19: dependent annotations atted for time_t fields.  Could not find
+** any clear documetation on this, but it seems to be correct. 
+*/
 
 /*
 ** POSIX does not require that the S_I* be functions. They're

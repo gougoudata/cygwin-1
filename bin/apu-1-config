@@ -19,7 +19,7 @@
 # configuration parameters.
 
 APRUTIL_MAJOR_VERSION="1"
-APRUTIL_DOTTED_VERSION="1.3.4"
+APRUTIL_DOTTED_VERSION="1.5.2"
 
 prefix="/usr"
 exec_prefix="/usr"
@@ -27,15 +27,16 @@ bindir="/usr/bin"
 libdir="${exec_prefix}/lib"
 includedir="${prefix}/include/apr-${APRUTIL_MAJOR_VERSION}"
 
-LIBS="-lgdbm -ldb-4.2 -lexpat -liconv"
+LIBS="-lexpat -liconv"
 INCLUDES="-I/usr/include"
 LDFLAGS="-L/usr/lib"
-LDAP_LIBS="-lldap "
+LDAP_LIBS="-lldap  -llber"
+DBM_LIBS="-ldb-4.8 -lgdbm "
 
 APRUTIL_LIBNAME="aprutil-${APRUTIL_MAJOR_VERSION}"
 
-APU_SOURCE_DIR="/usr/src/libaprutil1/libaprutil1-1.3.4-1/src/apr-util-1.3.4"
-APU_BUILD_DIR="/usr/src/libaprutil1/libaprutil1-1.3.4-1/build"
+APU_SOURCE_DIR="/usr/src/libaprutil1/libaprutil1-1.5.2-1/src/apr-util-1.5.2"
+APU_BUILD_DIR="/usr/src/libaprutil1/libaprutil1-1.5.2-1/build"
 APR_XML_EXPAT_OLD="@APR_XML_EXPAT_OLD@"
 APU_DB_VERSION="4"
 
@@ -55,7 +56,9 @@ Known values for OPTION are:
   --ldflags         print linker flags
   --libs            print library information
   --avoid-ldap      do not include ldap library information with --libs
-  --ldap-libs       print additional library information to link with ldap
+  --ldap-libs       print library information to link with ldap
+  --avoid-dbm       do not include DBM library information with --libs
+  --dbm-libs        print additional library information to link with DBM
   --srcdir          print APR-util source directory
   --link-ld         print link switch(es) for linking to APR-util
   --link-libtool    print the libtool inputs for linking to APR-util
@@ -83,7 +86,7 @@ fi
 if test "$location" = "installed"; then
     LA_FILE="$libdir/lib${APRUTIL_LIBNAME}.la"
 
-    LIBS=`echo "$LIBS" | sed -e "s $APU_BUILD_DIR/xml/expat $prefix g" -e "s $prefix/lib/libexpat.la -lexpat g"`
+    LIBS=`echo "$LIBS" | sed -e "s $APU_BUILD_DIR/xml/expat $prefix g" -e "s $prefix/libexpat.la -lexpat g"`
     LDFLAGS=`echo "$LDFLAGS" | sed -e "s $APU_BUILD_DIR/xml/expat $prefix g"`
     INCLUDES=`echo "$INCLUDES" | sed -e "s $APU_BUILD_DIR/xml/expat $prefix g" -e "s -I$prefix/lib  g"`
 else
@@ -115,11 +118,17 @@ while test $# -gt 0; do
     --avoid-ldap)
     LDAP_LIBS=""
     ;;
+    --avoid-dbm)
+    DBM_LIBS=""
+    ;;
     --libs)
-    flags="$flags $LDAP_LIBS $LIBS"
+    flags="$flags $LDAP_LIBS $DBM_LIBS $LIBS"
     ;;
     --ldap-libs)
     flags="$flags $LDAP_LIBS"
+    ;;
+    --dbm-libs)
+    flags="$flags $DBM_LIBS"
     ;;
     --includedir)
     if test "$location" = "installed"; then

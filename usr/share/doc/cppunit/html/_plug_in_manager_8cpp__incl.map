@@ -1,0 +1,16 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$_source_prefix_8h.html" title="cppunit/config/SourcePrefix.h" alt="" coords="1443,83,1645,112"/>
+<area shape="rect" id="node13" href="$_xml_outputter_hook_8h.html" title="cppunit/XmlOutputterHook.h" alt="" coords="1224,83,1419,112"/>
+<area shape="rect" id="node16" href="$_test_factory_registry_8h.html" title="cppunit/extensions/TestFactoryRegistry.h" alt="" coords="77,160,357,189"/>
+<area shape="rect" id="node31" href="$_plug_in_manager_8h.html" title="cppunit/plugin/PlugInManager.h" alt="" coords="981,83,1200,112"/>
+<area shape="rect" id="node43" href="$_test_plug_in_8h.html" title="cppunit/plugin/TestPlugIn.h" alt="" coords="768,83,957,112"/>
+<area shape="rect" id="node51" href="$_dynamic_library_manager_8h.html" title="cppunit/plugin/DynamicLibraryManager.h" alt="" coords="381,160,659,189"/>
+<area shape="rect" id="node5" href="$_portability_8h.html" title="cppunit/Portability.h" alt="" coords="792,315,933,344"/>
+<area shape="rect" id="node9" href="$_cpp_unit_api_8h.html" title="cppunit/config/CppUnitApi.h" alt="" coords="765,392,960,421"/>
+<area shape="rect" id="node11" href="$_select_dll_loader_8h.html" title="cppunit/config/SelectDllLoader.h" alt="" coords="984,392,1208,421"/>
+<area shape="rect" id="node19" href="$_cpp_unit_set_8h.html" title="cppunit/portability/CppUnitSet.h" alt="" coords="5,237,224,267"/>
+<area shape="rect" id="node26" href="$_test_factory_8h.html" title="cppunit/extensions/TestFactory.h" alt="" coords="248,237,477,267"/>
+<area shape="rect" id="node34" href="$_plug_in_parameters_8h.html" title="cppunit/plugin/PlugInParameters.h" alt="" coords="1016,160,1251,189"/>
+<area shape="rect" id="node37" href="$_cpp_unit_deque_8h.html" title="cppunit/portability/CppUnitDeque.h" alt="" coords="997,237,1235,267"/>
+<area shape="rect" id="node47" href="$_test_plug_in_default_impl_8h.html" title="cppunit/plugin/TestPlugInDefaultImpl.h" alt="" coords="733,160,992,189"/>
+</map>

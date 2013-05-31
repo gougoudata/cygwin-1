@@ -1,0 +1,111 @@
+"";;016DC0877B006697F59B52192EE3FFDA9DB2D446B7E8BAA5E1C0EDBE0806
+""P testmachine
+
+""R check
+""R Peano
+""R base
+""R test
+
+""D 0
+module1
+handler1
+handler2
+machine1 ( " )
+machine2 ( " )
+request1 ( " )
+
+""B
+page ( ""N , ""C )
+title "Test machine"
+bib "
+@techreport{appendix,
+  author    = {Klaus Grue},
+  year      = {2008},
+  title     = {Test machine - appendix},
+  institution={Logiweb},
+  note      = {\href{\lgwBlockRelay \lgwBlockThis /page/appendix.pdf}{%
+\lgwBreakRelay \lgwBreakThis /page/appendix.pdf}}}
+"
+main text "
+\title{Test machine}
+\author{Klaus Grue}
+\maketitle
+\tableofcontents
+\section{Definition of test machine}
+
+The test1 machine with handler "[[ handler1 ]]" defines a new request "[[ request1 ( *** ) ]]" using an extend request and then exercises the new request.
+
+\begin{quote}
+
+\noindent "[[ value define module1 as show "
+#define TRUE 1
+#define FALSE 0
+#include <stdio.h>
+int lgw2dll=TRUE;
+unsigned char buffer[]=""!World\n""!;
+int bufferpnt;
+int trigger(int c){
+  if(lgw2dll){
+    if(c<0){lgw2dll=FALSE;bufferpnt=0;}else{printf(""!%c""!,c);return 0;}}
+  if(buffer[bufferpnt]==0) return -1;
+  return buffer[bufferpnt++];}
+" end show end define ]]"
+
+\noindent "[[ value define request1 ( x ) as << quote request1 ( x ) end quote head ,, x >> end define ]]"
+
+\noindent "[[ value define handler1 as map ( \ x . machine1 ( x ) ) end define ]]"
+
+\noindent "[[ value define machine1 ( x ) as <<
+
+extend request ( request1 ( true ) , module1 ) ,,
+
+request1 ( show "Hello" end show ) ,,
+
+exec request ( true , handler2 ) >> end define ]]"
+
+\noindent "[[ value define handler2 as map ( \ x . machine2 ( x ) ) end define ]]"
+
+\noindent "[[ value define machine2 ( x ) as newline
+
+if x atom then << write request ( "Not found" ) >> else newline
+
+if .not. x head r= request1 ( true ) then machine2 ( x tail ) else newline
+
+<< write request ( x head tail head ) ,, quit request ( 0 ) >> end define ]]"
+
+\item "[[ execute define "test1" as << handler1 >> end define ]]"
+
+\end{quote}
+
+For more, see \cite{appendix}.
+\bibliography{./page}
+"
+appendix "
+\title{Combinations - appendix}
+\author{A. U. Thor}
+\maketitle
+\tableofcontents
+\section{\TeX\ definitions}
+\begin{statements}
+
+\item "[[ tex show define request1 ( x ) as "
+r_1 ( "[ x ]"
+)" end define ]]"
+
+\item "[[ tex show define module1 as "
+m_1" end define ]]"
+
+\item "[[ tex show define handler1 as "
+h_1" end define ]]"
+
+\item "[[ tex show define machine1 ( x ) as "
+M_1 ( "[ x ]"
+)" end define ]]"
+
+\end{statements}
+"
+end page
+
+
+
+

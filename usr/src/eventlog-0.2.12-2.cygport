@@ -1,0 +1,71 @@
+DESCRIPTION="Structured event logging library"
+HOMEPAGE="http://www.balabit.com/network-security/syslog-ng/opensource-logging-system/overview"
+SRC_URI="http://www.balabit.com/downloads/files/${PN}/0.2/${PN}_${PV}.tar.gz"
+
+SHLIB_VERSION=
+
+eval_pkgname() {
+  pushd ${D}/usr/bin
+  SHLIB_VERSION=$(ls -1 cyg*.dll | sed -e 's/cygevtlog-\([0-9]*\)\.dll/\1/')
+  popd
+  cat > "${P}-${PR}.pkginfo" <<- EOF
+	PKG_NAMES="eventlog libevtlog-devel libevtlog${SHLIB_VERSION}"
+	eventlog_CONTENTS=""
+	libevtlog_devel_CONTENTS="usr/include usr/lib usr/share"
+	libevtlog${SHLIB_VERSION}_CONTENTS="usr/bin"
+	EOF
+}
+
+[ -f "${P}-${PR}.pkginfo" ] && . "${P}-${PR}.pkginfo"
+
+src_compile() {
+  cd ${S}
+  cygautoreconf
+  cd ${B}
+  cygconf
+  cygmake LDFLAGS=-no-undefined
+}
+
+src_install() {
+  pushd ${B}
+    cyginstall
+  popd
+
+  eval_pkgname
+
+  pushd ${S}/doc
+    mkdir -p ${D}/usr/share/doc/eventlog
+    cp -r * "${D}/usr/share/doc/eventlog"
+  popd
+
+  DEPS="$(cygport eventlog-${PVR}.cygport depends |
+	  sed -n -e '/^  cygwin-/d' -e 's/^  \([^-]*\)-.*/\1/p' |
+	  xargs echo)"
+  cd ${C}
+  cat > eventlog.hint <<-EOF
+	sdesc: "Structured event logging library"
+	ldesc: "The EventLog library aims to be a replacement of the simple syslog()
+	API provided on UNIX systems. The major difference between EventLog and syslog
+	is that EventLog tries to add structure to messages."
+	category: Libs Devel
+	requires: libevtlog${SHLIB_VERSION}
+	EOF
+  cat > libevtlog${SHLIB_VERSION}.hint <<-EOF
+	sdesc: "Structured event logging library (runtime)"
+	ldesc: "The EventLog library aims to be a replacement of the simple syslog()
+	API provided on UNIX systems. The major difference between EventLog and syslog
+	is that EventLog tries to add structure to messages."
+	category: Libs
+	requires: ${DEPS}
+	external-source: eventlog
+	EOF
+  cat > libevtlog-devel.hint <<-EOF
+	sdesc: "Structured event logging library (devel)"
+	ldesc: "The EventLog library aims to be a replacement of the simple syslog()
+	API provided on UNIX systems. The major difference between EventLog and syslog
+	is that EventLog tries to add structure to messages."
+	category: Devel
+	requires: libevtlog${SHLIB_VERSION}
+	external-source: eventlog
+	EOF
+}

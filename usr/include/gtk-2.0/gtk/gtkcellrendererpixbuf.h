@@ -20,11 +20,14 @@
 #ifndef __GTK_CELL_RENDERER_PIXBUF_H__
 #define __GTK_CELL_RENDERER_PIXBUF_H__
 
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
 #include <gtk/gtkcellrenderer.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+
+G_BEGIN_DECLS
 
 
 #define GTK_TYPE_CELL_RENDERER_PIXBUF			(gtk_cell_renderer_pixbuf_get_type ())
@@ -42,9 +45,9 @@ struct _GtkCellRendererPixbuf
   GtkCellRenderer parent;
 
   /*< private >*/
-  GdkPixbuf *pixbuf;
-  GdkPixbuf *pixbuf_expander_open;
-  GdkPixbuf *pixbuf_expander_closed;
+  GdkPixbuf *GSEAL (pixbuf);
+  GdkPixbuf *GSEAL (pixbuf_expander_open);
+  GdkPixbuf *GSEAL (pixbuf_expander_closed);
 };
 
 struct _GtkCellRendererPixbufClass
@@ -61,8 +64,8 @@ struct _GtkCellRendererPixbufClass
 GType            gtk_cell_renderer_pixbuf_get_type (void) G_GNUC_CONST;
 GtkCellRenderer *gtk_cell_renderer_pixbuf_new      (void);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+
+G_END_DECLS
+
 
 #endif /* __GTK_CELL_RENDERER_PIXBUF_H__ */

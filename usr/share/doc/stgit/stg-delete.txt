@@ -1,0 +1,33 @@
+stg-delete(1)
+=============
+
+NAME
+----
+stg-delete - Delete patches
+
+SYNOPSIS
+--------
+[verse]
+'stg' delete [options] [--] <patch1> [<patch2>] [<patch3>..<patch4>]
+
+DESCRIPTION
+-----------
+
+Delete the patches passed as arguments.
+
+OPTIONS
+-------
+--spill::
+        Delete the patches, but do not touch the index and worktree.
+        This only works with applied patches at the top of the stack.
+        The effect is to "spill" the patch contents into the index and
+        worktree. This can be useful e.g. if you want to split a patch
+        into several smaller pieces.
+
+-b BRANCH::
+--branch BRANCH::
+        Use BRANCH instead of the default branch.
+
+StGit
+-----
+Part of the StGit suite - see linkman:stg[1]

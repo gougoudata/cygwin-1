@@ -1,0 +1,26 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$_additional_message_8h.html" title="AdditionalMessage.h" alt="" coords="269,83,421,112"/>
+<area shape="rect" id="node28" href="$_asserter_8cpp.html" title="Asserter.cpp" alt="" coords="23,237,124,267"/>
+<area shape="rect" id="node32" href="$_exception_8h.html" title="Exception.h" alt="" coords="552,160,645,189"/>
+<area shape="rect" id="node44" href="$_protector_8cpp.html" title="Protector.cpp" alt="" coords="1535,237,1641,267"/>
+<area shape="rect" id="node56" href="$_message_8cpp.html" title="Message.cpp" alt="" coords="720,83,827,112"/>
+<area shape="rect" id="node5" href="$_asserter_8h.html" title="Asserter.h" alt="" coords="303,160,388,189"/>
+<area shape="rect" id="node30" href="$_additional_message_8cpp.html" title="AdditionalMessage.cpp" alt="" coords="111,160,279,189"/>
+<area shape="rect" id="node7" href="$_test_assert_8h.html" title="TestAssert.h" alt="" coords="148,237,249,267"/>
+<area shape="rect" id="node9" href="$_test_case_8h.html" title="TestCase.h" alt="" coords="344,315,437,344"/>
+<area shape="rect" id="node26" href="$_test_assert_8cpp.html" title="TestAssert.cpp" alt="" coords="141,315,256,344"/>
+<area shape="rect" id="node11" href="$_orthodox_8h.html" title="Orthodox.h" alt="" coords="128,392,219,421"/>
+<area shape="rect" id="node13" href="$_test_case_decorator_8h.html" title="TestCaseDecorator.h" alt="" coords="243,392,400,421"/>
+<area shape="rect" id="node21" href="$_test_caller_8h.html" title="TestCaller.h" alt="" coords="5,392,104,421"/>
+<area shape="rect" id="node24" href="$_test_case_8cpp.html" title="TestCase.cpp" alt="" coords="424,392,533,421"/>
+<area shape="rect" id="node15" href="$_exception_test_case_decorator_8h.html" title="ExceptionTestCaseDecorator.h" alt="" coords="395,469,613,499"/>
+<area shape="rect" id="node19" href="$_test_case_decorator_8cpp.html" title="TestCaseDecorator.cpp" alt="" coords="200,469,371,499"/>
+<area shape="rect" id="node17" href="$_helper_macros_8h.html" title="Macros intended to ease the definition of test suites." alt="" coords="253,547,376,576"/>
+<area shape="rect" id="node38" href="$_compiler_outputter_8cpp.html" title="CompilerOutputter.cpp" alt="" coords="577,237,740,267"/>
+<area shape="rect" id="node40" href="$_default_protector_8cpp.html" title="DefaultProtector.cpp" alt="" coords="764,237,913,267"/>
+<area shape="rect" id="node42" href="$_exception_8cpp.html" title="Exception.cpp" alt="" coords="937,237,1047,267"/>
+<area shape="rect" id="node47" href="$_test_failure_8cpp.html" title="TestFailure.cpp" alt="" coords="1071,237,1188,267"/>
+<area shape="rect" id="node49" href="$_text_outputter_8cpp.html" title="TextOutputter.cpp" alt="" coords="1212,237,1345,267"/>
+<area shape="rect" id="node51" href="$_text_test_result_8cpp.html" title="TextTestResult.cpp" alt="" coords="1369,237,1511,267"/>
+<area shape="rect" id="node53" href="$_xml_outputter_8cpp.html" title="XmlOutputter.cpp" alt="" coords="273,237,401,267"/>
+</map>

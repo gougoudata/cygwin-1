@@ -1,0 +1,9 @@
+prefix=/usr/x86_64-pc-cygwin/sys-root/usr
+exec_prefix=/usr/x86_64-pc-cygwin/sys-root/usr
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+ 
+Name: DMXProto
+Description: DMX extension headers
+Version: 2.3.1
+Cflags: -I${includedir}

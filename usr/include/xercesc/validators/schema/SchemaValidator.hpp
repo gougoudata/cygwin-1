@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,13 +16,11 @@
  */
 
 /*
- * $Id: SchemaValidator.hpp 568078 2007-08-21 11:43:25Z amassari $
+ * $Id: SchemaValidator.hpp 744929 2009-02-16 14:53:58Z borisk $
  */
 
-
-
-#if !defined(SCHEMAVALIDATOR_HPP)
-#define SCHEMAVALIDATOR_HPP
+#if !defined(XERCESC_INCLUDE_GUARD_SCHEMAVALIDATOR_HPP)
+#define XERCESC_INCLUDE_GUARD_SCHEMAVALIDATOR_HPP
 
 #include <xercesc/framework/XMLValidator.hpp>
 #include <xercesc/framework/XMLBuffer.hpp>
@@ -59,11 +57,12 @@ public:
     // -----------------------------------------------------------------------
     //  Implementation of the XMLValidator interface
     // -----------------------------------------------------------------------
-    virtual int checkContent
+    virtual bool checkContent
     (
         XMLElementDecl* const   elemDecl
         , QName** const         children
-        , const unsigned int    childCount
+        , XMLSize_t             childCount
+        , XMLSize_t*            indexFailingChild
     );
 
     virtual void faultInAttr
@@ -211,6 +210,10 @@ private:
                       const bool toLax = false);
     void checkNSSubset(const ContentSpecNode* const derivedSpecNode,
                        const ContentSpecNode* const baseSpecNode);
+    bool checkNSSubsetChoiceRoot(const ContentSpecNode* const derivedSpecNode,
+                       const ContentSpecNode* const baseSpecNode);
+    bool checkNSSubsetChoice(const ContentSpecNode* const derivedSpecNode,
+                       const ContentSpecNode* const baseSpecNode);
     bool isWildCardEltSubset(const ContentSpecNode* const derivedSpecNode,
                              const ContentSpecNode* const baseSpecNode);
     void checkNSRecurseCheckCardinality(SchemaGrammar* const currentGrammar,
@@ -266,6 +269,9 @@ private:
     //  fTrailing
     //      Previous chunk had a trailing space
     //
+    //  fSeenNonWhiteSpace
+    //      Seen a non-whitespace character in the previous chunk
+    //
     //  fSeenId
     //      Indicate if an attribute of ID type has been seen already, reset per element.
     //
@@ -289,7 +295,13 @@ private:
     DatatypeValidator*              fCurrentDatatypeValidator;
     XMLBuffer*                      fNotationBuf;
     XMLBuffer                       fDatatypeBuffer;
-    bool                            fTrailing;
+    // Only for 3.0.1.
+    //
+    union
+    {
+      bool old;
+      unsigned char flags; // fTrailing - big 0; fSeenNonWhiteSpace - bit 1
+    } fTrailingSeenNonWhiteSpace;
     bool                            fSeenId;
     XSDErrorReporter                fSchemaErrorReporter;
     ValueStackOf<ComplexTypeInfo*>* fTypeStack;
@@ -342,7 +354,7 @@ inline ComplexTypeInfo* SchemaValidator::getCurrentTypeInfo() const {
     return fTypeStack->peek();
 }
 
-inline DatatypeValidator * SchemaValidator::getCurrentDatatypeValidator() const 
+inline DatatypeValidator * SchemaValidator::getCurrentDatatypeValidator() const
 {
     return fCurrentDatatypeValidator;
 }

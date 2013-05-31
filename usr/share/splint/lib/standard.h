@@ -469,6 +469,8 @@ typedef /*@abstract@*/ /*@mutable@*/ void *va_list;
 void va_start (/*@out@*/ va_list ap, ...) /*@modifies ap;@*/ ;
 void va_end (va_list va) /*@modifies va;@*/ ;
 
+void va_copy (/*@out@*/ va_list dest, va_list src) /*modifies dest;@*/ ;
+
 /*
 ** va_arg is builtin
 */
@@ -1142,9 +1144,10 @@ time_t time (/*@null@*/ /*@out@*/ time_t *tp)
 /*@observer@*/ char *ctime (time_t *tp) /*@*/
      /*@ensures maxSet(result) == 25 /\  maxRead(result) == 25; @*/;
 
-/*@null@*/ /*@observer@*/ struct tm *gmtime (time_t *tp) /*@*/ ;
+/* 2003-11-01: remove null annotation: gmtima and localtime cannot return null */
+/*@observer@*/ struct tm *gmtime (time_t *tp) /*@*/ ;
 
-/*@null@*/ /*@observer@*/ struct tm *localtime (time_t *tp) 
+/*@observer@*/ struct tm *localtime (time_t *tp) 
   /*@modifies errno@*/ ;
 
 size_t strftime (/*@out@*/ char *s, size_t smax,
@@ -1203,10 +1206,12 @@ typedef /*@unsignedintegraltype@*/ uint_fast16_t;
 typedef /*@unsignedintegraltype@*/ uint_fast32_t;
 typedef /*@unsignedintegraltype@*/ uint_fast64_t;
 
-typedef int *intptr_t
+/* Corrections to intptr_t and uintptr_t decparations provided by David Sanderson */
+
+typedef /*@signedintegraltype@*/ intptr_t
    /*@warn implementationoptional "ISO99 specifies as optional type, implementation need not provide."@*/ ;
 
-typedef unsigned int *uintptr_t
+typedef /*@unsignedintegraltype@*/ uintptr_t
    /*@warn implementationoptional "ISO99 specifies as optional type, implementation need not provide."@*/ ;
 
 typedef /*@signedintegraltype@*/ intmax_t;

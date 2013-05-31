@@ -11,7 +11,7 @@
 (*                                                                     *)
 (***********************************************************************)
 
-(* $Id: sort.ml,v 1.9 2004/01/14 17:20:56 doligez Exp $ *)
+(* $Id: sort.ml 7164 2005-10-25 18:34:07Z doligez $ *)
 
 (* Merging and sorting *)
 
@@ -97,4 +97,3 @@ let array cmp arr =
       unsafe_set arr !j val_i
     end
   done
-

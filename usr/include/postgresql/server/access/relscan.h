@@ -4,19 +4,20 @@
  *	  POSTGRES relation scan descriptor definitions.
  *
  *
- * Portions Copyright (c) 1996-2006, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2012, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
- * $PostgreSQL: pgsql/src/include/access/relscan.h,v 1.50 2006/10/04 00:30:07 momjian Exp $
+ * src/include/access/relscan.h
  *
  *-------------------------------------------------------------------------
  */
 #ifndef RELSCAN_H
 #define RELSCAN_H
 
-#include "access/skey.h"
-#include "storage/bufpage.h"
-#include "utils/tqual.h"
+#include "access/genam.h"
+#include "access/heapam.h"
+#include "access/itup.h"
+#include "access/tupdesc.h"
 
 
 typedef struct HeapScanDescData
@@ -26,8 +27,16 @@ typedef struct HeapScanDescData
 	Snapshot	rs_snapshot;	/* snapshot to see */
 	int			rs_nkeys;		/* number of scan keys */
 	ScanKey		rs_key;			/* array of scan key descriptors */
-	BlockNumber rs_nblocks;		/* number of blocks to scan */
+	bool		rs_bitmapscan;	/* true if this is really a bitmap scan */
 	bool		rs_pageatatime; /* verify visibility page-at-a-time? */
+	bool		rs_allow_strat; /* allow or disallow use of access strategy */
+	bool		rs_allow_sync;	/* allow or disallow use of syncscan */
+
+	/* state set up at initscan time */
+	BlockNumber rs_nblocks;		/* number of blocks to scan */
+	BlockNumber rs_startblock;	/* block # to start at */
+	BufferAccessStrategy rs_strategy;	/* access strategy for reads */
+	bool		rs_syncscan;	/* report location to syncscan logic? */
 
 	/* scan current state */
 	bool		rs_inited;		/* false = scan not init'd yet */
@@ -37,20 +46,16 @@ typedef struct HeapScanDescData
 	/* NB: if rs_cbuf is not InvalidBuffer, we hold a pin on that buffer */
 	ItemPointerData rs_mctid;	/* marked scan position, if any */
 
-	PgStat_Info rs_pgstat_info; /* statistics collector hook */
-
-	/* these fields only used in page-at-a-time mode */
+	/* these fields only used in page-at-a-time mode and for bitmap scans */
 	int			rs_cindex;		/* current tuple's index in vistuples */
 	int			rs_mindex;		/* marked tuple's saved index */
 	int			rs_ntuples;		/* number of visible tuples on page */
 	OffsetNumber rs_vistuples[MaxHeapTuplesPerPage];	/* their offsets */
-} HeapScanDescData;
-
-typedef HeapScanDescData *HeapScanDesc;
+}	HeapScanDescData;
 
 /*
  * We use the same IndexScanDescData structure for both amgettuple-based
- * and amgetmulti-based index scans.  Some fields are only relevant in
+ * and amgetbitmap-based index scans.  Some fields are only relevant in
  * amgettuple-based scans.
  */
 typedef struct IndexScanDescData
@@ -59,45 +64,42 @@ typedef struct IndexScanDescData
 	Relation	heapRelation;	/* heap relation descriptor, or NULL */
 	Relation	indexRelation;	/* index relation descriptor */
 	Snapshot	xs_snapshot;	/* snapshot to see */
-	int			numberOfKeys;	/* number of scan keys */
-	ScanKey		keyData;		/* array of scan key descriptors */
-	bool		is_multiscan;	/* TRUE = using amgetmulti */
+	int			numberOfKeys;	/* number of index qualifier conditions */
+	int			numberOfOrderBys;		/* number of ordering operators */
+	ScanKey		keyData;		/* array of index qualifier descriptors */
+	ScanKey		orderByData;	/* array of ordering op descriptors */
+	bool		xs_want_itup;	/* caller requests index tuples */
 
 	/* signaling to index AM about killing index tuples */
 	bool		kill_prior_tuple;		/* last-returned tuple is dead */
 	bool		ignore_killed_tuples;	/* do not return killed entries */
+	bool		xactStartedInRecovery;	/* prevents killing/seeing killed
+										 * tuples */
 
 	/* index access method's private state */
 	void	   *opaque;			/* access-method-specific info */
-	/* these fields are used by some but not all AMs: */
-	ItemPointerData currentItemData;	/* current index pointer */
-	ItemPointerData currentMarkData;	/* marked position, if any */
 
-	/*
-	 * xs_ctup/xs_cbuf are valid after a successful index_getnext. After
-	 * index_getnext_indexitem, xs_ctup.t_self contains the heap tuple TID
-	 * from the index entry, but its other fields are not valid.
-	 */
+	/* in an index-only scan, this is valid after a successful amgettuple */
+	IndexTuple	xs_itup;		/* index tuple returned by AM */
+	TupleDesc	xs_itupdesc;	/* rowtype descriptor of xs_itup */
+
+	/* xs_ctup/xs_cbuf/xs_recheck are valid after a successful index_getnext */
 	HeapTupleData xs_ctup;		/* current heap tuple, if any */
 	Buffer		xs_cbuf;		/* current heap buffer in scan, if any */
 	/* NB: if xs_cbuf is not InvalidBuffer, we hold a pin on that buffer */
+	bool		xs_recheck;		/* T means scan keys must be rechecked */
 
-	PgStat_Info xs_pgstat_info; /* statistics collector hook */
-} IndexScanDescData;
+	/* state data for traversing HOT chains in index_getnext */
+	bool		xs_continue_hot;	/* T if must keep walking HOT chain */
+}	IndexScanDescData;
 
-typedef IndexScanDescData *IndexScanDesc;
-
-
-/*
- * HeapScanIsValid
- *		True iff the heap scan is valid.
- */
-#define HeapScanIsValid(scan) PointerIsValid(scan)
-
-/*
- * IndexScanIsValid
- *		True iff the index scan is valid.
- */
-#define IndexScanIsValid(scan) PointerIsValid(scan)
+/* Struct for heap-or-index scans of system tables */
+typedef struct SysScanDescData
+{
+	Relation	heap_rel;		/* catalog being scanned */
+	Relation	irel;			/* NULL if doing heap scan */
+	HeapScanDesc scan;			/* only valid in heap-scan case */
+	IndexScanDesc iscan;		/* only valid in index-scan case */
+}	SysScanDescData;
 
 #endif   /* RELSCAN_H */

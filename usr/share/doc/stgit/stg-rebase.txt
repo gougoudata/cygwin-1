@@ -1,0 +1,43 @@
+stg-rebase(1)
+=============
+
+NAME
+----
+stg-rebase - Move the stack base to another point in history
+
+SYNOPSIS
+--------
+[verse]
+'stg' rebase [options] [--] <new-base-id>
+
+DESCRIPTION
+-----------
+
+Pop all patches from current stack, move the stack base to the given
+<new-base-id> and push the patches back.
+
+If you experience merge conflicts, resolve the problem and continue
+the rebase by executing the following sequence:
+
+        $ git add --update
+        $ stg refresh
+        $ stg goto top-patch
+
+Or if you want to skip that patch:
+
+        $ stg undo --hard
+        $ stg push next-patch..top-patch
+
+OPTIONS
+-------
+-n::
+--nopush::
+        Do not push the patches back after rebasing.
+
+-m::
+--merged::
+        Check for patches merged upstream.
+
+StGit
+-----
+Part of the StGit suite - see linkman:stg[1]

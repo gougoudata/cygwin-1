@@ -1,0 +1,14 @@
+Copyright (c) 1994, 1995, 1996 James Clark, 1999 Matthias Clasen
+
+This directory contains a DSSSL engine called OpenJade.
+
+See the file COPYING for copying permission.
+
+This is a production release.  
+
+All documentation is in HTML format in the jadedoc directory.  Start with
+jadedoc/index.htm.
+
+Please report any bugs you find.
+ 
+The OpenJade Team

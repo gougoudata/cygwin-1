@@ -1,0 +1,85 @@
+automake1.10
+========================================================================
+Provides the latest version of automake in the 1.10.x series
+
+Runtime requirements (these or newer):
+  cygwin-1.7.1-1
+  perl-5.10.1-2
+  coreutils-7.0-2
+  m4-1.4.13-1
+  texinfo-4.13-3
+  alternatives-1.3.30c-10
+  xz-4.999.9beta-10
+  autoconf2.5
+  autoconf
+
+Build requirements (these or newer):
+  cygwin-1.7.1-1
+  perl-5.10.1-2
+  coreutils-7.0-2
+  m4-1.4.13-1
+  texinfo-4.13-3
+  cygport-0.9.9
+  autoconf2.5
+  autoconf
+  make-3.81-2
+
+Canonical homepage:
+  http://www.gnu.org/software/automake/
+
+Canonical download:
+  ftp://ftp.gnu.org/pub/gnu/automake/
+
+License:
+  GPL
+
+Language:
+  perl, m4
+
+========================================================================
+
+Build instructions:
+  unpack automake1.10-1.10.3-X-src.tar.bz2
+    if you use setup to install this src package, it will be unpacked
+    under /usr/src automatically
+  cd /usr/src
+  cygport ./automake1.10-1.10.3-X.cygport all
+
+This will create:
+  /usr/src/automake1.10-1.10.3-X-src.tar.bz2
+  /usr/src/automake1.10-1.10.3-X.bz2
+
+Also, 'cygport ./automake1.10-1.10.3-X.cygport check' will test the package
+
+========================================================================
+
+Files included in automake1.10-1.10.3-X:
+  see cygcheck -l output
+
+========================================================================
+
+Port Notes:
+----- version 1.10.3-1 -- 2009 Dec 24 -----
+* Routine update to latest upstream
+
+----- version 1.10.2-10 -- 2009 May 25 -----
+* Routine update to latest upstream
+
+----- version 1.10.1-10 -- 27 Oct 2008 -----
+* This version marks the beginning of cygwin-1.7 specific
+  ports. Releases 1.10.1-2 thru 1.10.1-9 are reserved for
+  cygwin-1.5.
+* Use stock cygport 0.9.2
+* Import fixes from gentoo
+* Ensure distcheck passes when using libtool-2.2 and
+  the LT_OUTPUT macro appears in configure.ac.
+* Ensure /usr/share/aclocal directory is preserved
+
+----- automake1.10-1.10.1-1 -- 19 Feb 2008 ----
+Routine update.
+
+----- automake1.10-1.10-1 -- 14 Oct 2006 ----
+First instance in the 1.10 series.  Uses cygport.
+
+========================================================================
+Cygwin port maintained by: Chuck Wilson <cygwin@cygwin.com>

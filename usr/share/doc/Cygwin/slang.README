@@ -1,0 +1,47 @@
+S-Lang
+------------------------------------------
+S-Lang is a multi-platform programmer's library designed 
+to allow a developer to create robust multi-platform software. 
+It provides facilities required by interactive applications 
+such as display/screen management, keyboard input, keymaps, and so on.
+
+------------------------------------------
+
+License:
+  GPL
+
+Runtime requirements:
+  cygwin-1.7 or newer
+
+Build requirements:
+  cygwin
+  gcc-4.3  or newer
+  binutils-20030901-1 or newer
+  autoconf, binutils, gcc, make
+  diff, patch
+  libiconv
+  libonig-devel
+  libpcre-devel
+  libpng14-devel
+  zlib-devel
+
+
+Canonical homepage:
+ http://www.jedsoft.org/slang/
+
+Canonical download:
+ http://www.jedsoft.org/slang/download.html
+
+------------------------------------
+
+----------   slang-2.2.3-1    -----------
+New upstream version
+----------   slang-2.2.2-2    -----------
+Amend mistakes on building library
+----------   slang-2.2.2-1    -----------
+Initial Cygwin Package
+Ported to cygwin with cygport
+
+------------------------------------
+Cygwin port maintained by:  Marco Atzeri
+Please address all questions to the Cygwin mailing list at cygwin@cygwin.com

@@ -1,0 +1,139 @@
+quilt
+------------------------------------------
+
+Tool to work with series of patches
+
+Program manages a series of patches by keeping track of the changes each
+of them makes. They are logically organized as a stack, and you can
+apply, un-apply, refresh them easily by traveling into the stack
+(push/pop). Quilt is good for managing additional patches applied to a
+package received as a tarball or maintained in another version control
+system. The stacked organization proved to be efficient for the
+management of very large patch sets (more than hundred patches).
+
+With quilt, all work occurs within a single directory tree. Since
+version 0.30, commands can be invoqued from anywhere within the source
+tree. Commands are of the form quilt cmd, similar to CVS commands.
+They can be abbreviated as long as the specified part of the command
+is unique. All commands print some help text with "quilt cmd -h".
+
+An example:
+
+  cat some.txt
+  quilt new mychange.dif
+
+  EDITOR=vi quit edit some.text
+  ... edit, exit
+  quilt refresh
+
+  ls patches/*
+
+  quilt diff -z
+  quilt refresh
+  quilt pop                   # remove patch
+  quilt push                  # reapply
+
+Runtime requirements:
+  bzip2
+  diffutils
+  patch
+  perl
+  util-linux
+
+Build requirements:
+  quilt
+  gettext-devel
+
+Canonical homepage:
+  http://freshmeat.net/projects/quilt
+  http://packages.debian.org/quilt
+
+Canonical download:
+  http://download.savannah.gnu.org/releases/quilt
+
+Version control repository:
+  http://savannah.nongnu.org/cvs/?group=quilt
+
+Mailing List:
+  http://dir.gmane.org/gmane.comp.version-control.quilt.devel
+
+IRC channel:
+
+Upstream contact:
+  Author: Andrew Morton <akpm@digeo.com>
+  Bugs: http://savannah.nongnu.org/projects/quilt
+
+License:
+  GPL
+
+Language:
+  C
+  Bourne Shell
+  Perl
+
+------------------------------------
+
+Build instructions:
+  unpack quilt-0.60-1-src.tar.bz2
+    if you use setup to install this src package, it will be
+    unpacked under /usr/src automatically
+  cd /usr/src
+  ./quilt*.sh all
+
+This will create:
+  quilt-0.60-1.tar.bz2
+  quilt-0.60-1-src.tar.bz2
+
+-------------------------------------------
+
+Files included in the binary distro:
+  See Cygwin package archive
+
+------------------
+
+Port Notes:
+- The quilt.txt manual was copied from Debian
+
+
+----- version 0.60-1 -----
+- New upstream release 2012-09-15 Jari Aalto
+- Disable patch sensible-editor and use $EDITOR in commands
+- chmod +x /usr/share/quilt/scripts/*
+
+----- version 0.48-4 -----
+- Fix packaging 2011-05-24 Jari Aalto
+
+----- version 0.48-3 -----
+- Rewrite preremove and postinstall 2011-04-08 Jari Aalto
+- Include Debian patches quilt_0.48-7
+
+----- version 0.48-2 -----
+- Correct postinstall.sh 2011-03-18 Jari Aalto
+
+----- version 0.48-1 -----
+- New upstream release 2011-02-10 Jari Aalto
+
+----- version 0.46-2 -----
+- Updated 2008-11-04 Jari Aalto
+- setup.hint, README: Add 'util-linux' dependency for getopt.
+  Fixes: http://sourceware.org/ml/cygwin/2008-10/msg00657.html
+- README: Add URLs to Vcs repository etc.
+- Apply Debian patches from from CYGWIN-PATCHES/patches/*
+
+----- version 0.46-1 -----
+- New upstream release.
+- setup.hint, README: Add 'diffutils' dependency
+
+----- version 0.43-1 -----
+- Initial release 2006-02-07 Jari Aalto.
+- Makefile.in: Add new target (lib/backup-files). It was not compiled
+  at all and install tried to use non-existent lib/backup-files.exe
+- Convert quilt.pdf GOOGLE:<How To Survive With Many Patches or
+  Introduction to Quilt(*) by Andreas Gruunbacher, SuSE Labs,
+  agruen@suse.de, June 12, 2005> in to quilt.txt. Write Makefile::install
+  and copy files to /usr/share/doc/quilt-*/manual/
+- http://sourceware.org/ml/cygwin-apps/2006-02/msg00046.html (ITP)
+  http://sourceware.org/ml/cygwin-apps/2006-02/msg00073.html (GTG)
+
+Cygwin port maintained by: Jari Aalto <jari.aalto@cante.net>
+Copyright (C) 2006-2012 Jari Aalto; Licensed under GPL v2 or later

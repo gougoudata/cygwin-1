@@ -1,0 +1,12 @@
+prefix=/usr/x86_64-pc-cygwin/sys-root/usr
+exec_prefix=/usr/x86_64-pc-cygwin/sys-root/usr
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: libedit
+Description: command line editor library provides generic line editing, history, and tokenization functions.
+Version: 3.0
+Requires:
+Libs: -L${libdir} -ledit -lncurses 
+Cflags: -I${includedir} -I${includedir}/editline
+

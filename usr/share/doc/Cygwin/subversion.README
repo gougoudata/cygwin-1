@@ -1,0 +1,16 @@
+To run svnserve as a Windows service, use the cygrunsrv wrapper.
+
+ 1. Install the cygrunsrv package.
+ 2. Install the service:
+
+    cygrunsrv --install svnserve \
+      --path /usr/bin/svnserver \
+      --dep tcpip \
+      --args '--daemon --foreground --root /path/to/svnserve/root'
+
+Be sure to set the --root for svnserve correctly for you environment.
+
+The service will run as LocalSystem by default. You can change this
+using the --user and --password arguments to cygrunsrv. Be sure that
+your repositories are readable and writable by whatever user you
+choose.

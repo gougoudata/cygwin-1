@@ -21,10 +21,15 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
+
 #ifndef __GTK_COLOR_SELECTION_DIALOG_H__
 #define __GTK_COLOR_SELECTION_DIALOG_H__
+
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
 
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkcolorsel.h>
@@ -48,10 +53,10 @@ struct _GtkColorSelectionDialog
 {
   GtkDialog parent_instance;
 
-  GtkWidget *colorsel;
-  GtkWidget *ok_button;
-  GtkWidget *cancel_button;
-  GtkWidget *help_button;
+  GtkWidget *GSEAL (colorsel);
+  GtkWidget *GSEAL (ok_button);
+  GtkWidget *GSEAL (cancel_button);
+  GtkWidget *GSEAL (help_button);
 };
 
 struct _GtkColorSelectionDialogClass
@@ -66,9 +71,10 @@ struct _GtkColorSelectionDialogClass
 };
 
 
-/* ColorSelectionDialog */ 
-GType      gtk_color_selection_dialog_get_type (void) G_GNUC_CONST;
-GtkWidget* gtk_color_selection_dialog_new      (const gchar *title); 
+/* ColorSelectionDialog */
+GType      gtk_color_selection_dialog_get_type            (void) G_GNUC_CONST;
+GtkWidget* gtk_color_selection_dialog_new                 (const gchar *title);
+GtkWidget* gtk_color_selection_dialog_get_color_selection (GtkColorSelectionDialog *colorsel);
 
 
 G_END_DECLS

@@ -1,0 +1,79 @@
+mingw64-x86_64-binutils
+The GNU Binutils are a collection of binary tools. This package is
+capable of targetting win64.
+
+Runtime requirements:
+  libgcc1
+  libintl8
+
+Build requirements:
+  gcc4
+  zlib-devel
+  gettext
+
+Canonical homepage:
+mingw-w64.sourceforge.net
+
+-------------------------------------------
+
+Files included in the binary distro
+  /usr/bin/x86_64-w64-mingw32-addr2line.exe
+  /usr/bin/x86_64-w64-mingw32-ar.exe
+  /usr/bin/x86_64-w64-mingw32-as.exe
+  /usr/bin/x86_64-w64-mingw32-c++filt.exe
+  /usr/bin/x86_64-w64-mingw32-dlltool.exe
+  /usr/bin/x86_64-w64-mingw32-dllwrap.exe
+  /usr/bin/x86_64-w64-mingw32-elfedit.exe
+  /usr/bin/x86_64-w64-mingw32-gprof.exe
+  /usr/bin/x86_64-w64-mingw32-ld.exe
+  /usr/bin/x86_64-w64-mingw32-nm.exe
+  /usr/bin/x86_64-w64-mingw32-objcopy.exe
+  /usr/bin/x86_64-w64-mingw32-objdump.exe
+  /usr/bin/x86_64-w64-mingw32-ranlib.exe
+  /usr/bin/x86_64-w64-mingw32-readelf.exe
+  /usr/bin/x86_64-w64-mingw32-size.exe
+  /usr/bin/x86_64-w64-mingw32-strings.exe
+  /usr/bin/x86_64-w64-mingw32-strip.exe
+  /usr/bin/x86_64-w64-mingw32-windmc.exe
+  /usr/bin/x86_64-w64-mingw32-windres.exe
+  /usr/share/doc/Cygwin/mingw64-x86_64-binutils.README
+  /usr/share/doc/mingw64-x86_64-binutils/COPYING
+  /usr/share/doc/mingw64-x86_64-binutils/COPYING.LIB
+  /usr/share/doc/mingw64-x86_64-binutils/ChangeLog
+  /usr/share/doc/mingw64-x86_64-binutils/MAINTAINERS
+  /usr/share/doc/mingw64-x86_64-binutils/README
+  /usr/share/man/man1/x86_64-w64-mingw32-addr2line.1.gz
+  /usr/share/man/man1/x86_64-w64-mingw32-ar.1.gz
+  /usr/share/man/man1/x86_64-w64-mingw32-as.1.gz
+  /usr/share/man/man1/x86_64-w64-mingw32-c++filt.1.gz
+  /usr/share/man/man1/x86_64-w64-mingw32-dlltool.1.gz
+  /usr/share/man/man1/x86_64-w64-mingw32-elfedit.1.gz
+  /usr/share/man/man1/x86_64-w64-mingw32-gprof.1.gz
+  /usr/share/man/man1/x86_64-w64-mingw32-ld.1.gz
+  /usr/share/man/man1/x86_64-w64-mingw32-nlmconv.1.gz
+  /usr/share/man/man1/x86_64-w64-mingw32-nm.1.gz
+  /usr/share/man/man1/x86_64-w64-mingw32-objcopy.1.gz
+  /usr/share/man/man1/x86_64-w64-mingw32-objdump.1.gz
+  /usr/share/man/man1/x86_64-w64-mingw32-ranlib.1.gz
+  /usr/share/man/man1/x86_64-w64-mingw32-readelf.1.gz
+  /usr/share/man/man1/x86_64-w64-mingw32-size.1.gz
+  /usr/share/man/man1/x86_64-w64-mingw32-strings.1.gz
+  /usr/share/man/man1/x86_64-w64-mingw32-strip.1.gz
+  /usr/share/man/man1/x86_64-w64-mingw32-windmc.1.gz
+  /usr/share/man/man1/x86_64-w64-mingw32-windres.1.gz
+  /usr/x86_64-w64-mingw32/bin/ar.exe
+  /usr/x86_64-w64-mingw32/bin/as.exe
+  /usr/x86_64-w64-mingw32/bin/dlltool.exe
+  /usr/x86_64-w64-mingw32/bin/ld.exe
+  /usr/x86_64-w64-mingw32/bin/nm.exe
+  /usr/x86_64-w64-mingw32/bin/objcopy.exe
+  /usr/x86_64-w64-mingw32/bin/objdump.exe
+  /usr/x86_64-w64-mingw32/bin/ranlib.exe
+  /usr/x86_64-w64-mingw32/bin/strip.exe
+  /usr/x86_64-w64-mingw32/lib/ldscripts/i386pep.x
+  /usr/x86_64-w64-mingw32/lib/ldscripts/i386pep.xa
+  /usr/x86_64-w64-mingw32/lib/ldscripts/i386pep.xbn
+  /usr/x86_64-w64-mingw32/lib/ldscripts/i386pep.xn
+  /usr/x86_64-w64-mingw32/lib/ldscripts/i386pep.xr
+  /usr/x86_64-w64-mingw32/lib/ldscripts/i386pep.xu
+

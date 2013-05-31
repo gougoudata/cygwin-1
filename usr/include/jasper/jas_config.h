@@ -7,7 +7,7 @@
 #define JAS_CONFIG_H
 
 /* This preprocessor symbol identifies the version of JasPer. */
-#define	JAS_VERSION "1.900.1"
+#define JAS_VERSION "1.900.1"
 /* If configure is being used, this symbol will be defined automatically
   at this point in the configuration header file. */
 
@@ -103,6 +103,10 @@
 /* JasPer version */
 #define JAS_VERSION "1.900.1"
 
+/* Define to the sub-directory in which libtool stores uninstalled libraries.
+   */
+#define LT_OBJDIR ".libs/"
+
 /* Name of package */
 #define PACKAGE "jasper"
 
@@ -117,6 +121,9 @@
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "jasper"
+
+/* Define to the home page for this package. */
+#define PACKAGE_URL ""
 
 /* Define to the version of this package. */
 #define PACKAGE_VERSION "1.900.1"
@@ -155,7 +162,7 @@
 /* #undef uint */
 
 /* Define to `unsigned long' if <sys/types.h> does not define. */
-#define ulong unsigned long
+/* #undef ulong */
 
 /* Define to `unsigned long long' if <sys/types.h> does not define. */
 #define ulonglong unsigned long long

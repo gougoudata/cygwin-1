@@ -1,0 +1,58 @@
+--- origsrc/util-linux-2.21.2/include/blkdev.h	2012-05-25 04:44:58.981195300 -0500
++++ src/util-linux-2.21.2/include/blkdev.h	2012-11-04 16:24:02.411898400 -0600
+@@ -15,6 +15,10 @@
+ 
+ #define DEFAULT_SECTOR_SIZE       512
+ 
++#ifdef __CYGWIN__
++#include <cygwin/fs.h>
++#endif
++
+ #ifdef __linux__
+ /* very basic ioclts, should be available everywhere */
+ # ifndef BLKROSET
+--- origsrc/util-linux-2.21.2/libblkid/src/topology/Makefile.am	2012-05-25 04:44:58.984195300 -0500
++++ src/util-linux-2.21.2/libblkid/src/topology/Makefile.am	2012-11-04 16:25:15.544272400 -0600
+@@ -5,13 +5,13 @@ libblkid_topology_la_LIBADD =
+ 
+ noinst_LTLIBRARIES = libblkid_topology.la
+ libblkid_topology_la_SOURCES =	topology.c \
+-				topology.h
++				topology.h \
++				ioctl.c
+ 
+ if LINUX
+ libblkid_topology_la_SOURCES += sysfs.c \
+ 				dm.c \
+ 				lvm.c \
+-				ioctl.c \
+ 				md.c \
+ 				evms.c
+ endif
+--- origsrc/util-linux-2.21.2/libblkid/src/topology/topology.c	2012-05-15 06:51:45.815410400 -0500
++++ src/util-linux-2.21.2/libblkid/src/topology/topology.c	2012-11-04 16:26:38.414386700 -0600
+@@ -74,7 +74,9 @@ struct blkid_struct_topology {
+  */
+ static const struct blkid_idinfo *idinfos[] =
+ {
+-#ifdef __linux__
++#if defined(__CYGWIN__)
++	&ioctl_tp_idinfo
++#elif defined(__linux__)
+ 	&ioctl_tp_idinfo,
+ 	&sysfs_tp_idinfo,
+ 	&md_tp_idinfo,
+--- origsrc/util-linux-2.21.2/libblkid/src/topology/topology.h	2012-05-15 06:51:45.817410400 -0500
++++ src/util-linux-2.21.2/libblkid/src/topology/topology.h	2012-11-04 16:27:17.674440900 -0600
+@@ -11,8 +11,10 @@ extern int blkid_topology_set_physical_s
+ /*
+  * topology probers
+  */
+-#ifdef __linux__
++#if defined(__linux__) || defined(__CYGWIN__)
+ extern const struct blkid_idinfo ioctl_tp_idinfo;
++#endif
++#ifdef __linux__
+ extern const struct blkid_idinfo md_tp_idinfo;
+ extern const struct blkid_idinfo evms_tp_idinfo;
+ extern const struct blkid_idinfo sysfs_tp_idinfo;

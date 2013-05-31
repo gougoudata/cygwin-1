@@ -27,6 +27,8 @@
     </xsl:call-template>
   </xsl:template>
 
+  <xsl:variable name="gtkdoc.refsect2" select="//refsect2"/>
+
   <xsl:template name="devhelp2">
     <xsl:variable name="title">
       <xsl:apply-templates select="." mode="generate.devhelp2.toc.title.mode"/>
@@ -45,7 +47,7 @@
                                            glossary|index|refentry|
                                            bridgehead|sect1"/>
 
-    <book title="{$title}" link="{$link}" author="{$author}" name="{$gtkdoc.bookname}" version="2">
+    <book title="{$title}" link="{$link}" author="{$author}" name="{$gtkdoc.bookname}" version="2" language="c">
       <xsl:if test="$toc.nodes">
         <chapters>
           <xsl:apply-templates select="$toc.nodes"
@@ -53,7 +55,9 @@
         </chapters>
       </xsl:if>
       <functions>
-        <xsl:apply-templates select="//refsect2"
+        <xsl:apply-templates select="$gtkdoc.refsect2"
+                             mode="generate.devhelp2.index.mode"/>
+        <xsl:apply-templates select="$gtkdoc.refsect2/variablelist[@role='enum']/varlistentry"
                              mode="generate.devhelp2.index.mode"/>
       </functions>
     </book>
@@ -80,16 +84,16 @@
     <sub name="{$title}" link="{$target}">
       <xsl:apply-templates select="section|sect1|
                                    refentry|refsect|
-                                   bridgehead|part|chapter"
+                                   bridgehead|part|chapter|glossary|index"
                            mode="generate.devhelp2.toc.mode"/>
     </sub>
   </xsl:template>
 
   <xsl:template match="*" mode="generate.devhelp2.index.mode">
-    <xsl:variable name="title" select="title"/>
+    <xsl:variable name="title" select="title|term/literal"/>
     <xsl:variable name="anchor" select="title/anchor"/>
-    <xsl:variable name="type" select="title/anchor/@role"/>
-    <xsl:variable name="condition" select="title/anchor/@condition"/>
+    <xsl:variable name="type" select="@role"/>
+    <xsl:variable name="condition" select="@condition"/>
     <xsl:variable name="target">
       <xsl:choose>
         <xsl:when test="$anchor">

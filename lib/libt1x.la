@@ -14,7 +14,7 @@ library_names='libt1x.dll.a'
 old_library='libt1x.a'
 
 # Libraries that this one depends upon.
-dependency_libs=' /usr/lib/libt1.la -L/usr/X11R6/lib -lXpm -lSM -lICE -lXext -lX11'
+dependency_libs=' /usr/lib/libt1.la /usr/lib/libXpm.la /usr/lib/libintl.la -L/usr/lib/ncursesw -L/usr/lib /usr/lib/libiconv.la /usr/lib/libSM.la /usr/lib/libuuid.la /usr/lib/libICE.la /usr/lib/libXext.la /usr/lib/libX11.la /usr/lib/libxcb.la /usr/lib/libXau.la /usr/lib/libXdmcp.la'
 
 # Version information for libt1x.
 current=6

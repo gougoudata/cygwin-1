@@ -1,0 +1,46 @@
+docbook-xml44
+------------------------------------------
+DocBook is a schema (available in several languages including RELAX NG, 
+SGML and XML DTDs, and W3C XML Schema) maintained by the DocBook 
+Technical Committee of OASIS. It is particularly well suited to books 
+and papers about computer hardware and software (though it is by no 
+means limited to these applications).
+
+This package provides version 4.4 of the XML DTDs.
+
+Build requirements:
+  cygport-0.9.10-1
+
+Canonical website:
+  http://docbook.org/
+  http://www.oasis-open.org/docbook/
+
+Canonical download:
+  http://www.oasis-open.org/docbook/
+
+-------------------------------------------
+
+Build instructions:
+  unpack docbook-xml44-4.4-X-src.tar.bz2
+    if you use setup to install this src package, it will be
+	 unpacked under /usr/src automatically
+  cd /usr/src
+  cygport ./docbook-xml44-4.4-X.cygport all
+
+This will create:
+  /usr/src/docbook-xml44-4.4-X-src.tar.bz2
+  /usr/src/docbook-xml44-4.4-X.tar.bz2
+
+For a list of files included in the binary package, run from the 
+command-line: 'cygcheck -l docbook-xml44'.
+
+-------------------------------------------
+
+Port Notes:
+
+----- version 4.4-2 -----
+Initial release for Cygwin 1.7.
+
+
+Cygwin port maintained by:
+http://sourceware.org/cygwinports/

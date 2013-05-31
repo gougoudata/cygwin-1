@@ -1,0 +1,15 @@
+#!/bin/bash
+
+prefix=/usr
+bindir=${prefix}/bin
+sbindir=${prefix}/sbin
+infodir=${prefix}/share/info
+
+/usr/sbin/update-alternatives \
+    --install "${bindir}/g++.exe" "g++" "${bindir}/g++-3.exe" 30 \
+  --slave "/usr/bin/c++.exe" "c++" "/usr/bin/c++-3.exe" \
+  --slave "/usr/bin/i686-pc-cygwin-c++.exe" "i686-pc-cygwin-c++" "/usr/bin/i686-pc-cygwin-c++-3.exe" \
+  --slave "/usr/bin/i686-pc-cygwin-g++.exe" "i686-pc-cygwin-g++" "/usr/bin/i686-pc-cygwin-g++-3.exe" \
+  --slave "/usr/share/man/man1/g++.1.gz" "g++.1.gz" "/usr/share/man/man1/g++-3.1.gz" \
+
+

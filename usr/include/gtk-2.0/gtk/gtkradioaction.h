@@ -25,10 +25,15 @@
  * Modified by the GTK+ Team and others 2003.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
+
 #ifndef __GTK_RADIO_ACTION_H__
 #define __GTK_RADIO_ACTION_H__
+
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
 
 #include <gtk/gtktoggleaction.h>
 
@@ -51,7 +56,7 @@ struct _GtkRadioAction
 
   /*< private >*/
 
-  GtkRadioActionPrivate *private_data;
+  GtkRadioActionPrivate *GSEAL (private_data);
 };
 
 struct _GtkRadioActionClass
@@ -77,7 +82,8 @@ GSList         *gtk_radio_action_get_group         (GtkRadioAction        *actio
 void            gtk_radio_action_set_group         (GtkRadioAction        *action,
                                                     GSList                *group);
 gint            gtk_radio_action_get_current_value (GtkRadioAction        *action);
-
+void            gtk_radio_action_set_current_value (GtkRadioAction        *action,
+                                                    gint                   current_value);
 
 G_END_DECLS
 

@@ -5,10 +5,10 @@
  *	  strategy.
  *
  *
- * Portions Copyright (c) 1996-2006, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2012, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
- * $PostgreSQL: pgsql/src/include/storage/buf_internals.h,v 1.88 2006/10/19 18:32:47 tgl Exp $
+ * src/include/storage/buf_internals.h
  *
  *-------------------------------------------------------------------------
  */
@@ -16,10 +16,12 @@
 #define BUFMGR_INTERNALS_H
 
 #include "storage/buf.h"
+#include "storage/latch.h"
 #include "storage/lwlock.h"
 #include "storage/shmem.h"
+#include "storage/smgr.h"
 #include "storage/spin.h"
-#include "utils/rel.h"
+#include "utils/relcache.h"
 
 
 /*
@@ -35,6 +37,9 @@
 #define BM_IO_ERROR				(1 << 4)		/* previous I/O failed */
 #define BM_JUST_DIRTIED			(1 << 5)		/* dirtied since write started */
 #define BM_PIN_COUNT_WAITER		(1 << 6)		/* have waiter for sole pin */
+#define BM_CHECKPOINT_NEEDED	(1 << 7)		/* must write for checkpoint */
+#define BM_PERMANENT			(1 << 8)		/* permanent relation (not
+												 * unlogged) */
 
 typedef bits16 BufFlags;
 
@@ -63,6 +68,7 @@ typedef bits16 BufFlags;
 typedef struct buftag
 {
 	RelFileNode rnode;			/* physical relation identifier */
+	ForkNumber	forkNum;
 	BlockNumber blockNum;		/* blknum relative to begin of reln */
 } BufferTag;
 
@@ -71,19 +77,22 @@ typedef struct buftag
 	(a).rnode.spcNode = InvalidOid, \
 	(a).rnode.dbNode = InvalidOid, \
 	(a).rnode.relNode = InvalidOid, \
+	(a).forkNum = InvalidForkNumber, \
 	(a).blockNum = InvalidBlockNumber \
 )
 
-#define INIT_BUFFERTAG(a,xx_reln,xx_blockNum) \
+#define INIT_BUFFERTAG(a,xx_rnode,xx_forkNum,xx_blockNum) \
 ( \
-	(a).rnode = (xx_reln)->rd_node, \
+	(a).rnode = (xx_rnode), \
+	(a).forkNum = (xx_forkNum), \
 	(a).blockNum = (xx_blockNum) \
 )
 
 #define BUFFERTAGS_EQUAL(a,b) \
 ( \
 	RelFileNodeEquals((a).rnode, (b).rnode) && \
-	(a).blockNum == (b).blockNum \
+	(a).blockNum == (b).blockNum && \
+	(a).forkNum == (b).forkNum \
 )
 
 /*
@@ -162,21 +171,10 @@ typedef struct sbufdesc
 
 
 /* in buf_init.c */
-extern DLLIMPORT BufferDesc *BufferDescriptors;
+extern PGDLLIMPORT BufferDesc *BufferDescriptors;
 
 /* in localbuf.c */
 extern BufferDesc *LocalBufferDescriptors;
-
-/* in freelist.c */
-extern bool strategy_hint_vacuum;
-
-/* event counters in buf_init.c */
-extern long int ReadBufferCount;
-extern long int ReadLocalBufferCount;
-extern long int BufferHitCount;
-extern long int LocalBufferHitCount;
-extern long int BufferFlushCount;
-extern long int LocalBufferFlushCount;
 
 
 /*
@@ -184,9 +182,15 @@ extern long int LocalBufferFlushCount;
  */
 
 /* freelist.c */
-extern volatile BufferDesc *StrategyGetBuffer(void);
-extern void StrategyFreeBuffer(volatile BufferDesc *buf, bool at_head);
-extern int	StrategySyncStart(void);
+extern volatile BufferDesc *StrategyGetBuffer(BufferAccessStrategy strategy,
+				  bool *lock_held);
+extern void StrategyFreeBuffer(volatile BufferDesc *buf);
+extern bool StrategyRejectBuffer(BufferAccessStrategy strategy,
+					 volatile BufferDesc *buf);
+
+extern int	StrategySyncStart(uint32 *complete_passes, uint32 *num_buf_alloc);
+extern void StrategyNotifyBgWriter(Latch *bgwriterLatch);
+
 extern Size StrategyShmemSize(void);
 extern void StrategyInitialize(bool init);
 
@@ -199,11 +203,14 @@ extern int	BufTableInsert(BufferTag *tagPtr, uint32 hashcode, int buf_id);
 extern void BufTableDelete(BufferTag *tagPtr, uint32 hashcode);
 
 /* localbuf.c */
-extern BufferDesc *LocalBufferAlloc(Relation reln, BlockNumber blockNum,
-				 bool *foundPtr);
+extern void LocalPrefetchBuffer(SMgrRelation smgr, ForkNumber forkNum,
+					BlockNumber blockNum);
+extern BufferDesc *LocalBufferAlloc(SMgrRelation smgr, ForkNumber forkNum,
+				 BlockNumber blockNum, bool *foundPtr);
 extern void MarkLocalBufferDirty(Buffer buffer);
-extern void DropRelFileNodeLocalBuffers(RelFileNode rnode,
+extern void DropRelFileNodeLocalBuffers(RelFileNode rnode, ForkNumber forkNum,
 							BlockNumber firstDelBlock);
+extern void DropRelFileNodeAllLocalBuffers(RelFileNode rnode);
 extern void AtEOXact_LocalBuffers(bool isCommit);
 
 #endif   /* BUFMGR_INTERNALS_H */

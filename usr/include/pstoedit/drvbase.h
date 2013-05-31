@@ -5,7 +5,7 @@
    driver classes/backends. All virtual functions have to be implemented by
    the specific driver class. See drvSAMPL.cpp
   
-   Copyright (C) 1993 - 2007 Wolfgang Glunz, wglunz34_AT_pstoedit.net
+   Copyright (C) 1993 - 2012 Wolfgang Glunz, wglunz35_AT_pstoedit.net
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -168,6 +168,7 @@ public:
 		float       currentR; // Colors
 		float       currentG;
 		float       currentB;
+		RSString    colorName; // extracted from PostScript colorspace if /Separation type
 		float		cx; // next five items correspond to the 
 		float		cy; // params for the awidthshow operator
 		int			Char; // of PostScript
@@ -201,6 +202,7 @@ public:
 			currentR(0.0f),
 			currentG(0.0f),
 			currentB(0.0f),
+			colorName(""),
 			cx(0.0f),
 			cy(0.0f),
 			Char(32), // 32 means space
@@ -243,8 +245,9 @@ protected:
 		float           fillR; // fill colors
 		float           fillG;
 		float           fillB;
+		RSString		colorName;
 		bool			pathWasMerged; // true, if this path is a result of a merge operation
-		RSString	dashPattern; // just the dump of currentdash as string
+		RSString	    dashPattern; // just the dump of currentdash as string
 		PathInfo() :
 			currentShowType(drvbase::stroke),
 			currentLineType(drvbase::solid),
@@ -253,7 +256,7 @@ protected:
 			currentMiterLimit(10.0f),
 			nr(0),
 			path(0),
-			isPolygon(0),
+			isPolygon(false),
 			numberOfElementsInPath(0),
 			subpathoffset(0),
 			currentLineWidth(0.0f),
@@ -263,6 +266,7 @@ protected:
 			fillR(0.0f),
 			fillG(0.0f),
 			fillB(0.0f),
+			colorName(""),
 			pathWasMerged(false),
 			dashPattern(emptyDashPattern)
 			{
@@ -316,7 +320,7 @@ public:
 
 	static bool Verbose();  // need a wrapper function because static initialized data cannot be DLLEXPORTed
 	static void SetVerbose(bool param);
-	static unsigned int totalNumberOfPages;
+	static unsigned int &totalNumberOfPages();
 	
 	static BBox	* bboxes() ; // [maxPages]; // array of bboxes - maxpages long
 	static RSString& pstoeditHomeDir(); // usually the place where the binary is installed
@@ -334,7 +338,7 @@ protected:
 	RSString       	outBaseName; 	// just the basename (no path, no suffix)
 	unsigned int	d_argc;
 	const char **			d_argv; // array of driver argument strings
-	const class PsToEditOptions & globaloptions; 
+	class PsToEditOptions & globaloptions; /* non const because driver can also add an option during ctor */
 	float           currentDeviceHeight; // normally 792 pt (US Letter); used for flipping y values.
 	float           currentDeviceWidth;  
 	float           x_offset;
@@ -377,7 +381,7 @@ public:
 		ostream & theerrStream,		
 		const char* nameOfInputFile_p,
 		const char* nameOfOutputFile_p,
-		const PsToEditOptions & globaloptions_p,
+		PsToEditOptions & globaloptions_p,
 		const DriverDescription * Pdriverdesc_p
 	); // constructor
 	virtual ~drvbase();  		// destructor
@@ -442,6 +446,10 @@ public:
 	bool		fontchanged() const { return ! textInfo_.samefont(lastTextInfo_); }
 	bool		textcolorchanged() const { return ! textInfo_.samecolor(lastTextInfo_); }
 
+	void		setColorName(const char * const name) {
+				textInfo_.colorName = name ;  
+			 	currentPath->colorName = name; 
+	}
 	void		setRGB(const float R,const float G, const float B)
 			{ 
 			 if ( ( R > 1.0 ) || ( G > 1.0 ) || ( B > 1.0 ) ||
@@ -566,9 +574,9 @@ public:
 
 	// The next functions are virtual with a default empty implementation
 
-	virtual void    show_image(const PSImage & imageinfo) {
+	virtual void    show_image(const PSImage & /* imageinfo */) {
 		cerr << "show_image called, although backend does not support images" << endl;
-		unused(&imageinfo);
+		//unused(&imageinfo);
 	}
 
 	// if during construction something may go wrong, a backend can
@@ -599,6 +607,7 @@ protected:
 	float           fillR() const { return outputPath->fillR; } // fill colors
 	float           fillG() const { return outputPath->fillG; }
 	float           fillB() const { return outputPath->fillB; }
+	const RSString & currentColorName() const { return outputPath->colorName; }
 	const char *    dashPattern() const { return outputPath->dashPattern.value(); }
 	float           currentR() const { return outputPath->fillR; } // backends that don't support merging 
 	float           currentG() const { return outputPath->fillG; } // don't need to differentiate and
@@ -735,11 +744,11 @@ public:
 // "drvbase.h", line 455: sorry, not implemented: cannot expand inline function  drawingelement 
 //   <1 , 0 >::drawingelement__pt__19_XCUiL11XC5DtypeL10(Point*) with  for statement in inline
 
-	drawingelement(float x1 = 0.0 ,float y1 = 0.0 , float x2 = 0.0, float y2 = 0.0, float x3 = 0.0, float y3 = 0.0)
+	drawingelement(float x_1 = 0.0 ,float y_1 = 0.0 , float x_2 = 0.0, float y_2 = 0.0, float x_3 = 0.0, float y_3 = 0.0)
 	: basedrawingelement()
 	{
 #if defined (__GNUG__) || defined (_MSC_VER) && _MSC_VER >= 1100
-	const Point  p[] = {Point(x1,y1),Point(x2,y2),Point(x3,y3)};
+	const Point  p[] = {Point(x_1,y_1),Point(x_2,y_2),Point(x_3,y_3)};
 	copyPoints(nr,p,points);
 #else
 	// Turbo C++ hangs if the other solution is used.
@@ -747,9 +756,9 @@ public:
 	// so use this for all compilers besides GNU and MS VC++
 	// This, however, is somewhat slower than the solution above
 	Point  * p = new Point[3];
-	p[0] = Point(x1,y1);
-	p[1] = Point(x2,y2);
-	p[2] = Point(x3,y3);
+	p[0] = Point(x_1,y_1);
+	p[1] = Point(x_2,y_2);
+	p[2] = Point(x_3,y_3);
 	copyPoints(nr,p,points);
 	delete [] p;
 #endif
@@ -776,8 +785,11 @@ public:
 		return new drawingelement<nr,curtype>(*this);
 	}
 	const Point &getPoint(unsigned int i) const  { 
-		assert( (i+1) < (nr+1) );  // nr can be 0 - so unsigned i could never be < 0
-					   // but if nr==0, i==0 is also invalid. (logically i has to be <nr)
+#ifndef _lint
+		assert( (i+1) < (nr+1) );
+						// nr can be 0 - so unsigned i could never be < 0
+					    // but if nr==0, i==0 is also invalid. (logically i has to be <nr)
+#endif
 		return points[i]; 
 	}
 	virtual Dtype getType() const 		     { return (Dtype) curtype; }
@@ -816,7 +828,7 @@ typedef drawingelement<(unsigned int) 3,curveto> 	Curveto;
 	       ostream & theerrStream, 			\
 		   const char* nameOfInputFile_p,	\
 	       const char* nameOfOutputFile_p,	\
-		   const PsToEditOptions & globaloptions_p,		\
+		   PsToEditOptions & globaloptions_p, /* non const because driver can also add options */ 		\
 		   const DriverDescription * descptr)	
 
 #define constructBase drvbase(driveroptions_p,theoutStream,theerrStream,nameOfInputFile_p,nameOfOutputFile_p,globaloptions_p,descptr), options((DriverOptions*)DOptions_ptr)
@@ -931,18 +943,19 @@ public:
 			 ostream & theerrStream,   
 			 const char* const nameOfInputFile,
 		     const char* const nameOfOutputFile,
-			 const PsToEditOptions & globaloptions_p
+			 PsToEditOptions & globaloptions_p
 			 ) const = 0;
 	virtual ProgramOptions * createDriverOptions() const = 0;
 
 	virtual unsigned int getdrvbaseVersion() const { return 0; } // this is only needed for the driverless backends (ps/dump/gs)
 
+	const char * additionalInfo() const;
  // Data members
 	const char * const symbolicname;
 	const char * const short_explanation;
 	const char * const long_explanation;
 	const char * const suffix;
-	const char * const additionalInfo;
+
 	const bool 	backendSupportsSubPathes;
 	const bool 	backendSupportsCurveto;
 	const bool 	backendSupportsMerging; // merge a separate outline and filling of a polygon -> 1. element
@@ -952,7 +965,13 @@ public:
 	const bool	backendSupportsMultiplePages;
 	const bool	backendSupportsClipping;
 	const bool	nativedriver;
-	RSString filename; // where this driver is loaded from
+	RSString filename; 
+	// where this driver is loaded from
+	// Note: formerly this was a RSString - but that caused problems under X64 / Windows
+	// it seems as constructing and deleting heap during start-up phase when not all DLLs are fully initialized
+	// can cause these problems (well - I know then order of init among DLLs/SOs is not guaranteed by C++)
+	// But the passed strings are temporary - so we need to take a copy to the heap (without destroying it later -> small leak)
+
 	const checkfuncptr checkfunc;
 
 	static const char * currentfilename; // the name of the file from which the plugin is loaded
@@ -1003,7 +1022,7 @@ public:
 		    ostream & theerrStream,   
 			const char* const nameOfInputFile,
 	       	const char* const nameOfOutputFile,
-			const PsToEditOptions & globaloptions_p
+			PsToEditOptions & globaloptions_p /* non const because driver can also add arguments */
 			 ) const
 	{ 
 		drvbase * backend = new T(driveroptions_P, theoutStream, theerrStream,nameOfInputFile,nameOfOutputFile, globaloptions_p,this); 

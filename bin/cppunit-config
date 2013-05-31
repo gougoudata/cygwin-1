@@ -54,7 +54,7 @@ while test $# -gt 0; do
       echo_exec_prefix=yes
       ;;
     --version)
-      echo 1.12.0
+      echo 1.12.1
       ;;
     --help)
       usage 0

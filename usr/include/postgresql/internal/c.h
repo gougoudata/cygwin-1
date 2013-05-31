@@ -9,10 +9,10 @@
  *	  polluting the namespace with lots of stuff...
  *
  *
- * Portions Copyright (c) 1996-2006, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2012, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
- * $PostgreSQL: pgsql/src/include/c.h,v 1.214.2.1 2007/01/11 02:40:12 momjian Exp $
+ * src/include/c.h
  *
  *-------------------------------------------------------------------------
  */
@@ -57,9 +57,8 @@
 #include "pg_config_os.h"		/* must be before any system header files */
 #endif
 #include "postgres_ext.h"
-#include "pg_trace.h"
 
-#if _MSC_VER >= 1400
+#if _MSC_VER >= 1400 || defined(HAVE_CRTDEFS_H)
 #define errcode __msvc_errcode
 #include <crtdefs.h>
 #undef errcode
@@ -73,14 +72,14 @@
 #ifdef HAVE_STRINGS_H
 #include <strings.h>
 #endif
+#ifdef HAVE_STDINT_H
+#include <stdint.h>
+#endif
 #include <sys/types.h>
 
 #include <errno.h>
 #if defined(WIN32) || defined(__CYGWIN__)
 #include <fcntl.h>				/* ensure O_BINARY is available */
-#endif
-#ifdef HAVE_SUPPORTDEFS_H
-#include <SupportDefs.h>
 #endif
 
 #if defined(WIN32) || defined(__CYGWIN__)
@@ -91,17 +90,24 @@
 /* Must be before gettext() games below */
 #include <locale.h>
 
-#define _(x) gettext((x))
+#define _(x) gettext(x)
 
 #ifdef ENABLE_NLS
 #include <libintl.h>
 #else
 #define gettext(x) (x)
+#define dgettext(d,x) (x)
+#define ngettext(s,p,n) ((n) == 1 ? (s) : (p))
+#define dngettext(d,s,p,n) ((n) == 1 ? (s) : (p))
 #endif
 
 /*
- *	Use this to mark strings to be translated by gettext, in places where
- *	you don't want an actual function call to occur (eg, constant tables).
+ *	Use this to mark string constants as needing translation at some later
+ *	time, rather than immediately.	This is useful for cases where you need
+ *	access to the original string and translated string, and for cases where
+ *	immediate translation is not possible, like when initializing global
+ *	variables.
+ *		http://www.gnu.org/software/autoconf/manual/gettext/Special-cases.html
  */
 #define gettext_noop(x) (x)
 
@@ -250,22 +256,6 @@ typedef uint16 bits16;			/* >= 16 bits */
 typedef uint32 bits32;			/* >= 32 bits */
 
 /*
- * floatN
- *		Floating point number, AT LEAST N BITS IN SIZE,
- *		used for numerical computations.
- *
- *		Since sizeof(floatN) may be > sizeof(char *), always pass
- *		floatN by reference.
- *
- * XXX: these typedefs are now deprecated in favor of float4 and float8.
- * They will eventually go away.
- */
-typedef float float32data;
-typedef double float64data;
-typedef float *float32;
-typedef double *float64;
-
-/*
  * 64-bit integers
  */
 #ifdef HAVE_LONG_INT_64
@@ -286,20 +276,10 @@ typedef long long int int64;
 #ifndef HAVE_UINT64
 typedef unsigned long long int uint64;
 #endif
-#else							/* not HAVE_LONG_INT_64 and not
-								 * HAVE_LONG_LONG_INT_64 */
-
-/* Won't actually work, but fall back to long int so that code compiles */
-#ifndef HAVE_INT64
-typedef long int int64;
+#else
+/* neither HAVE_LONG_INT_64 nor HAVE_LONG_LONG_INT_64 */
+#error must have a working 64-bit integer datatype
 #endif
-#ifndef HAVE_UINT64
-typedef unsigned long int uint64;
-#endif
-
-#define INT64_IS_BUSTED
-#endif   /* not HAVE_LONG_INT_64 and not
-								 * HAVE_LONG_LONG_INT_64 */
 
 /* Decide if we need to decorate 64-bit constants */
 #ifdef HAVE_LL_CONSTANTS
@@ -312,7 +292,7 @@ typedef unsigned long int uint64;
 
 
 /* Select timestamp representation (float8 or int64) */
-#if defined(USE_INTEGER_DATETIMES) && !defined(INT64_IS_BUSTED)
+#ifdef USE_INTEGER_DATETIMES
 #define HAVE_INT64_TIMESTAMP
 #endif
 
@@ -370,6 +350,8 @@ typedef regproc RegProcedure;
 
 typedef uint32 TransactionId;
 
+typedef uint32 LocalTransactionId;
+
 typedef uint32 SubTransactionId;
 
 #define InvalidSubTransactionId		((SubTransactionId) 0)
@@ -399,13 +381,16 @@ typedef struct
  * NOTE: for TOASTable types, this is an oversimplification, since the value
  * may be compressed or moved out-of-line.	However datatype-specific routines
  * are mostly content to deal with de-TOASTed values only, and of course
- * client-side routines should never see a TOASTed value.  See postgres.h for
- * details of the TOASTed form.
+ * client-side routines should never see a TOASTed value.  But even in a
+ * de-TOASTed value, beware of touching vl_len_ directly, as its representation
+ * is no longer convenient.  It's recommended that code always use the VARDATA,
+ * VARSIZE, and SET_VARSIZE macros instead of relying on direct mentions of
+ * the struct fields.  See postgres.h for details of the TOASTed form.
  * ----------------
  */
 struct varlena
 {
-	int32		vl_len;
+	char		vl_len_[4];		/* Do not touch this field directly! */
 	char		vl_dat[1];
 };
 
@@ -433,7 +418,7 @@ typedef struct varlena VarChar; /* var-length char, ie SQL varchar(n) */
  */
 typedef struct
 {
-	int32		size;			/* these fields must match ArrayType! */
+	int32		vl_len_;		/* these fields must match ArrayType! */
 	int			ndim;			/* always 1 for int2vector */
 	int32		dataoffset;		/* always 0 for int2vector */
 	Oid			elemtype;
@@ -444,7 +429,7 @@ typedef struct
 
 typedef struct
 {
-	int32		size;			/* these fields must match ArrayType! */
+	int32		vl_len_;		/* these fields must match ArrayType! */
 	int			ndim;			/* always 1 for oidvector */
 	int32		dataoffset;		/* always 0 for oidvector */
 	Oid			elemtype;
@@ -454,16 +439,12 @@ typedef struct
 } oidvector;					/* VARIABLE LENGTH STRUCT */
 
 /*
- * We want NameData to have length NAMEDATALEN and int alignment,
- * because that's how the data type 'name' is defined in pg_type.
- * Use a union to make sure the compiler agrees.  Note that NAMEDATALEN
- * must be a multiple of sizeof(int), else sizeof(NameData) will probably
- * not come out equal to NAMEDATALEN.
+ * Representation of a Name: effectively just a C string, but null-padded to
+ * exactly NAMEDATALEN bytes.  The use of a struct is historical.
  */
-typedef union nameData
+typedef struct nameData
 {
 	char		data[NAMEDATALEN];
-	int			alignmentDummy;
 } NameData;
 typedef NameData *Name;
 
@@ -494,14 +475,14 @@ typedef NameData *Name;
  * PointerIsValid
  *		True iff pointer is valid.
  */
-#define PointerIsValid(pointer) ((void*)(pointer) != NULL)
+#define PointerIsValid(pointer) ((const void*)(pointer) != NULL)
 
 /*
  * PointerIsAligned
  *		True iff pointer is properly aligned to point to the given type.
  */
 #define PointerIsAligned(pointer, type) \
-		(((long)(pointer) % (sizeof (type))) == 0)
+		(((intptr_t)(pointer) % (sizeof (type))) == 0)
 
 #define OidIsValid(objectId)  ((bool) ((objectId) != InvalidOid))
 
@@ -537,17 +518,17 @@ typedef NameData *Name;
 
 /* ----------------
  * Alignment macros: align a length or address appropriately for a given type.
+ * The fooALIGN() macros round up to a multiple of the required alignment,
+ * while the fooALIGN_DOWN() macros round down.  The latter are more useful
+ * for problems like "how many X-sized structures will fit in a page?".
  *
- * There used to be some incredibly crufty platform-dependent hackery here,
- * but now we rely on the configure script to get the info for us. Much nicer.
- *
- * NOTE: TYPEALIGN will not work if ALIGNVAL is not a power of 2.
- * That case seems extremely unlikely to occur in practice, however.
+ * NOTE: TYPEALIGN[_DOWN] will not work if ALIGNVAL is not a power of 2.
+ * That case seems extremely unlikely to be needed in practice, however.
  * ----------------
  */
 
 #define TYPEALIGN(ALIGNVAL,LEN)  \
-	(((long) (LEN) + ((ALIGNVAL) - 1)) & ~((long) ((ALIGNVAL) - 1)))
+	(((intptr_t) (LEN) + ((ALIGNVAL) - 1)) & ~((intptr_t) ((ALIGNVAL) - 1)))
 
 #define SHORTALIGN(LEN)			TYPEALIGN(ALIGNOF_SHORT, (LEN))
 #define INTALIGN(LEN)			TYPEALIGN(ALIGNOF_INT, (LEN))
@@ -557,6 +538,14 @@ typedef NameData *Name;
 /* MAXALIGN covers only built-in types, not buffers */
 #define BUFFERALIGN(LEN)		TYPEALIGN(ALIGNOF_BUFFER, (LEN))
 
+#define TYPEALIGN_DOWN(ALIGNVAL,LEN)  \
+	(((intptr_t) (LEN)) & ~((intptr_t) ((ALIGNVAL) - 1)))
+
+#define SHORTALIGN_DOWN(LEN)	TYPEALIGN_DOWN(ALIGNOF_SHORT, (LEN))
+#define INTALIGN_DOWN(LEN)		TYPEALIGN_DOWN(ALIGNOF_INT, (LEN))
+#define LONGALIGN_DOWN(LEN)		TYPEALIGN_DOWN(ALIGNOF_LONG, (LEN))
+#define DOUBLEALIGN_DOWN(LEN)	TYPEALIGN_DOWN(ALIGNOF_DOUBLE, (LEN))
+#define MAXALIGN_DOWN(LEN)		TYPEALIGN_DOWN(MAXIMUM_ALIGNOF, (LEN))
 
 /* ----------------------------------------------------------------
  *				Section 6:	widely useful macros
@@ -631,7 +620,7 @@ typedef NameData *Name;
 		int		_val = (val); \
 		Size	_len = (len); \
 \
-		if ((((long) _vstart) & LONG_ALIGN_MASK) == 0 && \
+		if ((((intptr_t) _vstart) & LONG_ALIGN_MASK) == 0 && \
 			(_len & LONG_ALIGN_MASK) == 0 && \
 			_val == 0 && \
 			_len <= MEMSET_LOOP_LIMIT && \
@@ -718,6 +707,44 @@ typedef NameData *Name;
 #define STATUS_WAITING			(2)
 
 
+/*
+ * Append PG_USED_FOR_ASSERTS_ONLY to definitions of variables that are only
+ * used in assert-enabled builds, to avoid compiler warnings about unused
+ * variables in assert-disabled builds.
+ */
+#ifdef USE_ASSERT_CHECKING
+#define PG_USED_FOR_ASSERTS_ONLY
+#else
+#define PG_USED_FOR_ASSERTS_ONLY __attribute__((unused))
+#endif
+
+
+/* gettext domain name mangling */
+
+/*
+ * To better support parallel installations of major PostgeSQL
+ * versions as well as parallel installations of major library soname
+ * versions, we mangle the gettext domain name by appending those
+ * version numbers.  The coding rule ought to be that whereever the
+ * domain name is mentioned as a literal, it must be wrapped into
+ * PG_TEXTDOMAIN().  The macros below do not work on non-literals; but
+ * that is somewhat intentional because it avoids having to worry
+ * about multiple states of premangling and postmangling as the values
+ * are being passed around.
+ *
+ * Make sure this matches the installation rules in nls-global.mk.
+ */
+
+/* need a second indirection because we want to stringize the macro value, not the name */
+#define CppAsString2(x) CppAsString(x)
+
+#ifdef SO_MAJOR_VERSION
+#define PG_TEXTDOMAIN(domain) (domain CppAsString2(SO_MAJOR_VERSION) "-" PG_MAJORVERSION)
+#else
+#define PG_TEXTDOMAIN(domain) (domain "-" PG_MAJORVERSION)
+#endif
+
+
 /* ----------------------------------------------------------------
  *				Section 8: system-specific hacks
  *
@@ -736,20 +763,15 @@ typedef NameData *Name;
  */
 #if defined(WIN32) || defined(__CYGWIN__)
 #define PG_BINARY	O_BINARY
+#define PG_BINARY_A "ab"
 #define PG_BINARY_R "rb"
 #define PG_BINARY_W "wb"
 #else
 #define PG_BINARY	0
+#define PG_BINARY_A "a"
 #define PG_BINARY_R "r"
 #define PG_BINARY_W "w"
 #endif
-
-#if defined(sun) && defined(__sparc__) && !defined(__SVR4)
-#include <unistd.h>
-#endif
-
-/* These are for things that are one way on Unix and another on NT */
-#define NULL_DEV		"/dev/null"
 
 /*
  * Provide prototypes for routines not present in a particular machine's
@@ -760,7 +782,7 @@ typedef NameData *Name;
 extern int
 snprintf(char *str, size_t count, const char *fmt,...)
 /* This extension allows gcc to check the format string */
-__attribute__((format(printf, 3, 4)));
+__attribute__((format(PG_PRINTF_ATTRIBUTE, 3, 4)));
 #endif
 
 #if !HAVE_DECL_VSNPRINTF
@@ -771,8 +793,12 @@ extern int	vsnprintf(char *str, size_t count, const char *fmt, va_list args);
 #define memmove(d, s, c)		bcopy(s, d, c)
 #endif
 
-#ifndef DLLIMPORT
-#define DLLIMPORT				/* no special DLL markers on most ports */
+/* no special DLL markers on most ports */
+#ifndef PGDLLIMPORT
+#define PGDLLIMPORT
+#endif
+#ifndef PGDLLEXPORT
+#define PGDLLEXPORT
 #endif
 
 /*
@@ -813,6 +839,14 @@ extern int	fdatasync(int fildes);
 #if defined(HAVE_LONG_LONG_INT_64) && !defined(HAVE_STRTOULL) && defined(HAVE_STRTOUQ)
 #define strtoull strtouq
 #define HAVE_STRTOULL 1
+#endif
+
+/*
+ * We assume if we have these two functions, we have their friends too, and
+ * can use the wide-character functions.
+ */
+#if defined(HAVE_WCSTOMBS) && defined(HAVE_TOWLOWER)
+#define USE_WIDE_UPPER_LOWER
 #endif
 
 /* EXEC_BACKEND defines */

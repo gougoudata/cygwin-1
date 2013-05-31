@@ -19,15 +19,15 @@ W gnat%s		gnat.ads		gnat.ali
 W interfaces%s		interfac.ads		interfac.ali
 W interfaces.c%s	i-c.adb			i-c.ali
 
-D ada.ads		20030424175358 a0108083
+D ada.ads		20030424175357 a0108083
 D a-calend.ads		20030424175352 83015fd2
 D gnat.ads		20030424175404 6380ea48
 D g-calend.ads		20030424175402 23e2f346
 D g-calend.adb		20030424175402 b792d3e1
-D interfac.ads		20031021134210 6e859da6
+D interfac.ads		20031021134209 6e859da6
 D i-c.ads		20031021134208 89099b00
 D system.ads		20031021134222 6af26689
-D s-exctab.ads		20031021134214 6637f07f
+D s-exctab.ads		20031021134213 6637f07f
 D s-parame.ads		20031021134214 8479efe6
 D s-stalib.ads		20031021134214 e7ad2af0
 D unchconv.ads		20030424175420 1b7a14c5

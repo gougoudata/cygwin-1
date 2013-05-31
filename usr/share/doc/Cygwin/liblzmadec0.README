@@ -1,0 +1,113 @@
+liblzmadec
+--------------------------------------
+liblzmadec0 and liblzmadec-devel provide a library suitable
+for decompressing files in the .lzma (that is, 'LZMA-Alone'
+format.  It will soon be replaced by liblzma from the XZ Utils
+package (distributed on cygwin as 'xz'); the new library 
+supports both compression and decompression. However, 
+liblzmadec is still in wide use, and this package allows
+dependent projects to continue without change until they
+desire to upgrade.
+
+Utility programs formerly contained in the cygwin 'lzma'
+package are now shipped in the cygwin 'xz' package. When
+built by this cygport, those files are placed in a dummy
+"package" named 'leftovers'.
+
+Runtime requirements
+  cygwin-1.7.0-43
+
+Build requirements
+  cygport-0.9.5
+  binutils-20080624-2
+  gcc-core-3.4.4-3
+  gcc-g++-3.4.4-3
+  bash-3.2.39-20
+  make-3.81-2
+  nasm-2.02-1
+  autoconf2.5
+  automake1.10
+  libtool
+
+Canonical homepage:
+  http://tukaani.org/lzma/
+
+Canonical download:
+  http://tukaani.org/lzma/download
+
+License:
+  LGPLv2.1: liblzmadec
+  GPLv3: utility programs
+
+Language:
+  C, C++, shell
+
+==============================================================
+
+Build instructions:
+  unpack liblzmadec0-VER-REL-src.tar.bz2
+    if you use setup to install this src package, it will be unpacked
+    under /usr/src automatically
+  cd /usr/src
+  cygport liblzmadec0-VER-REL.cygport all
+
+This will create:
+  /usr/src/liblzmadec0-VER-REL.tar.bz2
+  /usr/src/liblzmadec0-VER-REL-src.tar.bz2
+  /usr/src/liblzmadec-devel-VER-REL.tar.bz2
+  /usr/src/leftovers-VER-REL.tar.bz2
+
+==============================================================
+
+Files included in the packages:
+
+>>> liblzmadec0:
+  usr/bin/cyglzmadec-0.dll
+
+>>> liblzmadec-devel:
+  usr/include/lzmadec.h
+  usr/lib/liblzmadec.a
+  usr/lib/liblzmadec.dll.a
+  usr/lib/liblzmadec.la
+
+
+==============================================================
+
+Port Notes:
+----------  liblzmadec0-4.32.7-10 -- 2009 Mar 14 -----------
+* Forked for cygwin-1.7
+
+----------  liblzmadec0-4.32.7-3 -- 2009 Mar 14 -----------
+* Moved to maintainance mode. Package renamed to liblzmadec0.
+
+----------  lzma-4.32.7-2 -- 20080825 -----------
+* Switch to lzma-utils source code (actually supersedes
+  lzma-4.43, even though version number is lower)
+* New maintainer
+* Switched to cygport build machinery
+* package split: liblzmadec0, liblzmadec-devel
+
+----------  lzma-4.43-2 -- 20080218 -----------
+* lzma_4.43-12.diff.gz: Apply debian patches that change the command
+  line syntax close to gzip and bzip2. See "find CYGWIN-PATCHES -name
+  '*patch'"
+* Replace makefile.gcc. See CYGWIN/build-options.
+
+----------  lzma-4.43-1 -- 20070930 -----------
+* based on LZMA SDK source code, as modified by the
+  Debian distribution
+* No toplevel Makefile: wrote one.
+* No manual page: copied from Debian
+
+Original LZMA SDK/Debian source references (superseded by
+'Canonical' entries at top of this file):
+  http://www.7-zip.org/sdk.html
+  http://www.sourceforge.net/projects/sevenzip
+  http://packages.debian.org/lzma
+  http://prdownloads.sourceforge.net/sevenzip/lzma443.tar.bz2?download
+
+
+==============================================================
+Original cygwin port maintainer: Jari Aalto <jari.aalto@cante.net>
+Current cygwin port maintained by: Chuck Wilson <cygwin@cygwin.com>
+

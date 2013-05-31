@@ -1,0 +1,66 @@
+cppi 1.18-1
+------------------------------------------
+GNU cppi is a tool to update C preprocessor directives to a consistent
+indentation style, and to validate that indentation is correct.
+
+Runtime requirements (these or newer):
+  cygwin-1.7.17-1
+  libintl8-0.18.1.1-2
+
+Additional build conditions (these or newer):
+  binutils-2.23.51-1
+  coreutils-8.15-1
+  cygport-0.11.3-1
+  gcc4-4.5.3-3
+  gettext-devel-0.18.1.1-2
+  gnupg-1.4.13-1
+  xz-5.0.2_20110517-1
+
+Canonical homepage:
+  https://savannah.gnu.org/projects/cppi
+
+Canonical download:
+  ftp://ftp.gnu.org/gnu/cppi/
+
+License:
+  GPLv3+
+
+Language:
+  C
+
+------------------------------------
+
+Build instructions:
+  unpack cppi-1.18-1-src.tar.bz2
+    if you use setup to install this src package, it will be
+    unpacked under /usr/src automatically
+  cd /usr/src
+  cygport cppi-1.18-1 all
+
+This will create:
+  /usr/src/cppi-1.18-1.tar.bz2
+  /usr/src/cppi-1.18-1-src.tar.bz2
+
+Or use 'cygport cppi-1.18-1 prep' to get a patched source directory
+
+To find out the files included in the binary distribution, you can use
+"cygcheck -l cppi", or browse the listing for the appropriate
+version at <http://cygwin.com/packages/>.
+
+------------------
+
+Port Notes:
+
+----------  cppi-1.18-1 -- 2013-04-18 ---------
+New upstream version, with debuginfo.
+
+----------  cppi-1.15-1 -- 2010-03-28 ---------
+Initial cygwin port.
+
+----------------------
+For more information about this package, see the upstream documentation in
+/usr/share/doc/cppi/.
+
+Cygwin port maintained by: Eric Blake <eblake@redhat.com>.
+Please address all porting questions to the Cygwin mailing list
+at <cygwin@cygwin.com>.

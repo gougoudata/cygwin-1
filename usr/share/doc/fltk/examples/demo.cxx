@@ -1,24 +1,15 @@
 //
-// "$Id: demo.cxx 5519 2006-10-11 03:12:15Z mike $"
+// "$Id: demo.cxx 9747 2012-12-10 12:49:59Z manolo $"
 //
 // Main demo program for the Fast Light Tool Kit (FLTK).
 //
-// Copyright 1998-2005 by Bill Spitzak and others.
+// Copyright 1998-2010 by Bill Spitzak and others.
 //
-// This library is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Library General Public
-// License as published by the Free Software Foundation; either
-// version 2 of the License, or (at your option) any later version.
+// This library is free software. Distribution and use rights are outlined in
+// the file "COPYING" which should have been included with this file.  If this
+// file is missing or damaged, see the license at:
 //
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-// Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public
-// License along with this library; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
-// USA.
+//     http://www.fltk.org/COPYING.php
 //
 // Please report all bugs and problems on the following page:
 //
@@ -30,15 +21,23 @@
 #include <stdlib.h>
 #if defined(WIN32) && !defined(__CYGWIN__)
 #  include <direct.h>
+#  ifndef __WATCOMC__
 // Visual C++ 2005 incorrectly displays a warning about the use of POSIX APIs
 // on Windows, which is supposed to be POSIX compliant...
-#  define chdir _chdir
-#  define putenv _putenv
+#    define chdir _chdir
+#    define putenv _putenv
+#  endif // !__WATCOMC__
+#elif defined __APPLE__
+#include <ApplicationServices/ApplicationServices.h>
+#include <unistd.h> // for chdir()
+#include <stdio.h>
+#include <stdlib.h> // for system()
+#include <string.h>
 #else
 #  include <unistd.h>
 #endif
 #include <FL/Fl.H>
-#include <FL/Fl_Window.H>
+#include <FL/Fl_Double_Window.H>
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Choice.H>
@@ -54,22 +53,22 @@ void doscheme(Fl_Choice *c, void *) {
   Fl::scheme(c->text(c->value()));
 }
 
-Fl_Window *form;
+Fl_Double_Window *form;
 Fl_Button *but[9];
 
 void create_the_forms() {
   Fl_Widget *obj;
-  form = new Fl_Window(350, 440);
-  obj = new Fl_Box(FL_FRAME_BOX,10,385,330,40,"FLTK Demonstration");
+  form = new Fl_Double_Window(350, 440);
+  obj = new Fl_Box(FL_FRAME_BOX,10,15,330,40,"FLTK Demonstration");
   obj->color(FL_GRAY-4);
   obj->labelsize(24);
   obj->labelfont(FL_BOLD);
   obj->labeltype(FL_ENGRAVED_LABEL);
-  obj = new Fl_Box(FL_FRAME_BOX,10,45,330,330,0);
+  obj = new Fl_Box(FL_FRAME_BOX,10,65,330,330,0);
   obj->color(FL_GRAY-8);
-  obj = new Fl_Button(280,10,60,25,"Exit");
+  obj = new Fl_Button(280,405,60,25,"Exit");
   obj->callback(doexit);
-  Fl_Choice *choice = new Fl_Choice(75, 10, 100, 25, "Scheme:");
+  Fl_Choice *choice = new Fl_Choice(75, 405, 100, 25, "Scheme:");
   choice->labelfont(FL_HELVETICA_BOLD);
   choice->add("none");
   choice->add("gtk+");
@@ -79,22 +78,22 @@ void create_the_forms() {
   if (!Fl::scheme()) choice->value(0);
   else if (!strcmp(Fl::scheme(), "gtk+")) choice->value(1);
   else choice->value(2);
-  obj = new Fl_Button(10,45,330,380); obj->type(FL_HIDDEN_BUTTON);
+  obj = new Fl_Button(10,15,330,380); obj->type(FL_HIDDEN_BUTTON);
   obj->callback(doback);
-  obj = but[0] = new Fl_Button(30,265,90,90);
-  obj = but[1] = new Fl_Button(130,265,90,90);
-  obj = but[2] = new Fl_Button(230,265,90,90);
-  obj = but[5] = new Fl_Button(230,165,90,90);
-  obj = but[4] = new Fl_Button(130,165,90,90);
-  obj = but[3] = new Fl_Button(30,165,90,90);
-  obj = but[6] = new Fl_Button(30,65,90,90);
-  obj = but[7] = new Fl_Button(130,65,90,90);
-  obj = but[8] = new Fl_Button(230,65,90,90);
+  obj = but[0] = new Fl_Button( 30, 85,90,90);
+  obj = but[1] = new Fl_Button(130, 85,90,90);
+  obj = but[2] = new Fl_Button(230, 85,90,90);
+  obj = but[3] = new Fl_Button( 30,185,90,90);
+  obj = but[4] = new Fl_Button(130,185,90,90);
+  obj = but[5] = new Fl_Button(230,185,90,90);
+  obj = but[6] = new Fl_Button( 30,285,90,90);
+  obj = but[7] = new Fl_Button(130,285,90,90);
+  obj = but[8] = new Fl_Button(230,285,90,90);
   for (int i=0; i<9; i++) {
     but[i]->align(FL_ALIGN_WRAP);
     but[i]->callback(dobut, i);
   }
-  form->forms_end();
+  form->end();
 }
 
 /* Maintaining and building up the menus. */
@@ -152,7 +151,7 @@ int b2n[][9] = {
 	{  0, -1,  1,  2,  3,  4,  5, -1,  6},
 	{  0,  1,  2,  3, -1,  4,  5,  6,  7},
 	{  0,  1,  2,  3,  4,  5,  6,  7,  8}
-  };
+};
 int n2b[][9] = { 
 	{  4, -1, -1, -1, -1, -1, -1, -1, -1},
 	{  3,  5, -1, -1, -1, -1, -1, -1, -1},
@@ -163,17 +162,17 @@ int n2b[][9] = {
 	{  0,  2,  3,  4,  5,  6,  8, -1, -1},
 	{  0,  1,  2,  3,  5,  6,  7,  8, -1},
 	{  0,  1,  2,  3,  4,  5,  6,  7,  8}
-  };
+};
 
 int but2numb(int bnumb, int maxnumb)
 /* Transforms a button number to an item number when there are
-   maxnumb items in total. -1 if the button should not exist. */
- { return b2n[maxnumb][bnumb]; }
+ maxnumb items in total. -1 if the button should not exist. */
+{ return b2n[maxnumb][bnumb]; }
 
 int numb2but(int inumb, int maxnumb)
 /* Transforms an item number to a button number when there are
-   maxnumb items in total. -1 if the item should not exist. */
- { return n2b[maxnumb][inumb]; }
+ maxnumb items in total. -1 if the item should not exist. */
+{ return n2b[maxnumb][inumb]; }
 
 /* Pushing and Popping menus */
 
@@ -220,33 +219,33 @@ void dobut(Fl_Widget *, long arg)
   if (menus[men].icommand[bn][0] == '@')
     push_menu(menus[men].icommand[bn]);
   else {
-
+    
 #ifdef WIN32
     STARTUPINFO		suInfo;		// Process startup information
     PROCESS_INFORMATION	prInfo;		// Process information
-
+    
     memset(&suInfo, 0, sizeof(suInfo));
     suInfo.cb = sizeof(suInfo);
-
+    
     int icommand_length = strlen(menus[men].icommand[bn]);
-
+    
     char* copy_of_icommand = new char[icommand_length+1];
     strcpy(copy_of_icommand,menus[men].icommand[bn]);
-
+    
     // On WIN32 the .exe suffix needs to be appended to the command
     // whilst leaving any additional parameters unchanged - this
     // is required to handle the correct conversion of cases such as : 
     // `../fluid/fluid valuators.fl' to '../fluid/fluid.exe valuators.fl'.
-
+    
     // skip leading spaces.
     char* start_command = copy_of_icommand;
     while(*start_command == ' ') ++start_command;
-
+    
     // find the space between the command and parameters if one exists.
     char* start_parameters = strchr(start_command,' ');
-
+    
     char* command = new char[icommand_length+6]; // 6 for extra 'd.exe\0'
-
+    
     if (start_parameters==NULL) { // no parameters required.
 #  ifdef _DEBUG
       sprintf(command, "%sd.exe", start_command);
@@ -259,28 +258,82 @@ void dobut(Fl_Widget *, long arg)
       *start_parameters = 0;
       // move start_paremeters to skip over the intermediate space.
       ++start_parameters;
-
+      
 #  ifdef _DEBUG
       sprintf(command, "%sd.exe %s", start_command, start_parameters);
 #  else
       sprintf(command, "%s.exe %s", start_command, start_parameters);
 #  endif // _DEBUG
     }
-
+    
     CreateProcess(NULL, command, NULL, NULL, FALSE,
                   NORMAL_PRIORITY_CLASS, NULL, NULL, &suInfo, &prInfo);
-	
+    
     delete[] command;
     delete[] copy_of_icommand;
-	
+    
+#elif defined __APPLE__
+    char *cmd = strdup(menus[men].icommand[bn]);
+    char *arg = strchr(cmd, ' ');
+    
+    char command[2048], path[2048], app_path[2048];
+    
+    // this neat litle block of code ensures that the current directory is set 
+    // to the location of the Demo application.
+    CFBundleRef app = CFBundleGetMainBundle();
+    CFURLRef url = CFBundleCopyBundleURL(app);    
+    CFStringRef cc_app_path = CFURLCopyFileSystemPath(url, kCFURLPOSIXPathStyle);
+    CFRelease(url);
+    CFStringGetCString(cc_app_path, app_path, 2048, kCFStringEncodingUTF8);
+    CFRelease(cc_app_path);
+    if (*app_path) {
+      char *n = strrchr(app_path, '/');
+      if (n) {
+#if defined USING_XCODE
+        *n = 0;
+#endif
+        chdir(app_path);
+      }
+    }
+    
+    char *name = new char[strlen(cmd) + 5];
+    strcpy(name, cmd);
+    strcat(name, ".app");
+    // check whether app bundle exists
+    if ( ! fl_filename_isdir(name) ) strcpy(name, cmd);
+    if (arg) {
+      const char *fluidpath;
+      *arg = 0;
+#if defined USING_XCODE
+      fl_filename_absolute(path, 2048, "../../../../test/");
+      fluidpath = "Fluid.app";
+#else
+      strcpy(path, app_path); strcat(path, "/");
+      fluidpath = "../fluid/fluid.app";
+      // check whether fluid bundle exists
+      if ( ! fl_filename_isdir(fluidpath) ) fluidpath = "../fluid";
+#endif
+      if (strcmp(cmd, "../fluid/fluid")==0) {
+	sprintf(command, "open %s --args %s%s", fluidpath, path, arg+1);
+      } else {
+	sprintf(command, "open %s --args %s%s", name, path, arg+1);
+      }
+    } else {
+      sprintf(command, "open %s", name);
+    }
+    delete[] name;
+//    puts(command);    
+    system(command);
+    
+    free(cmd);
 #else // NON WIN32 systems.
-
+    
     int icommand_length = strlen(menus[men].icommand[bn]);
     char* command = new char[icommand_length+5]; // 5 for extra './' and ' &\0' 
-
+    
     sprintf(command, "./%s &", menus[men].icommand[bn]);
-    system(command);
-
+    if (system(command)==-1) { /* ignore */ }
+    
     delete[] command;
 #endif // WIN32
   }
@@ -293,17 +346,35 @@ void doexit(Fl_Widget *, void *) {exit(0);}
 int load_the_menu(const char* fname)
 /* Loads the menu file. Returns whether successful. */
 {
-  FILE *fin;
+  FILE *fin = 0;
   char line[256], mname[64],iname[64],cname[64];
-  int i,j;
-  fin = fopen(fname,"r");
-  if (fin == NULL)
-  {
-//    fl_show_message("ERROR","","Cannot read the menu description file.");
+  int i, j;
+  fin = fl_fopen(fname,"r");
+#if defined ( USING_XCODE )
+  if (fin == NULL) {
+    // mac os bundle menu detection:
+    char* pos = strrchr(fname,'/');
+    if (!pos) return 0;
+    *pos='\0';
+    pos = strrchr(fname,'/');
+    if (!pos) return 0;
+    strcpy(pos,"/Resources/demo.menu");
+    fin  = fl_fopen(fname,"r");
+  }
+#endif
+  if (fin == NULL) {
     return 0;
   }
   for (;;) {
     if (fgets(line,256,fin) == NULL) break;
+    // remove all carriage returns that Cygwin may have inserted
+    char *s = line, *d = line;
+    for (;;++d) {
+      while (*s=='\r') s++;
+      *d = *s++;
+      if (!*d) break;
+    }
+    // interprete the line
     j = 0; i = 0;
     while (line[i] == ' ' || line[i] == '\t') i++;
     if (line[i] == '\n') continue;
@@ -315,10 +386,10 @@ int load_the_menu(const char* fname)
     while (line[i] != ':' && line[i] != '\n')
     {
       if (line[i] == '\\') {
-	i++;
-	if (line[i] == 'n') iname[j++] = '\n';
-	else iname[j++] = line[i];
-	i++;
+        i++;
+        if (line[i] == 'n') iname[j++] = '\n';
+        else iname[j++] = line[i];
+        i++;
       } else
         iname[j++] = line[i++];
     }
@@ -334,8 +405,8 @@ int load_the_menu(const char* fname)
 }
 
 int main(int argc, char **argv) {
-  putenv((char *)"FLTK_DOCDIR=../documentation");
-  char buf[256];
+  putenv((char *)"FLTK_DOCDIR=../documentation/html");
+  char buf[FL_PATH_MAX];
   strcpy(buf, argv[0]);
 #if ( defined _MSC_VER || defined __MWERKS__ ) && defined _DEBUG
   // MS_VisualC appends a 'd' to debugging executables. remove it.
@@ -348,14 +419,17 @@ int main(int argc, char **argv) {
   if (!Fl::args(argc,argv,i) || i < argc-1)
     Fl::fatal("Usage: %s <switches> <menufile>\n%s",argv[0],Fl::help);
   if (i < argc) fname = argv[i];
-
+  
   create_the_forms();
-
+  
   if (!load_the_menu(fname)) Fl::fatal("Can't open %s",fname);
   if (buf!=fname)
     strcpy(buf,fname);
   const char *c = fl_filename_name(buf);
-  if (c > buf) {buf[c-buf] = 0; chdir(buf);}
+  if (c > buf) {
+    buf[c-buf] = 0; 
+    if (chdir(buf)==-1) { /* ignore */ }
+  }
   push_menu("@main");
   form->show(argc,argv);
   Fl::run();
@@ -363,6 +437,6 @@ int main(int argc, char **argv) {
 }
 
 //
-// End of "$Id: demo.cxx 5519 2006-10-11 03:12:15Z mike $".
+// End of "$Id: demo.cxx 9747 2012-12-10 12:49:59Z manolo $".
 //
 

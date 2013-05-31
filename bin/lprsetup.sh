@@ -1,5 +1,4 @@
 #!/bin/sh
-# $Id: lprsetup.sh 6300 2005-12-28 19:56:24Z giles $
 #
 # BSD PRINT FILTER SETUP utility for Ghostscript - used and tested on
 # SunOS 4.1.3, but I hope it will be useful on other BSD systems
@@ -15,13 +14,13 @@ PRINTERDEV=/dev/lp1
 # The kind of printer (accepted values: 'parallel' and 'serial')
 PRINTERTYPE=parallel
 
-GSDIR=/usr/local/lib/ghostscript
+GSDIR=/usr/share/ghostscript
 GSFILTERDIR=$GSDIR/filt
 SPOOLDIR=/var/spool
 GSIF=unix-lpr.sh
 PCAP=printcap.insert
 
-PATH=/bin:/usr/bin:/usr/ucb
+PATH=/bin:/usr/bin
 export PATH
 
 if [ ! -w $GSDIR ]; then

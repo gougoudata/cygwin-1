@@ -1,0 +1,11 @@
+auto
+/usr/bin/g77.exe
+f77
+/usr/bin/f77.exe
+g77.1.gz
+/usr/share/man/man1/g77.1.gz
+
+/usr/bin/g77-3.exe
+30
+/usr/bin/f77-3.exe
+/usr/share/man/man1/g77-3.1.gz

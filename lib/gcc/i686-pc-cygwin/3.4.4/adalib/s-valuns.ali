@@ -20,9 +20,9 @@ W system.unsigned_types%s  s-unstyp.ads		s-unstyp.ali
 
 D system.ads		20031021134222 6af26689
 D s-unstyp.ads		20031021134218 0d291e44
-D s-valuns.ads		20030424175416 1d8c5fbb
+D s-valuns.ads		20030424175415 1d8c5fbb
 D s-valuns.adb		20030424175414 76025b75
-D s-valuti.ads		20030424175416 f0cc4aa0
+D s-valuti.ads		20030424175415 f0cc4aa0
 X 1 system.ads
 44K9*System 163e11 3|37r6 39r9 46r14 75r13 81r5 4|34r6 34r33 35r6 35r33 37r14
 . 296r5

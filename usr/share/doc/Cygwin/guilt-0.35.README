@@ -1,0 +1,79 @@
+guilt
+------------------------------------------
+
+Quilt for git; similar to Mercurial queues
+
+Application (Git Quilt) includes series of bash scripts which add a
+Mercurial queues-like functionality and interface to git. The one
+distinguishing feature from other quilt-like porcelains, is the format
+of the patches directory. _All_ the information is stored as plain
+text - a series file and the patches (one per file). This easily lends
+itself to versioning the patches using any number of of SCMs.
+
+Runtime requirements:
+  diffutils
+  git
+
+Build requirements:
+  asciidoc
+  xmlto
+
+Canonical homepage:
+  http://packages.debian.org/guilt
+
+Canonical download:
+  # Dead 2012-11-24 http://www.kernel.org/pub/linux/kernel/people/jsipek/guilt
+
+Version control repository:
+  # Dead 2012-11-24 git://git.kernel.org/pub/scm/linux/kernel/git/jsipek/guilt.git
+
+Mailing list:
+
+IRC channel:
+
+Upstream contact:
+  Author: Josef (Jeff) Sipek <jeffpc@josefsipek.net>
+  Bugs: Josef (Jeff) Sipek <jeffpc@josefsipek.net>
+
+License:
+  GPL-2
+
+Language:
+  Shell bash
+
+------------------------------------
+
+Build instructions:
+  unpack guilt-0.35-2-src.tar.bz2
+    if you use setup to install this src package, it will be
+    unpacked under /usr/src automatically
+  cd /usr/src
+  ./guilt*.sh all
+
+This will create:
+  guilt-0.35-2.tar.bz2
+  guilt-0.35-2-src.tar.bz2
+
+-------------------------------------------
+
+Files included in the binary distro:
+  See Cygwin package archive
+
+------------------
+
+Port Notes:
+
+----- version 0.35-2 -----
+- OS check fix for Cygwin. 2012-11-24 Jari Aalto
+
+----- version 0.35-1 -----
+- New upstream release 2012-01-29 Jari Aalto
+
+----- version 0.34-1 -----
+- New upstream release 2011-02-11 Jari Aalto
+
+----- version 0.27-1 -----
+- Initial release 2007-08-30 Jari Aalto
+
+Cygwin port maintained by: Jari Aalto <jari.aalto@cante.net>
+Copyright (C) 2007-2012 Jari Aalto; Licensed under GPL v2 or later

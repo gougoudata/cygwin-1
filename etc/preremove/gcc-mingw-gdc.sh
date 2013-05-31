@@ -2,4 +2,31 @@
 [ -f /etc/preremove/gcc-mingw-gdc-manifest.lst ] || exit 0
 echo "*** Removing gcc-mingw-gdc files.  Please wait. ***"
 cd /usr
-/bin/rm -rvf `cat /etc/preremove/gcc-mingw-gdc-manifest.lst` /etc/preremove/gcc-mingw-gdc-manifest.lst
+(while read LN
+do
+  if [ -e $LN -o -h $LN ]
+  then
+    if [ -f $LN -o -h $LN ]
+    then
+      echo rm -f ${LN}
+      rm -f $LN 2>/dev/null
+      if [ $? -ne 0 ]
+      then
+        echo "File or symbolic link ${LN} can't be removed."
+      fi
+    elif [ -d $LN ]
+    then
+      echo rmdir $LN
+      rmdir $LN 2>/dev/null
+      if [ $? -ne 0 ]
+      then
+        echo "Directory ${LN} is not empty; skipping."
+      fi
+    fi
+  else
+    echo "${LN} already removed."
+  fi
+done) < /etc/preremove/gcc-mingw-gdc-manifest.lst
+echo 'rm -f /etc/preremove/gcc-mingw-gdc-manifest.lst' 
+rm -f /etc/preremove/gcc-mingw-gdc-manifest.lst
+

@@ -1,0 +1,79 @@
+jlint
+------------------------------------------
+
+A Java Program Checker
+
+A static code checker for Java. It will find bugs, inconsistencies and
+synchronization problems by doing data flow analysis and building the
+lock graph.
+
+Runtime requirements:
+  libgcc1
+  libstdc++6
+  zlib0
+
+Build requirements:
+  perl
+  texi2html
+  libstdc++6-devel
+  zlib-devel
+
+Canonical homepage:
+  http://sourceforge.net/projects/jlint
+  http://packages.debian.org/jlint
+
+Canonical download:
+  See above
+
+Version control repository:
+
+Mailing list:
+
+Forum / Wiki:
+
+IRC channel:
+
+
+Upstream contact:
+  Author: Cyrille Artho <cartho@silmaril.org>, <cyrille@artho.com>, Konstantin Knizhnik <knizhnik@garret.ru>
+  Bugs: http://sourceforge.net/tracker/?atid=514797&group_id=66529&func=browse
+  Sourceforge: Raphael Ackermann <acraphae@users.sf.net>, David Hovemeyer <daveho@users.sf.net>, <telcontar@users.sf.net>
+
+License:
+  GPL
+
+Language:
+  C++
+
+------------------------------------
+
+Build instructions:
+  unpack jlint-3.1.2-1-src.tar.bz2
+    if you use setup to install this src package, it will be
+    unpacked under /usr/src automatically
+  cd /usr/src
+  ./jlint*.sh all
+
+This will create:
+  jlint-3.1.2-1.tar.bz2
+  jlint-3.1.2-1-src.tar.bz2
+
+-------------------------------------------
+
+Files included in the binary distribution:
+  See Cygwin package archive
+
+------------------
+
+Port Notes:
+- Makefile: -lz misplaced on link phase. Rewrote install target.
+- No manual pages, not even in Debian.
+
+----- version 3.1.2-1 -----
+- New upstream release 2012-09-26 Jari Aalto
+
+----- version 3.1-1 -----
+- Initial release 2007-10-26 Jari Aalto
+
+Cygwin port maintained by: Jari Aalto <jari.aalto@cante.net>
+Copyright (C) 2007-2012 Jari Aalto; Licenced under GPL v2 or later

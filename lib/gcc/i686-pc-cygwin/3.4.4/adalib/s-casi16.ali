@@ -17,8 +17,8 @@ U system.compare_array_signed_16%s  s-casi16.ads  bcbafbeb NE PK
 W system%s		system.ads		system.ali
 
 D system.ads		20031021134222 6af26689
-D s-casi16.ads		20031021134214 d6489d62
-D s-casi16.adb		20031021134214 21bc69c5
+D s-casi16.ads		20031021134213 d6489d62
+D s-casi16.adb		20031021134213 21bc69c5
 D unchconv.ads		20030424175420 1b7a14c5
 X 1 system.ads
 44K9*System 163e11 2|37r9 44r19 45r19 56r5 3|36r14 65r19 66r19 137r5

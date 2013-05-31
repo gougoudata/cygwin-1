@@ -4,20 +4,20 @@
  *	  Routines to support inter-object dependencies.
  *
  *
- * Portions Copyright (c) 1996-2006, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2012, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
- * $PostgreSQL: pgsql/src/include/catalog/dependency.h,v 1.27 2006/08/21 00:57:26 tgl Exp $
+ * src/include/catalog/dependency.h
  *
  *-------------------------------------------------------------------------
  */
 #ifndef DEPENDENCY_H
 #define DEPENDENCY_H
 
-#include "nodes/parsenodes.h"	/* for DropBehavior */
+#include "catalog/objectaddress.h"
 
 
-/*----------
+/*
  * Precise semantics of a dependency relationship are specified by the
  * DependencyType code (which is stored in a "char" field in pg_depend,
  * so we assign ASCII-code values to the enumeration members).
@@ -49,6 +49,12 @@
  * Example: a trigger that's created to enforce a foreign-key constraint
  * is made internally dependent on the constraint's pg_constraint entry.
  *
+ * DEPENDENCY_EXTENSION ('e'): the dependent object is a member of the
+ * extension that is the referenced object.  The dependent object can be
+ * dropped only via DROP EXTENSION on the referenced object.  Functionally
+ * this dependency type acts the same as an internal dependency, but it's
+ * kept separate for clarity and to simplify pg_dump.
+ *
  * DEPENDENCY_PIN ('p'): there is no dependent object; this type of entry
  * is a signal that the system itself depends on the referenced object,
  * and so that object must never be deleted.  Entries of this type are
@@ -56,7 +62,6 @@
  * contain zeroes.
  *
  * Other dependency flavors may be needed in future.
- *----------
  */
 
 typedef enum DependencyType
@@ -64,6 +69,7 @@ typedef enum DependencyType
 	DEPENDENCY_NORMAL = 'n',
 	DEPENDENCY_AUTO = 'a',
 	DEPENDENCY_INTERNAL = 'i',
+	DEPENDENCY_EXTENSION = 'e',
 	DEPENDENCY_PIN = 'p'
 } DependencyType;
 
@@ -101,17 +107,6 @@ typedef enum SharedDependencyType
 	SHARED_DEPENDENCY_INVALID = 0
 } SharedDependencyType;
 
-
-/*
- * The two objects related by a dependency are identified by ObjectAddresses.
- */
-typedef struct ObjectAddress
-{
-	Oid			classId;		/* Class Id from pg_class */
-	Oid			objectId;		/* OID of the object */
-	int32		objectSubId;	/* Subitem within the object (column of table) */
-} ObjectAddress;
-
 /* expansible list of ObjectAddresses (private in dependency.c) */
 typedef struct ObjectAddresses ObjectAddresses;
 
@@ -125,29 +120,46 @@ typedef enum ObjectClass
 	OCLASS_PROC,				/* pg_proc */
 	OCLASS_TYPE,				/* pg_type */
 	OCLASS_CAST,				/* pg_cast */
+	OCLASS_COLLATION,			/* pg_collation */
 	OCLASS_CONSTRAINT,			/* pg_constraint */
 	OCLASS_CONVERSION,			/* pg_conversion */
 	OCLASS_DEFAULT,				/* pg_attrdef */
 	OCLASS_LANGUAGE,			/* pg_language */
+	OCLASS_LARGEOBJECT,			/* pg_largeobject */
 	OCLASS_OPERATOR,			/* pg_operator */
 	OCLASS_OPCLASS,				/* pg_opclass */
+	OCLASS_OPFAMILY,			/* pg_opfamily */
+	OCLASS_AMOP,				/* pg_amop */
+	OCLASS_AMPROC,				/* pg_amproc */
 	OCLASS_REWRITE,				/* pg_rewrite */
 	OCLASS_TRIGGER,				/* pg_trigger */
 	OCLASS_SCHEMA,				/* pg_namespace */
+	OCLASS_TSPARSER,			/* pg_ts_parser */
+	OCLASS_TSDICT,				/* pg_ts_dict */
+	OCLASS_TSTEMPLATE,			/* pg_ts_template */
+	OCLASS_TSCONFIG,			/* pg_ts_config */
 	OCLASS_ROLE,				/* pg_authid */
 	OCLASS_DATABASE,			/* pg_database */
 	OCLASS_TBLSPACE,			/* pg_tablespace */
+	OCLASS_FDW,					/* pg_foreign_data_wrapper */
+	OCLASS_FOREIGN_SERVER,		/* pg_foreign_server */
+	OCLASS_USER_MAPPING,		/* pg_user_mapping */
+	OCLASS_DEFACL,				/* pg_default_acl */
+	OCLASS_EXTENSION,			/* pg_extension */
 	MAX_OCLASS					/* MUST BE LAST */
 } ObjectClass;
 
 
 /* in dependency.c */
 
+#define PERFORM_DELETION_INTERNAL			0x0001
+#define PERFORM_DELETION_CONCURRENTLY		0x0002
+
 extern void performDeletion(const ObjectAddress *object,
-				DropBehavior behavior);
+				DropBehavior behavior, int flags);
 
 extern void performMultipleDeletions(const ObjectAddresses *objects,
-						 DropBehavior behavior);
+						 DropBehavior behavior, int flags);
 
 extern void deleteWhatDependsOn(const ObjectAddress *object,
 					bool showNotices);
@@ -164,6 +176,7 @@ extern void recordDependencyOnSingleRelExpr(const ObjectAddress *depender,
 extern ObjectClass getObjectClass(const ObjectAddress *object);
 
 extern char *getObjectDescription(const ObjectAddress *object);
+extern char *getObjectDescriptionOids(Oid classid, Oid objid);
 
 extern ObjectAddresses *new_object_addresses(void);
 
@@ -171,7 +184,11 @@ extern void add_exact_object_address(const ObjectAddress *object,
 						 ObjectAddresses *addrs);
 
 extern bool object_address_present(const ObjectAddress *object,
-					   ObjectAddresses *addrs);
+					   const ObjectAddresses *addrs);
+
+extern void record_object_address_dependencies(const ObjectAddress *depender,
+								   ObjectAddresses *referenced,
+								   DependencyType behavior);
 
 extern void free_object_addresses(ObjectAddresses *addrs);
 
@@ -186,15 +203,30 @@ extern void recordMultipleDependencies(const ObjectAddress *depender,
 						   int nreferenced,
 						   DependencyType behavior);
 
-extern long deleteDependencyRecordsFor(Oid classId, Oid objectId);
+extern void recordDependencyOnCurrentExtension(const ObjectAddress *object,
+								   bool isReplace);
+
+extern long deleteDependencyRecordsFor(Oid classId, Oid objectId,
+						   bool skipExtensionDeps);
+
+extern long deleteDependencyRecordsForClass(Oid classId, Oid objectId,
+								Oid refclassId, char deptype);
 
 extern long changeDependencyFor(Oid classId, Oid objectId,
 					Oid refClassId, Oid oldRefObjectId,
 					Oid newRefObjectId);
 
+extern Oid	getExtensionOfObject(Oid classId, Oid objectId);
+
 extern bool sequenceIsOwned(Oid seqId, Oid *tableId, int32 *colId);
 
 extern void markSequenceUnowned(Oid seqId);
+
+extern List *getOwnedSequences(Oid relid);
+
+extern Oid	get_constraint_index(Oid constraintId);
+
+extern Oid	get_index_constraint(Oid indexId);
 
 /* in pg_shdepend.c */
 
@@ -202,19 +234,23 @@ extern void recordSharedDependencyOn(ObjectAddress *depender,
 						 ObjectAddress *referenced,
 						 SharedDependencyType deptype);
 
-extern void deleteSharedDependencyRecordsFor(Oid classId, Oid objectId);
+extern void deleteSharedDependencyRecordsFor(Oid classId, Oid objectId,
+								 int32 objectSubId);
 
 extern void recordDependencyOnOwner(Oid classId, Oid objectId, Oid owner);
 
 extern void changeDependencyOnOwner(Oid classId, Oid objectId,
 						Oid newOwnerId);
 
-extern void updateAclDependencies(Oid classId, Oid objectId,
-					  Oid ownerId, bool isGrant,
+extern void updateAclDependencies(Oid classId, Oid objectId, int32 objectSubId,
+					  Oid ownerId,
 					  int noldmembers, Oid *oldmembers,
 					  int nnewmembers, Oid *newmembers);
 
-extern char *checkSharedDependencies(Oid classId, Oid objectId);
+extern bool checkSharedDependencies(Oid classId, Oid objectId,
+						char **detail_msg, char **detail_log_msg);
+
+extern void shdepLockAndCheckObject(Oid classId, Oid objectId);
 
 extern void copyTemplateDependencies(Oid templateDbId, Oid newDbId);
 

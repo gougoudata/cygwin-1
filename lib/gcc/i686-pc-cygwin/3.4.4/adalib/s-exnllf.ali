@@ -16,8 +16,8 @@ U system.exn_llf%s	s-exnllf.ads		f739024e NE PU PK
 W system%s		system.ads		system.ali
 
 D system.ads		20031021134222 6af26689
-D s-exnllf.ads		20031021134214 9dcb64c7
-D s-exnllf.adb		20031021134214 8a12f76d
+D s-exnllf.ads		20031021134213 9dcb64c7
+D s-exnllf.adb		20031021134213 8a12f76d
 X 1 system.ads
 44K9*System 163e11 2|36r9 44r5 3|34r14 99r5
 X 2 s-exnllf.ads

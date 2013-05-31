@@ -1,0 +1,54 @@
+tesseract-ocr
+-------------------------------
+Runtime requirements: (versions given or later)
+  libtiff5
+  libstc++6
+  
+Build requirements: (versions given or later)
+  cygwin-1.7.x
+  g++-4
+  binutils
+  make
+  bash
+  fileutils
+  sed
+  libtiff-devel
+  automake
+  autoconf
+
+Canonical homepage:
+  http://code.google.com/p/tesseract-ocr/
+
+Canonical download:
+  http://tesseract-ocr.googlecode.com/files/tesseract-$PV.tar.gz
+
+-------------------------------------------------------------------------------
+
+Build instructions:
+  If you use setup to install this src package, it will be
+  unpacked under /usr/src automatically.
+
+  cd /usr/src
+  tar xfvj tesseract-<VER>-src.tar.bz2
+  
+  cygport tesseract-<VER>-<CYGREL> almostall
+
+This will create:
+  /usr/src/tesseract-<VER>-<CYGREL>.tar.bz2
+  /usr/src/tesseract-<VER>-<CYGREL>-src.tar.bz2
+
+Or use 'cygport tesseract-<VER>-<CYGREL> prep' to get a patched 
+source directory.
+
+-------------------------------------------------------------------------------
+
+Port Notes:
+
+----- version 2.04 ----- 
+* Initial release with -devel, tesseract-ocr-fra, tesseract-ocr-nld,
+  tesseract-ocr-spa, tesseract-ocr-eng, tesseract-ocr-deu, tesseract-ocr-ita,
+  tesseract-ocr-por, tesseract-ocr-deu-f (deutsch fraktur), tesseract-ocr-vie
+
+
+Cygwin port maintained by: Reini Urban <rurban@x-ray.at>
+Cygwin port questions to the mailinglist <cygwin@cygwin.com>

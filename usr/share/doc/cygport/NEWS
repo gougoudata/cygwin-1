@@ -1,0 +1,662 @@
+0.12.1:
+	* Bugfixes for "crossback" scenarios.
+	* New definition: CC_SYSROOT.
+
+0.12.0:
+	* Full support for x86_64-pc-cygwin.
+	* One of the --32 or --64 options is required on Linux.
+	* Support for Automake 1.13.
+	* Bug fixes for debuginfo.
+	* Bug fixes for filenames in $D containing spaces.
+	* New function: cross_compiling.
+	* New definitions: ARCH, ARCH_i686, ARCH_x86_64.
+	* autotools.cygclass: try to avoid config.rpath usage.
+
+0.11.3:
+	* Preliminary support for x86_64-pc-cygwin host.
+	* Cross-compiling to x86_64-cygwin from either i686-Cygwin or Linux
+	can be enabled with cygport --64 foo.cygport [command(s)].
+	* New definitions: AR, RANLIB, STRIP.
+	* toolchain.cygclass: accept TOOLCHAIN_TARGET="native".
+
+0.11.2:
+	* DISTDIR can be defined in cygport.conf for saving downloaded files.
+	* Automatically installs and packages docs defined in [PKG]_DOCS.
+	* Added vim plugin to enable syntax highlighting for .cygport files.
+	* apache1.cygclass was REMOVED.
+	* cross.cygclass: defines LDFLAGS for Linux targets.
+	* svn.cygclass: uses svn export instead of checkout.
+	* Bugfixes for dependency generation.
+
+0.11.1:
+	* NAME, VERSION, and RELEASE can be defined, removing the filename
+	  constraints from .cygport files.
+	* New install function: make_autostart_entry.
+	* gstreamer.cygclass: updated for GStreamer 1.0.
+	* Bugfixes for debuginfo packages and dependency generation.
+
+0.11.0:
+	* Automatically generate setup.hint files when [PKG_]CATEGORY,
+	  [PKG_]SUMMARY, [PKG_]DESCRIPTION, and (optionally) [PKG_]REQUIRES
+	  are defined; default values are provided by many cygclasses.
+	* Added dependency detection for shebang interpreters, postinstall and
+	  preremove scripts, import libraries, libtool libraries, and GObject
+	  Introspection, Java, Lua, OCaml, Perl, PHP, pkg-config, PyPy, Python,
+	  Ruby, Tcl, and Vala modules.
+	* pypy.cygclass: NEW for PyPy-dependent packages.
+	* pypy-distutils.cygclass: NEW for distutils-based PyPy modules.
+	* qt4.cygclass: adopt new installation scheme for cross-qt4 packages.
+	* rubygem.cygclass: NEW for RubyGems packages.
+	* sugar.cygclass: NEW for Sugar Activity packages.
+	* Deprecated ggz.cygclass and ruby-gnome2.cygclass.
+
+0.10.14:
+	* Restore compatibility with Fedora 16 and Enterprise Linux 6.
+	* ruby.cygclass: make compatible with Ruby 1.9.
+
+0.10.13:
+	* Various bug fixes.
+
+0.10.12:
+	* New manifestize function for manually generating UAC manifest files.
+	* unpack now works with tarballs with incorrect extensions
+	  (e.g. .tar.bz2 which is really gzip-compressed).
+	* Bug fixes for debuginfo subpackages.
+
+0.10.11:
+	* Debuginfo subpackages created automatically when possible.
+	* Added support for gccgo.
+	* Start Menu shortcuts are created for starting X sessions.
+	* clang.cygclass: NEW for using clang in place of gcc.
+	* kde4.cygclass: updated for 4.8.x+ xz tarballs.
+	* python3.cygclass: updated for Python 3.2.
+	* texlive.cygclass: supports pretest packages.
+	* xfce4.cygclass: updated for Xfce 4.10.
+	* xvfb.cygclass: NEW for packages which need an X session during build.
+
+0.10.10:
+	* The "download" command now downloads only missing sources; use
+	  "downloadall" to refetch all sources (the previous behaviour).
+	* Added support for .tar.lrz tarballs (requires lrzip).
+	* Documentation is nearly complete.
+	* dodoc: accepts directories to be installed recursively.
+	* autotools.cygclass: build only shared libtool libraries by default.
+	* xorg.cygclass: add support for driver packages.
+
+0.10.9:
+	* Bug fixes for TeX Live postinstall scripts.
+	* dodoc: Respects .md as alternative file suffix.
+	* gst-plugins.cygclass: Add support for 0.11/1.0 series.
+	* gst-plugins0.10.cygclass: Deprecated; use gst-plugins.cygclass.
+	* mate.cygclass: Update for 1.2 changes.
+
+0.10.8:
+	* Manual licensed under GFDL-1.3+.
+	* DEPEND now honours tex().
+	* New mirror: ctan.
+	* doinfo: new function for installing GNU info pages.
+	* mate.cygclass: NEW for MATE Desktop packages.
+	* texlive.cygclass: NEW for TeX Live packages.
+
+0.10.7:
+	* Added DEPEND build-time requirements checking.
+	* Added KEEP_LA_FILES libtool postinstall cleanup control.
+	* Use cross-compiling features in pkg-config 0.26.
+	* Emacs site-lisp files are always compiled during postinstall;
+	  emacs.cygclass is no longer needed for this purpose.
+	* gnome.org.cygclass: adapt to new xz-compressed tarballs.
+	* gst-plugins0.10.cygclass: allow for separate -bad and -bad-free.
+	* kde4.cygclass: add support for Calligra Suite.
+	* mono.cygclass: add Mono 2.10 support.
+	* php.cygclass: updated channel list.
+	* Various bugfixes.
+
+0.10.6:
+	* Allows hyphens in PV (which are allowed by setup).
+	* Supports gettext 0.18+.
+	* Allow for cross-compiler toolchains in locations other than /usr.
+	* mono.cygclass: updated SRC_URI, fixed mono_create_policy.
+	* tcl.cygclass: fully enabled cross-compiling support.
+
+0.10.5:
+	* More cross-compiling improvements.
+	* Better support for running on non-Cygwin build systems.
+	* doenv: new function for setting global env vars in profile.d.
+	* doman: supports LAPACK manpages.
+	* make_desktop_entry: supports unlimited optional arguments.
+	* font.cygclass: new sfd2ttf func for building fonts (req. fontforge).
+	* gnome2.cygclass: gnome2_configure is now separate from gnome2_compile.
+	* gst-plugins0.10.cygclass: updated for latest releases.
+	* tcl.cygclass: added cross-compiling support.
+
+0.10.4:
+	* Added RPM spec file (tested on Fedora 14).
+	* Cross-compiling improvements.
+	* Added functions for fixing script shebangs to lua, perl, python,
+	  python3, and ruby cygclasses.
+	* gst-plugins0.10.cygclass: update for good .27 and bad .21.
+	* kde4.cygclass: provide GIT_URI.
+	* lua.cygclass: added luainto and dolua functions.
+	* mono.cygclass: provide GIT_URI.
+	* pkgrip: update for Solaris 11.
+
+0.10.3:
+	* Scripts with erroneous .exe extension are renamed automatically.
+	* berkdb.cygclass: support BDB 5.x.
+	* nant.cygclass: NEW for NAnt-based .NET packages.
+	* php.cygclass: support PHP 5.3, improve 3rd-party channel support.
+	* xfce4.cygclass: updated for Xfce 4.8.
+
+0.10.2:
+	* All manpages with double-colon are renamed for man(1) compatibility.
+	* New and updated postinstall steps for GNOME 2.32 and GTK+ 3.0.
+	* Postinstall scripts can be included in multiple subpackages.
+	* ant.cygclass: accepts ANT_TEST_ARGS and ANT_INSTALL_WRAPPERS.
+	* distutils.cygclass: wrapper for python-distutils or python3-distutils.
+	* distutils-multi.cygclass: NEW for simultaneous Py2 and Py3 modules.
+	* kde4.cygclass: updated SRC_URI for kdepim 4.4 releases.
+	* python-distutils.cygclass: renamed, for Python 2.x only.
+	* python3-distutils.cygclass: NEW for Python 3.x only.
+	* xorg.cygclass: fixed URIs for xproxymanagementprotocol.
+
+0.10.1:
+	* More fixes for cross-compiling scenarios.
+	* More refinements for automatic exclusion rules.
+	* Source .gem's no longer require rubygems to unpack.
+	* autotools.cygclass: error if CYGCONF_SOURCE is specified but incorrect.
+	* gst-plugins0.10.cygclass: adapt to openmax and resindvd plugins.
+	* qt4-qmake.cygclass: DLLs in /usr/lib are moved to /usr/bin.
+	* ruby.cygclass: install into vendor_ruby.
+	* ruby-gnome2.cygclass: install into vendor_ruby.
+
+0.10.0:
+	* Added support for building and using cross-compilers.
+	* Experimental support for running cygport on non-Cygwin hosts.
+	* Improved rules for exclusions of autotool-generated files from diffs.
+	* New check functions: check_tool, check_target_tool.
+	* New install functions: includeinto/doinclude, dopkgconfig, dotool, newlib.
+	* New mirrors: gcc, sourceware.
+	* make_desktop_entry: accepts up to four additional fields.
+	* make_etc_defaults: accepts a directory.
+	* autotools.cygclass: added cross-compiling support.
+	* cmake.cygclass: added cross-compiling support.
+	* cross.cygclass: completely overhauled.
+	* qt4*.cygclass: added preliminary cross-compiling support.
+	* toolchain.cygclass: NEW for building both native- and cross- binutils/gcc/gdb.
+
+0.9.85:
+	* Warnings are redirected to stderr.
+	* More fixes for regexes and sorts
+	* Deep non-module libtool DLLs are moved into /usr/bin during postinstall
+	* Extension-less EXEs are renamed with .exe extension
+	* mirrors: add mysql, qt (replaces trolltech); update xfce4
+	* gst-plugins0.10: oss4 moved into -good, added vp8 to -bad
+	* perl: accept arguments to perl_install
+	* xfce4: Use autotool wrappers; always provide SRC_URI
+
+0.9.84:
+	* deps: Search only for DLLs in mono dllmaps
+	* homepage: new command for displaying HOMEPAGE in browser
+	* ant.cygclass: accept ANT_OPTS, new ant_install function
+	* distutils.cygclass: zope/__init__.py now handled by setuptools
+	* java.cygclass: add newjavadoc function
+	  Let java_wrapper accept arguments to be passed to JRE
+	  java_wrappers now respect CLASSPATH env variable
+	* kde4.cygclass: update SRC_URIs
+
+0.9.83:
+	* The 'test' command is now documented in --help and in the manpage.
+	* Fixed regexes for Cygwin 1.7.2.
+
+0.9.82:
+	* SRC_URI supports .cpio.gz archives.
+
+0.9.81:
+	* Transition repository from SF.net Subversion to Git.
+	* fox.cygclass: Added FOX_CFLAGS and FOX_LIBS.
+	* gst-plugins0.10.cygclass: Remove support for building single plugins
+	  from base/good/bad/ugly tarballs.
+	* java.cygclass: Fix typo in dojavadoc.
+	* kde4.cygclass: Define SRC_URI for Extragear with KDE4_EXTRAGEAR_VERSION.
+	* wxwidgets.cygclass: Added WX_CFLAGS and WX_LIBS.
+
+0.9.80:
+	* API documentation.
+	* SRC_URI supports .tar.lz archives.
+	* do* and new* install functions detect and correctly install libtool .la
+	  and .exe wrappers.
+	* Programs missing an .exe suffix are now stripped and suffixed.
+	* New mirror: savannah.
+	* New cygclasses: ant, python3, vim.
+	* Overhauled cygclasses: docbook, java, opensync, rox, xorg.
+	* Improved Mono support:
+		- A strongname key is included for packages without their own.
+		- Added function for creating policy assemblies.
+		- Mono assemblies are packaged non-executable to avoid interference
+		  from Windows .Net Framework.
+		- Mono assembly dependencies are now listed during 'cygport deps'.
+	* gtkmm.cygclass: Adapt for mm-common build system.
+	* gst-plugins0.10.cygclass: Update for latest releases.
+
+0.9.9:
+	* Default LDFLAGS is empty; binutils now auto-imports by default.
+	* gnustep.cygclass: NEW for building GNUstep packages.
+	* gst-plugins0.10.cygclass: Update for latest releases of -bad/-ugly.
+	* ocaml.cygclass: LIBCAMLRUN points to libcamlrun_shared, new in 3.11.
+	* qt4-qconf.cygclass: NEW for building Qt4 QConf based packages.
+
+0.9.8.1:
+	Brown-bag release to fix syntax error in git.cygclass.
+
+0.9.8:
+	* OCaml natdynlink modules (*.cmxs) are handled as DLLs in terms of
+	  postinst-strip and dependency-list steps.
+	* Fixed DEPS_PATH.
+	* Various fixes for building gcc.
+	* apache2.cygclass: APREQ_* are set only if libapreq2 is installed.
+	* git.cygclass: Accept GIT_SUBDIR to create a source-package from 
+      a subdirectory of a git repository.
+	* kde3.cygclass: Fix for CMake-based packages.
+	* kde4.cygclass: kde4_install passes arguments to cyginstall.
+	* waf.cygclass: NEW for building packages using the waf build system.
+
+0.9.7:
+	* Default libexecdir changed to /usr/lib.
+	* gnome2.cygclass: Define GIT_URI as GNOME has moved from svn to git.
+    * git.cygclass: Allow GIT_MODULE to be user-defined.
+    * kde4.cygclass: Updated for stable KOffice2.
+    * python.cygclass: python_optimize() omits ${D} from compiled location.
+    * xfce4.cygclass: Infrastructure fixes.
+
+0.9.6:
+	* SRC_URI accepts .tar.xz archives.
+	* LDFLAGS defaults to "-Wl,--enable-auto-import" (prev. empty).
+	* MAKEOPTS defaults to "-j[number_of_cores + 1]" (prev. -j2).
+	* Improved gettext handling with libtool2.
+	* Automatically creates manifests for programs whose names trigger UAC.
+	* Files in /var/games are automatically handled with /etc/defaults.
+	* cygpatch: Reversed patches generate a warning instead of failing.
+	            Fixed .cygwin.patch application with deep SRC_DIR.
+	* make_etc_defaults: Makes sure target directory exists before copying.
+	* gtk2-perl.cygclass: Build fixes for perl-Cairo.
+	* kde3.cygclass: Avoid -fvisibility with gcc4 (invalid for PE/COFF).
+	* kde4.cygclass: Ditto. Updated for KDE4.2 and Qt4.5.
+	* wxwidgets.cygclass: Default to Unicode builds. Removed MSW support.
+	* cygport-bash-completion: Now ships with cygport.
+
+0.9.5:
+	* SRC_URI accepts .tar.lzo archives.
+	* postinstall: doesn't strip files which aren't PE-COFF despite their name.
+	  Fixed encodings.dir creation for fonts.
+	* docinto() /foo is now accepted, installing into /usr/share/doc/foo.
+	* make_etc_defaults() also creates a preremove script.
+	* git.cygclass: Honours .gitmodules by running 'git submodule init/update'.
+	* gstreamer.cygclass: Defines GIT_URI for new git repository.
+	* kde4.cygclass: Updates for KDE 4.2.
+	* pygtk.cygclass: Can now be inherited along with gnome2, for those
+	  C packages which ship their own Python bindings.
+	* qt4-qmake.cygclass: cygqmake4() passes along args and CYGQMAKE4_ARGS.
+	* ruby-gnome2.cygclass: Fixed ri doc installation.
+	* cygport.nanorc: Fixed regexes.
+
+0.9.4:
+	* cygpatch() tries with and without --binary.
+	* lndirs() uses lndir(1) unconditionally.
+	* Fixed per-package postinstall and preremove script installation.
+	* gst-plugins0.10.cygclass: Enabled experimental plugins.
+	  Override configure detection of winsock2.h.
+	* gtkmm.cygclass: Fix ORIG_PN and DIFF_EXCLUDES for GNOME 2.24.
+	* pygtk.cygclass: Use pygobject-codegen-2.0 if present.
+	* ruby.cyclass: Use RDOC_MODULE to filter rdoc installation.
+	* ruby-gnome2.cygclass: Build RI docs.
+	* xfce4.cygclass: Updated for 4.6 betas.
+
+0.9.3:
+	* PV is now an array; members 1-* replace PVP[].
+	* foo_CONTENTS can now be used in place of PKG_CONTENTS[].
+	* cygtest(): Doesn't exit when tests fail.
+	* autotools.cygclass: Detect ac-2.63+; detect missing LT_OUTPUT.
+	* fossil.cygclass: NEW for Fossil RCS checkouts.
+	* ruby.cygclass: Added rubyinto, doruby. Accept RDOC_MODULE.
+	* ruby-gnome2.cygclass: Added ruby-goocanvas.
+	* xorg.cygclass: Added GIT_URI; renamed font- packages.
+	* zope.cygclass: REMOVED.  Use distutils instead.
+
+0.9.2:
+	* SRC_URI: now accepts SRPMs.
+	* PATCH_URI: now accepts multiple-patch tarballs.
+	* Installs documentation into /usr/share/doc/PACKAGE.
+	* Removed support for libtool-1.5.
+	* make_desktop_entry(): Updated spec; accepts additional arguments.
+	* autotools.cygclass: Can now be manually re-inherit()ed.
+	* kde3.cygclass: Add KDevelop 3.5.3; remove support for KDE 3.4.
+	* lua.cygclass: Removed support for lua-5.0.
+	* rox.cygclass: NEW for ROX Desktop packages.
+	* ruby.cygclass: Builds and installs RI docs instead of HTML.
+	* ruby-gnome2.cygclass: Removed support for older versions.
+
+0.9.1:
+	* dolib(): Installs *.la with libtool.
+	* inherited(): New function.
+	* Use fully qualified paths within all postinstall/preremove scripts.
+	* autotools.cygclass: cygautoreconf, cygconf moved here; auto-inherited.
+	* berkdb.cygclass: Bindings dependent on first inheriting java or tcl.
+	* cmake.cygclass: cygcmake moved here; provides a src_compile.
+	* fox-build.cygclass: Renamed prev. fox.cygclass.
+	* fox.cygclass: NEW as fox-config wrapper.
+	* mono.cygclass: No longer sets MAKEOPTS.
+	* qt3-qmake.cygclass: cygqmake3 moved here; provides a src_compile.
+	* wxwidgets.cygclass: WX_VERSION is mandatory.
+	* xorg.cygclass: Drop xorg- prefix from font-* packages.
+
+0.9.0:
+	* Run only on Cygwin 1.7.
+	* Removed all managed mount code.
+	* cygclasses now installed into ${datadir}/cygport/cygclass.
+	* gtk2-perl.cygclass: Adapt for Cygwin 1.7 and patches to perl and EU:D.
+
+0.3.13:  CYGWIN-1.5 Branchpoint
+	* Added dependency on rsync.
+	* cygautoreconf(): Accepts ACLOCAL_FLAGS.
+	* No longer generates postinstall scripts for GNU info files.
+	* Automatic check for bad symlinks during postinstall.
+	* apache{1,2}.cygclass: Split up apache for 1.x and 2.x.
+	* apache.cygclass: Now a wrapper for apache1 and apache2.
+	* berkdb.cygclass: Update for db4.7.
+	* git.cygclass: Accepts GIT_TAG, GIT_BRANCH, GIT_REV.
+	* gst-plugins0.10.cygclass: Update for -bad 0.10.8.
+	* kde4.cygclass: NEW for KDE4 packages (still in flux).
+	* qt3.cygclass: Namespace constants to make space for Qt4.
+	* qt4.cygclass: NEW for Qt4-dependent packages.
+	* qt4-cmake.cygclass: NEW for Qt4 cmake-based packages.
+	* qt4-qmake.cygclass: NEW for Qt4 qmake-based packages.
+	* R.cygclass: Fix bug which installed symlinks instead of files.
+	* ruby-gnome2.cygclass: Refactored for 0.17.0 and external packages.
+
+0.3.12:  TESTING
+	* unpack(): now handles .tar.bz tarballs.
+	* KEEPDIRS can be defined in place to call keepdir() automatically.
+	* claws-mail.cygclass: NEW for claws-mail plugins.
+	* gst-plugins0.10.cygclass: Added gst-plugins-gl; default sinks/srcs.
+	* octave.cygclass: NEW for Octave extensions.
+	* ruby-gnome2.cygclass: Now builds split packages from monolithic source.
+
+0.3.11:  TESTING
+	* {SRC,PATCH}_URI may contain CGI query arguments.
+	* Empty subpackages may be created by defining empty PKG_CONTENTS[n].
+	* RESTRICT=postinst-gconf stops automatic GConf schemas postinst/prerm.
+	* ebook.cygclass: NEW for EBook documentation packages.
+	* ggz.cygclass: NEW for GGZ Gaming Zone packages.
+	* gnome2.cygclass: Several improvements for GNOME 2.22.
+	* mtn.cygclass: NEW for Monotone repository checkouts.
+	* opensync.cygclass: NEW for libopensync-plugin-* packages.
+
+0.3.10:  TESTING
+	* Accept PKG_IGNORE to avoid missing files warning.
+	* Notify when removing empty directories during postinstall.
+	* Move /usr/man to /usr/share/man.
+	* Remove Mono .mdb debug symbols during strip.
+	* fox.cygclass: Libs and separate apps can be built from one -src.
+	* gnome2.cygclass: Use gnome-autogen.sh for autoreconf.
+	* gst-plugins0.10.cygclass: Update for GStreamer 0.10.19 et al.
+	* php.cygclass: Fixes for external PHP_CHANNEL, Zend extensions.
+
+0.3.9:  TESTING
+	* Allow multiple postinstall/preremove scripts for split packages.
+	* Now compatible with libtool-2.2.
+	* Support .tar.lzma source archives.
+	* gst-plugins0.10.cygclass: Update for gst-plugins-bad-0.10.6.
+	* gtk2-perl.cygclass: Fix for perl-5.10.
+	* hg.cygclass: NEW for Mercurial repository checkouts.
+	* perl.cygclass: Fix for perl-5.10.
+
+0.3.8:  TESTING
+	* Manpage symlinks are automatically fixed.
+	* doexe: Installs .la files with libtool.
+	* mirrors: Added mirror://debian/.
+	* apache.cygclass: Define APREQ_{CONFIG,CFLAGS,LIBS}.
+	* berkdb.cygclass: Code cleanup and patch minimalization.
+	* docbook.cygclass: NEW for DocBook SGML/XML and DSSSL/XSL.
+	* lua.cygclass: NEW for Lua modules.
+	* ocaml.cygclass: Improved and fixed for OCaml 3.10.
+
+0.3.7:  TESTING
+	* Relicensed under GPL-3.
+	* Dependency command ignores most Windows libraries.
+	* Unstable APIs are protected with CYGPORT_USE_UNSTABLE_API def.
+	* RESTRICT=postinst-info stops automatic GNU info postinstall.
+	* apache.cygclass: Automatically add/remove modules to httpd.conf.
+	* aspell-dict.cygclass: NEW for Aspell dictionaries.
+	* berkdb.cygclass: Support db-4.6.  Fixed postinstall scripts.
+	* gtk2-perl.cygclass: Added support for Gnome2-PanelApplet.
+	* kde3.cygclass: Standardized configure arguments.
+	* php.cygclass: Overhauled to support both PEAR and PECL extensions.
+	* pygtk.cygclass: Added support for gtop, gtksourceview2 bindings.
+	  Added support for monolithic builds of gnome-python and friends.
+	* ruby-gnome2.cygclass: Added support for SVN snapshots.
+
+0.3.6:  DEVELOPMENT
+	* RESTRICT=diff is accepted to not produce a .src.patch file.
+	* mirrors:  Added mirror://cran/.
+	* doman:  Accepts --lang=XX to install NLS manpages.
+	* newsbin:  NEW command.
+	* gtk2-perl.cygclass:  Support related modules on CPAN, e.g. Gtk2-Notify.
+	* php.cygclass:  NEW for PHP PECL extensions.
+	* R.cygclass:  NEW for CRAN packages.
+
+0.3.5:  DEVELOPMENT
+	* Defining RESTRICT allows skipping certain otherwise automatic steps.
+	  Currently "strip" is recognized.
+	* Libtool modules have empty dependency_libs for faster lt_dlopen.
+	* unpack: Handels Ruby .gem source packages.
+	* cygconf: configure-generated files mistakenly in S will be removed.
+	* cygpatch: Accepts gzip/bzip2 compressed patches.
+	* mirrors: Added mirror://mplayer/.
+	* apache.cygclass: New doapachemod command.
+	* berkdb.cygclass: Complete; includes Tcl bindings.
+	* bzr.cygclass: New for Bazaar-VCS checkout packages.
+	* distutils.cygclass: Default HOMEPAGE and SRC_URI at cheeseshop.
+	* gst-plugins0.10.cygclass: Handles gst-plugins-farsight.
+	* mono.cygclass: Enhanced mono_wrapper for locations outside /usr/bin.
+	* ocaml.cygclass: NEW for ocaml modules.
+	* python.cygclass: Upgrade to Python 2.5; new package naming scheme.
+	* svn.cygclass: Handles paths other than trunk.
+	* qt3.cygclass: Add QBINDIR to PATH.
+	* tcl.cygclass: NEW for tcl modules.
+	* wxwidgets.cygclass: Refactored. Default to 2.8.
+	* xfce4.cygclass: NEW for Xfce 4.4.
+	* zope.cygclass: Updated for python-2.5 and zope-3.4 (on cheeseshop).
+
+0.3.1:  DEVELOPMENT
+	* codename for CVS HEAD leading to 0.3.5.
+
+0.3.0:  DEVELOPMENT
+	* Use user-only managed mounts with USE_MANAGED_MOUNT.
+	* Better detect make check vs. make test.
+	* Empty directories are removed during automatic postinstall.
+	* Improved .src.patch generation.
+	* dosym: Handle multiple targets and relative targets.
+	* fetch: Better handle partial or failed downloads.
+	* keepdir: new command for keeping empty directories.
+	* berkdb.cygclass: NEW cygclass for building Berkeley DB 3.x/4.x.
+	* distutils.cygclass: Only python_optimize PYTHON_SITELIB if exists.
+	* gst-plugins0.10.cygclass: Add cdparanoia to base, spc to bad. Force xshm.
+	* java.cygclass: NEW for building Classpath-based Java packages.
+	* python.cygclass: Added pythoninto and dopython commands.
+
+0.2.11:  STABLE_0_2 branch
+	* Apply patches with --binary flag to solve d2u issues.
+	* kde3: Fix kde3-i18n and koffice-l10n packages.
+
+0.2.10:
+	* Allow user-specific cygport.conf files in HOME.
+	* mirrors: Added apache, xfce
+	* gst-plugins0.8: Restored opengl plugin.
+	* kde3: Added SRC_URI for kdevelop-3.4 and amarok.
+	* pygtk: Added pytotem.
+	* ruby: Fix setup.rb install.
+
+0.2.9:
+	* Handle .shar source files.
+	* Install HISTORY doc by default.
+	* Fix GnuPG .sig verification.
+	* Fix SRC_DIR sanity check.
+	* Provide nano-2.0 syntax highlighting rcfile.
+	* mirrors: Added berlios, gentoo, rubyforge.
+	* apache: New cygclass for mod_* modules.
+	* gnome.org: Add new SVN_URI.
+	* kde3: Enable aRts by default.  Build apidox when applicable.
+	* ruby: Handle packages which use only a rakefile.
+	* svn: Accept SVN_BRANCH.
+
+0.2.8:
+	* Support autoconf-2.61.
+	* Fix application of .cygwin.patch file.
+	* gtk2-perl: Update Gnome2-Rsvg deps.  Fix DEPS_PATH.
+	* wxwidgets: NEW cygclass for building wxWidgets-dependent packages.
+
+0.2.7:
+	* Use PATCH_URI for upstream or third-party patches; these patches are
+	  included individually in the -src.tar.bz2 and do NOT get included in 
+	  the .src.patch.  See ports/apps/vim/gvim-7.0.178-1 and 
+	  ports/gnome/imlib/imlib-1.9.15-1 for examples of usage.
+	* PKG_LISTS should be defined for *.list names.
+	* Add gtk-update-icon-cache to postinstall as needed.
+	* New binary dependency method.
+	* cross.cygclass: NEW for cross-compilers and cross-compiling; NEEDS WORK.
+	* gst-plugins*: External-dep plugins in separate bin packages can be
+	  built together with the internal-dep plugins.
+	* pygtk: Support new bindings in 2.16.
+	* mirrors: Add rotator to sourceforge; add portage, trolltech, vim.
+	* doc: HTML version of cygport.1.
+	* Handle HTTPS URIs with invalid certificates.
+	* Ignore mdate-sh in pkg_diff().
+	* Preserve shell metacharacters in args (Eric Blake).
+	* Fix AC_CONFIG_SUBDIRS and AC_CONFIG_HEADERS again.
+	* fox: Restore doxygenation.
+	* perl: Handle (incorrect) use of site_perl.
+	* ruby: Fix definition of RUBY_ARCH.
+	* ruby-gnome2: multiple build fixes.
+
+0.2.6:
+	Support AC_CONFIG_HEADERS(*:*) syntax.
+	Fix dependency listing.
+	Fix building gtk+-2.10 when gtk+-2.8 is installed.
+	pygtk: support pycairo.
+	svn: SVN_MODULE may be overridden.
+
+0.2.5:
+	Supports autoconf-2.60, and requires it for building.
+	Fixed patch generation and application.
+	SRC_URI accepts Gentoo-style mirror:// URIs.
+	NEW git.cygclass: for GIT repository snapshots.
+	NEW mono.cygclass: for Mono C# and Gtk# assemblies.
+	cygautoreconf(): support AC_CONFIG_HEADERS and AC_CONFIG_SUBDIRS.
+	gst-plugins0.8.cygclass: support gst-monkeysaudio.
+	qt3.cygclass: new functions doqt3{inc,lib}, qt3pluginto, doqt3plugin.
+
+0.2.4:
+	NEW gstreamer.cygclass: common functions for all GStreamer packages.
+	kde3.cygclass: install split package documentation.
+	xorg.cygclass: rename xorg-font-*-{75,100}dpi to xorg-font-*-dpi{75,100}.
+	cygautoreconf(): accept NO_AUTO* variables to disable individual steps.
+
+0.2.3:
+	NEW gst-plugins0.8.cygclass: new for GStreamer 0.8 plugins.
+	NEW gst-plugins0.10.cygclass: previously gst-plugins.
+	gst-plugins.cygclass: now a wrapper for versioned gst-pluginsX.Y.
+	ruby-gnome2.cygclass: fix import library installation.
+	cygconf(): --localstatedir=/var (gnome2 overrides to /var/lib).
+	GPG source signatures with .asc or .sign extensions are now accepted.
+	Files with unknown extensions are copied into ${S}.
+	Empty .src.patch files are no longer included in the -src package.
+	Dropped support for old g-b-s patches.
+
+0.2.2:
+	pkg_diff(): Handle GNUmakefile.{am,in} files.
+	unpack(): Handle .pl and .py with cp -t.
+	verbose(): New function to print to console a command before execution.
+	gst-plugins.cygclass: Fix autoreconf step.
+	xorg.cygclass: Accomodate X11R7.1.
+	Fixes and improvements.
+
+0.2.1:
+	New check_prog_req function, which errors if program was not found.
+	During package phase, verifies that no files were duplicated or 
+	  omitted in the binary packages.
+	Enhancements to qt3 and kde3 cygclasses.
+	Enhancements to cygautoreconf and gnome2_autoreconf.
+	gnome2 cygclass provides a default CVS_URI.
+
+0.2.0:
+	NEW svn.cygclass: for creating packages from SVN snapshots.
+	Implements CYGCONF_SOURCE, to be defined as the directory where
+	  the configure script is located, for use when not building in ${B}, 
+	  e.g. when running multiple configures from the same source.
+	Supports SRC_DIR='.', for the unusual case where a source doesn't 
+	  decompress into a subdir.
+	Supports more compression formats, as well as *.sh sources (for
+	  wrappers and the like).
+	Improved --help and --version output.
+	Additional documentation in README.
+	cygport(1) manual page.
+	Numerous code improvements.
+
+0.1.93:
+	Patches are now created in the /patch directory for easier access.
+	NEW cvs.cygclass: for creating packages from CVS snapshots.
+	gst-plugin.cygclass updated for newest plugins in -good and -bad.
+	dodoc only installs if file present and non-empty; otherwise ignores.
+
+0.1.92:
+	pygtk.cygclass supports gnome-python and nautilus-python.
+	fox.cygclass allows applications to be built separately from libs.
+	Bug fixes.
+
+0.1.91:
+	NEW hash-based check_prog is back; which dependency removed.
+	Define LIBPERL, LIBPYTHON, and LIBRUBY in respective cygclasses.
+	Add support to pygtk.cygclass for modular gnome-python* packages.
+	Added to utils.cygclass: check_pkg_config, equiv. to PKG_CHECK_MODULES.
+	More sanity checks.
+
+0.1.90:
+	NEW variable: DEPS_PATH, for adding to PATH during deps command.
+	Source now has bootstrap mode and a corresponding test script.
+	font.cyglass totally rewritten.
+	NEW command: oldpatch, for applying patches from previous releases.
+	NEW postinstall command for system fonts in /usr/share/fonts.
+	xorg.cygclass automatically handles font package configure options.
+	Functions fetch() and unpack() can be generally used.
+	Bug fixes.
+
+0.1.6:
+	NEW cygclasses: gst-plugins, ruby-gnome2.
+	Use individual releases for xorg instead of X11R7.0.
+
+0.1.5:
+	Use which(1) instead of check_prog.
+	Bug fixes.
+
+0.1.4:
+	NEW function: check_prog.
+	Implement DESCRIPTION and HOMEPAGE for info command.
+	Several fixes for when prep is run more than once.
+	Numerous minor enhancements and bugfixes.
+
+0.1.3:
+	NEW function: make_managed_mount.
+	NEW postinstall script for GTK2 modules.
+	Fixes for Perl, Python, and Ruby cygclasses.
+
+0.1.2:
+	NEW cygport option: info, for showing cygport information.
+	NEW cygclass: fox.
+	Assorted fixes.
+
+0.1.1:
+	NEW cygclass: pygtk.
+	Fixes for several cygclasses.
+
+0.1.0:
+	First public test release.

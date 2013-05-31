@@ -21,15 +21,19 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 #ifndef __GTK_EDITABLE_H__
 #define __GTK_EDITABLE_H__
 
 
-#include <gdk/gdk.h>
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
 #include <gtk/gtkwidget.h>
+
 
 G_BEGIN_DECLS
 
@@ -46,7 +50,7 @@ typedef struct _GtkEditableClass  GtkEditableClass;
 struct _GtkEditableClass
 {
   GTypeInterface		   base_iface;
-  
+
   /* signals */
   void (* insert_text)              (GtkEditable    *editable,
 				     const gchar    *text,
@@ -82,11 +86,11 @@ struct _GtkEditableClass
 
 GType    gtk_editable_get_type             (void) G_GNUC_CONST;
 void     gtk_editable_select_region        (GtkEditable *editable,
-					    gint         start,
-					    gint         end);
+					    gint         start_pos,
+					    gint         end_pos);
 gboolean gtk_editable_get_selection_bounds (GtkEditable *editable,
-					    gint        *start,
-					    gint        *end);
+					    gint        *start_pos,
+					    gint        *end_pos);
 void     gtk_editable_insert_text          (GtkEditable *editable,
 					    const gchar *new_text,
 					    gint         new_text_length,

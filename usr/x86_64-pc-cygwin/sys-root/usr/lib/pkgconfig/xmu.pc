@@ -1,0 +1,12 @@
+prefix=/usr/x86_64-pc-cygwin/sys-root/usr
+exec_prefix=/usr/x86_64-pc-cygwin/sys-root/usr
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: Xmu
+Description: Xmu Library
+Version: 1.1.1
+Requires: xproto x11 xt
+Requires.private: x11 xt xext
+Cflags: -I${includedir}
+Libs: -L${libdir} -lXmu

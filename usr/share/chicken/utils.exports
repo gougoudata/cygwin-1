@@ -1,0 +1,9 @@
+##sys#apropos
+##sys#apropos-interned
+##sys#apropos-macros
+apropos
+apropos-list
+for-each-argv-line
+for-each-line
+read-all
+system*

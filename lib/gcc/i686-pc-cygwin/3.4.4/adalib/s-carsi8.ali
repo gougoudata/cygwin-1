@@ -17,8 +17,8 @@ U system.compare_array_signed_8%s  s-carsi8.ads	ee61a0d7 NE PK
 W system%s		system.ads		system.ali
 
 D system.ads		20031021134222 6af26689
-D s-carsi8.ads		20031021134214 8493c65e
-D s-carsi8.adb		20031021134214 34e11e9c
+D s-carsi8.ads		20031021134213 8493c65e
+D s-carsi8.adb		20031021134213 34e11e9c
 D unchconv.ads		20030424175420 1b7a14c5
 X 1 system.ads
 44K9*System 163e11 2|37r9 44r19 45r19 57r19 58r19 66r5 3|36r14 54r28 57r28

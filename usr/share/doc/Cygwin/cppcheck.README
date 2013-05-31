@@ -1,0 +1,59 @@
+cppcheck
+------------------------------------------
+This program tries to detect bugs that your C/C++ compiler don't see.
+The goal is no false positives.
+
+Your compiler can detect many problems that cppcheck don't try to detect.
+It is recommend that you enable as many warnings as possible in your compiler.
+
+Cppcheck is versatile. You can check non-standard code that includes various
+compiler extensions, inline assembly code, etc.
+
+Runtime requirements:
+  cygwin-1.7.10
+
+Build requirements:
+  binutils-20080624-2
+  cygport-0.4.4-1
+  gcc-core-3.4.4-3
+  make-3.81-1
+  docbook-xsl-1.75.2-1
+  libxslt-1.1.24-2
+  libpcre-8.02-1
+
+Canonical website:
+  http://sourceforge.net/projects/cppcheck
+
+Canonical download:
+  http://sourceforge.net/projects/cppcheck/files
+
+-------------------------------------------
+
+Build instructions:
+  unpack cppcheck-1.59-X-src.tar.bz2
+    if you use setup to install this src package, it will be
+    unpacked under /usr/src automatically
+  cd /usr/src
+  cygport cppcheck-1.59-X.cygport all
+
+This will create:
+  /usr/src/cppcheck-1.59-X-src.tar.bz2
+  /usr/src/cppcheck-1.59-X.tar.bz2
+
+-------------------------------------------
+
+Files included in the binary package:
+
+  /usr/bin/cppcheck.exe
+  /usr/share/doc/cppcheck/AUTHORS
+  /usr/share/doc/cppcheck/ChangeLog
+  /usr/share/doc/cppcheck/COPYING
+  /usr/share/doc/cppcheck/README.txt
+  /usr/share/doc/Cygwin/cppcheck.README
+  /usr/share/man/man1/cppcheck.1.gz
+
+------------------
+
+Port Notes:
+
+* Compiled from the upstream sources without any modifications

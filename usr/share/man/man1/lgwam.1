@@ -1,0 +1,81 @@
+.TH LGWAM 1 "JULY 2009" Logiweb "User Commands"
+.SH NAME
+lgwam \- Logiweb Abstract Machine
+.SH SYNOPSIS
+.B lgwam
+.I command
+.BI [ file
+.I arg1
+.B ...
+.IB argn ]
+.SH DESCRIPTION
+
+In normal use, the lgwam command is installed in /usr/bin/lgwam and is used as the first line of Logiweb scripts. The first line of such scripts typically read
+.P
+    #!/usr/bin/lgwam script
+.P
+The Logiweb compiler lgc(1) generates such scripts. The format of scripts is described in SCRIPT FORMAT below.
+.SH OPTIONS
+The lgwam command may take the following forms:
+.IP "lgwam script FILE ARG1 ... ARGn"
+Execute the given file as a Logiweb program. Pass the command line arguments to the program with FILE as ARG0. For the format of FILE see SCRIPT FORMAT below.
+.IP "lgwam test"
+Execute basic built in testsuite.
+.IP "lgwam testrun FILE"
+Load the Logiweb page referenced in FILE and all pages referenced transitively from that page. Then execute an extended testsuite. The extended testsuite first executes the basic testsuite. Then the extended testsuite looks for pages named 'base', 'check', 'Peano', and 'test'. If one or more of these are found, the extended testsuite executes a number of associated tests. The FILE must be a Logiweb script, c.f. SCRIPT FORMAT below.
+.IP "lgwam dry"
+Do dry run: initialize memory and exit.
+.IP "lgwam { -h | help | --help }
+Print help message
+.IP "lgwam { -v | version | --version }
+Print version and license information.
+.IP "lgwam { pages | --pages }
+List built in pages.
+.SH SCRIPT FORMAT
+A Logiweb script file consists of lines of text. Blank lines and lines starting with a hash mark (#) are ignored. Lines can be ended by arbitrary sequences of CR and LF characters.
+.P
+A script may look thus:
+.nf
+
+    #!/usr/bin/lgwam script
+    string
+    015F43BE4A17DAD915936B7A773154A80946AEC82EFBEECDA4A7D7B80806
+    hello
+    execute
+    foo=bar
+    magicword=xyzzy
+.fi
+.P
+The first line starts with a hash mark so it is ignored.
+.P
+The first proper line (the second line) indicates the format of the rest of the script. The 'string' format is the only format which is not deprecated, so the first proper line always says 'string'.
+.P
+The second proper line contains the reference of a Logiweb page expressed in mixed endian hexadecimal, c.f. REFERENCES below.
+.P
+The third proper line indicates the name of the program ('hello' in this case).
+.P
+The fourth proper line indicates the aspect defining the program. The lgc compiler always sets the aspect to 'execute'.
+.P
+All remaining lines define script options which are passed to the program.
+.P
+When lgwam executes a Logiweb script, it first loads the referenced page and all its transitively referenced pages. It does so using the LGW_PATH environment variable described under ENVIRONMENT below.
+.P
+Then lgwam looks up the given aspect of the given name on the referenced page where both aspect and name are treated as strings. The base page which comes with the distribution defines the 'execute' aspect of 'hello' such that the resulting program prints 'Hello World'.
+.P
+Then lgwam invokes the given aspect of the given name in the way described on the base page. See the base page for further information. 
+.SH ENVIRONMENT
+Whenever lgwam needs to load a page, it locates the page using the LGW_PATH environment variable. If that variable is not set, it defaults to
+.P
+    $HOME/.logiweb/logiweb/:/rack.lgr
+.P
+The value of LGW_PATH must be a list of locations separated by semicolons. The default path above contains only one location and, thus, no semicolons.
+.P
+To load a referenced page, lgwam tries each location in turn. For each location, lgwam replaces the rightmost colon character by the reference of the page expressed in mixed endian hexadecimal, c.f. REFERENCES below. Then lgwam reads the file at the resulting path, if any. The file must be a rack file, c.f. logiweb(5).
+.SH REFERENCES
+The Logiweb reference of a Logiweb page is a sequence of around 30 bytes which identifies the page uniquely. References are often expressed in mixed endian hexadecimal.
+.P
+In mixed endian hexadecimal, each byte is represented by two hexadecimal digits with the most significant digit first. Bytes are given in network order. Capital letters are used for the hex digits A to F.
+.SH AUTHOR
+Klaus Grue, http://logiweb.eu/
+.SH SEE ALSO
+lgc(1), lgc(5), lgc.conf(5), logiweb(5)

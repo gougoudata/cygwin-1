@@ -68,6 +68,7 @@ GGIAPIFUNC ggi_dlhandle *_ggiAddExtDL(ggi_visual *vis,
 GGIAPIFUNC int _ggiOpenDL(ggi_visual * vis, const void *conffilehandle,
 			const char *api, const char *args, void *argptr);
 GGIAPIFUNC void _ggiExitDL(ggi_visual * vis, ggi_dlhandle_l * lib);
+GGIAPIFUNC void _ggiCloseDL(ggi_visual * vis, ggi_dlhandle_l * lib);
 GGIAPIFUNC void _ggiZapDL(ggi_visual * vis, ggi_dlhandle_l ** lib);
 GGIAPIFUNC int _ggiAddDL(ggi_visual * vis, const void *conffilehandle,
 			const char *api, const char *args, void *argptr,

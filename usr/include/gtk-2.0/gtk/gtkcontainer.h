@@ -21,15 +21,17 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 #ifndef __GTK_CONTAINER_H__
 #define __GTK_CONTAINER_H__
 
 
-#include <gdk/gdk.h>
-#include <gtk/gtkenums.h>
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
 #include <gtk/gtkwidget.h>
 #include <gtk/gtkadjustment.h>
 
@@ -52,16 +54,16 @@ typedef struct _GtkContainerClass  GtkContainerClass;
 struct _GtkContainer
 {
   GtkWidget widget;
-  
-  GtkWidget *focus_child;
-  
-  guint border_width : 16;
+
+  GtkWidget *GSEAL (focus_child);
+
+  guint GSEAL (border_width) : 16;
 
   /*< private >*/
-  guint need_resize : 1;
-  guint resize_mode : 2;
-  guint reallocate_redraws : 1;
-  guint has_focus_chain : 1;
+  guint GSEAL (need_resize) : 1;
+  guint GSEAL (resize_mode) : 2;
+  guint GSEAL (reallocate_redraws) : 1;
+  guint GSEAL (has_focus_chain) : 1;
 };
 
 struct _GtkContainerClass
@@ -125,7 +127,7 @@ void     gtk_container_foreach_full (GtkContainer       *container,
 				     GtkCallback         callback,
 				     GtkCallbackMarshal  marshal,
 				     gpointer            callback_data,
-				     GtkDestroyNotify    notify);
+				     GDestroyNotify      notify);
 #endif /*  GTK_DISABLE_DEPRECATED */
 GList*   gtk_container_get_children     (GtkContainer       *container);
 
@@ -149,6 +151,8 @@ void   gtk_container_set_reallocate_redraws (GtkContainer    *container,
 					     gboolean         needs_redraws);
 void   gtk_container_set_focus_child	   (GtkContainer     *container,
 					    GtkWidget	     *child);
+GtkWidget *
+       gtk_container_get_focus_child	   (GtkContainer     *container);
 void   gtk_container_set_focus_vadjustment (GtkContainer     *container,
 					    GtkAdjustment    *adjustment);
 GtkAdjustment *gtk_container_get_focus_vadjustment (GtkContainer *container);
@@ -171,15 +175,15 @@ GParamSpec** gtk_container_class_list_child_properties	(GObjectClass	   *cclass,
 void         gtk_container_add_with_properties		(GtkContainer	   *container,
 							 GtkWidget	   *widget,
 							 const gchar	   *first_prop_name,
-							 ...);
+							 ...) G_GNUC_NULL_TERMINATED;
 void         gtk_container_child_set			(GtkContainer	   *container,
 							 GtkWidget	   *child,
 							 const gchar	   *first_prop_name,
-							 ...);	   
+							 ...) G_GNUC_NULL_TERMINATED;
 void         gtk_container_child_get			(GtkContainer	   *container,
 							 GtkWidget	   *child,
 							 const gchar	   *first_prop_name,
-							 ...);	   
+							 ...) G_GNUC_NULL_TERMINATED;
 void         gtk_container_child_set_valist		(GtkContainer	   *container,
 							 GtkWidget	   *child,
 							 const gchar	   *first_property_name,

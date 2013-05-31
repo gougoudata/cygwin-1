@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<omf>
+  <resource>
+    <creator>(ક્રીસ લિટ્લે)</creator>
+    <creator>(Dan મૂએથ)</creator>
+    <creator>(સ્ટેફાન કોસ્ટ)</creator>
+    <maintainer> (GTK-Doc પ્રોજેક્ટ)</maintainer>
+    <title>GTK-Doc પુસ્તિકા</title>
+    <date>16 નવેમ્બર 2008</date>
+    <version identifier="1.11" date="16 નવેમ્બર 2008"/>
+    <subject category="GNOME|Development"/>
+    <description>GTK-Doc વપરાશની સૂચનાઓ સાથે ડેવલપરો માટે વપરાશકર્તા પુસ્તિકા.</description>
+    <type>manual</type>
+    <format mime="text/xml" dtd="-//OASIS//DTD DocBook XML V4.3//EN"/>
+    <identifier url="file:///usr/share/gnome/help/gtk-doc-manual/gu/gtk-doc-manual.xml"/>
+    <language code="gu"/>
+    <relation seriesid="04ecd20e-775e-11d9-81af-a7c5a5fa91f6"/>
+    <rights type="GNU FDL" license.version="1.1" holder="gtk-doc developer team"/>
+  </resource>
+</omf>

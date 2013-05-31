@@ -21,7 +21,7 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 #ifndef GTK_DISABLE_DEPRECATED
@@ -29,18 +29,17 @@
 #ifndef __GTK_PREVIEW_H__
 #define __GTK_PREVIEW_H__
 
-
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 
 
 G_BEGIN_DECLS
 
 #define GTK_TYPE_PREVIEW            (gtk_preview_get_type ())
-#define GTK_PREVIEW(obj)            (GTK_CHECK_CAST ((obj), GTK_TYPE_PREVIEW, GtkPreview))
-#define GTK_PREVIEW_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), GTK_TYPE_PREVIEW, GtkPreviewClass))
-#define GTK_IS_PREVIEW(obj)         (GTK_CHECK_TYPE ((obj), GTK_TYPE_PREVIEW))
-#define GTK_IS_PREVIEW_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), GTK_TYPE_PREVIEW))
-#define GTK_PREVIEW_GET_CLASS(obj)  (GTK_CHECK_GET_CLASS ((obj), GTK_TYPE_PREVIEW, GtkPreviewClass))
+#define GTK_PREVIEW(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTK_TYPE_PREVIEW, GtkPreview))
+#define GTK_PREVIEW_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GTK_TYPE_PREVIEW, GtkPreviewClass))
+#define GTK_IS_PREVIEW(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GTK_TYPE_PREVIEW))
+#define GTK_IS_PREVIEW_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GTK_TYPE_PREVIEW))
+#define GTK_PREVIEW_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GTK_TYPE_PREVIEW, GtkPreviewClass))
 
 
 typedef struct _GtkPreview       GtkPreview;
@@ -87,7 +86,7 @@ struct _GtkPreviewClass
 };
 
 
-GtkType         gtk_preview_get_type           (void) G_GNUC_CONST;
+GType           gtk_preview_get_type           (void) G_GNUC_CONST;
 void            gtk_preview_uninit             (void);
 GtkWidget*      gtk_preview_new                (GtkPreviewType   type);
 void            gtk_preview_size               (GtkPreview      *preview,
@@ -119,10 +118,8 @@ void            gtk_preview_set_install_cmap   (gint             install_cmap);
 void            gtk_preview_set_reserved       (gint             nreserved);
 void            gtk_preview_set_dither         (GtkPreview      *preview,
 						GdkRgbDither     dither);
-#ifndef GTK_DISABLE_DEPRECATED
 GdkVisual*      gtk_preview_get_visual         (void);
 GdkColormap*    gtk_preview_get_cmap           (void);
-#endif
 GtkPreviewInfo* gtk_preview_get_info           (void);
 
 /* This function reinitializes the preview colormap and visual from

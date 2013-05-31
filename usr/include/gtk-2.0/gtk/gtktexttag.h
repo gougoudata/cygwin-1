@@ -1,12 +1,66 @@
+/* gtktexttag.c - text tag object
+ *
+ * Copyright (c) 1992-1994 The Regents of the University of California.
+ * Copyright (c) 1994-1997 Sun Microsystems, Inc.
+ * Copyright (c) 2000      Red Hat, Inc.
+ * Tk -> Gtk port by Havoc Pennington <hp@redhat.com>
+ *
+ * This software is copyrighted by the Regents of the University of
+ * California, Sun Microsystems, Inc., and other parties.  The
+ * following terms apply to all files associated with the software
+ * unless explicitly disclaimed in individual files.
+ *
+ * The authors hereby grant permission to use, copy, modify,
+ * distribute, and license this software and its documentation for any
+ * purpose, provided that existing copyright notices are retained in
+ * all copies and that this notice is included verbatim in any
+ * distributions. No written agreement, license, or royalty fee is
+ * required for any of the authorized uses.  Modifications to this
+ * software may be copyrighted by their authors and need not follow
+ * the licensing terms described here, provided that the new terms are
+ * clearly indicated on the first page of each file where they apply.
+ *
+ * IN NO EVENT SHALL THE AUTHORS OR DISTRIBUTORS BE LIABLE TO ANY
+ * PARTY FOR DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL
+ * DAMAGES ARISING OUT OF THE USE OF THIS SOFTWARE, ITS DOCUMENTATION,
+ * OR ANY DERIVATIVES THEREOF, EVEN IF THE AUTHORS HAVE BEEN ADVISED
+ * OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * THE AUTHORS AND DISTRIBUTORS SPECIFICALLY DISCLAIM ANY WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND
+ * NON-INFRINGEMENT.  THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS,
+ * AND THE AUTHORS AND DISTRIBUTORS HAVE NO OBLIGATION TO PROVIDE
+ * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
+ *
+ * GOVERNMENT USE: If you are acquiring this software on behalf of the
+ * U.S. government, the Government shall have only "Restricted Rights"
+ * in the software and related documentation as defined in the Federal
+ * Acquisition Regulations (FARs) in Clause 52.227.19 (c) (2).  If you
+ * are acquiring the software on behalf of the Department of Defense,
+ * the software shall be classified as "Commercial Computer Software"
+ * and the Government shall have only "Restricted Rights" as defined
+ * in Clause 252.227-7013 (c) (1) of DFARs.  Notwithstanding the
+ * foregoing, the authors grant the U.S. Government and others acting
+ * in its behalf permission to use and distribute the software in
+ * accordance with the terms specified in this license.
+ *
+ */
+
 #ifndef __GTK_TEXT_TAG_H__
 #define __GTK_TEXT_TAG_H__
 
-#include <glib-object.h>
+
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
 #include <gdk/gdk.h>
 #include <gtk/gtkenums.h>
 
 /* Not needed, retained for compatibility -Yosh */
 #include <gtk/gtkobject.h>
+
 
 G_BEGIN_DECLS
 
@@ -31,13 +85,13 @@ struct _GtkTextTag
 {
   GObject parent_instance;
 
-  GtkTextTagTable *table;
+  GtkTextTagTable *GSEAL (table);
 
-  char *name;                   /* Name of this tag.  This field is actually
+  char *GSEAL (name);           /* Name of this tag.  This field is actually
                                  * a pointer to the key from the entry in
                                  * tkxt->tagTable, so it needn't be freed
                                  * explicitly. */
-  int priority;         /* Priority of this tag within widget.  0
+  int GSEAL (priority);  /* Priority of this tag within widget.  0
                          * means lowest priority.  Exactly one tag
                          * has each integer value between 0 and
                          * numTags-1. */
@@ -49,35 +103,38 @@ struct _GtkTextTag
    * defaults if no tag specifies an override.
    */
 
-  GtkTextAttributes *values;
+  GtkTextAttributes *GSEAL (values);
   
   /* Flags for whether a given value is set; if a value is unset, then
    * this tag does not affect it.
    */
-  guint bg_color_set : 1;
-  guint bg_stipple_set : 1;
-  guint fg_color_set : 1;
-  guint scale_set : 1;
-  guint fg_stipple_set : 1;
-  guint justification_set : 1;
-  guint left_margin_set : 1;
-  guint indent_set : 1;
-  guint rise_set : 1;
-  guint strikethrough_set : 1;
-  guint right_margin_set : 1;
-  guint pixels_above_lines_set : 1;
-  guint pixels_below_lines_set : 1;
-  guint pixels_inside_wrap_set : 1;
-  guint tabs_set : 1;
-  guint underline_set : 1;
-  guint wrap_mode_set : 1;
-  guint bg_full_height_set : 1;
-  guint invisible_set : 1;
-  guint editable_set : 1;
-  guint language_set : 1;
-  guint pad1 : 1;
-  guint pad2 : 1;
-  guint pad3 : 1;
+  guint GSEAL (bg_color_set) : 1;
+  guint GSEAL (bg_stipple_set) : 1;
+  guint GSEAL (fg_color_set) : 1;
+  guint GSEAL (scale_set) : 1;
+  guint GSEAL (fg_stipple_set) : 1;
+  guint GSEAL (justification_set) : 1;
+  guint GSEAL (left_margin_set) : 1;
+  guint GSEAL (indent_set) : 1;
+  guint GSEAL (rise_set) : 1;
+  guint GSEAL (strikethrough_set) : 1;
+  guint GSEAL (right_margin_set) : 1;
+  guint GSEAL (pixels_above_lines_set) : 1;
+  guint GSEAL (pixels_below_lines_set) : 1;
+  guint GSEAL (pixels_inside_wrap_set) : 1;
+  guint GSEAL (tabs_set) : 1;
+  guint GSEAL (underline_set) : 1;
+  guint GSEAL (wrap_mode_set) : 1;
+  guint GSEAL (bg_full_height_set) : 1;
+  guint GSEAL (invisible_set) : 1;
+  guint GSEAL (editable_set) : 1;
+  guint GSEAL (language_set) : 1;
+  guint GSEAL (pg_bg_color_set) : 1;
+
+  /* Whether these margins accumulate or override */
+  guint GSEAL (accumulative_margin) : 1;
+
+  guint GSEAL (pad1) : 1;
 };
 
 struct _GtkTextTagClass
@@ -192,10 +249,7 @@ struct _GtkTextAttributes
   PangoLanguage *language;
 
   /*< private >*/
-  /* I'm not sure this can really be used without breaking some things
-   * an app might do :-/
-   */
-  gpointer padding1;
+  GdkColor *pg_bg_color;
 
   /*< public >*/
   /* hide the text  */
@@ -224,7 +278,7 @@ GtkTextAttributes* gtk_text_attributes_copy        (GtkTextAttributes *src);
 void               gtk_text_attributes_copy_values (GtkTextAttributes *src,
                                                     GtkTextAttributes *dest);
 void               gtk_text_attributes_unref       (GtkTextAttributes *values);
-void               gtk_text_attributes_ref         (GtkTextAttributes *values);
+GtkTextAttributes *gtk_text_attributes_ref         (GtkTextAttributes *values);
 
 GType              gtk_text_attributes_get_type    (void) G_GNUC_CONST;
 

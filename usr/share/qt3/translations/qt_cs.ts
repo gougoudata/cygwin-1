@@ -1949,18 +1949,15 @@ dalšími verzemi Unixu s grafickým prostředím X11.
     </message>
     <message>
       <source>internal general entity reference not allowed in DTD</source>
-      <comment>#, fuzzy</comment>
       <translation>interní obecná entita není v DTD povolena</translation>
     </message>
     <message>
       <source>external parsed general entity reference not allowed in attribute value</source>
-      <comment>#, fuzzy</comment>
-      <translation>reference na externě parsované obecné entity nejsou v hodnotě atributu povoleny</translation>
+      <translation>reference na externě analyzované obecné entity nejsou v hodnotě atributu povoleny</translation>
     </message>
     <message>
       <source>external parsed general entity reference not allowed in DTD</source>
-      <comment>#, fuzzy</comment>
-      <translation>reference na externě parsované obecné entity nejsou v DTD povoleny</translation>
+      <translation>reference na externě analyzované obecné entity nejsou v DTD povoleny</translation>
     </message>
     <message>
       <source>unparsed entity reference in wrong context</source>
@@ -2011,4 +2008,3 @@ dalšími verzemi Unixu s grafickým prostředím X11.
     </message>
   </context>
 </TS>
-

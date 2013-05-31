@@ -1,0 +1,22 @@
+<html><head><title>CHICKEN User's Manual - Locations</title></head><body>
+<a name="locations"></a><h1>Locations</h1><p>It is also possible to define variables containing unboxed C data, so called <em>locations</em>. It should be noted that locations may only contain simple data, that is: everything that fits into a machine word, and double-precision floating point values. </p><a name="define-location"></a><h2>define-location</h2><pre>[syntax] (define-location NAME TYPE [INIT])</pre><p>Identical to <tt>(define-external NAME TYPE [INIT])</tt>, but the variable is not accessible from outside of the current compilation unit (it is  declared <tt>static</tt>).</p><a name="let-location"></a><h2>let-location</h2><pre>[syntax] (let-location ((NAME TYPE [INIT]) ...) BODY ...)</pre><p>Defines a lexically bound location.</p><a name="location"></a><h2>location</h2><pre>[syntax] (location NAME)
+[syntax] (location X)</pre><p>This form returns a pointer object that contains the address of the variable <tt>NAME</tt>.  If the argument to <tt>location</tt> is not a location defined by <tt>define-location</tt>, <tt>define-external</tt> or <tt>let-location</tt>, then</p><pre>(location X)</pre><p>is essentially equivalent to </p><pre>(make-locative X)</pre><p>(See the manual chapter or <tt>locatives</tt> for more information about locatives.</p><p>Note that <tt>(location X)</tt> may be abbreviated as <tt>#$X</tt>.</p><PRE>
+(define-external foo int)
+((foreign-lambda* void (((c-pointer int) ip)) <B><FONT COLOR="#BC8F8F">&quot;*ip = 123;&quot;</FONT></B>) 
+  (location foo))
+foo                                                                               =<B><FONT COLOR="#A020F0">=&gt;</FONT></B> 123
+</PRE>
+<p>This facility is especially useful in situations, where a C function returns more than one result value:</p><PRE>
+#&gt;
+#include &lt;math.h&gt;
+&lt;#
+
+(<B><FONT COLOR="#A020F0">define</FONT></B> <B><FONT COLOR="#0000FF">modf</FONT></B>
+  (foreign-lambda double <B><FONT COLOR="#BC8F8F">&quot;modf&quot;</FONT></B> double (c-pointer double)) )
+
+(let-location ([i double])
+  (<B><FONT COLOR="#A020F0">let</FONT></B> ([f (modf 1.99 (location i))])
+    (print <B><FONT COLOR="#BC8F8F">&quot;i=&quot;</FONT></B> i <B><FONT COLOR="#BC8F8F">&quot;, f=&quot;</FONT></B> f) ) )
+</PRE>
+<p>See <a href="http://chicken.wiki.br/location-and-c-string-star" class="external">location and c-string*</a>  for a tip on returning a <tt>c-string*</tt> type.</p><p><tt>location</tt> returns a value of type <tt>c-pointer</tt>, when given the name of a callback-procedure defined with <tt>define-external</tt>.</p><p>Previous: <a href="callbacks.html" class="internal">Callbacks</a></p><p>Next: <a href="other-support-procedures.html" class="internal">Other support procedures</a></p>
+</body></html>

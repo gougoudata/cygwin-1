@@ -23,7 +23,11 @@
 #ifndef __GTK_TOGGLE_TOOL_BUTTON_H__
 #define __GTK_TOGGLE_TOOL_BUTTON_H__
 
-#include "gtktoolbutton.h"
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GTK_H_INSIDE__) && !defined (GTK_COMPILATION)
+#error "Only <gtk/gtk.h> can be included directly."
+#endif
+
+#include <gtk/gtktoolbutton.h>
 
 G_BEGIN_DECLS
 
@@ -43,7 +47,7 @@ struct _GtkToggleToolButton
   GtkToolButton parent;
 
   /*< private >*/
-  GtkToggleToolButtonPrivate *priv;
+  GtkToggleToolButtonPrivate *GSEAL (priv);
 };
 
 struct _GtkToggleToolButtonClass

@@ -103,9 +103,9 @@ for i do
     else
       i=$(echo "$i" | sed -e 's/[\\|&]/\\&/g')
       if test $with_filename -eq 1; then
-      sed_script="s|^[^:]*:|${i}:|"
+	sed_script="s|^[^:]*:|${i}:|"
       else
-      sed_script="s|^|${i}:|"
+	sed_script="s|^|${i}:|"
       fi
       # Hack adapted from GPLed code at
       # http://home.comcast.net/~j.p.h/cus-faq-2

@@ -27,11 +27,13 @@
 #ifndef __GDK_KEYS_H__
 #define __GDK_KEYS_H__
 
+#if defined(GTK_DISABLE_SINGLE_INCLUDES) && !defined (__GDK_H_INSIDE__) && !defined (GDK_COMPILATION)
+#error "Only <gdk/gdk.h> can be included directly."
+#endif
+
 #include <gdk/gdktypes.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 typedef struct _GdkKeymapKey GdkKeymapKey;
 
@@ -64,7 +66,7 @@ typedef struct _GdkKeymapClass GdkKeymapClass;
 struct _GdkKeymap
 {
   GObject     parent_instance;
-  GdkDisplay *display;
+  GdkDisplay *GSEAL (display);
 };
 
 struct _GdkKeymapClass
@@ -73,6 +75,7 @@ struct _GdkKeymapClass
 
   void (*direction_changed) (GdkKeymap *keymap);
   void (*keys_changed)      (GdkKeymap *keymap);
+  void (*state_changed)     (GdkKeymap *keymap);
 };
 
 GType gdk_keymap_get_type (void) G_GNUC_CONST;
@@ -103,6 +106,12 @@ gboolean       gdk_keymap_get_entries_for_keycode  (GdkKeymap           *keymap,
 						    guint              **keyvals,
 						    gint                *n_entries);
 PangoDirection gdk_keymap_get_direction            (GdkKeymap           *keymap);
+gboolean       gdk_keymap_have_bidi_layouts        (GdkKeymap           *keymap);
+gboolean       gdk_keymap_get_caps_lock_state      (GdkKeymap           *keymap);
+void           gdk_keymap_add_virtual_modifiers    (GdkKeymap           *keymap,
+                                                    GdkModifierType     *state);
+gboolean       gdk_keymap_map_virtual_modifiers    (GdkKeymap           *keymap,
+                                                    GdkModifierType     *state);
 
 /* Key values
  */
@@ -120,8 +129,6 @@ guint32  gdk_keyval_to_unicode   (guint        keyval) G_GNUC_CONST;
 guint    gdk_unicode_to_keyval   (guint32      wc) G_GNUC_CONST;
 
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __GDK_KEYS_H__ */

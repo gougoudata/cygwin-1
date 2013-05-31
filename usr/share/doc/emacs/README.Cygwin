@@ -1,0 +1,85 @@
+Usage notes for emacs on Cygwin
+===============================
+
+1. The emacs, emacs-w32, and emacs-X11 packages each provide an emacs
+   binary.  These are emacs-nox.exe, emacs-w32.exe, and emacs-X11.exe,
+   respectively, in order of increasing priority.  The postinstall
+   scripts create a symlink /usr/bin/emacs that resolves to the
+   highest-priority binary that you have installed.  Thus the command
+   `emacs' will start emacs-X11.exe if you've installed the emacs-X11
+   package; otherwise, it will start emacs-w32.exe if you've installed
+   emacs-w32; otherwise, it will start emacs-nox.exe.  Similar remarks
+   apply to emacsclient.
+
+   If you have installed both emacs-w32 and emacs-X11 and prefer to
+   give higher priority to emacs-w32, run the script
+
+     /usr/bin/set-emacs-default-w32.sh
+
+   You can later restore emacs-X11 as the default by running
+
+     /usr/bin/set-emacs-default-X11.sh
+
+2. If you start emacs under X11 and specify the window geometry on the
+   command line or in ~/.Xdefaults, you may see the following warning:
+
+     Gtk-WARNING **: gtk_window_parse_geometry() called on a window
+     with no visible children; the window should be set up before
+     gtk_window_parse_geometry() is called.
+
+   This can be ignored; see
+
+     http://debbugs.gnu.org/cgi/bugreport.cgi?bug=11177 
+
+3. If you have sshd running and want to be able to run emacs-X11 from
+   a remote machine, you need to enable X11 forwarding by adding the
+   following line to /etc/sshd_config:
+
+     X11Forwarding yes
+
+   You might also need to have the cygserver service running.
+
+4. The script /usr/bin/make-emacs-shortcut can be used to create a
+   shortcut for starting emacs.  The shortcut assumes that you have
+   installed the emacs-X11 and emacs-w32 packages.  It starts emacs
+   under X if an X server is running, and it starts emacs-w32.exe
+   otherwise.  The script creates an xml file in /usr/local/bin, so
+   the user who runs the script needs to be able to write to that
+   directory.
+
+   Edit the shortcut or the script or the xml file if you want to
+   modify the default behavior.
+
+   You will need the cygutils package in order to run
+   make-emacs-shortcut, and you will need the run2 package in order to
+   use the shortcut it creates.
+
+5. If you don't like the default fonts in the GUI versions of emacs,
+   you can change them via the menu items
+
+     Options -> Set Default Font
+     Options -> Save Options
+
+   This will set the default font in your ~/.emacs and will apply to
+   both emacs-w32 and emacs-X11.  If you want different default fonts
+   for the two programs, use the lisp variable `window-system' to
+   distinguish between them.
+
+   For example, the following code in ~/.emacs makes DejaVu Sans
+   Mono-10 the default font for emacs-w32:
+
+     (if (eq window-system 'w32)
+         (add-to-list 'default-frame-alist
+                      '(font . "DejaVu Sans Mono-10")))
+
+   And the following code in ~/.emacs makes DejaVu Sans Mono-10 the
+   default for emacs-w32 and Droid Sans Mono-11 the default for
+   emacs-X11:
+
+     (cond
+      ((eq window-system 'w32)
+       (add-to-list 'default-frame-alist
+                    '(font . "DejaVu Sans Mono-10")))
+      ((eq window-system 'x)
+       (add-to-list 'default-frame-alist
+                    '(font . "Droid Sans Mono-11"))))

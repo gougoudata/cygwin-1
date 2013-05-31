@@ -1,0 +1,11 @@
+auto
+/usr/bin/gfortran.exe
+i686-pc-cygwin-gfortran
+/usr/bin/i686-pc-cygwin-gfortran.exe
+gfortran.1.gz
+/usr/share/man/man1/gfortran.1.gz
+
+/usr/bin/gfortran-4.exe
+40
+/usr/bin/i686-pc-cygwin-gfortran-4.exe
+/usr/share/man/man1/gfortran-4.1.gz
